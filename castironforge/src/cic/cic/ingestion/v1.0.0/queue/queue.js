@@ -1,5 +1,7 @@
 /**
  * CIC Ingestion v1.0.0 — Primary Queue
+ * File: cic/ingestion/v1.0.0/queue/queue.js | Version: 1.0.1 | Date: 2026-05-15
+ * Patched: ingestionJobSchema now enforced in validateJob
  */
 
 import { ingestionJobSchema } from "./schemas.js";
@@ -32,5 +34,19 @@ function validateJob(job) {
   if (!job || typeof job.id !== "string") {
     throw new Error("INGESTION_QUEUE_INVALID_JOB: job.id must be a string");
   }
-  // Schema hook: integrate real validator here.
+
+  for (const field of ingestionJobSchema.required) {
+    if (job[field] === undefined || job[field] === null) {
+      throw new Error(`INGESTION_QUEUE_INVALID_JOB: missing required field "${field}"`);
+    }
+  }
+
+  if (ingestionJobSchema.additionalProperties === false) {
+    const allowed = new Set(Object.keys(ingestionJobSchema.properties));
+    for (const key of Object.keys(job)) {
+      if (!allowed.has(key)) {
+        throw new Error(`INGESTION_QUEUE_INVALID_JOB: disallowed field "${key}"`);
+      }
+    }
+  }
 }
