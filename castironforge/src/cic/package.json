@@ -1,0 +1,24 @@
+{
+  "name": "@castironforge/cic",
+  "version": "3.1.0",
+  "type": "module",
+  "description": "Cast Iron Charlie - ingestion, harvesting, orchestration, and analysis subsystem",
+  "main": "./cic/index.js",
+  "exports": {
+    ".":             "./cic/index.js",
+    "./core":        "./cic/core/index.js",
+    "./harvester":   "./cic/harvester/v2.0.0/index.js",
+    "./ingestion":   "./cic/ingestion/v1.0.0/index.js",
+    "./orchestrator":"./cic/orchestrator/v3.0.0/index.js",
+    "./agents":      "./cic/agents/index.js",
+    "./pipelines":   "./cic/pipelines/index.js",
+    "./analyzers":   "./cic/analyzers/index.js"
+  },
+  "scripts": {
+    "test":     "node cic/tests/run.js",
+    "assemble": "node ../scripts/cic-assemble.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

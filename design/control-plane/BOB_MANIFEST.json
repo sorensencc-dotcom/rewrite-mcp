@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "generated": "2026-05-16T05:17:00Z",
+    "spec": "BOB_SANDWICH_CONTROL_PLANE_v1",
+    "patched": "2026-05-16T05:17:00Z",
+    "patch": "AD-P v13.1 + cleanup: restored 8 public API exports, stripped truncated EOF comment",
+    "validated": "2026-05-16T05:17:00Z"
+  },
+  "files": {
+    "design/control-plane/README.md": "29fbf2165028790640ddb7aeac7a04f6a7773e567ea663acdf298f0b043be0ac",
+    "design/control-plane/tokens.json": "cc66b6fddeaebec5c2b972ab12d09838cd1ff154b76e3778a459da75e8ec5858",
+    "design/control-plane/layout.md": "74ea68318529b36b17626b8dbed57c8b8ed62d0a8737be0c5c8fdac4de454c71",
+    "design/control-plane/wireframes.txt": "19ce634a0714bb66b582603364da118f650a5fc867664fa8b999e4319b7d794d",
+    "operator-ui/js/control-plane-api.js": "b872ff8dafd282ca9a98f282a317224e049a9aba4c89460dcaf30fe54ebd67af",
+    "operator-ui/js/pipelines-panel.js": "29efe31185f2070afc568dc109c20deb83b26a42cbbfb8ed45507af0c317bb85",
+    "operator-ui/js/agents-panel.js": "f444c47d04a906747d71f45db8c78b58daf3b87eb12bb4bf7fbe358ff8742c28",
+    "operator-ui/js/runs-panel.js": "ff7d3edd00bb63a5ae64285a2f4b14ed3cbf939642701600145085dca1426a24",
+    "operator-ui/js/metrics-panel.js": "de4fc48d0d81f5b6e363882fd115122b9a2b27c4a7792ef039c119ca21c977cc",
+    "operator-ui/control-room.html": "26f3a66ae8fb0f358c05a2bdcb1cf2d7e6b9f4e54ae8f957353ac12adbc204f0",
+    "operator-ui/css/control-room.css": "8b9a528d7ffb2a2c9417b96e214740d159c87cf35d5cb85b1bb467b878de3601",
+    "services/control-plane/index.js": "0c9f05c7340e5e6da68e11e6cd2a31da8cb304691a84d45e191fe41d11e859ab",
+    "services/control-plane/routes/pipelines.js": "f71006111c45cc20cbda5d28789b26daf19d91a775de4427696311cf0ddb5199",
+    "services/control-plane/routes/agents.js": "78f2049be1cb47e47d01487a90e0d0a2728c4db1b10bb610260f362fe531f2e2",
+    "services/control-plane/routes/runs.js": "a66636dc3d54289e1698d42e09e29094177ffbc7ef1ba5514397a245f64423c9",
+    "services/control-plane/routes/metrics.js": "0bb5adc9371c4cb44c0461c9ee09e9a168f25db0ca0beab826e57c166ad7b839",
+    "services/control-plane/package.json": "682c94d68f0d5ac80e2ba5ecf10b8bb9544a35beddba1c1b6cff1f56101c21b5"
+  }
+}

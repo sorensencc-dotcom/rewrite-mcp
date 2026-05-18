@@ -1,0 +1,14 @@
+{
+  "name": "@castironforge/control-plane",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Control Plane HTTP service — CIC/RewriteLabs operator API",
+  "main": "./index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "CONTROL_PLANE_PORT=4000 node --watch index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
