@@ -1,0 +1,24 @@
+{
+  "version": "BOB_SANDWICH_CONTROL_PLANE_v1",
+  "files": {
+    "design/control-plane/README.md": "SHA256: <unchanged>",
+    "design/control-plane/tokens.json": "SHA256: <unchanged>",
+    "design/control-plane/layout.md": "SHA256: <unchanged>",
+    "design/control-plane/wireframes.txt": "SHA256: <unchanged>",
+    "design/control-plane/BOB_MANIFEST.json": "SHA256: <unchanged>",
+
+    "operator-ui/js/control-plane-api.js": "SHA256: <unchanged>",
+    "operator-ui/js/pipelines-panel.js": "SHA256: <unchanged>",
+    "operator-ui/js/agents-panel.js": "SHA256: <unchanged>",
+    "operator-ui/js/runs-panel.js": "SHA256: <unchanged>",
+    "operator-ui/js/metrics-panel.js": "SHA256: <unchanged>",
+    "operator-ui/control-room.html": "SHA256: <unchanged>",
+    "operator-ui/css/control-room.css": "SHA256: <unchanged>",
+
+    "services/control-plane/index.js": "SHA256: <unchanged>",
+    "services/control-plane/routes/pipelines.js": "SHA256: <unchanged>",
+    "services/control-plane/routes/agents.js": "SHA256: <unchanged>",
+    "services/control-plane/routes/runs.js": "SHA256: <unchanged>",
+    "services/control-plane/routes/metrics.js": "SHA256: <unchanged>"
+  }
+}

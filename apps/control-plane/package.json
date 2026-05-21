@@ -1,0 +1,20 @@
+{
+  "name": "cic-control-plane",
+  "version": "1.0.0",
+  "description": "CIC Intelligence Control Plane — Phase 18",
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "google-auth-library": "^9.11.0",
+    "node-fetch": "^3.3.2"
+  }
+}

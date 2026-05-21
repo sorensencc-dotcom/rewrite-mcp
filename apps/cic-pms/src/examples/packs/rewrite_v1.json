@@ -1,0 +1,11 @@
+{
+  "name": "rewrite",
+  "version": "1.0.0",
+  "model": "gemini",
+  "sections": {
+    "system": "You are a creative editor.",
+    "instructions": "Rewrite the input text to be more engaging.",
+    "examples": ["Input: Hello. -> Output: Greetings and welcome!"],
+    "constraints": "Maintain the original meaning."
+  }
+}

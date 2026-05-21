@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<!--
+  apps/operator-ui/dashboard/index.html
+  CIC Observability Dashboard — v1.1.0
+  Deterministic, single-file monitoring UI.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIC Observability Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --panel-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --accent: #58a6ff;
+      --online: #3fb950;
+      --down: #f85149;
+      --degraded: #d29922;
+      --pending: #8b949e;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    @media (max-width: 1100px) {
+      body { overflow-y: auto; height: auto; }
+      .main-grid { grid-template-columns: 1fr !important; grid-template-rows: auto auto auto auto !important; overflow-y: visible !important; }
+      .panel { border-right: none !important; border-bottom: 1px solid var(--border); min-height: 400px; }
+      #pipeline-diagram { padding: 40px 0 !important; overflow-x: auto; justify-content: flex-start !important; gap: 20px; }
+      .pipeline-node { flex-shrink: 0; }
+    }
+
+    header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr 300px;
+      grid-template-rows: 1fr 200px 300px 220px;
+      flex: 1;
+    }
+
+    #timeline-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+    }
+
+    .panel {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .panel:last-child {
+      border-right: none;
+    }
+
+    h2 {
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+
+    /* Agent Grid */
+    #agent-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .agent-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .agent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .agent-name { font-weight: 600; font-size: 13px; }
+    .agent-state { font-size: 11px; padding: 2px 6px; border-radius: 12px; font-weight: bold; }
+    
+    .agent-actions {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+
+    .btn-small {
+      padding: 4px 8px;
+      font-size: 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #21262d;
+      color: var(--text);
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .btn-small:hover { background: #30363d; }
+    .btn-reset { color: var(--accent); border-color: rgba(88, 166, 255, 0.4); }
+    .btn-kill { color: var(--down); border-color: rgba(248, 81, 73, 0.4); }
+
+    [data-state="ONLINE"] .agent-state { background: rgba(63, 185, 80, 0.15); color: var(--online); }
+    [data-state="DOWN"] .agent-state { background: rgba(248, 81, 73, 0.15); color: var(--down); }
+    [data-state="DEGRADED"] .agent-state { background: rgba(210, 153, 34, 0.15); color: var(--degraded); }
+    [data-state="PENDING"] .agent-state { background: rgba(139, 148, 158, 0.15); color: var(--pending); }
+
+    /* Pipeline Diagram */
+    #pipeline-diagram {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+      padding: 0 40px;
+    }
+
+    .pipeline-node {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--panel-bg);
+      border: 2px solid var(--border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      font-weight: bold;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .pipeline-node.pulse {
+      animation: pulse-anim 1s infinite;
+    }
+
+    @keyframes pulse-anim {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(88, 166, 255, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(88, 166, 255, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(88, 166, 255, 0); }
+    }
+
+    /* Event Log & Timeline */
+    #event-log, #timeline-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    pre#timeline-body {
+      margin: 0;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .event-log-entry {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .timestamp { color: #8b949e; margin-right: 8px; }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    select.btn-small {
+      appearance: none;
+      padding-right: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%238b949e' d='M0 2l4 4 4-4z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
+
+    /* MAS Blackboard Panel */
+    #mas-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      overflow: hidden;
+    }
+
+    #mas-panel .mas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    #mas-panel h2 { margin: 0; }
+
+    #mas-stats {
+      display: flex;
+      gap: 24px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+    }
+
+    .mas-stat { display: flex; flex-direction: column; gap: 2px; }
+    .mas-stat-label { color: #8b949e; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    .mas-stat-value { color: var(--online); font-weight: bold; font-size: 13px; }
+
+    #mas-signals-log {
+      flex: 1;
+      overflow-y: auto;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .mas-signal-row {
+      display: flex;
+      gap: 10px;
+      padding: 2px 0;
+      border-bottom: 1px solid #1a1f27;
+    }
+
+    .mas-signal-ts { color: #8b949e; flex-shrink: 0; }
+    .mas-signal-agent { color: var(--accent); width: 100px; flex-shrink: 0; }
+    .mas-signal-action { color: var(--online); width: 160px; flex-shrink: 0; }
+    .mas-signal-action.warn { color: var(--degraded); }
+    .mas-signal-action.crit { color: var(--down); }
+    .mas-signal-meta { color: #8b949e; }
+
+    #mas-no-data { color: #8b949e; font-size: 12px; font-style: italic; }
+    .mas-refresh-btn { align-self: center; }
+
+    /* MAS Synergy Panel */
+    #mas-synergy-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      overflow: hidden;
+      min-height: 220px;
+    }
+
+    #mas-synergy-panel .mas-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    #mas-synergy-panel h2 { margin: 0; }
+
+    #mas-decisions-log {
+      flex: 1;
+      overflow-y: auto;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .mas-decision-row {
+      display: flex;
+      gap: 10px;
+      padding: 2px 0;
+      border-bottom: 1px solid #1a1f27;
+    }
+
+    .mas-decision-ts     { color: #8b949e; flex-shrink: 0; width: 90px; }
+    .mas-decision-agent  { color: var(--accent); width: 120px; flex-shrink: 0; }
+    .mas-decision-action { width: 180px; flex-shrink: 0; font-weight: bold; }
+    .mas-decision-action.stable      { color: var(--online); }
+    .mas-decision-action.warn        { color: var(--degraded); }
+    .mas-decision-action.crit        { color: var(--down); }
+    .mas-decision-meta   { color: #8b949e; }
+
+    /* MAS Drift Panel */
+    #mas-drift-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      min-height: 220px;
+      overflow: hidden;
+    }
+
+    #mas-drift-panel .mas-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    #mas-drift-panel h2 { margin: 0; }
+
+    #mas-drift-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .mas-drift-chart-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .mas-drift-chart-label { color: #8b949e; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-family: "SFMono-Regular", Consolas, monospace; }
+
+    .mas-drift-chart {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 10px;
+      line-height: 1.15;
+      white-space: pre;
+      overflow-x: auto;
+      color: var(--online);
+    }
+
+    .mas-drift-chart.drift-warn  { color: var(--degraded); }
+    .mas-drift-chart.drift-crit  { color: var(--down); }
+
+    /* SLO Panel */
+    #slo-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      background: #0d1117;
+    }
+
+    .slo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .slo-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .slo-card h3 {
+      font-size: 11px;
+      color: #8b949e;
+      text-transform: uppercase;
+      margin: 0 0 8px 0;
+    }
+
+    .slo-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .slo-label {
+      font-size: 10px;
+      color: #8b949e;
+      margin-bottom: 12px;
+    }
+
+    .slo-gauge {
+      height: 4px;
+      background: #21262d;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .slo-bar {
+      height: 100%;
+      background: var(--online);
+      transition: width 0.5s ease;
+    }
+
+    .slo-bar.warn { background: var(--degraded); }
+    .slo-bar.crit { background: var(--down); }
+
+    .recovery-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .active-policies-panel h3, .recovery-history-panel h3 {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    #active-policies-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .policy-item {
+      background: #1c2128;
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .policy-id { color: var(--text); font-weight: bold; }
+    .policy-action { color: var(--online); }
+    .policy-trigger { color: #8b949e; }
+
+    .recovery-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      font-family: monospace;
+    }
+
+    .recovery-table th {
+      text-align: left;
+      color: #8b949e;
+      border-bottom: 1px solid var(--border);
+      padding: 4px;
+    }
+
+    .recovery-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .action-tag {
+      background: rgba(88, 166, 255, 0.1);
+      color: var(--accent);
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .empty-msg {
+      color: #8b949e;
+      font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Release Notes Panel */
+    #release-notes-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+    }
+
+    #release-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    #release-summary {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      color: var(--accent);
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin: 0;
+    }
+
+    #release-links a {
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="auth-gate" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; flex-direction:column; justify-content:center; align-items:center;">
+    <h1 style="color:var(--accent);">CIC OPERATOR AUTH</h1>
+    <div id="g_id_onload"
+         data-client_id=""
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="onSignIn"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+  </div>
+
+  <header>
+    <div style="font-weight: bold;">CIC OBSERVABILITY</div>
+    <div class="controls">
+      <select id="region-select" class="btn-small"></select>
+      <button class="btn-small btn-export" onclick="exportLogs()">EXPORT LOGS</button>
+      <div id="status-bar" style="font-size: 12px; color: #8b949e;">POLLING ACTIVE</div>
+    </div>
+  </header>
+
+  <main class="main-grid">
+    <section class="panel">
+      <h2>Agents</h2>
+      <div id="agent-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Pipeline</h2>
+      <div id="pipeline-diagram">
+        <div class="pipeline-node" data-pipeline-node="INGEST">INGEST</div>
+        <div class="pipeline-node" data-pipeline-node="ENRICH">ENRICH</div>
+        <div class="pipeline-node" data-pipeline-node="ORCHESTRATE">ORCHESTRATE</div>
+        <div class="pipeline-node" data-pipeline-node="SYNTHESIZE">SYNTHESIZE</div>
+        <div class="pipeline-node" data-pipeline-node="AUDIT">AUDIT</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Event Log</h2>
+      <div id="event-log">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <section id="mas-panel">
+      <div class="mas-header">
+        <h2>MAS Blackboard</h2>
+        <div id="mas-stats">
+          <div class="mas-stat"><span class="mas-stat-label">Signals</span><span class="mas-stat-value" id="mas-count-signals">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Facts</span><span class="mas-stat-value" id="mas-count-facts">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Entities</span><span class="mas-stat-value" id="mas-count-entities">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Hypotheses</span><span class="mas-stat-value" id="mas-count-hypotheses">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Notes</span><span class="mas-stat-value" id="mas-count-notes">—</span></div>
+          <button type="button" class="btn-small mas-refresh-btn" onclick="loadMASBlackboard()">REFRESH</button>
+        </div>
+      </div>
+      <div id="mas-signals-log">
+        <div id="mas-no-data">No MAS data yet — run an orchestration job to populate the blackboard.</div>
+      </div>
+    </section>
+
+    <section id="mas-synergy-panel">
+      <div class="mas-header">
+        <h2>MAS Synergy Decisions</h2>
+        <div id="mas-decisions-stats" style="display:flex; gap:24px; font-family:monospace; font-size:11px;">
+          <div class="mas-stat"><span class="mas-stat-label">Total</span><span class="mas-stat-value" id="mas-decisions-count">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Reruns</span><span class="mas-stat-value" id="mas-decisions-reruns">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Fallbacks</span><span class="mas-stat-value" id="mas-decisions-fallbacks">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Speculative</span><span class="mas-stat-value" id="mas-decisions-speculative">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Skips</span><span class="mas-stat-value" id="mas-decisions-skips">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Stable</span><span class="mas-stat-value" id="mas-decisions-stable">—</span></div>
+          <button type="button" class="btn-small mas-refresh-btn" onclick="loadMASDecisions()">REFRESH</button>
+        </div>
+      </div>
+      <div id="mas-decisions-log">
+        <div id="mas-decisions-no-data" style="color:#8b949e; font-size:12px; font-style:italic;">No MAS decisions yet — run an orchestration job to populate.</div>
+      </div>
+    </section>
+
+    <section id="mas-drift-panel">
+      <div class="mas-header">
+        <h2>MAS Drift Trace</h2>
+        <div style="display:flex; gap:24px; font-family:monospace; font-size:11px;">
+          <div class="mas-stat"><span class="mas-stat-label">Signals</span><span class="mas-stat-value" id="mas-drift-count">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Latest Drift</span><span class="mas-stat-value" id="mas-drift-latest-drift">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Latest Conf</span><span class="mas-stat-value" id="mas-drift-latest-conf">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">Drift Trend</span><span class="mas-stat-value" id="mas-drift-trend">—</span></div>
+          <div class="mas-stat"><span class="mas-stat-label">MAS Mood</span><span class="mas-stat-value" id="mas-drift-mood">—</span></div>
+          <button type="button" class="btn-small mas-refresh-btn" onclick="loadMASDrift()">REFRESH</button>
+        </div>
+      </div>
+      <div id="mas-drift-charts">
+        <div class="mas-drift-chart-wrap">
+          <span class="mas-drift-chart-label">Drift (0.0 → 1.0, last 80 signals)</span>
+          <pre id="mas-drift-chart-drift" class="mas-drift-chart">Loading...</pre>
+        </div>
+        <div class="mas-drift-chart-wrap">
+          <span class="mas-drift-chart-label">Confidence (0.0 → 1.0, last 80 signals)</span>
+          <pre id="mas-drift-chart-conf" class="mas-drift-chart">Loading...</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="release-notes-panel" class="panel">
+      <!-- Rendered via js/release-notes-panel.js -->
+    </section>
+
+    <section id="slo-panel" class="panel">
+      <!-- Rendered via js/slo-panel.js -->
+    </section>
+
+    <section class="panel" id="timeline-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h2 style="margin:0;">Intelligence Timeline · Global</h2>
+        <div class="controls" style="gap:8px;">
+          <input type="text" id="timeline-search" class="btn-small" style="background:#0b0e14; color:var(--text); padding:4px 8px; border:1px solid var(--border);" placeholder="Search CID, Event, etc...">
+          <select id="timeline-type-filter" class="btn-small">
+            <option value="all">All Types</option>
+            <option value="model_call">Model Calls</option>
+            <option value="drift">Drift</option>
+            <option value="pipeline">Pipelines</option>
+            <option value="override">Overrides</option>
+            <option value="prp">PRP</option>
+          </select>
+          <select id="timeline-region-filter" class="btn-small">
+            <option value="all">All Regions</option>
+            <option value="global">Global</option>
+            <option value="us-east">US East</option>
+            <option value="eu-west">EU West</option>
+            <option value="ap-south">AP South</option>
+          </select>
+        </div>
+      </div>
+      <pre id="timeline-body">Initializing timeline...</pre>
+    </section>
+  </main>
+
+  <script src="/js/control-plane-api.js"></script>
+  <script src="/js/release-notes-panel.js"></script>
+  <script src="/js/slo-panel.js"></script>
+  <script>
+    (function() {
+      window.__CIC_POLLING_ACTIVE__ = true;
+
+      const agents = ['INGEST', 'ENRICH', 'ORCHESTRATE', 'SYNTHESIZE', 'AUDIT', 'MCP'];
+      const states = ['ONLINE', 'DOWN', 'DEGRADED', 'PENDING'];
+      
+      const agentGrid = document.getElementById('agent-grid');
+      const eventLog = document.getElementById('event-log');
+      const pipelineNodes = document.querySelectorAll('[data-pipeline-node]');
+      const regionSelect = document.getElementById('region-select');
+      const timelineBody = document.getElementById('timeline-body');
+
+      const timelineSearch = document.getElementById('timeline-search');
+      const timelineTypeFilter = document.getElementById('timeline-type-filter');
+      const timelineRegionFilter = document.getElementById('timeline-region-filter');
+
+      let currentRegion = 'us-east';
+      let lastTimelineData = [];
+      const TELEMETRY_BASE = "http://127.0.0.1:4310";
+
+      // Attach filter listeners
+      timelineSearch.addEventListener('input', () => renderTimeline(lastTimelineData));
+      timelineTypeFilter.addEventListener('change', () => renderTimeline(lastTimelineData));
+      timelineRegionFilter.addEventListener('change', () => renderTimeline(lastTimelineData));
+
+      function formatDate(date) {
+        return date.toISOString().replace('T', ' ').substring(0, 19);
+      }
+
+      function addLog(msg) {
+        const entry = document.createElement('div');
+        entry.className = 'event-log-entry';
+        entry.innerHTML = `<span class="timestamp">${formatDate(new Date())}</span> <span class="msg">${msg}</span>`;
+        eventLog.prepend(entry);
+
+        while (eventLog.children.length > 50) {
+          eventLog.lastElementChild.remove();
+        }
+      }
+
+      async function loadRegions() {
+        try {
+          const res = await fetch('/regions?bypass_auth=true');
+          const data = await res.json();
+          regionSelect.innerHTML = '';
+          (data.regions || []).forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r.id;
+            opt.textContent = r.label;
+            regionSelect.appendChild(opt);
+          });
+          if (data.regions?.[0]) currentRegion = data.regions[0].id;
+        } catch (err) {
+          addLog(`Failed to load regions: ${err.message}`);
+        }
+      }
+
+      regionSelect.addEventListener('change', () => {
+        currentRegion = regionSelect.value;
+        addLog(`Switched region → ${currentRegion}`);
+        pollAgents(true);
+      });
+
+      function renderAgents(stateOverride = null) {
+        agentGrid.innerHTML = '';
+        agents.forEach(agent => {
+          const state = stateOverride || states[Math.floor(Math.random() * states.length)];
+          const card = document.createElement('div');
+          card.className = 'agent-card';
+          card.setAttribute('data-agent', agent);
+          card.setAttribute('data-state', state);
+          card.innerHTML = `
+            <div class="agent-header">
+              <span class="agent-name">${agent}</span>
+              <span class="agent-state">${state}</span>
+            </div>
+            <div class="agent-actions">
+              <button class="btn-small btn-reset" onclick="manualAction('${agent}', 'reset')">RESET</button>
+              <button class="btn-small btn-kill" onclick="manualAction('${agent}', 'kill')">KILL</button>
+            </div>
+          `;
+          agentGrid.appendChild(card);
+        });
+      }
+
+      window.manualAction = async function(agent, action) {
+        const correlationId = `op-${Date.now()}-${Math.floor(Math.random() * 1000).toString(16)}`;
+        const msg = `Manual [${action.toUpperCase()}] triggered for ${agent}`;
+        addLog(msg);
+
+        // Emit override event to telemetry
+        try {
+          await fetch(`${TELEMETRY_BASE}/ingest/override`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              region: currentRegion,
+              agent,
+              action: action.toUpperCase(),
+              subsystem: 'control-plane',
+              correlationId
+            })
+          });
+        } catch (e) {
+          console.error("Failed to emit override telemetry", e);
+        }
+
+        // Set state to PENDING during action
+        const node = document.querySelector(`[data-agent="${agent}"]`);
+        if (node) {
+          node.setAttribute('data-state', 'PENDING');
+          node.querySelector('.agent-state').textContent = 'PENDING';
+        }
+      };
+
+      window.exportLogs = function() {
+        const entries = Array.from(eventLog.children).map(e => e.innerText);
+        const blob = new Blob([entries.join('\n')], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `cic-obs-log-${new Date().toISOString().slice(0, 19)}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        addLog('Log export triggered');
+      };
+
+      async function pollAgents(force = false) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        try {
+          const res = await fetch(`/regions/${currentRegion}/agents?bypass_auth=true`, {
+            signal: controller.signal
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          
+          agentGrid.innerHTML = '';
+          (data.agents || []).forEach(agent => {
+            const card = document.createElement('div');
+            card.className = 'agent-card';
+            card.setAttribute('data-agent', agent.id);
+            card.setAttribute('data-state', agent.status);
+            card.innerHTML = `
+              <div class="agent-header">
+                <span class="agent-name">${agent.id}</span>
+                <span class="agent-state">${agent.status}</span>
+              </div>
+              <div class="agent-actions">
+                <button class="btn-small btn-reset" onclick="manualAction('${agent.id}', 'reset')">RESET</button>
+                <button class="btn-small btn-kill" onclick="manualAction('${agent.id}', 'kill')">KILL</button>
+              </div>
+            `;
+            agentGrid.appendChild(card);
+          });
+          
+          addLog(`Agent health (${currentRegion}): ${data.agents?.length || 0} agents`);
+        } catch (err) {
+          const isTimeout = err.name === 'AbortError';
+          addLog(`Health check failed for ${currentRegion}: ${isTimeout ? 'TIMEOUT (5s)' : err.message}`);
+          
+          if (agentGrid.children.length === 0) {
+            renderAgents('DOWN');
+          } else {
+            document.querySelectorAll('.agent-card').forEach(card => {
+              card.setAttribute('data-state', 'DOWN');
+              card.querySelector('.agent-state').textContent = 'DOWN';
+            });
+          }
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      }
+
+      function triggerPipelineAnimation() {
+        const randomNode = pipelineNodes[Math.floor(Math.random() * pipelineNodes.length)];
+        randomNode.classList.add('pulse');
+        setTimeout(() => randomNode.classList.remove('pulse'), 2000);
+      }
+
+      async function fetchTimeline() {
+        try {
+          const res = await fetch(`${TELEMETRY_BASE}/telemetry/timeline`);
+          if (!res.ok) throw new Error(res.status);
+          return await res.json();
+        } catch (e) {
+          return { error: e.message || String(e) };
+        }
+      }
+
+      function renderTimeline(data) {
+        lastTimelineData = data;
+        if (!data || data.error) {
+          timelineBody.textContent = data && data.error ? `error: ${data.error}` : "No data.";
+          return;
+        }
+
+        const typeFilter = timelineTypeFilter.value;
+        const regionFilter = timelineRegionFilter.value;
+        const searchQuery = timelineSearch.value.toLowerCase();
+
+        const filteredData = data.filter(ev => {
+          if (typeFilter !== 'all' && ev.type !== typeFilter) return false;
+          const evRegion = ev.region || 'global';
+          if (regionFilter !== 'all' && evRegion !== regionFilter) return false;
+          
+          if (searchQuery) {
+            const evStr = JSON.stringify(ev).toLowerCase();
+            if (!evStr.includes(searchQuery)) return false;
+          }
+          return true;
+        });
+
+        const lines = filteredData.slice(0, 50).map(ev => {
+          const ts = ev.ts?.split("T")[1]?.replace("Z", "") || ev.ts;
+          const region = ev.region || "global";
+          const type = ev.type.toUpperCase();
+          const cid = ev.correlationId ? `[${ev.correlationId.slice(-8)}]` : "[--------]";
+          let detail = "";
+
+          switch (ev.type) {
+            case "model_call":
+              detail = `${ev.meta.model} ${ev.meta.success ? "OK" : "FAIL"} ${ev.meta.latencyMs}ms pack=${ev.pack || "-"}`;
+              break;
+            case "drift":
+              detail = `DRIFT pack=${ev.pack}@${ev.version} expected=${ev.meta.expectedHash?.slice(0, 6)} actual=${ev.meta.actualHash?.slice(0, 6)}`;
+              break;
+            case "pipeline":
+              detail = `job=${ev.jobId} pipeline=${(ev.meta.pipeline || []).join("→")}`;
+              break;
+            case "override":
+              detail = `agent=${ev.agent} action=${ev.action}`;
+              break;
+            case "prp":
+              detail = `PRP ${ev.action} ${ev.pack}@${ev.version}`;
+              break;
+            case "mas_decision":
+              detail = `MAS ${ev.directive ?? "none"} agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)} reason=${ev.reason ?? "-"}`;
+              break;
+            case "mas_signal":
+              detail = `MAS signal agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)}`;
+              break;
+            default:
+              detail = JSON.stringify(ev.meta || {});
+          }
+
+          return `[${ts}] [${region}] ${cid} [${type}] ${detail}`;
+        });
+
+        timelineBody.textContent = lines.join("\n") || "No events match the current filters.";
+      }
+
+      async function tickTimeline() {
+        const data = await fetchTimeline();
+        renderTimeline(data);
+      }
+
+      // MAS Blackboard
+      const masSignalsLog   = document.getElementById('mas-signals-log');
+      const masNoData       = document.getElementById('mas-no-data');
+
+      function actionClass(action) {
+        if (action === 'none') return '';
+        if (action === 'rerunAgent' || action === 'fallbackAgent') return 'crit';
+        return 'warn';
+      }
+
+      window.loadMASBlackboard = async function() {
+        try {
+          const res = await fetch('/mas/blackboard?bypass_auth=true');
+          const data = await res.json();
+          const bb = data.blackboard;
+
+          document.getElementById('mas-count-signals').textContent    = bb ? (bb.signals?.length    ?? 0) : '—';
+          document.getElementById('mas-count-facts').textContent      = bb ? (bb.facts?.length      ?? 0) : '—';
+          document.getElementById('mas-count-entities').textContent   = bb ? (bb.entities?.length   ?? 0) : '—';
+          document.getElementById('mas-count-hypotheses').textContent = bb ? (bb.hypotheses?.length ?? 0) : '—';
+          document.getElementById('mas-count-notes').textContent      = bb ? (bb.notes?.length      ?? 0) : '—';
+
+          if (!bb || !bb.signals?.length) {
+            masSignalsLog.innerHTML = '';
+            masSignalsLog.appendChild(masNoData);
+            return;
+          }
+
+          const rows = [...bb.signals].reverse().slice(0, 30).map(sig => {
+            const ts     = new Date(sig.ts).toISOString().replace('T', ' ').substring(11, 19);
+            const action = sig.directive?.action ?? 'none';
+            const reason = sig.directive?.reason ?? '—';
+            const cls    = actionClass(action);
+            return `<div class="mas-signal-row">` +
+              `<span class="mas-signal-ts">${ts}</span>` +
+              `<span class="mas-signal-agent">${sig.agent}</span>` +
+              `<span class="mas-signal-action ${cls}">${action}</span>` +
+              `<span class="mas-signal-meta">drift=${sig.drift?.toFixed(3) ?? '—'} conf=${sig.confidence?.toFixed(3) ?? '—'} reason=${reason}</span>` +
+              `</div>`;
+          }).join('');
+
+          masSignalsLog.innerHTML = rows;
+        } catch (err) {
+          masSignalsLog.textContent = `MAS fetch error: ${err.message}`;
+        }
+      };
+
+      function decisionActionClass(action) {
+        if (action === 'none') return 'stable';
+        if (action === 'rerunAgent' || action === 'fallbackAgent') return 'crit';
+        return 'warn';
+      }
+
+      window.loadMASDecisions = async function() {
+        const log    = document.getElementById('mas-decisions-log');
+        const noData = document.getElementById('mas-decisions-no-data');
+        try {
+          const res  = await fetch('/mas/decisions?bypass_auth=true');
+          const data = await res.json();
+          const all  = data.decisions || [];
+
+          document.getElementById('mas-decisions-count').textContent     = all.length;
+          document.getElementById('mas-decisions-reruns').textContent    = all.filter(d => d.action === 'rerunAgent').length;
+          document.getElementById('mas-decisions-fallbacks').textContent = all.filter(d => d.action === 'fallbackAgent').length;
+          document.getElementById('mas-decisions-speculative').textContent = all.filter(d => d.action === 'speculativeRun').length;
+          document.getElementById('mas-decisions-skips').textContent     = all.filter(d => d.action === 'skipAgent').length;
+          document.getElementById('mas-decisions-stable').textContent    = all.filter(d => d.action === 'none').length;
+
+          if (!all.length) {
+            log.innerHTML = '';
+            log.appendChild(noData);
+            return;
+          }
+
+          const rows = [...all].reverse().slice(0, 50).map(d => {
+            const ts     = d.ts ? d.ts.replace('T', ' ').substring(11, 19) : '—';
+            const action = d.action ?? 'unknown';
+            const target = d.target ?? '—';
+            const cls    = decisionActionClass(action);
+            const drift  = typeof d.drift === 'number' ? d.drift.toFixed(3) : '—';
+            const conf   = typeof d.confidence === 'number' ? d.confidence.toFixed(3) : '—';
+            return `<div class="mas-decision-row">` +
+              `<span class="mas-decision-ts">${ts}</span>` +
+              `<span class="mas-decision-agent">${d.agent}</span>` +
+              `<span class="mas-decision-action ${cls}">${action}</span>` +
+              `<span class="mas-decision-meta">target=${target} drift=${drift} conf=${conf} reason=${d.reason ?? '—'}</span>` +
+              `</div>`;
+          }).join('');
+
+          log.innerHTML = rows;
+        } catch (err) {
+          log.textContent = `MAS decisions fetch error: ${err.message}`;
+        }
+      };
+
+      function asciiBarChart(values, rows) {
+        if (!values.length) return 'No data.';
+        const max = Math.max(...values, 0.01);
+        const min = Math.min(...values);
+        const range = max - min || 0.01;
+        const lines = [];
+        for (let r = 0; r < rows; r++) {
+          const threshold = max - (r / (rows - 1)) * range;
+          let line = '';
+          for (const v of values) {
+            line += v >= threshold ? '█' : '·';
+          }
+          lines.push(line);
+        }
+        return lines.join('\n');
+      }
+
+      window.loadMASDrift = async function() {
+        const driftEl  = document.getElementById('mas-drift-chart-drift');
+        const confEl   = document.getElementById('mas-drift-chart-conf');
+        try {
+          const res  = await fetch('/mas/blackboard?bypass_auth=true');
+          const data = await res.json();
+          const sigs = (data.blackboard?.signals || []).slice(-80);
+
+          document.getElementById('mas-drift-count').textContent = sigs.length;
+
+          if (!sigs.length) {
+            driftEl.textContent = 'No signal data yet.';
+            confEl.textContent  = 'No signal data yet.';
+            ['mas-drift-latest-drift','mas-drift-latest-conf','mas-drift-trend','mas-drift-mood']
+              .forEach(id => { document.getElementById(id).textContent = '—'; });
+            return;
+          }
+
+          const first  = sigs[0];
+          const latest = sigs[sigs.length - 1];
+
+          const latestDrift = typeof latest.drift === 'number' ? latest.drift : null;
+          const latestConf  = typeof latest.confidence === 'number' ? latest.confidence : null;
+
+          document.getElementById('mas-drift-latest-drift').textContent =
+            latestDrift !== null ? latestDrift.toFixed(3) : '—';
+          document.getElementById('mas-drift-latest-conf').textContent =
+            latestConf !== null ? latestConf.toFixed(3) : '—';
+
+          const trendDelta = latestDrift !== null && typeof first.drift === 'number'
+            ? latestDrift - first.drift : null;
+          document.getElementById('mas-drift-trend').textContent = trendDelta !== null
+            ? (trendDelta > 0.01 ? `↑ +${trendDelta.toFixed(3)}` : trendDelta < -0.01 ? `↓ ${trendDelta.toFixed(3)}` : '→ flat')
+            : '—';
+
+          const mood = latestDrift === null ? '—'
+            : latestDrift > 0.35 ? 'CRITICAL'
+            : latestConf !== null && latestConf < 0.45 ? 'UNCERTAIN'
+            : 'STABLE';
+          const moodEl = document.getElementById('mas-drift-mood');
+          moodEl.textContent = mood;
+          moodEl.style.color = mood === 'CRITICAL' ? 'var(--down)'
+            : mood === 'UNCERTAIN' ? 'var(--degraded)' : 'var(--online)';
+
+          const driftVals = sigs.map(s => typeof s.drift      === 'number' ? s.drift      : 0);
+          const confVals  = sigs.map(s => typeof s.confidence === 'number' ? s.confidence : 0);
+
+          driftEl.textContent = asciiBarChart(driftVals, 10);
+          confEl.textContent  = asciiBarChart(confVals, 10);
+
+          const avgDrift = driftVals.reduce((a, b) => a + b, 0) / driftVals.length;
+          driftEl.className = 'mas-drift-chart' + (avgDrift > 0.35 ? ' drift-crit' : avgDrift > 0.15 ? ' drift-warn' : '');
+          const avgConf  = confVals.reduce((a, b) => a + b, 0) / confVals.length;
+          confEl.className  = 'mas-drift-chart' + (avgConf < 0.45 ? ' drift-warn' : '');
+        } catch (err) {
+          driftEl.textContent = `Drift fetch error: ${err.message}`;
+          confEl.textContent  = '';
+        }
+      };
+
+      window.onSignIn = function(response) {
+        document.getElementById('auth-gate').style.display = 'none';
+        addLog('Operator authenticated via Google');
+        startDashboard();
+      };
+
+      async function startDashboard() {
+        renderAgents('PENDING');
+        ReleaseNotesPanel.init('release-notes-panel');
+        SloPanel.init('slo-panel');
+        loadRegions().then(() => {
+          pollAgents();
+          tickTimeline();
+          loadMASBlackboard();
+          loadMASDecisions();
+          loadMASDrift();
+        });
+        setInterval(() => {
+          pollAgents();
+          triggerPipelineAnimation();
+        }, 10000);
+        setInterval(tickTimeline, 3000);
+        setInterval(loadMASBlackboard, 10000);
+        setInterval(loadMASDecisions, 10000);
+        setInterval(loadMASDrift, 10000);
+      }
+
+      if (!window.CIC_AUTH_DISABLED && !window.location.search.includes('bypass_auth')) {
+        const gate = document.getElementById('auth-gate');
+        gate.style.display = 'flex';
+        document.querySelector('#g_id_onload').setAttribute('data-client_id', window.CIC_GOOGLE_CLIENT_ID);
+        
+        const script = document.createElement('script');
+        script.src = "https://accounts.google.com/gsi/client";
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      } else {
+        startDashboard();
+      }
+
+    })();
+  </script>
+</body>
+</html>

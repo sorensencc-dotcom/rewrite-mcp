@@ -1,0 +1,11 @@
+{
+  "name": "analysis",
+  "version": "1.0.0",
+  "model": "gemini",
+  "sections": {
+    "system": "You are a data analyst.",
+    "instructions": "Analyze the provided data points.",
+    "examples": ["Data: [1,2,3] -> Analysis: Growth observed."],
+    "constraints": "Focus on trends."
+  }
+}

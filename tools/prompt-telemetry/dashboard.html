@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CIC Prompt Telemetry</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #050608;
+      color: #e5e5e5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 2fr 3fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+      padding: 12px;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    .panel {
+      border: 1px solid #222;
+      border-radius: 6px;
+      padding: 8px;
+      background: radial-gradient(circle at top left, #101820, #050608);
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel h2 {
+      margin: 0 0 6px 0;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #00ff88;
+    }
+    .panel pre {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.4;
+      overflow: auto;
+      white-space: pre;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      margin-right: 4px;
+      background: #111;
+      border: 1px solid #00ff88;
+      color: #00ff88;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+    .muted {
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="panel" id="packs-panel">
+      <h2>Packs · Usage</h2>
+      <div id="packs-body"></div>
+    </div>
+    <div class="panel" id="drift-panel">
+      <h2>Drift · Recent</h2>
+      <pre id="drift-body"></pre>
+    </div>
+    <div class="panel" id="model-panel">
+      <h2>Model Calls · Recent</h2>
+      <pre id="model-body"></pre>
+    </div>
+    <div class="panel" id="pipeline-panel">
+      <h2>Pipelines · Recent</h2>
+      <pre id="pipeline-body"></pre>
+    </div>
+    <div class="panel" id="meta-panel">
+      <h2>Meta · Status</h2>
+      <pre id="meta-body"></pre>
+    </div>
+  </div>
+
+  <script>
+    const BASE = (location.origin.includes("localhost") || location.origin.includes("127.0.0.1"))
+      ? "http://localhost:4310"
+      : location.origin;
+
+    async function fetchJson(path) {
+      try {
+        const res = await fetch(BASE + path);
+        if (!res.ok) throw new Error(res.status);
+        return await res.json();
+      } catch (e) {
+        return { error: e.message || String(e) };
+      }
+    }
+
+    function renderPacks(packs) {
+      const el = document.getElementById("packs-body");
+      el.innerHTML = "";
+      const entries = Object.entries(packs || {}).sort((a, b) => b[1].count - a[1].count);
+      entries.forEach(([name, info]) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `
+          <span><span class="badge">${name}</span>v${info.version}</span>
+          <span class="muted">${info.count} calls</span>
+        `;
+        el.appendChild(row);
+      });
+      if (!entries.length) {
+        el.innerHTML = '<span class="muted">No data yet.</span>';
+      }
+    }
+
+    function renderList(id, data, maxLines = 40) {
+      const el = document.getElementById(id);
+      if (!data || data.error) {
+        el.textContent = data && data.error ? `error: ${data.error}` : "No data.";
+        return;
+      }
+      const lines = data.slice(0, maxLines).map(d => JSON.stringify(d));
+      el.textContent = lines.join("\n");
+    }
+
+    async function tick() {
+      const [packs, drift, modelCalls, pipelines] = await Promise.all([
+        fetchJson("/telemetry/packs"),
+        fetchJson("/telemetry/drift"),
+        fetchJson("/telemetry/model-calls"),
+        fetchJson("/telemetry/pipelines")
+      ]);
+
+      renderPacks(packs);
+      renderList("drift-body", drift);
+      renderList("model-body", modelCalls);
+      renderList("pipeline-body", pipelines);
+
+      const meta = {
+        ts: new Date().toISOString(),
+        packs: Object.keys(packs || {}).length,
+        driftEvents: (drift || []).length,
+        modelCalls: (modelCalls || []).length,
+        pipelines: (pipelines || []).length,
+        base: BASE
+      };
+      document.getElementById("meta-body").textContent = JSON.stringify(meta, null, 2);
+    }
+
+    tick();
+    setInterval(tick, 3000);
+  </script>
+</body>
+</html>

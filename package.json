@@ -1,0 +1,20 @@
+{
+  "name": "rewrite-mcp-monorepo",
+  "version": "2.8.1",
+  "private": true,
+  "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
+  "scripts": {
+    "sync-docs": "bash scripts/sync-docs.sh",
+    "build-docs": "bash scripts/sync-docs.sh --build",
+    "test-orchestrator": "cd projects/cic/orchestrator && npm test",
+    "stress-test": "cd ../tools/runtime-harness && npm run stress",
+    "release:notes": "node tools/release-notes.mjs",
+    "release:tag": "node tools/release-tag.mjs",
+    "release:bundle": "node tools/release-bundle.mjs",
+    "release:full": "npm run doc:drift && npm run release:notes && npm run release:tag && npm run release:bundle",
+    "doc:drift": "node tools/doc-drift-check.js"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11"
+  }
+}

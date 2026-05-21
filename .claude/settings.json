@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.stdout.write(JSON.stringify({systemMessage: 'DOC-UPDATE CHECK: If a phase completed or source files changed this session, run skills/doc-update.md\\n  Changelog: docs/CHANGELOG.md  |  Roadmap: docs/ROADMAP.md  |  Policy: docs/DOC_POLICY.md'}))\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

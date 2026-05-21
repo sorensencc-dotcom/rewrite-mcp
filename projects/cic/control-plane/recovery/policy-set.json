@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "policies": [
+    {
+      "id": "throttle-on-safe-mode-spike",
+      "description": "Reduce concurrency when safe-mode rate exceeds threshold.",
+      "when": {
+        "metric": "reliability.safeModeRate",
+        "op": ">",
+        "value": 0.03
+      },
+      "action": {
+        "type": "throttle",
+        "reduceByPct": 0.25
+      }
+    },
+    {
+      "id": "escalate-fallback-on-latency-breach",
+      "description": "Promote fallback tier when p95 latency breaches SLA.",
+      "when": {
+        "metric": "latency.p95",
+        "op": ">",
+        "value": 4.0
+      },
+      "action": {
+        "type": "escalateFallback",
+        "tier": "fallback-tier-1"
+      }
+    },
+    {
+      "id": "quarantine-agent-on-hard-failure",
+      "description": "Quarantine agents that repeatedly trigger hard failures.",
+      "when": {
+        "metric": "reliability.hardFailureRate",
+        "op": ">",
+        "value": 0.01
+      },
+      "action": {
+        "type": "quarantine",
+        "scope": "agent"
+      }
+    },
+    {
+      "id": "alert-on-error-budget-depletion",
+      "description": "Alert operator when safe-mode error budget is low.",
+      "when": {
+        "metric": "errorBudget.safeModeBudgetRemaining",
+        "op": "<",
+        "value": 0.2
+      },
+      "action": {
+        "type": "alertOperator",
+        "level": "critical"
+      }
+    }
+  ]
+}

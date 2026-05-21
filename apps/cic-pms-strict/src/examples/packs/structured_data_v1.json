@@ -1,0 +1,21 @@
+{
+  "name": "structured_data",
+  "version": "1.0.0",
+  "model": "gemini",
+  "response_schema": {
+    "type": "object",
+    "properties": {
+      "entities": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "sentiment": { "type": "string", "enum": ["positive", "negative", "neutral"] }
+    },
+    "required": ["entities", "sentiment"]
+  },
+  "sections": {
+    "system": "You are a high-precision data extractor.",
+    "instructions": "Extract entities and sentiment from the input text.",
+    "constraints": "Return ONLY valid JSON."
+  }
+}
