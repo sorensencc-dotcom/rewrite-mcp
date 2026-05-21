@@ -495,6 +495,70 @@
     #release-links a {
       margin-left: 8px;
     }
+
+    /* Release Bundle Panel */
+    #release-bundle-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+    }
+
+    #bundle-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    #bundle-checksum {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      color: var(--accent);
+      height: 40px;
+      overflow-y: auto;
+      white-space: nowrap;
+      margin: 0;
+    }
+
+    #bundle-links a {
+      margin-left: 8px;
+    }
+
+    /* Release Diff Panel */
+    #release-diff-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+    }
+
+    #diff-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    #diff-summary {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      padding: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      color: var(--accent);
+      height: 40px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin: 0;
+    }
+
+    #diff-links a {
+      margin-left: 8px;
+    }
   </style>
 </head>
 <body>
@@ -608,6 +672,14 @@
       <!-- Rendered via js/release-notes-panel.js -->
     </section>
 
+    <section id="release-bundle-panel" class="panel">
+      <!-- Rendered via js/release-bundle-panel.js -->
+    </section>
+
+    <section id="release-diff-panel" class="panel">
+      <!-- Rendered via js/release-diff-panel.js -->
+    </section>
+
     <section id="slo-panel" class="panel">
       <!-- Rendered via js/slo-panel.js -->
     </section>
@@ -640,6 +712,8 @@
 
   <script src="/js/control-plane-api.js"></script>
   <script src="/js/release-notes-panel.js"></script>
+  <script src="/js/release-bundle-panel.js"></script>
+  <script src="/js/release-diff-panel.js"></script>
   <script src="/js/slo-panel.js"></script>
   <script>
     (function() {
@@ -1081,6 +1155,8 @@
       async function startDashboard() {
         renderAgents('PENDING');
         ReleaseNotesPanel.init('release-notes-panel');
+        ReleaseBundlePanel.init('release-bundle-panel');
+        ReleaseDiffPanel.init('release-diff-panel');
         SloPanel.init('slo-panel');
         loadRegions().then(() => {
           pollAgents();

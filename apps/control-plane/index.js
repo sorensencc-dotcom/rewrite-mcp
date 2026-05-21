@@ -21,6 +21,7 @@
 
 'use strict';
 
+const { config }         = require('./src/config');
 require('dotenv').config();
 
 const { randomUUID }     = require('crypto');

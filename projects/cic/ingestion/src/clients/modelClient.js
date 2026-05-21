@@ -25,7 +25,12 @@ const SECTION_RE = /^### (SYSTEM|CONTEXT|USER)\s*$/m;
  * @returns {{ complete: Function }}
  */
 export function createModelClient(opts = {}) {
-  const apiKey = opts.apiKey ?? process.env.ORCH_ANTHROPIC_API_KEY ?? process.env.HARV_ANTHROPIC_API_KEY ?? process.env.ANTHROPIC_API_KEY;
+  const apiKey = opts.apiKey ?? 
+    process.env.ORCH_ANTHROPIC_API_KEY_ACTIVE ?? 
+    process.env.HARV_ANTHROPIC_API_KEY_ACTIVE ?? 
+    process.env.ORCH_ANTHROPIC_API_KEY ?? 
+    process.env.HARV_ANTHROPIC_API_KEY ?? 
+    process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error(`[${MODULE}] ANTHROPIC_API_KEY is not set`);
 
   const sdk = new Anthropic({ apiKey });

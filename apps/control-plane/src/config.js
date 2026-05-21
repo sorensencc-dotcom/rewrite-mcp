@@ -10,7 +10,7 @@ const REQUIRED_SECRETS = [
   'CP_REGION'
 ];
 
-export function validateConfig() {
+function validateConfig() {
   const missing = REQUIRED_SECRETS.filter(key => !process.env[key]);
 
   if (missing.length > 0) {
@@ -33,4 +33,6 @@ export function validateConfig() {
   };
 }
 
-export const config = validateConfig();
+module.exports = {
+  config: validateConfig()
+};

@@ -25,9 +25,14 @@ function main() {
   const version = pkg.version;
 
   const bundleName = `rewrite-mcp-release-v${version}.tar.gz`;
-  const bundlePath = path.join(rootDir, bundleName);
+  const outputDir = path.join(rootDir, 'docs/releases');
+  const bundlePath = path.join(outputDir, bundleName);
 
-  console.log(`Building release bundle: ${bundleName}...`);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  console.log(`Building release bundle: ${bundleName} in ${outputDir}...`);
 
   // Define files to include
   const files = [
@@ -51,17 +56,17 @@ function main() {
   });
 
   try {
-    // Create the bundle
-    run(`tar -czf ${bundleName} ${existingFiles.join(' ')}`);
+    // Create the bundle (run tar from root but output to docs/releases)
+    run(`tar -czf ${bundlePath} ${existingFiles.join(' ')}`);
     
     // Calculate SHA256
-    const hash = execSync(`sha256sum ${bundleName}`, { cwd: rootDir }).toString().split(' ')[0];
-    console.log(`\nSUCCESS: Bundle created at ${bundleName}`);
+    const hash = execSync(`sha256sum ${bundlePath}`).toString().split(' ')[0];
+    console.log(`\nSUCCESS: Bundle created at ${bundlePath}`);
     console.log(`SHA256: ${hash}`);
     
-    // Save checksum to a file
-    fs.writeFileSync(path.join(rootDir, `${bundleName}.sha256`), hash);
-    console.log(`Checksum saved to ${bundleName}.sha256`);
+    // Save checksum to a file in the same directory
+    fs.writeFileSync(`${bundlePath}.sha256`, hash);
+    console.log(`Checksum saved to ${bundlePath}.sha256`);
     
   } catch (err) {
     console.error(`FAILED: ${err.message}`);

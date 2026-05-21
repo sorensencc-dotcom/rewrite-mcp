@@ -7,8 +7,8 @@
  */
 
 const REQUIRED_SECRETS = [
-  'ORCH_GEMINI_API_KEY',
-  'ORCH_ANTHROPIC_API_KEY',
+  'ORCH_GEMINI_API_KEY_ACTIVE',
+  'ORCH_ANTHROPIC_API_KEY_ACTIVE',
   'ORCH_TELEMETRY_URL',
   'ORCH_REGION'
 ];
@@ -28,8 +28,8 @@ export function validateConfig() {
   }
 
   return {
-    geminiApiKey: process.env.ORCH_GEMINI_API_KEY,
-    anthropicApiKey: process.env.ORCH_ANTHROPIC_API_KEY,
+    geminiApiKey: process.env.ORCH_GEMINI_API_KEY_ACTIVE,
+    anthropicApiKey: process.env.ORCH_ANTHROPIC_API_KEY_ACTIVE,
     telemetryUrl: process.env.ORCH_TELEMETRY_URL,
     region: process.env.ORCH_REGION,
     llamaUrl: process.env.ORCH_LLAMA_URL || 'http://localhost:8080'
