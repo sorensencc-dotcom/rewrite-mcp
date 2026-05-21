@@ -4,7 +4,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { emitModelCall } from "./telemetryClient.js";
 
-const apiKey = process.env.ORCH_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+const apiKey = process.env.ORCH_GEMINI_API_KEY || process.env.HARV_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 export const rawGeminiClient = {

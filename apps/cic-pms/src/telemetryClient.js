@@ -2,8 +2,8 @@
 
 import { recordModelCall } from "./telemetryCache.js";
 
-const TELEMETRY_URL = process.env.ORCH_TELEMETRY_URL || process.env.PROMPT_TELEMETRY_URL || "http://localhost:4310";
-const REGION = process.env.ORCH_REGION || process.env.PROCESS_REGION || "us-east";
+const TELEMETRY_URL = process.env.ORCH_TELEMETRY_URL || process.env.HARV_TELEMETRY_URL || process.env.CP_TELEMETRY_URL || process.env.PROMPT_TELEMETRY_URL || "http://localhost:4310";
+const REGION = process.env.ORCH_REGION || process.env.HARV_REGION || process.env.CP_REGION || process.env.PROCESS_REGION || "us-east";
 
 async function post(path, body) {
   try {

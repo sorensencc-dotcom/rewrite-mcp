@@ -1,1 +1,1 @@
-CIC [2.8.1] - 2026-05-20: internal improvements.
+CIC [2.8.1] - 2026-05-20: Control Plane upgrades, infra/telemetry, new features.
