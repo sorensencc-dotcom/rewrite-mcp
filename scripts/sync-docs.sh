@@ -43,10 +43,11 @@ mkdir -p "$DOCS_DIR/architecture"
 cp "/mnt/c/dev/CIP/RewriteLabs/rewrite-mcp/design/control-plane/README.md" "$DOCS_DIR/architecture/control-plane-design.md" 2>/dev/null || echo "[DocSync] Warning: Control Plane design README not found."
 
 # 4. Sync Migration and Release Notes (Ensuring they are in docs root for mkdocs)
-echo "[DocSync] Syncing Migration and Release Notes..."
+echo "[DocSync] Syncing Migration, Release Notes, and Manuals..."
 mkdir -p "$DOCS_DIR/migrations"
 mkdir -p "$DOCS_DIR/releases"
 mkdir -p "$DOCS_DIR/readiness"
+mkdir -p "$DOCS_DIR/manuals"
 
 # 5. Build Verification (Optional but recommended)
 if [ "${1:-}" == "--build" ]; then

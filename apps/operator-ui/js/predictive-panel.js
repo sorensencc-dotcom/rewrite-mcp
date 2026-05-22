@@ -117,10 +117,13 @@ const PredictivePanel = (() => {
 
   function update(groups, stability) {
     if (!_container) return;
+    const f = MASPredictive.forecast(groups, stability);
+    _updateUI(f);
+  }
 
-    const forecast = MASPredictive.forecast(groups, stability);
-    
-    _updateUI(forecast);
+  function updateWithForecast(f) {
+    if (!_container || !f) return;
+    _updateUI(f);
   }
 
   function _updateUI(f) {

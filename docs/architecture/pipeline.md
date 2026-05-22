@@ -8,6 +8,15 @@ The Rewrite Labs pipeline is a multi-stage process that transforms raw data into
 
 Raw data is collected from sources and stored in context memory. The Harvester uses the Prompt Management System (PMS) to load versioned prompt packs (e.g., `analysis_v1`, `research_v1`) which ensure consistent, deterministic data extraction and classification across different file types and sources.
 
+**CLI Usage:**
+```bash
+# Standard Ingestion (Phase 18+)
+node src/pipeline/run-pipeline.js --user_id=cic --intent=research --text="..." --source=archive
+
+# Via npm (recommended)
+npm run ingest -- --user_id=cic --intent=research --text="..."
+```
+
 ### 2. Orchestration
 
 The Orchestrator manages the intelligence generation process:

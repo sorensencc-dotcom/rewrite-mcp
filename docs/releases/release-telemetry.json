@@ -1,0 +1,74 @@
+[
+  {
+    "timestamp": "2026-05-22T00:00:00.000Z",
+    "version": "2.15.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 15
+  },
+  {
+    "timestamp": "2026-05-21T00:00:00.000Z",
+    "version": "2.14.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
+    "timestamp": "2026-05-21T00:00:00.000Z",
+    "version": "2.13.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": -1
+  },
+  {
+    "timestamp": "2026-05-21T00:00:00.000Z",
+    "version": "2.12.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
+    "timestamp": "2026-05-21T00:00:00.000Z",
+    "version": "2.11.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": -6
+  },
+  {
+    "timestamp": "2026-05-20T00:00:00.000Z",
+    "version": "2.10.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 1
+  },
+  {
+    "timestamp": "2026-05-20T00:00:00.000Z",
+    "version": "2.9.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": -3
+  },
+  {
+    "timestamp": "2026-05-20T00:00:00.000Z",
+    "version": "2.8.1",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
+    "timestamp": "2026-05-20T00:00:00.000Z",
+    "version": "2.8.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  }
+]

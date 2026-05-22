@@ -37,11 +37,32 @@ const MASAnalytics = (() => {
     _renderHeatmap(heatmapData);
 
     const recoveryScore = _computeRecoveryScore(stability);
+    stability.recoveryScore = recoveryScore; // Attach for mitigation engine
     _updateRecoveryScoreUI(recoveryScore);
 
     // If Predictive Mode is loaded, update it
-    if (window.PredictivePanel) {
-      window.PredictivePanel.update(groups, stability);
+    let forecast = null;
+    if (window.MASPredictive) {
+      forecast = window.MASPredictive.forecast(groups, stability);
+    }
+
+    if (window.PredictivePanel && forecast) {
+      window.PredictivePanel.updateWithForecast(forecast);
+    }
+
+    // If Mitigation Mode is loaded, update it
+    if (window.MASMitigation && forecast) {
+      const directives = window.MASMitigation.update(stability, forecast);
+      
+      // Phase 30: Introspection Trace
+      if (window.MASIntrospection && directives.length > 0) {
+        window.MASIntrospection.trace(stability, forecast, window.MASMitigation.getState(), directives);
+      }
+      
+      // Phase 31: Efficacy Lab
+      if (window.EfficacyPanel && window.MASIntrospection) {
+        window.EfficacyPanel.update(window.MASIntrospection.getRecords());
+      }
     }
   }
 

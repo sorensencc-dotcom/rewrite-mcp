@@ -1,6 +1,7 @@
 {
   "name": "rewrite-mcp-monorepo",
-  "version": "2.11.0",
+  "version": "2.15.0",
+
   "private": true,
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node src/server/intelligence-server.js",
+    "ingest": "node src/pipeline/run-pipeline.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

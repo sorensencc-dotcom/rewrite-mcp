@@ -9,9 +9,11 @@ Welcome to the living documentation system for Rewrite Labs.
 - [The Pipeline](architecture/pipeline.md)
 - [Antigravity SLO Charter](ANTIGRAVITY_SLO.md)
 - [Prompt Telemetry](architecture/telemetry.md)
+- [Release Automation Manual](manuals/release-automation.md)
 
 ## Readiness & Roadmap
 - [Phase-26: Runtime Hardening](readiness/phase-26-mandate.md)
 - [Phase-27: Autonomous Recovery Plane](readiness/phase-27-mandate.md)
+- [Phase-28: MAS Predictive Mode](readiness/phase-28-mandate.md)
 - [Project State](state/rewrite-labs-state.md)
 - [Changelog](CHANGELOG.md)

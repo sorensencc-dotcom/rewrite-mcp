@@ -1,12 +1,14 @@
 // filename: mas.js
-// semver: 1.0.0
-// date: 2026-05-20
+// semver: 1.1.0
+// date: 2026-05-21
 // MAS Phase 1-2 Fusion — Unified MAS Subsystem
 
 import { mkdirSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
 import { analyzeSynergy, logSynergyDecision } from './synergyAnalyzer.js';
+import { updateMitigationState, getMitigationState } from './mitigation.js';
+import { getIntrospectionLog } from './introspection.js';
 import { emitMASDecision, emitMASSignal } from '../../../../../apps/cic-pms/src/telemetryClient.js';
 import {
   addFact,
@@ -68,6 +70,9 @@ export function processTelemetry(packet) {
     ts: new Date().toISOString()
   });
 
+  // Update Autonomous Mitigation state
+  updateMitigationState();
+
   return decision.directive;
 }
 
@@ -81,5 +86,7 @@ export {
   queryEntities,
   querySignals,
   queryHypotheses,
-  queryNotes
+  queryNotes,
+  getMitigationState,
+  getIntrospectionLog
 };

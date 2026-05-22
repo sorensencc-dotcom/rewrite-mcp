@@ -655,7 +655,7 @@
     }
 
     /* MAS Analytics & Heatmap */
-    #mas-stability-panel, #mas-heatmap-panel {
+    #mas-stability-panel, #mas-heatmap-panel, #mas-predictive-panel, #mas-mitigation-panel, #mas-introspection-panel, #mas-efficacy-panel {
       grid-column: 1 / 4;
       border-top: 1px solid var(--border);
       padding: 16px;
@@ -895,6 +895,18 @@
       <!-- Rendered via js/predictive-panel.js -->
     </section>
 
+    <section id="mas-mitigation-panel">
+      <!-- Rendered via js/mitigation-panel.js -->
+    </section>
+
+    <section id="mas-introspection-panel">
+      <!-- Rendered via js/introspection-panel.js -->
+    </section>
+
+    <section id="mas-efficacy-panel">
+      <!-- Rendered via js/efficacy-panel.js -->
+    </section>
+
     <section id="mas-heatmap-panel">
       <div class="mas-header">
         <h2>MAS Drift Heatmap</h2>
@@ -903,6 +915,10 @@
       <div id="mas-heatmap-container" class="heatmap-container">
         <!-- Rendered via JS -->
       </div>
+    </section>
+
+    <section id="panel-release-automation-container">
+      <!-- Rendered via js/release-automation-panel.js -->
     </section>
 
     <section id="release-notes-panel" class="panel">
@@ -953,13 +969,20 @@
 
   <script src="/js/control-plane-api.js"></script>
   <script src="/js/release-notes-panel.js"></script>
+  <script src="/js/release-automation-panel.js"></script>
   <script src="/js/release-bundle-panel.js"></script>
   <script src="/js/release-diff-panel.js"></script>
   <script src="/js/slo-panel.js"></script>
   <script src="/js/release-timeline-panel.js"></script>
   <script src="/js/mas-analytics.js"></script>
   <script src="/js/mas-predictive.js"></script>
+  <script src="/js/mas-mitigation.js"></script>
+  <script src="/js/mas-introspection.js"></script>
+  <script src="/js/mas-efficacy.js"></script>
   <script src="/js/predictive-panel.js"></script>
+  <script src="/js/mitigation-panel.js"></script>
+  <script src="/js/introspection-panel.js"></script>
+  <script src="/js/efficacy-panel.js"></script>
   <script>
     (function() {
       window.__CIC_POLLING_ACTIVE__ = true;
@@ -1492,12 +1515,18 @@
       async function startDashboard() {
         renderAgents('PENDING');
         ReleaseNotesPanel.init('release-notes-panel');
+        ReleaseAutomationPanel.init('panel-release-automation-container');
         ReleaseBundlePanel.init('release-bundle-panel');
         ReleaseDiffPanel.init('release-diff-panel');
         ReleaseTimelinePanel.init('release-timeline-panel');
         SloPanel.init('slo-panel');
         if (window.MASAnalytics) MASAnalytics.init();
         if (window.PredictivePanel) PredictivePanel.init('mas-predictive-panel');
+        if (window.MASMitigation) MASMitigation.init();
+        if (window.MitigationPanel) MitigationPanel.init('mas-mitigation-panel');
+        if (window.MASIntrospection) MASIntrospection.init();
+        if (window.IntrospectionPanel) IntrospectionPanel.init('mas-introspection-panel');
+        if (window.EfficacyPanel) EfficacyPanel.init('mas-efficacy-panel');
         loadRegions().then(() => {
           pollAgents();
           tickTimeline();

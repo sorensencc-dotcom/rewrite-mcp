@@ -1,6 +1,6 @@
 {
-  "version": "BOB_MONOREPO_v2",
-  "phase": 26,
+  "version": "BOB_MONOREPO_v2.13.0",
+  "phase": 28,
   "last_updated": "2026-05-21",
   "components": {
     "apps": {
@@ -14,6 +14,7 @@
           "apps/cic-pms/src/drift/detectDrift.js",
           "apps/cic-pms/src/logger.js",
           "apps/cic-pms/src/telemetryClient.js",
+          "apps/cic-pms/src/modelFallback.js",
           "apps/cic-pms/packs/orchestrator_planning_v1.json",
           "apps/cic-pms/packs/orchestrator_agent_v1.json",
           "apps/cic-pms/packs/orchestrator_synthesis_v1.json"

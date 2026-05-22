@@ -17,7 +17,10 @@ import {
   emitMASRerunBackoff, 
   emitMASRerunFinalState 
 } from "../../../../apps/cic-pms/src/telemetryClient.js";
-import { processTelemetry as masProcessTelemetry } from "./mas/mas.js";
+import { 
+  processTelemetry as masProcessTelemetry,
+  getMitigationState as masGetMitigationState
+} from "./mas/mas.js";
 
 const MAS_AGENT_MAP = {
   extractor:   "INGEST",
@@ -34,15 +37,27 @@ async function runAgentWithMAS(step, context) {
   let errors = 0;
   let output;
   let retryCount = 0;
-  const maxRetries = config.masMaxRetries;
+  
+  const mitigation = masGetMitigationState();
+  const maxRetries = config.masMaxRetries + (mitigation.policyOverrides.maxRetriesDelta || 0);
+  const backoffMultiplier = mitigation.policyOverrides.backoffMultiplier || 1.0;
+  
   const agent = step.agent;
   const correlationId = context.correlationId;
 
   const execute = async () => {
+    // Check for agent-specific model fallback
+    const masAgent = MAS_AGENT_MAP[agent] ?? "ORCHESTRATE";
+    const agentOverride = mitigation.agentOverrides[masAgent] || {};
+    
     return await executeAgent({
       agent: step.agent,
       task: step.task || "process",
-      inputs: { ...step.inputs, jobText: context.jobText },
+      inputs: { 
+        ...step.inputs, 
+        jobText: context.jobText,
+        _masOverride: agentOverride // Pass down to executor if it supports it
+      },
       correlationId
     });
   };
@@ -70,7 +85,8 @@ async function runAgentWithMAS(step, context) {
     // Handle rerunAgent with retries and adaptive backoff
     while (currentDirective.action === "rerunAgent" && retryCount < maxRetries) {
       retryCount++;
-      const backoff = config.masBackoffMs * Math.pow(2, retryCount - 1);
+      const baseBackoff = config.masBackoffMs * backoffMultiplier;
+      const backoff = baseBackoff * Math.pow(2, retryCount - 1);
       
       await emitMASRerunAttempt({
         correlationId,

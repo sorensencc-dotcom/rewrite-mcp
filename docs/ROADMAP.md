@@ -2,12 +2,13 @@
 
 > Maintained by: all AI models working in this workspace.  
 > Policy: [`docs/DOC_POLICY.md`](DOC_POLICY.md) · Skill: [`skills/doc-update.md`](skills/doc-update.md)  
-> Last updated: 2026-05-21
+> Last updated: 2026-05-22
 
 ---
 
 ## Completed
 
+- [v2.15.0] MAS Predictive Mode — Forward-looking cognitive model (TTI, Agent Drift, Recovery Forecasts) + One-Click Desktop Launcher + PMS Subsystem Installation — 2026-05-22
 - [v2.13.0] MAS-Aware Rerun Telemetry — three new event types (`mas_rerun_attempt`, `mas_rerun_backoff`, `mas_rerun_final_state`), ingest routes, timeline/trace inclusion, and Intelligence Timeline + Waterfall dashboard panels — 2026-05-21
 - [v2.12.0] MAS Rerun Hardening + LLM Debug Plane + JSON Robustness — 2026-05-21
 - [v2.8.0] Phase 27G: MAS-Aware Waterfall — MAS decisions + signals in telemetry stream, timeline, and per-run waterfall traces — 2026-05-20
@@ -31,6 +32,8 @@
 ---
 
 ## Active
+
+- **MAS Mitigation & Introspection (Phases 29-31)**: Actively steering away from drift and explaining cognitive interventions.
 
 ---
 

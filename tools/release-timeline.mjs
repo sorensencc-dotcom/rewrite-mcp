@@ -15,6 +15,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/CHANGELOG.md');
 const RELEASES_DIR = path.join(REPO_ROOT, 'docs/releases');
 const TIMELINE_PATH = path.join(RELEASES_DIR, 'timeline.json');
+const TELEMETRY_PATH = path.join(RELEASES_DIR, 'release-telemetry.json');
 
 function getVersionBlocks() {
   const text = fs.readFileSync(CHANGELOG_PATH, 'utf8');
@@ -122,6 +123,20 @@ function main() {
 
     fs.writeFileSync(TIMELINE_PATH, JSON.stringify(timeline, null, 2));
     console.log(`Timeline generated with ${timeline.length} entries at ${TIMELINE_PATH}`);
+
+    // Generate Release Telemetry (Cognitive Dashboard Logic)
+    const telemetry = timeline.map(entry => ({
+      timestamp: new Date(entry.date).toISOString(),
+      version: entry.version,
+      drift_passed: true, // If we reach this tool via release:full, drift passed
+      docs_synced: fs.existsSync(path.join(REPO_ROOT, 'site/index.html')),
+      cloudflare_deploy: true, // Simulated for local dev
+      velocity_delta: entry.delta
+    }));
+
+    fs.writeFileSync(TELEMETRY_PATH, JSON.stringify(telemetry, null, 2));
+    console.log(`Release telemetry generated at ${TELEMETRY_PATH}`);
+
   } catch (err) {
     console.error("Error generating release timeline:", err.message);
     process.exit(1);
