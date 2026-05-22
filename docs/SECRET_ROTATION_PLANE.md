@@ -39,6 +39,27 @@ This document defines the policies and procedures for rotating secrets across th
 
 The `tools/rotation/rotate.js` script is the canonical tool for performing these operations. It interacts directly with Infisical to manage the `_ACTIVE` and `_NEXT` slots.
 
+## 5. Rotation Health Check
+
+The `tools/rotation/health-check.js` script enforces the following rotation invariants:
+
+- **Presence**: `_ACTIVE` and `_ROTATED_AT` keys must exist.
+- **Age**: `_ROTATED_AT` must be younger than the provider's max age (90 days).
+- **NEXT Sanity**: Staged `_NEXT` keys must be cut over within 7 days.
+- **Legacy Protection**: No legacy singleton keys (e.g. `GEMINI_API_KEY`) allowed in prod envs.
+
+### Usage
+```bash
+node tools/rotation/health-check.js
+```
+
+### Enforcement
+This check runs:
+- **Nightly**: In the CI pipeline to detect stale keys.
+- **Pre-release**: As a mandatory check before any production deployment.
+
+Failure to pass the health check blocks all production releases.
+
 ---
 
 *Authored by: Antigravity CLI*  

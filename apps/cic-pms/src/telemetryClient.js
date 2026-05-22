@@ -54,3 +54,15 @@ export async function emitMASDecision(event) {
 export async function emitMASSignal(event) {
   return post("/ingest/mas_signal", event);
 }
+
+export async function emitMASRerunAttempt(event) {
+  return post("/ingest/mas_rerun_attempt", event);
+}
+
+export async function emitMASRerunBackoff(event) {
+  return post("/ingest/mas_rerun_backoff", event);
+}
+
+export async function emitMASRerunFinalState(event) {
+  return post("/ingest/mas_rerun_final_state", event);
+}

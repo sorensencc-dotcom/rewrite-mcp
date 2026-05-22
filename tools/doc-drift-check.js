@@ -17,8 +17,9 @@ const path = require('path');
 // Configuration
 const REPO_ROOT = path.resolve(__dirname, '..');
 const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/CHANGELOG.md');
-const PKG_PATH = path.join(REPO_ROOT, 'package.json');
+const PKG_PATH        = path.join(REPO_ROOT, 'package.json');
 const DOC_POLICY_PATH = path.join(REPO_ROOT, 'docs/DOC_POLICY.md');
+const DOC_STATE_PATH  = path.join(REPO_ROOT, 'docs/DOC_STATE.json');
 
 function getChangedFiles() {
   // Priority 1: Command line arguments
@@ -58,6 +59,47 @@ function changelogMentions(term) {
   ];
 
   return variants.some(v => latestEntry.includes(v));
+}
+
+function updateDocState(version) {
+  try {
+    const changelogText = fs.readFileSync(CHANGELOG_PATH, 'utf8');
+    const headLineMatch = changelogText.match(/^## \[[\d.]+\] - \d{4}-\d{2}-\d{2}/m);
+    const headLine = headLineMatch ? headLineMatch[0] : `## [${version}]`;
+    const entryCount = (changelogText.match(/^## \[/gm) || []).length;
+
+    const existing = fs.existsSync(DOC_STATE_PATH)
+      ? JSON.parse(fs.readFileSync(DOC_STATE_PATH, 'utf8'))
+      : {};
+
+    const roadmapText = fs.existsSync(path.join(REPO_ROOT, 'docs/ROADMAP.md'))
+      ? fs.readFileSync(path.join(REPO_ROOT, 'docs/ROADMAP.md'), 'utf8')
+      : '';
+    const completedHeadMatch = roadmapText.match(/- \[v[\d.]+\] .+/);
+    const completedHead = completedHeadMatch
+      ? completedHeadMatch[0].replace(/^- /, '')
+      : (existing.roadmap?.completedHead ?? '');
+    const activeCount = (roadmapText.match(/^- .+ — started /gm) || []).length;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const state = {
+      _note: 'Machine-maintained. Updated by skills/doc-update and tools/doc-drift-check.js. Do not hand-edit.',
+      version,
+      date: today,
+      changelog: { headLine, entryCount },
+      roadmap: {
+        lastUpdated: today,
+        completedHead,
+        activeCount
+      },
+      archDocs: existing.archDocs ?? {}
+    };
+
+    fs.writeFileSync(DOC_STATE_PATH, JSON.stringify(state, null, 2) + '\n');
+    console.log(`[DOC STATE] Updated docs/DOC_STATE.json → v${version}`);
+  } catch (e) {
+    console.warn(`[DOC STATE] Could not update DOC_STATE.json: ${e.message}`);
+  }
 }
 
 function runDocDriftCheck() {
@@ -112,6 +154,7 @@ function runDocDriftCheck() {
     process.exit(1);
   } else {
     console.log("\x1b[32m[DOC DRIFT CHECK: OK]\x1b[0m");
+    updateDocState(version);
   }
 }
 

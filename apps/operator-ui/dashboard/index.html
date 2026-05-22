@@ -559,6 +559,197 @@
     #diff-links a {
       margin-left: 8px;
     }
+
+    /* Release Timeline Panel */
+    #release-timeline-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      max-height: 400px;
+    }
+
+    .timeline-entry {
+      border-left: 2px solid var(--border);
+      padding-left: 12px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .timeline-entry::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-version {
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .timeline-delta {
+      font-weight: bold;
+      font-size: 11px;
+      font-family: monospace;
+      margin: 4px 0;
+    }
+
+    .timeline-counts {
+      font-size: 11px;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .timeline-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* MAS Rerun Collapse UX */
+    .timeline-event {
+      margin-bottom: 2px;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .rerun-collapsed {
+      background: rgba(88, 166, 255, 0.05);
+      border: 1px solid rgba(88, 166, 255, 0.2);
+      cursor: pointer;
+      user-select: none;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .rerun-collapsed:hover {
+      background: rgba(88, 166, 255, 0.1);
+      border-color: rgba(88, 166, 255, 0.4);
+    }
+
+    .rerun-collapsed.success { border-left: 3px solid var(--online); }
+    .rerun-collapsed.failed { border-left: 3px solid var(--down); }
+
+    .rerun-details {
+      display: none;
+      margin-top: 4px;
+      padding-left: 12px;
+      border-left: 1px dashed var(--border);
+      opacity: 0.8;
+    }
+
+    .rerun-collapsed.expanded .rerun-details {
+      display: block;
+    }
+
+    /* MAS Analytics & Heatmap */
+    #mas-stability-panel, #mas-heatmap-panel {
+      grid-column: 1 / 4;
+      border-top: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .mas-analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .mas-analytics-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .mas-analytics-value {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .mas-analytics-label {
+      font-size: 10px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .recovery-score-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 16px;
+      padding-left: 16px;
+      border-left: 1px solid var(--border);
+    }
+
+    #recovery-score-value {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .score-excellent { color: var(--online); }
+    .score-stable    { color: var(--accent); }
+    .score-degrading { color: var(--degraded); }
+    .score-critical  { color: var(--down); }
+
+    /* Heatmap */
+    .heatmap-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .heatmap-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .heatmap-label {
+      width: 100px;
+      font-size: 10px;
+      font-family: monospace;
+      color: #8b949e;
+      flex-shrink: 0;
+    }
+
+    .heatmap-cells {
+      display: flex;
+      gap: 2px;
+    }
+
+    .heatmap-cell {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      background: #161b22;
+      transition: background 0.3s ease;
+    }
+
+    .severity-0 { background: #21262d; } /* Empty/Stable */
+    .severity-1 { background: #0e4429; } /* Minor rerun */
+    .severity-2 { background: #006d32; } /* Moderate rerun */
+    .severity-3 { background: #26a641; } /* Heavy rerun */
+    .severity-4 { background: #39d353; } /* Critical rerun */
+    .severity-fail { background: var(--down); }
   </style>
 </head>
 <body>
@@ -580,6 +771,10 @@
       <select id="region-select" class="btn-small"></select>
       <button class="btn-small btn-export" onclick="exportLogs()">EXPORT LOGS</button>
       <div id="status-bar" style="font-size: 12px; color: #8b949e;">POLLING ACTIVE</div>
+      <div class="recovery-score-wrap">
+        <span class="mas-analytics-label">Recovery Score</span>
+        <span id="recovery-score-value">—</span>
+      </div>
     </div>
   </header>
 
@@ -668,6 +863,48 @@
       </div>
     </section>
 
+    <section id="mas-stability-panel">
+      <div class="mas-header">
+        <h2>MAS Stability Metrics</h2>
+        <div class="mas-stat"><span class="mas-stat-label" style="font-size:10px;">Operator-Grade Analytics</span></div>
+      </div>
+      <div class="mas-analytics-grid">
+        <div class="mas-analytics-card">
+          <div class="mas-analytics-value" id="metric-rerun-freq">—</div>
+          <div class="mas-analytics-label">Reruns / 100 Runs</div>
+        </div>
+        <div class="mas-analytics-card">
+          <div class="mas-analytics-value" id="metric-avg-attempts">—</div>
+          <div class="mas-analytics-label">Avg Attempts</div>
+        </div>
+        <div class="mas-analytics-card">
+          <div class="mas-analytics-value" id="metric-avg-backoff">—</div>
+          <div class="mas-analytics-label">Avg Backoff (ms)</div>
+        </div>
+        <div class="mas-analytics-card">
+          <div class="mas-analytics-value" id="metric-success-rate">—</div>
+          <div class="mas-analytics-label">Success Rate</div>
+        </div>
+      </div>
+      <div id="mas-agent-stability-table" style="font-family:monospace; font-size:11px;">
+        <!-- Agent-specific stability data -->
+      </div>
+    </section>
+
+    <section id="mas-predictive-panel">
+      <!-- Rendered via js/predictive-panel.js -->
+    </section>
+
+    <section id="mas-heatmap-panel">
+      <div class="mas-header">
+        <h2>MAS Drift Heatmap</h2>
+        <div class="mas-stat"><span class="mas-stat-label" style="font-size:10px;">Severity Radar (Last 60 runs)</span></div>
+      </div>
+      <div id="mas-heatmap-container" class="heatmap-container">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
     <section id="release-notes-panel" class="panel">
       <!-- Rendered via js/release-notes-panel.js -->
     </section>
@@ -682,6 +919,10 @@
 
     <section id="slo-panel" class="panel">
       <!-- Rendered via js/slo-panel.js -->
+    </section>
+
+    <section id="release-timeline-panel" class="panel">
+      <!-- Rendered via js/release-timeline-panel.js -->
     </section>
 
     <section class="panel" id="timeline-panel">
@@ -706,7 +947,7 @@
           </select>
         </div>
       </div>
-      <pre id="timeline-body">Initializing timeline...</pre>
+      <div id="timeline-body" style="font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; line-height: 1.4; white-space: pre-wrap; word-break: break-all;">Initializing timeline...</div>
     </section>
   </main>
 
@@ -715,6 +956,10 @@
   <script src="/js/release-bundle-panel.js"></script>
   <script src="/js/release-diff-panel.js"></script>
   <script src="/js/slo-panel.js"></script>
+  <script src="/js/release-timeline-panel.js"></script>
+  <script src="/js/mas-analytics.js"></script>
+  <script src="/js/mas-predictive.js"></script>
+  <script src="/js/predictive-panel.js"></script>
   <script>
     (function() {
       window.__CIC_POLLING_ACTIVE__ = true;
@@ -907,11 +1152,87 @@
         }
       }
 
+      function renderSingleEvent(ev) {
+        const ts = ev.ts?.split("T")[1]?.replace("Z", "") || ev.ts;
+        const region = ev.region || "global";
+        const type = ev.type.toUpperCase();
+        const cid = ev.correlationId ? `[${ev.correlationId.slice(-8)}]` : "[--------]";
+        let detail = "";
+
+        switch (ev.type) {
+          case "model_call":
+            detail = `${ev.meta.model} ${ev.meta.success ? "OK" : "FAIL"} ${ev.meta.latencyMs}ms pack=${ev.pack || "-"}`;
+            break;
+          case "drift":
+            detail = `DRIFT pack=${ev.pack}@${ev.version} expected=${ev.meta.expectedHash?.slice(0, 6)} actual=${ev.meta.actualHash?.slice(0, 6)}`;
+            break;
+          case "pipeline":
+            detail = `job=${ev.jobId} pipeline=${(ev.meta.pipeline || []).join("→")}`;
+            break;
+          case "override":
+            detail = `agent=${ev.agent} action=${ev.action}`;
+            break;
+          case "prp":
+            detail = `PRP ${ev.action} ${ev.pack}@${ev.version}`;
+            break;
+          case "mas_decision":
+            detail = `MAS ${ev.directive ?? "none"} agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)} reason=${ev.reason ?? "-"}`;
+            break;
+          case "mas_signal":
+            detail = `MAS signal agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)}`;
+            break;
+          case "mas_rerun_attempt":
+            detail = `RERUN ATTEMPT agent=${ev.agent} attempt=${ev.meta?.attempt ?? "?"}`;
+            break;
+          case "mas_rerun_backoff":
+            detail = `RERUN BACKOFF agent=${ev.agent} ms=${ev.meta?.backoffMs ?? "?"}`;
+            break;
+          case "mas_rerun_final_state":
+            detail = `RERUN FINAL agent=${ev.agent} state=${ev.meta?.state ?? "?"}`;
+            break;
+          default:
+            detail = JSON.stringify(ev.meta || {});
+        }
+
+        return `[${ts}] [${region}] ${cid} [${type}] ${detail}`;
+      }
+
+      function renderRerunGroup(events) {
+        const first = events[0];
+        const last = events[events.length - 1];
+        const ts = first.ts?.split("T")[1]?.replace("Z", "") || first.ts;
+        const region = first.region || "global";
+        const cid = first.correlationId ? `[${first.correlationId.slice(-8)}]` : "[--------]";
+        const agent = first.agent;
+        
+        const attempts = events.filter(e => e.type === "mas_rerun_attempt").length;
+        const totalBackoff = events.reduce((sum, e) => sum + (e.meta?.backoffMs || 0), 0);
+        const finalState = events.find(e => e.type === "mas_rerun_final_state")?.meta?.state || "incomplete";
+        const duration = new Date(last.ts).getTime() - new Date(first.ts).getTime();
+        
+        const statusClass = finalState === "success" ? "success" : (finalState === "failed" ? "failed" : "");
+        const statusIcon = finalState === "success" ? "✓" : (finalState === "failed" ? "✕" : "⏳");
+
+        return `
+          <div class="timeline-event rerun-collapsed ${statusClass}" onclick="this.classList.toggle('expanded')">
+            [${ts}] [${region}] ${cid} ⏳ Rerun · ${agent} · ${attempts} attempts · ${totalBackoff}ms backoff · ${statusIcon} ${finalState} (${duration}ms)
+            <div class="rerun-details">
+              ${events.map(ev => `<div>• ${renderSingleEvent(ev)}</div>`).join("")}
+            </div>
+          </div>
+        `;
+      }
+
       function renderTimeline(data) {
         lastTimelineData = data;
         if (!data || data.error) {
-          timelineBody.textContent = data && data.error ? `error: ${data.error}` : "No data.";
+          timelineBody.innerHTML = data && data.error ? `error: ${data.error}` : "No data.";
           return;
+        }
+
+        // Update MAS Analytics layer
+        if (window.MASAnalytics) {
+          window.MASAnalytics.update(data);
         }
 
         const typeFilter = timelineTypeFilter.value;
@@ -919,9 +1240,9 @@
         const searchQuery = timelineSearch.value.toLowerCase();
 
         const filteredData = data.filter(ev => {
-          if (typeFilter !== 'all' && ev.type !== typeFilter) return false;
-          const evRegion = ev.region || 'global';
-          if (regionFilter !== 'all' && evRegion !== regionFilter) return false;
+          if (typeFilter !== "all" && ev.type !== typeFilter) return false;
+          const evRegion = ev.region || "global";
+          if (regionFilter !== "all" && evRegion !== regionFilter) return false;
           
           if (searchQuery) {
             const evStr = JSON.stringify(ev).toLowerCase();
@@ -930,43 +1251,59 @@
           return true;
         });
 
-        const lines = filteredData.slice(0, 50).map(ev => {
-          const ts = ev.ts?.split("T")[1]?.replace("Z", "") || ev.ts;
-          const region = ev.region || "global";
-          const type = ev.type.toUpperCase();
-          const cid = ev.correlationId ? `[${ev.correlationId.slice(-8)}]` : "[--------]";
-          let detail = "";
-
-          switch (ev.type) {
-            case "model_call":
-              detail = `${ev.meta.model} ${ev.meta.success ? "OK" : "FAIL"} ${ev.meta.latencyMs}ms pack=${ev.pack || "-"}`;
-              break;
-            case "drift":
-              detail = `DRIFT pack=${ev.pack}@${ev.version} expected=${ev.meta.expectedHash?.slice(0, 6)} actual=${ev.meta.actualHash?.slice(0, 6)}`;
-              break;
-            case "pipeline":
-              detail = `job=${ev.jobId} pipeline=${(ev.meta.pipeline || []).join("→")}`;
-              break;
-            case "override":
-              detail = `agent=${ev.agent} action=${ev.action}`;
-              break;
-            case "prp":
-              detail = `PRP ${ev.action} ${ev.pack}@${ev.version}`;
-              break;
-            case "mas_decision":
-              detail = `MAS ${ev.directive ?? "none"} agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)} reason=${ev.reason ?? "-"}`;
-              break;
-            case "mas_signal":
-              detail = `MAS signal agent=${ev.agent} drift=${(ev.drift ?? 0).toFixed(2)} conf=${(ev.confidence ?? 0).toFixed(2)}`;
-              break;
-            default:
-              detail = JSON.stringify(ev.meta || {});
+        // Grouping logic for MAS Rerun Collapse UX
+        const items = [];
+        let i = 0;
+        while (i < filteredData.length) {
+          const ev = filteredData[i];
+          
+          if (ev.type === "mas_rerun_attempt") {
+            const group = [ev];
+            const correlationId = ev.correlationId;
+            const agent = ev.agent;
+            let j = i + 1;
+            let finished = false;
+            
+            while (j < filteredData.length) {
+              const next = filteredData[j];
+              // Contiguity check: same run + same agent + no interleaving events
+              if (next.correlationId === correlationId && next.agent === agent) {
+                if (next.type === "mas_rerun_attempt" || next.type === "mas_rerun_backoff") {
+                  group.push(next);
+                  j++;
+                } else if (next.type === "mas_rerun_final_state") {
+                  group.push(next);
+                  j++;
+                  finished = true;
+                  break;
+                } else {
+                  break; // Other event type for same identity
+                }
+              } else {
+                break; // Gap or Interleaving event from different identity
+              }
+            }
+            
+            if (finished || group.length > 1) {
+              items.push({ type: "rerun_group", events: group });
+              i = j;
+              continue;
+            }
           }
+          
+          items.push({ type: "single", event: ev });
+          i++;
+        }
 
-          return `[${ts}] [${region}] ${cid} [${type}] ${detail}`;
-        });
+        const html = items.slice(0, 50).map(item => {
+          if (item.type === "single") {
+            return `<div class="timeline-event">${renderSingleEvent(item.event)}</div>`;
+          } else {
+            return renderRerunGroup(item.events);
+          }
+        }).join("");
 
-        timelineBody.textContent = lines.join("\n") || "No events match the current filters.";
+        timelineBody.innerHTML = html || "No events match the current filters.";
       }
 
       async function tickTimeline() {
@@ -1157,7 +1494,10 @@
         ReleaseNotesPanel.init('release-notes-panel');
         ReleaseBundlePanel.init('release-bundle-panel');
         ReleaseDiffPanel.init('release-diff-panel');
+        ReleaseTimelinePanel.init('release-timeline-panel');
         SloPanel.init('slo-panel');
+        if (window.MASAnalytics) MASAnalytics.init();
+        if (window.PredictivePanel) PredictivePanel.init('mas-predictive-panel');
         loadRegions().then(() => {
           pollAgents();
           tickTimeline();

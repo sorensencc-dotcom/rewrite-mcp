@@ -2,12 +2,14 @@
 
 > Maintained by: all AI models working in this workspace.  
 > Policy: [`docs/DOC_POLICY.md`](DOC_POLICY.md) · Skill: [`skills/doc-update.md`](skills/doc-update.md)  
-> Last updated: 2026-05-20
+> Last updated: 2026-05-21
 
 ---
 
 ## Completed
 
+- [v2.13.0] MAS-Aware Rerun Telemetry — three new event types (`mas_rerun_attempt`, `mas_rerun_backoff`, `mas_rerun_final_state`), ingest routes, timeline/trace inclusion, and Intelligence Timeline + Waterfall dashboard panels — 2026-05-21
+- [v2.12.0] MAS Rerun Hardening + LLM Debug Plane + JSON Robustness — 2026-05-21
 - [v2.8.0] Phase 27G: MAS-Aware Waterfall — MAS decisions + signals in telemetry stream, timeline, and per-run waterfall traces — 2026-05-20
 - [v2.7.1] Doc Drift Detection: Automated guardrail (`tools/doc-drift-check.js`) and policy enforcement — 2026-05-20
 - [v2.7.0] Phase 27I: Autonomous Recovery Plane (C3/C4) + MAS Rerun Logic + Archival Agent — 2026-05-21
@@ -43,9 +45,6 @@
 > Ideas raised during sessions but not yet agreed upon. Nothing is silently dropped.  
 > Format: `YYYY-MM-DD — [idea] — raised during [context]`
 
-- 2026-05-21 — Configurable retry count and adaptive backoff for `rerunAgent` directive — raised during Phase 27I implementation
-- 2026-05-21 — Configurable debug log level for LLM clients to capture raw model output without code changes — raised during Gemini model mapping fix
-- 2026-05-21 — Improved JSON parsing robustness for safe-mode recovery (handle non-JSON model output more gracefully) — raised during golden-path test validation
 - 2026-05-20 — Per-agent drift breakdown in the Drift Trace Panel (separate drift/conf chart per agent lane) — raised during Phase 27F implementation
 - 2026-05-20 — MAS confidence threshold tuning UI — allow operator to adjust the 0.35/0.45 thresholds from the dashboard without code changes — raised during Synergy Analyzer review
 - 2026-05-20 — Blackboard TTL/pruning policy — old signals accumulate forever; consider a configurable retention window (e.g., last 7 days) — raised during Phase 27A persistence design

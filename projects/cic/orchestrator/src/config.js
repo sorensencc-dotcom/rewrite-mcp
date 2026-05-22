@@ -32,7 +32,9 @@ export function validateConfig() {
     anthropicApiKey: process.env.ORCH_ANTHROPIC_API_KEY_ACTIVE,
     telemetryUrl: process.env.ORCH_TELEMETRY_URL,
     region: process.env.ORCH_REGION,
-    llamaUrl: process.env.ORCH_LLAMA_URL || 'http://localhost:8080'
+    llamaUrl: process.env.ORCH_LLAMA_URL || 'http://localhost:8080',
+    masMaxRetries: parseInt(process.env.ORCH_MAS_MAX_RETRIES || '2', 10),
+    masBackoffMs: parseInt(process.env.ORCH_MAS_BACKOFF_MS || '500', 10)
   };
 }
 

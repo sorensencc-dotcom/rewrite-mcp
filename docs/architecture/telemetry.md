@@ -60,6 +60,24 @@ As part of the Runtime Hardening phase, telemetry now supports:
 ### Pipeline Events
 Captured during high-level orchestration jobs, tracking the sequence of agents and prompt packs used to fulfill a user request.
 
+### MAS Rerun Telemetry
+
+Three events emitted by the `runAgentWithMAS` loop in `orchestrator.js` whenever the MAS Synergy Analyzer issues a `rerunAgent` directive:
+
+| Event | Emitted | Key fields |
+| --- | --- | --- |
+| `mas_rerun_attempt` | Before each rerun execution | `agent`, `attempt`, `maxAttempts`, `backoffMs`, `reason` |
+| `mas_rerun_backoff` | Immediately before the backoff sleep | `agent`, `attempt`, `backoffMs` |
+| `mas_rerun_final_state` | After the rerun loop exits | `agent`, `finalState` (`success`\|`failed`), `attempts`, `maxAttempts` |
+
+All three events carry `correlationId` for cross-event linking and are ingested via:
+
+- `POST /ingest/mas_rerun_attempt`
+- `POST /ingest/mas_rerun_backoff`
+- `POST /ingest/mas_rerun_final_state`
+
+They are included in both `GET /telemetry/timeline` and `GET /telemetry/trace/:correlationId`, and rendered by the **MAS Intelligence Timeline** and **MAS Rerun Waterfall** panels in the dashboard.
+
 ### MAS Blackboard Signals
 
 Emitted by the MAS Fusion Layer (`src/mas/mas.js`) after every agent execution step. Each signal entry contains:

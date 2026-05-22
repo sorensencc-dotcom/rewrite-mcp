@@ -23,23 +23,52 @@ export function normalizeModelOutput(raw) {
 
   // 2. If it's a string, try to parse it
   if (typeof raw === 'string') {
+    let cleanRaw = raw.trim();
+
+    // Strategy 1: Direct parse
     try {
-      const parsed = JSON.parse(raw);
-      // If parsed successfully, ensure it's not null/primitive
+      const parsed = JSON.parse(cleanRaw);
       if (parsed && typeof parsed === 'object') {
-        return {
-          ...parsed,
-          safe_mode: false
-        };
+        return { ...parsed, safe_mode: false };
       }
     } catch (err) {
-      return {
-        safe_mode: true,
-        reason: "json_parse_failure",
-        error: err.message,
-        output: { raw }
-      };
+      // Direct parse failed, try cleaning
     }
+
+    // Strategy 2: Extract from markdown code blocks
+    const codeBlockMatch = cleanRaw.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (codeBlockMatch) {
+      try {
+        const parsed = JSON.parse(codeBlockMatch[1]);
+        if (parsed && typeof parsed === 'object') {
+          return { ...parsed, safe_mode: false };
+        }
+      } catch (err) {
+        // Code block parse failed
+      }
+    }
+
+    // Strategy 3: Find the first { and last }
+    const firstBrace = cleanRaw.indexOf('{');
+    const lastBrace = cleanRaw.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        const candidate = cleanRaw.substring(firstBrace, lastBrace + 1);
+        const parsed = JSON.parse(candidate);
+        if (parsed && typeof parsed === 'object') {
+          return { ...parsed, safe_mode: false };
+        }
+      } catch (err) {
+        // Boundary parse failed
+      }
+    }
+
+    // If all strategies fail, return safe_mode
+    return {
+      safe_mode: true,
+      reason: "json_parse_failure",
+      output: { raw }
+    };
   }
 
   // 3. If it's an object from a successful run (but missing safe_mode flag)

@@ -11,7 +11,12 @@ import { generatePlan } from "./agentPlanner.js";
 import { executeAgent } from "./agentExecutor.js";
 import { synthesize } from "./synthesizer.js";
 import { config } from "./config.js";
-import { emitPipeline } from "../../../../apps/cic-pms/src/telemetryClient.js";
+import { 
+  emitPipeline, 
+  emitMASRerunAttempt, 
+  emitMASRerunBackoff, 
+  emitMASRerunFinalState 
+} from "../../../../apps/cic-pms/src/telemetryClient.js";
 import { processTelemetry as masProcessTelemetry } from "./mas/mas.js";
 
 const MAS_AGENT_MAP = {
@@ -22,17 +27,23 @@ const MAS_AGENT_MAP = {
   audit:       "AUDIT"
 };
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function runAgentWithMAS(step, context) {
   const start = performance.now();
   let errors = 0;
   let output;
+  let retryCount = 0;
+  const maxRetries = config.masMaxRetries;
+  const agent = step.agent;
+  const correlationId = context.correlationId;
 
   const execute = async () => {
     return await executeAgent({
       agent: step.agent,
       task: step.task || "process",
       inputs: { ...step.inputs, jobText: context.jobText },
-      correlationId: context.correlationId
+      correlationId
     });
   };
 
@@ -42,8 +53,11 @@ async function runAgentWithMAS(step, context) {
     errors = 1;
     throw err;
   } finally {
-    const masAgent = MAS_AGENT_MAP[step.agent] ?? "ORCHESTRATE";
-    const directive = masProcessTelemetry({
+    let currentDirective;
+    
+    // Initial MAS processing
+    const masAgent = MAS_AGENT_MAP[agent] ?? "ORCHESTRATE";
+    currentDirective = masProcessTelemetry({
       agent:      masAgent,
       latencyMs:  performance.now() - start,
       confidence: output?.confidence ?? (output?._meta?.confidence ?? 1.0),
@@ -53,13 +67,65 @@ async function runAgentWithMAS(step, context) {
       timestamp:  Date.now()
     });
 
-    if (directive.action === "rerunAgent") {
-      console.log(`[MAS] Rerunning agent ${step.agent} due to directive: ${directive.reason}`);
-      output = await execute();
-    } else if (directive.action === "fallbackAgent") {
-      console.log(`[MAS] Fallback requested for agent ${step.agent} due to directive: ${directive.reason}`);
-      // Fallback is already handled by runWithFallback inside executeAgent, 
-      // but we could trigger a more drastic fallback here if needed.
+    // Handle rerunAgent with retries and adaptive backoff
+    while (currentDirective.action === "rerunAgent" && retryCount < maxRetries) {
+      retryCount++;
+      const backoff = config.masBackoffMs * Math.pow(2, retryCount - 1);
+      
+      await emitMASRerunAttempt({
+        correlationId,
+        agent: masAgent,
+        attempt: retryCount,
+        maxAttempts: maxRetries,
+        backoffMs: backoff,
+        reason: currentDirective.reason
+      });
+
+      console.log(`[MAS] Rerunning agent ${agent} (attempt ${retryCount}/${maxRetries}) in ${backoff}ms due to: ${currentDirective.reason}`);
+      
+      await emitMASRerunBackoff({
+        correlationId,
+        agent: masAgent,
+        attempt: retryCount,
+        backoffMs: backoff
+      });
+
+      await sleep(backoff);
+      
+      const retryStart = performance.now();
+      try {
+        output = await execute();
+        errors = 0;
+      } catch (err) {
+        errors = 1;
+      }
+
+      // Re-process telemetry after rerun to see if we need another one
+      currentDirective = masProcessTelemetry({
+        agent:      masAgent,
+        latencyMs:  performance.now() - retryStart,
+        confidence: output?.confidence ?? (output?._meta?.confidence ?? 1.0),
+        drift:      output?.drift      ?? (output?._meta?.drift      ?? 0.0),
+        errors,
+        queueDepth: context.queueDepth ?? 0,
+        timestamp:  Date.now(),
+        isRerun:    true,
+        retryCount
+      });
+    }
+
+    if (retryCount > 0) {
+      await emitMASRerunFinalState({
+        correlationId,
+        agent: masAgent,
+        finalState: (currentDirective.action !== "rerunAgent") ? "success" : "failed",
+        attempts: retryCount,
+        maxAttempts: maxRetries
+      });
+    }
+
+    if (currentDirective.action === "fallbackAgent") {
+      console.log(`[MAS] Fallback requested for agent ${agent} due to directive: ${currentDirective.reason}`);
     }
   }
 

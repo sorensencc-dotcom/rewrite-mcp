@@ -6,107 +6,133 @@
 
 ---
 
-## Step 1 — Determine the current version
+## Rules (inline — do not re-read DOC_POLICY.md)
 
-Read `docs/CHANGELOG.md`. The current version is the first `## [X.Y.Z]` entry.
-
-```
-current_version = first changelog entry's version
-```
-
----
-
-## Step 2 — Determine the version bump
-
-| What shipped | Bump |
-|---|---|
+| What shipped | Version bump |
+| --- | --- |
 | New feature, phase, subsystem | Minor (`X.Y+1.0`) |
 | Bugfix, patch, polish | Patch (`X.Y.Z+1`) |
 | Breaking API or architecture change | Major (`X+1.0.0`) |
 
-Compute `next_version`.
+- Every changed file gets its own bullet with a backtick path.
+- Entries ordered newest-first. No version skipped.
+- Suggestion Log: log every idea raised, even if not agreed upon.
 
 ---
 
-## Step 3 — Write the changelog entry
+## Step 0 — Read the state index (replaces reading CHANGELOG + ROADMAP)
 
-Insert at the **top** of `docs/CHANGELOG.md`, immediately after the `# Changelog` heading:
-
-```markdown
-## [next_version] - YYYY-MM-DD
-### Added
-- **Phase Name — Short Description**: One-line summary of what this phase delivers.
-    - **Sub-component** (`path/to/file.ext`): What changed and why it matters to an operator.
-    - **Sub-component** (`path/to/file.ext`): What changed and why it matters to an operator.
-
-### Fixed  ← omit this section if nothing was fixed
-- **Bug Name** (`path/to/file.ext`): What was broken and how it was resolved.
+```text
+Read docs/DOC_STATE.json
 ```
 
-Rules:
-- Every changed file gets its own bullet with a backtick path.
-- Be specific: name the function, endpoint, or component — not just the file.
-- Do not add a `### Fixed` or `### Changed` section if there is nothing to put in it.
+Extract:
+
+- `current_version` ← `state.version`
+- `changelog_head` ← `state.changelog.headLine`
+- `roadmap_completed_head` ← `state.roadmap.completedHead`
+- `arch_docs` ← `state.archDocs` (map of file → `{ updatedForVersion, sections }`)
+
+**Fallback** (if DOC_STATE.json is missing or corrupted): Read lines 1–8 of `docs/CHANGELOG.md` only (`limit: 8`) to extract the current version. Do not read the full file.
 
 ---
 
-## Step 4 — Update the Roadmap
+## Step 1 — Compute the next version
 
-Open `docs/ROADMAP.md`.
-
-### 4a. Move completed work
-For each item that just shipped:
-- Find it in **Active** or **Planned**.
-- Move it to **Completed** with format: `- [vX.Y.Z] Phase Name — YYYY-MM-DD`
-
-### 4b. Add new Active items
-If new work is starting, add it to **Active** with format: `- Phase Name — started YYYY-MM-DD`
-
-### 4c. Update Planned
-If the conversation surfaced agreement on next steps, move them from **Suggestion Log** to **Planned** in priority order.
-
-### 4d. Log new suggestions
-For **every idea, observation, or "what if" raised during this session** that was not explicitly agreed upon:
-- Add it to **Suggestion Log** with format: `- YYYY-MM-DD — [idea description] — raised during [context]`
-- Do not filter or evaluate — if it was said, log it.
+Apply the bump rule to `current_version`. Result: `next_version`.
 
 ---
 
-## Step 5 — Validate
+## Step 2 — Write the changelog entry
 
-Before finishing, confirm:
+Prepend immediately after the `# Changelog` heading using:
 
-- [ ] `docs/CHANGELOG.md` has a new entry at the top with today's date and the correct version
-- [ ] Every file changed this session is named in the changelog
-- [ ] `docs/ROADMAP.md` Completed section includes everything just shipped
-- [ ] `docs/ROADMAP.md` Suggestion Log has any new ideas from this session
-- [ ] No version numbers were skipped in the changelog
+```text
+old_string = "# Changelog\n"
+new_string = "# Changelog\n\n## [next_version] - YYYY-MM-DD\n\n### Added\n\n- ...\n\n## [current_version]..."
+```
 
----
+> Do NOT read CHANGELOG.md first. The `# Changelog\n` sentinel is always unique. The existing content is preserved verbatim after your insertion.
 
-## Quick reference — Changelog entry template
+Entry format:
 
 ```markdown
 ## [2.X.0] - 2026-MM-DD
+
 ### Added
-- **Phase 27X — Feature Name**: One-sentence description of what this delivers.
-    - **Module Name** (`apps/path/to/file.js`): Specific change with operator impact.
-    - **Route** (`apps/control-plane/routes/mas.js`): Endpoint name, method, response shape.
-    - **Dashboard Panel** (`apps/operator-ui/dashboard/index.html`): What the operator can now see.
+
+- **Feature Name**: One-line summary.
+    - **Sub-component** (`path/to/file.ext`): What changed and operator impact.
 ```
 
-## Quick reference — Roadmap entry templates
+---
 
-```markdown
-<!-- Completed -->
-- [v2.6.0] Phase 27A-F: MAS Decision Persistence + Synergy + Drift Panels — 2026-05-20
+## Step 3 — Update the roadmap
 
-<!-- Active -->
-- Phase 27G: MAS-Aware Waterfall — started 2026-05-20
+### 3a. Move completed work to Completed
 
-<!-- Planned -->
-- Phase 27H: MAS Routing Heatmap
+Prepend to the Completed list using the cached `roadmap_completed_head` as the anchor:
 
-<!-- Suggestion Log -->
-- 2026-05-20 — Per-agent drift breakdown in Drift Panel — raised during Phase 27F implementation
+```text
+old_string = "- [vX.Y.Z] {roadmap_completed_head}"
+new_string = "- [vNEXT] {new entry}\n- [vX.Y.Z] {roadmap_completed_head}"
 ```
+
+If the Completed section is empty (no prior entries), read lines 1–25 of `docs/ROADMAP.md` only (`limit: 25`) to find the insertion point.
+
+### 3b–3d. Active / Planned / Suggestion Log
+
+Read lines 1–50 of `docs/ROADMAP.md` only (`limit: 50`). This covers the header through the end of the Active section in all current configurations. Make targeted edits to Active, Planned, and Suggestion Log sections only.
+
+---
+
+## Step 4 — Update architecture docs (skip-if-current)
+
+For each architecture doc that may need updating:
+
+1. **Check `arch_docs[file].updatedForVersion`**. If it equals `current_version` (i.e., the doc was already updated this version), skip it entirely.
+2. **Check `arch_docs[file].sections`**. If the relevant section already exists, skip unless you need to modify that section.
+3. **When a read is needed**: use Grep to find the target line number, then `Read` with `offset` and `limit` to fetch only the surrounding context (±20 lines). Do not read the full file.
+4. **When inserting a new section**: use Grep to find the anchor string, insert via Edit. No full-file read required.
+
+---
+
+## Step 5 — Update DOC_STATE.json
+
+Write `docs/DOC_STATE.json` with the new state. This is the single most important step for future efficiency — it is what makes Step 0 fast next time.
+
+```json
+{
+  "_note": "Machine-maintained. Updated by skills/doc-update and tools/doc-drift-check.js. Do not hand-edit.",
+  "version": "NEXT_VERSION",
+  "date": "YYYY-MM-DD",
+  "changelog": {
+    "headLine": "## [NEXT_VERSION] - YYYY-MM-DD",
+    "entryCount": PREV_COUNT + 1
+  },
+  "roadmap": {
+    "lastUpdated": "YYYY-MM-DD",
+    "completedHead": "[vNEXT_VERSION] SHORT_DESCRIPTION — YYYY-MM-DD",
+    "activeCount": N
+  },
+  "archDocs": {
+    "docs/architecture/telemetry.md": {
+      "updatedForVersion": "NEXT_VERSION_IF_TOUCHED_ELSE_PRIOR",
+      "sections": ["...all known sections..."]
+    }
+  }
+}
+```
+
+Only update `updatedForVersion` and `sections` for files you actually touched this session. Leave others as-is from the prior state.
+
+---
+
+## Step 6 — Validate
+
+- [ ] `docs/CHANGELOG.md` has a new entry at top with today's date and correct version
+- [ ] Every file changed this session is named in the changelog
+- [ ] `docs/ROADMAP.md` Completed section includes what just shipped
+- [ ] `docs/ROADMAP.md` Suggestion Log has any new ideas from this session
+- [ ] `docs/DOC_STATE.json` reflects the new version and updated arch doc states
+- [ ] No version numbers were skipped in the changelog

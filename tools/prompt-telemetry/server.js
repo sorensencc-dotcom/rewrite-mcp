@@ -23,12 +23,15 @@ app.get("/", (req, res) => {
 });
 
 const state = {
-  packs: {},          // { packName: { version, count } }
-  driftEvents: [],    // [{ id, correlationId, pack, version, expectedHash, actualHash, subsystem, ts }]
-  modelCalls: [],     // [{ id, correlationId, model, subsystem, pack, latencyMs, success, ts }]
-  pipelines: [],      // [{ id, correlationId, jobId, pipeline, packs, ts }]
-  overrides: [],      
-  prpEvents: []       
+  packs: {},              // { packName: { version, count } }
+  driftEvents: [],        // [{ id, correlationId, pack, version, expectedHash, actualHash, subsystem, ts }]
+  modelCalls: [],         // [{ id, correlationId, model, subsystem, pack, latencyMs, success, ts }]
+  pipelines: [],          // [{ id, correlationId, jobId, pipeline, packs, ts }]
+  overrides: [],
+  prpEvents: [],
+  masRerunAttempts: [],   // [{ id, correlationId, agent, attempt, maxAttempts, backoffMs, reason, ts }]
+  masRerunBackoffs: [],   // [{ id, correlationId, agent, attempt, backoffMs, ts }]
+  masRerunFinalStates: [] // [{ id, correlationId, agent, finalState, attempts, maxAttempts, ts }]
 };
 
 function now() {
@@ -143,6 +146,42 @@ app.get("/telemetry/pipelines", (req, res) => {
   res.json(state.pipelines.slice(-200).reverse());
 });
 
+app.post("/ingest/mas_rerun_attempt", (req, res) => {
+  const { correlationId, agent, attempt, maxAttempts, backoffMs, reason, region } = req.body || {};
+  if (!agent || !attempt) return res.status(400).json({ error: "agent and attempt required" });
+  state.masRerunAttempts.push({
+    id: randomUUID(), correlationId: correlationId || null, ts: now(),
+    type: "mas_rerun_attempt", region: region || "global",
+    agent, attempt, maxAttempts, backoffMs, reason
+  });
+  if (state.masRerunAttempts.length > 500) state.masRerunAttempts.shift();
+  res.json({ ok: true });
+});
+
+app.post("/ingest/mas_rerun_backoff", (req, res) => {
+  const { correlationId, agent, attempt, backoffMs, region } = req.body || {};
+  if (!agent || !attempt) return res.status(400).json({ error: "agent and attempt required" });
+  state.masRerunBackoffs.push({
+    id: randomUUID(), correlationId: correlationId || null, ts: now(),
+    type: "mas_rerun_backoff", region: region || "global",
+    agent, attempt, backoffMs
+  });
+  if (state.masRerunBackoffs.length > 500) state.masRerunBackoffs.shift();
+  res.json({ ok: true });
+});
+
+app.post("/ingest/mas_rerun_final_state", (req, res) => {
+  const { correlationId, agent, finalState, attempts, maxAttempts, region } = req.body || {};
+  if (!agent || !finalState) return res.status(400).json({ error: "agent and finalState required" });
+  state.masRerunFinalStates.push({
+    id: randomUUID(), correlationId: correlationId || null, ts: now(),
+    type: "mas_rerun_final_state", region: region || "global",
+    agent, finalState, attempts, maxAttempts
+  });
+  if (state.masRerunFinalStates.length > 500) state.masRerunFinalStates.shift();
+  res.json({ ok: true });
+});
+
 // NEW: timeline endpoint
 app.get("/telemetry/timeline", (req, res) => {
   const events = [];
@@ -200,6 +239,9 @@ app.get("/telemetry/timeline", (req, res) => {
 
   state.overrides.forEach(e => events.push(e));
   state.prpEvents.forEach(e => events.push(e));
+  state.masRerunAttempts.forEach(e => events.push(e));
+  state.masRerunBackoffs.forEach(e => events.push(e));
+  state.masRerunFinalStates.forEach(e => events.push(e));
 
   events.sort((a, b) => (a.ts < b.ts ? 1 : -1)); // newest first
   res.json(events.slice(0, 200));
@@ -217,6 +259,9 @@ app.get("/telemetry/trace/:correlationId", (req, res) => {
   state.pipelines.filter(filter).forEach(e => events.push({ ...e, type: "pipeline" }));
   state.overrides.filter(filter).forEach(e => events.push({ ...e, type: "override" }));
   state.prpEvents.filter(filter).forEach(e => events.push({ ...e, type: "prp" }));
+  state.masRerunAttempts.filter(filter).forEach(e => events.push(e));
+  state.masRerunBackoffs.filter(filter).forEach(e => events.push(e));
+  state.masRerunFinalStates.filter(filter).forEach(e => events.push(e));
 
   events.sort((a, b) => (a.ts < b.ts ? -1 : 1)); // oldest first for waterfall
   res.json(events);
