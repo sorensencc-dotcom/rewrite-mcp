@@ -19,7 +19,7 @@ This file defines the foundational mandates for the Antigravity CLI in this work
 - **Multi-Agent Orchestration**: Support parallel agent execution and subagent workflows.
 - **Background Tasks**: Utilize background scheduling for long-running processes.
 - **DocSync Mandate**: All project-specific and tool-specific docs must be kept in sync with the MkDocs site using `npm run sync-docs`.
-- **Doc Update Mandate**: After every successful build or phase completion, execute [`skills/doc-update.md`](skills/doc-update.md). Policy is defined in [`DOC_POLICY.md`](DOC_POLICY.md). The living roadmap is at [`ROADMAP.md`](ROADMAP.md). No phase is complete without a changelog entry, roadmap update, and Suggestion Log pass.
+- **Doc Update Mandate**: After every successful build or phase completion, execute [`../skills/doc-update.md`](../skills/doc-update.md). Policy is defined in [`DOC_POLICY.md`](DOC_POLICY.md). The living roadmap is at [`../REWRITE_LABS_DEV_ROADMAP.md`](../REWRITE_LABS_DEV_ROADMAP.md). No phase is complete without a changelog entry, roadmap update, and Suggestion Log pass.
 - **Doc Drift Mandate**: Documentation must never drift from code. Execute `npm run doc:drift` to verify that latest changes are reflected in the changelog and roadmap. This check is mandatory before declaring any phase complete.
 
 ### 4. Visual Identity & Design System

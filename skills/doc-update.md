@@ -2,7 +2,7 @@
 
 > **Shared model skill** — compatible with Claude, Gemini, and any AI assistant working in this workspace.  
 > **When to run**: After every successful build, phase completion, or source file modification.  
-> **Policy reference**: [`docs/DOC_POLICY.md`](../docs/DOC_POLICY.md)
+> **Policy reference**: [`../governance/DOC_POLICY.md`](../governance/DOC_POLICY.md)
 
 ---
 

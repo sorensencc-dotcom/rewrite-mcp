@@ -16,9 +16,9 @@ const path = require('path');
 
 // Configuration
 const REPO_ROOT = path.resolve(__dirname, '..');
-const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/CHANGELOG.md');
+const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/rewrite/releases/CHANGELOG.md');
 const PKG_PATH        = path.join(REPO_ROOT, 'package.json');
-const DOC_POLICY_PATH = path.join(REPO_ROOT, 'docs/DOC_POLICY.md');
+const DOC_POLICY_PATH = path.join(REPO_ROOT, 'docs/rewrite/governance/DOC_POLICY.md');
 const DOC_STATE_PATH  = path.join(REPO_ROOT, 'docs/DOC_STATE.json');
 
 function getChangedFiles() {
@@ -72,8 +72,8 @@ function updateDocState(version) {
       ? JSON.parse(fs.readFileSync(DOC_STATE_PATH, 'utf8'))
       : {};
 
-    const roadmapText = fs.existsSync(path.join(REPO_ROOT, 'docs/ROADMAP.md'))
-      ? fs.readFileSync(path.join(REPO_ROOT, 'docs/ROADMAP.md'), 'utf8')
+    const roadmapText = fs.existsSync(path.join(REPO_ROOT, 'docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md'))
+      ? fs.readFileSync(path.join(REPO_ROOT, 'docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md'), 'utf8')
       : '';
     const completedHeadMatch = roadmapText.match(/- \[v[\d.]+\] .+/);
     const completedHead = completedHeadMatch

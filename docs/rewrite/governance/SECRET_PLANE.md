@@ -20,8 +20,8 @@ The following services are already "Gold Standard" compliant:
 
 | Service | Prefix | Config Guardrail | Documentation |
 |---|---|---|---|
-| **Orchestrator** | `ORCH_` | `src/config.js` | [`secrets.md`](projects/cic/orchestrator/secrets.md) |
-| **Harvester** | `HARV_` | `src/config.js` | [`secrets.md`](projects/cic/ingestion/secrets.md) |
+| **Orchestrator** | `ORCH_` | `src/config.js` | [`secrets.md`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/projects/cic/orchestrator/secrets.md) |
+| **Harvester** | `HARV_` | `src/config.js` | [`secrets.md`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/projects/cic/ingestion/secrets.md) |
 | **Control Plane**| `CP_` | `src/config.js` | [`secrets.md`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/apps/control-plane/secrets.md) |
 
 ## 4. Integration Standards

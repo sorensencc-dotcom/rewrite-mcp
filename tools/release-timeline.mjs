@@ -12,8 +12,8 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
-const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/CHANGELOG.md');
-const RELEASES_DIR = path.join(REPO_ROOT, 'docs/releases');
+const CHANGELOG_PATH = path.join(REPO_ROOT, 'docs/rewrite/releases/CHANGELOG.md');
+const RELEASES_DIR = path.join(REPO_ROOT, 'docs/rewrite/releases');
 const TIMELINE_PATH = path.join(RELEASES_DIR, 'timeline.json');
 const TELEMETRY_PATH = path.join(RELEASES_DIR, 'release-telemetry.json');
 

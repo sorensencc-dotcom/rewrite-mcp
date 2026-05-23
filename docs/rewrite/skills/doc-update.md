@@ -2,7 +2,7 @@
 
 > **Shared model skill** — compatible with Claude, Gemini, and any AI assistant working in this workspace.  
 > **When to run**: After every successful build, phase completion, or source file modification.  
-> **Policy reference**: [`docs/DOC_POLICY.md`](../DOC_POLICY.md)
+> **Policy reference**: [`../governance/DOC_POLICY.md`](../governance/DOC_POLICY.md)
 
 ---
 
@@ -50,7 +50,20 @@ Rules:
 
 ---
 
-## Step 4 — Update the Roadmap
+## Step 4 — Update MkDocs Navigation (Mandatory for New Docs)
+
+If any **new** `.md` files were created, they **MUST** be added to the `nav` section of `mkdocs.yml`.
+
+1. Open `mkdocs.yml`.
+2. Find the appropriate section in the `nav` tree (e.g., `CIC Manual`, `RL Manual`, `RL Release`).
+3. Add the new file with a descriptive label:
+   ```yaml
+   - "Label": path/to/new/file.md
+   ```
+
+---
+
+## Step 5 — Update the Roadmap
 
 Open `docs/ROADMAP.md`.
 
@@ -72,12 +85,13 @@ For **every idea, observation, or "what if" raised during this session** that wa
 
 ---
 
-## Step 5 — Validate
+## Step 6 — Validate
 
 Before finishing, confirm:
 
 - [ ] `docs/CHANGELOG.md` has a new entry at the top with today's date and the correct version
 - [ ] Every file changed this session is named in the changelog
+- [ ] **MkDocs Integration**: All new `.md` files are registered in `mkdocs.yml` navigation.
 - [ ] `docs/ROADMAP.md` Completed section includes everything just shipped
 - [ ] `docs/ROADMAP.md` Suggestion Log has any new ideas from this session
 - [ ] No version numbers were skipped in the changelog

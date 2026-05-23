@@ -26,7 +26,7 @@ function main() {
   const version = pkg.version;
 
   // 1. Verify CHANGELOG
-  const changelogPath = path.join(rootDir, 'docs/CHANGELOG.md');
+  const changelogPath = path.join(rootDir, 'docs/rewrite/releases/CHANGELOG.md');
   const changelog = fs.readFileSync(changelogPath, 'utf8');
   if (!changelog.includes(`## [${version}]`)) {
     console.error(`ERROR: CHANGELOG.md does not contain version ${version}`);
@@ -34,7 +34,7 @@ function main() {
   }
 
   // 2. Verify Release Notes Artifacts
-  const notesPath = path.join(rootDir, `docs/releases/${version}.md`);
+  const notesPath = path.join(rootDir, `docs/rewrite/releases/${version}.md`);
   if (!fs.existsSync(notesPath)) {
     console.error(`ERROR: Release notes not found: ${notesPath}`);
     console.error(`Hint: Run 'npm run release:notes' first.`);

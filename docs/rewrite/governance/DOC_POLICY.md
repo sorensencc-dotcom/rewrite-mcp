@@ -1,7 +1,7 @@
 # Documentation Update Policy
 
 **Authority**: This policy is enforced by all AI models working in this workspace (`ANTIGRAVITY.md` §3).  
-**Skill**: [`skills/doc-update.md`](skills/doc-update.md) — execute this after every build and doc change.
+**Skill**: [`../skills/doc-update.md`](../skills/doc-update.md) — execute this after every build and doc change.
 
 ---
 
@@ -87,6 +87,6 @@ Doc updates are **mandatory** in these situations:
 All AI models in this workspace (Claude, Gemini, and others) must:
 
 1. Read `docs/DOC_POLICY.md` at the start of every session.
-2. Execute `skills/doc-update.md` after every successful build or phase completion.
+2. Execute `../skills/doc-update.md` after every successful build or phase completion.
 3. Never declare a phase "done" without updating both the changelog and roadmap.
 4. Surface any new ideas immediately to the Suggestion Log — do not silently carry them in conversation.

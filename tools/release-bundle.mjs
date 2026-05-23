@@ -25,7 +25,7 @@ function main() {
   const version = pkg.version;
 
   const bundleName = `rewrite-mcp-release-v${version}.tar.gz`;
-  const outputDir = path.join(rootDir, 'docs/releases');
+  const outputDir = path.join(rootDir, 'docs/rewrite/releases');
   const bundlePath = path.join(outputDir, bundleName);
 
   if (!fs.existsSync(outputDir)) {
@@ -36,11 +36,11 @@ function main() {
 
   // Define files to include
   const files = [
-    `docs/releases/${version}.md`,
-    `docs/releases/${version}.summary.txt`,
-    `docs/CHANGELOG.md`,
-    `docs/ROADMAP.md`,
-    `docs/DOC_POLICY.md`,
+    `docs/rewrite/releases/${version}.md`,
+    `docs/rewrite/releases/${version}.summary.txt`,
+    `docs/rewrite/releases/CHANGELOG.md`,
+    `docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md`,
+    `docs/rewrite/governance/DOC_POLICY.md`,
     `ANTIGRAVITY.md`,
     `skills`,
     `package.json`,
@@ -56,7 +56,7 @@ function main() {
   });
 
   try {
-    // Create the bundle (run tar from root but output to docs/releases)
+    // Create the bundle (run tar from root but output to docs/rewrite/releases)
     run(`tar -czf ${bundlePath} ${existingFiles.join(' ')}`);
     
     // Calculate SHA256

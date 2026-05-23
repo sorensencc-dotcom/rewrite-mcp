@@ -8,7 +8,7 @@
 ## Latest Changes (v2.9.0)
 ### Added
 - **Infisical Secret Plane (CIC-wide Rollout)**: Transitioned Orchestrator, Harvester, and Control Plane to the "Gold Standard" secret management.
-    - **Zero-Plaintext Mandate**: Codified in [`docs/SECRET_PLANE.md`](../SECRET_PLANE.md).
+    - **Zero-Plaintext Mandate**: Codified in [`do../governance/SECRET_PLANE.md`](../governance/SECRET_PLANE.md).
     - **Service-Scoped Prefixes**: Implemented `ORCH_`, `HARV_`, and `CP_` prefixes to prevent env collisions.
     - **Boot-Time Guardrails** (`src/config.js`): Every core service now fails-fast with `FATAL_SECRET_MISCONFIGURATION` if required secrets are missing.
     - **Infisical Docs** (`secrets.md`): Per-service guides for local dev, CI (OIDC), and Runtime (K8s).

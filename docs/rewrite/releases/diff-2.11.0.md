@@ -8,8 +8,8 @@
 ## Latest Changes (v2.11.0)
 ### Added
 - **Infisical Secret Rotation Plane**: Implemented staged rotation for core API keys.
-    - **Rotation Policy** ([`docs/SECRET_ROTATION_PLANE.md`](../SECRET_ROTATION_PLANE.md)): Defined versioned key slots (`_ACTIVE`, `_NEXT`) and rotation cadences.
-    - **Rotation Tool** ([`tools/rotation/rotate.js`](../tools/rotation/rotate.js)): Scripted lifecycle management for staging, cutover, and cleanup of secrets.
+    - **Rotation Policy** ([`do../governance/SECRET_ROTATION_PLANE.md`](../governance/SECRET_ROTATION_PLANE.md)): Defined versioned key slots (`_ACTIVE`, `_NEXT`) and rotation cadences.
+    - **Rotation Tool** ([`tools/rotation/rotate.js`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/tools/rotation/rotate.js)): Scripted lifecycle management for staging, cutover, and cleanup of secrets.
     - **Rotation Health Check**: Automated enforcement of secret rotation invariants ([`tools/rotation/health-check.js`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/tools/rotation/health-check.js)).
     - **Versioned Secret Support**: Updated core services and model clients to prioritize `_ACTIVE` keys.
 

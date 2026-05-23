@@ -35,6 +35,26 @@ This document defines the policies and procedures for rotating secrets across th
    - Once confirmed stable, revoke the old key in the Google console.
    - Run: `node tools/rotation/rotate.js --service orchestrator --provider gemini --action clear-next`
 
+### PROC-02: Anthropic Claude Rotation
+
+1. **Stage New Key**:
+   - Generate a new key in the Anthropic console.
+   - Run: `node tools/rotation/rotate.js --service orchestrator --provider anthropic --key <NEW_KEY>`
+
+2. **Verify & Cutover**:
+   - Run: `node tools/rotation/rotate.js --service orchestrator --provider anthropic --action cutover`
+
+3. **Cleanup**:
+   - Revoke old key in Anthropic console.
+
+### PROC-03: Internal Token Rotation
+
+1. **Stage New Token**:
+   - Run: `node tools/rotation/rotate.js --service internal --action generate-token`
+
+2. **Verify & Cutover**:
+   - Run: `node tools/rotation/rotate.js --service internal --action cutover`
+
 ## 4. Automation
 
 The `tools/rotation/rotate.js` script is the canonical tool for performing these operations. It interacts directly with Infisical to manage the `_ACTIVE` and `_NEXT` slots.

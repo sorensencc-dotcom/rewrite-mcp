@@ -1,7 +1,6 @@
 {
   "name": "rewrite-mcp-monorepo",
-  "version": "2.15.0",
-
+  "version": "2.19.0",
   "private": true,
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
@@ -16,7 +15,8 @@
     "release:tag": "node tools/release-tag.mjs",
     "release:bundle": "node tools/release-bundle.mjs",
     "release:full": "npm run doc:drift && npm run build-docs && npm run release:notes && npm run release:diff && npm run release:timeline && npm run release:tag && npm run release:bundle",
-    "doc:drift": "node tools/doc-drift-check.js"
+    "doc:drift": "node tools/doc-drift-check.js",
+    "prepare": "husky"
   },
   "devDependencies": {
     "husky": "^9.0.11"

@@ -5,7 +5,7 @@
 ---
 
 ## **1. Overview**
-The **SLO Dashboard** is the primary operational interface for monitoring the health of the Antigravity runtime against the [Antigravity SLO Charter](../ANTIGRAVITY_SLO.md). It provides real-time visibility into reliability, concurrency, latency, and observability metrics.
+The **SLO Dashboard** is the primary operational interface for monitoring the health of the Antigravity runtime against the [Antigravity SLO Charter](../governance/SLO_CHARTER.md). It provides real-time visibility into reliability, concurrency, latency, and observability metrics.
 
 ## **2. Functional Requirements**
 - **Real-time Status**: Visualize current SLO compliance using a traffic-light system (Red/Yellow/Green).

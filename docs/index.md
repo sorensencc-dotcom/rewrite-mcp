@@ -8,28 +8,28 @@
   <div class="grid-section">
     <h3>Core Architecture</h3>
     <ul>
-      <li><a href="architecture/system-overview/">System Overview</a></li>
-      <li><a href="architecture/pms/">Prompt Management (PMS)</a></li>
-      <li><a href="architecture/agents/">Orchestration & Agents</a></li>
-      <li><a href="architecture/pipeline/">The Pipeline</a></li>
+      <li><a href="rewrite/architecture/system-overview/">System Overview</a></li>
+      <li><a href="rewrite/architecture/pms/">Prompt Management (PMS)</a></li>
+      <li><a href="rewrite/architecture/agents/">Orchestration & Agents</a></li>
+      <li><a href="rewrite/architecture/pipeline/">The Pipeline</a></li>
     </ul>
   </div>
   <div class="grid-section">
     <h3>Operations</h3>
     <ul>
-      <li><a href="ANTIGRAVITY_SLO/">SLO Charter</a></li>
-      <li><a href="architecture/telemetry/">Prompt Telemetry</a></li>
-      <li><a href="manuals/release-automation/">Release Automation</a></li>
-      <li><a href="CHANGELOG/">Changelog</a></li>
+      <li><a href="rewrite/governance/SLO_CHARTER/">SLO Charter</a></li>
+      <li><a href="rewrite/architecture/telemetry/">Prompt Telemetry</a></li>
+      <li><a href="cic/manuals/release-automation/">Release Automation</a></li>
+      <li><a href="rewrite/releases/CHANGELOG/">Changelog</a></li>
     </ul>
   </div>
   <div class="grid-section">
     <h3>Readiness</h3>
     <ul>
-      <li><a href="readiness/phase-26-mandate/">Phase 26: Hardening</a></li>
-      <li><a href="readiness/phase-27-mandate/">Phase 27: Recovery</a></li>
-      <li><a href="readiness/phase-28-mandate/">Phase 28: Predictive</a></li>
-      <li><a href="state/rewrite-labs-state/">Project State</a></li>
+      <li><a href="rewrite/readiness/phase-26-mandate/">Phase 26: Hardening</a></li>
+      <li><a href="rewrite/readiness/phase-27-mandate/">Phase 27: Recovery</a></li>
+      <li><a href="rewrite/readiness/phase-28-mandate/">Phase 28: Predictive</a></li>
+      <li><a href="rewrite/REWRITE_LABS_STATE/">Project State</a></li>
     </ul>
   </div>
 </div>

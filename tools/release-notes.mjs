@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
-const CHANGELOG_PATH = path.join(REPO_ROOT, "docs/CHANGELOG.md");
-const RELEASES_DIR = path.join(REPO_ROOT, "docs/releases");
+const CHANGELOG_PATH = path.join(REPO_ROOT, "docs/rewrite/releases/CHANGELOG.md");
+const RELEASES_DIR = path.join(REPO_ROOT, "docs/rewrite/releases");
 
 function getLatestChangelogBlock() {
   const text = fs.readFileSync(CHANGELOG_PATH, "utf8");
