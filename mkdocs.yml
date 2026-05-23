@@ -26,55 +26,74 @@ theme:
 
 nav:
   - Home: index.md
-  - Manuals:
-      - Ops Console: manuals/ops_console.md
-      - Metrics & Health: manuals/metrics_health.md
-      - Replay Engine: manuals/replay_engine.md
-      - Event Logging (Black Box): manuals/event_logging.md
-      - Dry-Run Mode: manuals/dry_run.md
-      - Daily Digest: manuals/daily_digest.md
-      - Idea Clusterer: manuals/ideas_clusterer.md
-      - Task Extractor: manuals/task_extractor.md
-      - Master Instructions (v1.2): manuals/master-instructions-manual/v1.2/manual.md
-      - Master Instructions (v1.1): manuals/master-instructions-manual/v1.1/manual.md
-  - Roadmaps:
-      - Master Roadmap: roadmaps/master-roadmap/v1.1/roadmap.md
-      - Active Roadmap: ROADMAP.md
-  - Playbooks:
-      - Outreach Automation: playbooks/outreach-automation/v1.0/playbook.md
-  - Governance:
-      - Foundational Mandate: ANTIGRAVITY.md
-      - Documentation Policy: DOC_POLICY.md
-      - Versioning: VERSIONING.md
-      - SLO Charter: ANTIGRAVITY_SLO.md
-      - Changelog: CHANGELOG.md
-  - Architecture:
-      - System Overview: architecture/system-overview.md
-      - Control Plane: architecture/control-plane-design.md
-      - SLO Dashboard: architecture/slo-dashboard-spec.md
-      - Prompt Management: architecture/pms.md
-      - Pipeline: architecture/pipeline.md
-      - Agents: architecture/agents.md
-      - Telemetry: architecture/telemetry.md
-  - Project (CIC):
-      - Index: projects/cic/cic-docs-index.md
-      - Master Roadmap: projects/cic/cic-master-roadmap.md
-      - Master Spec: projects/cic/cic-master-spec.md
-      - Labs Roadmap: projects/cic/rewrite-labs-roadmap.md
-  - Tools:
-      - Runtime Harness: tools/runtime-harness.md
-      - Prompt Telemetry: tools/prompt-telemetry.md
-  - State:
-      - Rewrite Labs State: state/rewrite-labs-state.md
-  - Migrations:
-      - Antigravity 2.0: migrations/antigravity.md
-  - Releases:
-      - Phase 25 (Antigravity): releases/phase-25-antigravity.md
-      - v2.8.0 (Latest): releases/2.8.0.md
-  - Readiness:
-      - Phase 26: readiness/phase-26.md
-      - Phase 26 Mandate: readiness/phase-26-mandate.md
-      - Phase 27: readiness/phase-27-mandate.md
+  - "CIC: System Overview": cic/CIC_SYSTEM.md
+  - "CIC: Documents Index": cic/CIC_Documents.md
+  - "CIC: Project State": cic/CIC_PROJECT_STATE.md
+  - "CIC: Master Roadmap": cic/CIC_MASTER_ROADMAP.md
+  - "CIC: Master Spec": cic/cic-master-spec.md
+  - "CIC: Dashboard Integration": cic/CIC_Dashboard_Integration.md
+  - "CIC Manual: Ops Console": cic/manuals/ops_console.md
+  - "CIC Manual: Metrics & Health": cic/manuals/metrics_health.md
+  - "CIC Manual: Replay Engine": cic/manuals/replay_engine.md
+  - "CIC Manual: Event Logging": cic/manuals/event_logging.md
+  - "CIC Manual: Dry-Run Mode": cic/manuals/dry_run.md
+  - "CIC Manual: Daily Digest": cic/manuals/daily_digest.md
+  - "CIC Manual: Idea Clusterer": cic/manuals/ideas_clusterer.md
+  - "CIC Manual: Task Extractor": cic/manuals/task_extractor.md
+  - "CIC Manual: Memos-Joplin Flow": cic/manuals/memos_joplin.md
+  - "CIC Manual: Release Automation": cic/manuals/release-automation.md
+  - "RL: System Overview": rewrite/REWRITE_LABS_SYSTEM.md
+  - "RL: Project State": rewrite/REWRITE_LABS_STATE.md
+  - "RL: Roadmap": rewrite/REWRITE_LABS_DEV_ROADMAP.md
+  - "RL Architecture: Control Plane": rewrite/architecture/control-plane-design.md
+  - "RL Architecture: SLO Dashboard": rewrite/architecture/slo-dashboard-spec.md
+  - "RL Architecture: PMS": rewrite/architecture/pms.md
+  - "RL Architecture: Orchestrator": rewrite/architecture/agents.md
+  - "RL Architecture: Pipeline": rewrite/architecture/pipeline.md
+  - "RL Architecture: Telemetry": rewrite/architecture/telemetry.md
+  - "RL Architecture: MAS Introspection": rewrite/architecture/mas-introspection.md
+  - "RL Architecture: Platform Overview": rewrite/architecture/system-overview.md
+  - "RL Governance: Mandate": rewrite/governance/ANTIGRAVITY.md
+  - "RL Governance: SLO Charter": rewrite/governance/SLO_CHARTER.md
+  - "RL Governance: Doc Policy": rewrite/governance/DOC_POLICY.md
+  - "RL Governance: Versioning": rewrite/governance/VERSIONING.md
+  - "RL Governance: Secret Plane": rewrite/governance/SECRET_PLANE.md
+  - "RL Governance: Secret Rotation": rewrite/governance/SECRET_ROTATION_PLANE.md
+  - "RL Manual: Security Infrastructure": rewrite/manuals/security_infrastructure.md
+  - "RL Manual: Master Instructions (v1.2)": rewrite/manuals/master-instructions-manual/v1.2/manual.md
+  - "RL Tool: Runtime Harness": rewrite/tools/runtime-harness.md
+  - "RL Tool: Prompt Telemetry": rewrite/tools/prompt-telemetry.md
+  - "RL Skill: Doc Update": rewrite/skills/doc-update.md
+  - "RL Skill: Web Regression": rewrite/skills/web-regression.md
+  - "RL Release: Changelog": rewrite/releases/CHANGELOG.md
+  - "RL Release: Phase 25 (Antigravity)": rewrite/releases/phase-25-antigravity.md
+  - "RL Release: v2.15.0": rewrite/releases/2.15.0.md
+  - "RL Release: v2.13.0": rewrite/releases/2.13.0.md
+  - "RL Release: v2.12.0": rewrite/releases/2.12.0.md
+  - "RL Release: v2.11.0": rewrite/releases/2.11.0.md
+  - "RL Release: v2.10.0": rewrite/releases/2.10.0.md
+  - "RL Release: v2.9.0": rewrite/releases/2.9.0.md
+  - "RL Release: v2.8.1": rewrite/releases/2.8.1.md
+  - "RL Release: v2.8.0": rewrite/releases/2.8.0.md
+  - "RL Readiness: Phase 26": rewrite/readiness/phase-26-mandate.md
+  - "RL Readiness: Phase 27": rewrite/readiness/phase-27-mandate.md
+  - "RL Readiness: Phase 28": rewrite/readiness/phase-28-mandate.md
+  - "Archive: Master Instructions (v1.1)": rewrite/manuals/master-instructions-manual/v1.1/manual.md
+  - "Archive: Master Instructions (v1.1) Changelog": rewrite/manuals/master-instructions-manual/v1.1/changelog.md
+  - "Archive: Antigravity Migration": rewrite/migrations/antigravity.md
+  - "Archive: Outreach Playbook": rewrite/playbooks/outreach-automation/v1.0/playbook.md
+  - "Archive: Outreach Playbook Changelog": rewrite/playbooks/outreach-automation/v1.0/changelog.md
+  - "Archive: Phase 26 WIP": rewrite/readiness/phase-26.md
+  - "Archive: Master Roadmap (v1.1)": rewrite/roadmaps/master-roadmap/v1.1/roadmap.md
+  - "Archive: Master Roadmap (v1.1) Changelog": rewrite/roadmaps/master-roadmap/v1.1/changelog.md
+  - "Archive: Outreach Email Template": rewrite/templates/outreach-email-template.md
+  - "Archive: Redesign Brief Template": rewrite/templates/redesign-brief-template.md
+  - "Archive: Legacy CIC Index": cic/cic-docs-index.md
+  - "Archive: Release Diff v2.15.0": rewrite/releases/diff-2.15.0.md
+  - "Archive: Release Diff v2.13.0": rewrite/releases/diff-2.13.0.md
+  - "Archive: Release Diff v2.11.0": rewrite/releases/diff-2.11.0.md
+  - "Archive: Release Diff v2.10.0": rewrite/releases/diff-2.10.0.md
+  - "Archive: Release Diff v2.9.0": rewrite/releases/diff-2.9.0.md
 
 plugins:
   - search
