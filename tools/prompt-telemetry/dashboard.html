@@ -4,11 +4,29 @@
   <meta charset="utf-8" />
   <title>CIC Prompt Telemetry</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
+
+    :root {
+      --black:  #0a0806;
+      --forge:  #1a1410;
+      --iron:   #2c2420;
+      --rust:   #8B3A1A;
+      --ember:  #C4501A;
+      --brass:  #B8922A;
+      --ash:    #9a9088;
+      --bone:   #e8e0d4;
+      --white:  #faf6f0;
+      
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Libre Baskerville', serif;
+      --font-ui: 'Barlow Condensed', sans-serif;
+    }
+
     body {
       margin: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: #050608;
-      color: #e5e5e5;
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--bone);
     }
     .grid {
       display: grid;
@@ -20,24 +38,27 @@
       box-sizing: border-box;
     }
     .panel {
-      border: 1px solid #222;
-      border-radius: 6px;
+      border: 1px solid var(--iron);
+      border-radius: 0;
       padding: 8px;
-      background: radial-gradient(circle at top left, #101820, #050608);
-      box-shadow: 0 0 12px rgba(0, 255, 136, 0.08);
+      background: radial-gradient(circle at top left, var(--forge), var(--black));
+      box-shadow: none;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
     .panel h2 {
       margin: 0 0 6px 0;
+      font-family: var(--font-ui);
       font-size: 13px;
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #00ff88;
+      color: var(--brass);
     }
     .panel pre {
       margin: 0;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-size: 11px;
       line-height: 1.4;
       overflow: auto;
@@ -46,12 +67,13 @@
     .badge {
       display: inline-block;
       padding: 2px 6px;
-      border-radius: 999px;
+      border-radius: 0;
+      font-family: var(--font-ui);
       font-size: 10px;
       margin-right: 4px;
-      background: #111;
-      border: 1px solid #00ff88;
-      color: #00ff88;
+      background: var(--black);
+      border: 1px solid var(--ember);
+      color: var(--ember);
     }
     .row {
       display: flex;
@@ -61,7 +83,7 @@
       font-size: 11px;
     }
     .muted {
-      color: #777;
+      color: var(--ash);
     }
     .timeline-event {
       display: flex;
@@ -71,27 +93,28 @@
       font-size: 11px;
       line-height: 1.4;
     }
-    .timeline-event .ts { color: #444; flex-shrink: 0; }
+    .timeline-event .ts { color: var(--ash); flex-shrink: 0; }
     .timeline-event .icon { flex-shrink: 0; width: 14px; text-align: center; }
-    .timeline-event .label { color: #e5e5e5; }
-    .timeline-event .label.success { color: #00ff88; }
-    .timeline-event .label.failed  { color: #ff4466; }
-    .timeline-event .label.backoff { color: #ffaa00; }
+    .timeline-event .label { color: var(--bone); }
+    .timeline-event .label.success { color: #5a9e6f; }
+    .timeline-event .label.failed  { color: var(--ember); }
+    .timeline-event .label.backoff { color: var(--brass); }
     .timeline-event .label.attempt { color: #66aaff; }
-    .timeline-event .agent { color: #888; font-size: 10px; }
+    .timeline-event .agent { color: var(--ash); font-size: 10px; }
     .waterfall { font-size: 11px; }
     .waterfall-event { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
     .waterfall-event .bar {
-      height: 10px; border-radius: 2px; background: #00ff88; flex-shrink: 0;
+      height: 10px; border-radius: 0; background: var(--ember); flex-shrink: 0;
     }
     .waterfall-event .bar.attempt { background: #66aaff; }
-    .waterfall-event .bar.backoff { background: #ffaa00; }
-    .waterfall-event .bar.success { background: #00ff88; }
-    .waterfall-event .bar.failed  { background: #ff4466; }
+    .waterfall-event .bar.backoff { background: var(--brass); }
+    .waterfall-event .bar.success { background: #5a9e6f; }
+    .waterfall-event .bar.failed  { background: var(--ember); }
     .waterfall-event .bar { width: calc(var(--bar-w, 20) * 1px); }
     #mas-timeline-panel { grid-column: 1 / 3; }
     .mas-scroll { overflow: auto; flex: 1; }
   </style>
+  <script src="../../apps/operator-ui/js/global-nav.js" defer></script>
 </head>
 <body>
   <div class="grid">

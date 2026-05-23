@@ -29,6 +29,8 @@ const state = {
   pipelines: [],          // [{ id, correlationId, jobId, pipeline, packs, ts }]
   overrides: [],
   prpEvents: [],
+  masDecisions: [],       // [{ id, correlationId, agent, directive, reason, ts }]
+  masSignals: [],         // [{ id, correlationId, agent, drift, confidence, ts }]
   masRerunAttempts: [],   // [{ id, correlationId, agent, attempt, maxAttempts, backoffMs, reason, ts }]
   masRerunBackoffs: [],   // [{ id, correlationId, agent, attempt, backoffMs, ts }]
   masRerunFinalStates: [] // [{ id, correlationId, agent, finalState, attempts, maxAttempts, ts }]
@@ -126,6 +128,30 @@ app.post("/ingest/prp", (req, res) => {
     action
   });
   if (state.prpEvents.length > 500) state.prpEvents.shift();
+  res.json({ ok: true });
+});
+
+app.post("/ingest/mas_decision", (req, res) => {
+  const { correlationId, agent, directive, reason, drift, confidence, region } = req.body || {};
+  if (!agent || !directive) return res.status(400).json({ error: "agent and directive required" });
+  state.masDecisions.push({
+    id: randomUUID(), correlationId: correlationId || null, ts: now(),
+    type: "mas_decision", region: region || "global",
+    agent, directive, reason, drift, confidence
+  });
+  if (state.masDecisions.length > 500) state.masDecisions.shift();
+  res.json({ ok: true });
+});
+
+app.post("/ingest/mas_signal", (req, res) => {
+  const { correlationId, agent, drift, confidence, region } = req.body || {};
+  if (!agent) return res.status(400).json({ error: "agent required" });
+  state.masSignals.push({
+    id: randomUUID(), correlationId: correlationId || null, ts: now(),
+    type: "mas_signal", region: region || "global",
+    agent, drift, confidence
+  });
+  if (state.masSignals.length > 500) state.masSignals.shift();
   res.json({ ok: true });
 });
 
@@ -239,6 +265,8 @@ app.get("/telemetry/timeline", (req, res) => {
 
   state.overrides.forEach(e => events.push(e));
   state.prpEvents.forEach(e => events.push(e));
+  state.masDecisions.forEach(e => events.push(e));
+  state.masSignals.forEach(e => events.push(e));
   state.masRerunAttempts.forEach(e => events.push(e));
   state.masRerunBackoffs.forEach(e => events.push(e));
   state.masRerunFinalStates.forEach(e => events.push(e));
@@ -259,6 +287,8 @@ app.get("/telemetry/trace/:correlationId", (req, res) => {
   state.pipelines.filter(filter).forEach(e => events.push({ ...e, type: "pipeline" }));
   state.overrides.filter(filter).forEach(e => events.push({ ...e, type: "override" }));
   state.prpEvents.filter(filter).forEach(e => events.push({ ...e, type: "prp" }));
+  state.masDecisions.filter(filter).forEach(e => events.push({ ...e, type: "mas_decision" }));
+  state.masSignals.filter(filter).forEach(e => events.push({ ...e, type: "mas_signal" }));
   state.masRerunAttempts.filter(filter).forEach(e => events.push(e));
   state.masRerunBackoffs.filter(filter).forEach(e => events.push(e));
   state.masRerunFinalStates.filter(filter).forEach(e => events.push(e));

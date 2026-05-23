@@ -13,10 +13,14 @@ export CP_REGION="us-east"
 export CP_AUTH_DISABLED="true"
 export NODE_PATH="node_modules"
 
-echo "✦ Launching CIC Control Plane..."
+echo "✦ Launching CIC Control Plane & Telemetry..."
+
+# Start the Telemetry Server
+cd rewrite-mcp/tools/prompt-telemetry
+npm start &
 
 # Start the control plane
-cd rewrite-mcp/apps/control-plane
+cd ../control-plane
 npm start &
 
 # Wait a moment for server to boot

@@ -1,0 +1,8 @@
+      }
+
+      startDashboard();
+
+    })();
+  </script>
+</body>
+</html>

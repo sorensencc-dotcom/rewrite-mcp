@@ -36,6 +36,7 @@ const metricsRouter      = require('./routes/metrics');
 const telemetryRouter    = require('./routes/telemetry');
 const masRouter          = require('./routes/mas');
 const recoveryRouter     = require('./routes/recovery');
+const healthRouter       = require('./routes/health');
 const sloRouter          = require('../../projects/cic/control-plane/routes/slo');
 const recoveryControlLoop = require('../../projects/cic/control-plane/recovery/control-loop');
 
@@ -178,6 +179,16 @@ app.get('/health', (req, res) => {
 // Protected routes — require Google ID token
 // ---------------------------------------------------------------------------
 
+app.use('/api/control-plane/pipelines/cic', requireAuth, cicRouter);
+app.use('/api/control-plane/pipelines',     requireAuth, pipelinesRouter);
+app.use('/api/control-plane/agents',        requireAuth, agentsRouter);
+app.use('/api/control-plane/regions',       requireAuth, regionsRouter);
+app.use('/api/control-plane/runs',          requireAuth, runsRouter);
+app.use('/api/control-plane/metrics',       requireAuth, metricsRouter);
+app.use('/api/control-plane/telemetry',     requireAuth, telemetryRouter);
+app.use('/api/control-plane/mas',           requireAuth, masRouter);
+app.use('/api/control-plane/recovery',      requireAuth, recoveryRouter);
+
 app.use('/pipelines/cic', requireAuth, cicRouter);
 app.use('/pipelines',     requireAuth, pipelinesRouter);
 app.use('/agents',        requireAuth, agentsRouter);
@@ -187,7 +198,10 @@ app.use('/metrics',       requireAuth, metricsRouter);
 app.use('/telemetry',     requireAuth, telemetryRouter);
 app.use('/mas',           requireAuth, masRouter);
 app.use('/recovery',      requireAuth, recoveryRouter);
-
+app.use('/health',        requireAuth, healthRouter);
+app.get('/api/control-plane/healthz', (req, res) => {
+  res.json({ ok: true, version: VERSION });
+});
 // Antigravity SLO Metrics
 app.use('/api/control-plane/metrics/slo', requireAuth, sloRouter);
 app.use('/metrics/slo',                   requireAuth, sloRouter);

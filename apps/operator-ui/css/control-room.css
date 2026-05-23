@@ -10,27 +10,30 @@
 /* ── Design Tokens ─────────────────────────────────────────────────────── */
 
 :root {
-  --gold:        #C9A84C;
-  --gold-dim:    #9C7C34;
-  --gold-hover:  #E0BC62;
-  --bg:          #0d0d0d;
-  --surface:     #181818;
-  --surface2:    #222222;
-  --surface3:    #2c2c2c;
-  --border:      #2e2e2e;
-  --border-dim:  #1e1e1e;
-  --text:        #f0ece4;
-  --text-dim:    #9a9490;
-  --text-muted:  #5a5552;
-  --green:       #22c55e;
-  --green-bg:    #052010;
-  --red:         #ef4444;
-  --red-bg:      #1f0505;
-  --yellow:      #f59e0b;
-  --yellow-bg:   #1a1000;
-  --radius:      6px;
-  --radius-lg:   10px;
-  --shadow:      0 2px 8px rgba(0,0,0,0.5);
+  /* Mapping to Cast Iron Charlie Design System */
+  --gold:        var(--brass);
+  --gold-dim:    var(--rust);
+  --gold-hover:  var(--ember);
+  --bg:          var(--black);
+  --surface:     var(--forge);
+  --surface2:    var(--iron);
+  --surface3:    var(--iron);
+  --border:      var(--color-border-default);
+  --border-dim:  var(--color-border-section);
+  --text:        var(--bone);
+  --text-dim:    var(--ash);
+  --text-muted:  var(--ash);
+  
+  --green:       #5a9e6f;  /* status-live */
+  --green-bg:    rgba(90, 158, 111, 0.08);
+  --red:         var(--ember);
+  --red-bg:      rgba(196, 80, 26, 0.07);
+  --yellow:      var(--brass);
+  --yellow-bg:   rgba(184, 146, 42, 0.07);
+  
+  --radius:      0;
+  --radius-lg:   0;
+  --shadow:      none;
   --font-mono:   'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 }
 
@@ -42,7 +45,7 @@ html, body {
   height: 100%;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -110,8 +113,8 @@ html, body {
   justify-content: space-between;
   padding: 0 20px;
   height: 52px;
-  background: linear-gradient(90deg, #1a1400 0%, #0d0d0d 60%);
-  border-bottom: 2px solid var(--gold-dim);
+  background: linear-gradient(90deg, var(--forge) 0%, var(--black) 60%);
+  border-bottom: 2px solid var(--ember);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -600,6 +603,10 @@ tbody tr:hover td { background: var(--surface); color: var(--text); }
 
 @media (max-width: 600px) {
   .metrics-grid { grid-template-columns: 1fr; }
+  #login-card { padding: 32px 24px; }
+  .header-right .badge { display: none; }
+}
+fr; }
   #login-card { padding: 32px 24px; }
   .header-right .badge { display: none; }
 }

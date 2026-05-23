@@ -6,15 +6,16 @@
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
     "sync-docs": "bash scripts/sync-docs.sh",
-    "build-docs": "bash scripts/sync-docs.sh --build",
+    "build-docs": "bash scripts/sync-docs.sh --build && npm run test:links",
     "test-orchestrator": "cd projects/cic/orchestrator && npm test",
+    "test:links": "cd .. && bash tools/regressions/check-links.sh",
     "stress-test": "cd ../tools/runtime-harness && npm run stress",
     "release:notes": "node tools/release-notes.mjs",
     "release:diff": "node tools/release-diff.mjs",
     "release:timeline": "node tools/release-timeline.mjs",
     "release:tag": "node tools/release-tag.mjs",
     "release:bundle": "node tools/release-bundle.mjs",
-    "release:full": "npm run doc:drift && npm run release:notes && npm run release:diff && npm run release:timeline && npm run release:tag && npm run release:bundle",
+    "release:full": "npm run doc:drift && npm run build-docs && npm run release:notes && npm run release:diff && npm run release:timeline && npm run release:tag && npm run release:bundle",
     "doc:drift": "node tools/doc-drift-check.js"
   },
   "devDependencies": {

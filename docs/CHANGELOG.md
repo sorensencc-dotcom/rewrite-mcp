@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.17.0] - 2026-05-22
+### Added
+- **Unified Global Navigation & Command Center**: Operational braid for the entire CIC ecosystem.
+    - **Command Center** (`apps/operator-ui/index.html`): Central entry point for all system planes (Operations, Analytics, Technical, Knowledge, Intelligence, Research).
+    - **Global Navigation Bar** (`apps/operator-ui/js/global-nav.js`): Universal navigation system fixed to every dashboard and documentation surface.
+    - **Visual Unification**: Centralized design system in `colors_and_type.css` following the "Iron & Ember" aesthetic.
+- **Web Regression Skill & Harness**: Automated integrity verification for the web ecosystem.
+    - **Regression Script** (`tools/regressions/check-links.sh`): Crawls HTML and built site artifacts to verify internal and external link integrity.
+    - **Project Skill** (`skills/web-regression.md`): Standardized procedure for link verification.
+    - **Build Integration** (`package.json`): Automated link testing after MkDocs builds and during release cycles.
+- **MkDocs Industrial Overhaul**: High-density, premium layout for the Knowledge Base.
+    - **Industrial Theme** (`docs/css/charlie-theme.css`): Aggressive CSS overrides for high-density, strictly-branded documentation.
+    - **Hero Landing Page** (`docs/index.md`): Categorized grid navigation with premium typography.
+### Changed
+- **Auth Bypassed**: Disabled Google Identity Services for direct local access.
+    - **Backend Mode** (`apps/control-plane/.env`): Enabled `AUTH_DISABLED=true`.
+    - **Dashboard Hardening**: Removed sign-in gates and login screens from all interfaces.
+- **Navigation Braiding**: Cross-linked every system surface back to the Command Center.
+
+## [2.16.0] - 2026-05-22
+### Added
+- **Operator Console Health Loader (Phase 32B)**: Authoritative baseline health-check execution engine for system validation.
+    - **Health Engine** (`apps/control-plane/src/health-engine.js`): Deterministic manifest loader with parallel execution and timeout management.
+    - **Health Route** (`apps/control-plane/routes/health.js`): Authoritative `/health/baseline` endpoint for operator-level system probes.
+    - **E2E Test Alignment** (`tests/pipeline.e2e.test.js`): Synchronized golden-path tests with modern Control Plane route structure.
+    - **Health Manifest** (`projects/cic/health/baseline.healthcheck.json`): Comprehensive baseline probes for Ingestion, PMS, and E2E Pipeline.
+    - **Control Plane** (`apps/control-plane/index.js`): Integrated health routes and dual-mapped legacy API paths for backward compatibility.
+
 ## [2.15.0] - 2026-05-22
 ### Added
 - **MAS Predictive Mode (Phase 28 Cognitive Substrate)**: Forward-looking cognitive model for forecasting MAS behavior.
@@ -69,7 +97,7 @@
 - **Infisical Secret Rotation Plane**: Implemented staged rotation for core API keys.
     - **Rotation Policy** ([`docs/SECRET_ROTATION_PLANE.md`](SECRET_ROTATION_PLANE.md)): Defined versioned key slots (`_ACTIVE`, `_NEXT`) and rotation cadences.
     - **Rotation Tool** ([`tools/rotation/rotate.js`](../tools/rotation/rotate.js)): Scripted lifecycle management for staging, cutover, and cleanup of secrets.
-    - **Rotation Health Check**: Automated enforcement of secret rotation invariants ([`tools/rotation/health-check.js`](../tools/rotation/health-check.js)).
+    - **Rotation Health Check**: Automated enforcement of secret rotation invariants ([`tools/rotation/health-check.js`](https://github.com/sorensencc-dotcom/rewrite-mcp/blob/main/tools/rotation/health-check.js)).
     - **Versioned Secret Support**: Updated core services and model clients to prioritize `_ACTIVE` keys.
 
 ## [2.10.0] - 2026-05-20

@@ -6,24 +6,35 @@ repo_name: rewrite-mcp
 theme:
   name: material
   palette:
-    scheme: slate
-    primary: teal
-    accent: lime
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: deep orange
+  font:
+    text: Libre Baskerville
+    code: JetBrains Mono
   features:
     - navigation.instant
     - navigation.tracking
     - navigation.sections
     - navigation.expand
+    - navigation.top
     - toc.integrate
     - content.code.copy
-    - content.action.edit
     - search.suggest
     - search.highlight
-    - search.share
 
 nav:
   - Home: index.md
   - Manuals:
+      - Ops Console: manuals/ops_console.md
+      - Metrics & Health: manuals/metrics_health.md
+      - Replay Engine: manuals/replay_engine.md
+      - Event Logging (Black Box): manuals/event_logging.md
+      - Dry-Run Mode: manuals/dry_run.md
+      - Daily Digest: manuals/daily_digest.md
+      - Idea Clusterer: manuals/ideas_clusterer.md
+      - Task Extractor: manuals/task_extractor.md
       - Master Instructions (v1.2): manuals/master-instructions-manual/v1.2/manual.md
       - Master Instructions (v1.1): manuals/master-instructions-manual/v1.1/manual.md
   - Roadmaps:
@@ -53,9 +64,6 @@ nav:
   - Tools:
       - Runtime Harness: tools/runtime-harness.md
       - Prompt Telemetry: tools/prompt-telemetry.md
-  - Templates:
-      - Redesign Brief: templates/redesign-brief-template.md
-      - Outreach Email: templates/outreach-email-template.md
   - State:
       - Rewrite Labs State: state/rewrite-labs-state.md
   - Migrations:
@@ -80,3 +88,14 @@ markdown_extensions:
   - def_list
   - attr_list
   - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra_css:
+  - css/charlie-theme.css
+
+extra_javascript:
+  - ../apps/operator-ui/js/global-nav.js

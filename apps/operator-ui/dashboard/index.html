@@ -10,26 +10,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CIC Observability Dashboard</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
+
     :root {
-      --bg: #0b0e14;
-      --panel-bg: #161b22;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --accent: #58a6ff;
-      --online: #3fb950;
-      --down: #f85149;
-      --degraded: #d29922;
-      --pending: #8b949e;
+      /* CIC Core Tokens */
+      --black:  #0a0806;
+      --forge:  #1a1410;
+      --iron:   #2c2420;
+      --rust:   #8B3A1A;
+      --ember:  #C4501A;
+      --brass:  #B8922A;
+      --ash:    #9a9088;
+      --bone:   #e8e0d4;
+      --white:  #faf6f0;
+
+      /* Semantic Mapping */
+      --bg:       var(--black);
+      --panel-bg: var(--forge);
+      --border:   var(--iron);
+      --text:     var(--bone);
+      --accent:   var(--ember);
+      --online:   #5a9e6f;
+      --down:     var(--ember);
+      --degraded: var(--brass);
+      --pending:  var(--ash);
+
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'Libre Baskerville', serif;
+      --font-ui:      'Barlow Condensed', sans-serif;
     }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-family: var(--font-body);
       background-color: var(--bg);
       color: var(--text);
       display: flex;
       flex-direction: column;
       height: 100vh;
+    }
+
+    /* Film grain overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
     }
 
     @media (max-width: 1100px) {
@@ -93,7 +121,7 @@
     .agent-card {
       background: var(--panel-bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 0;
       padding: 12px;
       display: flex;
       flex-direction: column;
@@ -165,9 +193,9 @@
     }
 
     @keyframes pulse-anim {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(88, 166, 255, 0.4); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(88, 166, 255, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(88, 166, 255, 0); }
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 80, 26, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(196, 80, 26, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 80, 26, 0); }
     }
 
     /* Event Log & Timeline */
@@ -179,18 +207,19 @@
 
     pre#timeline-body {
       margin: 0;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-size: 11px;
       line-height: 1.4;
       white-space: pre-wrap;
       word-break: break-all;
+      color: var(--ash);
     }
 
     .event-log-entry {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-size: 11px;
       padding-bottom: 4px;
-      border-bottom: 1px solid #21262d;
+      border-bottom: 1px solid var(--iron);
     }
 
     .timestamp { color: #8b949e; margin-right: 8px; }
@@ -356,7 +385,7 @@
     .slo-card {
       background: var(--panel-bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 0;
       padding: 16px;
       text-align: center;
     }
@@ -671,7 +700,7 @@
     .mas-analytics-card {
       background: var(--panel-bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 0;
       padding: 12px;
       text-align: center;
     }
@@ -753,31 +782,6 @@
   </style>
 </head>
 <body>
-  <div id="auth-gate" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; flex-direction:column; justify-content:center; align-items:center;">
-    <h1 style="color:var(--accent);">CIC OPERATOR AUTH</h1>
-    <div id="g_id_onload"
-         data-client_id=""
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="onSignIn"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin" data-type="standard"></div>
-  </div>
-
-  <header>
-    <div style="font-weight: bold;">CIC OBSERVABILITY</div>
-    <div class="controls">
-      <select id="region-select" class="btn-small"></select>
-      <button class="btn-small btn-export" onclick="exportLogs()">EXPORT LOGS</button>
-      <div id="status-bar" style="font-size: 12px; color: #8b949e;">POLLING ACTIVE</div>
-      <div class="recovery-score-wrap">
-        <span class="mas-analytics-label">Recovery Score</span>
-        <span id="recovery-score-value">—</span>
-      </div>
-    </div>
-  </header>
-
   <main class="main-grid">
     <section class="panel">
       <h2>Agents</h2>
@@ -836,6 +840,10 @@
       </div>
       <div id="mas-decisions-log">
         <div id="mas-decisions-no-data" style="color:#8b949e; font-size:12px; font-style:italic;">No MAS decisions yet — run an orchestration job to populate.</div>
+      </div>
+      <div id="mas-routing-heatmap" style="margin-top:16px; border-top:1px dashed var(--border); padding-top:16px;">
+        <h3 style="font-size:11px; color:#8b949e; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Routing Heatmap (Cumulative)</h3>
+        <div id="mas-routing-heatmap-container"></div>
       </div>
     </section>
 
@@ -1543,21 +1551,27 @@
         setInterval(loadMASDecisions, 10000);
         setInterval(loadMASDrift, 10000);
       }
-
-      if (!window.CIC_AUTH_DISABLED && !window.location.search.includes('bypass_auth')) {
-        const gate = document.getElementById('auth-gate');
-        gate.style.display = 'flex';
-        document.querySelector('#g_id_onload').setAttribute('data-client_id', window.CIC_GOOGLE_CLIENT_ID);
-        
-        const script = document.createElement('script');
-        script.src = "https://accounts.google.com/gsi/client";
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-      } else {
-        startDashboard();
+      startDashboard();
+    })();
+  </script>
+</body>
+</html>
+, 10000);
       }
-
+      startDashboard();
+    })();
+  </script>
+</body>
+</html>
+rval(loadMASDecisions, 10000);
+        setInterval(loadMASDrift, 10000);
+      }
+      startDashboard();
+    })();
+  </script>
+</body>
+</html>
+ startDashboard();
     })();
   </script>
 </body>

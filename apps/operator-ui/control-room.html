@@ -14,7 +14,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CIC Control Room</title>
+  <link rel="stylesheet" href="css/colors_and_type.css">
   <link rel="stylesheet" href="css/control-room.css">
+  <script src="js/global-nav.js" defer></script>
 
   <!-- CIC_DOCGEN_OPERATOR_PANEL_V1.0.0 — block 1/3: style -->
   <style>
@@ -128,44 +130,14 @@
   }
   </style>
 
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Google Identity Services removed -->
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     LOGIN SCREEN
-     Shown until Google sign-in succeeds. Hidden post-auth.
+     MAIN APP
 ════════════════════════════════════════════════════════════════════════ -->
-<div id="login-screen">
-  <div id="login-card">
-    <div class="login-logo">CIC Control Room</div>
-    <div class="login-subtitle">Cast Iron Charlie — Research Intelligence</div>
-    <div class="login-divider"></div>
-    <!-- GSI renders the button inside this div -->
-    <div id="g-signin-btn"></div>
-    <p class="login-note">Operator access only. Verified by Google.</p>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     MAIN APP  (hidden until auth)
-════════════════════════════════════════════════════════════════════════ -->
-<div id="app" class="hidden">
-
-  <!-- ── Header ───────────────────────────────────────────────────────── -->
-  <header class="header-bar">
-    <div class="header-left">
-      <span class="header-title">CIC Control Room</span>
-      <span class="header-phase">PHASE 21</span>
-    </div>
-    <div class="header-right">
-      <span class="badge" id="badge-qdrant"    title="Qdrant vector DB">Qdrant</span>
-      <span class="badge" id="badge-pipeline"  title="Intelligence service">Pipeline</span>
-      <span class="operator-chip" id="operator-email"></span>
-      <button class="btn-signout" id="signout-btn">Sign Out</button>
-    </div>
-  </header>
+<div id="app">
 
   <!-- ── Two-column grid ──────────────────────────────────────────────── -->
   <div class="main-grid">
@@ -257,29 +229,13 @@
  * @date 2026-05-17
  */
 (function boot() {
-  // ── Config ─────────────────────────────────────────────────────────
-  // Injected via Cloudflare worker / meta tag / env at deploy time.
-  // Falls back to env-appropriate default for local dev.
-  const GOOGLE_CLIENT_ID = window.CIC_GOOGLE_CLIENT_ID
-    ?? document.querySelector('meta[name="google-client-id"]')?.content
-    ?? '';
-
-  console.log('[Boot] Using GOOGLE_CLIENT_ID:', GOOGLE_CLIENT_ID);
-  const loginScreen = document.getElementById('login-screen');
-  const app         = document.getElementById('app');
+  const app = document.getElementById('app');
 
   // ── Helpers ─────────────────────────────────────────────────────────
-  function showApp(email) {
-    document.getElementById('operator-email').textContent = email;
-    loginScreen.classList.add('hidden');
+  function showApp() {
     app.classList.remove('hidden');
     mountPanels();
     pollHeaderBadges();
-  }
-
-  function showLogin() {
-    app.classList.add('hidden');
-    loginScreen.classList.remove('hidden');
   }
 
   // ── Mount panels ────────────────────────────────────────────────────
@@ -326,42 +282,11 @@
     el.textContent = text;
   }
 
-  // ── Sign-out ─────────────────────────────────────────────────────────
-  document.getElementById('signout-btn').addEventListener('click', () => {
-    CicAPI.signOut();
-    showLogin();
-  });
-
-  // ── GSI init ─────────────────────────────────────────────────────────
-  function initGSI() {
-    if (!window.google?.accounts?.id) {
-      // GSI hasn't loaded yet — retry after a short delay
-      setTimeout(initGSI, 200);
-      return;
-    }
-
-    CicAPI.init(GOOGLE_CLIENT_ID, (email) => {
-      showApp(email);
-    });
-
-    // Render the Google button in the login card
-    google.accounts.id.renderButton(
-      document.getElementById('g-signin-btn'),
-      {
-        theme: 'filled_black',
-        size:  'large',
-        width: 280,
-        text:  'signin_with',
-      }
-    );
-  }
-
   // ── Start ─────────────────────────────────────────────────────────────
-  // If GSI script already loaded, init now; else wait for onload.
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGSI);
+    document.addEventListener('DOMContentLoaded', showApp);
   } else {
-    initGSI();
+    showApp();
   }
 })();
 </script>
@@ -506,6 +431,34 @@
     }
 
     lockButtons(true)
+    appendLog(`→ POST /docgen/generate { doc: "${docId}" }`)
+    setStatus(`// generating "${docId}"…`)
+    try {
+      const data = await callDocgen('/docgen/generate', {
+        method: 'POST',
+        body: { doc: docId },
+      })
+      appendLog(`OK generate: ${docId} v${data.version || '?'} → Local Archive`)
+      setStatus(data)
+      await refreshStatus()
+    } catch (err) {
+      appendLog(`ERROR generate "${docId}": ${err.message}`)
+      setStatus(`// generate "${docId}" failed: ${err.message}`)
+    } finally {
+      lockButtons(false)
+    }
+  }
+
+  btnAll.addEventListener('click', () => { handleGenerateAll().catch(() => {}) })
+  btnIndex.addEventListener('click', () => { handleUpdateIndex().catch(() => {}) })
+  btnOne.addEventListener('click', () => { handleGenerateOne().catch(() => {}) })
+
+  refreshStatus().catch(() => {})
+})();
+</script>
+
+</body>
+</html>
     appendLog(`→ POST /docgen/generate { doc: "${docId}" }`)
     setStatus(`// generating "${docId}"…`)
     try {

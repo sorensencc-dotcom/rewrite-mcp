@@ -1,19 +1,93 @@
-# Rewrite Labs Documentation
+<div class="hero-container">
+  <div class="hero-badge">Knowledge Base</div>
+  <h1 class="hero-title">REWRITE LABS DOCUMENTATION</h1>
+  <p class="hero-lead">The living archive of the Arsenal of Democracy. Operational manuals, architecture specifications, and the long-term roadmap for the Rewrite Labs ecosystem.</p>
+</div>
 
-Welcome to the living documentation system for Rewrite Labs.
+<div class="grid-container">
+  <div class="grid-section">
+    <h3>Core Architecture</h3>
+    <ul>
+      <li><a href="architecture/system-overview/">System Overview</a></li>
+      <li><a href="architecture/pms/">Prompt Management (PMS)</a></li>
+      <li><a href="architecture/agents/">Orchestration & Agents</a></li>
+      <li><a href="architecture/pipeline/">The Pipeline</a></li>
+    </ul>
+  </div>
+  <div class="grid-section">
+    <h3>Operations</h3>
+    <ul>
+      <li><a href="ANTIGRAVITY_SLO/">SLO Charter</a></li>
+      <li><a href="architecture/telemetry/">Prompt Telemetry</a></li>
+      <li><a href="manuals/release-automation/">Release Automation</a></li>
+      <li><a href="CHANGELOG/">Changelog</a></li>
+    </ul>
+  </div>
+  <div class="grid-section">
+    <h3>Readiness</h3>
+    <ul>
+      <li><a href="readiness/phase-26-mandate/">Phase 26: Hardening</a></li>
+      <li><a href="readiness/phase-27-mandate/">Phase 27: Recovery</a></li>
+      <li><a href="readiness/phase-28-mandate/">Phase 28: Predictive</a></li>
+      <li><a href="state/rewrite-labs-state/">Project State</a></li>
+    </ul>
+  </div>
+</div>
 
-## Quick Links
-- [System Overview](architecture/system-overview.md)
-- [Prompt Management System (PMS)](architecture/pms.md)
-- [Orchestration & Agents](architecture/agents.md)
-- [The Pipeline](architecture/pipeline.md)
-- [Antigravity SLO Charter](ANTIGRAVITY_SLO.md)
-- [Prompt Telemetry](architecture/telemetry.md)
-- [Release Automation Manual](manuals/release-automation.md)
-
-## Readiness & Roadmap
-- [Phase-26: Runtime Hardening](readiness/phase-26-mandate.md)
-- [Phase-27: Autonomous Recovery Plane](readiness/phase-27-mandate.md)
-- [Phase-28: MAS Predictive Mode](readiness/phase-28-mandate.md)
-- [Project State](state/rewrite-labs-state.md)
-- [Changelog](CHANGELOG.md)
+<style>
+  .hero-container {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--iron);
+    margin-bottom: 3rem;
+  }
+  .hero-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ember);
+    font-weight: 800;
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 900 !important;
+    font-size: 3.5rem !important;
+    line-height: 1 !important;
+    margin: 0 0 1.5rem 0 !important;
+    border-bottom: none !important;
+  }
+  .hero-lead {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ash);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  .grid-section h3 {
+    margin-bottom: 1rem !important;
+  }
+  .grid-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .grid-section li {
+    margin-bottom: 0.5rem;
+  }
+  .grid-section a {
+    color: var(--bone);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .grid-section a:hover {
+    color: var(--ember);
+  }
+</style>

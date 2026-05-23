@@ -22,6 +22,13 @@ This file defines the foundational mandates for the Antigravity CLI in this work
 - **Doc Update Mandate**: After every successful build or phase completion, execute [`skills/doc-update.md`](skills/doc-update.md). Policy is defined in [`docs/DOC_POLICY.md`](docs/DOC_POLICY.md). The living roadmap is at [`docs/ROADMAP.md`](docs/ROADMAP.md). No phase is complete without a changelog entry, roadmap update, and Suggestion Log pass.
 - **Doc Drift Mandate**: Documentation must never drift from code. Execute `npm run doc:drift` to verify that latest changes are reflected in the changelog and roadmap. This check is mandatory before declaring any phase complete.
 
+### 4. Visual Identity & Design System
+- **Cast Iron Charlie (CIC)**: All user-facing interfaces (dashboards, telemetry, internal tools) and documentation (MkDocs, Markdown reports) MUST adhere to the **Cast Iron Charlie** design system.
+- **Color Palette**: Use the "Iron & Ember" palette: Black (#0a0806), Forge (#1a1410), Iron (#2c2420), Ember (#C4501A), Brass (#B8922A), and Bone (#e8e0d4).
+- **Typography**: Primary headers use 'Playfair Display' (900/700). Body text uses 'Libre Baskerville'. UI labels and buttons use 'Barlow Condensed'.
+- **Design Constraints**: Enforce a **Zero Border Radius** policy (sharp corners only). Shadows should be avoided or used minimally as flat overlays.
+- **Central Authority**: `rewrite-mcp/apps/operator-ui/css/colors_and_type.css` is the canonical reference for tokens.
+
 ## Development Lifecycle
 Operate using a **Research -> Strategy -> Execution** lifecycle.
 1. **Research**: Map the codebase and validate assumptions.

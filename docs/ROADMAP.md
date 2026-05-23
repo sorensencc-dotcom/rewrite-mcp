@@ -8,6 +8,8 @@
 
 ## Completed
 
+- [v2.17.0] Unified Global Navigation & Command Center + Web Regression Skill + MkDocs Industrial Overhaul + Auth Bypass — 2026-05-22
+- [v2.16.0] Phase 27H — MAS Routing Heatmap: Birds-eye frequency view of which agents trigger which directives (`rerunAgent`, `skipAgent`, etc.) in a cumulative ASCII heatmap. — 2026-05-22
 - [v2.15.0] MAS Predictive Mode — Forward-looking cognitive model (TTI, Agent Drift, Recovery Forecasts) + One-Click Desktop Launcher + PMS Subsystem Installation — 2026-05-22
 - [v2.13.0] MAS-Aware Rerun Telemetry — three new event types (`mas_rerun_attempt`, `mas_rerun_backoff`, `mas_rerun_final_state`), ingest routes, timeline/trace inclusion, and Intelligence Timeline + Waterfall dashboard panels — 2026-05-21
 - [v2.12.0] MAS Rerun Hardening + LLM Debug Plane + JSON Robustness — 2026-05-21
@@ -39,7 +41,7 @@
 
 ## Planned
 
-1. **Phase 27H — MAS Routing Heatmap**: Birds-eye frequency view of which agents trigger which directives (`rerunAgent`, `skipAgent`, etc.). Renders as an ASCII frequency table in the dashboard.
+1. **Phase 32 — MAS Governance Plane**: Operator-in-the-loop overrides for MAS directives and real-time policy adjustments.
 
 ---
 

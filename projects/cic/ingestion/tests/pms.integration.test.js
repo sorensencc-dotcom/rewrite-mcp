@@ -19,9 +19,8 @@ describe('PMS Integration (Harvester -> PMS)', () => {
     });
 
     expect(payload).toBeDefined();
-    // Usually buildPrompt returns an object with `contents` or `messages` for Gemini
-    expect(payload).toHaveProperty('contents');
-    expect(payload.contents[0].parts[0].text).toContain('Test content to analyze.');
+    expect(payload).toHaveProperty('prompt');
+    expect(payload.prompt).toContain('Test content to analyze.');
   });
 
   it('should throw an error when context is missing', async () => {

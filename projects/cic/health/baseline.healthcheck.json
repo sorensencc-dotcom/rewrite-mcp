@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "name": "cic-baseline-healthcheck",
+  "description": "Authoritative CIC system health probe validating ingestion → harvester → PMS → model → orchestrator → synthesizer → audit.",
+  "baseline_version": "v2.13.0",
+  "checks": [
+    {
+      "id": "pipeline-e2e",
+      "name": "E2E Pipeline Test",
+      "type": "process",
+      "command": "./scripts/run-e2e.sh",
+      "cwd": "rewrite-mcp",
+      "timeout_seconds": 120,
+      "expected_exit_code": 0,
+      "severity": "critical",
+      "description": "Runs the full CIC pipeline against the local Control Plane API using the golden-path test suite."
+    },
+    {
+      "id": "pms-integration",
+      "name": "PMS Integration Test",
+      "type": "vitest",
+      "pattern": "pms.integration.test.js",
+      "cwd": "rewrite-mcp/projects/cic/ingestion/tests",
+      "timeout_seconds": 60,
+      "expected_exit_code": 0,
+      "severity": "high",
+      "description": "Validates PMS pack loading, dependency resolution, section merging, and schema assertions."
+    },
+    {
+      "id": "harvester-golden-path",
+      "name": "Harvester Golden-Path Test",
+      "type": "vitest",
+      "pattern": "harvester_golden_path.test.js",
+      "cwd": "rewrite-mcp/projects/cic/ingestion/tests",
+      "timeout_seconds": 60,
+      "expected_exit_code": 0,
+      "severity": "high",
+      "description": "Mocks Gemini and validates the Ingest → Harvester → PMS → Model execution chain."
+    }
+  ],
+  "telemetry": {
+    "emit_results": true,
+    "namespace": "cic.health.baseline",
+    "include_logs": true,
+    "include_durations": true
+  },
+  "metadata": {
+    "created_at": "2026-05-21T23:13:00-04:00",
+    "owner": "Rewrite Labs / CIC Operator",
+    "notes": [
+      "This manifest defines the authoritative health baseline for CIC v2.13.0.",
+      "The pipeline-e2e check is the primary system heartbeat.",
+      "All checks must pass before promoting a new CIC release to stable."
+    ]
+  }
+}

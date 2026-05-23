@@ -11,6 +11,7 @@ const MASAnalytics = (() => {
   'use strict';
 
   const AGENTS = ['INGEST', 'ENRICH', 'ORCHESTRATE', 'SYNTHESIZE', 'AUDIT', 'MCP'];
+  const DIRECTIVES = ['rerunAgent', 'speculativeRun', 'parallelizeAgents', 'skipAgent', 'fallbackAgent', 'none'];
   const MAX_HEATMAP_CELLS = 60;
 
   function init() {
@@ -19,6 +20,7 @@ const MASAnalytics = (() => {
 
   let _lastGroups = [];
   let _lastStability = {};
+  let _lastDecisions = [];
 
   /**
    * Main entry point called by the dashboard tick.
@@ -26,8 +28,9 @@ const MASAnalytics = (() => {
   function update(timelineData) {
     if (!timelineData || timelineData.error || !timelineData.length) return;
 
-    const { groups, allRunsCount } = _processTimeline(timelineData);
+    const { groups, allRunsCount, decisions } = _processTimeline(timelineData);
     _lastGroups = groups;
+    _lastDecisions = decisions;
     
     const stability = _computeStability(groups, allRunsCount);
     _lastStability = stability;
@@ -35,6 +38,9 @@ const MASAnalytics = (() => {
 
     const heatmapData = _computeHeatmapData(groups);
     _renderHeatmap(heatmapData);
+
+    const routingHeatmap = _computeRoutingHeatmap(decisions);
+    _renderRoutingHeatmap(routingHeatmap);
 
     const recoveryScore = _computeRecoveryScore(stability);
     stability.recoveryScore = recoveryScore; // Attach for mitigation engine
@@ -74,6 +80,7 @@ const MASAnalytics = (() => {
 
   function _processTimeline(data) {
     const groups = [];
+    const decisions = [];
     let allRunsCount = 0;
     
     // Sort oldest to newest for grouping
@@ -84,6 +91,7 @@ const MASAnalytics = (() => {
       const ev = sorted[i];
       
       if (ev.type === 'model_call') allRunsCount++;
+      if (ev.type === 'mas_decision') decisions.push(ev);
 
       if (ev.type === 'mas_rerun_attempt') {
         const group = [ev];
@@ -124,7 +132,7 @@ const MASAnalytics = (() => {
       i++;
     }
     
-    return { groups, allRunsCount };
+    return { groups, allRunsCount, decisions };
   }
 
   function _computeStability(groups, allRunsCount) {
@@ -193,6 +201,25 @@ const MASAnalytics = (() => {
     return heatmap;
   }
 
+  function _computeRoutingHeatmap(decisions) {
+    // Matrix of Agent x Directive
+    const matrix = {};
+    AGENTS.forEach(a => {
+      matrix[a] = {};
+      DIRECTIVES.forEach(d => matrix[a][d] = 0);
+    });
+
+    decisions.forEach(d => {
+      const agent = d.agent;
+      const directive = d.directive || d.action || d.meta?.action;
+      if (matrix[agent] && matrix[agent].hasOwnProperty(directive)) {
+        matrix[agent][directive]++;
+      }
+    });
+
+    return matrix;
+  }
+
   function _computeRecoveryScore(s) {
     // RecoveryScore = 100 - (avg_attempts - 1) * 10 - (avg_backoff_ms / 1000) * 5 - (failure_rate * 40)
     let score = 100 
@@ -243,6 +270,30 @@ const MASAnalytics = (() => {
       row.appendChild(cellsWrap);
       container.appendChild(row);
     });
+  }
+
+  function _renderRoutingHeatmap(matrix) {
+    const container = document.getElementById('mas-routing-heatmap-container');
+    if (!container) return;
+
+    // Build ASCII-style table
+    let table = 'AGENT       | RERUN | SPEC  | PARA  | SKIP  | FALL  | NONE\n';
+    table += '------------|-------|-------|-------|-------|-------|------\n';
+
+    AGENTS.forEach(agent => {
+      const row = matrix[agent];
+      const name = agent.padEnd(11);
+      const rerun = row.rerunAgent.toString().padStart(5);
+      const spec = row.speculativeRun.toString().padStart(5);
+      const para = row.parallelizeAgents.toString().padStart(5);
+      const skip = row.skipAgent.toString().padStart(5);
+      const fall = row.fallbackAgent.toString().padStart(5);
+      const none = row.none.toString().padStart(5);
+      
+      table += `${name} | ${rerun} | ${spec} | ${para} | ${skip} | ${fall} | ${none}\n`;
+    });
+
+    container.innerHTML = `<pre style="margin:0; color:var(--accent); font-size:10px;">${table}</pre>`;
   }
 
   function _updateRecoveryScoreUI(score) {
