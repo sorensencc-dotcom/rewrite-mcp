@@ -1,8 +1,8 @@
 # Release Diff: v2.19.0 vs v2.18.0
 
 ## Velocity Delta
-- **Total Changes**: 6 (Delta: +0)
-- **New Features**: 6 (Delta: +0)
+- **Total Changes**: 7 (Delta: +1)
+- **New Features**: 7 (Delta: +1)
 - **Fixes**: 0 (Delta: +0)
 
 ## Latest Changes (v2.19.0)
@@ -13,6 +13,7 @@
     - **Cognitive Traces**: Captured 275 high-fidelity decision traces in `mas-introspection.json`.
     - **Mock Model Layer**: Enhanced `unifiedModelClient.js` with context-aware synthetic load injection for isolated MAS validation.
 - **Doc Policy Synchronization**: Reorganized the Arsenal Knowledge Base and updated the global Doc Policy to reflect the new hierarchical structure.
+- **Startup & Launcher Documentation**: Created a dedicated operational manual (`docs/rewrite/manuals/startup.md`) for the one-click GUI launcher and hardened CLI boot scripts.
 
 ## Previous Changes (v2.18.0)
 ### Added

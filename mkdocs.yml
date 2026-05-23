@@ -60,6 +60,7 @@ nav:
   - "RL Governance: Secret Plane": rewrite/governance/SECRET_PLANE.md
   - "RL Governance: Secret Rotation": rewrite/governance/SECRET_ROTATION_PLANE.md
   - "RL Manual: Security Infrastructure": rewrite/manuals/security_infrastructure.md
+  - "RL Manual: Startup & Launcher": rewrite/manuals/startup.md
   - "RL Manual: Master Instructions (v1.2)": rewrite/manuals/master-instructions-manual/v1.2/manual.md
   - "RL Tool: Runtime Harness": rewrite/tools/runtime-harness.md
   - "RL Tool: Prompt Telemetry": rewrite/tools/prompt-telemetry.md

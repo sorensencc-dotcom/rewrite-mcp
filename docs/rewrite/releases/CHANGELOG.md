@@ -8,6 +8,7 @@
     - **Cognitive Traces**: Captured 275 high-fidelity decision traces in `mas-introspection.json`.
     - **Mock Model Layer**: Enhanced `unifiedModelClient.js` with context-aware synthetic load injection for isolated MAS validation.
 - **Doc Policy Synchronization**: Reorganized the Arsenal Knowledge Base and updated the global Doc Policy to reflect the new hierarchical structure.
+- **Startup & Launcher Documentation**: Created a dedicated operational manual (`docs/rewrite/manuals/startup.md`) for the one-click GUI launcher and hardened CLI boot scripts.
 
 ## [2.18.0] - 2026-05-22
 ### Added

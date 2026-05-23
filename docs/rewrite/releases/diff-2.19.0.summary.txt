@@ -1,1 +1,1 @@
-v2.19.0 vs v2.18.0: +0 change velocity delta. 6 new features, 0 fixes.
+v2.19.0 vs v2.18.0: +1 change velocity delta. 7 new features, 0 fixes.
