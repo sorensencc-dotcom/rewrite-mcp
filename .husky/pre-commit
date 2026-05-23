@@ -1,0 +1,16 @@
+echo "Running pre-commit secret scan..."
+
+# Search for common secret patterns in staged files
+# - AIza: Google API Keys
+# - AKIA: AWS Access Keys
+if git diff --cached --name-only | xargs grep -E "AIza[0-9A-Za-z_-]{35}|AKIA[0-9A-Z]{16}" 2>/dev/null; then
+  echo "--------------------------------------------------------"
+  echo "CRITICAL ERROR: Potential secret detected in staged files!"
+  echo "Commit aborted to prevent credential leakage."
+  echo "Please remove the secrets and try again."
+  echo "--------------------------------------------------------"
+  exit 1
+fi
+
+echo "Pre-commit checks passed."
+exit 0
