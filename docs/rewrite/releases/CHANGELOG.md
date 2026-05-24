@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.20.0] - 2026-05-24
+### Added
+- **Intelligence Plane Operationalization**: Full end-to-end integration of the ingestion, extraction, and synthesis layers.
+    - **Deterministic Ingestion Normalization** (Phases 29A): 8-stage pipeline (Boundary, ID, Dedupe, Metadata, Content, Text, Region, Assembly) guaranteeing canonical asset envelopes.
+    - **Extractor Interface v1.0**: Pluggable, side-band artifact contract for post-ingestion processing.
+    - **Image Analyzer v2.0**: Reference vision subsystem producing deterministic scene, object, face, and embedding artifacts.
+    - **Asset Intelligence Record (AIR)**: Centralized state management merging heterogeneous signals into a unified view.
+    - **Thematic Synthesis Engine**: Three-lens (Technical, Historical, Narrative) integration logic for research-grade outputs.
+- **Rewrite Labs Skill Pack v1.0**: Production-ready automation suite (Discovery, Extractor, Redesign, Outreach) for multi-tenant CIC runtime.
+- **Audio Transcriber Extractor**: Reference audio pass for structured transcript generation.
+
 ## [2.19.0] - 2026-05-23
 ### Added
 - **Live Stress Validation (N=50)**: Empirical proof of MAS Efficacy Lab performance under high load.

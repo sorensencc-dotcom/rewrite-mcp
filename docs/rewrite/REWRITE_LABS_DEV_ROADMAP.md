@@ -1,7 +1,7 @@
 ---
 title: Rewrite Labs Platform & Product Roadmap
-version: 2.17.0
-date: 2026-05-22
+version: 2.20.0
+date: 2026-05-24
 ---
 
 # Rewrite Labs Roadmap
@@ -14,6 +14,8 @@ This roadmap covers both the **Technical Platform (Antigravity/MAS)** and the **
 
 ### Completed
 
+- **[v2.20.0] Phase 29: Intelligence Plane Operationalization** — End-to-end Ingestion (8-stage), Extractor Interface, Image Analyzer v2, AIR & Thematic Synthesis Engine — 2026-05-24
+- **[v2.19.0] Live Stress Validation (N=50)** — Empirical proof of MAS Efficacy Lab performance under high load — 2026-05-23
 - **[v2.17.0] Unified Global Navigation & Command Center** + Web Regression Skill + MkDocs Industrial Overhaul + Auth Bypass — 2026-05-22
 - **[v2.16.0] Phase 27H — MAS Routing Heatmap**: Birds-eye frequency view of which agents trigger which directives (`rerunAgent`, `skipAgent`, etc.) in a cumulative ASCII heatmap. — 2026-05-22
 - **[v2.15.0] MAS Predictive Mode**: Forward-looking cognitive model (TTI, Agent Drift, Recovery Forecasts) + One-Click Desktop Launcher + PMS Subsystem Installation — 2026-05-22

@@ -1,7 +1,7 @@
 {
-  "version": "BOB_MONOREPO_v2.13.0",
-  "phase": 28,
-  "last_updated": "2026-05-21",
+  "version": "BOB_MONOREPO_v2.20.0",
+  "phase": 29,
+  "last_updated": "2026-05-24",
   "components": {
     "apps": {
       "cic-pms": {
@@ -265,6 +265,54 @@
     ],
     "patched_artifacts": [
       "BOB_MANIFEST.json"
+    ]
+  },
+  "phase_29": {
+    "description": "Intelligence Plane Operationalization — Ingestion, Extraction, AIR, Synthesis & RL Skill Pack",
+    "status": "delivered",
+    "date": "2026-05-24",
+    "new_artifacts": [
+      "projects/cic/ingestion/src/normalizer/model.js",
+      "projects/cic/ingestion/src/normalizer/index.js",
+      "projects/cic/ingestion/src/normalizer/metadata/index.js",
+      "projects/cic/ingestion/src/normalizer/metadata/core.js",
+      "projects/cic/ingestion/src/normalizer/metadata/region.js",
+      "projects/cic/ingestion/src/normalizer/content/index.js",
+      "projects/cic/ingestion/src/normalizer/content/url.js",
+      "projects/cic/ingestion/src/normalizer/content/html.js",
+      "projects/cic/ingestion/src/normalizer/content/pdf.js",
+      "projects/cic/ingestion/src/normalizer/content/image.js",
+      "projects/cic/ingestion/src/normalizer/content/audio.js",
+      "projects/cic/ingestion/src/normalizer/content/video.js",
+      "projects/cic/ingestion/src/normalizer/content/file.js",
+      "projects/cic/ingestion/src/extractors/base/types.js",
+      "projects/cic/ingestion/src/extractors/registry.js",
+      "projects/cic/ingestion/src/extractors/imageAnalyzer.js",
+      "projects/cic/ingestion/src/extractors/audioTranscriber.js",
+      "projects/cic/orchestrator/src/air/model.js",
+      "projects/cic/orchestrator/src/air/merger.js",
+      "projects/cic/orchestrator/src/assetOrchestrator.js",
+      "projects/cic/orchestrator/src/synthesis/index.js",
+      "projects/cic/orchestrator/src/synthesis/types.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/technical.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/historical.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/historicalTimeline.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/narrative.js",
+      "projects/cic/orchestrator/src/synthesis/formatters/markdown.js",
+      "projects/cic/orchestrator/src/synthesis/formatters/json.js",
+      "projects/rl/rewrite-labs-core/manifest.json",
+      "projects/rl/rewrite-labs-core/agents/discovery.js",
+      "projects/rl/rewrite-labs-core/agents/extractor.js",
+      "projects/rl/rewrite-labs-core/agents/redesign.js",
+      "projects/rl/rewrite-labs-core/agents/outreach.js",
+      "projects/rl/rewrite-labs-core/specs/discovery.md",
+      "projects/rl/rewrite-labs-core/templates/redesign_prompt.txt"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md"
     ]
   }
 }
