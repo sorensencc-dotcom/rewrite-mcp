@@ -12,5 +12,20 @@ if git diff --cached --name-only | xargs grep -E "AIza[0-9A-Za-z_-]{35}|AKIA[0-9
   exit 1
 fi
 
+echo "Running pre-commit skill validation..."
+# Get list of staged markdown files in the skills directory
+SKILL_FILES=$(git diff --cached --name-only --diff-filter=ACM -- 'skills/*.md')
+
+if [ -n "$SKILL_FILES" ]; then
+  node scripts/validate-skill.mjs $SKILL_FILES
+  if [ $? -ne 0 ]; then
+    echo "--------------------------------------------------------"
+    echo "ERROR: Skill validation failed."
+    echo "Commit aborted."
+    echo "--------------------------------------------------------"
+    exit 1
+  fi
+fi
+
 echo "Pre-commit checks passed."
 exit 0
