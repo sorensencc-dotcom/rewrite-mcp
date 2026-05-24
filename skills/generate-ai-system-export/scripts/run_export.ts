@@ -41,7 +41,7 @@ async function main() {
   if (mode === 'normalize' || mode === 'full') {
     console.log('
 [Phase 2: NORMALIZE]');
-    await runNormalization(RAW_DIR);
+    await runNormalization(RAW_DIR, NORMALIZED_DIR);
     console.log('  - Normalization step completed.');
   }
 
