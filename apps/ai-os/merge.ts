@@ -146,14 +146,12 @@ export async function merge(root: string) {
   await generateMemorySyncPack(root);
 }
 
-async function generateMemorySyncPack(root: string) {
-    console.log("Generating memory sync pack...");
-    const exportDir = path.join(root, "EXPORT", "memory_sync_pack");
-    await fs.mkdir(exportDir, { recursive: true });
+async function generateOperatorDoctrine(root: string) {
+    console.log("Generating operator doctrine...");
+    const doctrinePath = path.join(root, "SYSTEM", "operator_doctrine.md");
+    await fs.mkdir(path.dirname(doctrinePath), { recursive: true });
 
-    // 1. operator_doctrine.md (Verbatim Doctrine)
-    const doctrinePath = path.join(exportDir, "operator_doctrine.md");
-    const doctrineContent = `
+    const content = `
 # Operator Doctrine
 
 ## Core Mandates
@@ -166,11 +164,11 @@ async function generateMemorySyncPack(root: string) {
 - Automate complexity while maintaining strict human governance.
 - Prioritize technical excellence and idiomatic consistency.
 `;
-    await fs.writeFile(doctrinePath, doctrineContent.trim(), "utf8");
+    await fs.writeFile(doctrinePath, content.trim(), "utf8");
+}
 
-    // 2. copilot_memory.txt (Copilot 365 Memory - Short, declarative, no markdown)
-    const copilotPath = path.join(exportDir, "copilot_memory.txt");
-    const copilotContent = `
+function buildCopilotMemory(): string {
+  return `
 Operator: Chris
 Role: System Architect and Operator
 Location: Tampa, FL (EDT)
@@ -206,12 +204,11 @@ Non-Negotiables:
 - Do not modify operator identity
 - Do not hallucinate context
 - Escalate ambiguity immediately
-`;
-    await fs.writeFile(copilotPath, copilotContent.trim(), "utf8");
+`.trim();
+}
 
-    // 3. gemini_memory.md (Gemini CLI Memory - Full markdown, long-form)
-    const geminiPath = path.join(exportDir, "gemini_memory.md");
-    const geminiContent = `
+function buildGeminiMemory(doctrine: string, memoryContract: string): string {
+  return `
 # Gemini Memory Profile
 
 ## Operator Identity
@@ -221,7 +218,7 @@ Non-Negotiables:
 - Communication Style: Direct, concise, deterministic, operator-grade
 
 ## Operator Doctrine
-${doctrineContent.trim()}
+${doctrine.trim()}
 
 ## Core System Principles
 - Determinism over ambiguity
@@ -233,10 +230,7 @@ ${doctrineContent.trim()}
 - Evolution over stagnation
 
 ## Memory Contract Summary
-- Identity: Chris (System Architect)
-- Preferences: Concise, technical, direct.
-- Governance: Last write wins, 30-day log retention.
-- Rule: Memory is the source of truth.
+${memoryContract.trim()}
 
 ## Coherence Layer Summary
 - Shared identity
@@ -279,12 +273,11 @@ ${doctrineContent.trim()}
 5. Determinism
 6. Performance
 7. Creativity (only when explicitly requested)
-`;
-    await fs.writeFile(geminiPath, geminiContent.trim(), "utf8");
+`.trim();
+}
 
-    // 4. claude_memory.md (Claude Desktop Memory - SYSTEM + STATE)
-    const claudePath = path.join(exportDir, "claude_memory.md");
-    const claudeContent = `
+function buildClaudeMemory(doctrine: string, memoryContract: string): string {
+  return `
 # SYSTEM
 
 You are part of Chris’s distributed AI-OS.  
@@ -297,7 +290,7 @@ Your behavior must align with the operator doctrine, memory contract, coherence 
 - Communication Style: Direct, concise, deterministic
 
 ## Operator Doctrine
-${doctrineContent.trim()}
+${doctrine.trim()}
 
 ## Core Rules
 - Do not infer operator intent
@@ -310,9 +303,7 @@ ${doctrineContent.trim()}
 # STATE
 
 ## Memory Contract Summary
-- Identity: Chris (System Architect)
-- Preferences: Concise, technical, direct.
-- Governance: Last write wins, 30-day log retention.
+${memoryContract.trim()}
 
 ## Coherence Layer Summary
 - Shared identity
@@ -343,8 +334,52 @@ ${doctrineContent.trim()}
 - Meta-Evolution Simulator
 - Meta-Evolution Log
 - Meta-Evolution Ranker
-`;
-    await fs.writeFile(claudePath, claudeContent.trim(), "utf8");
+`.trim();
+}
+
+function summarizeDiff(file: string): string {
+  const mapping: Record<string, string> = {
+    "copilot_memory.txt": "Updated Copilot memory profile to reflect latest operator doctrine or preferences.",
+    "gemini_memory.md": "Updated Gemini memory profile to reflect latest doctrine or system summaries.",
+    "claude_memory.md": "Updated Claude memory profile to reflect latest doctrine or system summaries.",
+    "operator_doctrine.md": "Updated operator doctrine content."
+  };
+  return mapping[file] || "File content changed since previous memory sync pack.";
+}
+
+async function generateMemorySyncPack(root: string) {
+    console.log("Generating memory sync pack...");
+    const exportDir = path.join(root, "EXPORT", "memory_sync_pack");
+    await fs.mkdir(exportDir, { recursive: true });
+
+    // 1. Load core system docs
+    const doctrinePath = path.join(root, "SYSTEM", "operator_doctrine.md");
+    const contractPath = path.join(root, "MEMORY", "memory_contract.md");
+    
+    let doctrine = "";
+    try {
+        doctrine = await fs.readFile(doctrinePath, "utf8");
+    } catch {
+        throw new Error("operator_doctrine.md missing; cannot generate Memory Sync Pack.");
+    }
+
+    let memoryContract = "";
+    try {
+        memoryContract = await fs.readFile(contractPath, "utf8");
+        // Condensed version for templates
+        memoryContract = memoryContract.split('\n').slice(0, 20).join('\n') + "\n...";
+    } catch {}
+
+    // 2. Build platform-specific files
+    const copilotFile = path.join(exportDir, "copilot_memory.txt");
+    const geminiFile = path.join(exportDir, "gemini_memory.md");
+    const claudeFile = path.join(exportDir, "claude_memory.md");
+    const doctrineExportPath = path.join(exportDir, "operator_doctrine.md");
+
+    await fs.writeFile(copilotFile, buildCopilotMemory(), "utf8");
+    await fs.writeFile(geminiFile, buildGeminiMemory(doctrine, memoryContract), "utf8");
+    await fs.writeFile(claudeFile, buildClaudeMemory(doctrine, memoryContract), "utf8");
+    await fs.writeFile(doctrineExportPath, doctrine, "utf8");
 
     // --- INFRASTRUCTURE: Manifest, Deltas, and Compression ---
 
@@ -407,15 +442,15 @@ ${doctrineContent.trim()}
     };
 
     for (const file of files) {
-        const oldHash = prevManifest?.files?.[file]?.sha256;
         const newHash = manifest.files[file].sha256;
+        const oldHash = prevManifest?.files?.[file]?.sha256;
 
         if (!oldHash || oldHash !== newHash) {
             deltas.files_changed.push({
                 file,
                 changed: true,
                 reason: !oldHash ? "file_added" : "hash_changed",
-                summary: !oldHash ? "Initial file creation." : `Synchronized with AI-OS ${packageJson.version} updates.`
+                summary: summarizeDiff(file)
             });
         } else {
             deltas.files_changed.push({

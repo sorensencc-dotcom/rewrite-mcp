@@ -325,6 +325,7 @@
       "apps/ai-os/diff.ts",
       "ai-os/SYSTEM/execution_model.md",
       "ai-os/SYSTEM/operator_control_plane.md",
+      "ai-os/SYSTEM/operator_doctrine.md",
       "ai-os/SYSTEM/policies.md",
       "ai-os/SYSTEM/meta_operator_layer.md",
       "ai-os/SYSTEM/meta_audit_engine.md",

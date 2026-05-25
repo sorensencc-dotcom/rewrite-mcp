@@ -29,10 +29,27 @@
 - Evolution over stagnation
 
 ## Memory Contract Summary
-- Identity: Chris (System Architect)
-- Preferences: Concise, technical, direct.
-- Governance: Last write wins, 30-day log retention.
-- Rule: Memory is the source of truth.
+# AI-OS Memory Contract
+
+## A. Identity
+```yaml
+identity:
+  name: Chris
+  roles:
+    - Lead AI Engineer
+    - System Architect
+  organizations:
+    - Rewrite Labs
+  timezone: UTC-4
+  location: US East
+```
+
+## B. Preferences
+```yaml
+preferences:
+  communication_style: Concise, technical, direct
+  formatting: Markdown, YAML, JSON
+...
 
 ## Coherence Layer Summary
 - Shared identity
