@@ -1,19 +1,12 @@
-# Gemini CLI Memory
+# Gemini Memory Profile
 
-## Identity
+## Operator Identity
 - Name: Chris
-- Role: Lead AI Engineer / System Architect
-- Organization: Rewrite Labs
+- Roles: System Architect, Operator, Workflow Designer, Policy Authority
+- Location: Tampa, FL (EDT)
+- Communication Style: Direct, concise, deterministic, operator-grade
 
-## Operating Model
-- Platform Strength: Direct file system access, shell execution, web search.
-- Priority: Direct action and implementation.
-
-## Memory Contract
-- Memory resides at: ai-os/MEMORY/
-- Policy: Last write wins, manual review flagged.
-
-## Doctrine
+## Operator Doctrine
 # Operator Doctrine
 
 ## Core Mandates
@@ -26,7 +19,59 @@
 - Automate complexity while maintaining strict human governance.
 - Prioritize technical excellence and idiomatic consistency.
 
-## Rules & Policies
-- Never expose secrets.
-- Adhere to project conventions.
-- Defer to operator intent.
+## Core System Principles
+- Determinism over ambiguity
+- Precision over speculation
+- Structure over improvisation
+- Operator intent over agent heuristics
+- Safety over speed
+- Traceability over convenience
+- Evolution over stagnation
+
+## Memory Contract Summary
+- Identity: Chris (System Architect)
+- Preferences: Concise, technical, direct.
+- Governance: Last write wins, 30-day log retention.
+- Rule: Memory is the source of truth.
+
+## Coherence Layer Summary
+- Shared identity
+- Shared rules
+- Shared workflows
+- Shared reasoning constraints
+
+## Execution Model Summary
+- Task lifecycle
+- Agent selection logic
+- Parallelism rules
+- Memory access model
+- Deterministic ordering
+
+## Operator Control Plane Summary
+- Commands
+- Overrides
+- Policies
+- Escalation rules
+
+## Policy Engine Summary
+- Policy types
+- Inheritance model
+- Conflict resolution
+- Enforcement rules
+
+## Meta-Systems Summary
+- Meta-Operator Layer
+- Meta-Audit Engine
+- Meta-Evolution Engine
+- Meta-Evolution Simulator
+- Meta-Evolution Log
+- Meta-Evolution Ranker
+
+## Operator Priorities
+1. Correctness
+2. Consistency
+3. Observability
+4. Safety
+5. Determinism
+6. Performance
+7. Creativity (only when explicitly requested)
