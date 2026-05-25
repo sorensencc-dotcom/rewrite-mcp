@@ -468,6 +468,42 @@ export async function validateAIOS(root: string) {
         }
     }
 
+    // Detailed Manifest Validation
+    try {
+        const manifestContent = await fs.readFile(path.join(syncPackDir, "memory_sync_manifest.json"), "utf8");
+        const manifest = JSON.parse(manifestContent);
+        const requiredFields = ["ai_os_version", "memory_sync_pack_version", "generated_at", "git_commit", "files"];
+        for (const field of requiredFields) {
+            if (!manifest[field]) errors.push(`Manifest missing field: ${field}`);
+        }
+        if (manifest.memory_sync_pack_version && !/^\d{4}\.\d{2}\.\d{2}\.\d{2}$/.test(manifest.memory_sync_pack_version)) {
+            errors.push(`Invalid memory_sync_pack_version format: ${manifest.memory_sync_pack_version}`);
+        }
+        for (const file in manifest.files) {
+            if (!manifest.files[file].sha256) errors.push(`Manifest missing hash for file: ${file}`);
+        }
+    } catch (err: any) {
+        errors.push(`Manifest parsing/validation failed: ${err.message}`);
+    }
+
+    // Detailed Delta Validation
+    try {
+        const deltaContent = await fs.readFile(path.join(syncPackDir, "memory_sync_deltas.json"), "utf8");
+        const delta = JSON.parse(deltaContent);
+        if (!delta.current_pack_version) errors.push("Delta missing current_pack_version");
+        if (!Array.isArray(delta.files_changed)) errors.push("Delta files_changed is not an array");
+        else {
+            for (const entry of delta.files_changed) {
+                if (!entry.file) errors.push("Delta entry missing file name");
+                if (entry.changed && (!entry.reason || !entry.summary)) {
+                    errors.push(`Delta entry for ${entry.file} missing reason or summary`);
+                }
+            }
+        }
+    } catch (err: any) {
+        errors.push(`Delta parsing/validation failed: ${err.message}`);
+    }
+
     const archiveName = `memory_sync_pack_v${packageJson.version}.tar.gz`;
     try {
         await fs.access(path.join(exportDir, archiveName));

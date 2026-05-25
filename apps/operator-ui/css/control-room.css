@@ -199,7 +199,7 @@ html, body {
   border-radius: var(--radius-lg);
   padding: 48px 40px;
   text-align: center;
-  max-width: 360px;
+  max-width: var(--layout-login_card_width);
   width: 100%;
   box-shadow: var(--shadow);
 }
@@ -239,7 +239,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
-  height: 52px;
+  height: var(--layout-header_height);
   background: linear-gradient(90deg, var(--forge) 0%, var(--black) 60%);
   border-bottom: 2px solid var(--ember);
   position: sticky;
@@ -649,7 +649,7 @@ tbody tr:hover td { background: var(--surface); color: var(--text); }
   font-size: var(--space-sm);
   padding: var(--space-sm);
   resize: vertical;
-  min-height: 80px;
+  min-height: var(--layout-node_size);
   transition: border-color 0.15s;
 }
 

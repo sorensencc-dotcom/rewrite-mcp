@@ -357,8 +357,9 @@ ${doctrineContent.trim()}
     }
 
     let packageJson;
+    const monorepoRoot = path.join(root, "..");
     try {
-        packageJson = JSON.parse(await fs.readFile(path.join(root, "..", "package.json"), "utf8"));
+        packageJson = JSON.parse(await fs.readFile(path.join(monorepoRoot, "package.json"), "utf8"));
     } catch {
         try {
             packageJson = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
@@ -369,31 +370,59 @@ ${doctrineContent.trim()}
 
     let gitCommit = "unknown";
     try {
-        gitCommit = execSync("git rev-parse --short HEAD", { cwd: path.join(root, "..") }).toString().trim();
+        gitCommit = execSync("git rev-parse --short HEAD", { cwd: monorepoRoot }).toString().trim();
     } catch {}
+
+    const manifestPath = path.join(exportDir, "memory_sync_manifest.json");
+    let prevManifest: any = null;
+    try {
+        prevManifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+    } catch {}
+
+    // Calculate version YYYY.MM.DD.NN
+    const today = new Date().toISOString().split("T")[0].replace(/-/g, ".");
+    let increment = 1;
+    if (prevManifest && prevManifest.memory_sync_pack_version.startsWith(today)) {
+        const parts = prevManifest.memory_sync_pack_version.split(".");
+        increment = parseInt(parts[parts.length - 1], 10) + 1;
+    }
+    const versionString = `${today}.${increment.toString().padStart(2, "0")}`;
 
     const manifest = {
         ai_os_version: packageJson.version,
-        memory_sync_pack_version: `${new Date().toISOString().split("T")[0].replace(/-/g, ".")}.01`,
+        memory_sync_pack_version: versionString,
         generated_at: new Date().toISOString(),
         git_commit: gitCommit,
         files: fileHashes
     };
 
-    const manifestPath = path.join(exportDir, "memory_sync_manifest.json");
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), "utf8");
 
     // 6. Generate Deltas
-    const deltas = {
-        previous_pack_version: "unknown",
+    const deltas: any = {
+        previous_pack_version: prevManifest?.memory_sync_pack_version ?? null,
         current_pack_version: manifest.memory_sync_pack_version,
-        files_changed: files.map(file => ({
-            file,
-            changed: true, 
-            reason: "infrastructure_upgrade",
-            summary: "Upgraded Memory Sync Pack to infrastructure-grade."
-        }))
+        files_changed: []
     };
+
+    for (const file of files) {
+        const oldHash = prevManifest?.files?.[file]?.sha256;
+        const newHash = manifest.files[file].sha256;
+
+        if (!oldHash || oldHash !== newHash) {
+            deltas.files_changed.push({
+                file,
+                changed: true,
+                reason: !oldHash ? "file_added" : "hash_changed",
+                summary: !oldHash ? "Initial file creation." : `Synchronized with AI-OS ${packageJson.version} updates.`
+            });
+        } else {
+            deltas.files_changed.push({
+                file,
+                changed: false
+            });
+        }
+    }
 
     const deltasPath = path.join(exportDir, "memory_sync_deltas.json");
     await fs.writeFile(deltasPath, JSON.stringify(deltas, null, 2), "utf8");

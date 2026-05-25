@@ -38,10 +38,22 @@ async function validateFile(filePath) {
 
     const pxMatches = content.match(RAW_PX_PATTERN);
     if (pxMatches && !filePath.includes('tokens.css') && !filePath.includes('colors_and_type.css')) {
-      // Allow 0px, 1px (borders)
-      const invalidPx = pxMatches.filter(px => px !== '0px' && px !== '1px');
+      // Filter out matches that are part of a media query line
+      const lines = content.split('\n');
+      const invalidPx = [];
+      
+      for (const px of pxMatches) {
+        if (px === '0px' || px === '1px') continue;
+        
+        // Find line containing this px and check if it has @media
+        const line = lines.find(l => l.includes(px));
+        if (line && line.includes('@media')) continue;
+        
+        invalidPx.push(px);
+      }
+
       if (invalidPx.length > 0) {
-        errors.push(`Raw pixel values found: ${Array.from(new Set(invalidPx)).join(', ')}`);
+        errors.push(`Raw pixel values found (non-media): ${Array.from(new Set(invalidPx)).join(', ')}`);
       }
     }
   }

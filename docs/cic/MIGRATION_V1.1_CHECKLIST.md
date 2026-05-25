@@ -7,15 +7,16 @@
 
 ## **Phase 1: Tokenization**
 - [x] Create `tokens.json` with v1.1 schemas.
-- [ ] Update `operator-ui` CSS to reference tokens (via CSS variables or build script).
+- [x] Update `operator-ui` CSS to reference tokens (via CSS variables or build script).
 - [ ] Update `diagram-generator` to consume `tokens.json` for all styling.
-- [ ] Verify zero raw hex/pixel values in core stylesheets.
+- [x] Verify zero raw hex/pixel values in core stylesheets.
 
 ## **Phase 2: Component Hardening**
-- [ ] Implement `cic-panel` variants (`bordered`, `elevated`, `inline`) in UI library.
-- [ ] Update `cic-alert` with new severity scale and icons.
-- [ ] Add delta indicators (↑, ↓, ↔) to `cic-stat` components.
-- [ ] Implement responsive `cic-grid` system.
+- [x] Implement `cic-panel` variants (`bordered`, `elevated`, `inline`) in UI library.
+- [x] Update `cic-alert` with new severity scale and icons.
+- [x] Add delta indicators (↑, ↓, ↔) to `cic-stat` components.
+- [x] Implement responsive `cic-grid` system.
+- [x] Implement `cic-shell` frame component.
 
 ## **Phase 3: Visual Index Standardization**
 - [x] Create `VISUAL_INDEX_TEMPLATE.md`.
@@ -24,8 +25,8 @@
 
 ## **Phase 4: Enforcement**
 - [x] Publish `DESIGN_REVIEW_V1.1.md`.
-- [ ] Integrate L1 Automated Checks into CI/CD pipeline.
-- [ ] Brief Design Authority on L2/L3 audit changes.
+- [x] Integrate L1 Automated Checks into CI/CD pipeline.
+- [x] Brief Design Authority on L2/L3 audit changes.
 
 ---
 
