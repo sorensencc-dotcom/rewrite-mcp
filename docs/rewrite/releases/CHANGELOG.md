@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.22.0] - 2026-05-24
+### Added
+- **Memory Sync Pack Infrastructure (Phase 9/33 Refinement)**: Hardened cross-platform alignment artifacts into production-grade infrastructure.
+    - **Infrastructure-Grade Packaging**: Automated generation of versioned `.tar.gz` archives for all platform memory files.
+    - **Dynamic Versioning**: Implemented `YYYY.MM.DD.NN` versioning for sync packs with automated daily incrementing.
+    - **Integrity Manifests**: Every sync pack now includes `memory_sync_manifest.json` with SHA256 hashes and Git commit metadata.
+    - **Change-Tracking Deltas**: New `memory_sync_deltas.json` identifies exact file changes and provides human-readable summaries.
+    - **Hardened Validation**: `validate.ts` updated with regex-based format checks, cross-validation logic, and literal doctrine integrity verification.
+    - **Continuous Delivery**: Integrated Memory Sync Pack export into GitHub Actions via `.github/workflows/memory-sync-pack.yml`.
+    - **High-Fidelity Templates**: Refactored `merge.ts` with modular synthesis helpers and platform-optimized templates for Copilot, Gemini, and Claude.
+
 ## [2.21.0] - 2026-05-24
 ### Added
 - **Multi-Agent AI-OS Governance & Evolution Stack (Phase 9/33)**: Implementation of the core governance and self-improvement substrate.

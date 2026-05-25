@@ -1,5 +1,5 @@
 {
-  "version": "BOB_MONOREPO_v2.21.0",
+  "version": "BOB_MONOREPO_v2.22.0",
   "phase": 33,
   "last_updated": "2026-05-24",
   "components": {
@@ -336,7 +336,12 @@
       "ai-os/EXPORT/memory_sync_pack/copilot_memory.txt",
       "ai-os/EXPORT/memory_sync_pack/gemini_memory.md",
       "ai-os/EXPORT/memory_sync_pack/claude_memory.md",
-      "ai-os/EXPORT/memory_sync_pack/operator_doctrine.md"
+      "ai-os/EXPORT/memory_sync_pack/operator_doctrine.md",
+      "ai-os/EXPORT/memory_sync_pack/memory_sync_manifest.json",
+      "ai-os/EXPORT/memory_sync_pack/memory_sync_deltas.json",
+      "ai-os/EXPORT/memory_sync_pack_v2.21.0.tar.gz",
+      "ai-os/EXPORT/memory_sync_pack_v2.22.0.tar.gz",
+      ".github/workflows/memory-sync-pack.yml"
     ],
     "patched_artifacts": [
       "BOB_MANIFEST.json",

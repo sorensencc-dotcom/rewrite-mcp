@@ -1,6 +1,6 @@
 ---
 title: Rewrite Labs Platform & Product Roadmap
-version: 2.21.0
+version: 2.22.0
 date: 2026-05-24
 ---
 
@@ -14,6 +14,7 @@ This roadmap covers both the **Technical Platform (Antigravity/MAS)** and the **
 
 ### Completed
 
+- **[v2.22.0] Memory Sync Pack Infrastructure** — Refined cross-platform alignment into production-grade infrastructure (Manifests, Deltas, Versioning, CI Automation) — 2026-05-24
 - **[v2.21.0] Phase 33: Multi-Agent AI-OS Governance & Evolution Stack** — Implementation of the core governance (Execution Model, Control Plane, Policies) and self-improvement substrate (Meta-Operator, Audit, Evolution, Log, Simulator, Ranker) — 2026-05-24
 - **[v2.20.0] Phase 29: Intelligence Plane Operationalization** — End-to-end Ingestion (8-stage), Extractor Interface, Image Analyzer v2, AIR & Thematic Synthesis Engine — 2026-05-24
 - **[v2.19.0] Live Stress Validation (N=50)** — Empirical proof of MAS Efficacy Lab performance under high load — 2026-05-23
