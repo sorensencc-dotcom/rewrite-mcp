@@ -132,6 +132,7 @@ export async function merge(root: string) {
 
   await mergeUnifiedMemory(root);
   await generateMemoryContract(root);
+  await generateOperatorDoctrine(root);
   await generateCoherenceLayer(root);
   await generateAgentOrchestrationContract(root);
   await generateExecutionModel(root);
