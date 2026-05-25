@@ -1,6 +1,6 @@
 {
-  "previous_pack_version": "2026.05.25.03",
-  "current_pack_version": "2026.05.25.04",
+  "previous_pack_version": "2026.05.25.04",
+  "current_pack_version": "2026.05.25.05",
   "files_changed": [
     {
       "file": "copilot_memory.txt",
@@ -8,15 +8,11 @@
     },
     {
       "file": "gemini_memory.md",
-      "changed": true,
-      "reason": "hash_changed",
-      "summary": "Updated Gemini memory profile to reflect latest doctrine or system summaries."
+      "changed": false
     },
     {
       "file": "claude_memory.md",
-      "changed": true,
-      "reason": "hash_changed",
-      "summary": "Updated Claude memory profile to reflect latest doctrine or system summaries."
+      "changed": false
     },
     {
       "file": "operator_doctrine.md",

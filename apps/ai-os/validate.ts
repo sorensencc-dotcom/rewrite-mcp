@@ -480,7 +480,11 @@ export async function validateAIOS(root: string) {
             errors.push(`Invalid memory_sync_pack_version format: ${manifest.memory_sync_pack_version}`);
         }
         for (const file in manifest.files) {
-            if (!manifest.files[file].sha256) errors.push(`Manifest missing hash for file: ${file}`);
+            const hash = manifest.files[file].sha256;
+            if (!hash) errors.push(`Manifest missing hash for file: ${file}`);
+            else if (!/^[a-f0-9]{64}$/.test(hash)) {
+                errors.push(`Invalid hash format for ${file}: ${hash}`);
+            }
         }
     } catch (err: any) {
         errors.push(`Manifest parsing/validation failed: ${err.message}`);
@@ -493,15 +497,32 @@ export async function validateAIOS(root: string) {
         if (!delta.current_pack_version) errors.push("Delta missing current_pack_version");
         if (!Array.isArray(delta.files_changed)) errors.push("Delta files_changed is not an array");
         else {
+            const validReasons = ['hash_changed', 'file_added', 'file_removed'];
             for (const entry of delta.files_changed) {
                 if (!entry.file) errors.push("Delta entry missing file name");
-                if (entry.changed && (!entry.reason || !entry.summary)) {
-                    errors.push(`Delta entry for ${entry.file} missing reason or summary`);
+                if (entry.changed) {
+                    if (!entry.reason || !entry.summary) {
+                        errors.push(`Delta entry for ${entry.file} missing reason or summary`);
+                    }
+                    if (entry.reason && !validReasons.includes(entry.reason)) {
+                        errors.push(`Invalid delta reason for ${entry.file}: ${entry.reason}`);
+                    }
                 }
             }
         }
     } catch (err: any) {
         errors.push(`Delta parsing/validation failed: ${err.message}`);
+    }
+
+    // Doctrine Integrity Check
+    try {
+        const systemDoc = await fs.readFile(path.join(root, "SYSTEM", "operator_doctrine.md"), "utf8");
+        const packDoc = await fs.readFile(path.join(syncPackDir, "operator_doctrine.md"), "utf8");
+        if (systemDoc.trim() !== packDoc.trim()) {
+            errors.push("Doctrine mismatch between SYSTEM and Memory Sync Pack");
+        }
+    } catch (err: any) {
+        errors.push(`Doctrine integrity check failed: ${err.message}`);
     }
 
     const archiveName = `memory_sync_pack_v${packageJson.version}.tar.gz`;
