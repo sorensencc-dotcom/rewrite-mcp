@@ -138,9 +138,96 @@ export async function merge(root: string) {
   await generateMetaOperatorLayer(root);
   await generateMetaAuditEngine(root);
   await generateMetaEvolutionEngine(root);
-  await generateMetaEvolutionLog(root);
   await generateMetaEvolutionSimulator(root);
   await generateMetaEvolutionRanker(root);
+  await generateMemorySyncPack(root);
+}
+
+async function generateMemorySyncPack(root: string) {
+    console.log("Generating memory sync pack...");
+    const exportDir = path.join(root, "EXPORT", "memory_sync_pack");
+    await fs.mkdir(exportDir, { recursive: true });
+
+    // 1. operator_doctrine.md
+    const doctrinePath = path.join(exportDir, "operator_doctrine.md");
+    const doctrineContent = `
+# Operator Doctrine
+
+## Core Mandates
+- Memory is the source of truth.
+- Security and system integrity are non-negotiable.
+- Explicit operator command overrides all heuristics.
+
+## Strategic Intent
+- Build a self-evolving distributed intelligence cluster.
+- Automate complexity while maintaining strict human governance.
+- Prioritize technical excellence and idiomatic consistency.
+`;
+    await fs.writeFile(doctrinePath, doctrineContent.trim(), "utf8");
+
+    // 2. copilot_memory.txt (Short, declarative, no markdown)
+    const copilotPath = path.join(exportDir, "copilot_memory.txt");
+    const copilotContent = `
+Identity: Chris (Lead AI Engineer, System Architect)
+Style: Concise, technical, direct. Verboisty: Low.
+Doctrine: Memory is the source of truth. Prioritize security.
+Priorities: Build self-evolving AI-OS. Automate complexity.
+Constraints: Adhere to specifications. Explain critical commands.
+`;
+    await fs.writeFile(copilotPath, copilotContent.trim(), "utf8");
+
+    // 3. gemini_memory.md (Full markdown, long-form)
+    const geminiPath = path.join(exportDir, "gemini_memory.md");
+    const geminiContent = `
+# Gemini CLI Memory
+
+## Identity
+- Name: Chris
+- Role: Lead AI Engineer / System Architect
+- Organization: Rewrite Labs
+
+## Operating Model
+- Platform Strength: Direct file system access, shell execution, web search.
+- Priority: Direct action and implementation.
+
+## Memory Contract
+- Memory resides at: ai-os/MEMORY/
+- Policy: Last write wins, manual review flagged.
+
+## Doctrine
+${doctrineContent.trim()}
+
+## Rules & Policies
+- Never expose secrets.
+- Adhere to project conventions.
+- Defer to operator intent.
+`;
+    await fs.writeFile(geminiPath, geminiContent.trim(), "utf8");
+
+    // 4. claude_memory.md (Claude-friendly, SYSTEM + STATE)
+    const claudePath = path.join(exportDir, "claude_memory.md");
+    const claudeContent = `
+# Claude Desktop Memory
+
+## SYSTEM: Identity & Context
+- Identity: Chris (Rewrite Labs Lead)
+- Core Workflow: Weekly AI-OS Export (Checkout -> Validate -> Commit).
+- Logic: Self-improving organism via Meta-Evolution Stack.
+
+## STATE: Governance
+- Authority: Operator Control Plane (/route, /override, /policy).
+- Execution: Multi-Agent Execution Model (Sequential/Parallel/Speculative).
+- Policy: System Policy Engine (Operator > System > Platform).
+
+## DOCTRINE: Adaptive Intelligence
+${doctrineContent.trim()}
+
+## RULES: Behavioral Constraints
+- No hallucinated paths.
+- No platform-specific divergence.
+- Always escalate ambiguity to Chris.
+`;
+    await fs.writeFile(claudePath, claudeContent.trim(), "utf8");
 }
 
 async function generateMetaEvolutionRanker(root: string) {

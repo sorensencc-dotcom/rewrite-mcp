@@ -331,7 +331,11 @@
       "ai-os/SYSTEM/meta_evolution_engine.md",
       "ai-os/SYSTEM/meta_evolution_log.md",
       "ai-os/SYSTEM/meta_evolution_simulator.md",
-      "ai-os/SYSTEM/meta_evolution_ranker.md"
+      "ai-os/SYSTEM/meta_evolution_ranker.md",
+      "ai-os/EXPORT/memory_sync_pack/copilot_memory.txt",
+      "ai-os/EXPORT/memory_sync_pack/gemini_memory.md",
+      "ai-os/EXPORT/memory_sync_pack/claude_memory.md",
+      "ai-os/EXPORT/memory_sync_pack/operator_doctrine.md"
     ],
     "patched_artifacts": [
       "BOB_MANIFEST.json",

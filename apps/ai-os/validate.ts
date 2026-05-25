@@ -436,6 +436,26 @@ export async function validateAIOS(root: string) {
     errors.push("Missing SYSTEM/meta_evolution_ranker.md");
   }
 
+  // 21. Memory Sync Pack check
+  try {
+    const syncPackDir = path.join(root, "EXPORT", "memory_sync_pack");
+    const files = [
+        "copilot_memory.txt",
+        "gemini_memory.md",
+        "claude_memory.md",
+        "operator_doctrine.md"
+    ];
+    for (const file of files) {
+        try {
+            await fs.access(path.join(syncPackDir, file));
+        } catch {
+            errors.push(`Missing Memory Sync Pack file: ${file}`);
+        }
+    }
+  } catch {
+    errors.push("Missing EXPORT/memory_sync_pack directory");
+  }
+
   const report = {
     timestamp: new Date().toISOString(),
     errors,

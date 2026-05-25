@@ -9,20 +9,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CIC Observability Dashboard</title>
+  <link rel="stylesheet" href="../css/tokens.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
 
     :root {
-      /* CIC Core Tokens */
-      --black:  #0a0806;
-      --forge:  #1a1410;
-      --iron:   #2c2420;
-      --rust:   #8B3A1A;
-      --ember:  #C4501A;
-      --brass:  #B8922A;
-      --ash:    #9a9088;
-      --bone:   #e8e0d4;
-      --white:  #faf6f0;
+      /* CIC Core Tokens v1.1 Mapping */
+      --black:  var(--color-bg-primary);
+      --forge:  var(--color-bg-secondary);
+      --iron:   var(--color-bg-panel);
+      --rust:   var(--color-accent-secondary);
+      --ember:  var(--color-accent-primary);
+      --brass:  var(--color-accent-secondary);
+      --ash:    var(--color-text-muted);
+      --bone:   var(--color-text-secondary);
+      --white:  var(--color-text-primary);
 
       /* Semantic Mapping */
       --bg:       var(--black);
@@ -30,14 +31,14 @@
       --border:   var(--iron);
       --text:     var(--bone);
       --accent:   var(--ember);
-      --online:   #5a9e6f;
-      --down:     var(--ember);
-      --degraded: var(--brass);
-      --pending:  var(--ash);
+      --online:   var(--color-status-online);
+      --down:     var(--color-status-down);
+      --degraded: var(--color-status-degraded);
+      --pending:  var(--color-status-pending);
 
-      --font-display: 'Playfair Display', serif;
-      --font-body:    'Libre Baskerville', serif;
-      --font-ui:      'Barlow Condensed', sans-serif;
+      --font-display: var(--font-heading), serif;
+      --font-body:    var(--font-subheading), serif;
+      --font-ui:      var(--font-body), sans-serif;
     }
 
     body {
