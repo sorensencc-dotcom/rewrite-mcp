@@ -133,35 +133,35 @@
 
   <!-- Google Identity Services removed -->
 </head>
-<body>
+<body class="cic-shell">
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      MAIN APP
 ════════════════════════════════════════════════════════════════════════ -->
-<div id="app">
+<div id="app" class="body">
 
   <!-- ── Two-column grid ──────────────────────────────────────────────── -->
   <div class="main-grid">
 
     <!-- Left: Metrics -->
-    <div class="panel-col" id="metrics-col">
+    <div class="panel-col cic-panel bordered" id="metrics-col">
       <div id="metrics-container"></div>
     </div>
 
     <!-- Right: Runs -->
-    <div class="panel-col" id="runs-col">
+    <div class="panel-col cic-panel bordered" id="runs-col">
       <div id="runs-container"></div>
     </div>
 
     <!-- Bottom: Pipeline trigger (full width) -->
-    <div class="panel-bottom" id="pipelines-col">
+    <div class="panel-bottom cic-panel bordered" id="pipelines-col">
       <div id="pipelines-container"></div>
     </div>
 
   </div>
 
-  <!-- CIC_DOCGEN_OPERATOR_PANEL_V1.0.0 — block 2/3: section -->
-  <section id="docgen-panel" class="panel panel-subsystem">
+  <!-- CIC_DOCGEN_OPERATOR_PANEL_V1.1.0 — block 2/3: section -->
+  <section id="docgen-panel" class="cic-panel elevated panel-subsystem">
     <header class="panel-header">
       <div class="panel-title-row">
         <h2 class="panel-title">Documentation Engine</h2>
@@ -203,12 +203,17 @@
   </section>
 
   <!-- Prompt Telemetry Panel -->
-  <div id="telemetry-container"></div>
+  <div id="telemetry-container" class="cic-panel inline"></div>
 
   <!-- Stress Harness Panel -->
-  <div id="stress-container"></div>
+  <div id="stress-container" class="cic-panel inline"></div>
 
 </div>
+
+<footer class="footer">
+  <div>CIC v2.2.0</div>
+  <div>REWRITE LABS — OPERATIONAL COMMAND</div>
+</footer>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      SCRIPTS

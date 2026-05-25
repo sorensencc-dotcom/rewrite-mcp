@@ -439,11 +439,26 @@ export async function validateAIOS(root: string) {
   // 21. Memory Sync Pack check
   try {
     const syncPackDir = path.join(root, "EXPORT", "memory_sync_pack");
+    const exportDir = path.join(root, "EXPORT");
+    
+    let packageJson;
+    try {
+        packageJson = JSON.parse(await fs.readFile(path.join(root, "..", "package.json"), "utf8"));
+    } catch {
+        try {
+            packageJson = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
+        } catch {
+            packageJson = { version: "0.0.0" };
+        }
+    }
+
     const files = [
         "copilot_memory.txt",
         "gemini_memory.md",
         "claude_memory.md",
-        "operator_doctrine.md"
+        "operator_doctrine.md",
+        "memory_sync_manifest.json",
+        "memory_sync_deltas.json"
     ];
     for (const file of files) {
         try {
@@ -452,6 +467,14 @@ export async function validateAIOS(root: string) {
             errors.push(`Missing Memory Sync Pack file: ${file}`);
         }
     }
+
+    const archiveName = `memory_sync_pack_v${packageJson.version}.tar.gz`;
+    try {
+        await fs.access(path.join(exportDir, archiveName));
+    } catch {
+        errors.push(`Missing Memory Sync Pack archive: ${archiveName}`);
+    }
+
   } catch {
     errors.push("Missing EXPORT/memory_sync_pack directory");
   }

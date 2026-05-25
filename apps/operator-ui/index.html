@@ -129,8 +129,8 @@
     }
   </style>
 </head>
-<body>
-  <header>
+<body class="cic-shell">
+  <header class="header">
     <div class="brand">
       <h1>COMMAND CENTER</h1>
       <p>Cast Iron Charlie — Multi-Agent Subsystem</p>
@@ -140,63 +140,65 @@
     </div>
   </header>
 
-  <main>
-    <!-- OPERATOR UI -->
-    <a href="control-room.html" class="system-card">
-      <div>
-        <h2>Control Room</h2>
-        <p>Operational interface for pipeline management, agent deployment, and real-time task execution. Trigger and monitor active runs.</p>
-      </div>
-      <div class="meta">Operations Portal</div>
-    </a>
+  <main class="body">
+    <div class="cic-grid cic-grid-md">
+      <!-- OPERATOR UI -->
+      <a href="control-room.html" class="cic-panel elevated">
+        <div>
+          <h2>Control Room</h2>
+          <p>Operational interface for pipeline management, agent deployment, and real-time task execution. Trigger and monitor active runs.</p>
+        </div>
+        <div class="meta">Operations Portal</div>
+      </a>
 
-    <!-- OBSERVABILITY -->
-    <a href="dashboard/index.html" class="system-card">
-      <div>
-        <h2>Observability</h2>
-        <p>Analytical dashboard for MAS efficacy, SLO monitoring, and predictive stability metrics. Deep introspection into agent cognitive traces.</p>
-      </div>
-      <div class="meta">Analytics Plane</div>
-    </a>
+      <!-- OBSERVABILITY -->
+      <a href="dashboard/index.html" class="cic-panel elevated">
+        <div>
+          <h2>Observability</h2>
+          <p>Analytical dashboard for MAS efficacy, SLO monitoring, and predictive stability metrics. Deep introspection into agent cognitive traces.</p>
+        </div>
+        <div class="meta">Analytics Plane</div>
+      </a>
 
-    <!-- TELEMETRY -->
-    <a href="../../tools/prompt-telemetry/dashboard.html" class="system-card">
-      <div>
-        <h2>Prompt Telemetry</h2>
-        <p>Technical waterfall traces for model interactions. Monitor latency, token usage, and backoff efficacy across the provider mesh.</p>
-      </div>
-      <div class="meta">Technical Plane</div>
-    </a>
+      <!-- TELEMETRY -->
+      <a href="../../tools/prompt-telemetry/dashboard.html" class="cic-panel elevated">
+        <div>
+          <h2>Prompt Telemetry</h2>
+          <p>Technical waterfall traces for model interactions. Monitor latency, token usage, and backoff efficacy across the provider mesh.</p>
+        </div>
+        <div class="meta">Technical Plane</div>
+      </a>
 
-    <!-- DOCUMENTATION -->
-    <a href="../../site/index.html" class="system-card">
-      <div>
-        <h2>Documentation</h2>
-        <p>Master manuals, architecture specifications, and project roadmaps. The living archive of the Rewrite Labs ecosystem.</p>
-      </div>
-      <div class="meta">Knowledge Base</div>
-    </a>
+      <!-- DOCUMENTATION -->
+      <a href="../../site/index.html" class="cic-panel elevated">
+        <div>
+          <h2>Documentation</h2>
+          <p>Master manuals, architecture specifications, and project roadmaps. The living archive of the Rewrite Labs ecosystem.</p>
+        </div>
+        <div class="meta">Knowledge Base</div>
+      </a>
 
-    <!-- MEMOS -->
-    <a href="http://localhost:5230" target="_blank" class="system-card">
-      <div>
-        <h2>Memos Portal</h2>
-        <p>Intelligence capture and micro-blogging engine. The source of raw signal, tasks, and ideas for the ingestion pipeline.</p>
-      </div>
-      <div class="meta">Intelligence Portal</div>
-    </a>
+      <!-- MEMOS -->
+      <a href="http://localhost:5230" target="_blank" class="cic-panel elevated">
+        <div>
+          <h2>Memos Portal</h2>
+          <p>Intelligence capture and micro-blogging engine. The source of raw signal, tasks, and ideas for the ingestion pipeline.</p>
+        </div>
+        <div class="meta">Intelligence Portal</div>
+      </a>
 
-    <!-- DEEP RESEARCH -->
-    <a href="http://localhost:8501" target="_blank" class="system-card">
-      <div>
-        <h2>Research Lab</h2>
-        <p>External deep research engine for permanent source archiving and industrial archaeology. (Streamlit Service)</p>
-      </div>
-      <div class="meta">Research Plane</div>
-    </a>
+      <!-- DEEP RESEARCH -->
+      <a href="http://localhost:8501" target="_blank" class="cic-panel elevated">
+        <div>
+          <h2>Research Lab</h2>
+          <p>External deep research engine for permanent source archiving and industrial archaeology. (Streamlit Service)</p>
+        </div>
+        <div class="meta">Research Plane</div>
+      </a>
+    </div>
   </main>
 
-  <footer>
+  <footer class="footer">
     <div>CIC v2.15.0</div>
     <div>REWRITE LABS — ARSENAL OF DEMOCRACY</div>
   </footer>

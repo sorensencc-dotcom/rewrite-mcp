@@ -2,6 +2,8 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
+import { execSync } from "node:child_process";
 
 async function mergeUnifiedMemory(root: string) {
   console.log("Merging unified memory...");
@@ -342,6 +344,69 @@ ${doctrineContent.trim()}
 - Meta-Evolution Ranker
 `;
     await fs.writeFile(claudePath, claudeContent.trim(), "utf8");
+
+    // --- INFRASTRUCTURE: Manifest, Deltas, and Compression ---
+
+    const files = ["copilot_memory.txt", "gemini_memory.md", "claude_memory.md", "operator_doctrine.md"];
+    const fileHashes: Record<string, { sha256: string }> = {};
+
+    for (const file of files) {
+        const content = await fs.readFile(path.join(exportDir, file));
+        const hash = createHash("sha256").update(content).digest("hex");
+        fileHashes[file] = { sha256: hash };
+    }
+
+    let packageJson;
+    try {
+        packageJson = JSON.parse(await fs.readFile(path.join(root, "..", "package.json"), "utf8"));
+    } catch {
+        try {
+            packageJson = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
+        } catch {
+            packageJson = { version: "0.0.0" };
+        }
+    }
+
+    let gitCommit = "unknown";
+    try {
+        gitCommit = execSync("git rev-parse --short HEAD", { cwd: path.join(root, "..") }).toString().trim();
+    } catch {}
+
+    const manifest = {
+        ai_os_version: packageJson.version,
+        memory_sync_pack_version: `${new Date().toISOString().split("T")[0].replace(/-/g, ".")}.01`,
+        generated_at: new Date().toISOString(),
+        git_commit: gitCommit,
+        files: fileHashes
+    };
+
+    const manifestPath = path.join(exportDir, "memory_sync_manifest.json");
+    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), "utf8");
+
+    // 6. Generate Deltas
+    const deltas = {
+        previous_pack_version: "unknown",
+        current_pack_version: manifest.memory_sync_pack_version,
+        files_changed: files.map(file => ({
+            file,
+            changed: true, 
+            reason: "infrastructure_upgrade",
+            summary: "Upgraded Memory Sync Pack to infrastructure-grade."
+        }))
+    };
+
+    const deltasPath = path.join(exportDir, "memory_sync_deltas.json");
+    await fs.writeFile(deltasPath, JSON.stringify(deltas, null, 2), "utf8");
+
+    // 7. Compression
+    const archiveName = `memory_sync_pack_v${packageJson.version}.tar.gz`;
+    const archivePath = path.join(root, "EXPORT", archiveName);
+    console.log(`Creating archive: ${archiveName}`);
+    try {
+        execSync(`tar -czf ${archivePath} -C ${path.join(root, "EXPORT")} memory_sync_pack`, { cwd: root });
+    } catch (err) {
+        console.error("Failed to create sync pack archive:", err);
+    }
 }
 
 async function generateMetaEvolutionRanker(root: string) {

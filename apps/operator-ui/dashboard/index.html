@@ -70,13 +70,13 @@
     }
 
     header {
-      padding: 16px;
+      padding: var(--space-md);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: var(--space-md);
     }
 
     .main-grid {
@@ -95,7 +95,7 @@
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 16px;
+      padding: var(--space-md);
       overflow-y: auto;
     }
 
@@ -106,7 +106,7 @@
     h2 {
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 16px;
+      margin-bottom: var(--space-md);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--accent);
@@ -116,14 +116,14 @@
     #agent-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: var(--space-sm);
     }
 
     .agent-card {
       background: var(--panel-bg);
       border: 1px solid var(--border);
       border-radius: 0;
-      padding: 12px;
+      padding: var(--space-sm);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -148,21 +148,21 @@
     .btn-small {
       padding: 4px 8px;
       font-size: 10px;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
-      background: #21262d;
+      background: var(--color-bg-panel);
       color: var(--text);
       cursor: pointer;
       flex: 1;
     }
 
-    .btn-small:hover { background: #30363d; }
-    .btn-reset { color: var(--accent); border-color: rgba(88, 166, 255, 0.4); }
-    .btn-kill { color: var(--down); border-color: rgba(248, 81, 73, 0.4); }
+    .btn-small:hover { background: var(--color-bg-secondary); }
+    .btn-reset { color: var(--accent); border-color: var(--color-accent-secondary); }
+    .btn-kill { color: var(--down); border-color: var(--color-status-down); }
 
-    [data-state="ONLINE"] .agent-state { background: rgba(63, 185, 80, 0.15); color: var(--online); }
-    [data-state="DOWN"] .agent-state { background: rgba(248, 81, 73, 0.15); color: var(--down); }
-    [data-state="DEGRADED"] .agent-state { background: rgba(210, 153, 34, 0.15); color: var(--degraded); }
+    [data-state="ONLINE"] .agent-state { background: rgba(0, 255, 136, 0.15); color: var(--online); }
+    [data-state="DOWN"] .agent-state { background: rgba(255, 68, 68, 0.15); color: var(--down); }
+    [data-state="DEGRADED"] .agent-state { background: rgba(255, 170, 0, 0.15); color: var(--degraded); }
     [data-state="PENDING"] .agent-state { background: rgba(139, 148, 158, 0.15); color: var(--pending); }
 
     /* Pipeline Diagram */
@@ -220,15 +220,15 @@
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       font-size: 11px;
       padding-bottom: 4px;
-      border-bottom: 1px solid var(--iron);
+      border-bottom: 1px solid var(--color-bg-panel);
     }
 
-    .timestamp { color: #8b949e; margin-right: 8px; }
+    .timestamp { color: var(--color-text-muted); margin-right: 8px; }
 
     /* Controls */
     .controls {
       display: flex;
-      gap: 12px;
+      gap: var(--space-sm);
       align-items: center;
     }
 
@@ -246,7 +246,7 @@
       border-top: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 12px 16px;
+      padding: var(--space-sm) 16px;
       overflow: hidden;
     }
 
@@ -267,7 +267,7 @@
     }
 
     .mas-stat { display: flex; flex-direction: column; gap: 2px; }
-    .mas-stat-label { color: #8b949e; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    .mas-stat-label { color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
     .mas-stat-value { color: var(--online); font-weight: bold; font-size: 13px; }
 
     #mas-signals-log {
@@ -283,17 +283,17 @@
       display: flex;
       gap: 10px;
       padding: 2px 0;
-      border-bottom: 1px solid #1a1f27;
+      border-bottom: 1px solid var(--color-bg-secondary);
     }
 
-    .mas-signal-ts { color: #8b949e; flex-shrink: 0; }
+    .mas-signal-ts { color: var(--color-text-muted); flex-shrink: 0; }
     .mas-signal-agent { color: var(--accent); width: 100px; flex-shrink: 0; }
     .mas-signal-action { color: var(--online); width: 160px; flex-shrink: 0; }
     .mas-signal-action.warn { color: var(--degraded); }
     .mas-signal-action.crit { color: var(--down); }
-    .mas-signal-meta { color: #8b949e; }
+    .mas-signal-meta { color: var(--color-text-muted); }
 
-    #mas-no-data { color: #8b949e; font-size: 12px; font-style: italic; }
+    #mas-no-data { color: var(--color-text-muted); font-size: 12px; font-style: italic; }
     .mas-refresh-btn { align-self: center; }
 
     /* MAS Synergy Panel */
@@ -302,7 +302,7 @@
       border-top: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 12px 16px;
+      padding: var(--space-sm) 16px;
       overflow: hidden;
       min-height: 220px;
     }
@@ -322,16 +322,16 @@
       display: flex;
       gap: 10px;
       padding: 2px 0;
-      border-bottom: 1px solid #1a1f27;
+      border-bottom: 1px solid var(--color-bg-secondary);
     }
 
-    .mas-decision-ts     { color: #8b949e; flex-shrink: 0; width: 90px; }
+    .mas-decision-ts     { color: var(--color-text-muted); flex-shrink: 0; width: 90px; }
     .mas-decision-agent  { color: var(--accent); width: 120px; flex-shrink: 0; }
     .mas-decision-action { width: 180px; flex-shrink: 0; font-weight: bold; }
     .mas-decision-action.stable      { color: var(--online); }
     .mas-decision-action.warn        { color: var(--degraded); }
     .mas-decision-action.crit        { color: var(--down); }
-    .mas-decision-meta   { color: #8b949e; }
+    .mas-decision-meta   { color: var(--color-text-muted); }
 
     /* MAS Drift Panel */
     #mas-drift-panel {
@@ -339,7 +339,7 @@
       border-top: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 12px 16px;
+      padding: var(--space-sm) 16px;
       min-height: 220px;
       overflow: hidden;
     }
@@ -350,12 +350,12 @@
     #mas-drift-charts {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: var(--space-md);
       flex: 1;
     }
 
     .mas-drift-chart-wrap { display: flex; flex-direction: column; gap: 4px; }
-    .mas-drift-chart-label { color: #8b949e; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-family: "SFMono-Regular", Consolas, monospace; }
+    .mas-drift-chart-label { color: var(--color-text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-family: "SFMono-Regular", Consolas, monospace; }
 
     .mas-drift-chart {
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -373,13 +373,13 @@
     #slo-panel {
       grid-column: 1 / 4;
       border-top: 1px solid var(--border);
-      background: #0d1117;
+      background: var(--color-bg-primary);
     }
 
     .slo-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: var(--space-md);
       margin-bottom: 20px;
     }
 
@@ -387,13 +387,13 @@
       background: var(--panel-bg);
       border: 1px solid var(--border);
       border-radius: 0;
-      padding: 16px;
+      padding: var(--space-md);
       text-align: center;
     }
 
     .slo-card h3 {
       font-size: 11px;
-      color: #8b949e;
+      color: var(--color-text-muted);
       text-transform: uppercase;
       margin: 0 0 8px 0;
     }
@@ -407,13 +407,13 @@
 
     .slo-label {
       font-size: 10px;
-      color: #8b949e;
-      margin-bottom: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-sm);
     }
 
     .slo-gauge {
       height: 4px;
-      background: #21262d;
+      background: var(--color-bg-panel);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -436,7 +436,7 @@
     .active-policies-panel h3, .recovery-history-panel h3 {
       font-size: 12px;
       color: var(--accent);
-      margin-bottom: 12px;
+      margin-bottom: var(--space-sm);
     }
 
     #active-policies-list {
@@ -446,7 +446,7 @@
     }
 
     .policy-item {
-      background: #1c2128;
+      background: var(--color-bg-secondary);
       border-left: 3px solid var(--accent);
       padding: 8px 12px;
       margin-bottom: 8px;
@@ -459,7 +459,7 @@
 
     .policy-id { color: var(--text); font-weight: bold; }
     .policy-action { color: var(--online); }
-    .policy-trigger { color: #8b949e; }
+    .policy-trigger { color: var(--color-text-muted); }
 
     .recovery-table {
       width: 100%;
@@ -470,14 +470,14 @@
 
     .recovery-table th {
       text-align: left;
-      color: #8b949e;
+      color: var(--color-text-muted);
       border-bottom: 1px solid var(--border);
       padding: 4px;
     }
 
     .recovery-table td {
       padding: 6px 4px;
-      border-bottom: 1px solid #21262d;
+      border-bottom: 1px solid var(--color-bg-panel);
     }
 
     .action-tag {
@@ -488,7 +488,7 @@
     }
 
     .empty-msg {
-      color: #8b949e;
+      color: var(--color-text-muted);
       font-style: italic;
       text-align: center;
       padding: 20px;
@@ -510,9 +510,9 @@
     }
 
     #release-summary {
-      background: #0a0a0a;
+      background: var(--color-bg-primary);
       border: 1px solid var(--border);
-      padding: 12px;
+      padding: var(--space-sm);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 12px;
       color: var(--accent);
@@ -542,9 +542,9 @@
     }
 
     #bundle-checksum {
-      background: #0a0a0a;
+      background: var(--color-bg-primary);
       border: 1px solid var(--border);
-      padding: 12px;
+      padding: var(--space-sm);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 11px;
       color: var(--accent);
@@ -574,9 +574,9 @@
     }
 
     #diff-summary {
-      background: #0a0a0a;
+      background: var(--color-bg-primary);
       border: 1px solid var(--border);
-      padding: 12px;
+      padding: var(--space-sm);
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       font-size: 11px;
       color: var(--accent);
@@ -600,7 +600,7 @@
     .timeline-entry {
       border-left: 2px solid var(--border);
       padding-left: 12px;
-      margin-bottom: 16px;
+      margin-bottom: var(--space-md);
       position: relative;
     }
 
@@ -688,13 +688,13 @@
     #mas-stability-panel, #mas-heatmap-panel, #mas-predictive-panel, #mas-mitigation-panel, #mas-introspection-panel, #mas-efficacy-panel {
       grid-column: 1 / 4;
       border-top: 1px solid var(--border);
-      padding: 16px;
+      padding: var(--space-md);
     }
 
     .mas-analytics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: var(--space-md);
       margin-bottom: 20px;
     }
 
@@ -702,7 +702,7 @@
       background: var(--panel-bg);
       border: 1px solid var(--border);
       border-radius: 0;
-      padding: 12px;
+      padding: var(--space-sm);
       text-align: center;
     }
 
@@ -715,7 +715,7 @@
 
     .mas-analytics-label {
       font-size: 10px;
-      color: #8b949e;
+      color: var(--color-text-muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
@@ -757,7 +757,7 @@
       width: 100px;
       font-size: 10px;
       font-family: monospace;
-      color: #8b949e;
+      color: var(--color-text-muted);
       flex-shrink: 0;
     }
 
@@ -770,28 +770,39 @@
       width: 12px;
       height: 12px;
       border-radius: 2px;
-      background: #161b22;
+      background: var(--color-bg-secondary);
       transition: background 0.3s ease;
     }
 
-    .severity-0 { background: #21262d; } /* Empty/Stable */
-    .severity-1 { background: #0e4429; } /* Minor rerun */
-    .severity-2 { background: #006d32; } /* Moderate rerun */
-    .severity-3 { background: #26a641; } /* Heavy rerun */
-    .severity-4 { background: #39d353; } /* Critical rerun */
+    .severity-0 { background: var(--color-bg-panel); } /* Empty/Stable */
+    .severity-1 { background: rgba(0, 255, 136, 0.2); } /* Minor rerun */
+    .severity-2 { background: rgba(0, 255, 136, 0.4); } /* Moderate rerun */
+    .severity-3 { background: rgba(0, 255, 136, 0.6); } /* Heavy rerun */
+    .severity-4 { background: var(--color-status-online); } /* Critical rerun */
     .severity-fail { background: var(--down); }
   </style>
 </head>
-<body>
-  <main class="main-grid">
-    <section class="panel">
+<body class="cic-shell">
+  <header class="header">
+    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; padding:0 16px;">
+      <div class="brand" style="font-family:var(--font-heading); font-size:18px; font-weight:900; color:var(--color-accent-primary);">CIC OBSERVABILITY</div>
+      <div id="header-badges" style="display:flex; gap:8px;">
+        <div class="badge" id="badge-api">API: --</div>
+        <div class="badge" id="badge-qdrant">QDRANT: --</div>
+        <div class="badge" id="badge-pms">PMS: --</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="body main-grid">
+    <section class="cic-panel elevated">
       <h2>Agents</h2>
       <div id="agent-grid">
         <!-- Rendered via JS -->
       </div>
     </section>
 
-    <section class="panel">
+    <section class="cic-panel elevated">
       <h2>Pipeline</h2>
       <div id="pipeline-diagram">
         <div class="pipeline-node" data-pipeline-node="INGEST">INGEST</div>
@@ -802,14 +813,14 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="cic-panel elevated">
       <h2>Event Log</h2>
       <div id="event-log">
         <!-- Rendered via JS -->
       </div>
     </section>
 
-    <section id="mas-panel">
+    <section id="mas-panel" class="cic-panel elevated">
       <div class="mas-header">
         <h2>MAS Blackboard</h2>
         <div id="mas-stats">
@@ -826,7 +837,7 @@
       </div>
     </section>
 
-    <section id="mas-synergy-panel">
+    <section id="mas-synergy-panel" class="cic-panel elevated">
       <div class="mas-header">
         <h2>MAS Synergy Decisions</h2>
         <div id="mas-decisions-stats" style="display:flex; gap:24px; font-family:monospace; font-size:11px;">
@@ -840,15 +851,15 @@
         </div>
       </div>
       <div id="mas-decisions-log">
-        <div id="mas-decisions-no-data" style="color:#8b949e; font-size:12px; font-style:italic;">No MAS decisions yet — run an orchestration job to populate.</div>
+        <div id="mas-decisions-no-data" style="color:var(--color-text-muted); font-size:12px; font-style:italic;">No MAS decisions yet — run an orchestration job to populate.</div>
       </div>
       <div id="mas-routing-heatmap" style="margin-top:16px; border-top:1px dashed var(--border); padding-top:16px;">
-        <h3 style="font-size:11px; color:#8b949e; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Routing Heatmap (Cumulative)</h3>
+        <h3 style="font-size:11px; color:var(--color-text-muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Routing Heatmap (Cumulative)</h3>
         <div id="mas-routing-heatmap-container"></div>
       </div>
     </section>
 
-    <section id="mas-drift-panel">
+    <section id="mas-drift-panel" class="cic-panel elevated">
       <div class="mas-header">
         <h2>MAS Drift Trace</h2>
         <div style="display:flex; gap:24px; font-family:monospace; font-size:11px;">
@@ -872,7 +883,7 @@
       </div>
     </section>
 
-    <section id="mas-stability-panel">
+    <section id="mas-stability-panel" class="cic-panel elevated">
       <div class="mas-header">
         <h2>MAS Stability Metrics</h2>
         <div class="mas-stat"><span class="mas-stat-label" style="font-size:10px;">Operator-Grade Analytics</span></div>
@@ -900,23 +911,23 @@
       </div>
     </section>
 
-    <section id="mas-predictive-panel">
+    <section id="mas-predictive-panel" class="cic-panel elevated">
       <!-- Rendered via js/predictive-panel.js -->
     </section>
 
-    <section id="mas-mitigation-panel">
+    <section id="mas-mitigation-panel" class="cic-panel elevated">
       <!-- Rendered via js/mitigation-panel.js -->
     </section>
 
-    <section id="mas-introspection-panel">
+    <section id="mas-introspection-panel" class="cic-panel elevated">
       <!-- Rendered via js/introspection-panel.js -->
     </section>
 
-    <section id="mas-efficacy-panel">
+    <section id="mas-efficacy-panel" class="cic-panel elevated">
       <!-- Rendered via js/efficacy-panel.js -->
     </section>
 
-    <section id="mas-heatmap-panel">
+    <section id="mas-heatmap-panel" class="cic-panel elevated">
       <div class="mas-header">
         <h2>MAS Drift Heatmap</h2>
         <div class="mas-stat"><span class="mas-stat-label" style="font-size:10px;">Severity Radar (Last 60 runs)</span></div>
@@ -926,35 +937,35 @@
       </div>
     </section>
 
-    <section id="panel-release-automation-container">
+    <section id="panel-release-automation-container" class="cic-panel elevated">
       <!-- Rendered via js/release-automation-panel.js -->
     </section>
 
-    <section id="release-notes-panel" class="panel">
+    <section id="release-notes-panel" class="cic-panel elevated">
       <!-- Rendered via js/release-notes-panel.js -->
     </section>
 
-    <section id="release-bundle-panel" class="panel">
+    <section id="release-bundle-panel" class="cic-panel elevated">
       <!-- Rendered via js/release-bundle-panel.js -->
     </section>
 
-    <section id="release-diff-panel" class="panel">
+    <section id="release-diff-panel" class="cic-panel elevated">
       <!-- Rendered via js/release-diff-panel.js -->
     </section>
 
-    <section id="slo-panel" class="panel">
+    <section id="slo-panel" class="cic-panel elevated">
       <!-- Rendered via js/slo-panel.js -->
     </section>
 
-    <section id="release-timeline-panel" class="panel">
+    <section id="release-timeline-panel" class="cic-panel elevated">
       <!-- Rendered via js/release-timeline-panel.js -->
     </section>
 
-    <section class="panel" id="timeline-panel">
+    <section class="cic-panel elevated" id="timeline-panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <h2 style="margin:0;">Intelligence Timeline · Global</h2>
         <div class="controls" style="gap:8px;">
-          <input type="text" id="timeline-search" class="btn-small" style="background:#0b0e14; color:var(--text); padding:4px 8px; border:1px solid var(--border);" placeholder="Search CID, Event, etc...">
+          <input type="text" id="timeline-search" class="btn-small" style="background:var(--color-bg-primary); color:var(--text); padding:4px 8px; border:1px solid var(--border);" placeholder="Search CID, Event, etc...">
           <select id="timeline-type-filter" class="btn-small">
             <option value="all">All Types</option>
             <option value="model_call">Model Calls</option>

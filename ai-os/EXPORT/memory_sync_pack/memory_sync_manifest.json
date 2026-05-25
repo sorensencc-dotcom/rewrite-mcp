@@ -1,0 +1,20 @@
+{
+  "ai_os_version": "2.21.0",
+  "memory_sync_pack_version": "2026.05.25.01",
+  "generated_at": "2026-05-25T03:47:38.302Z",
+  "git_commit": "937e043",
+  "files": {
+    "copilot_memory.txt": {
+      "sha256": "cdb43b2e2de6c51cdf54855ece389813c52d738cfd1bdaf7d1dbd4b86630f138"
+    },
+    "gemini_memory.md": {
+      "sha256": "b3abccb0b573b556eefaa4c70b0da2b4cd76f6a9d46872f730a14ebe94a7dec2"
+    },
+    "claude_memory.md": {
+      "sha256": "049ce57e21df23bc99822d5311f94aca76bc0d104f9fcbaf47da423eb77dff9d"
+    },
+    "operator_doctrine.md": {
+      "sha256": "516061bef2d1b68cabfef9ed520e3cb1bb03e3bf99f8a7ff83a03ec21149b063"
+    }
+  }
+}
