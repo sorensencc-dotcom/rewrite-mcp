@@ -1,0 +1,73 @@
+/* 
+ * CIC Design Tokens (v1.1.0)
+ * AUTO-GENERATED - DO NOT EDIT MANUALLY
+ * Generated at: 2026-05-25T03:00:29.555Z
+ */
+
+:root {
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #111111;
+  --color-bg-panel: #141414;
+  --color-accent-primary: #00ff88;
+  --color-accent-secondary: #00cc6f;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-text-muted: #888888;
+  --color-status-online: #00ff88;
+  --color-status-degraded: #ffaa00;
+  --color-status-down: #ff4444;
+  --color-status-pending: #888888;
+  --color-alert-info: #4da6ff;
+  --color-alert-warn: #ffaa00;
+  --color-alert-error: #ff4444;
+  --color-alert-success: #00ff88;
+  --font-heading: Playfair Display;
+  --font-subheading: Baskerville;
+  --font-body: Barlow;
+  --font-mono: JetBrains Mono;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --elevation-none: 0px;
+  --elevation-low: 2px;
+  --elevation-med: 6px;
+  --elevation-high: 12px;
+  --grid-breakpoints-sm-min: 0;
+  --grid-breakpoints-sm-max: 640;
+  --grid-breakpoints-sm-columns: 2;
+  --grid-breakpoints-md-min: 641;
+  --grid-breakpoints-md-max: 1024;
+  --grid-breakpoints-md-columns: 4;
+  --grid-breakpoints-lg-min: 1025;
+  --grid-breakpoints-lg-max: 9999;
+  --grid-breakpoints-lg-columns: 8;
+  --component-panel-padding: var(--space-md);
+  --component-panel-radius: var(--radius-md);
+  --component-panel-variants-default-background: var(--color-bg-panel);
+  --component-panel-variants-default-elevation: var(--elevation-none);
+  --component-panel-variants-default-border: none;
+  --component-panel-variants-bordered-background: var(--color-bg-panel);
+  --component-panel-variants-bordered-elevation: var(--elevation-none);
+  --component-panel-variants-bordered-border: 1px solid #222222;
+  --component-panel-variants-elevated-background: var(--color-bg-panel);
+  --component-panel-variants-elevated-elevation: var(--elevation-med);
+  --component-panel-variants-elevated-border: none;
+  --component-panel-variants-inline-background: transparent;
+  --component-panel-variants-inline-elevation: var(--elevation-none);
+  --component-panel-variants-inline-border: none;
+  --component-alert-radius: var(--radius-md);
+  --component-alert-padding: var(--space-md);
+  --component-alert-severity-info: var(--color-alert-info);
+  --component-alert-severity-warn: var(--color-alert-warn);
+  --component-alert-severity-error: var(--color-alert-error);
+  --component-alert-severity-success: var(--color-alert-success);
+  --component-stat-value_font: var(--font-mono);
+  --component-stat-delta_positive: ↑;
+  --component-stat-delta_negative: ↓;
+  --component-stat-delta_neutral: ↔;
+}

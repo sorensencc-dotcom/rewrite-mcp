@@ -7,34 +7,104 @@
  * Tokens, layout, badges, cards, skeletons, responsive.
  */
 
-/* ── Design Tokens ─────────────────────────────────────────────────────── */
+/* ── Design Tokens (v1.1 Refactor) ─────────────────────────────────────── */
 
 :root {
-  /* Mapping to Cast Iron Charlie Design System */
-  --gold:        var(--brass);
-  --gold-dim:    var(--rust);
-  --gold-hover:  var(--ember);
-  --bg:          var(--black);
-  --surface:     var(--forge);
-  --surface2:    var(--iron);
-  --surface3:    var(--iron);
-  --border:      var(--color-border-default);
-  --border-dim:  var(--color-border-section);
-  --text:        var(--bone);
-  --text-dim:    var(--ash);
-  --text-muted:  var(--ash);
+  /* Mapping to Cast Iron Charlie Design System v1.1 */
+  --gold:        var(--color-accent-secondary);
+  --gold-dim:    var(--color-accent-secondary);
+  --gold-hover:  var(--color-accent-primary);
+  --bg:          var(--color-bg-primary);
+  --surface:     var(--color-bg-secondary);
+  --surface2:    var(--color-bg-panel);
+  --surface3:    var(--color-bg-panel);
+  --border:      var(--color-bg-panel);
+  --border-dim:  var(--color-text-muted);
+  --text:        var(--color-text-secondary);
+  --text-dim:    var(--color-text-muted);
+  --text-muted:  var(--color-text-muted);
   
-  --green:       #5a9e6f;  /* status-live */
-  --green-bg:    rgba(90, 158, 111, 0.08);
-  --red:         var(--ember);
-  --red-bg:      rgba(196, 80, 26, 0.07);
-  --yellow:      var(--brass);
-  --yellow-bg:   rgba(184, 146, 42, 0.07);
+  --green:       var(--color-status-online);
+  --green-bg:    rgba(0, 255, 136, 0.08);
+  --red:         var(--color-status-down);
+  --red-bg:      rgba(255, 68, 68, 0.07);
+  --yellow:      var(--color-status-degraded);
+  --yellow-bg:   rgba(255, 170, 0, 0.07);
   
-  --radius:      0;
-  --radius-lg:   0;
-  --shadow:      none;
-  --font-mono:   'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --radius:      var(--radius-sm);
+  --radius-lg:   var(--radius-md);
+  --shadow:      var(--elevation-low);
+  --font-mono:   var(--font-mono), 'Fira Code', 'Courier New', monospace;
+}
+
+/* ── CIC v1.1 Components ───────────────────────────────────────────────── */
+
+.cic-panel {
+  background: var(--component-panel-variants-default-background);
+  border: var(--component-panel-variants-default-border);
+  border-radius: var(--component-panel-radius);
+  padding: var(--component-panel-padding);
+  box-shadow: var(--component-panel-variants-default-elevation);
+}
+
+.cic-panel.bordered {
+  background: var(--component-panel-variants-bordered-background);
+  border: var(--component-panel-variants-bordered-border);
+  box-shadow: var(--component-panel-variants-bordered-elevation);
+}
+
+.cic-panel.elevated {
+  background: var(--component-panel-variants-elevated-background);
+  border: var(--component-panel-variants-elevated-border);
+  box-shadow: var(--component-panel-variants-elevated-elevation);
+}
+
+.cic-panel.inline {
+  background: var(--component-panel-variants-inline-background);
+  border: var(--component-panel-variants-inline-border);
+  box-shadow: var(--component-panel-variants-inline-elevation);
+  padding: 0;
+}
+
+.cic-alert {
+  border-radius: var(--component-alert-radius);
+  padding: var(--component-alert-padding);
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.cic-alert.info    { border-left: 4px solid var(--component-alert-severity-info);    background: rgba(77, 166, 255, 0.1); }
+.cic-alert.warn    { border-left: 4px solid var(--component-alert-severity-warn);    background: rgba(255, 170, 0, 0.1); }
+.cic-alert.error   { border-left: 4px solid var(--component-alert-severity-error);   background: rgba(255, 68, 68, 0.1); }
+.cic-alert.success { border-left: 4px solid var(--component-alert-severity-success); background: rgba(0, 255, 136, 0.1); }
+
+.cic-stat {
+  font-family: var(--component-stat-value_font);
+  display: flex;
+  flex-direction: column;
+}
+
+.cic-stat-delta.positive { color: var(--color-status-online); }
+.cic-stat-delta.negative { color: var(--color-status-down); }
+.cic-stat-delta.neutral  { color: var(--color-status-pending); }
+
+.cic-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 0px) {
+  .cic-grid-md { grid-template-columns: repeat(var(--grid-breakpoints-sm-columns), 1fr); }
+}
+
+@media (min-width: 641px) {
+  .cic-grid-md { grid-template-columns: repeat(var(--grid-breakpoints-md-columns), 1fr); }
+}
+
+@media (min-width: 1025px) {
+  .cic-grid-md { grid-template-columns: repeat(var(--grid-breakpoints-lg-columns), 1fr); }
 }
 
 /* ── Reset ─────────────────────────────────────────────────────────────── */

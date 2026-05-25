@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.21.0] - 2026-05-24
+### Added
+- **Multi-Agent AI-OS Governance & Evolution Stack (Phase 9/33)**: Implementation of the core governance and self-improvement substrate.
+    - **Multi-Agent Execution Model**: Defines runtime semantics, task lifecycles, and deterministic ordering for distributed agents.
+    - **Operator Control Plane**: Establishes operator (Chris) as the root authority with explicit command semantics (/route, /override, /policy).
+    - **System Policy Engine**: Centralized, operator-programmable governance logic with policy inheritance and enforcement.
+    - **Meta-Operator Layer**: Self-reflection engine enabling autonomous analysis of policies, workflows, and strategies.
+    - **Meta-Audit Engine**: Continuous observability and subsystem health analysis providing structured, operator-grade reports.
+    - **Meta-Evolution Engine**: Adaptive intelligence layer generating, ranking, and simulating system improvements for approval.
+    - **Meta-Evolution Log**: Immutable, append-only genetic ledger of all evolutionary events and operator decisions.
+    - **Meta-Evolution Simulator**: Predictive "what-if" engine for forecasting impact, risk, and stability deltas.
+    - **Meta-Evolution Ranker**: Decision-making cortex prioritizing evolutions based on weighted impact and risk scoring.
+- **AI-OS Application Hardening**: Fixed critical syntax errors in the Diff Tool and updated `tsconfig.json` for Node.js module compatibility.
+
 ## [2.20.0] - 2026-05-24
 ### Added
 - **Intelligence Plane Operationalization**: Full end-to-end integration of the ingestion, extraction, and synthesis layers.

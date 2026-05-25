@@ -9,26 +9,26 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
 
-/* ── BASE COLOR TOKENS ─────────────────────────────────────── */
+/* ── BASE COLOR TOKENS (v1.1 Refactor) ─────────────────────── */
 :root {
-  /* Core palette */
-  --black:  #0a0806;   /* primary background */
-  --forge:  #1a1410;   /* secondary bg */
-  --iron:   #2c2420;   /* raised surface bg */
-  --rust:   #8B3A1A;   /* hover/pressed accent */
-  --ember:  #C4501A;   /* primary accent — labels, CTAs, borders */
-  --brass:  #B8922A;   /* brand/logo, italic headline highlights */
-  --ash:    #9a9088;   /* secondary text, labels, muted */
-  --bone:   #e8e0d4;   /* primary body text */
-  --paper:  #f2ece2;   /* near-white warm */
-  --white:  #faf6f0;   /* headings, hero title */
+  /* Core palette mapped to v1.1 tokens */
+  --black:  var(--color-bg-primary);
+  --forge:  var(--color-bg-secondary);
+  --iron:   var(--color-bg-panel);
+  --rust:   var(--color-accent-secondary);
+  --ember:  var(--color-accent-primary);
+  --brass:  var(--color-accent-secondary);
+  --ash:    var(--color-text-muted);
+  --bone:   var(--color-text-secondary);
+  --paper:  var(--color-text-secondary);
+  --white:  var(--color-text-primary);
 
   /* ── SEMANTIC COLOR VARS ─────────────────────────────────── */
   --color-bg-primary:       var(--black);
   --color-bg-secondary:     var(--forge);
   --color-bg-raised:        var(--iron);
-  --color-bg-card:          rgba(26, 20, 16, 0.6);   /* forge @ 60% */
-  --color-bg-card-hover:    rgba(26, 20, 16, 0.9);
+  --color-bg-card:          var(--color-bg-secondary);
+  --color-bg-card-hover:    var(--color-bg-panel);
 
   --color-fg-primary:       var(--white);    /* headings */
   --color-fg-body:          var(--bone);     /* body text */
@@ -36,30 +36,30 @@
   --color-fg-accent:        var(--ember);    /* section labels, CTAs */
   --color-fg-brand:         var(--brass);    /* logo, italic titles */
 
-  --color-border-default:   rgba(154, 144, 136, 0.12);
-  --color-border-section:   rgba(139, 58, 26, 0.2);
-  --color-border-hover:     rgba(196, 80, 26, 0.4);
+  --color-border-default:   var(--color-bg-panel);
+  --color-border-section:   var(--color-accent-secondary);
+  --color-border-hover:     var(--color-accent-primary);
   --color-border-focus:     var(--ember);
   --color-border-accent:    var(--ember);    /* left-border pull quotes */
 
-  --color-accent-bg-tint:   rgba(139, 58, 26, 0.06);  /* pull quote bg */
-  --color-overlay-fade:     rgba(10, 8, 6, 0.88);
+  --color-accent-bg-tint:   var(--color-bg-secondary);
+  --color-overlay-fade:     rgba(10, 10, 10, 0.88);
 
-  /* Status colors (archive portal) */
-  --color-status-live:      #5a9e6f;
-  --color-status-progress:  var(--brass);
-  --color-status-soon:      var(--ash);
+  /* Status colors */
+  --color-status-live:      var(--color-status-online);
+  --color-status-progress:  var(--color-status-pending);
+  --color-status-soon:      var(--color-status-pending);
 
   /* Tag colors */
-  --color-tag-high:         var(--ember);
-  --color-tag-medium:       #7a9fbf;
-  --color-tag-new:          var(--brass);
-  --color-tag-corrected:    var(--ember);
+  --color-tag-high:         var(--color-alert-error);
+  --color-tag-medium:       var(--color-alert-info);
+  --color-tag-new:          var(--color-alert-success);
+  --color-tag-corrected:    var(--color-alert-warn);
 
   /* ── TYPOGRAPHY TOKENS ───────────────────────────────────── */
-  --font-display:    'Playfair Display', Georgia, serif;
-  --font-body:       'Libre Baskerville', Georgia, serif;
-  --font-ui:         'Barlow Condensed', sans-serif;
+  --font-display:    var(--font-heading), Georgia, serif;
+  --font-body:       var(--font-subheading), Georgia, serif;
+  --font-ui:         var(--font-body), sans-serif;
 
   /* Type scale */
   --text-hero:       clamp(4rem, 10vw, 9rem);
@@ -94,19 +94,19 @@
   --leading-label:   1.4;
 
   /* ── SPACING TOKENS ──────────────────────────────────────── */
-  --space-1:   0.25rem;
-  --space-2:   0.5rem;
-  --space-3:   0.75rem;
-  --space-4:   1rem;
-  --space-5:   1.25rem;
-  --space-6:   1.5rem;
-  --space-8:   2rem;
-  --space-10:  2.5rem;
-  --space-12:  3rem;
-  --space-16:  4rem;
-  --space-20:  5rem;
-  --space-24:  6rem;
-  --space-28:  7rem;
+  --space-1:   var(--space-xs);
+  --space-2:   var(--space-sm);
+  --space-3:   var(--space-md);
+  --space-4:   var(--space-lg);
+  --space-5:   var(--space-xl);
+  --space-6:   var(--space-xl);
+  --space-8:   calc(var(--space-xl) * 1.5);
+  --space-10:  calc(var(--space-xl) * 2);
+  --space-12:  calc(var(--space-xl) * 2.5);
+  --space-16:  calc(var(--space-xl) * 3);
+  --space-20:  calc(var(--space-xl) * 4);
+  --space-24:  calc(var(--space-xl) * 5);
+  --space-28:  calc(var(--space-xl) * 6);
 
   /* Layout */
   --max-width:       1100px;
@@ -116,10 +116,10 @@
   --nav-padding-mobile: 1.25rem 2rem;
 
   /* ── BORDER TOKENS ───────────────────────────────────────── */
-  --radius: 0;         /* NO border-radius anywhere — sharp corners only */
+  --radius: var(--radius-sm);
 
-  /* Shadows — not used in this design system */
-  --shadow: none;
+  /* Shadows */
+  --shadow: var(--elevation-med);
 
   /* ── ANIMATION TOKENS ────────────────────────────────────── */
   --duration-fast:   0.2s;

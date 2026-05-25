@@ -41,6 +41,16 @@ Step-by-step guides for pipeline execution, troubleshooting, and data management
 
 ---
 
+## 🎨 Design & Standards
+Visual semantics, component hardening, and design tokenization.
+
+- **[Design System v1.1](CIC_DESIGN_SYSTEM_V1.1.md)**: Tokenized specification for industrial consistency.
+- **[Design Review Workflow](DESIGN_REVIEW_V1.1.md)**: Tiered enforcement process for design compliance.
+- **[Visual Index Template](VISUAL_INDEX_TEMPLATE.md)**: Standardized layout for artifact indices.
+- **[Migration Checklist](MIGRATION_V1.1_CHECKLIST.md)**: Tracking progress for v1.1 system-wide rollout.
+
+---
+
 ## 📜 Legal & Compliance
 - **[Release Automation](manuals/release-automation.md)**: Documentation and artifact synchronization protocols.
 

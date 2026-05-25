@@ -1,6 +1,6 @@
 {
   "name": "rewrite-mcp-monorepo",
-  "version": "2.20.0",
+  "version": "2.21.0",
   "private": true,
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
@@ -19,6 +19,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@types/node": "^25.9.1",
     "husky": "^9.0.11"
   }
 }
