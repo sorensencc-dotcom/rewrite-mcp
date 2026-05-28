@@ -9,24 +9,25 @@
 
 /* ============================================================
    DESIGN TOKENS (mirroring tokens.json)
+   Cast Iron Charlie — Design System Update
    ============================================================ */
 :root {
-  /* Colors */
-  --color-bg:             #0a0a0f;
-  --color-surface:        #13131a;
-  --color-surface-raised: #1c1c26;
-  --color-border:         #23233a;
-  --color-accent:         #4f8ef7;
-  --color-accent-muted:   #1e3a6e;
-  --color-danger:         #e05252;
-  --color-danger-muted:   #3d1818;
-  --color-success:        #3dba6b;
-  --color-success-muted:  #12391e;
-  --color-warning:        #e0a033;
-  --color-warning-muted:  #3d2e0a;
-  --color-text-primary:   #e8e8f0;
-  --color-text-secondary: #8888a8;
-  --color-text-muted:     #555568;
+  /* Colors - Mapped to Design System */
+  --color-bg:             #0a0806;   /* var(--black) */
+  --color-surface:        #1a1410;   /* var(--forge) */
+  --color-surface-raised: #2c2420;   /* var(--iron) */
+  --color-border:         rgba(154, 144, 136, 0.12); /* var(--color-border-default) */
+  --color-accent:         #C4501A;   /* var(--ember) */
+  --color-accent-muted:   rgba(139, 58, 26, 0.2);
+  --color-danger:         #C4501A;
+  --color-danger-muted:   #1a1410;
+  --color-success:        #5a9e6f;
+  --color-success-muted:  rgba(90, 158, 111, 0.08);
+  --color-warning:        #B8922A;
+  --color-warning-muted:  rgba(184, 146, 42, 0.07);
+  --color-text-primary:   #e8e0d4;   /* var(--bone) */
+  --color-text-secondary: #9a9088;   /* var(--ash) */
+  --color-text-muted:     #9a9088;
 
   /* Spacing */
   --space-xs: 4px;
@@ -36,7 +37,9 @@
   --space-xl: 40px;
 
   /* Typography */
-  --font-sans: 'Inter', 'system-ui', sans-serif;
+  --font-sans: 'Libre Baskerville', Georgia, serif;
+  --font-display: 'Playfair Display', serif;
+  --font-ui: 'Barlow Condensed', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
   --text-size-body: 13px;
   --text-size-sm:   12px;
@@ -45,12 +48,12 @@
   --text-weight-heading: 600;
 
   /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 0;
+  --radius-md: 0;
 
   /* Elevation */
-  --shadow-low: 0 1px 3px rgba(0,0,0,0.4);
-  --shadow-mid: 0 4px 12px rgba(0,0,0,0.6);
+  --shadow-low: none;
+  --shadow-mid: none;
 
   /* Transitions */
   --trans-fast: 120ms ease;
@@ -115,9 +118,10 @@ body {
 }
 
 .cr-header__title {
+  font-family: var(--font-display);
   font-size: var(--text-size-md);
-  font-weight: var(--text-weight-heading);
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   color: var(--color-text-primary);
 }
 
