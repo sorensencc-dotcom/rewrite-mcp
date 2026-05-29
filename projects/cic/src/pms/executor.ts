@@ -11,6 +11,9 @@ import {
 } from "./types";
 import { TemplateRegistry } from "./registry";
 
+import { TemplateLoader } from "./loader";
+import path from "path";
+
 export class PMSExecutor {
   private registry: TemplateRegistry;
 
@@ -18,7 +21,29 @@ export class PMSExecutor {
     this.registry = registry || new TemplateRegistry();
   }
 
-  async execute(req: PMSExecutionRequest): Promise<PMSExecutionResult> {
+  initialize(): void {
+    const templatesDir = path.resolve(__dirname, "../../pms/templates");
+    const loader = new TemplateLoader(templatesDir);
+    this.registry = loader.loadFromDirectory();
+  }
+
+  execute(reqOrTemplateId: PMSExecutionRequest | string, vars?: Record<string, any>): any {
+    if (typeof reqOrTemplateId === "string") {
+      const template = this.registry.get(reqOrTemplateId);
+      if (!template) {
+        throw new Error(`Template ${reqOrTemplateId} not found in registry`);
+      }
+      const resolved = this.renderTemplate(template, vars || {});
+      return {
+        prompt: {
+          resolved
+        }
+      };
+    }
+    return this.executeAsync(reqOrTemplateId);
+  }
+
+  private async executeAsync(req: PMSExecutionRequest): Promise<PMSExecutionResult> {
     try {
       const template = this.registry.get(req.templateId);
       if (!template) {

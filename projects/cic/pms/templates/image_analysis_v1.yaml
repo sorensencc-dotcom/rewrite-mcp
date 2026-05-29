@@ -1,0 +1,12 @@
+template_id: image_analysis_v1
+name: Image analysis prompt
+version: 1.0.0
+extractor_type: vision
+content_type: image
+template: |
+  Analyze the image {filename} with MIME type {mime}.
+created_at: 2026-05-29T00:00:00Z
+max_tokens: 1024
+temperature: 0.3
+top_p: 0.9
+deprecated: false
