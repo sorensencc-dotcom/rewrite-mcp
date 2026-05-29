@@ -1,0 +1,22 @@
+{
+  "intent": "Establish verified biographical origins in Denmark",
+  "scope": [
+    "Birthplace",
+    "Family lineage",
+    "Early life",
+    "Migration context"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified primary sources (church records, census, immigration logs)",
+    "cross-validated secondary sources",
+    "no contradictions"
+  ]
+}

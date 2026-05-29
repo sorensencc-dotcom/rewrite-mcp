@@ -1,0 +1,12 @@
+[
+  { "goal_id": "goal-1", "type": "ingest_target", "target": "file://photo1.jpg", "target_type": "image" },
+  { "goal_id": "goal-2", "type": "ingest_target", "target": "file://photo2.jpg", "target_type": "image" },
+  { "goal_id": "goal-3", "type": "ingest_target", "target": "file://photo3.jpg", "target_type": "image" },
+  { "goal_id": "goal-4", "type": "ingest_target", "target": "file://photo4.jpg", "target_type": "image" },
+  { "goal_id": "goal-5", "type": "ingest_target", "target": "file://photo5.jpg", "target_type": "image" },
+  { "goal_id": "goal-6", "type": "ingest_target", "target": "The first chapter of the Cast Iron Charlie history...", "target_type": "text" },
+  { "goal_id": "goal-7", "type": "ingest_target", "target": "Details of the iron foundry founded in 1873...", "target_type": "text" },
+  { "goal_id": "goal-8", "type": "ingest_target", "target": "Specifications of vintage Dutch oven models...", "target_type": "text" },
+  { "goal_id": "goal-9", "type": "ingest_target", "target": "Registry records from early 1900 iron production...", "target_type": "text" },
+  { "goal_id": "goal-10", "type": "ingest_target", "target": "Analysis of alloy composition and rust resistance...", "target_type": "text" }
+]

@@ -1,5 +1,59 @@
 [
   {
+    "version": "2.22.0",
+    "date": "2026-05-24",
+    "changes": {
+      "added": 5,
+      "fixed": 0,
+      "infra": 2,
+      "docs": 1,
+      "mas": 0,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": -3,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.22.0.summary.txt",
+    "diff": "diff-2.22.0.summary.txt"
+  },
+  {
+    "version": "2.21.0",
+    "date": "2026-05-24",
+    "changes": {
+      "added": 9,
+      "fixed": 1,
+      "infra": 0,
+      "docs": 0,
+      "mas": 0,
+      "controlPlane": 1,
+      "other": 0
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.21.0.summary.txt",
+    "diff": "diff-2.21.0.summary.txt"
+  },
+  {
+    "version": "2.20.0",
+    "date": "2026-05-24",
+    "changes": {
+      "added": 7,
+      "fixed": 0,
+      "infra": 1,
+      "docs": 0,
+      "mas": 0,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.20.0.summary.txt",
+    "diff": "diff-2.20.0.summary.txt"
+  },
+  {
     "version": "2.19.0",
     "date": "2026-05-23",
     "changes": {
@@ -13,7 +67,7 @@
     },
     "delta": 1,
     "bundle": "rewrite-mcp-release-v2.19.0.tar.gz",
-    "checksum": "65b4f7f0f903223f5b4c79a05ea5175b062942e82aa8b6fb33a8a45a3910c444",
+    "checksum": "853ddb06d06782acbc8b46632292954d318ff1a3cb32b712154ba241d215252f",
     "notes": "2.19.0.summary.txt",
     "diff": "diff-2.19.0.summary.txt"
   },

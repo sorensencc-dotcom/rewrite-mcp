@@ -1,0 +1,57 @@
+{
+  "mission_pack_id": "MissionPack_GAP-002",
+  "goal_id": "GAP-002",
+  "version": "1.1.0",
+  "economic_constraints": {
+    "cost_cap": 2.00,
+    "max_queries": 50,
+    "concurrency_limit": 5
+  },
+  "retrieval_strategy": {
+    "alignment_version": "v1.1",
+    "primary_engines": [
+      "Danish National Archives",
+      "Church book registries",
+      "Immigration records",
+      "Scandinavian biographical databases"
+    ],
+    "secondary_engines": [
+      "Academic (CORE, Semantic Scholar)",
+      "Historical newspapers",
+      "Genealogy archives"
+    ],
+    "fan_out_examples": [
+      "Sorensen Danish birth records",
+      "Sorensen family lineage Denmark 1900s",
+      "Danish emigration logs Sorensen",
+      "Sorensen birthplace parish records",
+      "Danish census 1910 Sorensen family"
+    ]
+  },
+  "audit_thresholds": {
+    "confidence": 0.92,
+    "anomaly_tolerance": 0
+  },
+  "audit_agent_tuning": {
+    "primary_bias_factor": 1.2,
+    "temporal_alignment_strict": true,
+    "contradiction_penalty": 1.0,
+    "coverage_requirements": {
+      "min_independent_primary_sources": 2,
+      "min_secondary_biographical_sources": 1
+    }
+  },
+  "rights_context": {
+    "enforce_rights": true,
+    "license_mapping": {
+      "older_than_120_years": "Public Domain",
+      "digitized_collections": "CC-BY",
+      "genealogy_databases": "Proprietary"
+    }
+  },
+  "engine_weights": {
+    "scandinavian_archival_bias": 1.5,
+    "general_biographical_weight": 1.0,
+    "academic_weight": 0.8
+  }
+}

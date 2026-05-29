@@ -1,5 +1,29 @@
 [
   {
+    "timestamp": "2026-05-24T00:00:00.000Z",
+    "version": "2.22.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": -3
+  },
+  {
+    "timestamp": "2026-05-24T00:00:00.000Z",
+    "version": "2.21.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
+    "timestamp": "2026-05-24T00:00:00.000Z",
+    "version": "2.20.0",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
     "timestamp": "2026-05-23T00:00:00.000Z",
     "version": "2.19.0",
     "drift_passed": true,

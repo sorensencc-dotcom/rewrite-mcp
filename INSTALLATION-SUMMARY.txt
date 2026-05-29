@@ -1,0 +1,80 @@
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                 CIC AI Runtime v1.0.0 Installation Package                     │
+│                                   Ready                                        │
+└────────────────────────────────────────────────────────────────────────────────┘
+
+CREATED IN YOUR OUTPUTS FOLDER:
+
+Source Files (5 patch modules):
+  ✓ 01-contract-loader.ts              (1.9 KB)
+  ✓ 02-rtk-patch.ts                    (530 B)
+  ✓ 03-rrk-patch.ts                    (835 B)
+  ✓ 04-gita-patch.ts                   (1.1 KB)
+  ✓ 05-contract-ack.ts                 (325 B)
+  ✓ 06-cic-patch.ts                    (325 B)
+
+Automation & CI:
+  ✓ APPLY-RUNTIME-PATCHES.sh           (6.3 KB) — Runs all 5 commits automatically
+  ✓ validate-runtime-contract.yml      (1.5 KB) — GitHub Actions CI workflow
+  ✓ PR_BODY.md                         (2.1 KB) — Copy into GitHub PR description
+  ✓ README-RUNTIME-INSTALL.md          (5.8 KB) — Complete installation guide
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+NEXT STEPS (3 minutes):
+
+1. Copy package to your repo:
+   cd /path/to/rewrite-mcp && cp -r /path/to/outputs/* .
+
+2. Run installation:
+   bash APPLY-RUNTIME-PATCHES.sh
+
+3. Set up CI:
+   mkdir -p .github/workflows
+   cp validate-runtime-contract.yml .github/workflows/
+   git add .github/workflows/validate-runtime-contract.yml
+   git commit -m "ci: add CIC AI Runtime contract validation workflow"
+
+4. Push and open PR:
+   git push origin feat/runtime-install-v1
+   → Open PR on GitHub
+   → Copy PR_BODY.md content into PR description
+   → Wait for CI to pass
+
+5. Merge when CI green:
+   ✓ Contract validation passes
+   ✓ All tests pass
+   ✓ Runtime activation logs verified
+
+6. Tag release:
+   git tag -a v1.0.0 -m "CIC-AI Runtime v1.0.0 — Contract Loader, Multi-Agent Integration, CI Validation"
+   git push origin v1.0.0
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+WHY THIS PACKAGE INSTEAD OF LIVE COMMITS:
+
+Your repo had stale git lock files (.git/index.lock, .git/HEAD.lock) blocking
+git operations. Rather than fight with those, I created a complete, deterministic
+installation package you can apply once the locks clear — which is cleaner anyway.
+
+The APPLY-RUNTIME-PATCHES.sh script handles everything:
+  • Creates feature branch (or uses existing)
+  • Copies files to correct locations
+  • Makes all 5 commits with proper messages
+  • Shows final git log
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+IF GIT LOCKS PERSIST:
+
+  # Option 1: Wait and retry
+  sleep 5 && bash APPLY-RUNTIME-PATCHES.sh
+
+  # Option 2: Clean locks (from repo root)
+  rm -f .git/index.lock .git/HEAD.lock
+  bash APPLY-RUNTIME-PATCHES.sh
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+Full details in: README-RUNTIME-INSTALL.md

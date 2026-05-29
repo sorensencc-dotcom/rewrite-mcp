@@ -27,10 +27,11 @@ theme:
 nav:
   - Home: index.md
   - "CIC: System Overview": cic/CIC_SYSTEM.md
-  - "CIC: Documents Index": cic/CIC_Documents.md
+  - "CIC: Documents Index": cic/CIC_DOCS_INDEX.md
+  - "CIC: GAP-002 Danish Origins": GAP-002_Narrative_Gap_Report.md
   - "CIC: Project State": cic/CIC_PROJECT_STATE.md
   - "CIC: Master Roadmap": cic/CIC_MASTER_ROADMAP.md
-  - "CIC: Master Spec": cic/cic-master-spec.md
+  - "CIC: Master Spec": cic/CIC_MASTER_SPEC.md
   - "CIC: Dashboard Integration": cic/CIC_Dashboard_Integration.md
   - "CIC Manual: Ops Console": cic/manuals/ops_console.md
   - "CIC Manual: Metrics & Health": cic/manuals/metrics_health.md
@@ -89,7 +90,7 @@ nav:
   - "Archive: Master Roadmap (v1.1) Changelog": rewrite/roadmaps/master-roadmap/v1.1/changelog.md
   - "Archive: Outreach Email Template": rewrite/templates/outreach-email-template.md
   - "Archive: Redesign Brief Template": rewrite/templates/redesign-brief-template.md
-  - "Archive: Legacy CIC Index": cic/cic-docs-index.md
+  - "Archive: Legacy CIC Index": cic/CIC_DOCS_INDEX.md
   - "Archive: Release Diff v2.15.0": rewrite/releases/diff-2.15.0.md
   - "Archive: Release Diff v2.13.0": rewrite/releases/diff-2.13.0.md
   - "Archive: Release Diff v2.11.0": rewrite/releases/diff-2.11.0.md
