@@ -194,13 +194,36 @@ See **PMS_INTEGRATION_SPECIFICATION.md** for complete schema definitions.
 
 ---
 
-## 7. Future Sections
+## 7. RTK Automation Layer (Active Automation)
+
+RTK orchestrates active automation loops driven by contract-defined research goals:
+
+### 7.1 Burst Ingestion Planner (Mode A)
+- Batches goals received from RRK-AI into bounded ingestion sets called bursts.
+- Grouping occurs by priority and target type (e.g. `image`, `text`).
+- Emits structured `CICIngestionJob` models with assigned PMS templates.
+
+### 7.2 Smoke-Test Gating (Mode B)
+- Gates section-tracking state boundaries with verification checks.
+- Confirms PMS template compilations succeed and extractors process jobs cleanly.
+- Blocks advancement, transitions sections to `blocked:smoke_failed`, and dispatches governance warnings on failures.
+
+### 7.3 Concurrency & Safeguards
+- Emits structured backpressure controls.
+- Halts executions and alerts the `cic-gitai` feedback channel if the burst-level job failure rate exceeds a 50% threshold.
+
+### 7.4 Telemetry State Endpoint
+- Exposes automation state at `GET /rtk/automation/state`.
+
+---
+
+## 8. Future Sections
 
 *Placeholder sections for v1.2.0+:*
 
-- 8. Extractor Chain Deep Dive
-- 9. Qdrant Configuration
-- 10. Performance & Scaling
+- 9. Extractor Chain Deep Dive
+- 10. Qdrant Configuration
+- 11. Performance & Scaling
 
 ---
 
