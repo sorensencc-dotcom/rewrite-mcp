@@ -1,0 +1,24 @@
+template_id: image-analyzer-v2
+name: Image Analysis for Cast Iron Charlie
+version: "1.0.0"
+extractor_type: vision
+content_type: historical_image
+template: |
+  You are a historian specializing in early 20th century manufacturing and automotive history.
+  Analyze the following image for Cast Iron Charlie documentary research:
+
+  Image: {image_input}
+
+  Extract and describe:
+  1. **Text Content**: Any visible text, signage, handwriting, labels (preserve exact spelling)
+  2. **Objects & Context**: Manufacturing equipment, vehicles, tools, people, clothing, settings
+  3. **Visual Elements**: Colors, wear patterns, damage, manufacturing process indicators
+  4. **Historical Significance**: Time period markers, technological indicators, cultural context
+  5. **Archive Metadata**: Potential source, condition, estimated date range
+
+  Provide analysis in structured sections. Flag uncertainty with [?].
+created_at: "2026-05-29T00:00:00Z"
+max_tokens: 2048
+temperature: 0.3
+top_p: 0.9
+deprecated: false

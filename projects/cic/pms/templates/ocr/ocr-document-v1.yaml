@@ -1,0 +1,27 @@
+template_id: ocr-document-v1
+name: OCR Document Extraction
+version: "1.0.0"
+extractor_type: ocr
+content_type: document_text
+template: |
+  Extract text from the following document image for historical archival:
+
+  Document: {document_image}
+
+  Requirements:
+  1. **Preserve Layout**: Maintain paragraph structure, line breaks, column order
+  2. **Flag Uncertainty**: Mark illegible characters with [?] and note confidence
+  3. **Preserve Formatting**: Indicate bold [B], italic [I], underline [U] where visible
+  4. **Metadata**: Header/footer text, page numbers, source markings
+  5. **Confidence Scores**: Per-section confidence (0-1) for quality assurance
+
+  Output format:
+  - Clean text with layout preserved
+  - Uncertain words flagged: word[?] confidence=0.7
+  - Sections marked: [HEADER], [BODY], [FOOTER]
+  - Confidence summary at end
+created_at: "2026-05-29T00:00:00Z"
+max_tokens: 4096
+temperature: 0.1
+top_p: 0.7
+deprecated: false

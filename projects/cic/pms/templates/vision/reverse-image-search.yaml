@@ -1,0 +1,24 @@
+template_id: reverse-image-search
+name: Reverse Image Search for Archive
+version: "1.0.0"
+extractor_type: reverse_image
+content_type: visual_match
+template: |
+  Compare the following image against Cast Iron Charlie archive catalog:
+
+  Query Image: {query_image}
+  Archive Catalog: {archive_catalog}
+
+  Find and return:
+  1. **Match IDs**: Archive image IDs with visual similarity
+  2. **Similarity Score**: 0-1 confidence for each match
+  3. **Match Reason**: Why this matches (same subject, location, person, equipment)
+  4. **Archive Metadata**: Location, date, catalog entry, cross-references
+
+  Return matches ranked by similarity (highest first).
+  Only include matches with similarity > 0.7.
+created_at: "2026-05-29T00:00:00Z"
+max_tokens: 1024
+temperature: 0.2
+top_p: 0.8
+deprecated: false

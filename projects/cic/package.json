@@ -1,0 +1,23 @@
+{
+  "name": "cic",
+  "version": "1.0.0",
+  "description": "Cast Iron Charlie documentary pipeline system",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.6",
+    "typescript": "^5.3.0",
+    "vitest": "^4.1.6"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  }
+}
