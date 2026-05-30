@@ -1,0 +1,8 @@
+[
+  {
+    "goal_id": "canary-smoke-1",
+    "type": "ingest_target",
+    "target": "Emigration record: Charles Emil Sorensen (b. Lellinge, Denmark 1881) departed Copenhagen bound for Detroit, Michigan in the spring of 1905. Sorensen, a skilled patternmaker and machinist, brought with him extensive drawings of European foundry practices and casting methodologies. His early correspondence reveals an ambition to apply modular manufacturing processes to foundry iron, laying the technical foundation for what would eventually become Cast Iron Charlie's proprietary high-durability alloy.",
+    "target_type": "text"
+  }
+]

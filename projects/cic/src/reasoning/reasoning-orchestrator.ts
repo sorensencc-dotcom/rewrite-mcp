@@ -8,6 +8,7 @@ import { retrievalPlanner } from "./retrieval-planner.js";
 import { evidenceCollector } from "./evidence-collector.js";
 import { reasonTraceManager, ReasonTrace, Contradiction } from "./reason-trace.js";
 import { pmsComposer } from "../pms/v2/composer.js";
+import { metricsCollector } from "./metrics-collector.js";
 
 export class ReasoningOrchestrator {
   async reason(query: string, context?: { timeWindow?: string; maxDocuments?: number; maxTokens?: number }): Promise<ReasonTrace> {
@@ -96,6 +97,13 @@ export class ReasoningOrchestrator {
 
     // 5. Save reasoning trace to disk
     reasonTraceManager.save(trace);
+
+    // Record telemetry metrics
+    metricsCollector.recordRAGQuery(
+      Object.keys(stageLatenciesMs).length,
+      evidence.length,
+      contradictionsDetected.length
+    );
 
     return trace;
   }

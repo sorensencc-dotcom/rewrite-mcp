@@ -1,0 +1,25 @@
+{
+  "intent": "Establish verified timeline and operational context of the Model T production revolution and Sorensen's role (1913–1918)",
+  "scope": [
+    "Moving assembly line operationalization",
+    "Highland Park scale-up",
+    "Labor management and the Five-Dollar Day context",
+    "Continuous production innovations",
+    "Vertical integration strategies (pre-Rouge)",
+    "Sorensen's rise to Ford's primary production strategist"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified timeline of assembly line milestones",
+    "verified production volume data (1913-1918)",
+    "documented engineering changes led by Sorensen",
+    "cross-validated labor records and production memos"
+  ]
+}

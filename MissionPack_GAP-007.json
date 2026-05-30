@@ -1,0 +1,57 @@
+{
+  "mission_pack_id": "MissionPack_GAP-007",
+  "goal_id": "GAP-007",
+  "version": "1.0.0",
+  "economic_constraints": {
+    "cost_cap": 2.00,
+    "max_queries": 50,
+    "concurrency_limit": 5
+  },
+  "retrieval_strategy": {
+    "alignment_version": "v1.1",
+    "primary_engines": [
+      "Ford Motor Company Production Archives",
+      "Benson Ford Research Center (Rouge Collection)",
+      "Detroit Public Library (Burton Historical Collection)",
+      "Industrial Engineering & Management Journals (1920s)",
+      "Ford Rouge Daily Logs (1920-1927)"
+    ],
+    "secondary_engines": [
+      "Economic history of Detroit",
+      "Steel industry historical archives",
+      "Trade publications (The Iron Age, Automotive Industries)"
+    ],
+    "fan_out_examples": [
+      "Ford River Rouge blast furnace ignition 1920",
+      "Sorensen role in Rouge vertical integration",
+      "River Rouge site plan 1922 blueprint",
+      "Ford Rouge production capacity 1925",
+      "Sorensen engineering memos Rouge system flow"
+    ]
+  },
+  "audit_thresholds": {
+    "confidence": 0.92,
+    "anomaly_tolerance": 0
+  },
+  "audit_agent_tuning": {
+    "primary_bias_factor": 1.25,
+    "temporal_alignment_strict": true,
+    "contradiction_penalty": 1.20,
+    "coverage_requirements": {
+      "min_independent_primary_sources": 3,
+      "min_secondary_biographical_sources": 2
+    }
+  },
+  "rights_context": {
+    "enforce_rights": true,
+    "license_mapping": {
+      "older_than_100_years": "Public Domain",
+      "corporate_archives": "Proprietary/Rights-Cleared"
+    }
+  },
+  "engine_weights": {
+    "production_archive_bias": 1.6,
+    "technical_weight": 1.4,
+    "general_biographical_weight": 1.0
+  }
+}

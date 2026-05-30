@@ -1,6 +1,7 @@
 import { QdrantClient } from "./qdrant-client.js";
 import { EmbeddingPipeline } from "./embedding-pipeline.js";
 import crypto from "crypto";
+import { metricsCollector } from "../reasoning/metrics-collector.js";
 
 export class VectorIndex {
   private client: QdrantClient;
@@ -13,6 +14,7 @@ export class VectorIndex {
   }
 
   async upsert(doc: any): Promise<{ ok: boolean; id: string }> {
+    const tStart = Date.now();
     if (!doc || !doc.rawText) {
       throw new Error("Invalid SemanticDocument: rawText is required");
     }
@@ -44,10 +46,12 @@ export class VectorIndex {
     }];
 
     const ok = await this.client.upsert(points);
+    metricsCollector.recordVectorUpsert(Date.now() - tStart);
     return { ok, id: docId };
   }
 
   async hybridSearch(query: string, limit: number = 10): Promise<any[]> {
+    const tStart = Date.now();
     if (!query) return [];
 
     // 1. Vector Search
@@ -107,6 +111,7 @@ export class VectorIndex {
         };
       });
 
+    metricsCollector.recordVectorQuery(Date.now() - tStart);
     return fusedResults;
   }
 

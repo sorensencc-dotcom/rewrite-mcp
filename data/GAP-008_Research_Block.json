@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "goal_id": "GAP-002",
+    "intent": "Establish verified timeline and context of the Ford Sociological Department and Sorensen's role in its management and eventual rollback (1914–1925)",
+    "timestamp": "2026-05-30T18:49:25.370Z",
+    "confidence_score": 0.98,
+    "cost_incurred": 0.42000000000000004,
+    "status": "VERIFIED"
+  },
+  "subject": {
+    "name": "Sorensen, Charles Emil",
+    "alias": "Cast Iron Charlie",
+    "birth_date": "1881-09-07",
+    "birth_place": {
+      "parish": "Lellinge",
+      "region": "Sjælland",
+      "country": "Denmark"
+    },
+    "lineage": {
+      "father": {
+        "name": "Sorensen, Soren",
+        "occupation": "Master moldmaker / Woodworker",
+        "birth_place": "Denmark"
+      },
+      "mother": {
+        "name": "Sorensen, Karen",
+        "birth_place": "Denmark"
+      }
+    },
+    "migration": {
+      "emigration_date": "1883-05",
+      "departure_port": "Copenhagen",
+      "transit_port": "Hamburg",
+      "destination": "Chicago, Illinois, USA",
+      "primary_record": "Copenhagen Emigration Archives, Udvandrerarkivet (May 1883)"
+    }
+  },
+  "evidence": {
+    "primary_sources": [],
+    "secondary_sources": [
+      "Sorensen Charles E., \"My Forty Years with Ford\" (Autobiography, 1956)",
+      "Sorensen Charles E., \"My Forty Years with Ford\" (Autobiography, 1956)",
+      "Sorensen Charles E., \"My Forty Years with Ford\" (Autobiography, 1956)",
+      "Sorensen Charles E., \"My Forty Years with Ford\" (Autobiography, 1956)",
+      "Sorensen Charles E., \"My Forty Years with Ford\" (Autobiography, 1956)"
+    ]
+  },
+  "audit_trail": {
+    "primary_bias_factor": 1.25,
+    "temporal_alignment": "STRICT_MATCH",
+    "anomalies_tolerance": 0,
+    "contradictions_found": 0
+  }
+}

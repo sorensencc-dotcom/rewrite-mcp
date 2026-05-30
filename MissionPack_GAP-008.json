@@ -1,0 +1,57 @@
+{
+  "mission_pack_id": "MissionPack_GAP-008",
+  "goal_id": "GAP-008",
+  "version": "1.0.0",
+  "economic_constraints": {
+    "cost_cap": 2.00,
+    "max_queries": 50,
+    "concurrency_limit": 5
+  },
+  "retrieval_strategy": {
+    "alignment_version": "v1.1",
+    "primary_engines": [
+      "Ford Sociological Department Archives",
+      "Benson Ford Research Center (Accession 94)",
+      "Detroit Labor Relations Board Records",
+      "Ford Personnel Compliance Logs (1914-1925)",
+      "Executive Correspondence (Sorensen, Ford, Marquis)"
+    ],
+    "secondary_engines": [
+      "Industrial Sociology Monographs",
+      "Labor History Journals",
+      "Detroit Newspapers (1914-1925)"
+    ],
+    "fan_out_examples": [
+      "Ford Sociological Department home inspection 1914",
+      "Five Dollar Day eligibility logs Sorensen conflict",
+      "Ford labor compliance system 1915",
+      "Sociological Department rollback 1920s",
+      "Sorensen opposition to moral policing Ford"
+    ]
+  },
+  "audit_thresholds": {
+    "confidence": 0.92,
+    "anomaly_tolerance": 0
+  },
+  "audit_agent_tuning": {
+    "primary_bias_factor": 1.2,
+    "temporal_alignment_strict": true,
+    "contradiction_penalty": 1.25,
+    "coverage_requirements": {
+      "min_independent_primary_sources": 3,
+      "min_secondary_biographical_sources": 2
+    }
+  },
+  "rights_context": {
+    "enforce_rights": true,
+    "license_mapping": {
+      "older_than_100_years": "Public Domain",
+      "corporate_archives": "Proprietary/Rights-Cleared"
+    }
+  },
+  "engine_weights": {
+    "compliance_archive_bias": 1.6,
+    "sociological_journal_weight": 1.4,
+    "general_biographical_weight": 1.0
+  }
+}

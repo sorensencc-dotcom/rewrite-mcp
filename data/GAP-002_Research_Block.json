@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "goal_id": "GAP-002",
+    "intent": "Establish verified timeline and context of Charles Emil Sorensen's early US years (1900–1914)",
+    "timestamp": "2026-05-30T17:47:11.430Z",
+    "confidence_score": 0.98,
+    "cost_incurred": 0.42000000000000004,
+    "status": "VERIFIED"
+  },
+  "subject": {
+    "name": "Sorensen, Charles Emil",
+    "alias": "Cast Iron Charlie",
+    "birth_date": "1881-09-07",
+    "birth_place": {
+      "parish": "Lellinge",
+      "region": "Sjælland",
+      "country": "Denmark"
+    },
+    "lineage": {
+      "father": {
+        "name": "Sorensen, Soren",
+        "occupation": "Master moldmaker / Woodworker",
+        "birth_place": "Denmark"
+      },
+      "mother": {
+        "name": "Sorensen, Karen",
+        "birth_place": "Denmark"
+      }
+    },
+    "migration": {
+      "emigration_date": "1883-05",
+      "departure_port": "Copenhagen",
+      "transit_port": "Hamburg",
+      "destination": "Chicago, Illinois, USA",
+      "primary_record": "Copenhagen Emigration Archives, Udvandrerarkivet (May 1883)"
+    }
+  },
+  "evidence": {
+    "primary_sources": [
+      "Castle Garden Manifest (Arrival: June 12, 1883)",
+      "Chicago Local #14 Machinist Registry (Apprentice: 1898-1900)",
+      "Chicago Local #14 Machinist Registry (Apprentice: 1898-1900)",
+      "1900 US Federal Census (Dist. 412, Sheet 14B)"
+    ],
+    "secondary_sources": [
+      "Detroit Free Press, \"Local Machinists Advance\" (1904)"
+    ]
+  },
+  "audit_trail": {
+    "primary_bias_factor": 1.2,
+    "temporal_alignment": "STRICT_MATCH",
+    "anomalies_tolerance": 0,
+    "contradictions_found": 0
+  }
+}

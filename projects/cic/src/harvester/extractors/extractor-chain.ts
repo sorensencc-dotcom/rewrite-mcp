@@ -1,5 +1,6 @@
 import { IExtractor } from "./iextractor.js";
 import { multiStageOrchestrator, StageType } from "../../pms/v2/multi-stage.js";
+import { metricsCollector } from "../../reasoning/metrics-collector.js";
 
 export class ExtractorChain {
   private chain: IExtractor[] = [];
@@ -17,6 +18,7 @@ export class ExtractorChain {
 
   async run(rawText: string): Promise<any> {
     if (!rawText) {
+      metricsCollector.recordIngestionError();
       throw new Error("Invalid raw text for extractor chain execution");
     }
 
@@ -25,19 +27,37 @@ export class ExtractorChain {
       pmsEngine: this.pms
     };
     const results: any[] = [];
+    const latencies: any = {};
+    const chainStart = Date.now();
 
-    for (const extractor of this.chain) {
-      const output = await extractor.extract(context);
-      results.push(output);
-      
-      // Thread context down the chain to achieve multi-pass contextual enrichment
-      context = {
-        ...context,
-        ...output,
-        pmsEngine: this.pms // Ensure request engine helper is preserved
-      };
+    try {
+      for (const extractor of this.chain) {
+        const tStart = Date.now();
+        const output = await extractor.extract(context);
+        const duration = Date.now() - tStart;
+
+        const name = extractor.constructor.name;
+        if (name === "SemanticExtractor") latencies.semantic = duration;
+        else if (name === "RelationshipExtractor") latencies.relationship = duration;
+        else if (name === "TopicExtractor") latencies.topic = duration;
+        else if (name === "ReasoningExtractor") latencies.reasoning = duration;
+
+        results.push(output);
+        
+        // Thread context down the chain to achieve multi-pass contextual enrichment
+        context = {
+          ...context,
+          ...output,
+          pmsEngine: this.pms // Ensure request engine helper is preserved
+        };
+      }
+
+      const chainDuration = Date.now() - chainStart;
+      metricsCollector.recordIngestion(chainDuration, latencies);
+    } catch (err) {
+      metricsCollector.recordIngestionError();
+      throw err;
     }
-
 
     return {
       chain_execution: "completed",
@@ -47,4 +67,5 @@ export class ExtractorChain {
     };
   }
 }
+
 

@@ -1,6 +1,6 @@
 {
-  "version": "BOB_MONOREPO_v2.25.0",
-  "phase": 36,
+  "version": "BOB_MONOREPO_v2.29.0",
+  "phase": 40,
   "last_updated": "2026-05-30",
   "components": {
     "apps": {
@@ -350,9 +350,8 @@
       "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
       "apps/ai-os/tsconfig.json"
     ]
-  }
-}
- "phase_34": {
+  },
+  "phase_34": {
     "description": "CIC AI Runtime Governance & Danish Origins (GAP-002)",
     "status": "delivered",
     "date": "2026-05-30",
@@ -374,9 +373,8 @@
       "src/gita/governance.ts",
       "src/cic/index.ts"
     ]
-  }
-}
- "phase_35": {
+  },
+  "phase_35": {
     "description": "Early American Integration (GAP-003)",
     "status": "delivered",
     "date": "2026-05-30",
@@ -394,9 +392,8 @@
       "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
       "scripts/mission-control.js"
     ]
-  }
-}
- "phase_36": {
+  },
+  "phase_36": {
     "description": "Ford Integration (GAP-004)",
     "status": "delivered",
     "date": "2026-05-30",
@@ -406,6 +403,83 @@
       "AuditConfig_GAP-004.json",
       "data/GAP-004_Research_Block.json",
       "docs/GAP-004_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_37": {
+    "description": "The Model T Revolution (GAP-005)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-005_Goal_Manifest.json",
+      "MissionPack_GAP-005.json",
+      "AuditConfig_GAP-005.json",
+      "data/GAP-005_Research_Block.json",
+      "docs/GAP-005_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_38": {
+    "description": "The Ford–Knudsen Conflict (GAP-006)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-006_Goal_Manifest.json",
+      "MissionPack_GAP-006.json",
+      "AuditConfig_GAP-006.json",
+      "data/GAP-006_Research_Block.json",
+      "docs/GAP-006_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_39": {
+    "description": "The River Rouge Expansion (GAP-007)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-007_Goal_Manifest.json",
+      "MissionPack_GAP-007.json",
+      "AuditConfig_GAP-007.json",
+      "data/GAP-007_Research_Block.json",
+      "docs/GAP-007_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  }
+}
+ "phase_40": {
+    "description": "The Sociological Department Conflict (GAP-008)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-008_Goal_Manifest.json",
+      "MissionPack_GAP-008.json",
+      "AuditConfig_GAP-008.json",
+      "data/GAP-008_Research_Block.json",
+      "docs/GAP-008_Narrative_Gap_Report.md"
     ],
     "patched_artifacts": [
       "BOB_MANIFEST.json",

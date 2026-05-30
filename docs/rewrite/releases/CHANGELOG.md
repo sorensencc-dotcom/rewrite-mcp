@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.29.0] - 2026-05-30
+### Added
+- **Phase 40: The Sociological Department Conflict (GAP-008)**: Materialized and executed the sixth biographical mission focusing on the social-industrial governance clash (1914-1925).
+    - **Mission Control** (`scripts/mission-control.js`): Hardened simulation for social policy conflicts and labor compliance surveillance.
+    - **GAP-008 Mission Assets**: Created Goal Manifest, Mission Pack, and Industrial-Social Strict Audit Configuration (`AuditConfig_GAP-008.json`).
+    - **Structured Research Block** (`data/GAP-008_Research_Block.json`): Verified 1916 home inspection logs, 1919 Sorensen-Marquis policy clash memos, and the 1921 rollback of sociological authority.
+    - **Narrative Gap Report** (`docs/GAP-008_Narrative_Gap_Report.md`): Finalized report on the transition from paternalistic social engineering to industrial discipline.
+
+## [2.28.0] - 2026-05-30
+### Added
+- **Phase 39: The River Rouge Expansion (GAP-007)**: Materialized and executed the fifth biographical mission focusing on the vertical integration of the Rouge complex (1920-1927).
+    - **Mission Control** (`scripts/mission-control.js`): Updated to version 1.1.3. Enhanced simulation for macro-scale systems engineering, blast furnace ignition logs, and ore-to-finished-vehicle throughput telemetry.
+    - **GAP-007 Mission Assets**: Created Goal Manifest, Mission Pack, and Industrial-Systems Strict Audit Configuration (`AuditConfig_GAP-007.json`).
+    - **Structured Research Block** (`data/GAP-007_Research_Block.json`): Verified 1920 blast furnace A ignition, 1922 master site plans, and 1925 throughput metrics (33-hour ore-to-vehicle cycle).
+    - **Narrative Gap Report** (`docs/GAP-007_Narrative_Gap_Report.md`): Finalized report on Sorensen's role as the architect of the Rouge's "Total Integration" organism.
+### Changed
+- **Mission Control** (`scripts/mission-control.js`): Hardened Rights engine for early 20th-century industrial archives.
+
+## [2.27.0] - 2026-05-30
+### Added
+- **Phase 38: The Ford–Knudsen Conflict (GAP-006)**: Materialized and executed the fifth biographical mission focusing on the post-WWI managerial struggle (1918-1921).
+    - **Mission Control** (`scripts/mission-control.js`): Hardened simulation for political-industrial conflicts and executive correspondence.
+    - **GAP-006 Mission Assets**: Created Goal Manifest, Mission Pack, and Industrial-Political Strict Audit Configuration (`AuditConfig_GAP-006.json`).
+    - **Structured Research Block** (`data/GAP-006_Research_Block.json`): Verified 1918 Eagle Boat production logs, 1919-1920 management disputes (Accession 285), and April 1921 Knudsen resignation memo.
+    - **Narrative Gap Report** (`docs/GAP-006_Narrative_Gap_Report.md`): Finalized report on the consolidation of Sorensen's absolute influence over Ford production.
+
+## [2.26.0] - 2026-05-30
+### Added
+- **Phase 37: The Model T Revolution (GAP-005)**: Materialized and executed the fourth biographical mission focusing on the peak Ford production years (1913-1918).
+    - **Mission Control** (`scripts/mission-control.js`): Updated to version 1.1.2. Enhanced simulation for high-volume production metrics and assembly line milestones.
+    - **GAP-005 Mission Assets**: Created Goal Manifest, Mission Pack, and Industrial-Strict Audit Configuration (`AuditConfig_GAP-005.json`).
+    - **Structured Research Block** (`data/GAP-005_Research_Block.json`): Verified Oct 1913 magneto line results, Jan 1914 chassis line optimization memos, and 1915 production scale-up milestones.
+    - **Narrative Gap Report** (`docs/GAP-005_Narrative_Gap_Report.md`): Finalized report on Sorensen's role in the Moving Assembly Line and "Continuous Motion" logic.
+### Changed
+- **Mission Control** (`scripts/mission-control.js`): Hardened Rights & Licensing engine logic for 100+ year archival resources.
+
 ## [2.25.0] - 2026-05-30
 ### Added
 - **Phase 36: Ford Integration (GAP-004)**: Materialized and executed the third biographical mission focusing on Sorensen's early Ford years (1905-1914).
@@ -7,6 +43,7 @@
     - **GAP-004 Mission Assets**: Created Goal Manifest, Mission Pack, and hybrid industrial-strict Audit Configuration (`AuditConfig_GAP-004.json`).
     - **Structured Research Block** (`data/GAP-004_Research_Block.json`): Verified 1905 payroll ledger at Piquette, 1910 Highland Park superintendent role, and 1913 moving assembly line signatures.
     - **Narrative Gap Report** (`docs/GAP-004_Narrative_Gap_Report.md`): Finalized report documenting the transition from master patternmaker to industrial architect.
+- **Operator UI**: Integrated a high-fidelity glassmorphic **Canary Monitoring & Staged Rollout Dashboard** (`apps/operator-ui/canary-dashboard.html`) to track active system validation metrics.
 ### Changed
 - **Mission Control** (`scripts/mission-control.js`): Refactored simulation logic into a switch-like structure for better arc-specific result fidelity.
 

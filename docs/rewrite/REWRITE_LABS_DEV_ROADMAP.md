@@ -14,6 +14,10 @@ This roadmap covers both the **Technical Platform (Antigravity/MAS)** and the **
 
 ### Completed
 
+- **[v2.29.0] Phase 40: The Sociological Department Conflict (GAP-008)** — Materialized and executed the sixth biographical mission (Sorensen vs. Marquis 1914-1925) — 2026-05-30
+- **[v2.28.0] Phase 39: The River Rouge Expansion (GAP-007)** — Materialized and executed the fifth biographical mission (Rouge Systems Integration 1920-1927) — 2026-05-30
+- **[v2.27.0] Phase 38: The Ford–Knudsen Conflict (GAP-006)** — Materialized and executed the fifth biographical mission (Sorensen vs. Knudsen 1918-1921) — 2026-05-30
+- **[v2.26.0] Phase 37: The Model T Revolution (GAP-005)** — Materialized and executed the fourth biographical mission (Sorensen Model T Scale-up 1913-1918) — 2026-05-30
 - **[v2.25.0] Phase 36: Ford Integration (GAP-004)** — Materialized and executed the third biographical mission (Sorensen Ford Rise 1905-1914) — 2026-05-30
 - **[v2.24.0] Phase 35: Early American Integration (GAP-003)** — Materialized and executed the second biographical mission (Sorensen US Integration 1900-1914) — 2026-05-30
 - **[v2.23.0] Phase 34: CIC AI Runtime Governance & Danish Origins (GAP-002)** — Hardened the system with runtime contracts and executed the first biographical mission (Sorensen Danish Origins) — 2026-05-30

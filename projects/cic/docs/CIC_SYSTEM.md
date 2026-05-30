@@ -563,7 +563,31 @@ See **CIC_SKILLOPT_SYSTEM.md** for full subsystem specification.
 
 ---
 
-**Version:** 1.3.2  
+## 13. Observability Subsystem (v1.3.3 — Cockpit and Telemetry v2)
+
+The Observability Subsystem exposes real-time runtime diagnostics, rates, latencies, and automation logs across all five architectural pillars.
+
+### 13.1 Telemetry Core Architecture
+Telemetry is driven by an in-memory `MetricsCollector` loaded in the Express control plane. System timing and event counters are gathered via inline instrumentation hooks:
+
+*   **Ingestion & Extractors**: Logs rolling documents/min, errors/min, and individual stage execution times for `SemanticExtractor`, `RelationshipExtractor`, and `TopicExtractor` inside `ExtractorChain.run()`.
+*   **Vector Memory (Qdrant)**: Computes p50/p95/p99 query latencies using circular arrays of size 1,000, bounding telemetry memory footprint.
+*   **Persistent Graph**: Logs start-up database deserialization durations (`recordGraphLoad`) and tracks manual/auto snapshot serialization sizes and durations.
+*   **RAG Reasoning**: Tracks stages per query, evidence sizes, and contradiction markers (`contradictionRate`).
+*   **RTK Automation**: Records safeguard violations, active/dry-run states, and recent automated interventions.
+
+### 13.2 Control Plane Telemetry Router
+Exposes routes for the operator dashboard under `/metrics`:
+*   `GET /metrics/snapshot`: Returns a compiled JSON representation of current statistics.
+*   `GET /metrics/stream`: Real-time SSE (Server-Sent Events) streaming endpoint delivering sub-second updates.
+*   `POST /metrics/reset`: Wipes in-memory buffers to reset benchmarks.
+
+### 13.3 High-Density Dashboard Cockpit
+Upgraded `canary-dashboard.html` features a glassmorphism dark-theme dashboard visualizing all five telemetry panels, and integrates an inline multi-hop RAG testing console with direct trace audits.
+
+---
+
+**Version:** 1.3.3  
 **Last Updated:** 2026-05-30  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  

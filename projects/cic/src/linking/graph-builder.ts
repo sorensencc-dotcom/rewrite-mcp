@@ -1,14 +1,10 @@
-/**
- * projects/cic/src/linking/graph-builder.ts
- * In-memory and disk-backed graph representation of documents, entities, internal relationships, and cross-document links.
- */
-
 import { SemanticDocument, SemanticEntity, SemanticRelationship } from "../harvester/extractors/v2/extractor-v2.types.js";
 import { CrossDocumentLink } from "./link-engine.js";
 import { canonicalizeName } from "./entity-resolver.js";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { metricsCollector } from "../reasoning/metrics-collector.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -76,6 +72,7 @@ export class GraphBuilder {
   }
 
   load(filePath: string = defaultGraphPath): void {
+    const tStart = Date.now();
     try {
       if (!fs.existsSync(filePath)) {
         return;
@@ -111,6 +108,7 @@ export class GraphBuilder {
       if (data.crossDocLinks) {
         this.crossDocLinks = data.crossDocLinks;
       }
+      metricsCollector.recordGraphLoad(Date.now() - tStart);
     } catch (err: any) {
       console.error(`[GraphBuilder] Failed to load graph from ${filePath}:`, err.message);
     }
@@ -139,6 +137,7 @@ export class GraphBuilder {
   }
 
   async createSnapshot(tag?: string): Promise<string> {
+    const tStart = Date.now();
     const timestampStr = new Date().toISOString().replace(/[:.]/g, "-");
     const filename = `graph_snapshot_${timestampStr}${tag ? "_" + tag : ""}.json`;
     const snapshotDir = path.resolve(__dirname, "../../data/snapshots");
@@ -147,6 +146,15 @@ export class GraphBuilder {
     }
     const snapshotPath = path.join(snapshotDir, filename);
     this.save(snapshotPath);
+    
+    try {
+      const duration = Date.now() - tStart;
+      const sizeBytes = fs.existsSync(snapshotPath) ? fs.statSync(snapshotPath).size : 0;
+      metricsCollector.recordGraphSnapshot(tag || "manual", sizeBytes, duration);
+    } catch {
+      // ignore
+    }
+
     return snapshotPath;
   }
 

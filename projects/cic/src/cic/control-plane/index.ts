@@ -7,6 +7,7 @@ import { entityResolver } from "../../linking/entity-resolver.js";
 import { pmsComposer } from "../../pms/v2/composer.js";
 import { reasoningOrchestrator } from "../../reasoning/reasoning-orchestrator.js";
 import { reasonTraceManager } from "../../reasoning/reason-trace.js";
+import { metricsRouter } from "../../reasoning/metrics-router.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -19,6 +20,8 @@ const traceDir = path.resolve(__dirname, "../../data/traces");
 export const router = express.Router();
 const pmsRegistry = new PMSTemplateRegistry();
 pmsRegistry.load();
+
+router.use("/metrics", metricsRouter);
 
 const vectorIndex = new VectorIndex();
 

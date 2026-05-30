@@ -1,0 +1,57 @@
+{
+  "mission_pack_id": "MissionPack_GAP-005",
+  "goal_id": "GAP-005",
+  "version": "1.0.0",
+  "economic_constraints": {
+    "cost_cap": 2.00,
+    "max_queries": 50,
+    "concurrency_limit": 5
+  },
+  "retrieval_strategy": {
+    "alignment_version": "v1.1",
+    "primary_engines": [
+      "Ford Motor Company Production Archives",
+      "Benson Ford Research Center (Engineering Collection)",
+      "Detroit Industrial History Society",
+      "Early Automotive Trade Journals (The Automobile, Horseless Age)",
+      "Ford Service Bulletins (1913-1918)"
+    ],
+    "secondary_engines": [
+      "Economic history monographs",
+      "Labor history archives",
+      "Museum of Science and Industry industrial records"
+    ],
+    "fan_out_examples": [
+      "Ford moving assembly line timeline 1913",
+      "Sorensen role in Model T assembly line",
+      "Ford Highland Park production capacity 1914",
+      "Sorensen Ford engineering memos 1913-1918",
+      "Ford five dollar day Sorensen involvement"
+    ]
+  },
+  "audit_thresholds": {
+    "confidence": 0.92,
+    "anomaly_tolerance": 0
+  },
+  "audit_agent_tuning": {
+    "primary_bias_factor": 1.2,
+    "temporal_alignment_strict": true,
+    "contradiction_penalty": 1.15,
+    "coverage_requirements": {
+      "min_independent_primary_sources": 3,
+      "min_secondary_biographical_sources": 2
+    }
+  },
+  "rights_context": {
+    "enforce_rights": true,
+    "license_mapping": {
+      "older_than_120_years": "Public Domain",
+      "corporate_archives": "Proprietary/Rights-Cleared"
+    }
+  },
+  "engine_weights": {
+    "production_archive_bias": 1.6,
+    "engineering_journal_weight": 1.4,
+    "general_biographical_weight": 1.0
+  }
+}

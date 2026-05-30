@@ -7,6 +7,7 @@ import { VectorIndex } from "../indexer/vector-index.js";
 import { entityResolver, getComparisonKey } from "../linking/entity-resolver.js";
 import { linkEngine } from "../linking/link-engine.js";
 import { graphBuilder } from "../linking/graph-builder.js";
+import { metricsCollector } from "../reasoning/metrics-collector.js";
 
 export class Harvester {
   private registry: Map<string, IExtractor> = new Map();
@@ -109,21 +110,26 @@ export class Harvester {
       };
     }
 
-    const extractor = this.registry.get(job.type);
-    if (!extractor) {
-      throw new Error(`Extractor for job type ${job.type} not found`);
+    try {
+      const extractor = this.registry.get(job.type);
+      if (!extractor) {
+        throw new Error(`Extractor for job type ${job.type} not found`);
+      }
+
+      const result = await extractor.extract(job.payload);
+
+      // Attach PMS prompt metadata for downstream stages
+      result.pms = {
+        template: result.pms?.templateId || result.prompt?.templateId || null,
+        version: result.pms?.version || result.prompt?.version || null,
+        error: result.pms?.error || null,
+      };
+
+      return result;
+    } catch (err) {
+      metricsCollector.recordIngestionError();
+      throw err;
     }
-
-    const result = await extractor.extract(job.payload);
-
-    // Attach PMS prompt metadata for downstream stages
-    result.pms = {
-      template: result.pms?.templateId || result.prompt?.templateId || null,
-      version: result.pms?.version || result.prompt?.version || null,
-      error: result.pms?.error || null,
-    };
-
-    return result;
   }
 }
 
