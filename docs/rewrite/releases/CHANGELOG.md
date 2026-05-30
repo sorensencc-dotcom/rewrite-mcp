@@ -33,6 +33,30 @@
 ### Changed
 - **Mission Control** (`scripts/mission-control.js`): Updated to support dynamic `AuditConfig` loading and posture enforcement.
 
+## [1.2.0] - 2026-05-30
+
+### Added
+- Semantic Indexing Layer with Qdrant integration and embedding pipeline
+- Cross‑Document Linking: EntityResolver, LinkEngine, GraphBuilder
+- PMS v2: compositional templates, conditional blocks, multi‑stage orchestration
+- Extractor v2 multi‑pass semantic extractors and ExtractorChain PMS hooks
+- Control Plane endpoints:
+  - /index/health
+  - /index/search
+  - /graph/entity/:id
+  - /graph/document/:id
+  - /graph/summary
+  - /pms/resolve
+- Comprehensive contract + hybrid test suites (111 tests)
+
+### Changed
+- Harvester now enriches ingestion payloads with `entity_ids`, `link_count`, `primary_topics`, and `pms` metadata
+- Vector index payload shape extended for hybrid search
+
+### Fixed
+- TypeScript build boundaries for test mocks
+- Release timeline parsing resilience for changelog formats
+
 ## [1.1.0] - 2026-05-30
 
 ### Added

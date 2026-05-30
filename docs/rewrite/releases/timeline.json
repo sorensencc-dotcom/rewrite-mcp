@@ -12,8 +12,8 @@
       "other": 0
     },
     "delta": 0,
-    "bundle": null,
-    "checksum": null,
+    "bundle": "rewrite-mcp-release-v2.25.0.tar.gz",
+    "checksum": "af23785a4dcd0d6ea329fc004fbb575143d9a83ff8507e180d95d5f33a7e98c3",
     "notes": "2.25.0.summary.txt",
     "diff": "diff-2.25.0.summary.txt"
   },
@@ -52,6 +52,24 @@
     "checksum": null,
     "notes": "2.23.0.summary.txt",
     "diff": "diff-2.23.0.summary.txt"
+  },
+  {
+    "version": "1.2.0",
+    "date": "2026-05-30",
+    "changes": {
+      "added": 0,
+      "fixed": 0,
+      "infra": 1,
+      "docs": 3,
+      "mas": 0,
+      "controlPlane": 1,
+      "other": 11
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "1.2.0.summary.txt",
+    "diff": "diff-1.2.0.summary.txt"
   },
   {
     "version": "1.1.0",
