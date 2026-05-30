@@ -398,11 +398,177 @@ Returns document metadata, contained entities, and related documents connected v
 
 ---
 
-**Version:** 1.2.0  
+## 10. Persistent Knowledge Graph (v1.3.1)
+
+The Persistent Knowledge Graph replaces the ephemeral in-memory graph representation with a durable, queryable filesystem database and supports dated, non-destructive historical slicing.
+
+### 10.1 Serialization Roundtrips & Path Security
+*   **Database Files**: Serializes objects to structured JSON files under `projects/cic/data/entity-registry.json` and `projects/cic/data/graph-store.json`.
+*   **Absolute Resolution**: Enforces dynamic ESM path resolution (`import.meta.url` $\rightarrow$ `fileURLToPath`) to guarantee database paths resolve identically inside both test environments and PM2 production runtimes.
+*   **Transaction Gating**: Executes auto-saves synchronously inside the Harvester post-ingestion loop before indexing final RAG results.
+
+### 10.2 Entity Lineage & Dynamic Slicing
+To support temporal queries, every canonical entity stores a chronological `lineage` array recording creation, alias merges, name refinements, and context enrichments:
+
+```typescript
+export interface EntityLineageEntry {
+  timestamp: string;
+  docId: string;
+  action: "created" | "merged_alias" | "context_enriched" | "name_updated";
+  originalName?: string;
+  contextAdded?: string;
+}
+```
+
+*   **Dynamic Playback (`sliceAtDate`)**: Reconstructs exact node/edge states at any target timestamp `dateX` without duplicating files by replaying lineage chronologically, subtracting future context additions and reverting name refinements.
+
+---
+
+## 11. Retrieval-Augmented Reasoning Layer (v1.3.2)
+
+The Reasoning Layer equips Cast Iron Charlie with multi-hop retrieval capabilities, polar claim contradiction checks, and audit-ready reasoning traces.
+
+### 11.1 Subsystem Pipeline
+The RAG reasoning query loop processes in four stages:
+
+```mermaid
+graph TD
+    A[Query / Goal] --> B[Retrieval Planner: plan query limits & graph hops]
+    B --> C[Evidence Collector: execute vector search & slice temporal neighborhoods]
+    C --> D[Contradiction Guard: analyze polar claim conflicts]
+    D --> E[Reasoning Orchestrator: PMS seed -> refine -> synthesize loop]
+    E --> F[Reason Trace: save replayable audit trail]
+```
+
+1.  **Retrieval Planner**: Analyzes natural language strings, matches keywords against registered canonical entities, plans graph traversals up to depth $N$, and sets strict token budgets.
+2.  **Evidence Collector**: Aggregates ranked float-based vector results, loads sliced graph neighborhoods, and filters entries dynamically based on `sliceAtDate`.
+3.  **Contradiction Guard**: Compares evidence strings for polar facts (e.g. origins associated with Denmark vs Chicago/Detroit) and flags contested claims.
+4.  **Reasoning Orchestrator**: Executes a multi-pass compositional prompting chain (`seed` $\rightarrow$ `refine` $\rightarrow$ `synthesize`) via PMS v2 to compile the final answered RAG summary.
+
+### 11.2 Trace Schema & Auditing
+Reasoning traces are saved as audit-ready JSON logs under `projects/cic/data/traces/`:
+
+```json
+{
+  "traceId": "trc_uuid",
+  "query": "Charles Sorensen birthplace",
+  "plan": { ... },
+  "evidenceEvaluated": [
+    { "evidenceId": "doc-A", "type": "document", "score": 0.95, "action": "used", "reason": "Matched constraints" }
+  ],
+  "contradictionsDetected": [
+    { "claimA": "Denmark origins", "claimB": "Chicago origins", "severity": "high" }
+  ],
+  "stageLatenciesMs": { "planning": 12, "collection": 145, "reasoning_loop": 402 },
+  "finalAnswer": "...",
+  "confidence": "low",
+  "isContested": true
+}
+```
+
+---
+
+## 12. SkillOpt Subsystem (v0.1.0 — Stage 2 Integration)
+
+CIC integrates with SkillOpt to train and deploy self-improving skills (starting with **RewriteLabs Redesign**).
+
+### 12.1 Purpose & Integration
+
+SkillOpt turns CIC's documentary analysis pipeline into a **skill trainer**:
+
+- **Data Production:** Harvester emits `SkillOptItem` JSON files (DOM snapshot + audit deltas + target redesign) when `--emit-skillopt` is enabled.
+- **Validation:** SkillOptValidator scores outputs against inputs across 6 metrics (structural completeness, heuristic alignment, a11y, performance, brand voice, determinism).
+- **Training:** SkillOpt consumes items from `./skillopt/data/{train,val,test}` and trains skill templates (external Python harness).
+- **Deployment:** `skillopt:deploy` exports `best_skill.md` and registers it in the runtime SkillRegistry.
+- **Runtime:** CIC loads `best_skill.md` via `SkillRegistryLoader` and passes it to RedesignAgent.
+- **Observability:** SkillOptTelemetry logs skill versions, validation scores, and runtime metrics.
+
+### 12.2 Data Contract: SkillOptItem
+
+Emitted by Harvester after `SYNTHESIZE`:
+
+```json
+{
+  "id": "item_uuid",
+  "input": {
+    "dom": "<html>...</html>",
+    "content_blocks": [ { "type": "nav", "text": "...", "role": "..." }, ... ],
+    "audit_deltas": { "contrast_issue_1": 0.6, "layout_reflow": 0.4, ... },
+    "heuristics": { "ux_score": 0.72, "ia_score": 0.81, ... }
+  },
+  "target": {
+    "redesign_plan": "# Redesign Summary\n..."
+  },
+  "metadata": {
+    "url": "...",
+    "brand_voice": "modern, accessible, conversational",
+    "timestamp": "ISO"
+  }
+}
+```
+
+### 12.3 Validation Metrics
+
+SkillOptValidator computes 6 scores (0-1):
+
+1. **structural_completeness:** Required sections present in redesign output.
+2. **heuristic_alignment:** Redesign addresses audit deltas from input.
+3. **accessibility_uplift:** Covers a11y issues (contrast, alt text, labels).
+4. **performance_uplift:** Covers perf issues (LCP, CLS, bundling, lazy loading).
+5. **brand_voice_similarity:** Output aligns with brand vocabulary.
+6. **determinism_score:** Consistency across multiple rollouts.
+
+### 12.4 CLI Commands (Stage 2-3)
+
+**Stage 2 (Active):**
+```bash
+cic skillopt:emit [--url-pattern PATTERN]
+  # Run pipeline and emit SkillOptItems to ./skillopt/data
+
+cic skillopt:validate <item.json> <output.md>
+  # Score a single redesign output against its input
+  # Returns JSON with 6 validation metrics
+```
+
+**Stage 3 (Upcoming):**
+```bash
+cic skillopt:data-gen [--base-dir DIR]
+  # Generate synthetic SkillOptItems for testing
+
+cic skillopt:train [--config skillopt-config-redesign.yaml]
+  # Train Redesign skill from ./skillopt/data
+
+cic skillopt:deploy [--skill-version V]
+  # Export best_skill.md and reload SkillRegistry
+
+cic skillopt:telemetry [--recent N]
+  # Show skill versions, validation scores, rollout metrics
+```
+
+### 12.5 Governance
+
+- **TokenEconomyAgent:** SkillOpt training respects max_cost budget.
+- **SecuritySentinelAgent:** Exported skills signed with SHA-256; validation gate required before deploy.
+- **AuditAgent:** Every skill rollout audited; regressions logged and flagged.
+
+### 12.6 Stage 3 Dependencies
+
+Stage 3 (train/deploy/runtime) requires:
+
+- [ ] **SkillRegistryLoader** (`cic-runtime/src/skills/SkillRegistryLoader.ts`) — Load and cache trained skills at runtime.
+- [ ] **RedesignAgent skill-awareness** — Accept loaded skill as constructor parameter.
+- [ ] **Python training harness integration** — Wire `skillopt:train` CLI to external trainer.
+
+See **CIC_SKILLOPT_SYSTEM.md** for full subsystem specification.
+
+---
+
+**Version:** 1.3.2  
 **Last Updated:** 2026-05-30  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
 
 See **CIC_AI_RUNTIME_CONTRACT.md** for multi-agent orchestration details.
 See **PMS_INTEGRATION_SPECIFICATION.md** for Prompt Management System details.
+See **CIC_SKILLOPT_SYSTEM.md** for SkillOpt subsystem specification.
 

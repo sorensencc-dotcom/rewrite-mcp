@@ -5,6 +5,8 @@ import { VectorIndex } from "../../indexer/vector-index.js";
 import { graphBuilder } from "../../linking/graph-builder.js";
 import { entityResolver } from "../../linking/entity-resolver.js";
 import { pmsComposer } from "../../pms/v2/composer.js";
+import { reasoningOrchestrator } from "../../reasoning/reasoning-orchestrator.js";
+import { reasonTraceManager } from "../../reasoning/reason-trace.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,6 +14,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const snapshotDir = path.resolve(__dirname, "../../data/snapshots");
+const traceDir = path.resolve(__dirname, "../../data/traces");
 
 export const router = express.Router();
 const pmsRegistry = new PMSTemplateRegistry();
@@ -265,6 +268,106 @@ router.get("/graph/snapshot/list", (req: Request, res: Response) => {
     } else {
       res.json({ snapshots: [] });
     }
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- RAG PERSISTENCE EXTENSIONS (v1.3.2) ---
+
+// 4. POST /graph/persist/flush: Flushes memory caches to files
+router.post("/graph/persist/flush", (req: Request, res: Response) => {
+  try {
+    entityResolver.save();
+    graphBuilder.save();
+    res.json({ ok: true, message: "Persisted state flushed atomically to disk." });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 5. GET /graph/persist/stats: Retrieves persist sizing and stats
+router.get("/graph/persist/stats", (req: Request, res: Response) => {
+  try {
+    const summary = graphBuilder.getSummary();
+    const entityCount = entityResolver.getCanonicalEntities().length;
+    const snapshotCount = fs.existsSync(snapshotDir) ? fs.readdirSync(snapshotDir).filter(f => f.endsWith(".json")).length : 0;
+    const traceCount = fs.existsSync(traceDir) ? fs.readdirSync(traceDir).filter(f => f.endsWith(".json")).length : 0;
+    
+    res.json({
+      entity_registry_size: entityCount,
+      relationship_count: summary.edges.entityRelationships,
+      cross_doc_link_count: summary.edges.crossDocLinks,
+      document_count: summary.nodes.documents,
+      snapshot_count: snapshotCount,
+      trace_count: traceCount
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 6. POST /graph/persist/snapshot: Directly trigger a persist snapshot
+router.post("/graph/persist/snapshot", async (req: Request, res: Response) => {
+  try {
+    const { tag } = req.body;
+    const snapshotPath = await graphBuilder.createSnapshot(tag);
+    res.json({ ok: true, snapshotPath: path.basename(snapshotPath) });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- RETRIEVAL-AUGMENTED REASONING ENDPOINTS (v1.3.2) ---
+
+// 7. POST /reason/query: Triggers multi-hop RAG loops and returns trace
+router.post("/reason/query", async (req: Request, res: Response) => {
+  try {
+    const { query, timeWindow, maxDocuments, maxTokens } = req.body;
+    if (!query) {
+      return res.status(400).json({ error: "Missing required parameter: query" });
+    }
+    const trace = await reasoningOrchestrator.reason(query, { timeWindow, maxDocuments, maxTokens });
+    res.json(trace);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 8. GET /reason/trace/:id: Fetches full audit trace by ID
+router.get("/reason/trace/:id", (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const trace = reasonTraceManager.load(id as string);
+    if (!trace) {
+      return res.status(404).json({ error: `Reasoning trace '${id}' not found.` });
+    }
+    res.json(trace);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 9. POST /reason/replay: Re-runs planning/evaluation with original constraints
+router.post("/reason/replay", async (req: Request, res: Response) => {
+  try {
+    const { traceId, maxDocuments, maxTokens } = req.body;
+    if (!traceId) {
+      return res.status(400).json({ error: "Missing required parameter: traceId" });
+    }
+    const originalTrace = reasonTraceManager.load(traceId as string);
+    if (!originalTrace) {
+      return res.status(404).json({ error: `Original trace '${traceId}' not found for replay.` });
+    }
+    const limit = maxDocuments !== undefined ? maxDocuments : originalTrace.plan.evidenceBudget.maxDocuments;
+    const tokens = maxTokens !== undefined ? maxTokens : originalTrace.plan.evidenceBudget.maxTokens;
+    
+    const replayedTrace = await reasoningOrchestrator.reason(originalTrace.query, {
+      timeWindow: originalTrace.plan.temporalSlice,
+      maxDocuments: limit,
+      maxTokens: tokens
+    });
+    res.json({ ok: true, replayedTrace });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
