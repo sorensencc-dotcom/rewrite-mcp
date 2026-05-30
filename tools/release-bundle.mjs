@@ -8,6 +8,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -59,8 +60,9 @@ function main() {
     // Create the bundle (run tar from root but output to docs/rewrite/releases)
     run(`tar -czf ${bundlePath} ${existingFiles.join(' ')}`);
     
-    // Calculate SHA256
-    const hash = execSync(`sha256sum ${bundlePath}`).toString().split(' ')[0];
+    // Calculate SHA256 natively using Node.js crypto
+    const fileBuffer = fs.readFileSync(bundlePath);
+    const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
     console.log(`\nSUCCESS: Bundle created at ${bundlePath}`);
     console.log(`SHA256: ${hash}`);
     

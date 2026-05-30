@@ -29,6 +29,8 @@ nav:
   - "CIC: System Overview": cic/CIC_SYSTEM.md
   - "CIC: Documents Index": cic/CIC_DOCS_INDEX.md
   - "CIC: GAP-002 Danish Origins": GAP-002_Narrative_Gap_Report.md
+  - "CIC: GAP-003 Early US Integration": GAP-003_Narrative_Gap_Report.md
+  - "CIC: GAP-004 Ford Integration": GAP-004_Narrative_Gap_Report.md
   - "CIC: Project State": cic/CIC_PROJECT_STATE.md
   - "CIC: Master Roadmap": cic/CIC_MASTER_ROADMAP.md
   - "CIC: Master Spec": cic/CIC_MASTER_SPEC.md

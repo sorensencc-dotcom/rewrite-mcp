@@ -1,0 +1,24 @@
+template_id: relationship_extraction_v2
+name: Semantic Relationship Extraction
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic_relationships
+template: |
+  Analyze the provided source material and set of entities to extract directed relationships and semantic links between them:
+
+  Source: {source}
+  Entities: {entities}
+
+  Extract relationships in the form:
+  - Subject entity
+  - Object entity
+  - Predicate (e.g., parent_of, born_in, author_of, worked_at)
+  - Context/Details
+  - Confidence weight (0.0 to 1.0)
+
+  Format as a structured JSON object containing a relationships array.
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 2000
+temperature: 0.2
+top_p: 0.9
+deprecated: false

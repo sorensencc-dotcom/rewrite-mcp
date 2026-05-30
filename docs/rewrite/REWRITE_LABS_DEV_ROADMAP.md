@@ -14,6 +14,9 @@ This roadmap covers both the **Technical Platform (Antigravity/MAS)** and the **
 
 ### Completed
 
+- **[v2.25.0] Phase 36: Ford Integration (GAP-004)** — Materialized and executed the third biographical mission (Sorensen Ford Rise 1905-1914) — 2026-05-30
+- **[v2.24.0] Phase 35: Early American Integration (GAP-003)** — Materialized and executed the second biographical mission (Sorensen US Integration 1900-1914) — 2026-05-30
+- **[v2.23.0] Phase 34: CIC AI Runtime Governance & Danish Origins (GAP-002)** — Hardened the system with runtime contracts and executed the first biographical mission (Sorensen Danish Origins) — 2026-05-30
 - **[v2.22.0] Memory Sync Pack Infrastructure** — Refined cross-platform alignment into production-grade infrastructure (Manifests, Deltas, Versioning, CI Automation) — 2026-05-24
 - **[v2.21.0] Phase 33: Multi-Agent AI-OS Governance & Evolution Stack** — Implementation of the core governance (Execution Model, Control Plane, Policies) and self-improvement substrate (Meta-Operator, Audit, Evolution, Log, Simulator, Ranker) — 2026-05-24
 - **[v2.20.0] Phase 29: Intelligence Plane Operationalization** — End-to-end Ingestion (8-stage), Extractor Interface, Image Analyzer v2, AIR & Thematic Synthesis Engine — 2026-05-24

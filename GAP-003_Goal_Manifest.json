@@ -1,0 +1,24 @@
+{
+  "intent": "Establish verified timeline and context of Charles Emil Sorensen's early US years (1900–1914)",
+  "scope": [
+    "Arrival",
+    "First employment",
+    "Early mechanical exposure",
+    "Family settlement patterns",
+    "Pre-Ford industrial experience"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified arrival records",
+    "verified first employment/apprenticeship",
+    "cross-validated census data (1900, 1910)",
+    "no contradictions in timeline"
+  ]
+}

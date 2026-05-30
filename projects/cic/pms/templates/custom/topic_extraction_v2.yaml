@@ -1,0 +1,21 @@
+template_id: topic_extraction_v2
+name: Semantic Topic Extraction
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic_topics
+template: |
+  Analyze the following source material to classify primary thematic topics, historical contexts, and category classifications:
+
+  Source: {source}
+
+  Extract:
+  - Primary topics (e.g., Early Life, Foundry Operations, Industrial Automation)
+  - Categories (e.g., Biography, Manufacturing History, Archival Documentation)
+  - Summary / Main historical thesis
+
+  Format the output as a structured JSON object.
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 1500
+temperature: 0.3
+top_p: 0.95
+deprecated: false

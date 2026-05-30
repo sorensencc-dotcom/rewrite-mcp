@@ -1,0 +1,25 @@
+{
+  "intent": "Establish verified timeline and context of Sorensen's entry and rise within Ford Motor Company (1905–1914)",
+  "scope": [
+    "Hiring pathway",
+    "Early responsibilities",
+    "Relationship with Henry Ford",
+    "First manufacturing innovations",
+    "Pre-Model T production environment",
+    "Rise to superintendent and production strategist"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified employment start date",
+    "verified role progression within Ford",
+    "documented early innovations (Piquette/Highland Park)",
+    "cross-validated archival records (Benson Ford Research Center)"
+  ]
+}

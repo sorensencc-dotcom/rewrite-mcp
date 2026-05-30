@@ -1,0 +1,58 @@
+{
+  "mission_pack_id": "MissionPack_GAP-003",
+  "goal_id": "GAP-003",
+  "version": "1.0.0",
+  "economic_constraints": {
+    "cost_cap": 2.00,
+    "max_queries": 50,
+    "concurrency_limit": 5
+  },
+  "retrieval_strategy": {
+    "alignment_version": "v1.1",
+    "primary_engines": [
+      "Ellis Island records",
+      "NARA immigration logs",
+      "1900/1910 US Census",
+      "Detroit/Chicago labor registries",
+      "Scandinavian-American archives"
+    ],
+    "secondary_engines": [
+      "Academic (CORE, Semantic Scholar)",
+      "Historical newspapers",
+      "Local industrial histories"
+    ],
+    "fan_out_examples": [
+      "Charles Emil Sorensen immigration record 1900",
+      "Sorensen machinist apprenticeship Chicago 1900s",
+      "Detroit Scandinavian community 1900–1914",
+      "Sorensen early employment pre-Ford",
+      "Sorensen census 1900 1910"
+    ]
+  },
+  "audit_thresholds": {
+    "confidence": 0.92,
+    "anomaly_tolerance": 0
+  },
+  "audit_agent_tuning": {
+    "primary_bias_factor": 1.2,
+    "temporal_alignment_strict": true,
+    "contradiction_penalty": 1.1,
+    "coverage_requirements": {
+      "min_independent_primary_sources": 2,
+      "min_secondary_biographical_sources": 1
+    }
+  },
+  "rights_context": {
+    "enforce_rights": true,
+    "license_mapping": {
+      "older_than_120_years": "Public Domain",
+      "digitized_collections": "CC-BY",
+      "genealogy_databases": "Proprietary"
+    }
+  },
+  "engine_weights": {
+    "labor_archive_bias": 1.4,
+    "census_weight": 1.2,
+    "general_biographical_weight": 1.0
+  }
+}

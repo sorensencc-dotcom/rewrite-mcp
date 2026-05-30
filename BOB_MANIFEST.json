@@ -1,7 +1,7 @@
 {
-  "version": "BOB_MONOREPO_v2.22.0",
-  "phase": 33,
-  "last_updated": "2026-05-24",
+  "version": "BOB_MONOREPO_v2.25.0",
+  "phase": 36,
+  "last_updated": "2026-05-30",
   "components": {
     "apps": {
       "cic-pms": {
@@ -349,6 +349,70 @@
       "docs/rewrite/releases/CHANGELOG.md",
       "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
       "apps/ai-os/tsconfig.json"
+    ]
+  }
+}
+ "phase_34": {
+    "description": "CIC AI Runtime Governance & Danish Origins (GAP-002)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "src/runtime/contract-loader.ts",
+      "src/cic/control-plane/contract-ack.ts",
+      "AuditConfig_GAP-002.json",
+      "data/GAP-002_Research_Block.json",
+      "docs/GAP-002_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js",
+      "src/rtk/index.ts",
+      "src/rrk/index.ts",
+      "src/gita/governance.ts",
+      "src/cic/index.ts"
+    ]
+  }
+}
+ "phase_35": {
+    "description": "Early American Integration (GAP-003)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-003_Goal_Manifest.json",
+      "MissionPack_GAP-003.json",
+      "AuditConfig_GAP-003.json",
+      "data/GAP-003_Research_Block.json",
+      "docs/GAP-003_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  }
+}
+ "phase_36": {
+    "description": "Ford Integration (GAP-004)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-004_Goal_Manifest.json",
+      "MissionPack_GAP-004.json",
+      "AuditConfig_GAP-004.json",
+      "data/GAP-004_Research_Block.json",
+      "docs/GAP-004_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
     ]
   }
 }

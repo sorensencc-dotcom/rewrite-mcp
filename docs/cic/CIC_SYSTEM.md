@@ -136,63 +136,101 @@ When CIC fails:
 
 ---
 
-## 6. PMS Integration (Internal to CIC)
+## 6. PMS Integration & PMS v2 Compositional Engine
 
-The Prompt Management System (PMS) composes and manages prompts for the Extractor Chain.
+The Prompt Management System (PMS) has been evolved to **PMS v2**, exposing a compositional, multi‑stage prompt engine that integrates with ExtractorChain and the semantic pipeline.
 
-### 6.1 PMS Role
+### 6.1 PMS Role & V2 Capabilities
 
-- **Composes prompts** for extractors based on content type and extraction goals
-- **Caches prompts** to avoid redundant generation (SHA256 cache key from template + variables)
-- **Manages templates** for different extraction scenarios (vision, reverse_image, ocr, custom)
-- **Tracks versions** for reproducibility and drift detection
-- **Validates prompts** before passing to extractors
+- **Composes prompts** for extractors based on content type, stages, and constraints.
+- **Compositional Inheritance**: Templates can inherit from a parent template (`parent: parent_id`) and override designated slot slots (`[[block:block_name]]...[[endblock]]`) via the `blocks` dictionary in their YAML configuration.
+- **Conditional Evaluation**: Resolves runtime guards using `[[if condition]]...[[endif]]` structures. Supports arbitrary combinations of logical negations (`!`), ANDs (`&&`), and ORs (`||`).
+- **Vector Index Snippet Lookup Hooks**: Allows safe, rate‑limited injection of historical context directly into templates using the `[[index_lookup query="text" limit=N]]` tag.
+- **Multi-Stage Orchestration & Caching**: Manages multi-pass prompt stages (`seed` $\rightarrow$ `refine` $\rightarrow$ `summarize`) inside `ExtractorChain` and leverages SHA-256 in-memory caching to skip repeat compositions.
+- **Isolates Composition Failures**: Logs and captures compilation or validation failures inside the returned metadata object instead of aborting unrelated pipeline runs.
 
 ### 6.2 PMS Location in Pipeline
 
 ```
 Harvester
     ↓
-Control Plane (gets job)
+Control Plane (receives job)
     ↓
-PMS (composes prompt for extractor)
+PMS v2 Composer (resolves inheritance, conditional blocks, index snippet lookups)
     ↓
-Extractor Chain (executes extraction)
+Extractor Chain (executes multi-stage seed -> refine -> summarize passes)
     ↓
-Indexer (stores vectors)
+Indexer (stores vector embeddings with metadata payload in Qdrant)
     ↓
 Dashboard / Section Tracking
 ```
 
-### 6.3 PMS Schema
+### 6.3 YAML Schema & Inheritance Example
 
-**PromptTemplate:** Template ID, name, version, extractor type, content type, template string, hash, max_tokens.
+#### Base Layout Template (`base_semantic.yaml`)
+```yaml
+template_id: base_semantic
+name: Base Semantic Template
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic
+template: |
+  =============================================================
+  CAST IRON CHARLIE - SEMANTIC WORKFLOW
+  =============================================================
+  [[block:stage_header]]STAGE: Ingestion[[endblock]]
 
-**ComposedPrompt:** Fully composed prompt with template ID, job ID, variables, cache key, validation state.
+  Source text:
+  """
+  {source}
+  """
 
-**PMSLog:** Execution trace with latency, success/error state, extractor response, trace ID.
+  [[block:stage_instructions]]Core extraction rules.[[/block]]
 
-See **PMS_INTEGRATION_SPECIFICATION.md** for complete schema definitions.
+  [[if is_final_stage]]
+  Final pass compilation: Organize all facts into canonical JSON-LD.
+  [[endif]]
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 3000
+temperature: 0.2
+top_p: 0.95
+```
 
-### 6.4 PMS Caching
+#### Child Extraction Template (`semantic_seed.yaml`)
+```yaml
+template_id: semantic_seed
+name: Semantic Seed Stage
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: "STAGE 1: Seed Entity Extraction"
+  stage_instructions: "Extract all PEOPLE and PLACES with context."
+template: ""
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 2000
+temperature: 0.3
+top_p: 0.90
+```
 
-- **Cache Key:** `SHA256(template_id + template_version + JSON(variables))`
-- **Invalidation:** On template updates or variable changes
-- **Metrics:** Cache hit ratio, cache size, lookup time
+### 6.4 PMS Caching & Multi-Stage Integration
 
-### 6.5 PMS Configuration
+- **Cache Key Generation**: `SHA256(template_id + stage + serialized_sorted_variables)`
+- **Multi-Stage API Hook**: Exposed to `ExtractorChain` via `pms.requestPrompt(stage, context)`.
+  - **Pass 1 (`seed`)**: Maps to `semantic_seed`, extracting entities from source.
+  - **Pass 2 (`refine`)**: Maps to `semantic_refine`, resolving relationships, querying `[[index_lookup]]` context.
+  - **Pass 3 (`summarize`)**: Maps to `semantic_summary`, generating contextual syntheses with finalization checks.
 
-- **Template Registry:** `projects/cic/pms/templates/` (vision/, ocr/, custom/)
-- **Format:** YAML (template_id, name, version, template string, max_tokens)
-- **Environment:** `PMS_CACHE_ENABLED`, `PMS_CACHE_MAX_SIZE`, `PMS_CACHE_TTL_MS`, `PMS_TEMPLATE_REGISTRY`
+### 6.5 PMS Configuration & Diagnostics
 
-### 6.6 PMS Contract
-
-- **Input (Control Plane → PMS):** Job ID, content type, source, extraction goals
-- **Output (PMS → Extractor):** Prompt ID, composed content, extractor type, trace ID, metadata
-- **No impact on Section Tracking:** PMS is transparent to section advancement
+- **Template Registry Location**: `projects/cic/pms/templates/` (supports `custom/`, `vision/`, `ocr/`)
+- **Control Plane Endpoint Extensions**:
+  - `GET /pms/templates`: Lists all active templates loaded in the registry.
+  - `POST /pms/resolve`: Receives `templateId` and `vars`, returning the fully resolved prompt and compilation metadata for real-time debugging.
 
 ---
+
 
 ## 7. RTK Automation Layer (Active Automation)
 
@@ -217,20 +255,154 @@ RTK orchestrates active automation loops driven by contract-defined research goa
 
 ---
 
-## 8. Future Sections
+## 8. Semantic Indexing Layer (v1.2.0 Phase 2)
 
-*Placeholder sections for v1.2.0+:*
+ equips the Cast Iron Charlie pipeline with cross-document vector memory, hybrid vector-keyword search capabilities, and live diagnostics.
 
-- 9. Extractor Chain Deep Dive
-- 10. Qdrant Configuration
-- 11. Performance & Scaling
+### 8.1 Subscription & Ingestion Flow (Inline Synchronous Braid)
+
+Semantic jobs run through a synchronized pipeline inside the Harvester:
+1. **Extractor Chain**: Evaluates the document via the compositional chain of v2 extractors (`SemanticExtractor` $\rightarrow$ `RelationshipExtractor` $\rightarrow$ `TopicExtractor`).
+2. **Embedding Generation**: Encodes the raw document text into standard **1536-dimensional normalized vectors** using the `EmbeddingPipeline` (with a high-fidelity deterministic hashing fallback for isolated runtime tests).
+3. **Payload Shaping**: Packs all extracted JSON-LD schemas (`entities`, `relationships`, `topics`, `summary`) into the final vector point payload.
+4. **Qdrant Sync Upsert**: Synchronously commits the point to Qdrant via the client wrapper, guaranteeing atomic consistency.
+
+```mermaid
+graph TD
+    A[Harvester Job: semantic] --> B[ExtractorChain Run]
+    B --> C[Extract Entities, Relationships, Topics]
+    C --> D[Generate 1536-Dim Normalized Embedding]
+    D --> E[Shaping Metadata Payload]
+    E --> F[Synchronous Qdrant Client Upsert]
+    F --> G[Update Local Keyword Index Store]
+    G --> H[Return synced Ingestion Response]
+```
+
+### 8.2 Reciprocal Rank Fusion (RRF) Hybrid Search
+
+To resolve the discrepancy between float-based cosine distances and integer-based keyword matches, search uses Reciprocal Rank Fusion ($k = 60$) to combine results:
+
+$$RRF\_Score(d) = \sum_{m \in \{\text{Vector}, \text{Keyword}\}} \frac{1}{60 + \text{Rank}_m(d)}$$
+
+1. **Vector similarity retrieval**: Queries Qdrant using Cosine distance similarity.
+2. **Keyword substring retrieval**: Scans local in-memory text indexes.
+3. **Fusion & Sorting**: Intersects both streams and ranks results by their cumulative reciprocal rank.
+
+### 8.3 Control Plane Integrations
+
+The Control Plane exposes the vector memory interface at the following endpoints:
+
+- **`GET /index/health`**:
+  Returns the live diagnostics and collection integrity report:
+  ```json
+  {
+    "health": {
+      "collection": "cic_semantic",
+      "status": "green",
+      "vectors": 14,
+      "last_upsert": "2026-05-30T04:45:00Z",
+      "embedding_version": "v2.0.0"
+    }
+  }
+  ```
+
+- **`POST /index/search`**:
+  Processes semantic queries with optional result caps:
+  ```json
+  {
+    "results": [
+      {
+        "id": "doc-uuid",
+        "rrf_score": 0.0327,
+        "payload": {
+          "rawText": "...",
+          "entities": [],
+          "relationships": [],
+          "topics": []
+        }
+      }
+    ]
+  }
+  ```
 
 ---
 
-**Version:** 1.1.0  
-**Last Updated:** 2026-05-29  
+## 9. Cross‑Document Linking Layer (v1.2.0 Phase 3)
+
+The Cross-Document Linking Layer connects discrete processed documents into a unified, queryable semantic knowledge fabric. It resolves entity aliases, establishes multidimensional cross-document links, maintains an in-memory graph view, and exposes a rich query plane.
+
+### 9.1 Linking Architecture & Pipeline
+
+After a document is processed by the Extractor Chain and indexed into Qdrant, a post-index hook triggers the Linking pipeline:
+
+1. **Entity Resolver**: Normalizes entity names (handling spacing, casing, and "Last, First" re-ordering) and assigns stable deterministic IDs using a typed name hash. Resolves variants/aliases using token-overlap matching and string distance metrics.
+2. **Link Engine**: Analyzes the newly indexed document against all historical documents to deduce cross-document links (`same_entity`, `related_topic`, `co_occurs_with`, `references`) with confidence bounds between `0.0` and `1.0`.
+3. **Graph Builder**: Updates a queryable in-memory graph containing documents and entities as nodes, and relationships and cross-document links as edges.
+4. **Index Enrichment**: Enriches the indexed document's payload with `entity_ids`, `link_count`, and `primary_topics` to enable richer downstream semantic search.
+
+```mermaid
+graph TD
+    A[Harvester Semantic Ingestion] --> B[Extractor Chain Run]
+    B --> C[VectorIndex synchronous upsert]
+    C --> D[EntityResolver: canonical IDs]
+    D --> E[LinkEngine: compute cross-doc links]
+    E --> F[GraphBuilder: update memory graph]
+    F --> G[Enrich Payload: entity_ids, link_count, primary_topics]
+    G --> H[Re-upsert enriched payload to VectorIndex]
+```
+
+### 9.2 Graph Model & Neighborhoods
+
+The in-memory graph supports query-plane access via the following endpoints:
+
+#### GET `/graph/summary`
+Returns graph scale metrics, health diagnostics, and degrees for top entities:
+```json
+{
+  "nodes": { "documents": 2, "entities": 5, "total": 7 },
+  "edges": { "entityRelationships": 1, "crossDocLinks": 2, "docEntityLinks": 4, "total": 7 },
+  "topEntities": [
+    { "entityId": "ent_cb37e8badbacd399", "name": "Charles Emil Sorensen", "type": "PEOPLE", "degree": 4 }
+  ],
+  "health": { "status": "green", "details": "Graph initialized with 2 documents and 5 entities." }
+}
+```
+
+#### GET `/graph/entity/:id`
+Returns entity metadata, connected documents, and neighboring entity relationships:
+```json
+{
+  "entity": { "id": "ent_cb37e8badbacd399", "name": "Charles Emil Sorensen", "type": "PEOPLE", "context": "Birth record", "confidence": 0.95 },
+  "documents": [
+    { "docId": "doc-c1", "summary": "Semantic Ingestion Summary", "timestamp": "2026-05-30T17:40:00Z" }
+  ],
+  "relationships": [
+    { "targetEntityId": "ent_lellinge", "targetEntityName": "Lellinge", "predicate": "born_in", "confidence": 0.98, "details": "Born in Denmark" }
+  ]
+}
+```
+
+#### GET `/graph/document/:id`
+Returns document metadata, contained entities, and related documents connected via cross-document links:
+```json
+{
+  "document": { "docId": "doc-c2", "summary": "Semantic Ingestion Summary", "timestamp": "2026-05-30T17:40:05Z" },
+  "entities": [
+    { "id": "ent_cb37e8badbacd399", "name": "Charles Emil Sorensen", "type": "PEOPLE", "context": "Emigration", "confidence": 0.9 }
+  ],
+  "relatedDocuments": [
+    { "docId": "doc-c1", "type": "same_entity", "confidence": 0.92, "details": "Both documents reference resolved entity \"Charles Emil Sorensen\"." }
+  ]
+}
+```
+
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 2026-05-30  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
 
 See **CIC_AI_RUNTIME_CONTRACT.md** for multi-agent orchestration details.
 See **PMS_INTEGRATION_SPECIFICATION.md** for Prompt Management System details.
+

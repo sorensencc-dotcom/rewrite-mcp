@@ -1,0 +1,24 @@
+template_id: semantic_refine
+name: Semantic Refine Relationship Stage
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: |
+    STAGE 2: Relationship Extraction & Core Linking
+  stage_instructions: |
+    Review the previously extracted seed entities:
+    {seed_output}
+
+    Identify and extract relationship paths connecting these entities.
+    Verify mappings against our historical vector snippets:
+    [[index_lookup query="Charles Sorensen Detroit" limit=2]]
+
+    Format as a structured JSON object containing an array of relationships.
+template: ""
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 2500
+temperature: 0.2
+top_p: 0.90
+deprecated: false

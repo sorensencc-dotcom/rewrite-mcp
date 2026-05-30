@@ -24,8 +24,9 @@ function getVersionBlocks() {
   return parts.map(part => {
     const lines = part.split('\n');
     const header = lines[0].trim();
-    // Matches [2.11.0] - 2026-05-21 or 2.11.0 - 2026-05-21
-    const match = header.match(/\[?(\d+\.\d+\.\d+)\]?\s*-\s*(\d{4}-\d{2}-\d{2})/);
+    // Matches [2.11.0] - 2026-05-21 or 2.11.0 - 2026-05-21 (supporting various dashes)
+    const match = header.match(/\[?(\d+\.\d+\.\d+)\]?\s*[-—–]\s*(\d{4}-\d{2}-\d{2})/);
+
     const version = match ? match[1] : header;
     const date = match ? match[2] : 'Unknown';
     const body = lines.slice(1).join('\n').trim();

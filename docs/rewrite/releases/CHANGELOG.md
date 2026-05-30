@@ -1,5 +1,61 @@
 # Changelog
 
+## [2.25.0] - 2026-05-30
+### Added
+- **Phase 36: Ford Integration (GAP-004)**: Materialized and executed the third biographical mission focusing on Sorensen's early Ford years (1905-1914).
+    - **Mission Control** (`scripts/mission-control.js`): Updated to version 1.1.1. Hardened simulation logic for high-density industrial archives (Ford Piquette and Highland Park plants).
+    - **GAP-004 Mission Assets**: Created Goal Manifest, Mission Pack, and hybrid industrial-strict Audit Configuration (`AuditConfig_GAP-004.json`).
+    - **Structured Research Block** (`data/GAP-004_Research_Block.json`): Verified 1905 payroll ledger at Piquette, 1910 Highland Park superintendent role, and 1913 moving assembly line signatures.
+    - **Narrative Gap Report** (`docs/GAP-004_Narrative_Gap_Report.md`): Finalized report documenting the transition from master patternmaker to industrial architect.
+### Changed
+- **Mission Control** (`scripts/mission-control.js`): Refactored simulation logic into a switch-like structure for better arc-specific result fidelity.
+
+## [2.24.0] - 2026-05-30
+### Added
+- **Phase 35: Early American Integration (GAP-003)**: Materialized and executed the second biographical mission focusing on Sorensen's early US years (1900-1914).
+    - **Mission Control** (`scripts/mission-control.js`): Hardened simulation logic to handle multiple research arcs (Danish Origins vs. US Integration) with arc-specific evidence simulation and subject materialization.
+    - **GAP-003 Mission Assets**: Created Goal Manifest, Mission Pack, and biographical-strict Audit Configuration (`AuditConfig_GAP-003.json`).
+    - **Structured Research Block** (`data/GAP-003_Research_Block.json`): Verified 1900 Census, Chicago Machinist Union registry (#14), and relocation to Detroit in 1902.
+    - **Narrative Gap Report** (`docs/GAP-003_Narrative_Gap_Report.md`): Finalized report documenting the industrial transition from Chicago apprenticeship to Detroit engine shops.
+### Changed
+- **Mission Control** (`scripts/mission-control.js`): Refactored deliverable generation to be goal-agnostic via target-goal-based filename template.
+
+## [2.23.0] - 2026-05-30
+### Added
+- **Phase 34: CIC AI Runtime Governance & Danish Origins (GAP-002)**: Hardened the system with runtime contracts and executed the first biographical mission.
+    - **CIC AI Runtime v1.0.0**: Implemented a four-agent deterministic contract loop (CIC, RTK, RRK-AI, git-ai) with strict role boundaries and data contracts.
+    - **Contract Loader** (`src/runtime/contract-loader.ts`): New utility to load and validate the CIC AI Runtime Contract (`CIC_AI_RUNTIME_CONTRACT.md`).
+    - **RTK/RRK/gita Governance Patches**: Integrated contract validation into the boot sequence of core subsystems to prevent ungoverned execution.
+    - **GAP-002 Mission Control**: Executed the "Danish Origins" research mission with a new biographical-strict audit posture.
+    - **Biographical Audit Config** (`AuditConfig_GAP-002.json`): Enforced zero-anomaly tolerance, dual-primary-source verification, and strict temporal alignment for genealogical research.
+    - **Structured Research Block** (`data/GAP-002_Research_Block.json`): Verified biographical data for Charles Emil Sorensen, including Lellinge parish records and Copenhagen emigration logs.
+    - **Narrative Gap Report** (`docs/GAP-002_Narrative_Gap_Report.md`): Finalized research report documenting the transition from Denmark to the US.
+### Changed
+- **Mission Control** (`scripts/mission-control.js`): Updated to support dynamic `AuditConfig` loading and posture enforcement.
+
+## [1.1.0] - 2026-05-30
+
+### Added
+- PMS subsystem (executor, registry, loader, templates)
+- PMS integration into ImageAnalyzer, TextExtractor, Harvester
+- RTK Active Automation Layer (burst planning, smoke gating, safeguards)
+- Control Plane endpoints:
+  - /pms/templates
+  - /rtk/automation/state
+- Hybrid Test Harness (Mode B) with 5 scenario suites
+- 63 passing tests (unit + contract + hybrid)
+- Updated CIC_SYSTEM.md with new architecture sections
+- v1.1.0 Release Notes + Diagram
+
+### Changed
+- Harvester now attaches PMS metadata to ingestion results
+- RTK now enforces section‑tracking invariants and failure‑rate thresholds
+
+### Fixed
+- PMS template resolution path robustness
+- Extractor orchestration consistency
+- Test discovery patterns in Vitest config
+
 ## [2.22.0] - 2026-05-24
 ### Added
 - **Memory Sync Pack Infrastructure (Phase 9/33 Refinement)**: Hardened cross-platform alignment artifacts into production-grade infrastructure.

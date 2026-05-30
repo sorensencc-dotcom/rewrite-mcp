@@ -1,0 +1,21 @@
+template_id: semantic_seed
+name: Semantic Seed Extraction Stage
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: |
+    STAGE 1: Seed Entity Extraction
+  stage_instructions: |
+    Scan the source text material and extract all discrete historical entities matching these types:
+    - **PEOPLE**: full names, roles, historical significance.
+    - **PLACES**: locations, parishes, manufacturing sites.
+
+    Format the output as a structured JSON object containing an array of entities with name, type, and detailed context.
+template: ""
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 2000
+temperature: 0.3
+top_p: 0.90
+deprecated: false
