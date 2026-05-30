@@ -1,3 +1,9 @@
+// File: projects/cic/src/cic/control-plane/index.ts | Date: 2026-05-30 | v1.4.0
+/**
+ * TS Express router for the CIC control plane interface.
+ * Mounts metrics collectors, vector indexers, graph persistences, and v1 public studio APIs.
+ */
+
 import express, { Request, Response } from "express";
 import { PMSTemplateRegistry } from "../../pms/pms.template-registry.js";
 import { orchestrator } from "../../rtk/automation/orchestrator.js";
@@ -8,20 +14,31 @@ import { pmsComposer } from "../../pms/v2/composer.js";
 import { reasoningOrchestrator } from "../../reasoning/reasoning-orchestrator.js";
 import { reasonTraceManager } from "../../reasoning/reason-trace.js";
 import { metricsRouter } from "../../reasoning/metrics-router.js";
+import { v1Router } from "./v1-router.js";
 import fs from "fs";
-import path from "path";
+import path from "url";
+import nodePath from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const snapshotDir = path.resolve(__dirname, "../../data/snapshots");
-const traceDir = path.resolve(__dirname, "../../data/traces");
+const __dirname = nodePath.dirname(__filename);
+const snapshotDir = nodePath.resolve(__dirname, "../../data/snapshots");
+const traceDir = nodePath.resolve(__dirname, "../../data/traces");
 
 export const router = express.Router();
 const pmsRegistry = new PMSTemplateRegistry();
 pmsRegistry.load();
 
+// Middleware: Tenant Extraction Middleware
+router.use((req: any, res, next) => {
+  req.tenantId = req.headers["x-tenant-id"] || "default";
+  next();
+});
+
+// Mount Telemetry Metrics
 router.use("/metrics", metricsRouter);
+// Mount public documented v1 endpoints
+router.use("/v1", v1Router);
 
 const vectorIndex = new VectorIndex();
 
@@ -47,33 +64,33 @@ router.get("/rtk/automation/state", (req: Request, res: Response) => {
   res.json(orchestrator.getStateTracker().getState());
 });
 
-router.get("/index/health", async (req: Request, res: Response) => {
+router.get("/index/health", async (req: any, res: Response) => {
   try {
-    const health = await vectorIndex.getHealth();
+    const health = await vectorIndex.getHealth(req.tenantId);
     res.json({ health });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.post("/index/search", async (req: Request, res: Response) => {
+router.post("/index/search", async (req: any, res: Response) => {
   try {
     const { query, limit, top_k } = req.body;
     if (!query) {
       return res.status(400).json({ error: "Missing required parameter: query" });
     }
     const finalLimit = top_k !== undefined ? Number(top_k) : (limit !== undefined ? Number(limit) : undefined);
-    const results = await vectorIndex.searchSemantic(query, finalLimit);
+    const results = await vectorIndex.searchSemantic(query, finalLimit, req.tenantId);
     res.json({ results });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.get("/graph/entity/:id", (req: Request, res: Response) => {
+router.get("/graph/entity/:id", (req: any, res: Response) => {
   try {
     const { id } = req.params;
-    const neighborhood = graphBuilder.getEntityNeighborhood(id as string);
+    const neighborhood = graphBuilder.getEntityNeighborhood(id as string, req.tenantId);
     res.json(neighborhood);
   } catch (err: any) {
     if (err.message.includes("not found")) {
@@ -84,10 +101,10 @@ router.get("/graph/entity/:id", (req: Request, res: Response) => {
   }
 });
 
-router.get("/graph/document/:id", (req: Request, res: Response) => {
+router.get("/graph/document/:id", (req: any, res: Response) => {
   try {
     const { id } = req.params;
-    const neighborhood = graphBuilder.getDocumentNeighborhood(id as string);
+    const neighborhood = graphBuilder.getDocumentNeighborhood(id as string, req.tenantId);
     res.json(neighborhood);
   } catch (err: any) {
     if (err.message.includes("not found")) {
@@ -98,9 +115,9 @@ router.get("/graph/document/:id", (req: Request, res: Response) => {
   }
 });
 
-router.get("/graph/summary", (req: Request, res: Response) => {
+router.get("/graph/summary", (req: any, res: Response) => {
   try {
-    const summary = graphBuilder.getSummary();
+    const summary = graphBuilder.getSummary(req.tenantId);
     res.json(summary);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -108,7 +125,7 @@ router.get("/graph/summary", (req: Request, res: Response) => {
 });
 
 // Helper function for GraphQL-style BFS traversal
-function traverseGraph(startId: string, maxDepth: number = 2, edgeTypes?: string[]) {
+function traverseGraph(startId: string, tenantId: string, maxDepth: number = 2, edgeTypes?: string[]) {
   const visited = new Set<string>([startId]);
   const resultNodes: any[] = [];
   const resultEdges: any[] = [];
@@ -124,7 +141,7 @@ function traverseGraph(startId: string, maxDepth: number = 2, edgeTypes?: string
     
     if (isEntity) {
       try {
-        const neighborhood = graphBuilder.getEntityNeighborhood(current.id);
+        const neighborhood = graphBuilder.getEntityNeighborhood(current.id, tenantId);
         
         // Add start node metadata if depth is 0
         if (!resultNodes.some(n => n.id === current.id)) {
@@ -170,7 +187,7 @@ function traverseGraph(startId: string, maxDepth: number = 2, edgeTypes?: string
     } else {
       // It is a document
       try {
-        const neighborhood = graphBuilder.getDocumentNeighborhood(current.id);
+        const neighborhood = graphBuilder.getDocumentNeighborhood(current.id, tenantId);
         if (!resultNodes.some(n => n.id === current.id)) {
           resultNodes.push(neighborhood.document);
         }
@@ -217,8 +234,8 @@ function traverseGraph(startId: string, maxDepth: number = 2, edgeTypes?: string
   return { nodes: resultNodes, edges: resultEdges };
 }
 
-// 1. POST /graph/query endpoint for GraphQL-style traversal, filtering and temporal slicing
-router.post("/graph/query", (req: Request, res: Response) => {
+// POST /graph/query endpoint for GraphQL-style traversal, filtering and temporal slicing
+router.post("/graph/query", (req: any, res: Response) => {
   try {
     const { query } = req.body;
     if (!query) {
@@ -231,7 +248,7 @@ router.post("/graph/query", (req: Request, res: Response) => {
       if (!filter || !filter.timestamp) {
         return res.status(400).json({ error: "Missing required parameter filter.timestamp for slice query" });
       }
-      const sliceResult = graphBuilder.sliceAtDate(filter.timestamp);
+      const sliceResult = graphBuilder.sliceAtDate(filter.timestamp, req.tenantId);
       return res.json({ slice: sliceResult });
     }
 
@@ -241,7 +258,7 @@ router.post("/graph/query", (req: Request, res: Response) => {
       }
       const depth = traverse?.depth !== undefined ? Number(traverse.depth) : 2;
       const edgeTypes = traverse?.edgeTypes;
-      const traversalResult = traverseGraph(filter.id, depth, edgeTypes);
+      const traversalResult = traverseGraph(filter.id, req.tenantId, depth, edgeTypes);
       return res.json(traversalResult);
     }
 
@@ -251,22 +268,26 @@ router.post("/graph/query", (req: Request, res: Response) => {
   }
 });
 
-// 2. POST /graph/snapshot for manual snapshot triggers
-router.post("/graph/snapshot", async (req: Request, res: Response) => {
+// POST /graph/snapshot for manual snapshot triggers
+router.post("/graph/snapshot", async (req: any, res: Response) => {
   try {
     const { tag } = req.body;
-    const snapshotPath = await graphBuilder.createSnapshot(tag);
-    res.json({ ok: true, snapshotPath: path.basename(snapshotPath) });
+    const snapshotPath = await graphBuilder.createSnapshot(tag, req.tenantId);
+    res.json({ ok: true, snapshotPath: nodePath.basename(snapshotPath) });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// 3. GET /graph/snapshot/list for getting a list of saved snapshots
-router.get("/graph/snapshot/list", (req: Request, res: Response) => {
+// GET /graph/snapshot/list for getting a list of saved snapshots
+router.get("/graph/snapshot/list", (req: any, res: Response) => {
   try {
-    if (fs.existsSync(snapshotDir)) {
-      const files = fs.readdirSync(snapshotDir).filter(f => f.endsWith(".json"));
+    const targetDir = req.tenantId === "default" 
+      ? snapshotDir 
+      : nodePath.resolve(__dirname, `../../data/tenants/${req.tenantId}/snapshots`);
+
+    if (fs.existsSync(targetDir)) {
+      const files = fs.readdirSync(targetDir).filter(f => f.endsWith(".json"));
       res.json({ snapshots: files });
     } else {
       res.json({ snapshots: [] });
@@ -276,25 +297,30 @@ router.get("/graph/snapshot/list", (req: Request, res: Response) => {
   }
 });
 
-// --- RAG PERSISTENCE EXTENSIONS (v1.3.2) ---
+// --- RAG PERSISTENCE EXTENSIONS ---
 
-// 4. POST /graph/persist/flush: Flushes memory caches to files
-router.post("/graph/persist/flush", (req: Request, res: Response) => {
+// POST /graph/persist/flush: Flushes memory caches to files
+router.post("/graph/persist/flush", (req: any, res: Response) => {
   try {
-    entityResolver.save();
-    graphBuilder.save();
+    entityResolver.save(undefined, req.tenantId);
+    graphBuilder.save(undefined, req.tenantId);
     res.json({ ok: true, message: "Persisted state flushed atomically to disk." });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// 5. GET /graph/persist/stats: Retrieves persist sizing and stats
-router.get("/graph/persist/stats", (req: Request, res: Response) => {
+// GET /graph/persist/stats: Retrieves persist sizing and stats
+router.get("/graph/persist/stats", (req: any, res: Response) => {
   try {
-    const summary = graphBuilder.getSummary();
-    const entityCount = entityResolver.getCanonicalEntities().length;
-    const snapshotCount = fs.existsSync(snapshotDir) ? fs.readdirSync(snapshotDir).filter(f => f.endsWith(".json")).length : 0;
+    const summary = graphBuilder.getSummary(req.tenantId);
+    const entityCount = entityResolver.getCanonicalEntities(req.tenantId).length;
+    
+    const targetSnapshotDir = req.tenantId === "default" 
+      ? snapshotDir 
+      : nodePath.resolve(__dirname, `../../data/tenants/${req.tenantId}/snapshots`);
+
+    const snapshotCount = fs.existsSync(targetSnapshotDir) ? fs.readdirSync(targetSnapshotDir).filter(f => f.endsWith(".json")).length : 0;
     const traceCount = fs.existsSync(traceDir) ? fs.readdirSync(traceDir).filter(f => f.endsWith(".json")).length : 0;
     
     res.json({
@@ -310,21 +336,21 @@ router.get("/graph/persist/stats", (req: Request, res: Response) => {
   }
 });
 
-// 6. POST /graph/persist/snapshot: Directly trigger a persist snapshot
-router.post("/graph/persist/snapshot", async (req: Request, res: Response) => {
+// POST /graph/persist/snapshot: Directly trigger a persist snapshot
+router.post("/graph/persist/snapshot", async (req: any, res: Response) => {
   try {
     const { tag } = req.body;
-    const snapshotPath = await graphBuilder.createSnapshot(tag);
-    res.json({ ok: true, snapshotPath: path.basename(snapshotPath) });
+    const snapshotPath = await graphBuilder.createSnapshot(tag, req.tenantId);
+    res.json({ ok: true, snapshotPath: nodePath.basename(snapshotPath) });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// --- RETRIEVAL-AUGMENTED REASONING ENDPOINTS (v1.3.2) ---
+// --- RETRIEVAL-AUGMENTED REASONING ENDPOINTS ---
 
-// 7. POST /reason/query: Triggers multi-hop RAG loops and returns trace
-router.post("/reason/query", async (req: Request, res: Response) => {
+// POST /reason/query: Triggers multi-hop RAG loops and returns trace
+router.post("/reason/query", async (req: any, res: Response) => {
   try {
     const { query, timeWindow, maxDocuments, maxTokens } = req.body;
     if (!query) {
@@ -337,7 +363,7 @@ router.post("/reason/query", async (req: Request, res: Response) => {
   }
 });
 
-// 8. GET /reason/trace/:id: Fetches full audit trace by ID
+// GET /reason/trace/:id: Fetches full audit trace by ID
 router.get("/reason/trace/:id", (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -351,7 +377,7 @@ router.get("/reason/trace/:id", (req: Request, res: Response) => {
   }
 });
 
-// 9. POST /reason/replay: Re-runs planning/evaluation with original constraints
+// POST /reason/replay: Re-runs planning/evaluation with original constraints
 router.post("/reason/replay", async (req: Request, res: Response) => {
   try {
     const { traceId, maxDocuments, maxTokens } = req.body;

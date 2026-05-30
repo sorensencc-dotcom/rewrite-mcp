@@ -1,3 +1,10 @@
+// File: projects/cic/src/linking/graph-builder.ts | Date: 2026-05-30 | v1.4.0
+/**
+ * In-memory persistent graph database builder.
+ * Supports date-based playback and temporal slicing.
+ * Scoped by tenant for Multi-Tenant Knowledge Fabric.
+ */
+
 import { SemanticDocument, SemanticEntity, SemanticRelationship } from "../harvester/extractors/v2/extractor-v2.types.js";
 import { CrossDocumentLink } from "./link-engine.js";
 import { canonicalizeName } from "./entity-resolver.js";
@@ -58,94 +65,164 @@ export interface GraphSummary {
 }
 
 export class GraphBuilder {
-  private documents: Map<string, SemanticDocument> = new Map();
-  private entities: Map<string, SemanticEntity> = new Map();
-  private docEntityOccurrences: Map<string, Set<string>> = new Map(); // docId -> Set of entityIds
-  private entityDocOccurrences: Map<string, Set<string>> = new Map(); // entityId -> Set of docIds
-  private relationships: (SemanticRelationship & { timestamp?: string })[] = [];
-  private crossDocLinks: (CrossDocumentLink & { timestamp?: string })[] = [];
+  // Scoped structures: tenantId -> Map/Array
+  private tenantDocuments: Map<string, Map<string, SemanticDocument>> = new Map();
+  private tenantEntities: Map<string, Map<string, SemanticEntity>> = new Map();
+  private tenantDocEntityOccurrences: Map<string, Map<string, Set<string>>> = new Map();
+  private tenantEntityDocOccurrences: Map<string, Map<string, Set<string>>> = new Map();
+  private tenantRelationships: Map<string, (SemanticRelationship & { timestamp?: string })[]> = new Map();
+  private tenantCrossDocLinks: Map<string, (CrossDocumentLink & { timestamp?: string })[]> = new Map();
 
   constructor() {
     if (typeof process !== "undefined" && !process.env.VITEST) {
-      this.load();
+      this.load(undefined, "default");
     }
   }
 
-  load(filePath: string = defaultGraphPath): void {
+  // Scoped getters
+  private getDocuments(tenantId: string): Map<string, SemanticDocument> {
+    if (!this.tenantDocuments.has(tenantId)) {
+      this.tenantDocuments.set(tenantId, new Map());
+    }
+    return this.tenantDocuments.get(tenantId)!;
+  }
+
+  private getEntities(tenantId: string): Map<string, SemanticEntity> {
+    if (!this.tenantEntities.has(tenantId)) {
+      this.tenantEntities.set(tenantId, new Map());
+    }
+    return this.tenantEntities.get(tenantId)!;
+  }
+
+  private getDocEntityOccurrences(tenantId: string): Map<string, Set<string>> {
+    if (!this.tenantDocEntityOccurrences.has(tenantId)) {
+      this.tenantDocEntityOccurrences.set(tenantId, new Map());
+    }
+    return this.tenantDocEntityOccurrences.get(tenantId)!;
+  }
+
+  private getEntityDocOccurrences(tenantId: string): Map<string, Set<string>> {
+    if (!this.tenantEntityDocOccurrences.has(tenantId)) {
+      this.tenantEntityDocOccurrences.set(tenantId, new Map());
+    }
+    return this.tenantEntityDocOccurrences.get(tenantId)!;
+  }
+
+  private getRelationships(tenantId: string): (SemanticRelationship & { timestamp?: string })[] {
+    if (!this.tenantRelationships.has(tenantId)) {
+      this.tenantRelationships.set(tenantId, []);
+    }
+    return this.tenantRelationships.get(tenantId)!;
+  }
+
+  private getCrossDocLinks(tenantId: string): (CrossDocumentLink & { timestamp?: string })[] {
+    if (!this.tenantCrossDocLinks.has(tenantId)) {
+      this.tenantCrossDocLinks.set(tenantId, []);
+    }
+    return this.tenantCrossDocLinks.get(tenantId)!;
+  }
+
+  private getTenantPath(filePath: string | undefined, tenantId: string): string {
+    if (filePath) return filePath;
+    if (tenantId === "default") return defaultGraphPath;
+    return path.resolve(__dirname, `../../data/tenants/${tenantId}/graph-store.json`);
+  }
+
+  load(filePath?: string, tenantId: string = "default"): void {
     const tStart = Date.now();
+    const targetPath = this.getTenantPath(filePath, tenantId);
     try {
-      if (!fs.existsSync(filePath)) {
+      if (!fs.existsSync(targetPath)) {
         return;
       }
-      const raw = fs.readFileSync(filePath, "utf-8");
+      const raw = fs.readFileSync(targetPath, "utf-8");
       const data = JSON.parse(raw);
 
-      this.clear();
+      this.clear(tenantId);
+
+      const docs = this.getDocuments(tenantId);
+      const ents = this.getEntities(tenantId);
+      const docOcc = this.getDocEntityOccurrences(tenantId);
+      const entOcc = this.getEntityDocOccurrences(tenantId);
+      const rels = this.getRelationships(tenantId);
+      const links = this.getCrossDocLinks(tenantId);
 
       if (data.documents) {
         for (const [id, doc] of data.documents) {
-          this.documents.set(id, doc);
+          docs.set(id, doc);
         }
       }
       if (data.entities) {
         for (const [id, ent] of data.entities) {
-          this.entities.set(id, ent);
+          ents.set(id, ent);
         }
       }
       if (data.docEntityOccurrences) {
         for (const [id, arr] of data.docEntityOccurrences) {
-          this.docEntityOccurrences.set(id, new Set(arr));
+          docOcc.set(id, new Set(arr));
         }
       }
       if (data.entityDocOccurrences) {
         for (const [id, arr] of data.entityDocOccurrences) {
-          this.entityDocOccurrences.set(id, new Set(arr));
+          entOcc.set(id, new Set(arr));
         }
       }
       if (data.relationships) {
-        this.relationships = data.relationships;
+        rels.push(...data.relationships);
       }
       if (data.crossDocLinks) {
-        this.crossDocLinks = data.crossDocLinks;
+        links.push(...data.crossDocLinks);
       }
       metricsCollector.recordGraphLoad(Date.now() - tStart);
     } catch (err: any) {
-      console.error(`[GraphBuilder] Failed to load graph from ${filePath}:`, err.message);
+      console.error(`[GraphBuilder] Failed to load graph for tenant '${tenantId}' from ${targetPath}:`, err.message);
     }
   }
 
-  save(filePath: string = defaultGraphPath): void {
+  save(filePath?: string, tenantId: string = "default"): void {
+    const targetPath = this.getTenantPath(filePath, tenantId);
     try {
-      const dir = path.dirname(filePath);
+      const dir = path.dirname(targetPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
 
+      const docs = this.getDocuments(tenantId);
+      const ents = this.getEntities(tenantId);
+      const docOcc = this.getDocEntityOccurrences(tenantId);
+      const entOcc = this.getEntityDocOccurrences(tenantId);
+      const rels = this.getRelationships(tenantId);
+      const links = this.getCrossDocLinks(tenantId);
+
       const data = {
-        documents: Array.from(this.documents.entries()),
-        entities: Array.from(this.entities.entries()),
-        docEntityOccurrences: Array.from(this.docEntityOccurrences.entries()).map(([k, v]) => [k, Array.from(v)]),
-        entityDocOccurrences: Array.from(this.entityDocOccurrences.entries()).map(([k, v]) => [k, Array.from(v)]),
-        relationships: this.relationships,
-        crossDocLinks: this.crossDocLinks
+        documents: Array.from(docs.entries()),
+        entities: Array.from(ents.entries()),
+        docEntityOccurrences: Array.from(docOcc.entries()).map(([k, v]) => [k, Array.from(v)]),
+        entityDocOccurrences: Array.from(entOcc.entries()).map(([k, v]) => [k, Array.from(v)]),
+        relationships: rels,
+        crossDocLinks: links
       };
 
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+      fs.writeFileSync(targetPath, JSON.stringify(data, null, 2), "utf-8");
     } catch (err: any) {
-      console.error(`[GraphBuilder] Failed to save graph to ${filePath}:`, err.message);
+      console.error(`[GraphBuilder] Failed to save graph for tenant '${tenantId}' to ${targetPath}:`, err.message);
     }
   }
 
-  async createSnapshot(tag?: string): Promise<string> {
+  async createSnapshot(tag?: string, tenantId: string = "default"): Promise<string> {
     const tStart = Date.now();
     const timestampStr = new Date().toISOString().replace(/[:.]/g, "-");
     const filename = `graph_snapshot_${timestampStr}${tag ? "_" + tag : ""}.json`;
-    const snapshotDir = path.resolve(__dirname, "../../data/snapshots");
+    
+    const snapshotDir = tenantId === "default"
+      ? path.resolve(__dirname, "../../data/snapshots")
+      : path.resolve(__dirname, `../../data/tenants/${tenantId}/snapshots`);
+
     if (!fs.existsSync(snapshotDir)) {
       fs.mkdirSync(snapshotDir, { recursive: true });
     }
     const snapshotPath = path.join(snapshotDir, filename);
-    this.save(snapshotPath);
+    this.save(snapshotPath, tenantId);
     
     try {
       const duration = Date.now() - tStart;
@@ -158,26 +235,34 @@ export class GraphBuilder {
     return snapshotPath;
   }
 
-  sliceAtDate(dateXStr: string): {
+  sliceAtDate(
+    dateXStr: string,
+    tenantId: string = "default"
+  ): {
     documents: SemanticDocument[];
     entities: SemanticEntity[];
     relationships: SemanticRelationship[];
     crossDocLinks: CrossDocumentLink[];
   } {
     const dateLimit = new Date(dateXStr).getTime();
+    const docs = this.getDocuments(tenantId);
+    const entities = this.getEntities(tenantId);
+    const entityDocOccurrences = this.getEntityDocOccurrences(tenantId);
+    const relationships = this.getRelationships(tenantId);
+    const crossDocLinks = this.getCrossDocLinks(tenantId);
 
     // 1. Filter documents with timestamp <= dateX
-    const validDocs = Array.from(this.documents.values()).filter(doc => {
+    const validDocs = Array.from(docs.values()).filter(doc => {
       return new Date(doc.timestamp).getTime() <= dateLimit;
     });
     const validDocIds = new Set(validDocs.map(d => d.docId));
 
     // 2. Filter entities: must have been created at or before dateX (i.e. first lineage entry <= dateX)
     const validEntities: SemanticEntity[] = [];
-    for (const ent of this.entities.values()) {
+    for (const ent of entities.values()) {
       if (!ent.lineage || ent.lineage.length === 0) {
         // Fallback for legacy entities
-        const occurrenceDocs = this.entityDocOccurrences.get(ent.id);
+        const occurrenceDocs = entityDocOccurrences.get(ent.id);
         if (occurrenceDocs) {
           const hasValidDoc = Array.from(occurrenceDocs).some(docId => validDocIds.has(docId));
           if (hasValidDoc) {
@@ -232,14 +317,14 @@ export class GraphBuilder {
     const validEntityIds = new Set(validEntities.map(e => e.id));
 
     // 3. Filter relationships: timestamp <= dateX AND both nodes are valid
-    const validRelationships = this.relationships.filter(rel => {
+    const validRelationships = relationships.filter(rel => {
       const ts = rel.timestamp ? new Date(rel.timestamp).getTime() : 0;
       const isTimeValid = ts <= dateLimit;
       return isTimeValid && validEntityIds.has(rel.subjectId) && validEntityIds.has(rel.objectId);
     }).map(({ timestamp, ...rest }) => rest as SemanticRelationship);
 
     // 4. Filter cross-document links: timestamp <= dateX AND both documents are valid
-    const validLinks = this.crossDocLinks.filter(link => {
+    const validLinks = crossDocLinks.filter(link => {
       const ts = link.timestamp ? new Date(link.timestamp).getTime() : 0;
       const isTimeValid = ts <= dateLimit;
       return isTimeValid && validDocIds.has(link.sourceDocId) && validDocIds.has(link.targetDocId);
@@ -253,17 +338,28 @@ export class GraphBuilder {
     };
   }
 
-  addDocumentGraph(doc: SemanticDocument, links: CrossDocumentLink[]): void {
+  addDocumentGraph(
+    doc: SemanticDocument,
+    links: CrossDocumentLink[],
+    tenantId: string = "default"
+  ): void {
     if (!doc || !doc.docId) {
       throw new Error("Invalid document: docId is required");
     }
 
+    const docs = this.getDocuments(tenantId);
+    const entities = this.getEntities(tenantId);
+    const docEntityOccurrences = this.getDocEntityOccurrences(tenantId);
+    const entityDocOccurrences = this.getEntityDocOccurrences(tenantId);
+    const relationships = this.getRelationships(tenantId);
+    const crossDocLinks = this.getCrossDocLinks(tenantId);
+
     // 1. Store the document
-    this.documents.set(doc.docId, doc);
+    docs.set(doc.docId, doc);
 
     // Initialize occurrence trackers
-    if (!this.docEntityOccurrences.has(doc.docId)) {
-      this.docEntityOccurrences.set(doc.docId, new Set());
+    if (!docEntityOccurrences.has(doc.docId)) {
+      docEntityOccurrences.set(doc.docId, new Set());
     }
 
     // 2. Process and store resolved entities
@@ -272,8 +368,8 @@ export class GraphBuilder {
       if (!ent.id) continue;
 
       // Merge or store entity metadata
-      if (this.entities.has(ent.id)) {
-        const existing = this.entities.get(ent.id)!;
+      if (entities.has(ent.id)) {
+        const existing = entities.get(ent.id)!;
         existing.name = ent.name;
         existing.context = ent.context;
         existing.confidence = Math.max(existing.confidence, ent.confidence);
@@ -282,16 +378,16 @@ export class GraphBuilder {
           existing.lineage = ent.lineage;
         }
       } else {
-        this.entities.set(ent.id, { ...ent });
+        entities.set(ent.id, { ...ent });
       }
 
       // Record occurrence connections
-      this.docEntityOccurrences.get(doc.docId)!.add(ent.id);
+      docEntityOccurrences.get(doc.docId)!.add(ent.id);
 
-      if (!this.entityDocOccurrences.has(ent.id)) {
-        this.entityDocOccurrences.set(ent.id, new Set());
+      if (!entityDocOccurrences.has(ent.id)) {
+        entityDocOccurrences.set(ent.id, new Set());
       }
-      this.entityDocOccurrences.get(ent.id)!.add(doc.docId);
+      entityDocOccurrences.get(ent.id)!.add(doc.docId);
     }
 
     // 3. Store relationships with ingestion timestamp
@@ -314,12 +410,12 @@ export class GraphBuilder {
 
       if (!subjectId || !objectId) continue;
 
-      const exists = this.relationships.some(
+      const exists = relationships.some(
         r => r.subjectId === subjectId && r.objectId === objectId && r.predicate === rel.predicate
       );
 
       if (!exists) {
-        this.relationships.push({
+        relationships.push({
           subjectId,
           objectId,
           predicate: rel.predicate,
@@ -332,9 +428,9 @@ export class GraphBuilder {
 
     // 4. Store cross-document links with ingestion timestamp
     for (const link of links) {
-      const exists = this.crossDocLinks.some(l => l.id === link.id);
+      const exists = crossDocLinks.some(l => l.id === link.id);
       if (!exists) {
-        this.crossDocLinks.push({
+        crossDocLinks.push({
           ...link,
           timestamp: doc.timestamp || new Date().toISOString()
         });
@@ -342,16 +438,21 @@ export class GraphBuilder {
     }
   }
 
-  getEntityNeighborhood(entityId: string): EntityNeighborhood {
-    const entity = this.entities.get(entityId);
+  getEntityNeighborhood(entityId: string, tenantId: string = "default"): EntityNeighborhood {
+    const entities = this.getEntities(tenantId);
+    const documents = this.getDocuments(tenantId);
+    const entityDocOccurrences = this.getEntityDocOccurrences(tenantId);
+    const relationships = this.getRelationships(tenantId);
+
+    const entity = entities.get(entityId);
     if (!entity) {
       throw new Error(`Entity "${entityId}" not found in graph`);
     }
 
     // Connected documents
-    const docIds = this.entityDocOccurrences.get(entityId) || new Set();
-    const documents = Array.from(docIds).map(id => {
-      const doc = this.documents.get(id)!;
+    const docIds = entityDocOccurrences.get(entityId) || new Set();
+    const docsList = Array.from(docIds).map(id => {
+      const doc = documents.get(id)!;
       return {
         docId: doc.docId,
         summary: doc.summary,
@@ -361,9 +462,9 @@ export class GraphBuilder {
 
     // Connected entities via relationships
     const rels: EntityNeighborhood["relationships"] = [];
-    for (const rel of this.relationships) {
+    for (const rel of relationships) {
       if (rel.subjectId === entityId) {
-        const target = this.entities.get(rel.objectId);
+        const target = entities.get(rel.objectId);
         if (target) {
           rels.push({
             targetEntityId: target.id,
@@ -374,7 +475,7 @@ export class GraphBuilder {
           });
         }
       } else if (rel.objectId === entityId) {
-        const target = this.entities.get(rel.subjectId);
+        const target = entities.get(rel.subjectId);
         if (target) {
           rels.push({
             targetEntityId: target.id,
@@ -387,11 +488,16 @@ export class GraphBuilder {
       }
     }
 
-    return { entity, documents, relationships: rels };
+    return { entity, documents: docsList, relationships: rels };
   }
 
-  getDocumentNeighborhood(docId: string): DocumentNeighborhood {
-    const doc = this.documents.get(docId);
+  getDocumentNeighborhood(docId: string, tenantId: string = "default"): DocumentNeighborhood {
+    const documents = this.getDocuments(tenantId);
+    const entities = this.getEntities(tenantId);
+    const docEntityOccurrences = this.getDocEntityOccurrences(tenantId);
+    const crossDocLinks = this.getCrossDocLinks(tenantId);
+
+    const doc = documents.get(docId);
     if (!doc) {
       throw new Error(`Document "${docId}" not found in graph`);
     }
@@ -399,14 +505,14 @@ export class GraphBuilder {
     const { rawText, ...docMeta } = doc;
 
     // Entities in this document
-    const entityIds = this.docEntityOccurrences.get(docId) || new Set();
+    const entityIds = docEntityOccurrences.get(docId) || new Set();
     const docEntities = Array.from(entityIds)
-      .map(id => this.entities.get(id)!)
+      .map(id => entities.get(id)!)
       .filter(Boolean);
 
     // Related documents via cross-document links
     const relatedDocs: DocumentNeighborhood["relatedDocuments"] = [];
-    for (const link of this.crossDocLinks) {
+    for (const link of crossDocLinks) {
       if (link.sourceDocId === docId) {
         relatedDocs.push({
           docId: link.targetDocId,
@@ -431,34 +537,41 @@ export class GraphBuilder {
     };
   }
 
-  getSummary(): GraphSummary {
-    const docCount = this.documents.size;
-    const entityCount = this.entities.size;
+  getSummary(tenantId: string = "default"): GraphSummary {
+    const docs = this.getDocuments(tenantId);
+    const entities = this.getEntities(tenantId);
+    const docEntityOccurrences = this.getDocEntityOccurrences(tenantId);
+    const entityDocOccurrences = this.getEntityDocOccurrences(tenantId);
+    const relationships = this.getRelationships(tenantId);
+    const crossDocLinks = this.getCrossDocLinks(tenantId);
+
+    const docCount = docs.size;
+    const entityCount = entities.size;
     
     let docEntityLinksCount = 0;
-    this.docEntityOccurrences.forEach(ents => {
+    docEntityOccurrences.forEach(ents => {
       docEntityLinksCount += ents.size;
     });
 
-    const relCount = this.relationships.length;
-    const linkCount = this.crossDocLinks.length;
+    const relCount = relationships.length;
+    const linkCount = crossDocLinks.length;
     const totalEdges = relCount + linkCount + docEntityLinksCount;
 
     // Calculate degrees for top entities
     const entityDegrees = new Map<string, number>();
     
     // Add degree based on occurrences in documents
-    this.entityDocOccurrences.forEach((docs, entId) => {
+    entityDocOccurrences.forEach((docs, entId) => {
       entityDegrees.set(entId, (entityDegrees.get(entId) || 0) + docs.size);
     });
 
     // Add degree based on relationships
-    for (const rel of this.relationships) {
+    for (const rel of relationships) {
       entityDegrees.set(rel.subjectId, (entityDegrees.get(rel.subjectId) || 0) + 1);
       entityDegrees.set(rel.objectId, (entityDegrees.get(rel.objectId) || 0) + 1);
     }
 
-    const topEntities = Array.from(this.entities.values())
+    const topEntities = Array.from(entities.values())
       .map(ent => ({
         entityId: ent.id,
         name: ent.name,
@@ -491,13 +604,18 @@ export class GraphBuilder {
     };
   }
 
-  clear(): void {
-    this.documents.clear();
-    this.entities.clear();
-    this.docEntityOccurrences.clear();
-    this.entityDocOccurrences.clear();
-    this.relationships.length = 0;
-    this.crossDocLinks.length = 0;
+  clear(tenantId: string = "default"): void {
+    this.getDocuments(tenantId).clear();
+    this.getEntities(tenantId).clear();
+    this.getDocEntityOccurrences(tenantId).clear();
+    this.getEntityDocOccurrences(tenantId).clear();
+    
+    if (this.tenantRelationships.has(tenantId)) {
+      this.tenantRelationships.get(tenantId)!.length = 0;
+    }
+    if (this.tenantCrossDocLinks.has(tenantId)) {
+      this.tenantCrossDocLinks.get(tenantId)!.length = 0;
+    }
   }
 }
 

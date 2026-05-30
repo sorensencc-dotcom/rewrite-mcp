@@ -1,12 +1,6 @@
-import { JoplinClient } from '../joplin/client.js';
-import BlackBoxLogger from '../logging/blackbox.js';
-
-export default class MetricsCollector {
-  constructor(joplinClient) {
-    this.joplinClient = joplinClient;
-    this.readBlackBox = new BlackBoxLogger();
-    this.readBlackBox.init(joplinClient);
-  }
+import { isDryRun } from '../utils/dry-run.js';
+import { log } from '../logging/logger.js';
+import { blackBox } from '../logging/blackbox.js';
 
 /**
  * Joplin Web Clipper API Client

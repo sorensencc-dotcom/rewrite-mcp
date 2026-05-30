@@ -100,6 +100,6 @@ cic skillopt:telemetry [--recent N]
 - [x] SkillOptExporter + SkillOptCommand stubs
 - [x] Node validation harness (6 metrics)
 - [x] Validation harness wired to `skillopt:validate`
-- [ ] SkillRegistryLoader verified ready
-- [ ] RedesignAgent initialized with loaded skill
-- [ ] End-to-end test: emit → validate → (later: train/deploy)
+- [x] SkillRegistryLoader verified ready
+- [x] RedesignAgent initialized with loaded skill
+- [x] End-to-end test: emit → validate → (later: train/deploy)

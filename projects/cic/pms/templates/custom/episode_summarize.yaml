@@ -1,0 +1,28 @@
+template_id: episode_summarize
+name: Cinematic Timeline Synthesis Template
+version: "1.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: "STAGE: HISTORICAL TIMELINE SYNTHESIS & RESOLUTION"
+  stage_instructions: |
+    Synthesize all known historical evidence regarding a target person, event, or theme.
+    Address all contested claims, polar contradictions, and timeline uncertainties with professional, analytical rigour.
+template: |
+  =============================================================
+  CAST IRON PRODUCTIONS - TIMELINE SYNTHESIS ENGINE
+  =============================================================
+  TARGET SUBJECT: {topic}
+
+  Instructions:
+  Compile a cinematic historical biography synthesis.
+  Ensure it follows this structure:
+  1. Thematic Introduction: The overarching historical significance.
+  2. Character Evolution Timeline: Major developmental transitions.
+  3. Contradiction Analysis: Address polar claims (e.g. origins in Denmark vs Detroit, dates discrepancies) and deliver a factually rigorous resolution verdict.
+  4. Final Historical Significance.
+created_at: "2026-05-30T12:00:00Z"
+max_tokens: 3000
+temperature: 0.5
+top_p: 0.90

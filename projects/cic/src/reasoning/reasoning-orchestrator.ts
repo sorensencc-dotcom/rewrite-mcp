@@ -99,7 +99,9 @@ export class ReasoningOrchestrator {
     reasonTraceManager.save(trace);
 
     // Record telemetry metrics
+    const duration = Date.now() - startTime;
     metricsCollector.recordRAGQuery(
+      duration,
       Object.keys(stageLatenciesMs).length,
       evidence.length,
       contradictionsDetected.length

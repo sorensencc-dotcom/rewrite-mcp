@@ -1,9 +1,81 @@
 [
   {
-    "version": "2.25.0",
+    "version": "2.29.0",
     "date": "2026-05-30",
     "changes": {
       "added": 5,
+      "fixed": 0,
+      "infra": 0,
+      "docs": 2,
+      "mas": 0,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": 1,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.29.0.summary.txt",
+    "diff": "diff-2.29.0.summary.txt"
+  },
+  {
+    "version": "2.28.0",
+    "date": "2026-05-30",
+    "changes": {
+      "added": 3,
+      "fixed": 0,
+      "infra": 1,
+      "docs": 1,
+      "mas": 1,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.28.0.summary.txt",
+    "diff": "diff-2.28.0.summary.txt"
+  },
+  {
+    "version": "2.27.0",
+    "date": "2026-05-30",
+    "changes": {
+      "added": 4,
+      "fixed": 0,
+      "infra": 0,
+      "docs": 1,
+      "mas": 0,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.27.0.summary.txt",
+    "diff": "diff-2.27.0.summary.txt"
+  },
+  {
+    "version": "2.26.0",
+    "date": "2026-05-30",
+    "changes": {
+      "added": 5,
+      "fixed": 0,
+      "infra": 0,
+      "docs": 1,
+      "mas": 0,
+      "controlPlane": 0,
+      "other": 0
+    },
+    "delta": 0,
+    "bundle": null,
+    "checksum": null,
+    "notes": "2.26.0.summary.txt",
+    "diff": "diff-2.26.0.summary.txt"
+  },
+  {
+    "version": "2.25.0",
+    "date": "2026-05-30",
+    "changes": {
+      "added": 6,
       "fixed": 0,
       "infra": 0,
       "docs": 0,
@@ -13,7 +85,7 @@
     },
     "delta": 0,
     "bundle": "rewrite-mcp-release-v2.25.0.tar.gz",
-    "checksum": "af23785a4dcd0d6ea329fc004fbb575143d9a83ff8507e180d95d5f33a7e98c3",
+    "checksum": "ff754341b28fa1225ffe8f766cc6992186c0e4a66f651f3ff3de86ae702b58bf",
     "notes": "2.25.0.summary.txt",
     "diff": "diff-2.25.0.summary.txt"
   },

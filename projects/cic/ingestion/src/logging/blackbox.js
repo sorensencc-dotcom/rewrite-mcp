@@ -30,3 +30,5 @@ export default class BlackBoxLogger {
     return this.writer.readRange(start, end);
   }
 }
+
+export const blackBox = new BlackBoxLogger();

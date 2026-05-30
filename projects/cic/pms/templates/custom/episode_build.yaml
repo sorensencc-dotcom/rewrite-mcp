@@ -1,0 +1,45 @@
+template_id: episode_build
+name: Documentary Episode Builder Template
+version: "1.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: "STAGE: AUTONOMOUS DOCUMENTARY EPISODE BUILDER"
+  stage_instructions: |
+    Organize the chronologically sorted primary evidence timeline into a compelling, television-ready three-act narrative documentary outline.
+    Focus on dramatic tension, causal chains of actions, and historical character development.
+template: |
+  =============================================================
+  CAST IRON PRODUCTIONS - AUTOMATED DOCUMENTARY STORY ENGINE
+  =============================================================
+  TITLE: {title}
+
+  Historical Timeline Facts:
+  """
+  {timeline}
+  """
+
+  Instructions:
+  Compose a high-quality documentary script outline with exactly three acts:
+  - Act 1: The Setup / Origin (introduce Charles Emil Sorensen and the initial departure).
+  - Act 2: The Confrontation / Alliance (the manufacturing breakthroughs and Ford alliance).
+  - Act 3: The Resolution / Legacy (historical impact of Willow Run and late years).
+
+  Output should be a structured JSON array of Act objects:
+  [
+    {
+      "act": "Act I: Title",
+      "focus": "Brief act synopsis",
+      "beats": [
+        {
+          "title": "Beat Title",
+          "description": "Narrative arc details"
+        }
+      ]
+    }
+  ]
+created_at: "2026-05-30T12:00:00Z"
+max_tokens: 3500
+temperature: 0.7
+top_p: 0.95

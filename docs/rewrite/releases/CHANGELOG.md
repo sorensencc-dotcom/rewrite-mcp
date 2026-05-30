@@ -7,6 +7,8 @@
     - **GAP-008 Mission Assets**: Created Goal Manifest, Mission Pack, and Industrial-Social Strict Audit Configuration (`AuditConfig_GAP-008.json`).
     - **Structured Research Block** (`data/GAP-008_Research_Block.json`): Verified 1916 home inspection logs, 1919 Sorensen-Marquis policy clash memos, and the 1921 rollback of sociological authority.
     - **Narrative Gap Report** (`docs/GAP-008_Narrative_Gap_Report.md`): Finalized report on the transition from paternalistic social engineering to industrial discipline.
+- **Harvester**: Integrated the SkillOpt Ingestion Consumer to process dynamic redesign plans and emit structured dataset splits.
+- **Operator UI**: Hardened the Operator Cockpit interface with dynamic SLO violation alert banners, a RAG Step-by-Step Trace Visualizer timeline, and an interactive documentary Episode Builder.
 
 ## [2.28.0] - 2026-05-30
 ### Added

@@ -8,6 +8,8 @@ import { IdeaConsumer } from '../ideas/consumer.js';
 import { MetricsConsumer } from '../metrics/consumer.js';
 import { blackBox } from '../logging/blackbox.js';
 import { log } from '../logging/logger.js';
+// ── SkillOpt Consumer ─────────────────────────────────────────────────
+import { SkillOptConsumer } from '../skillopt/consumer.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -82,6 +84,24 @@ async function run() {
     log.warn('joplin_mirroring_disabled', { msg: 'JOPLIN_API_TOKEN not provided' });
   }
 
+  // ── SkillOpt Consumer ─────────────────────────────────────────────────
+  const skillOptConsumer = new SkillOptConsumer({
+    skillsDir: path.join(__dirname, '../../skills'),
+    outputDir: path.join(__dirname, '../../skillopt/data'),
+    devMode: process.env.SKILLOPT_DEV_MODE === 'true',
+  });
+
+  // Subscribe to redesign events
+  bus.subscribe(event => {
+    if (event.intent === 'redesign' || event.emit_skillopt) {
+      skillOptConsumer.consume(event);
+    }
+  });
+
+  log.info('skillopt_consumer_enabled', { 
+    devMode: process.env.SKILLOPT_DEV_MODE === 'true' 
+  });
+
   // 2. Setup Memos Worker
   const memosClient = new MemosClient({
     baseUrl: MEMOS_BASE_URL,
@@ -124,14 +144,6 @@ process.on('uncaughtException', (err) => {
 
 process.on('unhandledRejection', (reason) => {
   log.error('unhandled_rejection', { reason: String(reason) });
-  process.exit(1);
-});
-
-run().catch(err => {
-  log.error('memos_ingestion_fatal', { err: err.message });
-  process.exit(1);
-});
-ason: String(reason) });
   process.exit(1);
 });
 

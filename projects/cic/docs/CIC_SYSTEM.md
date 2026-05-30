@@ -555,8 +555,8 @@ cic skillopt:telemetry [--recent N]
 
 Stage 3 (train/deploy/runtime) requires:
 
-- [ ] **SkillRegistryLoader** (`cic-runtime/src/skills/SkillRegistryLoader.ts`) — Load and cache trained skills at runtime.
-- [ ] **RedesignAgent skill-awareness** — Accept loaded skill as constructor parameter.
+- [x] **SkillRegistryLoader** (`projects/cic/src/skills/SkillRegistryLoader.ts`) — Load and cache trained skills at runtime.
+- [x] **RedesignAgent skill-awareness** — Accept loaded skill as constructor parameter.
 - [ ] **Python training harness integration** — Wire `skillopt:train` CLI to external trainer.
 
 See **CIC_SKILLOPT_SYSTEM.md** for full subsystem specification.
@@ -587,7 +587,23 @@ Upgraded `canary-dashboard.html` features a glassmorphism dark-theme dashboard v
 
 ---
 
-**Version:** 1.3.3  
+## 14. Multi‑Tenant Knowledge Fabric & Episode Builder (v1.4.0)
+
+CIC v1.4.0 introduces robust **Multi-Tenant Knowledge Fabric** isolation and the **Documentary Episode Builder Engine**.
+
+### 14.1 Tenant-Scoped Persistences
+- **Entity Resolver**: Registries and name-refinement lineages are dynamically partitioned per tenant in-memory and saved under `data/tenants/{tenantId}/entity-registry.json`.
+- **Memory Graph**: Document nodes, relationship occurrences, date slicings, and checkpoints are partitioned under `data/tenants/{tenantId}/graph-store.json`.
+- **Vector index**: Queries isolated Qdrant collection namespaces `cic_semantic_{tenantId}` and keyword matching stores in-memory.
+
+### 14.2 Documentary Episode Builder Engine
+- Exposes stable REST routes `/v1/episode/build`, `/v1/episode/expand`, and `/v1/episode/summarize` in [v1-router.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/cic/control-plane/v1-router.ts).
+- Drives multi-hop graph retrieval and temporal neighborhood playbacks to compile structured creative Act Outlines, detailed scene expansions, and cinematic biographic syntheses.
+- Coordinates prompts dynamically using custom templates: `episode_build.yaml`, `episode_expand.yaml`, and `episode_summarize.yaml`.
+
+---
+
+**Version:** 1.4.0  
 **Last Updated:** 2026-05-30  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  

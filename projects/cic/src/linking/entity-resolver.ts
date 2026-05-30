@@ -1,6 +1,7 @@
+// File: projects/cic/src/linking/entity-resolver.ts | Date: 2026-05-30 | v1.4.0
 /**
- * projects/cic/src/linking/entity-resolver.ts
  * Entity normalization, alias resolution, and stable identity resolution with persistence and lineage.
+ * Scoped by tenant for Multi-Tenant Knowledge Fabric.
  */
 
 import crypto from "crypto";
@@ -68,60 +69,93 @@ export function getStringSimilarity(s1: string, s2: string): number {
 }
 
 export class EntityResolver {
-  private registry: Map<string, SemanticEntity> = new Map();
-  private aliasMap: Map<string, string> = new Map();
+  // Scoped structures: tenantId -> Map
+  private tenantRegistries: Map<string, Map<string, SemanticEntity>> = new Map();
+  private tenantAliasMaps: Map<string, Map<string, string>> = new Map();
 
   constructor() {
     if (typeof process !== "undefined" && !process.env.VITEST) {
-      this.load();
+      this.load(undefined, "default");
     }
   }
 
-  load(filePath: string = defaultRegistryPath): void {
+  // Get or initialize registries for a tenant
+  private getRegistry(tenantId: string): Map<string, SemanticEntity> {
+    if (!this.tenantRegistries.has(tenantId)) {
+      this.tenantRegistries.set(tenantId, new Map());
+    }
+    return this.tenantRegistries.get(tenantId)!;
+  }
+
+  private getAliasMap(tenantId: string): Map<string, string> {
+    if (!this.tenantAliasMaps.has(tenantId)) {
+      this.tenantAliasMaps.set(tenantId, new Map());
+    }
+    return this.tenantAliasMaps.get(tenantId)!;
+  }
+
+  private getTenantPath(filePath: string | undefined, tenantId: string): string {
+    if (filePath) return filePath;
+    if (tenantId === "default") return defaultRegistryPath;
+    return path.resolve(__dirname, `../../data/tenants/${tenantId}/entity-registry.json`);
+  }
+
+  load(filePath?: string, tenantId: string = "default"): void {
+    const targetPath = this.getTenantPath(filePath, tenantId);
     try {
-      if (!fs.existsSync(filePath)) {
+      if (!fs.existsSync(targetPath)) {
         return;
       }
-      const raw = fs.readFileSync(filePath, "utf-8");
+      const raw = fs.readFileSync(targetPath, "utf-8");
       const data = JSON.parse(raw);
       
-      this.registry.clear();
-      this.aliasMap.clear();
+      const registry = this.getRegistry(tenantId);
+      const aliasMap = this.getAliasMap(tenantId);
+
+      registry.clear();
+      aliasMap.clear();
 
       if (data.registry) {
         for (const [id, entity] of Object.entries(data.registry)) {
-          this.registry.set(id, entity as SemanticEntity);
+          registry.set(id, entity as SemanticEntity);
         }
       }
       if (data.aliasMap) {
         for (const [aliasKey, id] of Object.entries(data.aliasMap)) {
-          this.aliasMap.set(aliasKey, id as string);
+          aliasMap.set(aliasKey, id as string);
         }
       }
     } catch (err: any) {
-      console.error(`[EntityResolver] Failed to load registry from ${filePath}:`, err.message);
+      console.error(`[EntityResolver] Failed to load registry for tenant '${tenantId}' from ${targetPath}:`, err.message);
     }
   }
 
-  save(filePath: string = defaultRegistryPath): void {
+  save(filePath?: string, tenantId: string = "default"): void {
+    const targetPath = this.getTenantPath(filePath, tenantId);
     try {
-      const dir = path.dirname(filePath);
+      const dir = path.dirname(targetPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
 
+      const registry = this.getRegistry(tenantId);
+      const aliasMap = this.getAliasMap(tenantId);
+
       const data = {
-        registry: Object.fromEntries(this.registry.entries()),
-        aliasMap: Object.fromEntries(this.aliasMap.entries())
+        registry: Object.fromEntries(registry.entries()),
+        aliasMap: Object.fromEntries(aliasMap.entries())
       };
 
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+      fs.writeFileSync(targetPath, JSON.stringify(data, null, 2), "utf-8");
     } catch (err: any) {
-      console.error(`[EntityResolver] Failed to save registry to ${filePath}:`, err.message);
+      console.error(`[EntityResolver] Failed to save registry for tenant '${tenantId}' to ${targetPath}:`, err.message);
     }
   }
 
-  resolve(raw: { name: string; type: string; context?: string; confidence?: number; docId?: string }): SemanticEntity {
+  resolve(
+    raw: { name: string; type: string; context?: string; confidence?: number; docId?: string },
+    tenantId: string = "default"
+  ): SemanticEntity {
     // Normalize type string to fit the SemanticEntity type definition
     let resolvedType: "PEOPLE" | "PLACES" | "EVENTS" | "ARTIFACTS" = "ARTIFACTS";
     const typeUpper = raw.type.toUpperCase();
@@ -139,10 +173,13 @@ export class EntityResolver {
     const compKey = getComparisonKey(canonicalName);
     const aliasKey = `${compKey}:${resolvedType}`;
 
+    const registry = this.getRegistry(tenantId);
+    const aliasMap = this.getAliasMap(tenantId);
+
     // 1. Direct alias check (scoped by type)
-    if (this.aliasMap.has(aliasKey)) {
-      const id = this.aliasMap.get(aliasKey)!;
-      const canonical = this.registry.get(id)!;
+    if (aliasMap.has(aliasKey)) {
+      const id = aliasMap.get(aliasKey)!;
+      const canonical = registry.get(id)!;
       
       let enriched = false;
       if (raw.context && !canonical.context.includes(raw.context)) {
@@ -169,7 +206,7 @@ export class EntityResolver {
     }
 
     // 2. Similarity check against existing registry
-    for (const existing of this.registry.values()) {
+    for (const existing of registry.values()) {
       if (existing.type !== resolvedType) continue;
 
       const existingCompKey = getComparisonKey(existing.name);
@@ -191,7 +228,7 @@ export class EntityResolver {
       }
 
       if (sim >= 0.8 || isSub || tokenMatch) {
-        this.aliasMap.set(aliasKey, existing.id);
+        aliasMap.set(aliasKey, existing.id);
         
         let enriched = false;
         if (canonicalName.length > existing.name.length) {
@@ -233,7 +270,7 @@ export class EntityResolver {
     // 3. Create new canonical entity with a stable ID
     const hash = crypto
       .createHash("sha256")
-      .update(`${canonicalName.toLowerCase()}:${resolvedType}`)
+      .update(`${compKey}:${resolvedType}`)
       .digest("hex")
       .slice(0, 16);
     const entityId = `ent_${hash}`;
@@ -254,18 +291,18 @@ export class EntityResolver {
       lineage
     };
 
-    this.registry.set(entityId, newEntity);
-    this.aliasMap.set(aliasKey, entityId);
+    registry.set(entityId, newEntity);
+    aliasMap.set(aliasKey, entityId);
     return newEntity;
   }
 
-  getCanonicalEntities(): SemanticEntity[] {
-    return Array.from(this.registry.values());
+  getCanonicalEntities(tenantId: string = "default"): SemanticEntity[] {
+    return Array.from(this.getRegistry(tenantId).values());
   }
 
-  clear(): void {
-    this.registry.clear();
-    this.aliasMap.clear();
+  clear(tenantId: string = "default"): void {
+    this.getRegistry(tenantId).clear();
+    this.getAliasMap(tenantId).clear();
   }
 }
 

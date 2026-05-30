@@ -162,11 +162,3 @@ export class MemosIngestionWorker {
     await writeFile(this.stateFilePath, JSON.stringify(state, null, 2));
   }
 }
-  /**
-   * the persistence state.
-   * @param {Object} state
-   */
-  async saveState(state) {
-    await writeFile(this.stateFilePath, JSON.stringify(state, null, 2));
-  }
-}

@@ -1,10 +1,10 @@
 {
   "_note": "Machine-maintained. Updated by skills/doc-update and tools/doc-drift-check.js. Do not hand-edit.",
-  "version": "2.25.0",
+  "version": "2.29.0",
   "date": "2026-05-30",
   "changelog": {
-    "headLine": "## [2.25.0] - 2026-05-30",
-    "entryCount": 21
+    "headLine": "## [2.29.0] - 2026-05-30",
+    "entryCount": 25
   },
   "roadmap": {
     "lastUpdated": "2026-05-30",
