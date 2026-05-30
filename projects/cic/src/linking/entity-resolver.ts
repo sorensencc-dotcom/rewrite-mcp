@@ -1,10 +1,17 @@
 /**
  * projects/cic/src/linking/entity-resolver.ts
- * Entity normalization, alias resolution, and stable identity resolution.
+ * Entity normalization, alias resolution, and stable identity resolution with persistence and lineage.
  */
 
 import crypto from "crypto";
-import { SemanticEntity } from "../harvester/extractors/v2/extractor-v2.types.js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { SemanticEntity, EntityLineageEntry } from "../harvester/extractors/v2/extractor-v2.types.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const defaultRegistryPath = path.resolve(__dirname, "../../data/entity-registry.json");
 
 export function canonicalizeName(name: string): string {
   let cleaned = name.trim().replace(/\s+/g, " ");
@@ -64,7 +71,57 @@ export class EntityResolver {
   private registry: Map<string, SemanticEntity> = new Map();
   private aliasMap: Map<string, string> = new Map();
 
-  resolve(raw: { name: string; type: string; context?: string; confidence?: number }): SemanticEntity {
+  constructor() {
+    if (typeof process !== "undefined" && !process.env.VITEST) {
+      this.load();
+    }
+  }
+
+  load(filePath: string = defaultRegistryPath): void {
+    try {
+      if (!fs.existsSync(filePath)) {
+        return;
+      }
+      const raw = fs.readFileSync(filePath, "utf-8");
+      const data = JSON.parse(raw);
+      
+      this.registry.clear();
+      this.aliasMap.clear();
+
+      if (data.registry) {
+        for (const [id, entity] of Object.entries(data.registry)) {
+          this.registry.set(id, entity as SemanticEntity);
+        }
+      }
+      if (data.aliasMap) {
+        for (const [aliasKey, id] of Object.entries(data.aliasMap)) {
+          this.aliasMap.set(aliasKey, id as string);
+        }
+      }
+    } catch (err: any) {
+      console.error(`[EntityResolver] Failed to load registry from ${filePath}:`, err.message);
+    }
+  }
+
+  save(filePath: string = defaultRegistryPath): void {
+    try {
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      const data = {
+        registry: Object.fromEntries(this.registry.entries()),
+        aliasMap: Object.fromEntries(this.aliasMap.entries())
+      };
+
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    } catch (err: any) {
+      console.error(`[EntityResolver] Failed to save registry to ${filePath}:`, err.message);
+    }
+  }
+
+  resolve(raw: { name: string; type: string; context?: string; confidence?: number; docId?: string }): SemanticEntity {
     // Normalize type string to fit the SemanticEntity type definition
     let resolvedType: "PEOPLE" | "PLACES" | "EVENTS" | "ARTIFACTS" = "ARTIFACTS";
     const typeUpper = raw.type.toUpperCase();
@@ -86,8 +143,27 @@ export class EntityResolver {
     if (this.aliasMap.has(aliasKey)) {
       const id = this.aliasMap.get(aliasKey)!;
       const canonical = this.registry.get(id)!;
+      
+      let enriched = false;
       if (raw.context && !canonical.context.includes(raw.context)) {
         canonical.context += " " + raw.context;
+        enriched = true;
+        if (!canonical.lineage) canonical.lineage = [];
+        canonical.lineage.push({
+          timestamp: new Date().toISOString(),
+          docId: raw.docId || "ingest_unknown",
+          action: "context_enriched",
+          contextAdded: raw.context
+        });
+      }
+      if (!enriched) {
+        if (!canonical.lineage) canonical.lineage = [];
+        canonical.lineage.push({
+          timestamp: new Date().toISOString(),
+          docId: raw.docId || "ingest_unknown",
+          action: "merged_alias",
+          originalName: raw.name
+        });
       }
       return canonical;
     }
@@ -116,11 +192,39 @@ export class EntityResolver {
 
       if (sim >= 0.8 || isSub || tokenMatch) {
         this.aliasMap.set(aliasKey, existing.id);
+        
+        let enriched = false;
+        if (canonicalName.length > existing.name.length) {
+          const oldName = existing.name;
+          existing.name = canonicalName;
+          enriched = true;
+          if (!existing.lineage) existing.lineage = [];
+          existing.lineage.push({
+            timestamp: new Date().toISOString(),
+            docId: raw.docId || "ingest_unknown",
+            action: "name_updated",
+            originalName: oldName
+          });
+        }
         if (raw.context && !existing.context.includes(raw.context)) {
           existing.context += " " + raw.context;
+          enriched = true;
+          if (!existing.lineage) existing.lineage = [];
+          existing.lineage.push({
+            timestamp: new Date().toISOString(),
+            docId: raw.docId || "ingest_unknown",
+            action: "context_enriched",
+            contextAdded: raw.context
+          });
         }
-        if (canonicalName.length > existing.name.length) {
-          existing.name = canonicalName;
+        if (!enriched) {
+          if (!existing.lineage) existing.lineage = [];
+          existing.lineage.push({
+            timestamp: new Date().toISOString(),
+            docId: raw.docId || "ingest_unknown",
+            action: "merged_alias",
+            originalName: raw.name
+          });
         }
         return existing;
       }
@@ -134,12 +238,20 @@ export class EntityResolver {
       .slice(0, 16);
     const entityId = `ent_${hash}`;
 
+    const lineage: EntityLineageEntry[] = [{
+      timestamp: new Date().toISOString(),
+      docId: raw.docId || "ingest_unknown",
+      action: "created",
+      originalName: raw.name
+    }];
+
     const newEntity: SemanticEntity = {
       id: entityId,
       name: canonicalName,
       type: resolvedType,
       context: raw.context || "",
       confidence: raw.confidence ?? 1.0,
+      lineage
     };
 
     this.registry.set(entityId, newEntity);

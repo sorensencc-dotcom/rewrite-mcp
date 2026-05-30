@@ -1,10 +1,18 @@
 /**
  * projects/cic/src/linking/graph-builder.ts
- * In-memory graph representation of documents, entities, internal relationships, and cross-document links.
+ * In-memory and disk-backed graph representation of documents, entities, internal relationships, and cross-document links.
  */
 
 import { SemanticDocument, SemanticEntity, SemanticRelationship } from "../harvester/extractors/v2/extractor-v2.types.js";
 import { CrossDocumentLink } from "./link-engine.js";
+import { canonicalizeName } from "./entity-resolver.js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const defaultGraphPath = path.resolve(__dirname, "../../data/graph-store.json");
 
 export interface EntityNeighborhood {
   entity: SemanticEntity;
@@ -58,8 +66,184 @@ export class GraphBuilder {
   private entities: Map<string, SemanticEntity> = new Map();
   private docEntityOccurrences: Map<string, Set<string>> = new Map(); // docId -> Set of entityIds
   private entityDocOccurrences: Map<string, Set<string>> = new Map(); // entityId -> Set of docIds
-  private relationships: SemanticRelationship[] = [];
-  private crossDocLinks: CrossDocumentLink[] = [];
+  private relationships: (SemanticRelationship & { timestamp?: string })[] = [];
+  private crossDocLinks: (CrossDocumentLink & { timestamp?: string })[] = [];
+
+  constructor() {
+    if (typeof process !== "undefined" && !process.env.VITEST) {
+      this.load();
+    }
+  }
+
+  load(filePath: string = defaultGraphPath): void {
+    try {
+      if (!fs.existsSync(filePath)) {
+        return;
+      }
+      const raw = fs.readFileSync(filePath, "utf-8");
+      const data = JSON.parse(raw);
+
+      this.clear();
+
+      if (data.documents) {
+        for (const [id, doc] of data.documents) {
+          this.documents.set(id, doc);
+        }
+      }
+      if (data.entities) {
+        for (const [id, ent] of data.entities) {
+          this.entities.set(id, ent);
+        }
+      }
+      if (data.docEntityOccurrences) {
+        for (const [id, arr] of data.docEntityOccurrences) {
+          this.docEntityOccurrences.set(id, new Set(arr));
+        }
+      }
+      if (data.entityDocOccurrences) {
+        for (const [id, arr] of data.entityDocOccurrences) {
+          this.entityDocOccurrences.set(id, new Set(arr));
+        }
+      }
+      if (data.relationships) {
+        this.relationships = data.relationships;
+      }
+      if (data.crossDocLinks) {
+        this.crossDocLinks = data.crossDocLinks;
+      }
+    } catch (err: any) {
+      console.error(`[GraphBuilder] Failed to load graph from ${filePath}:`, err.message);
+    }
+  }
+
+  save(filePath: string = defaultGraphPath): void {
+    try {
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      const data = {
+        documents: Array.from(this.documents.entries()),
+        entities: Array.from(this.entities.entries()),
+        docEntityOccurrences: Array.from(this.docEntityOccurrences.entries()).map(([k, v]) => [k, Array.from(v)]),
+        entityDocOccurrences: Array.from(this.entityDocOccurrences.entries()).map(([k, v]) => [k, Array.from(v)]),
+        relationships: this.relationships,
+        crossDocLinks: this.crossDocLinks
+      };
+
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    } catch (err: any) {
+      console.error(`[GraphBuilder] Failed to save graph to ${filePath}:`, err.message);
+    }
+  }
+
+  async createSnapshot(tag?: string): Promise<string> {
+    const timestampStr = new Date().toISOString().replace(/[:.]/g, "-");
+    const filename = `graph_snapshot_${timestampStr}${tag ? "_" + tag : ""}.json`;
+    const snapshotDir = path.resolve(__dirname, "../../data/snapshots");
+    if (!fs.existsSync(snapshotDir)) {
+      fs.mkdirSync(snapshotDir, { recursive: true });
+    }
+    const snapshotPath = path.join(snapshotDir, filename);
+    this.save(snapshotPath);
+    return snapshotPath;
+  }
+
+  sliceAtDate(dateXStr: string): {
+    documents: SemanticDocument[];
+    entities: SemanticEntity[];
+    relationships: SemanticRelationship[];
+    crossDocLinks: CrossDocumentLink[];
+  } {
+    const dateLimit = new Date(dateXStr).getTime();
+
+    // 1. Filter documents with timestamp <= dateX
+    const validDocs = Array.from(this.documents.values()).filter(doc => {
+      return new Date(doc.timestamp).getTime() <= dateLimit;
+    });
+    const validDocIds = new Set(validDocs.map(d => d.docId));
+
+    // 2. Filter entities: must have been created at or before dateX (i.e. first lineage entry <= dateX)
+    const validEntities: SemanticEntity[] = [];
+    for (const ent of this.entities.values()) {
+      if (!ent.lineage || ent.lineage.length === 0) {
+        // Fallback for legacy entities
+        const occurrenceDocs = this.entityDocOccurrences.get(ent.id);
+        if (occurrenceDocs) {
+          const hasValidDoc = Array.from(occurrenceDocs).some(docId => validDocIds.has(docId));
+          if (hasValidDoc) {
+            validEntities.push({ ...ent });
+          }
+        }
+        continue;
+      }
+
+      const validLineage = ent.lineage.filter(entry => {
+        return new Date(entry.timestamp).getTime() <= dateLimit;
+      });
+
+      if (validLineage.length === 0) {
+        continue; // Entity did not exist yet at dateX
+      }
+
+      // Reconstruct entity name and context at dateX by subtracting future actions
+      let name = ent.name;
+      let context = ent.context;
+
+      const futureEvents = ent.lineage.filter(entry => {
+        return new Date(entry.timestamp).getTime() > dateLimit;
+      });
+
+      if (futureEvents.length > 0) {
+        // Find name before the first future update
+        const sortedFuture = [...futureEvents].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+        const firstFutureUpdate = sortedFuture.find(e => e.action === "name_updated");
+        if (firstFutureUpdate && firstFutureUpdate.originalName) {
+          name = firstFutureUpdate.originalName;
+        }
+
+        // Subtract future context additions
+        for (const fEvent of futureEvents) {
+          if (fEvent.action === "context_enriched" && fEvent.contextAdded) {
+            context = context.replace(fEvent.contextAdded, "").replace(/\s+/g, " ").trim();
+          }
+        }
+      }
+
+      validEntities.push({
+        id: ent.id,
+        name,
+        type: ent.type,
+        context,
+        confidence: ent.confidence,
+        lineage: validLineage
+      });
+    }
+
+    const validEntityIds = new Set(validEntities.map(e => e.id));
+
+    // 3. Filter relationships: timestamp <= dateX AND both nodes are valid
+    const validRelationships = this.relationships.filter(rel => {
+      const ts = rel.timestamp ? new Date(rel.timestamp).getTime() : 0;
+      const isTimeValid = ts <= dateLimit;
+      return isTimeValid && validEntityIds.has(rel.subjectId) && validEntityIds.has(rel.objectId);
+    }).map(({ timestamp, ...rest }) => rest as SemanticRelationship);
+
+    // 4. Filter cross-document links: timestamp <= dateX AND both documents are valid
+    const validLinks = this.crossDocLinks.filter(link => {
+      const ts = link.timestamp ? new Date(link.timestamp).getTime() : 0;
+      const isTimeValid = ts <= dateLimit;
+      return isTimeValid && validDocIds.has(link.sourceDocId) && validDocIds.has(link.targetDocId);
+    }).map(({ timestamp, ...rest }) => rest as CrossDocumentLink);
+
+    return {
+      documents: validDocs,
+      entities: validEntities,
+      relationships: validRelationships,
+      crossDocLinks: validLinks
+    };
+  }
 
   addDocumentGraph(doc: SemanticDocument, links: CrossDocumentLink[]): void {
     if (!doc || !doc.docId) {
@@ -82,10 +266,13 @@ export class GraphBuilder {
       // Merge or store entity metadata
       if (this.entities.has(ent.id)) {
         const existing = this.entities.get(ent.id)!;
-        if (ent.context && !existing.context.includes(ent.context)) {
-          existing.context += " " + ent.context;
-        }
+        existing.name = ent.name;
+        existing.context = ent.context;
         existing.confidence = Math.max(existing.confidence, ent.confidence);
+        // Sync lineage if updated in resolver
+        if (ent.lineage) {
+          existing.lineage = ent.lineage;
+        }
       } else {
         this.entities.set(ent.id, { ...ent });
       }
@@ -99,11 +286,9 @@ export class GraphBuilder {
       this.entityDocOccurrences.get(ent.id)!.add(doc.docId);
     }
 
-    // 3. Store relationships
-    // Filter and add new relationships, avoiding duplicates
+    // 3. Store relationships with ingestion timestamp
     const docRelationships = doc.relationships || [];
     for (const rel of docRelationships) {
-      // Find standard resolved IDs if subject or object matches an entity name
       let subjectId = rel.subjectId || "";
       let objectId = rel.objectId || "";
 
@@ -131,16 +316,20 @@ export class GraphBuilder {
           objectId,
           predicate: rel.predicate,
           details: rel.details || "",
-          confidence: rel.confidence ?? 1.0
+          confidence: rel.confidence ?? 1.0,
+          timestamp: doc.timestamp || new Date().toISOString()
         });
       }
     }
 
-    // 4. Store cross-document links
+    // 4. Store cross-document links with ingestion timestamp
     for (const link of links) {
       const exists = this.crossDocLinks.some(l => l.id === link.id);
       if (!exists) {
-        this.crossDocLinks.push(link);
+        this.crossDocLinks.push({
+          ...link,
+          timestamp: doc.timestamp || new Date().toISOString()
+        });
       }
     }
   }

@@ -44,12 +44,13 @@ export class Harvester {
       let indexResult = await this.vectorIndex.upsert(doc);
 
       // --- Post-Index Linking & Graph Hook ---
-      // 1. Resolve Entities to canonical entities with stable IDs, preserving the raw name
+      // 1. Resolve Entities to canonical entities with stable IDs, passing docId for lineage tracking
       const resolvedEntities = doc.entities.map((e: any) => {
-        const resolved = entityResolver.resolve(e);
+        const resolved = entityResolver.resolve({ ...e, docId: doc.docId });
         return {
           ...e,
-          id: resolved.id
+          id: resolved.id,
+          lineage: resolved.lineage
         };
       });
       doc.entities = resolvedEntities;
@@ -59,7 +60,7 @@ export class Harvester {
         const key = getComparisonKey(name);
         const found = resolvedEntities.find((re: any) => getComparisonKey(re.name) === key);
         if (found) return found.id;
-        return entityResolver.resolve({ name, type: "PEOPLE" }).id;
+        return entityResolver.resolve({ name, type: "PEOPLE", docId: doc.docId }).id;
       };
 
       for (const rel of doc.relationships) {
@@ -77,6 +78,10 @@ export class Harvester {
 
       // 4. Update the in-memory graph
       graphBuilder.addDocumentGraph(doc, links);
+
+      // Auto-save the updated entity registry and graph stores to disk
+      entityResolver.save();
+      graphBuilder.save();
 
       // 5. Enrich Payload and Re-upsert to VectorIndex
       doc.entity_ids = resolvedEntities.map((e: any) => e.id);

@@ -3,12 +3,21 @@
  * Extractor v2 Semantic Type Definitions - v1.2.0
  */
 
+export interface EntityLineageEntry {
+  timestamp: string;
+  docId: string;
+  action: "created" | "merged_alias" | "context_enriched" | "name_updated";
+  originalName?: string;
+  contextAdded?: string;
+}
+
 export interface SemanticEntity {
   id: string;
   name: string;
   type: "PEOPLE" | "PLACES" | "EVENTS" | "ARTIFACTS";
   context: string;
   confidence: number;
+  lineage?: EntityLineageEntry[];
 }
 
 export interface SemanticRelationship {
