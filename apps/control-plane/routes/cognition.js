@@ -1,4 +1,6 @@
 import express from 'express'
+// TODO: Import when ARL is available in control-plane
+// import { getArlTraceStore, ArlTraceAnalyzer } from '../../../projects/cic/src/reasoning/arl/index.js'
 
 const router = express.Router()
 
@@ -12,6 +14,75 @@ router.get('/summary', (req, res) => {
     update_success_rate: 94,
     last_update: new Date().toISOString(),
   })
+})
+
+/**
+ * GET /api/v1/cognition/arl/health
+ * Returns ARL system health status including coherence metrics
+ */
+router.get('/arl/health', (req, res) => {
+  try {
+    // TODO: Wire to actual ARL instance
+    // const health = ArlTraceAnalyzer.getSystemHealth()
+    res.json({
+      coherenceHealth: 'good',
+      driftHealth: 'good',
+      overallHealth: 'good',
+      metrics: {
+        avgCoherence: 0.78,
+        avgDrift: 0.24,
+        successRate: 0.89,
+      },
+      coherence: {
+        narrative: 0,
+        semantic: 0,
+        temporal: 0,
+        overall: 0
+      }
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /api/v1/cognition/arl/recent
+ * Returns recent ARL verdicts
+ */
+router.get('/arl/recent', (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit || '10', 10)
+    // TODO: Wire to actual ARL instance
+    // const records = ArlTraceAnalyzer.getRecent(limit)
+    res.json({
+      records: [],
+      count: 0,
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /api/v1/cognition/arl/rejection-analysis
+ * Returns breakdown of rejected verdicts by reason
+ */
+router.get('/arl/rejection-analysis', (req, res) => {
+  try {
+    // TODO: Wire to actual ARL instance
+    // const analysis = ArlTraceAnalyzer.getRejectionAnalysis()
+    res.json({
+      totalRejections: 0,
+      byReason: {
+        drift: 0,
+        alignment: 0,
+        poor_narrative: 0,
+        other: 0,
+      },
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
 /**

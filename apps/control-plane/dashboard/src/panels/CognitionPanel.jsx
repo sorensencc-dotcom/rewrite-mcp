@@ -4,12 +4,16 @@ import { useApi } from '../hooks/useApi.js'
 export default function CognitionPanel() {
   const summary = useApi('cognition/summary', [])
   const packets = useApi('cognition/reasoning-packets', [])
+  const arlHealth = useApi('cognition/arl/health', [])
+  const arlRejectionAnalysis = useApi('cognition/arl/rejection-analysis', [])
 
-  const loading = summary.loading || packets.loading
-  const error = summary.error || packets.error
+  const loading = summary.loading || packets.loading || arlHealth.loading || arlRejectionAnalysis.loading
+  const error = summary.error || packets.error || arlHealth.error || arlRejectionAnalysis.error
 
   const s = summary.data ?? {}
   const p = packets.data ?? {}
+  const arl = arlHealth.data ?? {}
+  const rejectionData = arlRejectionAnalysis.data ?? {}
 
   return (
     <>
@@ -56,6 +60,84 @@ export default function CognitionPanel() {
           </div>
         </div>
       </div>
+
+      {arl && (
+        <>
+          <div className="panel-header" style={{ marginTop: '20px' }}>
+            <div className="panel-title" style={{ fontSize: '13px' }}>
+              Autonomous Reasoning Layer (ARL)
+            </div>
+          </div>
+          <div className="panel-metrics">
+            <div className="metric-card">
+              <div className="metric-label">Overall health</div>
+              <div
+                className={
+                  arl.overallHealth === 'good'
+                    ? 'metric-value ok'
+                    : arl.overallHealth === 'fair'
+                    ? 'metric-value warn'
+                    : 'metric-value danger'
+                }
+              >
+                {loading ? '…' : arl.overallHealth?.toUpperCase() ?? 'UNKNOWN'}
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Avg coherence</div>
+              <div className="metric-value">
+                {loading ? '…' : `${(arl?.metrics?.avgCoherence * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Avg drift</div>
+              <div
+                className={
+                  arl?.metrics?.avgDrift < 0.3
+                    ? 'metric-value ok'
+                    : arl?.metrics?.avgDrift < 0.5
+                    ? 'metric-value warn'
+                    : 'metric-value danger'
+                }
+              >
+                {loading ? '…' : `${(arl?.metrics?.avgDrift * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Verdict success rate</div>
+              <div className="metric-value ok">
+                {loading ? '…' : `${(arl?.metrics?.successRate * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+          </div>
+
+          <div className="panel-header" style={{ marginTop: '16px' }}>
+            <div className="panel-title" style={{ fontSize: '12px' }}>
+              Coherence Dimensions
+            </div>
+          </div>
+          <div className="panel-metrics">
+            <div className="metric-card">
+              <div className="metric-label">Narrative coherence</div>
+              <div className="metric-value">
+                {loading ? '…' : `${(arl?.coherence?.narrative * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Semantic coherence</div>
+              <div className="metric-value">
+                {loading ? '…' : `${(arl?.coherence?.semantic * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-label">Temporal coherence</div>
+              <div className="metric-value">
+                {loading ? '…' : `${(arl?.coherence?.temporal * 100).toFixed(1)}%` ?? '—'}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       {p?.active_candidates?.length > 0 && (
         <>
@@ -107,6 +189,30 @@ export default function CognitionPanel() {
             <div className="metric-value">
               {p.context.recentExpansions?.length ?? 0}
             </div>
+          </div>
+        </>
+      )}
+
+      {rejectionData?.totalRejections !== undefined && rejectionData.totalRejections > 0 && (
+        <>
+          <div className="panel-header" style={{ marginTop: '20px' }}>
+            <div className="panel-title" style={{ fontSize: '13px' }}>
+              ARL Rejection Analysis
+            </div>
+          </div>
+          <div className="panel-metrics">
+            <div className="metric-card">
+              <div className="metric-label">Total rejections</div>
+              <div className="metric-value danger">
+                {loading ? '…' : rejectionData.totalRejections ?? 0}
+              </div>
+            </div>
+            {Object.entries(rejectionData.byReason || {}).map(([reason, count]) => (
+              <div key={reason} className="metric-card">
+                <div className="metric-label">{reason}</div>
+                <div className="metric-value">{count}</div>
+              </div>
+            ))}
           </div>
         </>
       )}

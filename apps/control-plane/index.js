@@ -37,6 +37,7 @@ const telemetryRouter    = require('./routes/telemetry');
 const masRouter          = require('./routes/mas');
 const recoveryRouter     = require('./routes/recovery');
 const healthRouter       = require('./routes/health');
+const cognitionRouter    = require('./routes/cognition').default;
 const sloRouter          = require('../../projects/cic/control-plane/routes/slo');
 const recoveryControlLoop = require('../../projects/cic/control-plane/recovery/control-loop');
 
@@ -188,6 +189,7 @@ app.use('/api/control-plane/metrics',       requireAuth, metricsRouter);
 app.use('/api/control-plane/telemetry',     requireAuth, telemetryRouter);
 app.use('/api/control-plane/mas',           requireAuth, masRouter);
 app.use('/api/control-plane/recovery',      requireAuth, recoveryRouter);
+app.use('/api/v1/cognition',                requireAuth, cognitionRouter);
 
 app.use('/pipelines/cic', requireAuth, cicRouter);
 app.use('/pipelines',     requireAuth, pipelinesRouter);
