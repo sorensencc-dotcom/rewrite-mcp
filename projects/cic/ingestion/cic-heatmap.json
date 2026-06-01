@@ -1,0 +1,276 @@
+{
+  "heatmap": [
+    {
+      "fileName": "IMG_1511.JPG",
+      "descriptionConsistency": 0.7103538663171691,
+      "descriptionDrift": 0.2896461336828309,
+      "tagsConsistency": 0.44,
+      "tagsDrift": 0.56,
+      "summaryConsistency": 0.6341463414634146,
+      "summaryDrift": 0.36585365853658536,
+      "overallScore": 0.5948334025935279,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1512.JPG",
+      "descriptionConsistency": 0.8017751479289941,
+      "descriptionDrift": 0.19822485207100593,
+      "tagsConsistency": 0.5454545454545454,
+      "tagsDrift": 0.4545454545454546,
+      "summaryConsistency": 0.6938775510204082,
+      "summaryDrift": 0.30612244897959184,
+      "overallScore": 0.6803690814679825,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1513.JPG",
+      "descriptionConsistency": 0.7543424317617866,
+      "descriptionDrift": 0.2456575682382134,
+      "tagsConsistency": 0.5652173913043478,
+      "tagsDrift": 0.4347826086956522,
+      "summaryConsistency": 0.5777777777777777,
+      "summaryDrift": 0.4222222222222223,
+      "overallScore": 0.6324458669479707,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1514.JPG",
+      "descriptionConsistency": 0.82574568288854,
+      "descriptionDrift": 0.17425431711146,
+      "tagsConsistency": 0.42857142857142855,
+      "tagsDrift": 0.5714285714285714,
+      "summaryConsistency": 0.9473684210526315,
+      "summaryDrift": 0.052631578947368474,
+      "overallScore": 0.7338951775042001,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1515.JPG",
+      "descriptionConsistency": 0.7928388746803069,
+      "descriptionDrift": 0.2071611253196931,
+      "tagsConsistency": 0.46153846153846156,
+      "tagsDrift": 0.5384615384615384,
+      "summaryConsistency": 0.7017543859649122,
+      "summaryDrift": 0.29824561403508776,
+      "overallScore": 0.6520439073945602,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1516.JPG",
+      "descriptionConsistency": 0.7772277227722773,
+      "descriptionDrift": 0.22277227722772275,
+      "tagsConsistency": 0.3793103448275862,
+      "tagsDrift": 0.6206896551724138,
+      "summaryConsistency": 0.782608695652174,
+      "summaryDrift": 0.21739130434782605,
+      "overallScore": 0.6463822544173458,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1517.JPG",
+      "descriptionConsistency": 0.8327759197324415,
+      "descriptionDrift": 0.16722408026755853,
+      "tagsConsistency": 0.391304347826087,
+      "tagsDrift": 0.6086956521739131,
+      "summaryConsistency": 0.7169811320754716,
+      "summaryDrift": 0.28301886792452835,
+      "overallScore": 0.6470204665446667,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1519.JPG",
+      "descriptionConsistency": 0.7256176853055917,
+      "descriptionDrift": 0.2743823146944083,
+      "tagsConsistency": 0.6086956521739131,
+      "tagsDrift": 0.3913043478260869,
+      "summaryConsistency": 0.6808510638297872,
+      "summaryDrift": 0.3191489361702128,
+      "overallScore": 0.6717214671030973,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1520.JPG",
+      "descriptionConsistency": 0.6401446654611211,
+      "descriptionDrift": 0.35985533453887886,
+      "tagsConsistency": 0.4,
+      "tagsDrift": 0.6,
+      "summaryConsistency": 0.6938775510204082,
+      "summaryDrift": 0.30612244897959184,
+      "overallScore": 0.578007405493843,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1521.JPG",
+      "descriptionConsistency": 0.6190476190476191,
+      "descriptionDrift": 0.38095238095238093,
+      "tagsConsistency": 0.36363636363636365,
+      "tagsDrift": 0.6363636363636364,
+      "summaryConsistency": 0.5660377358490566,
+      "summaryDrift": 0.4339622641509434,
+      "overallScore": 0.5162405728443464,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1522.JPG",
+      "descriptionConsistency": 0.7037037037037037,
+      "descriptionDrift": 0.2962962962962963,
+      "tagsConsistency": 0.2962962962962963,
+      "tagsDrift": 0.7037037037037037,
+      "summaryConsistency": 0.43636363636363634,
+      "summaryDrift": 0.5636363636363637,
+      "overallScore": 0.47878787878787876,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1523.JPG",
+      "descriptionConsistency": 0.7509578544061303,
+      "descriptionDrift": 0.24904214559386972,
+      "tagsConsistency": 0.3103448275862069,
+      "tagsDrift": 0.6896551724137931,
+      "summaryConsistency": 0.8852459016393442,
+      "summaryDrift": 0.11475409836065575,
+      "overallScore": 0.6488495278772272,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1524.JPG",
+      "descriptionConsistency": 0.8938547486033519,
+      "descriptionDrift": 0.1061452513966481,
+      "tagsConsistency": 1,
+      "tagsDrift": 0,
+      "summaryConsistency": 1,
+      "summaryDrift": 0,
+      "overallScore": 0.9646182495344506,
+      "consistent": true
+    },
+    {
+      "fileName": "IMG_1525.JPG",
+      "descriptionConsistency": 0.8301886792452831,
+      "descriptionDrift": 0.16981132075471694,
+      "tagsConsistency": 0.5652173913043478,
+      "tagsDrift": 0.4347826086956522,
+      "summaryConsistency": 0.7796610169491526,
+      "summaryDrift": 0.22033898305084743,
+      "overallScore": 0.7250223624995945,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1526.JPG",
+      "descriptionConsistency": 0.7257799671592775,
+      "descriptionDrift": 0.2742200328407225,
+      "tagsConsistency": 0.2692307692307692,
+      "tagsDrift": 0.7307692307692308,
+      "summaryConsistency": 0.7727272727272727,
+      "summaryDrift": 0.2272727272727273,
+      "overallScore": 0.5892460030391065,
+      "consistent": false
+    },
+    {
+      "fileName": "IMG_1527.JPG",
+      "descriptionConsistency": 0.9977011494252873,
+      "descriptionDrift": 0.0022988505747126853,
+      "tagsConsistency": 0.7272727272727273,
+      "tagsDrift": 0.2727272727272727,
+      "summaryConsistency": 1,
+      "summaryDrift": 0,
+      "overallScore": 0.9083246255660048,
+      "consistent": true
+    },
+    {
+      "fileName": "IMG_1528.JPG",
+      "descriptionConsistency": 0.8212389380530973,
+      "descriptionDrift": 0.17876106194690267,
+      "tagsConsistency": 0.7,
+      "tagsDrift": 0.30000000000000004,
+      "summaryConsistency": 0.975609756097561,
+      "summaryDrift": 0.024390243902439046,
+      "overallScore": 0.8322828980502194,
+      "consistent": true
+    },
+    {
+      "fileName": "IMG_1529.JPG",
+      "descriptionConsistency": 0.910874897792314,
+      "descriptionDrift": 0.08912510220768599,
+      "tagsConsistency": 1,
+      "tagsDrift": 0,
+      "summaryConsistency": 1,
+      "summaryDrift": 0,
+      "overallScore": 0.970291632597438,
+      "consistent": true
+    },
+    {
+      "fileName": "Raymond&Grinnell3.jpg",
+      "descriptionConsistency": 0.6366197183098592,
+      "descriptionDrift": 0.3633802816901408,
+      "tagsConsistency": 0.4782608695652174,
+      "tagsDrift": 0.5217391304347826,
+      "summaryConsistency": 0.4727272727272727,
+      "summaryDrift": 0.5272727272727273,
+      "overallScore": 0.529202620200783,
+      "consistent": false
+    },
+    {
+      "fileName": "Raymond&Grinnell4.jpg",
+      "descriptionConsistency": 0.7510316368638239,
+      "descriptionDrift": 0.2489683631361761,
+      "tagsConsistency": 0.4583333333333333,
+      "tagsDrift": 0.5416666666666667,
+      "summaryConsistency": 0.8,
+      "summaryDrift": 0.19999999999999996,
+      "overallScore": 0.6697883233990524,
+      "consistent": false
+    },
+    {
+      "fileName": "Raymond&Grinnell6.jpg",
+      "descriptionConsistency": 0.7692307692307693,
+      "descriptionDrift": 0.23076923076923073,
+      "tagsConsistency": 0.3076923076923077,
+      "tagsDrift": 0.6923076923076923,
+      "summaryConsistency": 0.5106382978723404,
+      "summaryDrift": 0.4893617021276596,
+      "overallScore": 0.5291871249318058,
+      "consistent": false
+    },
+    {
+      "fileName": "RaymondGrinnell1.jpg",
+      "descriptionConsistency": 0.7899159663865546,
+      "descriptionDrift": 0.2100840336134454,
+      "tagsConsistency": 0.45454545454545453,
+      "tagsDrift": 0.5454545454545454,
+      "summaryConsistency": 0.9565217391304348,
+      "summaryDrift": 0.04347826086956519,
+      "overallScore": 0.733661053354148,
+      "consistent": false
+    },
+    {
+      "fileName": "RaymondGrinnell2.jpg",
+      "descriptionConsistency": 0.6508226691042047,
+      "descriptionDrift": 0.3491773308957953,
+      "tagsConsistency": 0.375,
+      "tagsDrift": 0.625,
+      "summaryConsistency": 0.3018867924528302,
+      "summaryDrift": 0.6981132075471699,
+      "overallScore": 0.4425698205190116,
+      "consistent": false
+    },
+    {
+      "fileName": "Research Note-Rosalie Emilie Angelica Sørensen-1847.png",
+      "descriptionConsistency": 0.5517241379310345,
+      "descriptionDrift": 0.4482758620689655,
+      "tagsConsistency": 0.22727272727272727,
+      "tagsDrift": 0.7727272727272727,
+      "summaryConsistency": 0.7692307692307693,
+      "summaryDrift": 0.23076923076923073,
+      "overallScore": 0.5160758781448437,
+      "consistent": false
+    }
+  ],
+  "aggregates": {
+    "avgDescriptionDrift": 0.23902023116206086,
+    "avgTagsDrift": 0.5102835316903284,
+    "avgSummaryDrift": 0.2643377870459727,
+    "overallDrift": 0.33788051663278723,
+    "totalFiles": 24,
+    "consistentFiles": 4
+  }
+}

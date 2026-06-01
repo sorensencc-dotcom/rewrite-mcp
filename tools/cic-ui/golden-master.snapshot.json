@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-05-31T02:08:13.193Z",
+  "files": {
+    "apps/operator-ui/css/tokens.css": "ac607ead31bf2cdcf714a2b53a5863f01c30dee96beac41456f157a96731abc0",
+    "apps/operator-ui/css/colors_and_type.css": "a2fe7ccb731e414c6791de76dc9f38dd7fa894762207813b6e33b2d850025613",
+    "apps/operator-ui/css/control-room.css": "a1df18e53b403222020f9fed58b0c048ece2c1a4c8552a15ce98fc482c11e2b6",
+    "apps/operator-ui/control-room.html": "2abfe72aa41e22b3f7c8e01222365ff7ff23882d075444415fae4ec8a5adc1ed"
+  }
+}

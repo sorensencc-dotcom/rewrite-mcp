@@ -1,0 +1,9 @@
+{
+  "name": "operator-ui",
+  "version": "2.2.0",
+  "private": true,
+  "description": "CIC Operator UI static dashboard layer",
+  "scripts": {
+    "dev": "echo 'Static server starting...'"
+  }
+}

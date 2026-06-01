@@ -1,0 +1,25 @@
+{
+  "name": "@cic/agents",
+  "version": "1.0.0",
+  "description": "CIC agents — extractors, redesign, outreach",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./extractors": "./src/extractors/index.mjs",
+    "./redesign": "./src/redesign/index.mjs",
+    "./outreach": "./src/outreach/index.mjs"
+  },
+  "files": [
+    "src",
+    "index.mjs"
+  ],
+  "keywords": [
+    "cic",
+    "agents",
+    "extractors"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

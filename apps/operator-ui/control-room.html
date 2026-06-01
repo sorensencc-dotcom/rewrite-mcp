@@ -14,6 +14,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CIC Control Room</title>
+  <link rel="stylesheet" href="/assets/cic.css">
+  <link rel="stylesheet" href="/assets/cic-tokens.css">
+  <link rel="stylesheet" href="/assets/cic-components.css">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/colors_and_type.css">
   <link rel="stylesheet" href="css/control-room.css">
@@ -227,6 +230,7 @@
 <script src="js/telemetry-panel.js"></script>
 <script src="js/stress-panel.js"></script>
 <script src="js/waterfallRenderer.js"></script>
+<script src="js/global-nav-telemetry.js" defer></script>
 
 <script>
 /**
@@ -462,34 +466,5 @@
   refreshStatus().catch(() => {})
 })();
 </script>
-
-</body>
-</html>
-    appendLog(`→ POST /docgen/generate { doc: "${docId}" }`)
-    setStatus(`// generating "${docId}"…`)
-    try {
-      const data = await callDocgen('/docgen/generate', {
-        method: 'POST',
-        body: { doc: docId },
-      })
-      appendLog(`OK generate: ${docId} v${data.version || '?'} → Local Archive`)
-      setStatus(data)
-      await refreshStatus()
-    } catch (err) {
-      appendLog(`ERROR generate "${docId}": ${err.message}`)
-      setStatus(`// generate "${docId}" failed: ${err.message}`)
-    } finally {
-      lockButtons(false)
-    }
-  }
-
-  btnAll.addEventListener('click', () => { handleGenerateAll().catch(() => {}) })
-  btnIndex.addEventListener('click', () => { handleUpdateIndex().catch(() => {}) })
-  btnOne.addEventListener('click', () => { handleGenerateOne().catch(() => {}) })
-
-  refreshStatus().catch(() => {})
-})();
-</script>
-
 </body>
 </html>

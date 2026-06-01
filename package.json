@@ -1,12 +1,19 @@
 {
   "name": "rewrite-mcp-monorepo",
   "version": "2.29.0",
+  "type": "module",
   "private": true,
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
     "sync-docs": "bash scripts/sync-docs.sh",
     "load-tokens": "node apps/operator-ui/scripts/loadTokens.js",
     "validate-design": "node apps/operator-ui/scripts/validateDesign.js",
+    "cic-ui:repair": "bash tools/cic-ui/repair-ui-layer.sh",
+    "cic-ui:validate": "node tools/cic-ui/integrity-validator.js",
+    "cic-ui:smoke": "node tools/cic-ui/smoke-tests.js",
+    "cic-ui:sentinel": "node tools/cic-ui/drift-sentinel.js",
+    "cic-ui:snapshot": "node tools/cic-ui/golden-master.js",
+    "cic-ui:telemetry": "node tools/cic-ui/telemetry-hooks.js",
     "build-docs": "bash scripts/sync-docs.sh --build && npm run test:links",
     "test-orchestrator": "cd projects/cic/orchestrator && npm test",
     "test:links": "cd .. && bash tools/regressions/check-links.sh",
@@ -23,5 +30,8 @@
   "devDependencies": {
     "@types/node": "^25.9.1",
     "husky": "^9.0.11"
+  },
+  "dependencies": {
+    "googleapis": "^173.0.0"
   }
 }

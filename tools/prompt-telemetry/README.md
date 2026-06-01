@@ -37,6 +37,42 @@ The system is integrated via `apps/cic-pms/src/telemetryClient.js`.
 
 ## Endpoints
 
+### Health & Metrics
+
+- `GET /health` — Server health check (returns `{status: 'ok', uptime_ms, timestamp}`)
+- `GET /metrics` — System metrics snapshot
+  ```json
+  {
+    "metrics": {
+      "total_prompts": 0,
+      "avg_latency_ms": 0,
+      "completion_rate": 1.0,
+      "error_rate": 0.0
+    },
+    "agents": {
+      "claude": {"status": "ok", "uptime_ms": 12345},
+      "copilot": {"status": "ok", "uptime_ms": 12345},
+      "gemini": {"status": "ok", "uptime_ms": 12345}
+    }
+  }
+  ```
+
+- `GET /events` — Recent telemetry events (last 10, up to 1000 stored)
+
+### Event Logging
+
+- `POST /event` — Log a telemetry event
+  ```json
+  {
+    "type": "prompt_call|model_call|error",
+    "agent": "claude|copilot|gemini",
+    "duration_ms": 1234,
+    "status": "success|error"
+  }
+  ```
+
+### Legacy Endpoints (Compatibility)
+
 - `POST /ingest/pack-usage`: Record a prompt pack call.
 - `POST /ingest/drift`: Record a drift event.
 - `POST /ingest/model-call`: Record an LLM call with latency.

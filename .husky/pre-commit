@@ -15,5 +15,13 @@ if git diff --cached --name-only | xargs grep -E "AIza[0-9A-Za-z_-]{35}|AKIA[0-9
   exit 1
 fi
 
+echo "Running BOB automatic build and generation..."
+cd bob
+node bin/bob.js build
+cd ..
+
+# Auto-stage any regenerated files by BOB
+git add -A
+
 echo "Pre-commit checks passed."
 exit 0

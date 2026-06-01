@@ -39,6 +39,7 @@ const DEFAULT_CONFIG = {
   provider:                   'claude',
   model:                      'claude-opus-4-6',
   maxTokens:                  1024,
+  temperature:                0,
   timeoutMs:                  30_000,
   retries:                    2,
   enableStructuredExtraction: true,
@@ -248,13 +249,14 @@ async function _callClaude(imageData, mimeType, config, _deps = {}) {
   const prompt = `You are analyzing an archival or documentary image for the Cast Iron Charlie project -- a feature documentary about Charles Emil Sorensen and Ford Motor Company history.\n\nProvide a rich, detailed natural language description of this image. Include:\n- What is depicted (people, objects, setting, activities)\n- Visual details relevant to historical research (clothing, vehicles, machinery, signage, architecture, scale)\n- Emotional tone or atmosphere if discernible\n- Any text, labels, or captions visible in the image\n- Contextual inferences appropriate for a 20th-century industrial/automotive archive${structuredBlock}`;
 
   const response = await anthropicCreate({
-    model:      config.model,
-    max_tokens: config.maxTokens,
+    model:       config.model,
+    max_tokens:  config.maxTokens,
+    temperature: config.temperature,
     messages: [{
       role:    'user',
       content: [
         {
-          type:   'image',
+          type:       'image',
           source: {
             type:       'base64',
             media_type: _normalizeMediaType(mimeType),
@@ -343,6 +345,11 @@ function _buildOutput(input, parsed, config, startedAt, t0, retries) {
       width:        undefined,
       height:       undefined,
       colorProfile: null,
+    },
+
+    deterministic: {
+      temperature: config.temperature,
+      model:       config.model,
     },
 
     source,

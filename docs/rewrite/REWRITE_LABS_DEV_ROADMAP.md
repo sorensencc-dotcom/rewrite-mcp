@@ -47,6 +47,16 @@ This roadmap covers both the **Technical Platform (Antigravity/MAS)** and the **
 
 1. **Phase 32 — MAS Governance Plane**: Operator-in-the-loop overrides for MAS directives and real-time policy adjustments.
 
+### 🧠 Ingestion Intelligence & Playbook Evolution
+
+- **[v2.30.0] Phase 2B: Playbook Evolution Engine (Delivered)** — Self-optimizing, telemetry-driven playbook engine with `/playbook/*` endpoints and memory-mapped fast rollbacks (< 100ms) — 2026-05-31
+- **Phase 3: Continuous Evolution Loop (Planned)**
+  - Convert Ingestion from batch to scheduled/streaming mode with rolling telemetry checks.
+  - Automatically mutate playbooks (swap, parallelize, prune, gate) scored by real-time vectors.
+  - High-frequency Monte Carlo simulation layer checking SLO deltas and rejecting unsafe candidates.
+  - Safe auto-promotion pipeline with governance approval gates and < 100ms regression rollbacks.
+  - Expose cycle metrics and `/playbook/evolution/status` dashboards with human-in-the-loop overrides.
+
 ---
 
 ## 🚀 RewriteLabs.io Product Roadmap

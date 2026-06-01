@@ -92,3 +92,34 @@ Scale infrastructure and build distribution channels.
 - White-label licensing
 
 Deliverables: Production infrastructure, partner pipeline
+
+## Ingestion Intelligence & Playbook Evolution
+
+### Phase 2B — Playbook Evolution Engine
+
+**Status:** Completed (2026-05-31)
+
+Transform the ingestion pipeline from a static extractor chain into a self-optimizing, telemetry-driven playbook engine.
+
+- TelemetryIngestor & PatternAnalyzer rolling z-score analysis
+- EvolutionPlanner mutations & SimulationRunner Monte Carlo forecasting
+- PlaybookPublisher promotion scoring and <100ms rollback hooks
+- `/playbook/*` REST control plane routes registered
+
+Deliverables: Operational self-optimizing playbook engine
+
+### Phase 3 — Continuous Evolution Loop
+
+**Status:** Planned
+
+Continuous, autonomous optimization and governance loops for the ingestion brain.
+
+- **Continuous Telemetry Cycle**: Convert ingestion from batch to scheduled/streaming mode with rolling telemetry checks.
+- **Autonomous Mutation Engine**: Generate candidate playbook mutations continuously (swap, parallelize, prune, gate).
+- **High-Frequency Simulation Layer**: Run fast Monte Carlo simulations for every candidate mutation.
+- **Safe Auto-Promotion Pipeline**: Auto-promote only mutations exceeding improvement thresholds under governance windows.
+- **Drift & Regression Detection**: post-promotion regression checks with <100ms automatic rollbacks.
+- **Observability & Reporting**: Expose evolution metrics and `/playbook/evolution/status` dashboards.
+- **Human-in-the-Loop Controls**: Manual override toggles and cycle approval gates.
+
+Deliverables: Safe streaming continuous self-optimizing ingestion pipeline

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Checking for drift before pushing to remote..."
+
+# Run BOB build to ensure everything is up to date
+cd bob || exit 1
+node bin/bob.js build
+cd ..
+
+# Block push if any uncommitted changes are detected
+if ! git diff --quiet; then
+  echo "--------------------------------------------------------"
+  echo "❌ DRIFT DETECTED: Push blocked."
+  echo "BOB regenerated files that are not committed."
+  echo "Please run 'git commit -am \"BOB auto-update\"' to include them."
+  echo "--------------------------------------------------------"
+  exit 1
+fi
+
+echo "✅ Pre-push verification passed. Push allowed."
+exit 0

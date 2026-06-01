@@ -1,0 +1,9 @@
+{
+  "version": "pb-2026-05-31-9346",
+  "stages": [
+    {
+      "name": "SemanticExtractor",
+      "mode": "serial"
+    }
+  ]
+}

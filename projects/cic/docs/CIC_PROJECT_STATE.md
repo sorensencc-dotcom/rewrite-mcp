@@ -1,5 +1,5 @@
 # CIC_PROJECT_STATE.md
-# v1.4.0 | 2026-05-30 | Status: ACTIVE
+# v1.4.1 | 2026-05-31 | Status: ACTIVE
 
 This document maintains the active development status, version controls, and compliance certifications for the Cast Iron Charlie (CIC) Intelligence Core.
 
@@ -24,6 +24,7 @@ This document maintains the active development status, version controls, and com
 | **RAG Reasoning** | RAG Orchestrator + Contradictions | `v1.3.4` | 🟢 STABLE | Multi-hop planner, polar contradiction checks & audit traces. |
 | **Studio Engine** | Documentary Episode Builder | `v1.4.0` | 🟢 ACTIVE | Autonomous creative story outlines, expanding beats & cinematic bios. |
 | **Automation** | RTK Controls Plane | `v1.2.0` | 🟢 STABLE | Safeguard backpressures, smoke-gates & backoff interventions. |
+| **Token Economy** | Hardened I/O Pipeline | `v1.0.0` | 🟢 HARDENED | 6 core files: bounds enforcement, retry logic, timeout protection, deterministic error envelopes. 11/13 tests passing. |
 
 ---
 
@@ -51,3 +52,6 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 - [x] Integrate **SkillRegistryLoader** for runtime deployment of self-improving skill templates.
 - [x] Incorporate **RedesignAgent** with skill-awareness.
 - [x] Implement synthetic data generation script `cic skillopt:data-gen`.
+- [x] Harden token economy across 6 critical I/O files (llamaClient, ImageAnalyzerV2, reverseImage, audioTranscriber, pmsClient, controller). Deterministic bounds, error envelopes, retry logic. Minimal test suite: 11/13 passing (2 require llama-server environment).
+- [ ] Integrate **ImageAnalyzerV2** extractor into CIC registry (`plan-extractor-integration`).
+- [ ] Remediate systematic codebase corruption (audioTranscriber.js, tokenMeter.js, joplin/client.js, memos/*, ops/*, pipeline/*, server/*).

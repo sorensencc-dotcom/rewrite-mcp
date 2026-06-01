@@ -1,0 +1,19 @@
+{
+  "name": "bob-builder",
+  "version": "1.0.0",
+  "description": "BOB — Unified Builder & Auto-Updater",
+  "type": "module",
+  "bin": {
+    "bob": "./bin/bob.js"
+  },
+  "scripts": {
+    "bob:precommit": "node ./bin/bob.js build && git add -A",
+    "bob:prepush": "node ./bin/bob.js build && git diff --exit-code",
+    "bob:doctor": "node ./bin/bob.js doctor",
+    "bob:daemon": "node ./bin/bob.js daemon"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "glob": "^10.3.10"
+  }
+}

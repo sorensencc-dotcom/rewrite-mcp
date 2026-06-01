@@ -5,15 +5,16 @@ export default defineConfig({
   test: {
     include: [
       'mcp-servers/executive-intelligence-engine/src/**/*.test.js',
-      'tests/**/*.{test,spec}.{js,ts}'
+      'tests/**/*.{test,spec}.{js,ts}',
+      'src/**/*.test.js'
     ],
-   exclude: [
-  'tests/playwright/**',
-  'src/**/worker.js',
-  'src/**/ops/**',
-  '**/*.integration.test.js',
-  'node-tests/**'
-]
+    exclude: [
+      'tests/playwright/**',
+      'src/**/worker.js',
+      'src/**/ops/**',
+      '**/*.integration.test.js',
+      'node-tests/**'
+    ]
 
   }
 });

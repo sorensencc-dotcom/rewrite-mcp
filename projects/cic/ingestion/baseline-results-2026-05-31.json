@@ -1,0 +1,303 @@
+{
+  "metadata": {
+    "date": "2026-05-31T23:03:40.857Z",
+    "sampleCount": 24,
+    "resultsCount": 24
+  },
+  "summary": {
+    "passRate": "16.7%",
+    "avgConsistencyScore": "66.2%",
+    "passCount": 4,
+    "failCount": 20
+  },
+  "results": [
+    {
+      "fileName": "IMG_1511.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.5948334025935279,
+      "metrics": {
+        "description": 0.7103538663171691,
+        "tags": 0.44,
+        "summary": 0.6341463414634146
+      }
+    },
+    {
+      "fileName": "IMG_1512.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6803690814679825,
+      "metrics": {
+        "description": 0.8017751479289941,
+        "tags": 0.5454545454545454,
+        "summary": 0.6938775510204082
+      }
+    },
+    {
+      "fileName": "IMG_1513.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6324458669479707,
+      "metrics": {
+        "description": 0.7543424317617866,
+        "tags": 0.5652173913043478,
+        "summary": 0.5777777777777777
+      }
+    },
+    {
+      "fileName": "IMG_1514.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.7338951775042001,
+      "metrics": {
+        "description": 0.82574568288854,
+        "tags": 0.42857142857142855,
+        "summary": 0.9473684210526315
+      }
+    },
+    {
+      "fileName": "IMG_1515.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6520439073945602,
+      "metrics": {
+        "description": 0.7928388746803069,
+        "tags": 0.46153846153846156,
+        "summary": 0.7017543859649122
+      }
+    },
+    {
+      "fileName": "IMG_1516.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6463822544173458,
+      "metrics": {
+        "description": 0.7772277227722773,
+        "tags": 0.3793103448275862,
+        "summary": 0.782608695652174
+      }
+    },
+    {
+      "fileName": "IMG_1517.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6470204665446667,
+      "metrics": {
+        "description": 0.8327759197324415,
+        "tags": 0.391304347826087,
+        "summary": 0.7169811320754716
+      }
+    },
+    {
+      "fileName": "IMG_1519.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6717214671030973,
+      "metrics": {
+        "description": 0.7256176853055917,
+        "tags": 0.6086956521739131,
+        "summary": 0.6808510638297872
+      }
+    },
+    {
+      "fileName": "IMG_1520.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.578007405493843,
+      "metrics": {
+        "description": 0.6401446654611211,
+        "tags": 0.4,
+        "summary": 0.6938775510204082
+      }
+    },
+    {
+      "fileName": "IMG_1521.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.5162405728443464,
+      "metrics": {
+        "description": 0.6190476190476191,
+        "tags": 0.36363636363636365,
+        "summary": 0.5660377358490566
+      }
+    },
+    {
+      "fileName": "IMG_1522.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.47878787878787876,
+      "metrics": {
+        "description": 0.7037037037037037,
+        "tags": 0.2962962962962963,
+        "summary": 0.43636363636363634
+      }
+    },
+    {
+      "fileName": "IMG_1523.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6488495278772272,
+      "metrics": {
+        "description": 0.7509578544061303,
+        "tags": 0.3103448275862069,
+        "summary": 0.8852459016393442
+      }
+    },
+    {
+      "fileName": "IMG_1524.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": true,
+      "score": 0.9646182495344506,
+      "metrics": {
+        "description": 0.8938547486033519,
+        "tags": 1,
+        "summary": 1
+      }
+    },
+    {
+      "fileName": "IMG_1525.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.7250223624995945,
+      "metrics": {
+        "description": 0.8301886792452831,
+        "tags": 0.5652173913043478,
+        "summary": 0.7796610169491526
+      }
+    },
+    {
+      "fileName": "IMG_1526.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.5892460030391065,
+      "metrics": {
+        "description": 0.7257799671592775,
+        "tags": 0.2692307692307692,
+        "summary": 0.7727272727272727
+      }
+    },
+    {
+      "fileName": "IMG_1527.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": true,
+      "score": 0.9083246255660048,
+      "metrics": {
+        "description": 0.9977011494252873,
+        "tags": 0.7272727272727273,
+        "summary": 1
+      }
+    },
+    {
+      "fileName": "IMG_1528.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": true,
+      "score": 0.8322828980502194,
+      "metrics": {
+        "description": 0.8212389380530973,
+        "tags": 0.7,
+        "summary": 0.975609756097561
+      }
+    },
+    {
+      "fileName": "IMG_1529.JPG",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": true,
+      "score": 0.970291632597438,
+      "metrics": {
+        "description": 0.910874897792314,
+        "tags": 1,
+        "summary": 1
+      }
+    },
+    {
+      "fileName": "Raymond&Grinnell3.jpg",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.529202620200783,
+      "metrics": {
+        "description": 0.6366197183098592,
+        "tags": 0.4782608695652174,
+        "summary": 0.4727272727272727
+      }
+    },
+    {
+      "fileName": "Raymond&Grinnell4.jpg",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.6697883233990524,
+      "metrics": {
+        "description": 0.7510316368638239,
+        "tags": 0.4583333333333333,
+        "summary": 0.8
+      }
+    },
+    {
+      "fileName": "Raymond&Grinnell6.jpg",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.5291871249318058,
+      "metrics": {
+        "description": 0.7692307692307693,
+        "tags": 0.3076923076923077,
+        "summary": 0.5106382978723404
+      }
+    },
+    {
+      "fileName": "RaymondGrinnell1.jpg",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.733661053354148,
+      "metrics": {
+        "description": 0.7899159663865546,
+        "tags": 0.45454545454545453,
+        "summary": 0.9565217391304348
+      }
+    },
+    {
+      "fileName": "RaymondGrinnell2.jpg",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.4425698205190116,
+      "metrics": {
+        "description": 0.6508226691042047,
+        "tags": 0.375,
+        "summary": 0.3018867924528302
+      }
+    },
+    {
+      "fileName": "Research Note-Rosalie Emilie Angelica Sørensen-1847.png",
+      "run1Success": true,
+      "run2Success": true,
+      "consistency": false,
+      "score": 0.5160758781448437,
+      "metrics": {
+        "description": 0.5517241379310345,
+        "tags": 0.22727272727272727,
+        "summary": 0.7692307692307693
+      }
+    }
+  ]
+}

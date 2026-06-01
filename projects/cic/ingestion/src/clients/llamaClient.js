@@ -1,7 +1,7 @@
 /**
  * llamaClient.js
  * @version 1.0.0
- * @date 2026-05-17
+ * @date 2026-05-31
  *
  * Local LLaMA model adapter — Phase 18 §9 (optional).
  * Satisfies the same modelClient contract as modelClient.js:
@@ -31,35 +31,48 @@ export function createLlamaClient() {
      * @returns {Promise<{ text: string, tokens_prompt: number, tokens_completion: number }>}
      */
     async complete({ prompt, max_tokens }) {
-      let res;
-      try {
-        const { default: fetch } = await import('node-fetch');
-        res = await fetch(`${LLAMA_URL}/completion`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({
-            prompt,
-            n_predict: max_tokens,
-            stream: false,
-            temperature: 0.3,
-          }),
-        });
-      } catch (err) {
-        err.message = `[${MODULE}] llama-server request failed: ${err.message}`;
-        throw err;
+      const MAX_RESPONSE_CHARS = max_tokens * 4;
+      const RETRY_ATTEMPTS = 2;
+      const RETRY_BACKOFF_MS = 300;
+
+      for (let attempt = 0; attempt < RETRY_ATTEMPTS; attempt++) {
+        try {
+          const { default: fetch } = await import('node-fetch');
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 15000);
+
+          const res = await fetch(`${LLAMA_URL}/completion`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+              prompt,
+              n_predict: Math.min(max_tokens, 4096),
+              stream: false,
+              temperature: 0.3,
+            }),
+            signal: controller.signal,
+          });
+          clearTimeout(timeout);
+
+          if (!res.ok) {
+            const body = await res.text().catch(() => '');
+            throw new Error(`[${MODULE}] llama-server HTTP ${res.status}: ${body}`);
+          }
+
+          const json = await res.json();
+          const text = (json.content ?? json.text ?? '').substring(0, MAX_RESPONSE_CHARS);
+          const tokens_prompt = json.tokens_evaluated ?? json.prompt_tokens ?? 0;
+          const tokens_completion = Math.min(json.tokens_predicted ?? json.completion_tokens ?? 0, max_tokens);
+
+          return { text, tokens_prompt, tokens_completion };
+        } catch (err) {
+          if (attempt === RETRY_ATTEMPTS - 1) {
+            err.message = `[${MODULE}] llama-server request failed after ${RETRY_ATTEMPTS} attempts: ${err.message}`;
+            throw err;
+          }
+          await new Promise(r => setTimeout(r, RETRY_BACKOFF_MS * (attempt + 1)));
+        }
       }
-
-      if (!res.ok) {
-        const body = await res.text().catch(() => '');
-        throw new Error(`[${MODULE}] llama-server HTTP ${res.status}: ${body}`);
-      }
-
-      const json = await res.json();
-      const text = json.content ?? json.text ?? '';
-      const tokens_prompt     = json.tokens_evaluated ?? json.prompt_tokens ?? 0;
-      const tokens_completion = json.tokens_predicted ?? json.completion_tokens ?? 0;
-
-      return { text, tokens_prompt, tokens_completion };
     },
   };
 }

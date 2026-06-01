@@ -1,0 +1,41 @@
+name: BOB Validation
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  bob-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install BOB dependencies
+        run: |
+          cd bob
+          npm install
+
+      - name: Run BOB build
+        run: |
+          cd bob
+          node bin/bob.js build
+
+      - name: Run BOB tests
+        run: |
+          cd bob
+          npx vitest run tests/bob.test.js
+
+      - name: Check for drift
+        run: |
+          git diff --exit-code || (echo "❌ Drift detected — run 'bob build' locally and commit changes" && exit 1)

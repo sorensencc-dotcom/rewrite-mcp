@@ -155,48 +155,60 @@ export async function run(input) {
   let { prompt } = compiled;
 
   // -------------------------------------------------------------------------
-  // STEP 8 — Token budget enforcement
+  // STEP 8 — Token budget enforcement (hardened)
   // -------------------------------------------------------------------------
-  let maxCompletionTokens = config.completion.maxTokens;
+  const ABSOLUTE_MAX_COMPLETION = config.completion.maxTokens;
+  const FALLBACK_COMPLETION = Math.min(256, config.completion.minTokens);
+
+  let maxCompletionTokens = ABSOLUTE_MAX_COMPLETION;
   let strategy = 'full';
+  let finalPrompt = prompt;
+  let finalEstimatedTokens = compiled.estimated_tokens;
 
-  const total_tokens = compiled.estimated_tokens + config.completion.maxTokens;
+  // Safety: validate compiled prompt doesn't exceed limits BEFORE budget math
+  const maxAllowedPromptTokens = config.limits.hardTokenLimit - config.completion.minTokens;
+  if (compiled.estimated_tokens > maxAllowedPromptTokens) {
+    // Prompt itself is too large; attempt summary-first strategy
+    strategy = 'summary';
+    const shortenInstruction = '\n[IMPORTANT: Keep your answer under 100 words. Be concise.]';
+    const recompiled = promptCompiler.buildPrompt({
+      system_prompt: config.systemPrompt + shortenInstruction,
+      user_input: input_text,
+      context_chunks: reduced.chunks,
+      max_prompt_tokens: Math.max(256, config.prompt.maxTokens / 2), // Shrink prompt budget
+    });
 
+    // Revalidate recompiled prompt
+    if (recompiled.estimated_tokens > maxAllowedPromptTokens) {
+      throw new Error(`[${MODULE}] context + prompt exceeds hardTokenLimit even with summary strategy. ` +
+        `compiled=${recompiled.estimated_tokens}, hardLimit=${config.limits.hardTokenLimit}`);
+    }
+    finalPrompt = recompiled.prompt;
+    finalEstimatedTokens = recompiled.estimated_tokens;
+  }
+
+  // Now enforce completion token budget
+  const total_tokens = finalEstimatedTokens + config.completion.maxTokens;
   if (total_tokens > config.limits.hardTokenLimit) {
-    // Attempt 1: shrink completion window
     maxCompletionTokens = Math.max(
       config.completion.minTokens,
-      config.limits.hardTokenLimit - compiled.estimated_tokens
+      config.limits.hardTokenLimit - finalEstimatedTokens
     );
 
-    const stillOver = compiled.estimated_tokens + maxCompletionTokens > config.limits.hardTokenLimit;
-    if (stillOver) {
-      // Attempt 2: ask model for shorter output
-      strategy = 'summary';
-      const shortenInstruction =
-        '\n[IMPORTANT: Keep your answer under 100 words. Be concise.]';
-
-      const recompiled = promptCompiler.buildPrompt({
-        system_prompt:     config.systemPrompt + shortenInstruction,
-        user_input:        input_text,
-        context_chunks:    reduced.chunks,
-        max_prompt_tokens: config.prompt.maxTokens,
-      });
-      prompt = recompiled.prompt;
-      maxCompletionTokens = Math.max(
-        config.completion.minTokens,
-        config.limits.hardTokenLimit - recompiled.estimated_tokens
-      );
+    // Final check: if hardTokenLimit still exceeded, fail fast
+    if (finalEstimatedTokens + maxCompletionTokens > config.limits.hardTokenLimit) {
+      throw new Error(`[${MODULE}] hardTokenLimit (${config.limits.hardTokenLimit}) exceeded. ` +
+        `estimated_prompt=${finalEstimatedTokens}, max_completion=${maxCompletionTokens}`);
     }
   }
 
   // -------------------------------------------------------------------------
-  // STEP 9 — Call model
+  // STEP 9 — Call model with validated budget
   // -------------------------------------------------------------------------
   const modelResult = await tokenMeter.callModel({
     model:       config.model,
-    prompt,
-    max_tokens:  maxCompletionTokens,
+    prompt:      finalPrompt,
+    max_tokens:  Math.min(maxCompletionTokens, ABSOLUTE_MAX_COMPLETION),
     modelClient: model_client,
     correlation_id,
   });
@@ -285,9 +297,4 @@ function _assertEmbeddingClient(client) {
   if (typeof client?.embedBatch !== 'function') {
     throw new Error(`[${MODULE}] embedding_client must expose .embedBatch(texts)`);
   }
-}
-
-/** Default no-op context loader — returns empty array if caller doesn't provide one. */
-async function _defaultLoadContextChunks(_user_id, _intent) {
-  return [];
 }

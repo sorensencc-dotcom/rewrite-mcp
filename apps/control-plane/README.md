@@ -1,41 +1,73 @@
 # CIC Control Plane
 
-**Version:** 2.3.0 | **Port:** 3000 | **Runtime:** Node.js 20+, CommonJS
+Minimum viable control plane dashboard and strategic subsystem endpoints for CIC orchestration.
 
-Operator-facing HTTP service for the CIC pipeline. Serves the Operator UI and proxies all authenticated API routes.
+## Quick Start
 
-## Routes
+1. **Install dependencies**:
+   ```bash
+   cd apps/control-plane
+   npm install
+   ```
 
-| Route | Description |
-| --- | --- |
-| `GET /health` | Service status (unauthenticated) |
-| `GET /` | Control Room UI |
-| `GET /dashboard` | Observability Dashboard (auth required) |
-| `GET/POST /pipelines/*` | Pipeline management |
-| `GET /pipelines/cic/*` | Intelligence pipeline proxy |
-| `GET /agents/*` | Agent management |
-| `GET /runs/*` | Run history |
-| `GET /metrics/*` | Operational metrics |
-| `GET /telemetry/*` | Prompt telemetry proxy |
-| `GET /mas/blackboard` | MAS blackboard state |
-| `GET/POST /docgen/*` | Documentation engine (Subsystem D) |
+2. **Start the server**:
+   ```bash
+   npm start
+   ```
+   Default port: `3000`
 
-## Auth
+3. **Open the dashboard**:
+   - Navigate to `http://localhost:3000/dashboard`
+   - Or access root health check: `http://localhost:3000/health`
 
-Google ID Token by default. Set `AUTH_DISABLED=true` for local dev.
+## Endpoints
 
-## Env
+### Health & Dashboard
 
-```sh
-PORT                  # default 3000
-GOOGLE_CLIENT_ID      # required unless AUTH_DISABLED=true
-AUTH_DISABLED         # "true" for local dev only
-CIC_INTELLIGENCE_URL  # default http://localhost:4000
-INTELLIGENCE_TOKEN    # shared secret for intelligence service
-ALLOWED_EMAILS        # comma-separated operator emails
-OPERATOR_UI_ORIGIN    # allowed CORS origin (default: http://localhost:8080)
+- `GET /health` — Server health check (returns `{status: 'ok', timestamp}`)
+- `GET /dashboard` — HTML dashboard with system status and strategic endpoints
+
+### Strategic Subsystem (Phase 5)
+
+The Control Plane exposes strategic intent endpoints under `/mcp/strategic/`:
+
+- `GET /mcp/strategic/intent` — Current system intent (SOE: State of Execution)
+- `GET /mcp/strategic/foresight` — Predictive scenarios (PDM: Predictive Decision Model)
+- `GET /mcp/strategic/consensus` — Agent consensus layer (SCL: Strategic Consensus Layer)
+- `GET /mcp/strategic/aoc` — Agent observation & change detection (AOC: Agent Observation Circuit)
+- `GET /mcp/strategic/dashboard` — Full strategic state snapshot
+- `POST /mcp/strategic/alerts` — Push alerts from other subsystems
+
+## Environment Variables
+
+- `PORT` — Server port (default: `3000`)
+- `CP_GOOGLE_CLIENT_ID` — Google OAuth client ID (optional)
+- `CP_ALLOWED_EMAILS` — Comma-separated allowed email list
+- `CP_TELEMETRY_URL` — Telemetry service URL (default: `http://localhost:4310`)
+- `CP_REGION` — Deployment region (default: `us-east`)
+- `CP_AUTH_DISABLED` — Skip auth for development (default: `false`)
+
+## Architecture
+
+- **Express.js** — HTTP server framework
+- **CORS enabled** — Cross-origin requests allowed
+- **JSON API** — RESTful strategic subsystem endpoints
+- **Mock clients** — SOE, PDM, SCL, AOC subsystems return synthetic state
+
+## Launching Both Services
+
+Use the provided PowerShell launcher script:
+
+```powershell
+.\scripts\launch-cic.ps1
 ```
 
-## MAS Blackboard
+This starts:
+1. **Telemetry Service** (port 4310)
+2. **Control Plane** (port 3000)
+3. Opens the dashboard in your default browser
 
-`GET /mas/blackboard` reads `projects/cic/orchestrator/data/mas-blackboard.json` directly from disk — a file-system bridge between the ESM orchestrator process and this CJS service.
+## Related Services
+
+- **Telemetry** (`tools/prompt-telemetry`) — Event tracking and metrics on port 4310
+- **CIC Main** (`projects/cic`) — Full ingestion pipeline and strategic layer

@@ -1,0 +1,490 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>CIC Stability Dashboard</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        :root {
+          --bg-app: #050608;
+          --bg-panel: #0C0F13;
+          --bg-surface: #151922;
+          --border-subtle: #262C3A;
+          --accent: #00ff88;
+          --accent-info: #4F8BFF;
+          --accent-good: #4CAF50;
+          --accent-warn: #F5A623;
+          --accent-bad: #F55555;
+          --text-primary: #F5F7FA;
+          --text-secondary: #A4A9B6;
+          --text-muted: #6B7280;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          font-family: "JetBrains Mono", Menlo, monospace;
+          background: var(--bg-app);
+          color: var(--text-primary);
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+        .header {
+          background: var(--bg-panel);
+          border: 1px solid var(--border-subtle);
+          padding: 24px;
+          border-radius: 4px;
+          margin-bottom: 24px;
+        }
+        .header h1 { font-size: 24px; margin-bottom: 8px; color: var(--text-primary); }
+        .header p { font-size: 14px; color: var(--text-secondary); }
+
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .metric-card {
+          background: var(--bg-surface);
+          border-left: 4px solid var(--accent);
+          padding: 16px;
+          border-radius: 4px;
+          border: 1px solid var(--border-subtle);
+        }
+        .metric-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; }
+        .metric-value { font-size: 24px; font-weight: bold; color: var(--text-primary); }
+
+        .section {
+          background: var(--bg-panel);
+          border: 1px solid var(--border-subtle);
+          padding: 16px;
+          border-radius: 4px;
+          margin-bottom: 24px;
+        }
+        .section h2 { font-size: 18px; margin-bottom: 16px; color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        thead th { background: var(--bg-surface); padding: 12px; text-align: left; color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); }
+        tbody td { padding: 12px; border-bottom: 1px solid var(--border-subtle); color: var(--text-primary); }
+        tbody tr:hover { background: var(--bg-surface); }
+
+        .chart-container { margin: 24px 0; }
+        .bar-chart { display: flex; flex-direction: column; gap: 12px; }
+        .bar-item { display: flex; align-items: center; gap: 12px; }
+        .bar-label { width: 120px; font-size: 12px; color: var(--text-secondary); }
+        .bar { flex: 1; height: 20px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 4px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.3s; }
+        .bar-value { font-size: 12px; color: var(--text-secondary); margin-left: 8px; min-width: 40px; }
+
+        .footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 40px; padding: 20px; border-top: 1px solid var(--border-subtle); }
+
+        .status-stable { color: var(--accent-good); }
+        .status-warning { color: var(--accent-warn); }
+        .status-critical { color: var(--accent-bad); }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>CIC STABILITY DASHBOARD</h1>
+          <p>ImageAnalyzer baseline consistency analysis</p>
+        </div>
+
+        <div class="metrics">
+          <div class="metric-card">
+            <div class="metric-label">Pass Rate</div>
+            <div class="metric-value status-stable">16.7%</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">4/24 images</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Avg Consistency</div>
+            <div class="metric-value">66.2%</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">Overall score</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Stable Images</div>
+            <div class="metric-value status-stable">4</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">Consistency ≥ 0.80</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Unstable Images</div>
+            <div class="metric-value status-critical">20</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">Consistency < 0.80</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>PER-IMAGE BREAKDOWN</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th style="text-align: center; width: 150px;">Consistency</th>
+                <th style="text-align: center; width: 120px;">Status</th>
+                <th style="text-align: center; width: 60px;">Pass</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1511.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">59.5%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1512.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">68.0%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1513.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">63.2%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1514.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623; font-weight: bold;">73.4%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623;">⚠ MODERATE-DRIFT</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1515.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">65.2%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1516.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">64.6%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1517.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">64.7%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1519.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">67.2%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1520.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">57.8%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1521.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">51.6%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1522.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">47.9%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1523.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">64.9%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1524.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50; font-weight: bold;">96.5%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50;">✓ STABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✓
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1525.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623; font-weight: bold;">72.5%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623;">⚠ MODERATE-DRIFT</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1526.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">58.9%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1527.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50; font-weight: bold;">90.8%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50;">✓ STABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✓
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1528.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623; font-weight: bold;">83.2%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623;">≈ MINOR-DRIFT</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✓
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">IMG_1529.JPG</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50; font-weight: bold;">97.0%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #4CAF50;">✓ STABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✓
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Raymond&amp;Grinnell3.jpg</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">52.9%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Raymond&amp;Grinnell4.jpg</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">67.0%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Raymond&amp;Grinnell6.jpg</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">52.9%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">RaymondGrinnell1.jpg</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623; font-weight: bold;">73.4%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F5A623;">⚠ MODERATE-DRIFT</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">RaymondGrinnell2.jpg</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">44.3%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+        <tr>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Research Note-Rosalie Emilie Angelica Sørensen-1847.png</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555; font-weight: bold;">51.6%</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            <span style="color: #F55555;">✗ UNSTABLE</span>
+          </td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+            ✗
+          </td>
+        </tr>
+      
+            </tbody>
+          </table>
+        </div>
+
+        
+    <div class="section">
+      <h2>STABILITY DISTRIBUTION</h2>
+      <div class="bar-chart">
+        <div class="bar-item">
+          <div class="bar-label">Stable (≥90%)</div>
+          <div class="bar">
+            <div class="bar-fill" style="width: 12.5%; background: var(--accent-good);"></div>
+          </div>
+          <div class="bar-value">3</div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-label">Minor Drift (80–89%)</div>
+          <div class="bar">
+            <div class="bar-fill" style="width: 4.166666666666666%; background: var(--accent-warn);"></div>
+          </div>
+          <div class="bar-value">1</div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-label">Moderate (70–79%)</div>
+          <div class="bar">
+            <div class="bar-fill" style="width: 12.5%; background: var(--accent-warn);"></div>
+          </div>
+          <div class="bar-value">3</div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-label">Unstable (<70%)</div>
+          <div class="bar">
+            <div class="bar-fill" style="width: 70.83333333333334%; background: var(--accent-bad);"></div>
+          </div>
+          <div class="bar-value">17</div>
+        </div>
+      </div>
+    </div>
+  
+
+        <div class="footer">
+          <p>Generated 5/31/2026, 7:03:40 PM</p>
+          <p>CIC Phase 3 — ImageAnalyzer Stability Suite</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  

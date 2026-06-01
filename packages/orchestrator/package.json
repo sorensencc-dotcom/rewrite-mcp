@@ -1,0 +1,31 @@
+{
+  "name": "@cic/orchestrator",
+  "version": "1.0.0",
+  "description": "CIC orchestration engines — regions, rollout, arbitration, drift, expansion, federation, cognition",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./regions": "./src/regions/index.mjs",
+    "./rollout": "./src/rollout/index.mjs",
+    "./arbitration": "./src/arbitration/index.mjs",
+    "./drift": "./src/drift/index.mjs",
+    "./expansion": "./src/expansion/index.mjs",
+    "./federation": "./src/federation/index.mjs",
+    "./cognition": "./src/cognition/index.mjs"
+  },
+  "files": [
+    "src",
+    "index.mjs"
+  ],
+  "keywords": [
+    "cic",
+    "orchestrator",
+    "regions",
+    "rollout",
+    "arbitration"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -126,7 +126,30 @@ function _extractTokens(raw, model) {
       tokens_completion: raw.usage.output_tokens ?? 0,
     };
   }
-  // Fallback — log warning but do not throw; usage is non-critical path
-  console.warn(`[${MODULE}] token counts unavailable from response (model=${model}); defaulting to 0`);
-  return { tokens_prompt: 0, tokens_completion: 0 };
+
+  // Fallback: fail-open with text-based estimation + telemetry
+  // When token counts are missing from response, estimate from completion text
+  // This is a token UNDERESTIMATION (conservative; 4 chars/token instead of ~1.3)
+  // Emit telemetry so we can track how often this happens and on which models
+  const completionText = _extractText(raw, model) || '';
+  const estimatedTokens = Math.ceil(completionText.length / 4); // Conservative: 4 chars/token
+
+  emitModelCall({
+    event: 'TOKEN_COUNT_FALLBACK',
+    model,
+    reason: 'No token counts in model response',
+    estimated_tokens: estimatedTokens,
+    completion_text_length: completionText.length,
+    response_shape: _describeResponseShape(raw),
+  });
+
+  console.warn(`[${MODULE}] token counts unavailable from response (model=${model}); ` +
+    `using text-based estimation (${completionText.length} chars → ${estimatedTokens} tokens estimated)`);
+
+  return { tokens_prompt: 0, tokens_completion: estimatedTokens };
+}
+
+function _describeResponseShape(raw) {
+  const keys = Object.keys(raw).sort().join(',');
+  return keys.substring(0, 100); // Truncate for telemetry
 }

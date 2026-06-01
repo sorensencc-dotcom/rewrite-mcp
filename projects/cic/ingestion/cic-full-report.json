@@ -1,0 +1,12 @@
+{
+  "baselineFile": "baseline-results-2026-05-31.json",
+  "summary": {
+    "passRate": "16.7%",
+    "avgConsistencyScore": "66.2%",
+    "passCount": 4,
+    "failCount": 20
+  },
+  "heatmapPath": "/mnt/c/dev/rewrite-mcp/projects/cic/ingestion/cic-heatmap.json",
+  "dashboardPath": "/mnt/c/dev/rewrite-mcp/projects/cic/ingestion/cic-stability-dashboard.html",
+  "generatedAt": "2026-05-31T23:03:41.203Z"
+}

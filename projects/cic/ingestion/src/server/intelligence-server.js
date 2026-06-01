@@ -25,6 +25,14 @@ import crypto         from 'node:crypto';
 import { ask, ingestChunk } from '../llm/index.js';
 import { runPipeline }      from '../pipeline/run-pipeline.js';
 import { log }              from '../logging/logger.js';
+import {
+  loadCurrentPlaybook,
+  getPlaybookHistory,
+  simulateCandidate,
+  promotePlaybook,
+  rollbackPlaybook,
+  evolvePlaybookCycle
+} from '../playbook/index.js';
 
 const PORT    = parseInt(process.env.PORT ?? '4000', 10);
 const TOKEN   = process.env.INTELLIGENCE_TOKEN;  // optional shared secret
@@ -141,6 +149,53 @@ async function handlePipeline(req, res) {
   send(res, 200, { correlation_id, ...result });
 }
 
+async function handlePlaybookCurrent(req, res) {
+  const playbook = await loadCurrentPlaybook();
+  send(res, 200, playbook);
+}
+
+async function handlePlaybookHistory(req, res) {
+  const history = await getPlaybookHistory();
+  send(res, 200, { history });
+}
+
+async function handlePlaybookSimulate(req, res) {
+  const body = await readBody(req);
+  const { candidate, N = 500 } = body;
+  
+  if (!candidate || !candidate.playbook) {
+    return send(res, 400, { error: 'candidate.playbook is required for simulation' });
+  }
+
+  const current = await loadCurrentPlaybook();
+  const simResult = await simulateCandidate(candidate, [], current, N);
+  send(res, 200, simResult);
+}
+
+async function handlePlaybookPromote(req, res) {
+  const body = await readBody(req);
+  const { rollback, playbook, score = 1.0, mutation = 'manual' } = body;
+
+  if (rollback) {
+    const result = await rollbackPlaybook();
+    return send(res, result.success ? 200 : 400, result);
+  }
+
+  if (!playbook || !playbook.version) {
+    return send(res, 400, { error: 'playbook with a valid version is required for promotion' });
+  }
+
+  const result = await promotePlaybook(playbook, score, mutation);
+  send(res, 200, { promoted: true, ...result });
+}
+
+async function handlePlaybookEvolve(req, res) {
+  const body = await readBody(req);
+  const { minEvents = 5, N = 500 } = body;
+  const result = await evolvePlaybookCycle({ minEvents, N });
+  send(res, 200, result);
+}
+
 // ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
@@ -151,6 +206,11 @@ const ROUTES = {
   'POST /ask':      handleAsk,
   'POST /ingest':   handleIngest,
   'POST /pipeline': handlePipeline,
+  'GET /playbook/current':  handlePlaybookCurrent,
+  'GET /playbook/history':  handlePlaybookHistory,
+  'POST /playbook/simulate': handlePlaybookSimulate,
+  'POST /playbook/promote':  handlePlaybookPromote,
+  'POST /playbook/evolve':   handlePlaybookEvolve,
 };
 
 // ---------------------------------------------------------------------------
