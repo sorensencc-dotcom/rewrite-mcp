@@ -486,6 +486,39 @@ See detailed roadmap below.
 
 ---
 
+## **PHASE 22 — Autonomous Roadmap & Prompt Sandbox (ARPS)**  
+*CIC controls its own system prompts, agent instructions, and roadmaps in a secure, Git-first environment.*
+
+<!-- ARPS:PHASE_22:BEGIN -->
+- **Registry-Backed Prompt Sandbox**: Version system prompts and enforce immutability checks via `registry.yaml` with a cosine similarity floor and a 0.85 Jaccard fallback safety gate.
+- **Roadmap Harvester Agent**: Extract structured deltas from git history log messages, task lists, and telemetry/test runs.
+- **Roadmap Synthesizer Agent**: Safely rewrite fenced sections of `CIC_MASTER_ROADMAP.md` and `CIC_PROJECT_STATE.md` with markdown integrity validation.
+- **Closed-Loop CLI Pipeline**: Automate the harvesting → synthesizing → sandboxing → git commit/docs verification loop.
+
+**Status:** ✅ COMPLETED  
+**Outcome:** CIC maintains its planning, code, and prompt state deterministically without external drift.
+<!-- ARPS:PHASE_22:END -->
+
+---
+
+## **PHASE 23 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)**  
+*CIC establishes a durable, queryable memory substrate enabling agents to reason over historical deltas and autogenously propose roadmap evolutions.*
+
+<!-- MLA:PHASE_23:BEGIN -->
+- **23.1 — Memory Substrate Specification (MLA‑Spec)**: Define schema (JSONL/sqlite), event types (`roadmap.delta`, `pipeline.run`, `sandbox.decision`, etc.), retention rules, and access/write governance.
+- **23.2 — Memory Harvester Agent (MLA‑Harvester)**: Append structured events from ARPS runs, pipeline results, dashboard metrics, and sandbox decisions.
+- **23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)**: Condense memory logs periodically to generate weekly/monthly reports, subsystem regressions, and prompt drift trends.
+- **23.4 — Memory‑Aware Agents (MLA‑Integration)**: Upgrade existing agents (harvesters, synthesizers, stability dashboards) to query historical context.
+- **23.5 — Memory Query API (MLA‑API)**: Implement read-only REST query endpoints (`GET /v1/memory/events`, `/v1/memory/trends`).
+- **23.6 — Memory Visualization (MLA‑UI)**: Add a Memory Explorer panel in the Command Center displaying timelines and prompt drift charts.
+- **23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)**: Empower CIC to dynamically analyze logs and self-propose new roadmap stabilization and correction phases.
+
+**Status:** PENDING  
+**Outcome:** CIC gains temporal continuity and the capability for self-reflection and self-directed planning.
+<!-- MLA:PHASE_23:END -->
+
+---
+
 # **🌐 CIC × ECC Adoption Roadmap (Full Program)**  
 ### *From deterministic pipelines → governed evolution → multi‑region intelligence network*
 
@@ -691,5 +724,7 @@ PHASE 3.2 — next
 PHASE 4 — queued  
 PHASE 5 — future  
 PHASE 6 — long‑term convergence  
+PHASE 22 (ARPS) — ✔ (complete)  
+PHASE 23 (MLA) — next (queued)
 ```
 

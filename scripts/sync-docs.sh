@@ -12,7 +12,9 @@ echo "== [DocSync] Starting Documentation Synchronization (Reorg v2) =="
 # 1. Sync Project (CIC) Docs
 echo "[DocSync] Syncing CIC Project Docs..."
 mkdir -p "$DOCS_DIR/cic"
-cp "$ROOT_DIR/projects/cic/docs"/*.md "$DOCS_DIR/cic/" 2>/dev/null || echo "[DocSync] Warning: No CIC source docs found."
+# Copy all markdown files except CIC_PROJECT_STATE.md and CIC_SYSTEM.md which are deprecated/moved to docs/cic
+find "$ROOT_DIR/projects/cic/docs" -maxdepth 1 -name "*.md" ! -name "CIC_PROJECT_STATE.md" ! -name "CIC_SYSTEM.md" -exec cp {} "$DOCS_DIR/cic/" \; 2>/dev/null || echo "[DocSync] Warning: No CIC source docs found."
+
 
 # 2. Sync Platform Architecture
 echo "[DocSync] Syncing Platform Architecture Docs..."

@@ -1,0 +1,15 @@
+prompts:
+  - id: cic.system.core
+    path: templates/system/core.prompt.md
+    owner: CIC-SYSTEM
+    min_similarity: 0.90
+
+  - id: cic.agent.roadmap.harvester
+    path: templates/agents/roadmap-harvester.prompt.md
+    owner: CIC-SYSTEM
+    min_similarity: 0.88
+
+  - id: cic.agent.roadmap.synthesizer
+    path: templates/agents/roadmap-synthesizer.prompt.md
+    owner: CIC-SYSTEM
+    min_similarity: 0.88

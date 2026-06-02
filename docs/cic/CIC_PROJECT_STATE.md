@@ -15,6 +15,7 @@ This document maintains the active development status, version controls, and com
 
 ## 2. Component Health Ledger
 
+<!-- ARPS:HEALTH_LEDGER:BEGIN -->
 | Pillar | Subsystem | Version | Status | Scoped Details |
 | :--- | :--- | :--- | :---: | :--- |
 | **Ingestion** | Harvester + Extractor Chain | `v1.2.0` | 🟢 STABLE | Threaded multi-pass composer resolving context pipelines. |
@@ -28,6 +29,11 @@ This document maintains the active development status, version controls, and com
 | **Optimization** | Autonomous Optimizer (Phase 10) | `v10.0.0` | 🟢 STABLE | O1→O5 loops, load maps, weight mutations. |
 | **Meta-Evolution** | Reflexive Meta-Evolution (Phase 11) | `v11.0.0` | 🟢 ACTIVE | M1→M5 meta-loops, dynamic thresholds, strategy retirement, topology rules. |
 | **Evolution** | Instinct Lifecycle (Phase 3.0) | `v1.0.0` | 🟢 ACTIVE | proposed → canary → active → rejected patch governance on disk. |
+| **ARPS** | Prompt Sandbox | `v1.0.0` | 🟢 ACTIVE | Registry-backed drift gates, ownership rules, fallback Jaccard checks. |
+| **ARPS** | Harvester + Synthesizer Agents | `v1.0.0` | 🟢 ACTIVE | Git-log parsing, task/telemetry checks, fenced markdown updates. |
+| **MLA** | Memory Substrate & API | `v0.0.0` | 🟡 PLANNED | Durable memory ledger, query API, and Command Center panel. |
+| **MLA** | Memory Harvester + Synthesizer | `v0.0.0` | 🟡 PLANNED | Memory-aware agents gathering timelines and condensing drift logs. |
+<!-- ARPS:HEALTH_LEDGER:END -->
 
 ---
 
@@ -52,5 +58,17 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 ---
 
 ## 4. Next Development Ascent
+
+<!-- ARPS:NEXT_ASCENT:BEGIN -->
 - [x] Implement Phase 3.0: Instinct Lifecycle (Proposed → Canary → Accepted)
+- [x] Integrate **SkillRegistryLoader** for runtime deployment of self-improving skill templates.
+- [x] Incorporate **RedesignAgent** with skill-awareness.
+- [x] Implement synthetic data generation script `cic skillopt:data-gen`.
+- [x] Harden token economy across 6 critical I/O files (llamaClient, ImageAnalyzerV2, reverseImage, audioTranscriber, pmsClient, controller). Deterministic bounds, error envelopes, retry logic. Minimal test suite: 11/13 passing (2 require llama-server environment).
+- [x] Implement Phase 22: Autonomous Roadmap & Prompt Sandbox (ARPS)
 - [ ] Implement Phase 3.1: Skill SLO Engine (Latency p95 & Error Rate Guardrails)
+- [ ] Implement Phase 3.2: Drift‑Aware Evolution Engine
+- [ ] Integrate **ImageAnalyzerV2** extractor into CIC registry (`plan-extractor-integration`).
+- [ ] Remediate systematic codebase corruption (audioTranscriber.js, tokenMeter.js, joplin/client.js, memos/*, ops/*, pipeline/*, server/*).
+- [ ] Implement Phase 23: CIC Memory Layer & Long‑Horizon Autonomy (MLA)
+<!-- ARPS:NEXT_ASCENT:END -->

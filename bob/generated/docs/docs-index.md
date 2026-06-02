@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-02T03:19:53.110Z
+Generated at: 2026-06-02T23:24:18.778Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -102,6 +102,8 @@ Generated at: 2026-06-02T03:19:53.110Z
 - [CIC_AI_RUNTIME_CONTRACT.md](docs/cic/CIC_AI_RUNTIME_CONTRACT.md)
 - [cic-master-roadmap.md](docs/cic/cic-master-roadmap.md)
 - [cic-docs-index.md](docs/cic/cic-docs-index.md)
+- [ARPS_OPERATOR_MANUAL.md](docs/cic/ARPS_OPERATOR_MANUAL.md)
+- [ARPS_ONBOARDING.md](docs/cic/ARPS_ONBOARDING.md)
 - [antigravity_coherence_contract_template_v1.0.0.md](docs/cic/antigravity_coherence_contract_template_v1.0.0.md)
 - [task_extractor.md](docs/cic/manuals/task_extractor.md)
 - [replay_engine.md](docs/cic/manuals/replay_engine.md)

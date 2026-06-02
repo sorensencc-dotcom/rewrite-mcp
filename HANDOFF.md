@@ -1,5 +1,27 @@
 # HANDOFF.md — rewrite-mcp Monorepo
-# Updated: 2026-06-01 | Tool: gemini
+# Updated: 2026-06-02 | Tool: gemini
+
+---
+
+## This Session: Phase 22 Autonomous Roadmap & Prompt Sandbox (ARPS) (Gemini)
+
+**What changed**
+- Resolved diverged docs: Performed three-way merge of nested completed tasks into the canonical `docs/cic/CIC_PROJECT_STATE.md` and added HTML comments for update fencing. Deprecated nested `projects/cic/docs/CIC_PROJECT_STATE.md` and `projects/cic/docs/CIC_SYSTEM.md` with stubs.
+- Updated System Docs: Appended Phase 22 (ARPS) track to `docs/cic/CIC_MASTER_ROADMAP.md` and added Section 17 ARPS architecture to `docs/cic/CIC_SYSTEM.md` (bumped to version `12.0.0`).
+- Created registry: Configured `projects/cic/pms/registry.yaml` with prompt IDs, file paths, owners (`CIC-SYSTEM`), and similarity bounds.
+- Implemented Prompt Sandbox: Added `PromptSandbox` checking registry template changes, enforcing roles, and calculating Cosine similarity with an automatic 0.85-floor Jaccard similarity fallback for offline/test executions.
+- Implemented Harvester Agent: Added `RoadmapHarvester` parsing conventional git commit prefixes, task checkboxes, and test summary results to output `delta-<timestamp>.json` artifacts.
+- Implemented Synthesizer Agent: Added `RoadmapSynthesizer` replacing fenced documentation sections securely with structural integrity checks (row/column counts, balanced code blocks).
+- Implemented Closed-Loop Pipeline: Added `RoadmapPipeline` managing the run sequence, executing sandbox and registry gates, building docs, and creating commits dynamically.
+- Implemented vitest suite: Added `projects/cic/tests/agents/roadmapping.test.ts` covering sandbox authorization, registry owner constraints, fallback Jaccard drift checks, fenced markdown updates, and golden scenario dry-runs.
+- Wired Runtime Integration: Exposed `/v1/arps/status` and `/v1/arps/run` API endpoints in `projects/cic/src/cic/control-plane/v1-router.ts`.
+- Wired Runtime Scheduler: Created `projects/cic/src/runtime/scheduler.ts` setting up the background cron task framework and registering the hourly ARPS dry-run refresh task.
+- Created Operator Documentation: Wrote the [ARPS Operator Manual](file:///c:/dev/rewrite-mcp/docs/cic/ARPS_OPERATOR_MANUAL.md) and [ARPS Onboarding Guide](file:///c:/dev/rewrite-mcp/docs/cic/ARPS_ONBOARDING.md) to detail commands, files, and safety gates.
+- Updated Doc Backup Archive: Ran the backup compression command `tar -czf docs-backup.tar.gz` from the workspace root to archive all new manuals and specs.
+
+**Tests**
+- Vitest suite (`npm test -- tests/agents/roadmapping.test.ts`): **PASS** (all assertions and subsystems validated)
+- Docs build suite (`npm run build-docs`): **PASS** (successful compilation and link verification)
 
 ---
 
