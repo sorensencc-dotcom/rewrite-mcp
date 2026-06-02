@@ -15,6 +15,7 @@ import { computeTemporalConsistency } from './engine/TemporalConsistencyEngine.j
 import { computeCausalReasoning } from './engine/CausalReasoningEngine.js';
 import { computeNarrativeImpact } from './engine/NarrativeImpactEngine.js';
 import { computeCompositeReasoning } from './engine/CompositeReasoningEngine.js';
+import { computeArlConfidence } from './engine/ConfidenceModel.js';
 import { synthesizeVerdict } from './engine/VerdictSynthesizer.js';
 import { getArlTraceStore, ArlTraceRecord, ArlTraceQuery, ArlTraceStatistics } from './traces/ArlTraceStore.js';
 
@@ -26,6 +27,7 @@ export { TemporalConsistency } from './contracts/TemporalConsistency.js';
 export { CausalReasoning } from './contracts/CausalReasoning.js';
 export { NarrativeImpact } from './contracts/NarrativeImpact.js';
 export { CompositeReasoning } from './contracts/CompositeReasoning.js';
+export { ArlConfidence } from './contracts/Confidence.js';
 export {
   ArlTraceRecord,
   ArlTraceQuery,
@@ -53,6 +55,8 @@ export async function runArl(packet: ReasoningPacket): Promise<ReasoningVerdict>
     narrative
   );
 
+  const confidence = computeArlConfidence(composite);
+
   const verdict = synthesizeVerdict(
     packet,
     scores,
@@ -62,7 +66,8 @@ export async function runArl(packet: ReasoningPacket): Promise<ReasoningVerdict>
     temporal,
     causal,
     narrative,
-    composite
+    composite,
+    confidence
   );
 
   // Record verdict in trace store

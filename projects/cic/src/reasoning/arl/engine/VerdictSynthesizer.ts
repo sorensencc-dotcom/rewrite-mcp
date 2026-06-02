@@ -8,6 +8,7 @@ import { TemporalConsistency } from '../contracts/TemporalConsistency';
 import { CausalReasoning } from '../contracts/CausalReasoning';
 import { NarrativeImpact } from '../contracts/NarrativeImpact';
 import { CompositeReasoning } from '../contracts/CompositeReasoning';
+import { ArlConfidence } from '../contracts/Confidence';
 
 export function synthesizeVerdict(
   packet: ReasoningPacket,
@@ -18,7 +19,8 @@ export function synthesizeVerdict(
   temporal: TemporalConsistency,
   causal: CausalReasoning,
   narrative: NarrativeImpact,
-  composite: CompositeReasoning
+  composite: CompositeReasoning,
+  confidence: ArlConfidence
 ): ReasoningVerdict {
   if (scores.length === 0) {
     return {
