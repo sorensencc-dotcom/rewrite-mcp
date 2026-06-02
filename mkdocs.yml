@@ -37,6 +37,7 @@ nav:
   - "CIC: GAP-008 Sociological Dept Conflict": GAP-008_Narrative_Gap_Report.md
   - "CIC: Project State": cic/CIC_PROJECT_STATE.md
   - "CIC: Master Roadmap": cic/CIC_MASTER_ROADMAP.md
+  - "CIC: Phase 23 MLA Roadmap": cic/MLA_ROADMAP.md
   - "CIC: Master Spec": cic/CIC_MASTER_SPEC.md
   - "CIC: Dashboard Integration": cic/CIC_Dashboard_Integration.md
   - "CIC Manual: Ops Console": cic/manuals/ops_console.md

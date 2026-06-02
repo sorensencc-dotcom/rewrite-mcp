@@ -13,6 +13,7 @@ Foundational documents defining the CIC subsystem architecture and current state
 - **[System Overview](CIC_SYSTEM.md)**: Architectural blueprint of the CIC ingestion and orchestration pipeline.
 - **[Project State](CIC_PROJECT_STATE.md)**: Live health report, connectivity status, and subsystem health gauges.
 - **[Master Roadmap](CIC_MASTER_ROADMAP.md)**: Long-term trajectory from archival research to distribution.
+- **[Phase 23 MLA Roadmap](MLA_ROADMAP.md)**: Detailed specification for the Memory Layer & Long-Horizon Autonomy.
 
 ---
 

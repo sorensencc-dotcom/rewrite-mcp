@@ -505,13 +505,30 @@ See detailed roadmap below.
 *CIC establishes a durable, queryable memory substrate enabling agents to reason over historical deltas and autogenously propose roadmap evolutions.*
 
 <!-- MLA:PHASE_23:BEGIN -->
-- **23.1 — Memory Substrate Specification (MLA‑Spec)**: Define schema (JSONL/sqlite), event types (`roadmap.delta`, `pipeline.run`, `sandbox.decision`, etc.), retention rules, and access/write governance.
-- **23.2 — Memory Harvester Agent (MLA‑Harvester)**: Append structured events from ARPS runs, pipeline results, dashboard metrics, and sandbox decisions.
-- **23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)**: Condense memory logs periodically to generate weekly/monthly reports, subsystem regressions, and prompt drift trends.
-- **23.4 — Memory‑Aware Agents (MLA‑Integration)**: Upgrade existing agents (harvesters, synthesizers, stability dashboards) to query historical context.
-- **23.5 — Memory Query API (MLA‑API)**: Implement read-only REST query endpoints (`GET /v1/memory/events`, `/v1/memory/trends`).
-- **23.6 — Memory Visualization (MLA‑UI)**: Add a Memory Explorer panel in the Command Center displaying timelines and prompt drift charts.
-- **23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)**: Empower CIC to dynamically analyze logs and self-propose new roadmap stabilization and correction phases.
+### Goal
+Establish a durable, queryable memory substrate enabling CIC to reason over its own history, detect long-term patterns, and autonomously propose roadmap evolution.
+
+### Milestones
+- **23.1 — Memory Substrate Specification (MLA‑Spec)**  
+  Define schemas, event types, retention rules, and governance.
+
+- **23.2 — Memory Harvester Agent (MLA‑Harvester)**  
+  Append structured events from ARPS, pipelines, dashboards, and agents.
+
+- **23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)**  
+  Generate weekly summaries, monthly evolution reports, and drift detection.
+
+- **23.4 — Memory‑Aware Agents (MLA‑Integration)**  
+  Upgrade ARPS, Stability Dashboard, and Command Center to use memory.
+
+- **23.5 — Memory Query API (MLA‑API)**  
+  Provide read-only endpoints for agents and operators.
+
+- **23.6 — Memory Visualization (MLA‑UI)**  
+  Add a Memory Explorer panel to the Command Center.
+
+- **23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)**  
+  CIC begins proposing roadmap updates based on historical patterns.
 
 **Status:** PENDING  
 **Outcome:** CIC gains temporal continuity and the capability for self-reflection and self-directed planning.
