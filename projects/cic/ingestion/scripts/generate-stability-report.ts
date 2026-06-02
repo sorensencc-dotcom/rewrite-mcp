@@ -1,10 +1,18 @@
 import { runArl, ArlInput, Verdict } from '../src/reasoning/arl/index';
+import { DEFAULT_WEIGHTS } from '../src/reasoning/arl/engine/WeightingModel';
 
 interface StabilityReport {
   timestamp: string;
   arl: {
     verdict: Verdict;
     trace: any[];
+    weights: {
+      coherence: number;
+      semantic: number;
+      temporal: number;
+      causal: number;
+      narrative: number;
+    };
   };
 }
 
@@ -18,6 +26,7 @@ export async function generateStabilityReport(
     arl: {
       verdict,
       trace: verdict.reasoningTrace || [],
+      weights: DEFAULT_WEIGHTS,
     },
   };
 

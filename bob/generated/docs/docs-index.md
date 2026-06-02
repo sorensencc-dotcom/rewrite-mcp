@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-02T02:36:04.675Z
+Generated at: 2026-06-02T02:45:13.769Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -369,6 +369,7 @@ Generated at: 2026-06-02T02:36:04.675Z
 - [AGENTS.md](projects/cic/ingestion/AGENTS.md)
 - [README.md](projects/cic/ingestion/src/validators/README.md)
 - [README.md](projects/cic/ingestion/src/scoring/README.md)
+- [WEIGHTING_INTEGRATION.md](projects/cic/ingestion/src/reasoning/arl/WEIGHTING_INTEGRATION.md)
 - [INTEGRATION_GUIDE.md](projects/cic/ingestion/src/pipeline/INTEGRATION_GUIDE.md)
 - [ARL_INTEGRATION.md](projects/cic/ingestion/src/dashboard/ARL_INTEGRATION.md)
 - [cic-token-economy-validator.md](projects/cic/ingestion/skills/cic-token-economy-validator.md)
