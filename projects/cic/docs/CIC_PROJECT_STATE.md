@@ -1,15 +1,15 @@
 # CIC_PROJECT_STATE.md
-# v1.4.1 | 2026-05-31 | Status: ACTIVE
+# v1.5.0 | 2026-06-01 | Status: ACTIVE
 
 This document maintains the active development status, version controls, and compliance certifications for the Cast Iron Charlie (CIC) Intelligence Core.
 
 ---
 
 ## 1. Version Controls
-- **Core System Version**: `v1.4.0` (Multi-Tenant platform & Documentary Episode Builder Studio)
+- **Core System Version**: `v1.5.0` (Reflexive Meta-Evolution Engine & Self-Designing Optimizer)
 - **API Specification**: `/v1` public REST API
-- **Last Verification Run**: 2026-05-30
-- **Test Integrity**: **128 / 128 tests passing (100% compliance)**
+- **Last Verification Run**: 2026-06-01
+- **Test Integrity**: **148 / 148 tests passing (100% compliance)**
 
 ---
 
@@ -25,6 +25,8 @@ This document maintains the active development status, version controls, and com
 | **Studio Engine** | Documentary Episode Builder | `v1.4.0` | 🟢 ACTIVE | Autonomous creative story outlines, expanding beats & cinematic bios. |
 | **Automation** | RTK Controls Plane | `v1.2.0` | 🟢 STABLE | Safeguard backpressures, smoke-gates & backoff interventions. |
 | **Token Economy** | Hardened I/O Pipeline | `v1.0.0` | 🟢 HARDENED | 6 core files: bounds enforcement, retry logic, timeout protection, deterministic error envelopes. 11/13 tests passing. |
+| **Optimization** | Autonomous Optimizer (Phase 10) | `v10.0.0` | 🟢 STABLE | O1→O5 loops, load maps, weight mutations. |
+| **Meta-Evolution** | Reflexive Meta-Evolution (Phase 11) | `v11.0.0` | 🟢 ACTIVE | M1→M5 meta-loops, dynamic thresholds, strategy retirement, topology rules. |
 
 ---
 

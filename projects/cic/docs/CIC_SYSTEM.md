@@ -603,8 +603,38 @@ CIC v1.4.0 introduces robust **Multi-Tenant Knowledge Fabric** isolation and the
 
 ---
 
-**Version:** 1.4.0  
-**Last Updated:** 2026-05-30  
+## 15. Autonomous Global Optimization Layer (v10.0.0)
+
+CIC v10.0.0 introduces the **Optimization Engine (OE)** that synthesizes optimization strategies from global pressure fields via a deterministic **O1 → O5 optimization loop** executed every expansion cycle:
+
+*   **O1 — Global State Ingestion (`pressureField.js`)**: Aggregates load maps, latency metrics, drift vectors, and arbitration error trends.
+*   **O2 — Pressure Field Mapping (`engine.js`)**: Analyzes load maps to locate capability deserts, latency hotspots, and redundancy clusters.
+*   **O3 — Strategy Synthesis (`strategy.js`)**: Synthesizes and scores candidate strategies (e.g. `workload-rebalance`, `capability-migration`, `topology-reshape`) based on predicted coherence gains.
+*   **O4 — Strategy Execution (`executor.js`)**: Coordinates mutations across optimization subsystems:
+    *   **Capability Migration Layer (CML)**: Dynamically replicates or migrates extractors and heuristics.
+    *   **Federation Rebalancer (FR)**: Fine-tunes consensus weights and arbitration priorities.
+    *   **Topology Shaper (TS)**: Promotes, demotes, or retires active region nodes (RINs).
+*   **O5 — Stabilization (`stabilizer.js`)**: Verifies post-optimization outcome delta metrics. Triggers safe rollbacks if degradation occurs.
+
+---
+
+## 16. Reflexive Meta-Evolution Layer (v11.0.0)
+
+CIC v11.0.0 implements **reflexive meta-evolution** via a second-order **M1 → M5 meta-evolution loop** that sits above Phase 10 and dynamically rewrites/mutates the rules of the optimizer itself:
+
+*   **M1 — Meta-State Ingestion (`metaAnalytics.js`)**: Aggregates long-term historical optimization outcomes and rollback rates.
+*   **M2 — Meta-Pattern Detection (`metaAnalytics.js`)**: Identifies weak strategy patterns (e.g., avg coherence delta < 0) or stability risks.
+*   **M3 — Meta-Strategy Synthesis (`metaStrategy.js`)**: Formulates meta-proposals to modify optimization weights, safety thresholds, or topologies.
+*   **M4 — Meta-Execution (`metaExecutor.js`)**: Applies meta-mutations across Phase 10 modules:
+    *   **Dynamic Threshold Tuning**: Raises `minCoherenceDelta` safety floors under high rollback conditions.
+    *   **Dynamic Strategy Retirement**: Dynamically registers consistently failing strategies under `retiredStrategies` to ignore them.
+    *   **Topology Rule Mutation**: Swings `topologyMode` to `'conservative'` to delay demotions during high rollback rates.
+*   **M5 — Meta-Stabilization (`metaRollback.js`)**: Verifies outcomes of applied meta-strategies and commands clean rollbacks to revert mutations on failures.
+
+---
+
+**Version:** 11.0.0  
+**Last Updated:** 2026-06-01  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
 

@@ -24,7 +24,7 @@ packages/
       rollout/            — Deployment orchestration (stub)
       arbitration/        — Decision making (stub)
       drift/              — Divergence detection (stub)
-      expansion/          — Scaling orchestration (stub)
+      expansion/          — Scaling optimization engine (O1→O5 loops, Phase 10) & meta-evolution engine (M1→M5 loops, Phase 11)
       federation/         — Multi-agent coordination (stub)
       cognition/          — Reasoning & evolution (stub)
 
