@@ -249,14 +249,9 @@ npm test -- tests/arl/DriftImpactCalculator.test.ts
 
 ## Next Steps
 
-**Phase 7.12: Threshold Model**  
-Dynamically adjust approval/review thresholds based on historical outcomes and risk posture.
+See **[ROADMAP_7.12_TO_7.25.md](ROADMAP_7.12_TO_7.25.md)** for the complete ARL evolution roadmap.
 
-**Phase 7.13: ARL Governance Hooks**  
-Connect weighting/threshold decisions to operational policies (compliance, escalation, alerting).
-
-**Phase 7.14: ARL Self-Diagnostics**  
-Automatic weight adjustment based on verdict drift vs actual outcomes.
+**Immediate next:** Phase 7.12 (Threshold Model) — turn weighted reasoning into deterministic accept/reject decisions.
 
 ---
 
