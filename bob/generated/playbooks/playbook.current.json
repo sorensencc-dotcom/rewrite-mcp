@@ -1,5 +1,5 @@
 {
-  "version": "pb-2026-06-01",
+  "version": "pb-2026-06-02",
   "stages": [
   {
     "name": "SemanticExtractor",

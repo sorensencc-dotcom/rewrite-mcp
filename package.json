@@ -3,6 +3,11 @@
   "version": "2.29.0",
   "type": "module",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "projects/*",
+    "tools/*"
+  ],
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
     "sync-docs": "bash scripts/sync-docs.sh",

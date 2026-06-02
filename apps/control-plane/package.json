@@ -6,7 +6,7 @@
   "main": "index.mjs",
   "scripts": {
     "start": "node index.mjs",
-    "dev": "cross-env NODE_ENV=development node --watch index.mjs",
+    "dev": "node --watch index.mjs",
     "test": "node --test 'src/**/*.test.mjs'"
   },
   "keywords": [
@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^25.9.1"
+    "@types/node": "^25.9.1",
+    "cross-env": "^7.0.3"
   },
   "engines": {
     "node": ">=18.0.0"

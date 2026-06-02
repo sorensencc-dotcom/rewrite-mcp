@@ -51,7 +51,11 @@ if (!exists(workspaceFile)) {
 } else {
   const ws = read(workspaceFile);
   requiredPackages.forEach(pkg => {
-    if (!ws.includes(pkg)) {
+    const isDirectMatch = ws.includes(pkg);
+    const isPatternMatch = (pkg.startsWith('packages/') && ws.includes('packages/*')) || 
+                           (pkg.startsWith('apps/') && ws.includes('apps/*'));
+                           
+    if (!isDirectMatch && !isPatternMatch) {
       drift = true;
       log('ERROR', 'Workspace missing CIC package', { pkg });
     } else {

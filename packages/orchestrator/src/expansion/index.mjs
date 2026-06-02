@@ -1,9 +1,21 @@
+// File: packages/orchestrator/src/expansion/index.mjs | Date: 2026-06-01 | v10.0.0-alpha
 /**
  * packages/orchestrator/src/expansion/index.mjs
- * @version 1.0.0
+ * @version 10.0.0-alpha
  *
  * Expansion engine — scaling, load distribution.
- * TODO: implement
  */
 
-export const EXPANSION_VERSION = '1.0.0-stub';
+import { runOptimizationCycle } from './optimization/engine.js';
+
+export const EXPANSION_VERSION = '10.0.0-alpha';
+
+export function runExpansionCycle(federationState) {
+  // Phase 9: replication
+  // evaluateReplicationPressure(federationState);
+
+  // Phase 10: optimization
+  runOptimizationCycle(federationState);
+
+  return federationState;
+}

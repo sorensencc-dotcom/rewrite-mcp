@@ -7,6 +7,12 @@
 
 import { createRegionsRouter } from './regions.mjs';
 import { createCognitionRouter } from './cognition.mjs';
+import { createArbitrationRouter } from './arbitration.mjs';
+import { createDriftRouter } from './drift.mjs';
+import { createRolloutRouter } from './rollout.mjs';
+import { createExpansionRouter } from './expansion.mjs';
+import { createFederationRouter } from './federation.mjs';
+import { createMemosRouter } from './memos.mjs';
 import { logger } from '@cic/shared/logging';
 
 export function registerApiRoutes(app) {
@@ -14,13 +20,12 @@ export function registerApiRoutes(app) {
 
   app.use('/api/v1/regions', createRegionsRouter());
   app.use('/api/v1/cognition', createCognitionRouter());
-
-  // TODO: register additional endpoints
-  // - /api/v1/rollout
-  // - /api/v1/arbitration
-  // - /api/v1/drift
-  // - /api/v1/expansion
-  // - /api/v1/federation
+  app.use('/api/v1/arbitration', createArbitrationRouter());
+  app.use('/api/v1/drift', createDriftRouter());
+  app.use('/api/v1/rollout', createRolloutRouter());
+  app.use('/api/v1/expansion', createExpansionRouter());
+  app.use('/api/v1/federation', createFederationRouter());
+  app.use('/api/v1/memos', createMemosRouter());
 
   logger.debug('API routes registered');
 }
