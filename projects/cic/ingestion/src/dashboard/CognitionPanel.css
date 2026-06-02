@@ -1,0 +1,113 @@
+.cognition-panel {
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.arl-section {
+  margin-bottom: 24px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.arl-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trace-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trace-row {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+}
+
+.trace-row:last-child {
+  border-bottom: none;
+}
+
+.trace-subsystem {
+  width: 110px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #1a73e8;
+}
+
+.trace-summary {
+  flex: 1;
+  opacity: 0.85;
+  font-size: 13px;
+  color: #555;
+}
+
+.trace-score {
+  width: 60px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 13px;
+  color: #333;
+}
+
+.composite-list,
+.drift-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.composite-list li,
+.drift-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+}
+
+.composite-list li:last-child,
+.drift-list li:last-child {
+  border-bottom: none;
+}
+
+.composite-list .label,
+.drift-list .label {
+  color: #666;
+  font-weight: 500;
+}
+
+.composite-list .value,
+.drift-list .value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: #333;
+}
+
+.overall-row {
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 2px solid #e0e0e0;
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 12px 0;
+  color: #999;
+  font-size: 13px;
+  font-style: italic;
+}

@@ -77,8 +77,8 @@ console.log(" - Running O5: Post-Optimization Stabilization & Safety Test...");
 const beforeState = { coherence: 80 };
 const afterState = { coherence: 85 };
 const outcome = verifyOptimizationOutcome(beforeState, afterState);
-assert.strictEqual(outcome.driftImproved, false);
-assert.strictEqual(outcome.coherenceDelta, 0);
+assert.strictEqual(outcome.driftImproved, true);
+assert.strictEqual(outcome.coherenceDelta, 5);
 
 rollbackStrategy(strategy, mockFederationState);
 console.log("   O5 Stabilization: PASSED");

@@ -11,7 +11,22 @@ export function buildMetaStrategy(type, payload) {
 }
 
 export function scoreMetaStrategy(strategy, metaState) {
-  // return predicted long-term coherence delta
+  if (strategy.type === 'adjust-scoring-functions') {
+    return metaState.coherenceTrend < 0 ? 1 : 0;
+  }
+  // Dynamic threshold tuning: if rollback rate is high, tune thresholds upward
+  if (strategy.type === 'update-thresholds') {
+    return metaState.rollbackRate > 0.1 ? 1 : 0;
+  }
+  // Strategy retirement: if coherence trend is falling heavily
+  if (strategy.type === 'retire-strategy-type') {
+    return metaState.coherenceTrend < -0.5 ? 1 : 0;
+  }
+  // Reshape topology rules: if stability issues occur
+  if (strategy.type === 'reshape-topology-rules') {
+    return metaState.rollbackRate > 0.2 ? 1 : 0;
+  }
+  return 0;
 }
 
 export function listMetaStrategyTypes() {
