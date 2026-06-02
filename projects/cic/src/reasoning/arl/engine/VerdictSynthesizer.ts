@@ -9,6 +9,7 @@ import { CausalReasoning } from '../contracts/CausalReasoning';
 import { NarrativeImpact } from '../contracts/NarrativeImpact';
 import { CompositeReasoning } from '../contracts/CompositeReasoning';
 import { ArlConfidence } from '../contracts/Confidence';
+import { DriftImpact } from '../contracts/DriftImpact';
 
 export function synthesizeVerdict(
   packet: ReasoningPacket,
@@ -20,7 +21,8 @@ export function synthesizeVerdict(
   causal: CausalReasoning,
   narrative: NarrativeImpact,
   composite: CompositeReasoning,
-  confidence: ArlConfidence
+  confidence: ArlConfidence,
+  drift: DriftImpact
 ): ReasoningVerdict {
   if (scores.length === 0) {
     return {
