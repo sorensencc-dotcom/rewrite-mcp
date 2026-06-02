@@ -10,6 +10,11 @@ import { reasonTraceManager } from "../../reasoning/reason-trace.js";
 import { graphBuilder } from "../../linking/graph-builder.js";
 import { episodeBuilder } from "../../reasoning/episode-builder.js";
 import { metricsCollector } from "../../reasoning/metrics-collector.js";
+import { specRegistry } from "./spec-registry.js";
+import { getTelemetrySink } from "./telemetry-sink.js";
+import { InstinctProposer } from "./instinct-proposer.js";
+import { patchLoader } from "./patch-loader.js";
+import { PatchStatus } from "./patch-model.js";
 
 export const v1Router = express.Router();
 
@@ -218,3 +223,238 @@ v1Router.post("/episode/summarize", async (req: any, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// 9. GET /v1/specs/skills - list all registered skills
+v1Router.get("/specs/skills", (req: Request, res: Response) => {
+  res.json({ skills: specRegistry.getSkills() });
+});
+
+// 10. GET /v1/specs/instincts - list all registered instincts
+v1Router.get("/specs/instincts", (req: Request, res: Response) => {
+  res.json({ instincts: specRegistry.getInstincts() });
+});
+
+// 11. GET /v1/specs/hooks - list all registered hooks
+v1Router.get("/specs/hooks", (req: Request, res: Response) => {
+  res.json({ hooks: specRegistry.getHooks() });
+});
+
+// 12. GET /v1/specs/rules - list all registered rules
+v1Router.get("/specs/rules", (req: Request, res: Response) => {
+  res.json({ rules: specRegistry.getRules() });
+});
+
+// 13. GET /v1/specs/violations - list all recorded violations with filters
+v1Router.get("/specs/violations", (req: Request, res: Response) => {
+  try {
+    const filter = {
+      pipeline: req.query.pipeline,
+      tenantId: req.query.tenant,
+      region: req.query.region,
+      limit: req.query.limit
+    };
+    const results = specRegistry.queryViolations(filter);
+    res.json({ violations: results });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 13b. GET /v1/specs/violations/heatmap - aggregate violation counts grouped by tenant and severity
+v1Router.get("/specs/violations/heatmap", (req: Request, res: Response) => {
+  try {
+    const violations = specRegistry.queryViolations({ limit: 1000 });
+    const grid: Record<string, { hard: number; soft: number }> = {};
+
+    for (const v of violations) {
+      const tenant = v.context?.tenantId || "default";
+      if (!grid[tenant]) {
+        grid[tenant] = { hard: 0, soft: 0 };
+      }
+      if (v.severity === "hard") {
+        grid[tenant].hard++;
+      } else {
+        grid[tenant].soft++;
+      }
+    }
+
+    res.json({ heatmap: grid });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 14. POST /v1/specs/violations/clear - clear all recorded violations
+v1Router.post("/specs/violations/clear", (req: Request, res: Response) => {
+  specRegistry.clearViolations();
+  res.json({ ok: true });
+});
+
+// 15. GET /v1/telemetry/skills - query skill telemetry
+v1Router.get("/telemetry/skills", async (req: Request, res: Response) => {
+  try {
+    const filter = {
+      pipeline: req.query.pipeline,
+      skillName: req.query.skill,
+      tenantId: req.query.tenant,
+      region: req.query.region,
+      limit: req.query.limit
+    };
+    const events = await getTelemetrySink().querySkills(filter);
+    res.json({ telemetry: events });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 16. GET /v1/telemetry/instincts - query instinct telemetry
+v1Router.get("/telemetry/instincts", async (req: Request, res: Response) => {
+  try {
+    const filter = {
+      pipeline: req.query.pipeline,
+      instinctName: req.query.instinct,
+      tenantId: req.query.tenant,
+      region: req.query.region,
+      limit: req.query.limit
+    };
+    const events = await getTelemetrySink().queryInstincts(filter);
+    res.json({ telemetry: events });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 17. POST /v1/telemetry/clear - clear all telemetry logs
+v1Router.post("/telemetry/clear", async (req: Request, res: Response) => {
+  try {
+    await getTelemetrySink().clear();
+    res.json({ ok: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 18. POST /v1/telemetry/proposals - execute proposer heuristics and return instinct YAML patches
+v1Router.post("/telemetry/proposals", async (req: Request, res: Response) => {
+  try {
+    const skillEvents = await getTelemetrySink().querySkills({ limit: 1000 });
+    const instinctEvents = await getTelemetrySink().queryInstincts({ limit: 1000 });
+    const proposer = new InstinctProposer(skillEvents, instinctEvents);
+    const patches = proposer.proposePatches();
+
+    // Map and save newly proposed patches dynamically
+    for (const p of patches) {
+      patchLoader.saveProposedPatch({
+        instinct: p.instinctName,
+        baseVersion: p.baseVersion,
+        proposedVersion: p.proposedVersion,
+        change: p.diff,
+        impact: {
+          impactScore: p.impactScore,
+          metricsBefore: p.metricsBefore || { successRate: 1, avgLatencyMs: 200, avgDrift: 0 },
+          metricsAfter: p.metricsAfter || { successRate: 1, avgLatencyMs: 200, avgDrift: 0 }
+        },
+        scope: {
+          regions: ["us-east-1"],
+          tenants: ["*"]
+        }
+      });
+    }
+
+    res.json({ proposals: patches });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 19. GET /v1/instincts/patches - list all registered lifecycle patches
+v1Router.get("/instincts/patches", (req: Request, res: Response) => {
+  try {
+    const status = req.query.status as PatchStatus | undefined;
+    const list = patchLoader.listPatches(status);
+    res.json({ patches: list });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 20. POST /v1/instincts/patches/canary - move proposed → canary with region/tenant filters
+v1Router.post("/instincts/patches/canary", async (req: Request, res: Response) => {
+  try {
+    const { fileName, regions, tenants } = req.body;
+    if (!fileName) {
+      return res.status(400).json({ error: "Missing required parameter: fileName" });
+    }
+
+    // Default regions / tenants scope
+    const scope = {
+      regions: regions || ["us-east-1"],
+      tenants: tenants || ["*"]
+    };
+
+    await patchLoader.movePatch(fileName, "proposed", "canary", { scope });
+    res.json({ ok: true, scope });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 21. POST /v1/instincts/patches/promote - promote canary → active (enforcing impact thresholds)
+v1Router.post("/instincts/patches/promote", async (req: Request, res: Response) => {
+  try {
+    const { fileName } = req.body;
+    if (!fileName) {
+      return res.status(400).json({ error: "Missing required parameter: fileName" });
+    }
+
+    const canaryPatches = patchLoader.listPatches("canary");
+    const patch = canaryPatches.find(p => p.fileName === fileName);
+
+    if (!patch) {
+      return res.status(404).json({ error: `Canary patch '${fileName}' not found.` });
+    }
+
+    // Enforce Promotion Rules (e.g. impact score >= 50, success rate no degradation)
+    const threshold = 50;
+    if (patch.impact.impactScore < threshold) {
+      return res.status(400).json({
+        error: `Promotion rejected: impact score (${patch.impact.impactScore}) below required threshold (${threshold}).`
+      });
+    }
+
+    if (patch.impact.metricsAfter.successRate < patch.impact.metricsBefore.successRate) {
+      return res.status(400).json({
+        error: `Promotion rejected: success rate degraded from ${patch.impact.metricsBefore.successRate} to ${patch.impact.metricsAfter.successRate}.`
+      });
+    }
+
+    await patchLoader.movePatch(fileName, "canary", "active");
+    res.json({ ok: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 22. POST /v1/instincts/patches/reject - move proposed or canary patch → rejected
+v1Router.post("/instincts/patches/reject", async (req: Request, res: Response) => {
+  try {
+    const { fileName, currentStatus, reason } = req.body;
+    if (!fileName || !currentStatus) {
+      return res.status(400).json({ error: "Missing required parameters: fileName and currentStatus" });
+    }
+
+    if (currentStatus !== "proposed" && currentStatus !== "canary") {
+      return res.status(400).json({ error: "Invalid currentStatus: must be proposed or canary." });
+    }
+
+    await patchLoader.movePatch(fileName, currentStatus, "rejected", {
+      createdBy: `operator-reject: ${reason || "No reason given"}`
+    } as any);
+
+    res.json({ ok: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+

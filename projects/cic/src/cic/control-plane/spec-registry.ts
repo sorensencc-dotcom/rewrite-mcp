@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import YAML from "yaml";
+import { patchLoader } from "./patch-loader.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -144,6 +145,21 @@ export class SpecRegistry {
 
       // Register default native Extractor wrapper skills to fulfill wrapping requirements
       this.registerDefaultExtractorSkills();
+
+      // Load violations from disk if exists
+      try {
+        const logDir = path.resolve(__dirname, "../../../data/telemetry");
+        const filePath = path.join(logDir, "violations.jsonl");
+        if (fs.existsSync(filePath)) {
+          const rawLines = fs.readFileSync(filePath, "utf-8").trim().split("\n");
+          this.violations = rawLines
+            .filter(l => l.trim() !== "")
+            .map(l => JSON.parse(l) as SpecViolation);
+        }
+      } catch (err: any) {
+        console.warn(`[SpecRegistry] Failed to restore violations from disk:`, err.message);
+      }
+
       console.log(`[SpecRegistry] Loaded: ${this.skills.size} Skills, ${this.instincts.size} Instincts, ${this.hooks.size} Hooks, ${this.rules.size} Rules.`);
     } catch (err: any) {
       console.error(`[SpecRegistry] Failed to load specs:`, err.message);
@@ -212,8 +228,34 @@ export class SpecRegistry {
     return this.violations;
   }
 
+  public queryViolations(filter: Record<string, any> = {}): SpecViolation[] {
+    let result = [...this.violations];
+
+    if (filter.pipeline) {
+      result = result.filter(e => e.context?.pipeline === filter.pipeline);
+    }
+    if (filter.tenantId) {
+      result = result.filter(e => e.context?.tenantId === filter.tenantId);
+    }
+    if (filter.region) {
+      result = result.filter(e => e.context?.region === filter.region);
+    }
+
+    const limit = filter.limit ? Number(filter.limit) : 100;
+    return result.slice(-limit).reverse();
+  }
+
   public clearViolations(): void {
     this.violations = [];
+    try {
+      const logDir = path.resolve(__dirname, "../../../data/telemetry");
+      const filePath = path.join(logDir, "violations.jsonl");
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    } catch (err: any) {
+      console.warn(`[SpecRegistry] Failed to clear violations on disk:`, err.message);
+    }
   }
 
   public registerViolation(violation: Omit<SpecViolation, "timestamp">): void {
@@ -223,24 +265,66 @@ export class SpecRegistry {
     };
     this.violations.push(entry);
     console.warn(`[SpecRegistry] [VIOLATION] [${entry.type.toUpperCase()}] (${entry.severity}): ${entry.message}`);
+    try {
+      const logDir = path.resolve(__dirname, "../../../data/telemetry");
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+      }
+      const filePath = path.join(logDir, "violations.jsonl");
+      fs.appendFileSync(filePath, JSON.stringify(entry) + "\n", "utf-8");
+    } catch (err: any) {
+      console.error(`[SpecRegistry] Failed to log violation to disk:`, err.message);
+    }
   }
 
-  /**
-   * Evaluates instincts to see if specific skills should be preferred or avoided.
-   */
-  public evaluateInstincts(pipeline: string, docType: string, sourceFormat: string): { prefer: string[]; avoid: string[] } {
+  public evaluateInstincts(
+    pipeline: string,
+    docType: string,
+    sourceFormat: string,
+    tenantId = "default",
+    region = "us-east-1"
+  ): { prefer: string[]; avoid: string[] } {
     const prefer = new Set<string>();
     const avoid = new Set<string>();
+
+    // Load active and scoped canary patches
+    const activePatches = patchLoader.listPatches("active");
+    const canaryPatches = patchLoader.listPatches("canary").filter(p => {
+      const regionMatch = p.scope.regions.includes(region) || p.scope.regions.includes("*");
+      const tenantMatch = p.scope.tenants.includes(tenantId) || p.scope.tenants.includes("*");
+      return regionMatch && tenantMatch;
+    });
+    const allPatches = [...activePatches, ...canaryPatches];
 
     for (const instinct of this.instincts.values()) {
       if (instinct.trigger.pipeline !== pipeline) continue;
 
-      const trigger = instinct.trigger.when;
+      // Safe deep-clone of the instinct definition to prevent baseline mutation
+      const resolvedInstinct = JSON.parse(JSON.stringify(instinct)) as InstinctSpec;
+
+      // Apply any matching patches for this instinct
+      const matchingPatches = allPatches.filter(p => p.instinct === resolvedInstinct.name);
+      for (const patch of matchingPatches) {
+        if (patch.change.trigger?.when?.source_format_in) {
+          resolvedInstinct.trigger.when.source_format_in = patch.change.trigger.when.source_format_in;
+        }
+        if (patch.change.routing_policy?.prefer_skills) {
+          resolvedInstinct.logic.routing_policy.then.prefer_skills = patch.change.routing_policy.prefer_skills;
+        }
+        if (patch.change.routing_policy?.avoid_skills) {
+          resolvedInstinct.logic.routing_policy.then.avoid_skills = patch.change.routing_policy.avoid_skills;
+        }
+        if (patch.change.routing_policy?.if) {
+          resolvedInstinct.logic.routing_policy.if = patch.change.routing_policy.if;
+        }
+      }
+
+      const trigger = resolvedInstinct.trigger.when;
       const docTypeMatch = trigger.doc_type === docType;
       const formatMatch = trigger.source_format_in.includes(sourceFormat);
 
       if (docTypeMatch && formatMatch) {
-        const policy = instinct.logic.routing_policy;
+        const policy = resolvedInstinct.logic.routing_policy;
         // Simple expression evaluator
         const cond = policy.if.replace("doc.source_format", `'${sourceFormat}'`);
         const isTrue = eval(cond);
@@ -288,6 +372,8 @@ export class SpecRegistry {
               throw new Error(`Schema mismatch on evidence_pack: missing 'results' array.`);
             }
           }
+        } else {
+          throw new Error(`Unrecognized or faulty hook action '${hook.behavior.action}'`);
         }
       } catch (err: any) {
         this.registerViolation({
@@ -295,7 +381,15 @@ export class SpecRegistry {
           name: hook.name,
           message: `Hook failed: ${err.message}`,
           severity: hook.failure_policy === "fail_pipeline" ? "hard" : "soft",
-          context: { phase, error: err.message }
+          context: {
+            phase,
+            error: err.message,
+            runId: context.runId,
+            pipeline: context.pipeline || "documentary_ingest",
+            stage: context.stage || "evidence_pack",
+            tenantId: context.tenantId || "default",
+            region: context.region || "us-east-1"
+          }
         });
 
         if (hook.failure_policy === "fail_pipeline") {
@@ -337,7 +431,13 @@ export class SpecRegistry {
           name: rule.name,
           message: err.message,
           severity,
-          context: { pipeline, stage }
+          context: {
+            pipeline,
+            stage,
+            runId: context.runId,
+            tenantId: context.tenantId || "default",
+            region: context.region || "us-east-1"
+          }
         });
 
         if (severity === "hard") {

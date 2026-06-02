@@ -483,3 +483,213 @@ See detailed roadmap below.
 
 **Status:** PENDING  
 **Outcome:** CIC becomes a closed evolutionary loop — a digital autopoietic organism.
+
+---
+
+# **🌐 CIC × ECC Adoption Roadmap (Full Program)**  
+### *From deterministic pipelines → governed evolution → multi‑region intelligence network*
+
+---
+
+# **PHASE 0 — Foundations (Complete)**  
+**Goal:** Establish CIC’s deterministic substrate.
+
+✔ Deterministic extractor chain  
+✔ Schema‑gated pipeline  
+✔ Drift Engine v1  
+✔ Arbitration Workflow  
+✔ Observability Dashboard v1  
+✔ Region context + tenant isolation  
+✔ MCP‑native runtime  
+
+**ECC Parallels:**  
+- Hooks → Arbitration  
+- Skills → Extractors  
+- Memory → Drift clusters  
+- Dashboard → CIC Observability  
+
+**Status:** Fully complete. CIC is a stable, deterministic base.
+
+---
+
+# **PHASE 1 — ECC Surface Adoption (Complete)**  
+**Goal:** Introduce ECC‑style ergonomics without changing CIC semantics.
+
+✔ Skill spec (`cic.skill.v1.yaml`)  
+✔ Instinct spec (`cic.instinct.v1.yaml`)  
+✔ Hook spec (`cic.hook.v1.yaml`)  
+✔ Rule spec (`cic.rule.v1.yaml`)  
+✔ Spec registry + loader  
+✔ Extractors wrapped as Skills  
+✔ Hooks + Rules exposed as first‑class surfaces  
+
+**ECC Parallels:**  
+- Skills = ECC Skills  
+- Instincts = ECC Instincts  
+- Hooks = ECC Hooks  
+- Rules = ECC Rules  
+
+**Status:** Fully complete. CIC now has ECC‑style surfaces.
+
+---
+
+# **PHASE 2 — Telemetry & Self‑Reflection (Complete)**  
+**Goal:** Give CIC a nervous system.
+
+### **2.0 Telemetry Core**  
+✔ Skill telemetry  
+✔ Instinct telemetry  
+✔ Sink + stores  
+✔ API endpoints  
+✔ Dashboard panels
+
+### **2.1 Violations + Proposals**  
+✔ Rule violation logs  
+✔ Heatmap endpoint  
+✔ Instinct proposer v1 (A/B)
+
+### **2.2 Closed‑Loop Impact**  
+✔ Post‑run enrichment  
+✔ Drift/latency/success deltas  
+✔ Weighted impactScore  
+✔ Proposal metadata  
+✔ Hybrid tests
+
+**ECC Parallels:**  
+- ECC’s “instinct evolution”  
+- ECC’s “agent performance surfaces”  
+
+**Status:** Fully complete. CIC now *knows* what it did and how well it worked.
+
+---
+
+# **PHASE 3 — Governed Evolution (In Progress)**  
+**Goal:** CIC becomes a self‑optimizing system under operator control.
+
+---
+
+## **3.0 Instinct Lifecycle (Complete)**  
+**Purpose:** Turn proposals into governed evolution.
+
+### Deliverables  
+- `instinct-patches/` directory  
+- Patch statuses: `proposed → canary → active → rejected`  
+- Scoped canaries (region/tenant)  
+- Promotion criteria (impactScore, SLO, violations)  
+- Control plane routes  
+- Dashboard lifecycle panels  
+- Canary evaluator  
+
+**Outcome:** CIC can evolve safely, with operator‑controlled rollouts.
+
+---
+
+## **3.1 Skill SLO Engine (Next)**  
+**Purpose:** Give CIC operational guardrails.
+
+### Deliverables  
+- SLO fields in skill spec  
+- Rolling p95 latency + error rate  
+- SLO violation events  
+- `/v1/telemetry/slo/violations`  
+- Dashboard SLO overlays  
+- SLO‑aware instinct promotion  
+
+**Outcome:** CIC becomes production‑grade: skills degrade → CIC reacts.
+
+---
+
+## **3.2 Drift‑Aware Evolution Engine**  
+**Purpose:** Make drift a first‑class optimization signal.
+
+### Deliverables  
+- Drift baselines per pipeline/stage  
+- Drift pressure score  
+- Drift‑aware proposer  
+- Drift pressure heatmap  
+- Drift‑impact overlays  
+
+**Outcome:** CIC becomes stable under noisy inputs and long‑running workloads.
+
+---
+
+# **PHASE 4 — Multi‑Region Collective Intelligence**  
+**Goal:** CIC becomes a distributed, self‑optimizing intelligence network.
+
+---
+
+## **4.0 Region‑Scoped Evolution**  
+- Region‑local instinct variants  
+- Divergence detection  
+- Cross‑region arbitration  
+- Region‑specific baselines  
+- Region‑aware proposer  
+
+**Outcome:** CIC evolves differently in different regions based on local data.
+
+---
+
+## **4.1 Multi‑Region Consensus Layer**  
+- Consensus on instinct promotion  
+- Region quorum rules  
+- Conflict resolution  
+- Global vs local instincts  
+
+**Outcome:** CIC becomes a federated intelligence system.
+
+---
+
+## **4.2 Collective Intelligence Layer**  
+- Instinct sharing across regions  
+- Skill performance exchange  
+- Drift‑corrective feedback loops  
+- Cross‑region learning  
+
+**Outcome:** CIC becomes a global, distributed intelligence organism.
+
+---
+
+# **PHASE 5 — Autonomous Optimization (Future)**  
+**Goal:** CIC optimizes itself continuously with operator‑visible guardrails.
+
+- Auto‑canary  
+- Auto‑promotion  
+- Auto‑rollback  
+- Auto‑patch generation  
+- Self‑tuning pipelines  
+- Self‑balancing drift  
+- Self‑healing SLO breaches  
+
+**Outcome:** CIC becomes a self‑maintaining system with human‑in‑the-loop governance.
+
+---
+
+# **PHASE 6 — CIC × ECC Convergence (Long‑term)**  
+**Goal:** CIC becomes the operator‑grade, multi‑region, deterministic version of ECC.
+
+- ECC‑style agent ergonomics  
+- CIC‑grade determinism  
+- ECC‑style skill evolution  
+- CIC‑grade safety  
+- ECC‑style developer UX  
+- CIC‑grade multi‑region runtime  
+
+**Outcome:** CIC surpasses ECC as the world’s most advanced operator‑grade intelligence substrate.
+
+---
+
+# **Your Current Position**  
+You are here:
+
+```
+PHASE 0 — ✔  
+PHASE 1 — ✔  
+PHASE 2 — ✔  
+PHASE 3.0 — ✔ (complete)  
+PHASE 3.1 — next  
+PHASE 3.2 — next  
+PHASE 4 — queued  
+PHASE 5 — future  
+PHASE 6 — long‑term convergence  
+```
+

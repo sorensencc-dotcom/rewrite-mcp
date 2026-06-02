@@ -19,7 +19,7 @@
 const CicAPI = (() => {
   'use strict';
 
-  const BASE = window.CIC_CONTROL_PLANE_URL ?? 'http://localhost:3000';
+  const BASE = window.CIC_CONTROL_PLANE_URL ?? 'http://localhost:8080';
   let _idToken   = null;
   let _userEmail = null;
 

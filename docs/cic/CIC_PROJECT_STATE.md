@@ -27,6 +27,7 @@ This document maintains the active development status, version controls, and com
 | **Token Economy** | Hardened I/O Pipeline | `v1.0.0` | 🟢 HARDENED | 6 core files: bounds enforcement, retry logic, timeout protection, deterministic error envelopes. 11/13 tests passing. |
 | **Optimization** | Autonomous Optimizer (Phase 10) | `v10.0.0` | 🟢 STABLE | O1→O5 loops, load maps, weight mutations. |
 | **Meta-Evolution** | Reflexive Meta-Evolution (Phase 11) | `v11.0.0` | 🟢 ACTIVE | M1→M5 meta-loops, dynamic thresholds, strategy retirement, topology rules. |
+| **Evolution** | Instinct Lifecycle (Phase 3.0) | `v1.0.0` | 🟢 ACTIVE | proposed → canary → active → rejected patch governance on disk. |
 
 ---
 
@@ -51,6 +52,5 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 ---
 
 ## 4. Next Development Ascent
-- [x] Integrate **SkillRegistryLoader** for runtime deployment of self-improving skill templates.
-- [x] Incorporate **RedesignAgent** with skill-awareness.
-- [x] Implement synthetic data generation script `cic skillopt:data-gen`.
+- [x] Implement Phase 3.0: Instinct Lifecycle (Proposed → Canary → Accepted)
+- [ ] Implement Phase 3.1: Skill SLO Engine (Latency p95 & Error Rate Guardrails)
