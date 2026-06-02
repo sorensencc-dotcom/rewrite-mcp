@@ -1,0 +1,26 @@
+# cic.instinct.v1
+name: prefer_ris_over_pdf_for_bibliography
+version: 0.3.0
+
+trigger:
+  pipeline: documentary_ingest
+  when:
+    doc_type: bibliography
+    source_format_in: [ris, pdf]
+
+logic:
+  routing_policy:
+    if: "doc.source_format == 'ris'"
+    then:
+      prefer_skills:
+        - extract_ris_metadata
+      avoid_skills:
+        - extract_pdf_bibliography
+    else:
+      prefer_skills:
+        - extract_pdf_bibliography
+
+constraints:
+  max_skill_fanout: 2
+  max_depth: 3
+  allowed_cost_tiers: [low, medium]

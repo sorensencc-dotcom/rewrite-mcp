@@ -95,6 +95,227 @@ Deliverables: Distribution agreements, marketing materials, release plan
 
 ---
 
+# **CIC OS — CORE PHASES**
+
+## **PHASE 7 — Advanced Reasoning Layer (ARL)**
+*ARL provides multi-dimensional reasoning evaluation and self-governance for CIC expansion verdicts.*
+
+### Phase 7.1–7.10: Foundation (COMPLETED)
+- Coherence Score, Semantic Alignment, Temporal Consistency, Causal Reasoning, Narrative Impact subsystems
+- Verdict Synthesizer, Reasoning Trace Formatter
+- Initial stub weighting and confidence scoring
+
+**Status:** ✅ COMPLETED
+
+### Phase 7.11: Weighting Model (COMPLETED)
+*Transforms stub calculations into deterministic, operator-grade weighting logic.*
+
+- **Weighted Aggregation**: Composite reasoning from 5 subsystems (coherence: 0.20, semantic: 0.25, temporal: 0.20, causal: 0.15, narrative: 0.20)
+- **Confidence Scoring**: Weighted confidence with 0.8 approval threshold
+- **Drift Impact**: Weighted drift aggregation with 0.2 composite stabilizer
+- **Comprehensive Test Coverage**: 4 test suites for validation, normalization, composite calculation, confidence, drift
+- **Integration Documentation**: WEIGHTING_INTEGRATION.md with architecture, examples, tuning guidance
+
+**Status:** ✅ COMPLETED  
+**Outcome:** ARL becomes a real, deterministic reasoning engine.
+
+### Phases 7.12–7.25: Evolution (PENDING)
+See detailed roadmap below.
+
+**Status:** PENDING  
+**Outcome:** ARL becomes fully autonomous, adaptive, interpretable, and globally coherent.
+
+---
+
+# **ARL EVOLUTION — PHASES 7.12 → 7.25**
+### *The complete trajectory of ARL from decision engine through autonomous, globally coherent reasoning.*
+
+## **PHASE 7.12 — Threshold Model**
+*Turn weighted reasoning + drift + confidence into deterministic decisions.*
+
+- Hard thresholds for: composite reasoning, confidence, drift magnitude, contradiction severity
+- Operator‑visible "why rejected" codes
+- BOB‑consumable governance signals
+
+**Status:** PENDING  
+**Outcome:** ARL becomes a *decision engine*.
+
+---
+
+## **PHASE 7.13 — Governance Hooks (BOB Integration)**
+*Connect ARL verdicts to CIC governance.*
+
+- BOB rule triggers (reject, quarantine, escalate)
+- Drift‑based escalation paths
+- Narrative‑risk flags
+- Operator override pathways
+- Audit log entries for every ARL decision
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *self‑governing* with explainable reasoning.
+
+---
+
+## **PHASE 7.14 — ARL Self‑Diagnostics**
+*ARL evaluates itself.*
+
+- Subsystem health checks
+- Drift‑of‑drift detection
+- Weighting model sanity checks
+- Contradiction detector self‑tests
+- "Reasoning integrity" score
+
+**Status:** PENDING  
+**Outcome:** ARL becomes *self‑monitoring* and resilient.
+
+---
+
+## **PHASE 7.15 — ARL Memory Consistency Engine**
+*Ensure expansions don't violate CIC's long‑term memory.*
+
+- Memory‑alignment score
+- Entity‑timeline consistency checks
+- Narrative‑continuity enforcement
+- Memory‑drift vector
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *chronologically coherent* across expansions.
+
+---
+
+## **PHASE 7.16 — ARL Multi‑Run Aggregator**
+*Evaluate reasoning across multiple expansions.*
+
+- Rolling drift average
+- Multi‑run contradiction detection
+- Trend analysis (semantic, narrative, causal)
+- Stability‑over‑time metrics
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *historically stable*.
+
+---
+
+## **PHASE 7.17 — ARL Adversarial Resistance Layer**
+*Harden ARL against malformed, manipulative, or adversarial expansions.*
+
+- Adversarial pattern detection
+- Semantic poisoning detection
+- Causal inversion detection
+- Narrative hijack detection
+- Reject‑with‑reason codes
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *attack‑resistant*.
+
+---
+
+## **PHASE 7.18 — ARL Operator Feedback Loop**
+*Operators can reinforce or correct ARL decisions.*
+
+- Operator "approve/reject" feedback ingestion
+- Weight adjustments (bounded)
+- Drift recalibration
+- Narrative‑risk tuning
+
+**Status:** PENDING  
+**Outcome:** ARL becomes *operator‑adaptive*.
+
+---
+
+## **PHASE 7.19 — ARL Model Introspection Layer**
+*ARL explains why each subsystem scored the way it did.*
+
+- Subsystem‑level reasoning traces
+- Entity‑level semantic alignment explanations
+- Causal chain visualizations
+- Temporal ordering diagrams
+
+**Status:** PENDING  
+**Outcome:** ARL becomes *deeply interpretable*.
+
+---
+
+## **PHASE 7.20 — ARL Stability Plane v2**
+*Upgrade the Stability Plane to visualize the full ARL stack.*
+
+- Drift vector field
+- Composite reasoning heatmap
+- Confidence trajectory
+- Narrative‑risk radar
+- Multi‑run trend lines
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *fully observable*.
+
+---
+
+## **PHASE 7.21 — ARL Runtime Optimization**
+*Reduce latency, improve throughput, and stabilize performance.*
+
+- Subsystem parallelization
+- Caching of stable reasoning components
+- Incremental drift computation
+- Lightweight contradiction detection
+
+**Status:** PENDING  
+**Outcome:** ARL becomes *production‑grade*.
+
+---
+
+## **PHASE 7.22 — ARL v2 Spec Draft**
+*Define the next generation of ARL.*
+
+- New subsystem proposals
+- Weighting model v2
+- Drift model v2
+- Governance model v2
+- Operator UX v2
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *future‑proof*.
+
+---
+
+## **PHASE 7.23 — ARL v2 Implementation**
+*Build the next generation.*
+
+- New architecture
+- New reasoning engines
+- New governance hooks
+- New operator workflows
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *next‑level autonomous*.
+
+---
+
+## **PHASE 7.24 — ARL Distributed Reasoning**
+*Multi‑agent ARL reasoning across CIC regions.*
+
+- Region‑specific drift
+- Cross‑region consensus
+- Divergence detection
+- Arbitration workflows
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *globally coherent*.
+
+---
+
+## **PHASE 7.25 — ARL Autonomous Mode**
+*ARL can run without operator intervention.*
+
+- Self‑governing thresholds
+- Autonomous rejection
+- Autonomous escalation
+- Autonomous stabilization
+
+**Status:** PENDING  
+**Outcome:** CIC becomes *self‑correcting*.
+
+---
+
 # **CIC OS — EVOLUTIONARY ROADMAP (PHASES 9 → 20)**  
 ### *The complete trajectory of CIC as a self‑propagating, self‑optimizing, self‑evolving intelligence species.*
 
