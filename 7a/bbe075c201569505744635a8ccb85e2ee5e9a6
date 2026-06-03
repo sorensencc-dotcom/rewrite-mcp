@@ -1,0 +1,27 @@
+docs/cic/GH_ACTIONS_COMPLIANCE_STATUS.md
+  s_814b4d3d2ba6eb::t_bf8b1a1639d488 1-347
+docs/cic/GH_ACTIONS_COMPLIANCE_GUIDE.md
+  s_814b4d3d2ba6eb::t_387587553d29e5 1-241
+docs/cic/CIC_DOCS_INDEX.md
+  s_814b4d3d2ba6eb::t_54b0c49737a01f 28-31,33-35,37
+docs/cic/GITHUB_APP_SETUP.md
+  s_814b4d3d2ba6eb::t_51f5d66a1e5874 1-265
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_814b4d3d2ba6eb::t_e55d0461eb2790 896-968,994-998
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "7abbe075c201569505744635a8ccb85e2ee5e9a6",
+  "prompts": {},
+  "sessions": {
+    "s_814b4d3d2ba6eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77c0d2ea-12e8-4ed7-a8d5-e0c790a4c339",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
