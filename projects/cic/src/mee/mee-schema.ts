@@ -142,3 +142,25 @@ export interface MeeSandboxResult {
   output: string;
 }
 
+export type MeeAutonomousJobStatus =
+  | "pending"
+  | "running"
+  | "completed"
+  | "failed";
+
+export interface MeeAutonomousJob {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  status: MeeAutonomousJobStatus;
+  request: string;
+  planId?: string;
+  runId?: string;
+  proposalIds: string[];
+  error?: {
+    message: string;
+    code?: string;
+  };
+}
+
+

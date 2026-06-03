@@ -25,8 +25,16 @@ Foundational documents defining the CIC subsystem architecture and current state
 - **[Phase 31 SRE Roadmap](implementation_plan_phase_31.md)**: Detailed specification for Self-Refactoring Engine.
 - **[Phase 32 MAPE Roadmap](implementation_plan_phase_32.md)**: Detailed specification for Multi-Agent Planning Engine.
 
+---
 
+## 🚀 GitHub Actions Compliance System (Phase 34)
+Node.js 24 enforcement framework for ensuring all workflows use latest versions.
 
+- **[Compliance Status](GH_ACTIONS_COMPLIANCE_STATUS.md)**: System status, components checklist, and deployment readiness.
+- **[Compliance Guide](GH_ACTIONS_COMPLIANCE_GUIDE.md)**: Complete architecture, components, and usage guide.
+- **[GitHub App Setup](GITHUB_APP_SETUP.md)**: Step-by-step app registration and production deployment.
+
+---
 
 
 ---
