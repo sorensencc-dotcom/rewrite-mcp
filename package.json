@@ -23,6 +23,7 @@
     "test-orchestrator": "cd projects/cic/orchestrator && npm test",
     "test:links": "cd .. && bash tools/regressions/check-links.sh",
     "stress-test": "cd ../tools/runtime-harness && npm run stress",
+    "gh-actions:upgrade": "node ../scripts/gh-actions-upgrade.js",
     "release:notes": "node tools/release-notes.mjs",
     "release:diff": "node tools/release-diff.mjs",
     "release:timeline": "node tools/release-timeline.mjs",

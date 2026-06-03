@@ -37,7 +37,7 @@ export interface PhaseProposal {
   id: string;
   title: string;
   triggerId: string;
-  status: "pending" | "validated" | "rejected";
+  status: "pending" | "validated" | "rejected" | "applied";
   filesCreated: string[];
   planSummary: string;
   timestamp: number;

@@ -6,7 +6,7 @@ interface PhaseProposal {
   id: string;
   title: string;
   triggerId: string;
-  status: "pending" | "validated" | "rejected";
+  status: "pending" | "validated" | "rejected" | "applied";
   filesCreated: string[];
   planSummary: string;
   timestamp: number;
@@ -93,10 +93,16 @@ export function MetaEvolutionConsole() {
 
   const applyPatch = async (id: string) => {
     setIsLoading(true);
+    setMessage("");
     try {
-      // Simulate success for this phase. In reality it would write the skeletons.
-      setMessage(`Patch for proposal ${id} applied successfully to the workspace tree.`);
-      fetchProposals();
+      const res = await fetch(`/v1/mee/apply/${encodeURIComponent(id)}`, { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Patch for proposal ${id} applied successfully to the workspace tree.`);
+        fetchProposals();
+      } else {
+        setMessage(`Failed to apply patch: ${data.error || "Unknown error"}`);
+      }
     } catch (err: any) {
       setMessage(`Failed to apply patch: ${err.message}`);
     } finally {
@@ -197,7 +203,7 @@ export function MetaEvolutionConsole() {
                 >
                   <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb" }}>{prop.title}</div>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "6px" }}>
-                    <span>Status: <strong style={{ color: prop.status === "validated" ? "#34d399" : "#f59e0b" }}>{prop.status}</strong></span>
+                    <span>Status: <strong style={{ color: prop.status === "applied" ? "#10b981" : prop.status === "validated" ? "#34d399" : "#f59e0b" }}>{prop.status}</strong></span>
                     <span style={{ fontFamily: "monospace" }}>{prop.id.substring(0, 12)}</span>
                   </div>
                 </div>
@@ -246,7 +252,7 @@ export function MetaEvolutionConsole() {
                         onClick={() => applyPatch(prop.id)}
                         disabled={isLoading || prop.status !== "validated"}
                         style={{
-                          backgroundColor: prop.status === "validated" ? "#8b5cf6" : "#4b5563",
+                          backgroundColor: prop.status === "validated" ? "#8b5cf6" : prop.status === "applied" ? "#10b981" : "#4b5563",
                           color: "#ffffff",
                           padding: "8px 14px",
                           borderRadius: "6px",
@@ -255,7 +261,7 @@ export function MetaEvolutionConsole() {
                           cursor: prop.status === "validated" ? "pointer" : "not-allowed"
                         }}
                       >
-                        Apply Patch
+                        {prop.status === "applied" ? "Applied" : "Apply Patch"}
                       </button>
                     </div>
                   </div>
