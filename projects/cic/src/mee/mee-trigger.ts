@@ -1,52 +1,59 @@
-// File: projects/cic/src/mee/mee-trigger.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-trigger.ts | Date: 2026-06-03 | v1.1.0
 
-import { PhaseTriggerEvent } from "./mee-schema.js";
+import { MeeTriggerEvent } from "./mee-schema.js";
 import { CkgStore } from "../ckg/ckg-store.js";
 import crypto from "node:crypto";
 
 export class MeeTriggerEngine {
   constructor(private ckg: CkgStore) {}
 
-  detectTriggers(): PhaseTriggerEvent[] {
-    const events: PhaseTriggerEvent[] = [];
+  detectTriggers(): MeeTriggerEvent[] {
+    const events: MeeTriggerEvent[] = [];
     const graph = this.ckg.load();
 
-    // Check for orphans in CKG meta
     const orphans = graph.meta?.hotspots?.orphans || [];
     if (orphans.length > 0) {
       events.push({
         id: crypto.randomUUID(),
         type: "capability_gap",
-        source: "CKG",
-        details: { orphans },
+        payload: { orphans },
         timestamp: Date.now(),
       });
     }
 
-    // Check for state discrepancies in CKG drift
     const stateDiscrepancies = graph.meta?.drift?.stateDiscrepancies || [];
     if (stateDiscrepancies.length > 0) {
       events.push({
         id: crypto.randomUUID(),
         type: "drift",
-        source: "CKG",
-        details: { stateDiscrepancies },
+        payload: { stateDiscrepancies },
         timestamp: Date.now(),
       });
     }
 
-    // Check for unmapped skills in CKG drift
     const unmappedSkills = graph.meta?.drift?.unmappedSkills || [];
     if (unmappedSkills.length > 0) {
       events.push({
         id: crypto.randomUUID(),
         type: "capability_gap",
-        source: "CKG",
-        details: { unmappedSkills },
+        payload: { unmappedSkills },
         timestamp: Date.now(),
       });
     }
 
     return events;
+  }
+
+  serialize(event: MeeTriggerEvent): object {
+    return { ...event };
+  }
+
+  deserialize(raw: any): MeeTriggerEvent {
+    return {
+      id: raw.id,
+      type: raw.type,
+      payload: raw.payload ?? {},
+      timestamp: raw.timestamp ?? Date.now(),
+    };
   }
 }

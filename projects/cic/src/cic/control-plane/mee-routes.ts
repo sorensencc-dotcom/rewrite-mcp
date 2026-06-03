@@ -1,4 +1,4 @@
-// File: projects/cic/src/cic/control-plane/mee-routes.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/cic/control-plane/mee-routes.ts | Date: 2026-06-03 | v1.1.0
 
 import { Router } from "express";
 import { MeeTriggerEngine } from "../../mee/mee-trigger.js";
@@ -8,6 +8,7 @@ import { MeeValidator } from "../../mee/mee-validator.js";
 import { MeeProposalStore } from "../../mee/mee-proposal-store.js";
 import { CkgStore } from "../../ckg/ckg-store.js";
 import path from "node:path";
+import fs from "node:fs";
 import crypto from "node:crypto";
 import { PhaseProposal } from "../../mee/mee-schema.js";
 
@@ -26,18 +27,26 @@ export function registerMeeRoutes(router: Router) {
       const events = trigger.detectTriggers();
       const event = events[0] ?? null;
       if (!event) {
-        return res.json({ events: [], proposals: [] });
+        return res.json({ events: [], proposals: [], proposal: null });
       }
 
       const plan = generator.generate(event);
       const propId = `prop-${crypto.randomUUID()}`;
-      const patchSet = synth.synthesize(propId, plan);
+      const patchSet = synth.synthesize({
+        id: propId,
+        title: plan.title,
+        trigger: event,
+        status: "pending",
+        filesCreated: [],
+        planSummary: plan.objectives.join("; "),
+        timestamp: Date.now()
+      });
       const filesCreated = patchSet.patches.map(p => p.path);
 
       const proposal: PhaseProposal = {
         id: propId,
         title: plan.title,
-        triggerId: event.id,
+        trigger: event,
         status: "pending",
         filesCreated,
         planSummary: plan.objectives.join("; "),
@@ -45,7 +54,7 @@ export function registerMeeRoutes(router: Router) {
       };
 
       store.add(proposal);
-      res.json({ events, proposals: [proposal] });
+      res.json({ events, proposal, plan });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
@@ -71,6 +80,15 @@ export function registerMeeRoutes(router: Router) {
     }
   });
 
+  router.get("/mee/triggers", (_req, res) => {
+    try {
+      const events = trigger.detectTriggers();
+      res.json({ events });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   router.post("/mee/validate/:id", (req, res) => {
     try {
       const proposal = store.get(req.params.id);
@@ -78,7 +96,7 @@ export function registerMeeRoutes(router: Router) {
         return res.status(404).json({ error: `Proposal ${req.params.id} not found.` });
       }
       
-      const patchSet = { proposalId: proposal.id, patches: [] };
+      const patchSet = synth.synthesize(proposal);
       const report = validator.validate(patchSet);
       
       store.update(proposal.id, {
@@ -97,7 +115,8 @@ export function registerMeeRoutes(router: Router) {
       if (!proposal) {
         return res.status(404).json({ error: `Proposal ${req.params.id} not found.` });
       }
-      res.json({ proposalId: req.params.id, patches: [] });
+      const patchSet = synth.synthesize(proposal);
+      res.json({ proposal, patchSet });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
@@ -109,10 +128,23 @@ export function registerMeeRoutes(router: Router) {
       if (!proposal) {
         return res.status(404).json({ error: `Proposal ${req.params.id} not found.` });
       }
+
+      const patchSet = synth.synthesize(proposal);
+      const created: string[] = [];
+
+      for (const patch of patchSet.patches) {
+        const full = path.join(process.cwd(), patch.path);
+        fs.mkdirSync(path.dirname(full), { recursive: true });
+        fs.writeFileSync(full, patch.content, "utf8");
+        created.push(patch.path);
+      }
+
       store.update(proposal.id, {
-        status: "applied"
+        status: "applied",
+        filesCreated: created
       });
-      res.json(store.get(proposal.id));
+
+      res.json({ proposal: store.get(proposal.id), patchSet });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

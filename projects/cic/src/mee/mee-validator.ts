@@ -1,4 +1,4 @@
-// File: projects/cic/src/mee/mee-validator.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-validator.ts | Date: 2026-06-03 | v1.1.0
 
 import { PhasePatchSet, PhaseValidationReport } from "./mee-schema.js";
 

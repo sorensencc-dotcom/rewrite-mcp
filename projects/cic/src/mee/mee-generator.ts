@@ -1,12 +1,12 @@
-// File: projects/cic/src/mee/mee-generator.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-generator.ts | Date: 2026-06-03 | v1.1.0
 
-import { PhasePlan, PhaseTriggerEvent } from "./mee-schema.js";
+import { PhasePlan, MeeTriggerEvent } from "./mee-schema.js";
 
 export class MeePhaseGenerator {
-  generate(trigger: PhaseTriggerEvent): PhasePlan {
+  generate(trigger: MeeTriggerEvent): PhasePlan {
     return {
-      phaseNumber: 999, // placeholder; MEE assigns dynamically
-      title: `Auto‑Generated Phase from ${trigger.type}`,
+      phaseNumber: 30,
+      title: `Meta‑Evolution follow‑up for ${trigger.type}`,
       objectives: [
         "Analyze trigger event",
         "Generate implementation plan",

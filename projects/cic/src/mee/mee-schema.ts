@@ -1,10 +1,9 @@
-// File: projects/cic/src/mee/mee-schema.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-schema.ts | Date: 2026-06-03 | v1.1.0
 
-export interface PhaseTriggerEvent {
+export interface MeeTriggerEvent {
   id: string;
-  type: string; // "drift" | "capability_gap" | "roadmap_mismatch"
-  source: string;
-  details: Record<string, unknown>;
+  type: string;
+  payload: Record<string, unknown>;
   timestamp: number;
 }
 
@@ -17,6 +16,7 @@ export interface PhasePlan {
 
 export interface PhasePatch {
   path: string;
+  type: "create" | "modify";
   content: string;
 }
 
@@ -36,7 +36,7 @@ export interface PhaseValidationReport {
 export interface PhaseProposal {
   id: string;
   title: string;
-  triggerId: string;
+  trigger: MeeTriggerEvent;
   status: "pending" | "validated" | "rejected" | "applied";
   filesCreated: string[];
   planSummary: string;
