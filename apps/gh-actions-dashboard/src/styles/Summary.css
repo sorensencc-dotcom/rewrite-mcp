@@ -1,0 +1,36 @@
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card h3 {
+  font-size: 0.85em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.summary-card .metric {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.summary-card.clean .metric {
+  color: #22863a;
+}
+
+.summary-card.warning .metric {
+  color: #d73a49;
+}

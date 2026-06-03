@@ -1,4 +1,4 @@
-// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.3.0
+// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.4.0
 
 import React, { useEffect, useState } from "react";
 
@@ -65,6 +65,13 @@ interface ProposalGraph {
   conflicts: { proposalA: string; proposalB: string; path: string; type: string }[];
 }
 
+interface NegotiationTranscriptEntry {
+  round: number;
+  agentA: string;
+  agentB: string;
+  resolution: { type: string; reason: string; details?: any } | null;
+}
+
 export function MetaEvolutionConsole() {
   const [proposals, setProposals] = useState<PhaseProposal[]>([]);
   const [selectedProposalId, setSelectedProposalId] = useState<string>("");
@@ -73,11 +80,12 @@ export function MetaEvolutionConsole() {
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
   
-  // Phase 30F & 30G States
+  // Phase 30F, 30G, 30H States
   const [diffs, setDiffs] = useState<DiffResult[] | null>(null);
   const [diffMode, setDiffMode] = useState<"side-by-side" | "unified">("side-by-side");
   const [proposalGraph, setProposalGraph] = useState<ProposalGraph | null>(null);
   const [conflicts, setConflicts] = useState<any[] | null>(null);
+  const [negotiation, setNegotiation] = useState<{ consensus: PhaseProposal[]; transcript: NegotiationTranscriptEntry[] } | null>(null);
   
   const [autoStatus, setAutoStatus] = useState<{ enabled: boolean; lastRun: number | null; requireApproval: boolean }>({
     enabled: false,
@@ -344,6 +352,27 @@ export function MetaEvolutionConsole() {
     }
   };
 
+  const runNegotiation = async () => {
+    setIsLoading(true);
+    setMessage("Running Agent-to-Agent conflict resolution negotiation rounds...");
+    try {
+      const res = await fetch("/v1/mee/proposals/negotiate", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setNegotiation(data.data);
+        setMessage("Multi-agent negotiation rounds complete. Stable consensus ordering resolved.");
+        fetchProposals();
+        fetchGraph();
+      } else {
+        setMessage(`Negotiation failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Negotiation failed: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div style={{
       padding: "24px",
@@ -436,7 +465,7 @@ export function MetaEvolutionConsole() {
         gap: "24px",
         marginBottom: "32px"
       }}>
-        {/* Left Column: Proposals List + Auto-Evolution Panel + Graph & Conflicts */}
+        {/* Left Column: Proposals List + Auto-Evolution Panel + Graph & Conflicts + Negotiation */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           {/* Proposals List */}
           <div style={{
@@ -582,6 +611,69 @@ export function MetaEvolutionConsole() {
               </div>
             )}
           </div>
+
+          {/* Agent Negotiation Panel */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                Agent Negotiation
+              </h2>
+              <button
+                onClick={runNegotiation}
+                disabled={isLoading || proposals.length === 0}
+                style={{
+                  backgroundColor: "#2563eb",
+                  color: "#ffffff",
+                  padding: "6px 12px",
+                  borderRadius: "4px",
+                  border: "none",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  cursor: (isLoading || proposals.length === 0) ? "not-allowed" : "pointer"
+                }}
+              >
+                Trigger
+              </button>
+            </div>
+            {negotiation && negotiation.transcript.length > 0 ? (
+              <div style={{ maxHeight: "250px", overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "10px", backgroundColor: "#0b0f19" }}>
+                {negotiation.transcript.map((t, idx) => (
+                  <div key={idx} style={{ fontSize: "0.75rem", marginBottom: "8px", paddingBottom: "8px", borderBottom: "1px solid #1f2937", lineHeight: "1.4" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", color: "#60a5fa", fontWeight: 600, marginBottom: "2px" }}>
+                      <span>Round {t.round}</span>
+                      <span style={{ color: t.resolution ? "#f59e0b" : "#10b981" }}>
+                        {t.resolution ? "CONFLICT ⚠️" : "COMPATIBLE ✅"}
+                      </span>
+                    </div>
+                    <div style={{ color: "#9ca3af" }}>
+                      Agent <code style={{ backgroundColor: "#1f2937", padding: "1px 3px", borderRadius: "2px" }}>{t.agentA.substring(0, 8)}</code> 
+                      &hArr; 
+                      Agent <code style={{ backgroundColor: "#1f2937", padding: "1px 3px", borderRadius: "2px" }}>{t.agentB.substring(0, 8)}</code>
+                    </div>
+                    {t.resolution && (
+                      <div style={{ marginTop: "4px", color: "#cbd5e1" }}>
+                        <span style={{ textTransform: "uppercase", fontWeight: "bold", color: "#ef4444", fontSize: "0.7rem", marginRight: "4px" }}>
+                          [{t.resolution.type}]
+                        </span>
+                        {t.resolution.reason}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ fontSize: "0.8rem", color: "#6b7280", margin: 0, textAlign: "center", padding: "12px" }}>
+                No negotiation logs active. Click "Trigger" to execute agent-to-agent conflict resolution.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Details & Actions View */}
@@ -590,7 +682,7 @@ export function MetaEvolutionConsole() {
           border: "1px solid #1f2937",
           borderRadius: "12px",
           padding: "20px",
-          height: "900px",
+          height: "1100px",
           overflowY: "auto"
         }}>
           {selectedProposalId && patchDetails ? (
@@ -844,7 +936,7 @@ export function MetaEvolutionConsole() {
               })()}
             </div>
           ) : (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", color: "#6b7280" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "100%", color: "#6b7280" }}>
               Select a self-improvement proposal from the list to view its specification, patch contents, and verification audits.
             </div>
           )}

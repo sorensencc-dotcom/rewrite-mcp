@@ -1,4 +1,4 @@
-// File: projects/cic/src/cic/control-plane/mee-routes.ts | Date: 2026-06-03 | v1.3.0
+// File: projects/cic/src/cic/control-plane/mee-routes.ts | Date: 2026-06-03 | v1.4.0
 
 import { Router } from "express";
 import { MeeTriggerEngine } from "../../mee/mee-trigger.js";
@@ -9,6 +9,8 @@ import { MeeProposalStore } from "../../mee/mee-proposal-store.js";
 import { AutoEvolutionEngine } from "../../mee/auto-evolution-engine.js";
 import { MeeDiffEngine } from "../../mee/mee-diff-engine.js";
 import { MeeProposalGraph } from "../../mee/mee-proposal-graph.js";
+import { MeeNegotiationAgent } from "../../mee/mee-negotiation-agent.js";
+import { MeeNegotiationEngine } from "../../mee/mee-negotiation-engine.js";
 import { CkgStore } from "../../ckg/ckg-store.js";
 import path from "node:path";
 import fs from "node:fs";
@@ -27,6 +29,7 @@ export function registerMeeRoutes(router: Router) {
   const autoEvolution = new AutoEvolutionEngine(trigger, generator, synth, validator, store);
   const diffEngine = new MeeDiffEngine();
   const graphEngine = new MeeProposalGraph(synth, validator);
+  const negotiationEngine = new MeeNegotiationEngine();
 
   router.post("/mee/propose", (req, res) => {
     try {
@@ -574,6 +577,83 @@ export function registerMeeRoutes(router: Router) {
         error: {
           code: "internal.exception",
           message: err.message || "Failed to apply all proposals.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  // --- Phase 30H New Endpoints ---
+  router.post("/mee/proposals/negotiate", (req, res) => {
+    try {
+      const proposals = store.loadAll();
+      const agents = proposals.map((p) =>
+        new MeeNegotiationAgent(p, synth.synthesize(p))
+      );
+
+      negotiationEngine.runUntilStable(agents);
+      const consensus = negotiationEngine.produceConsensusPlan(agents);
+
+      res.json({
+        ok: true,
+        data: {
+          consensus,
+          transcript: negotiationEngine.getTranscript()
+        }
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to execute negotiation.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/proposals/negotiation/:id", (req, res) => {
+    try {
+      const transcript = negotiationEngine.getTranscript().filter(
+        (t) => t.agentA === req.params.id || t.agentB === req.params.id
+      );
+
+      res.json({
+        ok: true,
+        data: { transcript }
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to load negotiation transcript.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/proposals/consensus", (_req, res) => {
+    try {
+      const proposals = store.loadAll();
+      const agents = proposals.map((p) =>
+        new MeeNegotiationAgent(p, synth.synthesize(p))
+      );
+
+      const consensus = negotiationEngine.produceConsensusPlan(agents);
+
+      res.json({
+        ok: true,
+        data: { consensus }
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to build consensus plan.",
           details: {}
         }
       });
