@@ -12,8 +12,8 @@
       "other": 0
     },
     "delta": 1,
-    "bundle": null,
-    "checksum": null,
+    "bundle": "rewrite-mcp-release-v2.29.0.tar.gz",
+    "checksum": "d8e37ac2aa902fc75a12905edfd8442ab54c611267d95fb680b2ddbc58708f61",
     "notes": "2.29.0.summary.txt",
     "diff": "diff-2.29.0.summary.txt"
   },

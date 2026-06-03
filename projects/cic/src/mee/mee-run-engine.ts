@@ -29,6 +29,10 @@ export class MeeRunEngine {
     return run;
   }
 
+  getRun(id: string): MeeRun | undefined {
+    return this.store.getRun(id);
+  }
+
   startRun(id: string): MeeRun | undefined {
     const run = this.store.getRun(id);
     if (!run) return undefined;

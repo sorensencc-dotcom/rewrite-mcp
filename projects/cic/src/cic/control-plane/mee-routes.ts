@@ -24,6 +24,9 @@ import os from "node:os";
 import { MeeSafetyEngine } from "../../mee/safety/safety-engine.js";
 import { MeeSandboxEngine } from "../../mee/safety/sandbox-engine.js";
 import { MeeRollbackEngine } from "../../mee/safety/rollback-engine.js";
+import { FileMeeAutonomousJobStore } from "../../mee/mee-autonomous-store.js";
+import { MeeAutonomousEngine } from "../../mee/mee-autonomous-engine.js";
+import { MeeAutonomousWorker } from "../../mee/mee-autonomous-worker.js";
 
 export function registerMeeRoutes(router: Router) {
   const workspaceRoot = process.cwd();
@@ -47,6 +50,30 @@ export function registerMeeRoutes(router: Router) {
   const safetyEngine = new MeeSafetyEngine();
   const sandboxEngine = new MeeSandboxEngine();
   const rollbackEngine = new MeeRollbackEngine();
+
+  const autonomousJobStore = new FileMeeAutonomousJobStore(path.join(workspaceRoot, "projects/cic/data/jobs"));
+  const autonomousEngine = new MeeAutonomousEngine(
+    autonomousJobStore,
+    planningEngine,
+    runEngine,
+    safetyEngine,
+    sandboxEngine,
+    store,
+    synth,
+    validator,
+    rollbackEngine
+  );
+
+  const autonomousWorker = new MeeAutonomousWorker(
+    autonomousJobStore,
+    runEngine,
+    autonomousEngine,
+    workspaceRoot
+  );
+
+  if (process.env.NODE_ENV !== "test") {
+    autonomousWorker.start();
+  }
 
   router.post("/mee/propose", (req, res) => {
     try {
@@ -1130,6 +1157,81 @@ export function registerMeeRoutes(router: Router) {
         error: {
           code: "internal.exception",
           message: err.message || "Failed to override safety check.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.post("/mee/autonomous/jobs", async (req, res) => {
+    try {
+      const { request } = req.body || {};
+      if (!request) {
+        return res.status(400).json({
+          ok: false,
+          error: {
+            code: "validation.invalid_payload",
+            message: "request is required",
+            details: {}
+          }
+        });
+      }
+
+      const job = autonomousEngine.createJob(request);
+      const started = autonomousEngine.startJob(job.id);
+
+      return res.json({
+        ok: true,
+        data: { job: started ?? job }
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to create autonomous job.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs", (_req, res) => {
+    try {
+      const jobs = autonomousJobStore.list();
+      return res.json({ ok: true, data: { jobs } });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to list autonomous jobs.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id", (req, res) => {
+    try {
+      const job = autonomousJobStore.get(req.params.id);
+      if (!job) {
+        return res.status(404).json({
+          ok: false,
+          error: {
+            code: "not_found.job",
+            message: "Autonomous job not found",
+            details: { id: req.params.id }
+          }
+        });
+      }
+      return res.json({ ok: true, data: { job } });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve autonomous job.",
           details: {}
         }
       });

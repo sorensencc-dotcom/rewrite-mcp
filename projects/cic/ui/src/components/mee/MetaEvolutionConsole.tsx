@@ -109,7 +109,60 @@ export function MetaEvolutionConsole() {
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
 
-  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety">("evolution");
+  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety" | "autonomous">("evolution");
+  const [abmRequest, setAbmRequest] = useState<string>("");
+  const [abmJob, setAbmJob] = useState<any | null>(null);
+  const [abmJobs, setAbmJobs] = useState<any[]>([]);
+  const [isSubmittingJob, setIsSubmittingJob] = useState<boolean>(false);
+  const [isFetchingJobs, setIsFetchingJobs] = useState<boolean>(false);
+
+  const fetchAutonomousJobs = async () => {
+    setIsFetchingJobs(true);
+    try {
+      const res = await fetch("/v1/mee/autonomous/jobs");
+      const data = await res.json();
+      if (data.ok) {
+        setAbmJobs(data.data.jobs || []);
+        if (abmJob) {
+          const updated = data.data.jobs.find((j: any) => j.id === abmJob.id);
+          if (updated) {
+            setAbmJob(updated);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch autonomous jobs:", err);
+    } finally {
+      setIsFetchingJobs(false);
+    }
+  };
+
+  const startAutonomousJob = async () => {
+    if (!abmRequest.trim()) return;
+    setIsSubmittingJob(true);
+    setMessage("Submitting autonomous build job...");
+    try {
+      const res = await fetch("/v1/mee/autonomous/jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ request: abmRequest })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setAbmJob(data.data.job);
+        setMessage(`Autonomous build job ${data.data.job.id} started successfully.`);
+        setAbmRequest("");
+        fetchAutonomousJobs();
+      } else {
+        setMessage(`Failed to start autonomous job: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to start autonomous job: ${err.message}`);
+    } finally {
+      setIsSubmittingJob(false);
+    }
+  };
+
   const [refactorInsights, setRefactorInsights] = useState<RefactorInsight[]>([]);
   const [isScanningRefactor, setIsScanningRefactor] = useState<boolean>(false);
 
@@ -313,6 +366,7 @@ export function MetaEvolutionConsole() {
     fetchAutoStatus();
     fetchGraph();
     fetchRuns();
+    fetchAutonomousJobs();
     const interval = setInterval(() => {
       fetchAutoStatus();
       fetchGraph();
@@ -320,9 +374,25 @@ export function MetaEvolutionConsole() {
       if (selectedRunId) {
         fetchRunDetails(selectedRunId);
       }
+      if (activeTab === "autonomous") {
+        fetchAutonomousJobs();
+      }
     }, 10000);
     return () => clearInterval(interval);
-  }, [selectedRunId]);
+  }, [selectedRunId, activeTab]);
+
+  useEffect(() => {
+    let interval: any = null;
+    const hasRunning = abmJobs.some((j) => j.status === "running");
+    if (hasRunning || (abmJob && abmJob.status === "running")) {
+      interval = setInterval(() => {
+        fetchAutonomousJobs();
+      }, 2000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [abmJobs, abmJob]);
 
   const fetchProposals = async () => {
     try {
@@ -764,6 +834,25 @@ export function MetaEvolutionConsole() {
           }}
         >
           Safety Center
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("autonomous");
+            fetchAutonomousJobs();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "autonomous" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "autonomous" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Autonomous Build
         </button>
       </div>
 
@@ -2144,6 +2233,280 @@ export function MetaEvolutionConsole() {
                 Select a proposal from the left panel to inspect its safety metrics and sandboxed execution logs.
               </div>
             )}
+          </div>
+        </div>
+      {activeTab === "autonomous" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Job History */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              height: "600px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                  Job History
+                </h2>
+                <button
+                  onClick={fetchAutonomousJobs}
+                  disabled={isFetchingJobs}
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "#3b82f6",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "0.875rem"
+                  }}
+                >
+                  {isFetchingJobs ? "Refreshing..." : "Refresh"}
+                </button>
+              </div>
+
+              <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+                {abmJobs.length === 0 ? (
+                  <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
+                    No autonomous build jobs found.
+                  </div>
+                ) : (
+                  abmJobs.map(job => {
+                    const statusColors: Record<string, string> = {
+                      pending: "#fbbf24",
+                      running: "#3b82f6",
+                      completed: "#10b981",
+                      failed: "#ef4444"
+                    };
+                    const color = statusColors[job.status] || "#9ca3af";
+
+                    return (
+                      <div
+                        key={job.id}
+                        onClick={() => setAbmJob(job)}
+                        style={{
+                          padding: "12px",
+                          borderRadius: "6px",
+                          marginBottom: "8px",
+                          cursor: "pointer",
+                          backgroundColor: abmJob?.id === job.id ? "#1d4ed8" : "#1f2937",
+                          border: "1px solid #374151",
+                          transition: "background-color 0.2s"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", maxWidth: "160px" }}>
+                            {job.request}
+                          </span>
+                          <span style={{
+                            fontSize: "0.7rem",
+                            fontWeight: "bold",
+                            padding: "2px 6px",
+                            borderRadius: "4px",
+                            backgroundColor: color + "20",
+                            color: color,
+                            textTransform: "uppercase"
+                          }}>
+                            {job.status}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "8px" }}>
+                          <span>Proposals: {job.proposalIds?.length ?? 0}</span>
+                          <span style={{ fontFamily: "monospace" }}>{job.id.substring(0, 8)}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Start New Job / Job details */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {/* Start Job Panel */}
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px"
+            }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "12px" }}>
+                Start Autonomous Job
+              </h2>
+              <textarea
+                value={abmRequest}
+                onChange={(e) => setAbmRequest(e.target.value)}
+                placeholder="Describe 2–3 things you want CIC to build (e.g. 'Add new extractor module, write validator checks, and optimize UI')"
+                style={{
+                  width: "100%",
+                  height: "80px",
+                  backgroundColor: "#0b0f19",
+                  border: "1px solid #374151",
+                  borderRadius: "8px",
+                  padding: "12px",
+                  color: "#ffffff",
+                  fontSize: "0.875rem",
+                  fontFamily: "inherit",
+                  resize: "none",
+                  boxSizing: "border-box",
+                  marginBottom: "12px"
+                }}
+              />
+              <button
+                onClick={startAutonomousJob}
+                disabled={isSubmittingJob || !abmRequest.trim()}
+                style={{
+                  backgroundColor: "#8b5cf6",
+                  color: "#ffffff",
+                  padding: "10px 20px",
+                  borderRadius: "6px",
+                  border: "none",
+                  fontWeight: 600,
+                  cursor: (isSubmittingJob || !abmRequest.trim()) ? "not-allowed" : "pointer",
+                  transition: "opacity 0.2s"
+                }}
+              >
+                {isSubmittingJob ? "Starting Job..." : "Start Autonomous Job"}
+              </button>
+            </div>
+
+            {/* Job Detail Viewer */}
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              flex: 1,
+              minHeight: "380px"
+            }}>
+              {abmJob ? (
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                    <div>
+                      <h3 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                        Job Details
+                      </h3>
+                      <span style={{ fontSize: "0.75rem", color: "#6b7280", fontFamily: "monospace" }}>
+                        ID: {abmJob.id}
+                      </span>
+                    </div>
+                    <span style={{
+                      fontSize: "0.875rem",
+                      fontWeight: "bold",
+                      padding: "4px 10px",
+                      borderRadius: "6px",
+                      backgroundColor: abmJob.status === "completed" ? "rgba(16, 185, 129, 0.1)" : abmJob.status === "failed" ? "rgba(239, 68, 68, 0.1)" : "rgba(59, 130, 246, 0.1)",
+                      color: abmJob.status === "completed" ? "#10b981" : abmJob.status === "failed" ? "#ef4444" : "#3b82f6",
+                      textTransform: "uppercase"
+                    }}>
+                      {abmJob.status}
+                    </span>
+                  </div>
+
+                  <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "0.875rem" }}>
+                    <div>
+                      <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Request Prompt</span>
+                      <div style={{ backgroundColor: "#0b0f19", padding: "12px", borderRadius: "6px", border: "1px solid #1f2937" }}>
+                        {abmJob.request}
+                      </div>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                      <div>
+                        <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Execution Run</span>
+                        {abmJob.runId ? (
+                          <span
+                            onClick={() => {
+                              setActiveTab("runs");
+                              fetchRunDetails(abmJob.runId);
+                            }}
+                            style={{ color: "#3b82f6", textDecoration: "underline", cursor: "pointer", fontFamily: "monospace" }}
+                          >
+                            {abmJob.runId.substring(0, 8)} (Inspect Run)
+                          </span>
+                        ) : (
+                          <span style={{ color: "#6b7280" }}>None</span>
+                        )}
+                      </div>
+                      <div>
+                        <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Plan Request</span>
+                        <span style={{ color: "#cbd5e1", fontFamily: "monospace" }}>
+                          {abmJob.planId ? abmJob.planId.substring(0, 8) : "Pending"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Tasks & Proposals</span>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                        {abmJob.proposalIds && abmJob.proposalIds.length > 0 ? (
+                          abmJob.proposalIds.map((pId: string, idx: number) => (
+                            <span
+                              key={pId}
+                              onClick={() => {
+                                setActiveTab("evolution");
+                                fetchPatch(pId);
+                              }}
+                              style={{
+                                display: "inline-block",
+                                padding: "4px 8px",
+                                backgroundColor: "#1f2937",
+                                border: "1px solid #374151",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                fontSize: "0.75rem",
+                                color: "#cbd5e1",
+                                fontFamily: "monospace"
+                              }}
+                            >
+                              Step {idx + 1}: {pId.substring(0, 8)}
+                            </span>
+                          ))
+                        ) : (
+                          <span style={{ color: "#6b7280" }}>No tasks generated yet.</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {abmJob.error && (
+                      <div style={{ marginTop: "16px" }}>
+                        <span style={{ color: "#ef4444", fontWeight: 600, display: "block", marginBottom: "4px" }}>Job Failure Details</span>
+                        <pre style={{
+                          margin: 0,
+                          padding: "12px",
+                          backgroundColor: "rgba(239, 68, 68, 0.1)",
+                          color: "#f87171",
+                          border: "1px solid #ef4444",
+                          borderRadius: "6px",
+                          fontSize: "0.8rem",
+                          fontFamily: "monospace",
+                          whiteSpace: "pre-wrap",
+                          overflowY: "auto",
+                          maxHeight: "150px"
+                        }}>
+                          {abmJob.error.message}
+                          {abmJob.error.code ? `\nCode: ${abmJob.error.code}` : ""}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", color: "#6b7280" }}>
+                  Select an autonomous build job from the left history panel to view details.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

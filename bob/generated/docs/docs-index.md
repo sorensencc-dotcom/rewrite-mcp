@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-03T23:24:54.366Z
+Generated at: 2026-06-03T23:29:11.444Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -657,3 +657,4 @@ Generated at: 2026-06-03T23:24:54.366Z
 - [skillopt-objective-redesign.md](projects/cic/docs/skillopt/skillopt-objective-redesign.md)
 - [skillopt-exporter-spec.md](projects/cic/docs/skillopt/skillopt-exporter-spec.md)
 - [skillopt-bridge-redesign-v1.md](projects/cic/docs/skillopt/skillopt-bridge-redesign-v1.md)
+- [proposal-task-fd552d27-53e0-447b-9c7a-b8460f745025.md](projects/cic/docs/mee/proposal-task-fd552d27-53e0-447b-9c7a-b8460f745025.md)
