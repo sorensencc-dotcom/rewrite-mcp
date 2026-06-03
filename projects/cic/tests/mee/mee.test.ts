@@ -50,10 +50,10 @@ describe("Phase 30 — MEE Meta‑Evolution Engine", () => {
       }
     });
 
-    const triggerEngine = new MeeTriggerEngine(store);
+        const triggerEngine = new MeeTriggerEngine(store);
     const events = triggerEngine.detectTriggers();
 
-    expect(events.length).toBe(2);
+    expect(events.length).toBe(3);
     expect(events.some(e => e.type === "capability_gap")).toBe(true);
     expect(events.some(e => e.type === "drift")).toBe(true);
   });

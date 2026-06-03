@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-03T17:11:14.483Z
+Generated at: 2026-06-03T17:23:34.639Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)

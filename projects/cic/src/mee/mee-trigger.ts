@@ -35,6 +35,18 @@ export class MeeTriggerEngine {
       });
     }
 
+    // Check for unmapped skills in CKG drift
+    const unmappedSkills = graph.meta?.drift?.unmappedSkills || [];
+    if (unmappedSkills.length > 0) {
+      events.push({
+        id: crypto.randomUUID(),
+        type: "capability_gap",
+        source: "CKG",
+        details: { unmappedSkills },
+        timestamp: Date.now(),
+      });
+    }
+
     return events;
   }
 }
