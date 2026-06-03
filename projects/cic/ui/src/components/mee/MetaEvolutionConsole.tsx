@@ -1,4 +1,4 @@
-// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.2.0
+// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.3.0
 
 import React, { useEffect, useState } from "react";
 
@@ -45,6 +45,26 @@ interface PatchSet {
   patches: Patch[];
 }
 
+interface DiffChunk {
+  type: "context" | "add" | "remove";
+  oldLine: number | null;
+  newLine: number | null;
+  content: string;
+}
+
+interface DiffResult {
+  path: string;
+  oldContent: string | null;
+  newContent: string;
+  chunks: DiffChunk[];
+}
+
+interface ProposalGraph {
+  nodes: { id: string; title: string; status: string }[];
+  edges: { from: string; to: string; reason: string }[];
+  conflicts: { proposalA: string; proposalB: string; path: string; type: string }[];
+}
+
 export function MetaEvolutionConsole() {
   const [proposals, setProposals] = useState<PhaseProposal[]>([]);
   const [selectedProposalId, setSelectedProposalId] = useState<string>("");
@@ -52,6 +72,13 @@ export function MetaEvolutionConsole() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
+  
+  // Phase 30F & 30G States
+  const [diffs, setDiffs] = useState<DiffResult[] | null>(null);
+  const [diffMode, setDiffMode] = useState<"side-by-side" | "unified">("side-by-side");
+  const [proposalGraph, setProposalGraph] = useState<ProposalGraph | null>(null);
+  const [conflicts, setConflicts] = useState<any[] | null>(null);
+  
   const [autoStatus, setAutoStatus] = useState<{ enabled: boolean; lastRun: number | null; requireApproval: boolean }>({
     enabled: false,
     lastRun: null,
@@ -61,8 +88,11 @@ export function MetaEvolutionConsole() {
   useEffect(() => {
     fetchProposals();
     fetchAutoStatus();
-    // Poll auto status every 10 seconds to show background execution diagnostics
-    const interval = setInterval(fetchAutoStatus, 10000);
+    fetchGraph();
+    const interval = setInterval(() => {
+      fetchAutoStatus();
+      fetchGraph();
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -70,7 +100,9 @@ export function MetaEvolutionConsole() {
     try {
       const res = await fetch("/v1/mee/proposals");
       const data = await res.json();
-      setProposals(Array.isArray(data) ? data : []);
+      if (data.ok) {
+        setProposals(Array.isArray(data.data) ? data.data : []);
+      }
     } catch (err) {
       console.error("Failed to fetch MEE proposals:", err);
     }
@@ -80,9 +112,24 @@ export function MetaEvolutionConsole() {
     try {
       const res = await fetch("/v1/mee/auto/status");
       const data = await res.json();
-      setAutoStatus(data);
+      if (data.ok) {
+        setAutoStatus(data.data);
+      }
     } catch (err) {
       console.error("Failed to fetch auto-evolution status:", err);
+    }
+  };
+
+  const fetchGraph = async () => {
+    try {
+      const res = await fetch("/v1/mee/proposals/graph");
+      const data = await res.json();
+      if (data.ok) {
+        setProposalGraph(data.data);
+        setConflicts(data.data.conflicts);
+      }
+    } catch (err) {
+      console.error("Failed to fetch proposals graph:", err);
     }
   };
 
@@ -92,8 +139,13 @@ export function MetaEvolutionConsole() {
     try {
       const res = await fetch("/v1/mee/propose", { method: "POST" });
       const data = await res.json();
-      setMessage(`Scan complete. Proposal created: ${data.proposal ? data.proposal.title : "none"}`);
-      fetchProposals();
+      if (data.ok) {
+        setMessage(`Scan complete. Proposal created: ${data.data.proposal ? data.data.proposal.title : "none"}`);
+        fetchProposals();
+        fetchGraph();
+      } else {
+        setMessage(`Scan failed: ${data.error.message}`);
+      }
     } catch (err: any) {
       setMessage(`Scan failed: ${err.message}`);
     } finally {
@@ -107,21 +159,22 @@ export function MetaEvolutionConsole() {
       try {
         const res = await fetch(`/v1/mee/proposals/${encodeURIComponent(id)}`);
         if (!res.ok) return;
-        const prop = await res.json();
-        if (prop && prop.status !== "pending") {
+        const data = await res.json();
+        if (data.ok && data.data && data.data.status !== "pending") {
           clearInterval(interval);
           fetchProposals();
+          fetchGraph();
           
           if (patchDetails && patchDetails.proposal.id === id) {
             setPatchDetails({
               ...patchDetails,
-              proposal: prop
+              proposal: data.data
             });
-            if (prop.validationReport) {
-              setValidationReport(prop.validationReport);
+            if (data.data.validationReport) {
+              setValidationReport(data.data.validationReport);
             }
           }
-          setMessage(`Validation execution complete: proposal is ${prop.status.toUpperCase()}.`);
+          setMessage(`Validation execution complete: proposal is ${data.data.status.toUpperCase()}.`);
         }
       } catch (err) {
         console.error("Error polling validation status:", err);
@@ -139,20 +192,22 @@ export function MetaEvolutionConsole() {
     setMessage("Triggering validation pipeline in the background...");
     try {
       const res = await fetch(`/v1/mee/validate/${encodeURIComponent(id)}`, { method: "POST" });
-      const proposal = await res.json();
-      fetchProposals();
-      
-      // Update local state to show it is checking
-      if (patchDetails) {
-        setPatchDetails({
-          ...patchDetails,
-          proposal: { ...patchDetails.proposal, status: "pending" }
-        });
+      const data = await res.json();
+      if (data.ok) {
+        fetchProposals();
+        fetchGraph();
+        
+        if (patchDetails) {
+          setPatchDetails({
+            ...patchDetails,
+            proposal: { ...patchDetails.proposal, status: "pending" }
+          });
+        }
+        setValidationReport(null);
+        pollProposalValidation(id);
+      } else {
+        setMessage(`Validation start failed: ${data.error.message}`);
       }
-      setValidationReport(null);
-
-      // Start polling for results
-      pollProposalValidation(id);
     } catch (err: any) {
       setMessage(`Validation start failed: ${err.message}`);
     } finally {
@@ -164,15 +219,31 @@ export function MetaEvolutionConsole() {
     try {
       const res = await fetch(`/v1/mee/patch/${encodeURIComponent(id)}`);
       const data = await res.json();
-      setPatchDetails(data);
-      setSelectedProposalId(id);
-      if (data.proposal?.validationReport) {
-        setValidationReport(data.proposal.validationReport);
-      } else {
-        setValidationReport(null);
+      if (data.ok) {
+        setPatchDetails(data.data);
+        setSelectedProposalId(id);
+        if (data.data.proposal?.validationReport) {
+          setValidationReport(data.data.proposal.validationReport);
+        } else {
+          setValidationReport(null);
+        }
+        // Load line-by-line diffs
+        loadDiffs(id);
       }
     } catch (err) {
       console.error("Failed to fetch patch details:", err);
+    }
+  };
+
+  const loadDiffs = async (id: string) => {
+    try {
+      const res = await fetch(`/v1/mee/diff/${encodeURIComponent(id)}`);
+      const data = await res.json();
+      if (data.ok) {
+        setDiffs(data.data.diffs);
+      }
+    } catch (err) {
+      console.error("Failed to load patch diffs:", err);
     }
   };
 
@@ -182,9 +253,10 @@ export function MetaEvolutionConsole() {
     try {
       const res = await fetch(`/v1/mee/apply/${encodeURIComponent(id)}`, { method: "POST" });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.ok) {
         setMessage(`Patch for proposal ${id} applied successfully to the workspace tree.`);
         fetchProposals();
+        fetchGraph();
         if (patchDetails) {
           setPatchDetails({
             ...patchDetails,
@@ -192,7 +264,8 @@ export function MetaEvolutionConsole() {
           });
         }
       } else {
-        setMessage(`Failed to apply patch: ${data.error || "Unknown error"}`);
+        const errorMsg = data.error?.message || "Unknown error";
+        setMessage(`Failed to apply patch: ${errorMsg}`);
       }
     } catch (err: any) {
       setMessage(`Failed to apply patch: ${err.message}`);
@@ -213,13 +286,59 @@ export function MetaEvolutionConsole() {
       });
       const data = await res.json();
       if (data.ok) {
-        setAutoStatus(data.status);
-        setMessage(`Auto-Evolution is now ${data.status.enabled ? "ENABLED" : "DISABLED"}.`);
+        setAutoStatus(data.data.status);
+        setMessage(`Auto-Evolution is now ${data.data.status.enabled ? "ENABLED" : "DISABLED"}.`);
       } else {
-        setMessage(`Failed to toggle Auto-Evolution: ${data.error}`);
+        setMessage(`Failed to toggle Auto-Evolution: ${data.error.message}`);
       }
     } catch (err: any) {
       setMessage(`Failed to toggle Auto-Evolution: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const validateAllProposals = async () => {
+    setIsLoading(true);
+    setMessage("Validating all proposals sequentially...");
+    try {
+      const res = await fetch("/v1/mee/proposals/validate-all", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage("All proposals validated successfully in topologically sorted order.");
+        fetchProposals();
+        fetchGraph();
+      } else {
+        setMessage(`Validation all failed: ${data.error.message}`);
+        if (data.error.details?.conflicts) {
+          setConflicts(data.error.details.conflicts);
+        }
+      }
+    } catch (err: any) {
+      setMessage(`Validation all failed: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const applyAllProposals = async () => {
+    setIsLoading(true);
+    setMessage("Applying all proposals in dependency order...");
+    try {
+      const res = await fetch("/v1/mee/proposals/apply-all", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Successfully applied proposals: ${data.data.applied.join(", ")}`);
+        fetchProposals();
+        fetchGraph();
+      } else {
+        setMessage(`Apply all failed: ${data.error.message}`);
+        if (data.error.details?.conflicts) {
+          setConflicts(data.error.details.conflicts);
+        }
+      }
+    } catch (err: any) {
+      setMessage(`Apply all failed: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -243,23 +362,57 @@ export function MetaEvolutionConsole() {
             Self-improvement substrates executing autonomous architectural phase updates
           </p>
         </div>
-        <button
-          onClick={triggerProposalScan}
-          disabled={isLoading}
-          style={{
-            backgroundColor: "#2563eb",
-            color: "#ffffff",
-            padding: "10px 18px",
-            borderRadius: "6px",
-            border: "none",
-            fontWeight: 600,
-            cursor: "pointer",
-            boxShadow: "0 4px 6px -1px rgba(37, 99, 235, 0.2)",
-            transition: "opacity 0.2s"
-          }}
-        >
-          {isLoading ? "Scanning..." : "Scan CKG for Gaps"}
-        </button>
+        <div style={{ display: "flex", gap: "12px" }}>
+          <button
+            onClick={validateAllProposals}
+            disabled={isLoading || proposals.length === 0}
+            style={{
+              backgroundColor: "#1f2937",
+              color: "#ffffff",
+              border: "1px solid #374151",
+              padding: "10px 18px",
+              borderRadius: "6px",
+              fontWeight: 600,
+              cursor: (isLoading || proposals.length === 0) ? "not-allowed" : "pointer",
+              transition: "opacity 0.2s"
+            }}
+          >
+            Validate All
+          </button>
+          <button
+            onClick={applyAllProposals}
+            disabled={isLoading || proposals.length === 0}
+            style={{
+              backgroundColor: "#8b5cf6",
+              color: "#ffffff",
+              padding: "10px 18px",
+              borderRadius: "6px",
+              border: "none",
+              fontWeight: 600,
+              cursor: (isLoading || proposals.length === 0) ? "not-allowed" : "pointer",
+              transition: "opacity 0.2s"
+            }}
+          >
+            Apply All
+          </button>
+          <button
+            onClick={triggerProposalScan}
+            disabled={isLoading}
+            style={{
+              backgroundColor: "#2563eb",
+              color: "#ffffff",
+              padding: "10px 18px",
+              borderRadius: "6px",
+              border: "none",
+              fontWeight: 600,
+              cursor: pointer => isLoading ? "not-allowed" : "pointer",
+              boxShadow: "0 4px 6px -1px rgba(37, 99, 235, 0.2)",
+              transition: "opacity 0.2s"
+            }}
+          >
+            {isLoading ? "Scanning..." : "Scan CKG for Gaps"}
+          </button>
+        </div>
       </header>
 
       {message && (
@@ -269,7 +422,8 @@ export function MetaEvolutionConsole() {
           borderRadius: "8px",
           marginBottom: "24px",
           color: "#34d399",
-          borderLeft: "4px solid #10b981"
+          borderLeft: "4px solid #10b981",
+          fontSize: "0.9rem"
         }}>
           {message}
         </div>
@@ -282,7 +436,7 @@ export function MetaEvolutionConsole() {
         gap: "24px",
         marginBottom: "32px"
       }}>
-        {/* Left Column: Proposals List + Auto-Evolution Panel */}
+        {/* Left Column: Proposals List + Auto-Evolution Panel + Graph & Conflicts */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           {/* Proposals List */}
           <div style={{
@@ -290,7 +444,7 @@ export function MetaEvolutionConsole() {
             border: "1px solid #1f2937",
             borderRadius: "12px",
             padding: "20px",
-            height: "450px",
+            height: "400px",
             display: "flex",
             flexDirection: "column"
           }}>
@@ -377,6 +531,57 @@ export function MetaEvolutionConsole() {
               {autoStatus.enabled ? "Disable Auto-Evolution" : "Enable Auto-Evolution"}
             </button>
           </div>
+
+          {/* Dependency Graph & Conflicts Panel */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "12px" }}>
+              Evolution Pipeline Graph
+            </h2>
+            {conflicts && conflicts.length > 0 && (
+              <div style={{
+                backgroundColor: "#7f1d1d",
+                border: "1px solid #b91c1c",
+                borderRadius: "8px",
+                padding: "12px",
+                marginBottom: "16px",
+                fontSize: "0.8rem",
+                color: "#fca5a5"
+              }}>
+                <strong>Conflicts Detected:</strong>
+                <ul style={{ margin: "6px 0 0 0", paddingLeft: "16px" }}>
+                  {conflicts.map((c, idx) => (
+                    <li key={idx}>
+                      {c.proposalA.substring(0, 8)} ↔ {c.proposalB.substring(0, 8)} on <code style={{ backgroundColor: "rgba(0,0,0,0.3)", padding: "1px 4px", borderRadius: "3px" }}>{c.path}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {proposalGraph && proposalGraph.edges.length > 0 ? (
+              <div style={{ fontSize: "0.8rem", backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
+                <strong>Dependency Edges:</strong>
+                <ul style={{ margin: "6px 0 0 0", paddingLeft: "16px", color: "#9ca3af" }}>
+                  {proposalGraph.edges.map((e: any, idx: number) => (
+                    <li key={idx} style={{ marginBottom: "4px" }}>
+                      <strong style={{ color: "#e2e8f0" }}>{e.from.substring(0, 8)}</strong> &rarr; <strong style={{ color: "#e2e8f0" }}>{e.to.substring(0, 8)}</strong>
+                      <div style={{ fontSize: "0.7rem", color: "#6b7280" }}>{e.reason}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div style={{ fontSize: "0.8rem", color: "#6b7280", textAlign: "center", padding: "12px" }}>
+                No active cross-proposal dependency chains.
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Details & Actions View */}
@@ -385,7 +590,7 @@ export function MetaEvolutionConsole() {
           border: "1px solid #1f2937",
           borderRadius: "12px",
           padding: "20px",
-          height: "700px",
+          height: "900px",
           overflowY: "auto"
         }}>
           {selectedProposalId && patchDetails ? (
@@ -474,31 +679,114 @@ export function MetaEvolutionConsole() {
                       </p>
                     </div>
 
-                    {/* Patch Preview */}
-                    {patchDetails.patchSet && patchDetails.patchSet.patches.length > 0 && (
+                    {/* Diff Preview Panel */}
+                    {diffs && diffs.length > 0 && (
                       <div style={{ marginBottom: "20px" }}>
-                        <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Patch Preview</h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                          {patchDetails.patchSet.patches.map((p, idx) => (
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                          <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, margin: 0 }}>Line-Level Diff Preview</h3>
+                          <div style={{ display: "flex", gap: "6px" }}>
+                            <button
+                              onClick={() => setDiffMode("side-by-side")}
+                              style={{
+                                backgroundColor: diffMode === "side-by-side" ? "#2563eb" : "#1f2937",
+                                color: "#ffffff",
+                                border: "1px solid #374151",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                                fontSize: "0.75rem",
+                                cursor: "pointer"
+                              }}
+                            >
+                              Side-by-Side
+                            </button>
+                            <button
+                              onClick={() => setDiffMode("unified")}
+                              style={{
+                                backgroundColor: diffMode === "unified" ? "#2563eb" : "#1f2937",
+                                color: "#ffffff",
+                                border: "1px solid #374151",
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                                fontSize: "0.75rem",
+                                cursor: "pointer"
+                              }}
+                            >
+                              Unified
+                            </button>
+                          </div>
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                          {diffs.map((d, idx) => (
                             <div key={idx} style={{
                               border: "1px solid #374151",
                               borderRadius: "6px",
                               backgroundColor: "#0b0f19",
-                              padding: "12px"
+                              overflowX: "auto"
                             }}>
-                              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "0.75rem", color: "#9ca3af" }}>
-                                <span style={{ fontFamily: "monospace", fontWeight: 600 }}>{p.path}</span>
-                                <span style={{ textTransform: "uppercase", color: p.type === "create" ? "#10b981" : "#3b82f6" }}>{p.type}</span>
+                              <div style={{ backgroundColor: "#1f2937", padding: "8px 12px", borderBottom: "1px solid #374151", fontSize: "0.75rem", fontFamily: "monospace", color: "#cbd5e1" }}>
+                                {d.path}
                               </div>
-                              <pre style={{
-                                margin: 0,
-                                fontFamily: "monospace",
-                                fontSize: "0.8rem",
-                                overflowX: "auto",
-                                color: "#e2e8f0"
-                              }}>
-                                {p.content}
-                              </pre>
+
+                              <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "monospace", fontSize: "0.8rem", color: "#cbd5e1" }}>
+                                <tbody>
+                                  {diffMode === "side-by-side" ? (
+                                    d.chunks.map((c, cidx) => {
+                                      let leftBg = "transparent";
+                                      let rightBg = "transparent";
+                                      if (c.type === "remove") leftBg = "#451a21";
+                                      if (c.type === "add") rightBg = "#052e16";
+
+                                      return (
+                                        <tr key={cidx} style={{ borderBottom: "1px solid #1f2937" }}>
+                                          <td style={{ width: "40px", padding: "4px 8px", color: "#4b5563", borderRight: "1px solid #1f2937", textAlign: "right", backgroundColor: leftBg, userSelect: "none" }}>
+                                            {c.oldLine ?? ""}
+                                          </td>
+                                          <td style={{ padding: "4px 12px", borderRight: "1px solid #1f2937", backgroundColor: leftBg, whiteSpace: "pre-wrap" }}>
+                                            {c.type === "remove" || c.type === "context" ? c.content : ""}
+                                          </td>
+                                          <td style={{ width: "40px", padding: "4px 8px", color: "#4b5563", borderRight: "1px solid #1f2937", textAlign: "right", backgroundColor: rightBg, userSelect: "none" }}>
+                                            {c.newLine ?? ""}
+                                          </td>
+                                          <td style={{ padding: "4px 12px", backgroundColor: rightBg, whiteSpace: "pre-wrap" }}>
+                                            {c.type === "add" || c.type === "context" ? c.content : ""}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  ) : (
+                                    d.chunks.map((c, cidx) => {
+                                      let lineBg = "transparent";
+                                      let prefix = " ";
+                                      if (c.type === "remove") {
+                                        lineBg = "#451a21";
+                                        prefix = "-";
+                                      }
+                                      if (c.type === "add") {
+                                        lineBg = "#052e16";
+                                        prefix = "+";
+                                      }
+
+                                      return (
+                                        <tr key={cidx} style={{ backgroundColor: lineBg, borderBottom: "1px solid #1f2937" }}>
+                                          <td style={{ width: "40px", padding: "4px 8px", color: "#4b5563", borderRight: "1px solid #1f2937", textAlign: "right", userSelect: "none" }}>
+                                            {c.oldLine ?? ""}
+                                          </td>
+                                          <td style={{ width: "40px", padding: "4px 8px", color: "#4b5563", borderRight: "1px solid #1f2937", textAlign: "right", userSelect: "none" }}>
+                                            {c.newLine ?? ""}
+                                          </td>
+                                          <td style={{ width: "20px", padding: "4px 8px", color: c.type === "add" ? "#10b981" : c.type === "remove" ? "#ef4444" : "#4b5563", userSelect: "none", textAlign: "center" }}>
+                                            {prefix}
+                                          </td>
+                                          <td style={{ padding: "4px 12px", whiteSpace: "pre-wrap" }}>
+                                            {c.content}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  )}
+                                </tbody>
+                              </table>
                             </div>
                           ))}
                         </div>
