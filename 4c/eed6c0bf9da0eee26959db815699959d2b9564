@@ -1,0 +1,51 @@
+apps/gh-actions-dashboard/tsconfig.node.json
+  s_814b4d3d2ba6eb::t_7d58fff25a380e 1-10
+apps/gh-actions-dashboard/server/index.ts
+  s_814b4d3d2ba6eb::t_58ede9735ed691 1-78
+apps/gh-actions-dashboard/README.md
+  s_814b4d3d2ba6eb::t_e167f50cf854ff 1-109
+apps/gh-actions-dashboard/src/components/Summary.tsx
+  s_814b4d3d2ba6eb::t_e60be5a211adea 1-40
+apps/gh-actions-dashboard/.env.example
+  s_814b4d3d2ba6eb::t_b53cfafdd83d8c 1-5
+apps/gh-actions-dashboard/index.html
+  s_814b4d3d2ba6eb::t_4d7f283e9418a1 1-13
+apps/gh-actions-dashboard/package.json
+  s_814b4d3d2ba6eb::t_a4f970f5e20e5a 1-30
+apps/gh-actions-dashboard/vite.config.ts
+  s_814b4d3d2ba6eb::t_6db3aa94223f3a 1-25
+apps/gh-actions-dashboard/.gitignore
+  s_814b4d3d2ba6eb::t_8fdf46a154049a 1-25
+apps/gh-actions-dashboard/src/App.css
+  s_814b4d3d2ba6eb::t_5c89af05828871 1-69
+apps/gh-actions-dashboard/src/components/ComplianceTable.tsx
+  s_814b4d3d2ba6eb::t_898d38f60bf435 1-101
+apps/gh-actions-dashboard/src/styles/Summary.css
+  s_814b4d3d2ba6eb::t_2b28f219057a2f 1-36
+apps/gh-actions-dashboard/tsconfig.json
+  s_814b4d3d2ba6eb::t_6dce8e8948601b 1-31
+apps/gh-actions-dashboard/src/App.tsx
+  s_814b4d3d2ba6eb::t_67e76367a6cdac 1-89
+apps/gh-actions-dashboard/src/styles/ComplianceTable.css
+  s_814b4d3d2ba6eb::t_43dc4ca0745027 1-131
+apps/gh-actions-dashboard/src/main.tsx
+  s_814b4d3d2ba6eb::t_aa9ce0043d8b27 1-10
+apps/gh-actions-dashboard/src/index.css
+  s_814b4d3d2ba6eb::t_d44a8308c14423 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "4ceed6c0bf9da0eee26959db815699959d2b9564",
+  "prompts": {},
+  "sessions": {
+    "s_814b4d3d2ba6eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77c0d2ea-12e8-4ed7-a8d5-e0c790a4c339",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
