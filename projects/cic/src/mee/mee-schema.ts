@@ -25,12 +25,18 @@ export interface PhasePatchSet {
   patches: PhasePatch[];
 }
 
+export interface ValidationIssue {
+  type: string;
+  message: string;
+}
+
 export interface PhaseValidationReport {
   passed: boolean;
   compilePassed: boolean;
   testsPassed: boolean;
   driftPassed: boolean;
   errors: string[];
+  issues?: ValidationIssue[];
 }
 
 export interface PhaseProposal {
@@ -41,4 +47,5 @@ export interface PhaseProposal {
   filesCreated: string[];
   planSummary: string;
   timestamp: number;
+  validationReport?: PhaseValidationReport;
 }

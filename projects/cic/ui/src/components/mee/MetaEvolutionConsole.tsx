@@ -1,4 +1,4 @@
-// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.1.0
+// File: projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx | Date: 2026-06-03 | v1.2.0
 
 import React, { useEffect, useState } from "react";
 
@@ -9,14 +9,9 @@ interface MeeTriggerEvent {
   timestamp: number;
 }
 
-interface PhaseProposal {
-  id: string;
-  title: string;
-  trigger: MeeTriggerEvent;
-  status: "pending" | "validated" | "rejected" | "applied";
-  filesCreated: string[];
-  planSummary: string;
-  timestamp: number;
+interface ValidationIssue {
+  type: string;
+  message: string;
 }
 
 interface ValidationReport {
@@ -25,6 +20,18 @@ interface ValidationReport {
   testsPassed: boolean;
   driftPassed: boolean;
   errors: string[];
+  issues?: ValidationIssue[];
+}
+
+interface PhaseProposal {
+  id: string;
+  title: string;
+  trigger: MeeTriggerEvent;
+  status: "pending" | "validated" | "rejected" | "applied";
+  filesCreated: string[];
+  planSummary: string;
+  timestamp: number;
+  validationReport?: ValidationReport;
 }
 
 interface Patch {
@@ -45,9 +52,18 @@ export function MetaEvolutionConsole() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
+  const [autoStatus, setAutoStatus] = useState<{ enabled: boolean; lastRun: number | null; requireApproval: boolean }>({
+    enabled: false,
+    lastRun: null,
+    requireApproval: true
+  });
 
   useEffect(() => {
     fetchProposals();
+    fetchAutoStatus();
+    // Poll auto status every 10 seconds to show background execution diagnostics
+    const interval = setInterval(fetchAutoStatus, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchProposals = async () => {
@@ -57,6 +73,16 @@ export function MetaEvolutionConsole() {
       setProposals(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch MEE proposals:", err);
+    }
+  };
+
+  const fetchAutoStatus = async () => {
+    try {
+      const res = await fetch("/v1/mee/auto/status");
+      const data = await res.json();
+      setAutoStatus(data);
+    } catch (err) {
+      console.error("Failed to fetch auto-evolution status:", err);
     }
   };
 
@@ -75,32 +101,60 @@ export function MetaEvolutionConsole() {
     }
   };
 
+  const pollProposalValidation = (id: string, maxAttempts = 15) => {
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/v1/mee/proposals/${encodeURIComponent(id)}`);
+        if (!res.ok) return;
+        const prop = await res.json();
+        if (prop && prop.status !== "pending") {
+          clearInterval(interval);
+          fetchProposals();
+          
+          if (patchDetails && patchDetails.proposal.id === id) {
+            setPatchDetails({
+              ...patchDetails,
+              proposal: prop
+            });
+            if (prop.validationReport) {
+              setValidationReport(prop.validationReport);
+            }
+          }
+          setMessage(`Validation execution complete: proposal is ${prop.status.toUpperCase()}.`);
+        }
+      } catch (err) {
+        console.error("Error polling validation status:", err);
+      }
+      attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        setMessage("Validation timed out in the background. Check logs.");
+      }
+    }, 2000);
+  };
+
   const runValidation = async (id: string) => {
     setIsLoading(true);
+    setMessage("Triggering validation pipeline in the background...");
     try {
       const res = await fetch(`/v1/mee/validate/${encodeURIComponent(id)}`, { method: "POST" });
       const proposal = await res.json();
       fetchProposals();
       
-      // Update selected detail in-place
+      // Update local state to show it is checking
       if (patchDetails) {
         setPatchDetails({
           ...patchDetails,
-          proposal: { ...patchDetails.proposal, status: proposal.status }
+          proposal: { ...patchDetails.proposal, status: "pending" }
         });
       }
-      
-      // Since validator returns mock validation report inside endpoint validate, let's compile it
-      setValidationReport({
-        passed: proposal.status === "validated",
-        compilePassed: true,
-        testsPassed: true,
-        driftPassed: true,
-        errors: []
-      });
-      setMessage("Validation cycle executed successfully.");
+      setValidationReport(null);
+
+      // Start polling for results
+      pollProposalValidation(id);
     } catch (err: any) {
-      setMessage(`Validation failed: ${err.message}`);
+      setMessage(`Validation start failed: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -112,7 +166,11 @@ export function MetaEvolutionConsole() {
       const data = await res.json();
       setPatchDetails(data);
       setSelectedProposalId(id);
-      setValidationReport(null);
+      if (data.proposal?.validationReport) {
+        setValidationReport(data.proposal.validationReport);
+      } else {
+        setValidationReport(null);
+      }
     } catch (err) {
       console.error("Failed to fetch patch details:", err);
     }
@@ -138,6 +196,30 @@ export function MetaEvolutionConsole() {
       }
     } catch (err: any) {
       setMessage(`Failed to apply patch: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleAutoEvolution = async () => {
+    setIsLoading(true);
+    setMessage("");
+    try {
+      const endpoint = autoStatus.enabled ? "/v1/mee/auto/disable" : "/v1/mee/auto/enable";
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ requireApproval: true })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setAutoStatus(data.status);
+        setMessage(`Auto-Evolution is now ${data.status.enabled ? "ENABLED" : "DISABLED"}.`);
+      } else {
+        setMessage(`Failed to toggle Auto-Evolution: ${data.error}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to toggle Auto-Evolution: ${err.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -200,50 +282,100 @@ export function MetaEvolutionConsole() {
         gap: "24px",
         marginBottom: "32px"
       }}>
-        {/* Proposals List */}
-        <div style={{
-          backgroundColor: "#111827",
-          border: "1px solid #1f2937",
-          borderRadius: "12px",
-          padding: "20px",
-          height: "700px",
-          display: "flex",
-          flexDirection: "column"
-        }}>
-          <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "16px" }}>
-            Proposed Phases
-          </h2>
+        {/* Left Column: Proposals List + Auto-Evolution Panel */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {/* Proposals List */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            height: "450px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "16px" }}>
+              Proposed Phases
+            </h2>
 
-          <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
-            {proposals.length === 0 ? (
-              <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
-                No self-evolution proposals active. Click "Scan CKG for Gaps" to analyze the current system state.
-              </div>
-            ) : (
-              proposals.map(prop => (
-                <div
-                  key={prop.id}
-                  onClick={() => fetchPatch(prop.id)}
-                  style={{
-                    padding: "12px",
-                    borderRadius: "6px",
-                    marginBottom: "8px",
-                    cursor: "pointer",
-                    backgroundColor: selectedProposalId === prop.id ? "#1d4ed8" : "#1f2937",
-                    border: "1px solid #374151",
-                    transition: "background-color 0.2s"
-                  }}
-                >
-                  <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb" }}>{prop.title}</div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "6px" }}>
-                    <span>Status: <strong style={{
-                      color: prop.status === "applied" ? "#10b981" : prop.status === "validated" ? "#3b82f6" : prop.status === "rejected" ? "#ef4444" : "#f59e0b"
-                    }}>{prop.status}</strong></span>
-                    <span style={{ fontFamily: "monospace" }}>{prop.id.substring(0, 12)}</span>
-                  </div>
+            <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+              {proposals.length === 0 ? (
+                <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
+                  No self-evolution proposals active. Click "Scan CKG for Gaps" to analyze the current system state.
                 </div>
-              ))
-            )}
+              ) : (
+                proposals.map(prop => (
+                  <div
+                    key={prop.id}
+                    onClick={() => fetchPatch(prop.id)}
+                    style={{
+                      padding: "12px",
+                      borderRadius: "6px",
+                      marginBottom: "8px",
+                      cursor: "pointer",
+                      backgroundColor: selectedProposalId === prop.id ? "#1d4ed8" : "#1f2937",
+                      border: "1px solid #374151",
+                      transition: "background-color 0.2s"
+                    }}
+                  >
+                    <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb" }}>{prop.title}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "6px" }}>
+                      <span>Status: <strong style={{
+                        color: prop.status === "applied" ? "#10b981" : prop.status === "validated" ? "#3b82f6" : prop.status === "rejected" ? "#ef4444" : "#f59e0b"
+                      }}>{prop.status}</strong></span>
+                      <span style={{ fontFamily: "monospace" }}>{prop.id.substring(0, 12)}</span>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Auto-Evolution Panel */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "12px" }}>
+              Auto-Evolution Loop
+            </h2>
+            <p style={{ fontSize: "0.8rem", color: "#9ca3af", marginBottom: "16px", lineHeight: "1.4" }}>
+              Enables autonomous CKG polling, plan formulation, and validation ticks.
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <span style={{ fontSize: "0.875rem" }}>Ticking Engine Status</span>
+              <span style={{
+                color: autoStatus.enabled ? "#10b981" : "#ef4444",
+                fontWeight: "bold",
+                fontSize: "0.875rem",
+                textTransform: "uppercase"
+              }}>
+                {autoStatus.enabled ? "Active 🟢" : "Inactive 🔴"}
+              </span>
+            </div>
+            <div style={{ fontSize: "0.75rem", color: "#6b7280", marginBottom: "16px" }}>
+              Last Tick: {autoStatus.lastRun ? new Date(autoStatus.lastRun).toLocaleTimeString() : "Never"}
+            </div>
+            <button
+              onClick={toggleAutoEvolution}
+              disabled={isLoading}
+              style={{
+                backgroundColor: autoStatus.enabled ? "#dc2626" : "#059669",
+                color: "#ffffff",
+                padding: "10px 14px",
+                borderRadius: "6px",
+                border: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "opacity 0.2s"
+              }}
+            >
+              {autoStatus.enabled ? "Disable Auto-Evolution" : "Enable Auto-Evolution"}
+            </button>
           </div>
         </div>
 
@@ -272,7 +404,7 @@ export function MetaEvolutionConsole() {
                       <div style={{ display: "flex", gap: "8px" }}>
                         <button
                           onClick={() => runValidation(prop.id)}
-                          disabled={isLoading || prop.status === "applied"}
+                          disabled={isLoading || prop.status === "applied" || prop.status === "pending"}
                           style={{
                             backgroundColor: prop.status === "applied" ? "#4b5563" : "#10b981",
                             color: "#ffffff",
@@ -280,10 +412,10 @@ export function MetaEvolutionConsole() {
                             borderRadius: "6px",
                             border: "none",
                             fontWeight: 600,
-                            cursor: prop.status === "applied" ? "not-allowed" : "pointer"
+                            cursor: (prop.status === "applied" || prop.status === "pending") ? "not-allowed" : "pointer"
                           }}
                         >
-                          Run Verification
+                          {prop.status === "pending" ? "Checking..." : "Run Verification"}
                         </button>
                         <button
                           onClick={() => applyPatch(prop.id)}
@@ -397,11 +529,26 @@ export function MetaEvolutionConsole() {
                         <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#f9fafb", marginBottom: "12px" }}>
                           Verification Report: {validationReport.passed ? "PASSED 🟢" : "FAILED 🔴"}
                         </h3>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", fontSize: "0.875rem" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", fontSize: "0.875rem", marginBottom: "12px" }}>
                           <div>Typecheck: <strong>{validationReport.compilePassed ? "PASSED" : "FAILED"}</strong></div>
                           <div>Tests Run: <strong>{validationReport.testsPassed ? "PASSED" : "FAILED"}</strong></div>
                           <div>Doc Drift Check: <strong>{validationReport.driftPassed ? "PASSED" : "FAILED"}</strong></div>
                         </div>
+                        {validationReport.issues && validationReport.issues.length > 0 && (
+                          <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "12px" }}>
+                            <strong style={{ fontSize: "0.875rem", display: "block", marginBottom: "6px" }}>Detailed Issues:</strong>
+                            <ul style={{ margin: 0, paddingLeft: "20px", fontSize: "0.8rem", color: "#f9fafb" }}>
+                              {validationReport.issues.map((issue, idx) => (
+                                <li key={idx} style={{ marginBottom: "4px" }}>
+                                  <span style={{ textTransform: "uppercase", fontWeight: "bold", color: issue.type === "conflict" ? "#f59e0b" : "#f87171", marginRight: "6px" }}>
+                                    [{issue.type}]
+                                  </span>
+                                  {issue.message}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
