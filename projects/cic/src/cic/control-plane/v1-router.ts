@@ -18,6 +18,14 @@ import { InstinctProposer } from "./instinct-proposer.js";
 import { patchLoader } from "./patch-loader.js";
 import { PatchStatus } from "./patch-model.js";
 import { RoadmapPipeline } from "../../agents/roadmapping/pipeline.js";
+import { registerMemoryRoutes } from "./memory-routes.js";
+import { registerSkillsRoutes } from "./skills-routes.js";
+import { registerAprRoutes } from "./apr-routes.js";
+import { registerCroRoutes } from "./cro-routes.js";
+import { registerCkgRoutes } from "./ckg-routes.js";
+
+
+
 
 export const v1Router = express.Router();
 
@@ -515,6 +523,15 @@ v1Router.post("/arps/run", async (req: any, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+registerMemoryRoutes(v1Router);
+registerSkillsRoutes(v1Router);
+registerAprRoutes(v1Router);
+registerCroRoutes(v1Router);
+registerCkgRoutes(v1Router);
+
+
+
 
 
 

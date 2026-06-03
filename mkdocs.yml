@@ -38,6 +38,16 @@ nav:
   - "CIC: Project State": cic/CIC_PROJECT_STATE.md
   - "CIC: Master Roadmap": cic/CIC_MASTER_ROADMAP.md
   - "CIC: Phase 23 MLA Roadmap": cic/MLA_ROADMAP.md
+  - "CIC: Phase 24 SGD Roadmap": cic/implementation_plan_phase_24.md
+  - "CIC: Phase 24 Release Notes": cic/CIC_SGD_v1.6.0_RELEASE_NOTES.md
+  - "CIC: Phase 25 APR Roadmap": cic/implementation_plan_phase_25.md
+  - "CIC: Phase 26 CRO Roadmap": cic/implementation_plan_phase_26.md
+  - "CIC: Phase 27 CKG Roadmap": cic/implementation_plan_phase_27.md
+  - "CIC: Phase 28 KDE Roadmap": cic/implementation_plan_phase_28.md
+  - "CIC: Phase 29 RLF Roadmap": cic/implementation_plan_phase_29.md
+
+
+
   - "CIC: Master Spec": cic/CIC_MASTER_SPEC.md
   - "CIC: Dashboard Integration": cic/CIC_Dashboard_Integration.md
   - "CIC Manual: Ops Console": cic/manuals/ops_console.md

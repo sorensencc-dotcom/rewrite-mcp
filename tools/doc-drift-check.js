@@ -10,9 +10,13 @@
  * 3. Policy Drift: If DOC_POLICY.md changes, the changelog must mention it.
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
-const path = require('path');
+import fs from 'fs';
+import { execSync } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuration
 const REPO_ROOT = path.resolve(__dirname, '..');

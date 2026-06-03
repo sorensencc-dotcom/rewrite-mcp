@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CIC Memory Event",
+  "type": "object",
+  "required": ["id", "type", "timestamp", "payload"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "roadmap.delta",
+        "pipeline.run",
+        "sandbox.decision",
+        "docs.build",
+        "agent.output",
+        "lane.progress"
+      ]
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "payload": { "type": "object" }
+  }
+}

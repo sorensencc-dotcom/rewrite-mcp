@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-02T23:26:12.284Z
+Generated at: 2026-06-03T04:11:24.722Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -78,13 +78,22 @@ Generated at: 2026-06-02T23:26:12.284Z
 - [SKILLOPT_VALIDATOR_SPEC.md](docs/cic/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite-labs-roadmap.md](docs/cic/rewrite-labs-roadmap.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](docs/cic/PMS_INTEGRATION_SPECIFICATION.md)
+- [MLA_UI_SPEC.md](docs/cic/MLA_UI_SPEC.md)
 - [MLA_ROADMAP.md](docs/cic/MLA_ROADMAP.md)
 - [MIGRATION_V1.1_CHECKLIST.md](docs/cic/MIGRATION_V1.1_CHECKLIST.md)
+- [implementation_plan_phase_29.md](docs/cic/implementation_plan_phase_29.md)
+- [implementation_plan_phase_28.md](docs/cic/implementation_plan_phase_28.md)
+- [implementation_plan_phase_27.md](docs/cic/implementation_plan_phase_27.md)
+- [implementation_plan_phase_26.md](docs/cic/implementation_plan_phase_26.md)
+- [implementation_plan_phase_25.md](docs/cic/implementation_plan_phase_25.md)
+- [implementation_plan_phase_24.md](docs/cic/implementation_plan_phase_24.md)
+- [implementation_plan_phase_23.md](docs/cic/implementation_plan_phase_23.md)
 - [DESIGN_REVIEW_V1.1.md](docs/cic/DESIGN_REVIEW_V1.1.md)
 - [claude_coherence_contract_implementation_v1.0.0.md](docs/cic/claude_coherence_contract_implementation_v1.0.0.md)
 - [CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md](docs/cic/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md)
 - [CIC_SYSTEM.md](docs/cic/CIC_SYSTEM.md)
 - [CIC_SKILLOPT_SYSTEM.md](docs/cic/CIC_SKILLOPT_SYSTEM.md)
+- [CIC_SGD_v1.6.0_RELEASE_NOTES.md](docs/cic/CIC_SGD_v1.6.0_RELEASE_NOTES.md)
 - [CIC_RUNTIME_v1.1.0_CHECKLIST.md](docs/cic/CIC_RUNTIME_v1.1.0_CHECKLIST.md)
 - [CIC_PROJECT_STATE.md](docs/cic/CIC_PROJECT_STATE.md)
 - [CIC_MASTER_SPEC.md](docs/cic/CIC_MASTER_SPEC.md)

@@ -633,6 +633,177 @@ CIC v11.0.0 implements **reflexive meta-evolution** via a second-order **M1 → 
 
 ---
 
+<!-- ARPS:SYSTEM_PHASE_23:BEGIN -->
+## Section 18 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)
+
+### Purpose
+The Memory Layer provides CIC with durable, queryable, append-only historical context. It enables long-horizon reasoning, trend detection, and autonomous roadmap evolution.
+
+### Components
+- **Memory Substrate:** JSONL or SQLite-backed event ledger.
+- **Memory Harvester Agent:** Writes structured events from ARPS, pipelines, dashboards, and agents.
+- **Memory Synthesizer Agent:** Periodically condenses memory into summaries and trend reports.
+- **Memory Query API:** Read-only access for agents and operators.
+- **Memory Explorer UI:** Visual interface for inspecting CIC’s evolution.
+- **Memory‑Driven Autonomy:** Agents propose roadmap updates based on historical patterns.
+
+### Event Types
+- `roadmap.delta`
+- `pipeline.run`
+- `sandbox.decision`
+- `docs.build`
+- `agent.output`
+- `lane.progress`
+
+### Guarantees
+- Append-only
+- Immutable historical record
+- Schema-validated
+- Operator-auditable
+<!-- ARPS:SYSTEM_PHASE_23:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_24:BEGIN -->
+## Section 19 — CIC Skill Graph & Cross‑System Doctrine (SGD)
+
+### Purpose
+The Skill Graph makes CIC’s capabilities explicit and queryable, and aligns them with external systems (Claude, Copilot, Antigravity) for skill‑aware routing and doctrine consistency.
+
+### Components
+- Skill Graph Schema
+- Skill Graph Store
+- Skill Harvester
+- Skill Synthesizer
+- Skill Graph API
+- Skill Explorer UI
+- Cross‑System Doctrine Sync
+
+### Guarantees
+- Graph is versioned in Git
+- Changes are ARPS‑visible
+- Cross‑system mappings are auditable
+<!-- ARPS:SYSTEM_PHASE_24:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_25:BEGIN -->
+## Section 20 — Autonomous Planner & Multi‑Agent Reasoning (APR)
+
+### Purpose
+APR turns CIC into a self‑planning system. It uses ARPS, the Memory Layer, and the Skill Graph to propose roadmap changes, allocate tasks, and run multi‑agent reasoning loops that are fully logged and operator‑auditable.
+
+### Components
+- Planning Model & Data Shapes
+- Autonomous Planner Engine
+- Multi‑Agent Reasoning Loop
+- Task Allocation & Routing
+- APR Control‑Plane API
+- Planner Console UI
+- APR Integration Layer
+
+### Guarantees
+- All planning episodes are logged and replayable
+- No roadmap changes occur without Git‑tracked artifacts
+- Operators can inspect, override, or disable APR at any time
+<!-- ARPS:SYSTEM_PHASE_25:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_26:BEGIN -->
+## Section 21 — CIC Runtime Orchestrator (CRO)
+
+### Purpose
+CRO turns planned tasks from the Autonomous Planner (APR) into executed actions. It schedules agent runs, bounds worker concurrency, monitors logs, and logs execution episodes for operator audit.
+
+### Components
+- Execution Model & Data Shapes
+- Runtime Executor (Scheduler)
+- Agent Runner
+- Agent Supervisor (Recovery / Telemetry)
+- CRO Control‑Plane API
+- Execution Console UI
+- CRO Integration Layer
+
+### Guarantees
+- Concurrency limits are strictly enforced (default 2-4 workers)
+- Backpressure limits are maintained (queue limit 100)
+- All execution episodes are logged to local storage
+- Failures and timeouts trigger automatic retries or operator escalations
+<!-- ARPS:SYSTEM_PHASE_26:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_27:BEGIN -->
+## Section 22 — CIC Knowledge Graph (CKG)
+
+### Purpose
+The CIC Knowledge Graph (CKG) is the unified semantic substrate for CIC. It connects docs, roadmap deltas, Memory events, Skill Graph entities, APR planning episodes, CRO execution episodes, and external doctrine into a single graph that can be queried, analyzed, and used for autonomous planning and execution.
+
+### Components
+- CKG Schema
+- CKG Store
+- CKG Harvester
+- CKG Synthesizer
+- CKG API
+- Knowledge Explorer UI
+- CKG Integration Layer
+
+### Guarantees
+- All knowledge entities are represented as graph nodes and edges.
+- Graph changes are Git‑tracked and ARPS‑visible.
+- Drift between docs, memory, and execution is detectable and inspectable.
+- APR and CRO can rely on CKG as a stable knowledge substrate.
+<!-- ARPS:SYSTEM_PHASE_27:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_28:BEGIN -->
+## Section 23 — Knowledge Distillation Engine (KDE)
+
+### Purpose
+KDE compresses, summarizes, and restructures CIC’s Knowledge Graph (CKG) into higher‑order abstractions, preventing graph bloat and ensuring long-term knowledge hygiene for autonomous planning.
+
+### Components
+- KDE Schema
+- KDE Store
+- KDE Harvester
+- KDE Synthesizer
+- KDE API
+- Distillation Console UI
+- KDE Integration Layer
+
+### Guarantees
+- Distillation cycles run without loss of underlying high-value relationships.
+- Abstractions are strictly linked to their originating clusters for auditability.
+- Distilled nodes are back-synchronized into the CKG automatically.
+<!-- ARPS:SYSTEM_PHASE_28:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_29:BEGIN -->
+## Section 24 — Rewrite Labs ↔ CIC Fusion Layer (RLF)
+
+### Purpose
+RLF connects CIC’s planning and execution core to the external Rewrite Labs redesign pipeline, enabling autonomous redesign target discovery, campaign generation, outreach, and conversion analysis.
+
+### Components
+- Fusion Schema
+- Fusion Harvester
+- Redesign Planner
+- Redesign Executor
+- Fusion API
+- Fusion Console UI
+- Fusion Integration Layer
+
+### Guarantees
+- Redesign discovery uses APR + CKG context for high-precision matching.
+- Outreach sequences remain under operator-specified rate limits and compliance policies.
+- Rewrite Labs project metadata is ingested continuously to avoid data fragmentation.
+<!-- ARPS:SYSTEM_PHASE_29:END -->
+
+---
+
 **Version:** 11.0.0  
 **Last Updated:** 2026-06-01  
 **Owner:** CIC-SYSTEM  

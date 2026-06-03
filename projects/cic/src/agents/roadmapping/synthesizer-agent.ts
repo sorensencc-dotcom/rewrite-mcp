@@ -153,6 +153,89 @@ export class RoadmapSynthesizer {
     return updatedLines.join("\n");
   }
 
+  buildPhase23Markdown(delta: RoadmapDelta): string {
+    return `## Phase 23 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)
+
+### Goal
+Establish a durable, queryable memory substrate enabling CIC to reason over its own history, detect long-term patterns, and autonomously propose roadmap evolution.
+
+### Milestones
+- **23.1 — Memory Substrate Specification (MLA‑Spec)**
+- **23.2 — Memory Harvester Agent (MLA‑Harvester)**
+- **23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)**
+- **23.4 — Memory‑Aware Agents (MLA‑Integration)**
+- **23.5 — Memory Query API (MLA‑API)**
+- **23.6 — Memory Explorer UI (MLA‑UI)**
+- **23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)**`;
+  }
+
+  updateHealthLedgerPhase23(oldLedgerText: string, delta: RoadmapDelta): string {
+    const lines = oldLedgerText.split("\n");
+    const updatedLines = lines.map(line => {
+      if (!line.trim().startsWith("|")) return line;
+      const parts = line.split("|");
+      if (parts.length < 4) return line;
+
+      const component = parts[1].trim();
+      if (component === "Component" || component.startsWith("---")) return line;
+
+      const match = delta.components.find(c => 
+        component.toLowerCase().includes(c.name.toLowerCase()) ||
+        c.name.toLowerCase().includes(component.toLowerCase()) ||
+        (component.includes("Memory Substrate") && c.name.toLowerCase().includes("substrate")) ||
+        (component.includes("Harvester") && c.name.toLowerCase().includes("harvester")) ||
+        (component.includes("Synthesizer") && c.name.toLowerCase().includes("synthesizer")) ||
+        (component.includes("Query API") && c.name.toLowerCase().includes("api")) ||
+        (component.includes("Explorer UI") && c.name.toLowerCase().includes("explorer")) ||
+        (component.includes("Autonomy") && c.name.toLowerCase().includes("autonomy"))
+      );
+
+      if (match) {
+        let statusString = parts[2].trim();
+        if (match.status === "COMPLETE") statusString = "COMPLETE";
+        if (match.status === "IN_PROGRESS") statusString = "IN_PROGRESS";
+        if (match.status === "PENDING") statusString = "PENDING";
+        parts[2] = ` ${statusString} `;
+        return parts.join("|");
+      }
+      return line;
+    });
+    return updatedLines.join("\n");
+  }
+
+  updateNextAscentPhase23(oldAscentText: string, delta: RoadmapDelta): string {
+    const lines = oldAscentText.split("\n");
+    const updatedLines = lines.map(line => {
+      const match = line.match(/^([-\s]+)\[([ x\/])\]\s+(.*)$/);
+      if (!match) return line;
+
+      const prefix = match[1];
+      const check = match[2];
+      const text = match[3].trim();
+
+      const deltaMatch = delta.components.find(c => 
+        text.toLowerCase().includes(c.name.toLowerCase()) ||
+        c.name.toLowerCase().includes(text.toLowerCase()) ||
+        (text.includes("Substrate") && c.name.toLowerCase().includes("substrate")) ||
+        (text.includes("Harvester") && c.name.toLowerCase().includes("harvester")) ||
+        (text.includes("Synthesizer") && c.name.toLowerCase().includes("synthesizer")) ||
+        (text.includes("API") && c.name.toLowerCase().includes("api")) ||
+        (text.includes("Explorer") && c.name.toLowerCase().includes("explorer")) ||
+        (text.includes("Autonomy") && c.name.toLowerCase().includes("autonomy"))
+      );
+
+      if (deltaMatch) {
+        let newCheck = check;
+        if (deltaMatch.status === "COMPLETE") newCheck = "x";
+        if (deltaMatch.status === "IN_PROGRESS") newCheck = "/";
+        if (deltaMatch.status === "PENDING") newCheck = " ";
+        return `${prefix}[${newCheck}] ${text}`;
+      }
+      return line;
+    });
+    return updatedLines.join("\n");
+  }
+
   async run(delta: RoadmapDelta, opts: { dryRun: boolean }): Promise<string[]> {
     const modifiedFiles: string[] = [];
 
@@ -161,7 +244,12 @@ export class RoadmapSynthesizer {
       const roadmapRelPath = "cic/CIC_MASTER_ROADMAP.md";
       const roadmapContent = this.loadFile(roadmapRelPath);
       const newPhase22Block = this.buildPhase22Markdown(delta);
-      const updatedRoadmap = this.replaceFencedSection(roadmapContent, "PHASE_22", newPhase22Block);
+      const newPhase23Block = this.buildPhase23Markdown(delta);
+      
+      let updatedRoadmap = this.replaceFencedSection(roadmapContent, "PHASE_22", newPhase22Block);
+      if (roadmapContent.includes("<!-- ARPS:PHASE_23:BEGIN -->")) {
+        updatedRoadmap = this.replaceFencedSection(updatedRoadmap, "PHASE_23", newPhase23Block);
+      }
 
       const validation = this.validateMarkdown(updatedRoadmap);
       if (!validation.valid) {
@@ -194,6 +282,15 @@ export class RoadmapSynthesizer {
         updatedState = this.replaceFencedSection(updatedState, "HEALTH_LEDGER", newLedgerText.replace("<!-- ARPS:HEALTH_LEDGER:BEGIN -->\n", ""));
       }
 
+      // Extract existing ledger Phase 23
+      const startLedger23 = updatedState.indexOf("<!-- ARPS:HEALTH_LEDGER_PHASE_23:BEGIN -->");
+      const endLedger23 = updatedState.indexOf("<!-- ARPS:HEALTH_LEDGER_PHASE_23:END -->");
+      if (startLedger23 !== -1 && endLedger23 !== -1) {
+        const oldLedgerText23 = updatedState.substring(startLedger23, endLedger23);
+        const newLedgerText23 = this.updateHealthLedgerPhase23(oldLedgerText23, delta);
+        updatedState = this.replaceFencedSection(updatedState, "HEALTH_LEDGER_PHASE_23", newLedgerText23.replace("<!-- ARPS:HEALTH_LEDGER_PHASE_23:BEGIN -->\n", ""));
+      }
+
       // Extract existing ascent
       const startAscent = updatedState.indexOf("<!-- ARPS:NEXT_ASCENT:BEGIN -->");
       const endAscent = updatedState.indexOf("<!-- ARPS:NEXT_ASCENT:END -->");
@@ -201,6 +298,15 @@ export class RoadmapSynthesizer {
         const oldAscentText = updatedState.substring(startAscent, endAscent);
         const newAscentText = this.updateNextAscent(oldAscentText, delta);
         updatedState = this.replaceFencedSection(updatedState, "NEXT_ASCENT", newAscentText.replace("<!-- ARPS:NEXT_ASCENT:BEGIN -->\n", ""));
+      }
+
+      // Extract existing ascent Phase 23
+      const startAscent23 = updatedState.indexOf("<!-- ARPS:NEXT_ASCENT_PHASE_23:BEGIN -->");
+      const endAscent23 = updatedState.indexOf("<!-- ARPS:NEXT_ASCENT_PHASE_23:END -->");
+      if (startAscent23 !== -1 && endAscent23 !== -1) {
+        const oldAscentText23 = updatedState.substring(startAscent23, endAscent23);
+        const newAscentText23 = this.updateNextAscentPhase23(oldAscentText23, delta);
+        updatedState = this.replaceFencedSection(updatedState, "NEXT_ASCENT_PHASE_23", newAscentText23.replace("<!-- ARPS:NEXT_ASCENT_PHASE_23:BEGIN -->\n", ""));
       }
 
       const validation = this.validateMarkdown(updatedState);

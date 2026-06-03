@@ -14,6 +14,16 @@ Foundational documents defining the CIC subsystem architecture and current state
 - **[Project State](CIC_PROJECT_STATE.md)**: Live health report, connectivity status, and subsystem health gauges.
 - **[Master Roadmap](CIC_MASTER_ROADMAP.md)**: Long-term trajectory from archival research to distribution.
 - **[Phase 23 MLA Roadmap](MLA_ROADMAP.md)**: Detailed specification for the Memory Layer & Long-Horizon Autonomy.
+- **[Phase 24 SGD Roadmap](implementation_plan_phase_24.md)**: Detailed specification for the Skill Graph & Cross-System Doctrine.
+- **[Phase 24 Release Notes](CIC_SGD_v1.6.0_RELEASE_NOTES.md)**: Release notes for v1.6.0 Skill Graph & Cross-System Doctrine Sync.
+- **[Phase 25 APR Roadmap](implementation_plan_phase_25.md)**: Detailed specification for Autonomous Planner & Multi-Agent Reasoning.
+- **[Phase 26 CRO Roadmap](implementation_plan_phase_26.md)**: Detailed specification for CIC Runtime Orchestrator.
+- **[Phase 27 CKG Roadmap](implementation_plan_phase_27.md)**: Detailed specification for CIC Knowledge Graph.
+- **[Phase 28 KDE Roadmap](implementation_plan_phase_28.md)**: Detailed specification for Knowledge Distillation Engine.
+- **[Phase 29 RLF Roadmap](implementation_plan_phase_29.md)**: Detailed specification for Rewrite Labs ↔ CIC Fusion Layer.
+
+
+
 
 ---
 

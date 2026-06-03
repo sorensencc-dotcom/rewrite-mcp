@@ -5,6 +5,8 @@
 
 import { RoadmapPipeline } from "../agents/roadmapping/pipeline.js";
 import path from "node:path";
+import { MemorySubstrate } from "../memory/memory-substrate.js";
+import { MemorySynthesizer } from "../memory/memory-synthesizer.js";
 
 export interface ScheduledJob {
   id: string;
@@ -24,6 +26,7 @@ export class RuntimeScheduler {
     let ms = 3600000; 
     if (job.cron === "*/5 * * * *") ms = 300000; // 5 min
     if (job.cron === "0 0 * * *") ms = 86400000; // daily
+    if (job.cron === "0 3 * * 1") ms = 604800000; // weekly
 
     const interval = setInterval(async () => {
       try {
@@ -77,4 +80,19 @@ scheduler.registerJob({
   id: "arps-roadmap-refresh",
   cron: "0 * * * *", // hourly
   run: runArpsJob
+});
+
+// 3. Define Memory Synthesizer job
+async function runMemorySynthesizerJob() {
+  const memoryLedgerPath = path.resolve(process.cwd(), "projects/cic/data/memory-ledger.jsonl");
+  const substrate = new MemorySubstrate(memoryLedgerPath);
+  const synth = new MemorySynthesizer(substrate);
+  await synth.run();
+}
+
+// 4. Register memory synthesizer job to run weekly
+scheduler.registerJob({
+  id: "memory-synthesizer-weekly",
+  cron: "0 3 * * 1", // weekly (every Monday at 03:00)
+  run: runMemorySynthesizerJob
 });

@@ -1,11 +1,22 @@
-import { describe, it, expect } from "vitest";
-import { SemanticExtractor } from "../../src/harvester/extractors/semanticExtractor";
-import { RelationshipExtractor } from "../../src/harvester/extractors/relationshipExtractor";
-import { TopicExtractor } from "../../src/harvester/extractors/topicExtractor";
-import { ExtractorChain } from "../../src/harvester/extractors/extractor-chain";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { SemanticExtractor } from "../../src/harvester/extractors/semanticExtractor.js";
+import { RelationshipExtractor } from "../../src/harvester/extractors/relationshipExtractor.js";
+import { TopicExtractor } from "../../src/harvester/extractors/topicExtractor.js";
+import { ExtractorChain } from "../../src/harvester/extractors/extractor-chain.js";
+import { specRegistry } from "../../src/cic/control-plane/spec-registry.js";
 
 describe("Extractor v2 Subsystems - Unit and Contract Tests", () => {
   const sampleSource = "Charles Emil Sorensen was born on September 7, 1881 in Lellinge, Sjælland, Denmark. He emigrated to Chicago in May 1883 with his father Soren Sorensen and mother Karen Sorensen.";
+
+  beforeEach(() => {
+    vi.spyOn(specRegistry, "evaluateInstincts").mockReturnValue({ prefer: [], avoid: [] });
+    vi.spyOn(specRegistry, "getRules").mockReturnValue([]);
+    vi.spyOn(specRegistry, "getHooks").mockReturnValue([]);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("should successfully extract semantic entities using SemanticExtractor", async () => {
     const extractor = new SemanticExtractor();

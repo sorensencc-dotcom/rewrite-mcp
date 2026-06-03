@@ -44,7 +44,7 @@ export function synthesizeVerdict(
 
   // Determine verdict based on coherence and contradictions
   const verdict = determineVerdict(coherenceScore, contradictions.hasCritical);
-  const confidence = calculateConfidence(
+  const calculatedConfidence = calculateConfidence(
     coherenceScore,
     contradictions.contradictions.length
   );
@@ -67,7 +67,7 @@ export function synthesizeVerdict(
 
   return {
     verdict,
-    confidence,
+    confidence: calculatedConfidence,
     reasoningTrace,
     coherenceScore,
     driftImpact,
