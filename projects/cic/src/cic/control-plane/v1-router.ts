@@ -23,6 +23,7 @@ import { registerSkillsRoutes } from "./skills-routes.js";
 import { registerAprRoutes } from "./apr-routes.js";
 import { registerCroRoutes } from "./cro-routes.js";
 import { registerCkgRoutes } from "./ckg-routes.js";
+import { registerMeeRoutes } from "./mee-routes.js";
 
 
 
@@ -529,6 +530,7 @@ registerSkillsRoutes(v1Router);
 registerAprRoutes(v1Router);
 registerCroRoutes(v1Router);
 registerCkgRoutes(v1Router);
+registerMeeRoutes(v1Router);
 
 
 

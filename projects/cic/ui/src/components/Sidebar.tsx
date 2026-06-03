@@ -25,6 +25,9 @@ export function Sidebar() {
           <li>
             <a href="/knowledge" style={{ color: "#cbd5e1", textDecoration: "none" }}>Knowledge Graph</a>
           </li>
+          <li>
+            <a href="/mee" style={{ color: "#cbd5e1", textDecoration: "none" }}>Meta-Evolution Console</a>
+          </li>
         </ul>
       </nav>
     </aside>

@@ -120,6 +120,21 @@ This document maintains the active development status, version controls, and com
 
 ---
 
+<!-- ARPS:HEALTH_LEDGER_PHASE_30:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| MEE Schema | PENDING | PhaseProposal, PhasePlan, PatchSet |
+| MEE Trigger Engine | PENDING | Drift + capability gap detection |
+| MEE Generator | PENDING | Auto‑phase design |
+| MEE Synthesizer | PENDING | Patch bundle creation |
+| MEE Validator | PENDING | Drift + compile + test |
+| MEE API | PENDING | /v1/mee/* |
+| MEE UI | PENDING | Meta‑Evolution Console |
+| MEE Integration | PENDING | APR/CRO/CKG/KDE sync |
+<!-- ARPS:HEALTH_LEDGER_PHASE_30:END -->
+
+---
+
 ## 3. Compliance & SLO Ledger (10k Load Campaign)
 
 Under the 10,000 transaction pressure validation, all 13 production SLOs are certified passing:
@@ -228,3 +243,16 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 - [ ] Add Fusion Console UI (RLF‑UI)
 - [ ] Integrate RLF with Rewrite Labs redesign pipeline
 <!-- ARPS:NEXT_ASCENT_PHASE_29:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_30:BEGIN -->
+### Next Development Ascent — Phase 30
+- [ ] Define MEE schema (MEE‑Spec)
+- [ ] Build MEE Trigger Engine (MEE‑Trigger)
+- [ ] Build MEE Phase Generator (MEE‑Generator)
+- [ ] Build MEE Patch Synthesizer (MEE‑Synthesizer)
+- [ ] Build MEE Validator (MEE‑Validator)
+- [ ] Expose MEE control‑plane API (MEE‑API)
+- [ ] Add Meta‑Evolution Console UI (MEE‑UI)
+- [ ] Integrate MEE with CKG, APR, CRO, and ARPS
+<!-- ARPS:NEXT_ASCENT_PHASE_30:END -->
+

@@ -804,6 +804,31 @@ RLF connects CIC’s planning and execution core to the external Rewrite Labs re
 
 ---
 
+<!-- ARPS:SYSTEM_PHASE_30:BEGIN -->
+## Section 25 — Meta‑Evolution Engine (MEE)
+
+The Meta‑Evolution Engine enables CIC to autonomously design, propose, and validate new phases of its own architecture. MEE is the self‑improvement substrate that closes the loop between CIC’s knowledge, planning, execution, and documentation systems.
+
+### Purpose
+Provide a self-evolution substrate enabling CIC to analyze its own architecture, detect gaps/drift, design new stages, and validate their compilation/testing/documentation before staging patches.
+
+### Components
+- MEE Schema
+- MEE Trigger Engine
+- MEE Phase Generator
+- MEE Patch Synthesizer
+- MEE Validator
+- MEE API
+- MEE UI
+
+### Guarantees
+- All proposals and patches are stored under auditable schemas.
+- Patches cannot be applied to the master workspace without explicit operator verification and consent.
+- All generation runs are fully simulated and validated prior to presenting proposals.
+<!-- ARPS:SYSTEM_PHASE_30:END -->
+
+---
+
 **Version:** 11.0.0  
 **Last Updated:** 2026-06-01  
 **Owner:** CIC-SYSTEM  
