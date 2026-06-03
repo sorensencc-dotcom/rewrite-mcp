@@ -1,0 +1,21 @@
+projects/cic/src/mee/mee-autonomous-store.ts
+  s_814b4d3d2ba6eb::t_634ca1f8f2fa4b 1-50
+projects/cic/src/mee/mee-autonomous-worker.ts
+  s_814b4d3d2ba6eb::t_a0b1bb49427c22 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "52c892b7a64603d991da7687e1b5bf7694ea5017",
+  "prompts": {},
+  "sessions": {
+    "s_814b4d3d2ba6eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77c0d2ea-12e8-4ed7-a8d5-e0c790a4c339",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
