@@ -1,100 +1,81 @@
 # Phase 30 — CIC Meta‑Evolution Engine (MEE)
 
 ## Overview
-The Meta‑Evolution Engine (MEE) enables CIC to autonomously design, propose, and validate new phases of its own architecture. MEE closes the loop between CIC’s knowledge (CKG), planning (APR), execution (CRO), and documentation (ARPS).
-
-MEE is the first subsystem that allows CIC to evolve itself.
+The Meta‑Evolution Engine (MEE) enables CIC to autonomously design, propose, and validate new phases of its own architecture. MEE closes the loop between CIC’s knowledge (CKG), planning (APR), execution (CRO), and documentation (ARPS). MEE is the self-improvement substrate allowing CIC to safely evolve itself under operator supervision.
 
 ---
 
-## 30.1 — MEE Schema (MEE‑Spec)
-Define the structures used for meta‑planning:
-- `PhaseProposal`
-- `PhasePlan`
-- `PhasePatchSet`
-- `PhaseValidationReport`
-- `PhaseTriggerEvent` (drift, capability gap, roadmap mismatch)
+## 30A — MEE Schema & Base Generator
+- **Objective**: Establish the core data shapes and design generator.
+- **Deliverables**:
+  - [mee-schema.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-schema.ts): Structured data schemas for `PhaseProposal`, `PhasePlan`, `PhasePatchSet`, `PhaseValidationReport`, and `MeeTriggerEvent`.
+  - [mee-generator.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-generator.ts): The base generator class that accepts trigger events and translates them into architectural plans using APR planning slots.
 
 ---
 
-## 30.2 — MEE Trigger Engine (MEE‑Trigger)
-Detects when CIC needs a new phase:
-- Drift hotspots in CKG
-- Capability gaps in Skill Graph
-- APR failures or repeated critiques
-- CRO execution bottlenecks
-- ARPS roadmap inconsistencies
-
-Outputs: `PhaseTriggerEvent`
+## 30B — Trigger Engine Integration (MEE ↔ CKG)
+- **Objective**: Establish traceability from CKG events to proposals.
+- **Deliverables**:
+  - [mee-trigger.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-trigger.ts): The trigger detection engine that scans CKG neighborhoods, detects drift hotspots, capability gaps, or execution SLO bottlenecks, and emits serialized trigger events.
 
 ---
 
-## 30.3 — MEE Phase Generator (MEE‑Generator)
-Generates:
-- Implementation plan
-- Roadmap fenced blocks
-- Project state ledger entries
-- CIC_SYSTEM architecture section
-- File skeletons (TS, routes, UI, tests)
-
-Uses:
-- APR for reasoning
-- CKG for context
-- KDE for distilled abstractions
+## 30C — Auto-Evolution Loop
+- **Objective**: Orchestrate the continuous cycle of analysis and proposal synthesis.
+- **Deliverables**:
+  - [auto-evolution-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/auto-evolution-engine.ts): Orchestration core that runs checks, builds dependency-resolved proposal trees, and invokes the patch generation and validation sequence.
 
 ---
 
-## 30.4 — MEE Patch Synthesizer (MEE‑Synthesizer)
-Creates a patch bundle:
-- Markdown updates
-- TypeScript skeletons
-- Test skeletons
-- UI placeholders
-- Route stubs
-
-Outputs: `PhasePatchSet`
+## 30D — MEE Validation Pipeline
+- **Objective**: Implement deep validation gates ensuring patch safety.
+- **Deliverables**:
+  - [mee-validator.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-validator.ts): A full validation runner that executes:
+    - **TypeScript Compilation**: Checks syntactic safety.
+    - **Vitest Runner**: Verifies regression coverage.
+    - **Doc-Drift Check**: Integrates with the repository's drift sentinel checks.
 
 ---
 
-## 30.5 — MEE Validator (MEE‑Validator)
-Runs:
-- Doc drift check
-- TypeScript compile
-- Test suite
-- UI sentinel
-- Golden master snapshot diff
-
-Outputs: `PhaseValidationReport`
+## 30E — Proposal Store & API Hardening
+- **Objective**: Persistence and API exposure for MEE operations.
+- **Deliverables**:
+  - [mee-proposal-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-proposal-store.ts): Durable file-based JSON store for managing the lifecycle of proposals.
+  - **REST Endpoints**: Exposes endpoints for proposing, querying, validating, and applying patches.
 
 ---
 
-## 30.6 — MEE API (MEE‑API)
-- `POST /v1/mee/propose`
-- `GET /v1/mee/proposals`
-- `GET /v1/mee/proposals/:id`
-- `POST /v1/mee/validate/:id`
-- `GET /v1/mee/patch/:id`
+## 30F — MEE Diff Viewer (Side-by-Side Patch Diff)
+- **Objective**: Enable detailed visual review of changes.
+- **Deliverables**:
+  - [mee-diff-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-diff-engine.ts): Generates addition, deletion, and modification chunks to feed side-by-side or unified diff visualizations.
 
 ---
 
-## 30.7 — Meta‑Evolution Console UI (MEE‑UI)
-- Trigger viewer
-- Proposal viewer
-- Patch diff viewer
-- Validation report viewer
-- “Apply Patch” button (manual approval)
+## 30G — Multi-Proposal Pipeline & Conflict-Gating
+- **Objective**: Support parallel evolutions, topological ordering, and conflict prevention.
+- **Deliverables**:
+  - [mee-proposal-graph.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-proposal-graph.ts): Builds a topological graph of active proposals.
+    - **Dependency Ordering**: Orders proposals sequentially based on version or phase numbers (e.g. Phase 30 before Phase 31).
+    - **Transactional Conflict-Gating**: Detects overlapping target paths and gates the transaction sequence to prevent compilation or runtime hazards.
 
 ---
 
-## 30.8 — Integration
-- APR uses MEE proposals as planning seeds
-- CRO can execute MEE validation tasks
-- CKG stores all meta‑evolution events
-- ARPS updates automatically from MEE output
+## 30H — Agent-to-Agent Negotiation Engine
+- **Objective**: Allow proposals to negotiate and resolve conflicts before operator review.
+- **Deliverables**:
+  - [mee-negotiation-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-engine.ts) & [mee-negotiation-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-agent.ts):
+    - **Autonomous Agents**: Wraps each proposal in a negotiating agent.
+    - **Conflict Resolution**: Resolves overlapping path writes using strategies like `reorder`.
+    - **Transcripts**: Captures negotiation details in an auditable transcript log.
+    - **Consensus Planning**: Produces a stable consolidated plan across all agent consensus outputs.
 
 ---
 
-## Verification
-- Unit tests for trigger engine, generator, synthesizer, validator, API, UI
-- Full doc drift + UI validation
-- End‑to‑end meta‑evolution simulation
+## Verification & Tests
+Verify system integrity using MEE unit and integration test suites:
+- `mee-diff.test.ts`: Validates correct diff chunk generation.
+- `mee-graph.test.ts`: Verifies path conflict detection and topological dependency sorting.
+- `mee-negotiation.test.ts`: Validates agent-to-agent negotiations, conflict resolutions, and consensus plans.
+- `mee-proposal-store.test.ts`: Confirms file-based JSON persistence.
+- `mee.test.ts`: Validates the end-to-end trigger-to-proposal flow.

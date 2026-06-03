@@ -809,28 +809,37 @@ RLF connects CIC’s planning and execution core to the external Rewrite Labs re
 
 The Meta‑Evolution Engine enables CIC to autonomously design, propose, and validate new phases of its own architecture. MEE is the self‑improvement substrate that closes the loop between CIC’s knowledge, planning, execution, and documentation systems.
 
+This subsystem provides a formal evolutionary pipeline:
+```
+CKG Event → Trigger Engine → Proposal → Agent-to-Agent Negotiation → Validation → Apply
+```
+
 ### Purpose
 Provide a self-evolution substrate enabling CIC to analyze its own architecture, detect gaps/drift, design new stages, and validate their compilation/testing/documentation before staging patches.
 
 ### Components
-- MEE Schema
-- MEE Trigger Engine
-- MEE Phase Generator
-- MEE Patch Synthesizer
-- MEE Validator
-- MEE API
-- MEE UI
+- **MEE Schema** ([mee-schema.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-schema.ts)): Defines types for `MeeTriggerEvent`, `PhasePlan`, `PhasePatch`, `PhasePatchSet`, `PhaseValidationReport`, and `PhaseProposal`.
+- **MEE Trigger Engine** ([mee-trigger.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-trigger.ts)): Scans the Knowledge Graph ([CKG](file:///c:/dev/rewrite-mcp/docs/cic/CIC_SYSTEM.md#Section-22-knowledge-graph-ckg)) and Skill Graph ([Skill Graph Store](file:///c:/dev/rewrite-mcp/docs/cic/CIC_SYSTEM.md#Section-19-skill-graph-cross-system-doctrine-sgd)) to identify architectural drift, missing capabilities, or repeated execution bottlenecks, emitting `MeeTriggerEvent` instances.
+- **MEE Phase Generator** ([mee-generator.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-generator.ts)): Translates triggers into concrete architecture definitions, implementation plans, and file skeletons using APR for reasoning and CKG for architectural context.
+- **MEE Patch Synthesizer** ([mee-synthesizer.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-synthesizer.ts)): Packages generated file structures, markdown updates, and stubs into a `PhasePatchSet`.
+- **MEE Diff Engine** ([mee-diff-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-diff-engine.ts)): Generates unified and side-by-side diff chunks for proposed changes, allowing the operator console to visualize modifications and new file creations.
+- **MEE Proposal Store** ([mee-proposal-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-proposal-store.ts)): Provides a durable, file-based persistence layer for proposals, managing statuses (`pending`, `validated`, `rejected`, `applied`) and saving associated validation reports.
+- **MEE Proposal Graph & Conflict-Gating** ([mee-proposal-graph.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-proposal-graph.ts)): Represents active proposals as nodes in a dependency graph. Performs topological sorting to order dependencies and detects file path conflicts. Enforces transactional conflict-gating (aborts execution sequences if overlapping paths are found).
+- **Agent-to-Agent Negotiation Engine** ([mee-negotiation-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-engine.ts) & [mee-negotiation-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-agent.ts)): Initiates autonomous proposal agents to negotiate and resolve conflict types (e.g. `reorder` strategies) before presenting proposals to the operator, recording full transcripts and producing a stable consensus plan.
+- **MEE Validator** ([mee-validator.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-validator.ts)): Evaluates proposal safety by running doc-drift checks, executing TypeScript compilation, running the test suite, and executing golden-master UI sentinels.
+- **Auto-Evolution Engine** ([auto-evolution-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/auto-evolution-engine.ts)): Integrates and orchestrates the entire MEE lifecycle, triggering auto-evolution runs when gaps are observed.
 
 ### Guarantees
-- All proposals and patches are stored under auditable schemas.
-- Patches cannot be applied to the master workspace without explicit operator verification and consent.
-- All generation runs are fully simulated and validated prior to presenting proposals.
+- **Traceability**: Every proposal is causally linked to a validated `MeeTriggerEvent` in the CKG.
+- **Conflict Isolation**: Concurrent proposal executions are gated by dependency ordering, preventing conflicting workspace modifications.
+- **Safety Gate**: No patch set can be applied to the master workspace without passing all validation checks (compile, test, and doc-drift) and obtaining manual operator consent.
+- **Auditability**: Negotiation transcripts, validation outputs, and patch histories are durably logged and operator-inspectable.
 <!-- ARPS:SYSTEM_PHASE_30:END -->
 
 ---
 
 **Version:** 11.0.0  
-**Last Updated:** 2026-06-01  
+**Last Updated:** 2026-06-03  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
 
