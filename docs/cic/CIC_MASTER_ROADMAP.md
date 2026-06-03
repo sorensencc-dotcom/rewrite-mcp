@@ -846,6 +846,53 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 
 ---
 
+# **PHASE 31 — Self-Refactoring Engine (SRE) (Complete)**
+**Goal:** Enable CIC to statically analyze and self-refactor its codebase.
+
+### **31.0 SRE Core**
+- ✔ AST parsing (TypeScript compiler API)
+- ✔ Heuristic complexity scoring
+- ✔ Dead code detection
+- ✔ Import boundary violation (architectural drift)
+
+### **31.1 SRE Routing & UI**
+- ✔ `/mee/refactor/scan` mode-aware endpoint
+- ✔ `/mee/refactor/propose` for saving proposals
+- ✔ `/mee/refactor/plan/:id` for retrieval
+- ✔ Refactor Studio UI panel in Meta-Evolution Console
+
+**Status:** Fully complete.
+
+---
+
+# **PHASE 32 — Multi-Agent Planning Engine (MAPE) (Complete)**
+**Goal:** Decompose instructions into topologically ordered plans.
+
+### **32.0 MAPE Core**
+- ✔ TaskExtractor rule-based parser
+- ✔ DependencyDetector topological sorter
+- ✔ PlanToProposal planned proposal mapper
+- ✔ Planning REST `/mee/plan` routes
+- ✔ Planning Studio UI Console
+
+**Status:** Fully complete.
+
+---
+
+# **PHASE 33 — Long-Horizon Execution & Checkpointing (In Progress)**
+**Goal:** Track, save, and resume long-running execution flows.
+
+### **33.0 Core Execution Engine**
+- 🚧 MeeRun & MeeCheckpoint schema definitions
+- 🚧 FileMeeRunStore JSON file storage
+- 🚧 MeeRunEngine flow controller
+- 🚧 Execution routes under `/mee/runs/*`
+- 🚧 UI Runs panel
+
+**Status:** In Progress.
+
+---
+
 # **Your Current Position**  
 You are here:
 
@@ -868,5 +915,9 @@ PHASE 27 (CKG) — ✔ (complete)
 PHASE 28 (KDE) — queued
 PHASE 29 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
+PHASE 31 (SRE) — ✔ (complete)
+PHASE 32 (MAPE) — ✔ (complete)
+PHASE 33 (Runs) — 🚧 (in progress)
 ```
+
 

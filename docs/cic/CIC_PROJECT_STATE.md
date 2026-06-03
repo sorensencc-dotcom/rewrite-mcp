@@ -9,7 +9,7 @@ This document maintains the active development status, version controls, and com
 - **Core System Version**: `v1.9.0` (Rewrite Labs Fusion Layer & Distilled Semantic substrate)
 - **API Specification**: `/v1` public REST API
 - **Last Verification Run**: 2026-06-03
-- **Test Integrity**: **219 / 219 tests passing (100% compliance)**
+- **Test Integrity**: **240 / 240 tests passing (100% compliance)**
 
 ---
 
@@ -133,6 +133,27 @@ This document maintains the active development status, version controls, and com
 | MEE Integration | COMPLETE | Closed-loop sync with CKG knowledge nodes and CRO execution scheduling |
 <!-- ARPS:HEALTH_LEDGER_PHASE_30:END -->
 
+<!-- ARPS:HEALTH_LEDGER_PHASE_31:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Refactor Insights Schema | COMPLETE | Insight & plan shapes defined |
+| Static AST Analysis Engine | COMPLETE | Cyclomatic complexity, dead code, boundaries |
+| Self-Refactor Engine | COMPLETE | Scan coordinator and patch mappings |
+| SRE REST Endpoints | COMPLETE | `/mee/refactor/*` routes registered |
+| Self-Refactor Studio UI | COMPLETE | Console switcher and scanner views |
+<!-- ARPS:HEALTH_LEDGER_PHASE_31:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_32:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| MAPE Schema | COMPLETE | PlanTask and PlanTree types registered |
+| Task Decomposer | COMPLETE | Rule-based feature/test partitioning |
+| Dependency ordering | COMPLETE | Topological dependency detector |
+| Planning Engine | COMPLETE | Orchestrator and proposals generator |
+| Planning REST Endpoints | COMPLETE | `/mee/plan` route registered |
+| Planning Studio UI | COMPLETE | Plan console request/display panels |
+<!-- ARPS:HEALTH_LEDGER_PHASE_32:END -->
+
 ---
 
 ## 3. Compliance & SLO Ledger (10k Load Campaign)
@@ -255,4 +276,33 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 - [x] Add Meta‑Evolution Console UI (MEE‑UI)
 - [x] Integrate MEE with CKG, APR, CRO, and ARPS
 <!-- ARPS:NEXT_ASCENT_PHASE_30:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_31:BEGIN -->
+### Next Development Ascent — Phase 31
+- [x] Define RefactorInsight and RefactorPlan schemas
+- [x] Implement Static AST Analysis Engine
+- [x] Implement SelfRefactor Engine scan/plan flow
+- [x] Register SRE API endpoints
+- [x] Integrate Self-Refactor Studio UI panel
+<!-- ARPS:NEXT_ASCENT_PHASE_31:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_32:BEGIN -->
+### Next Development Ascent — Phase 32
+- [x] Define MAPE PlanTask and PlanTree schemas
+- [x] Implement TaskExtractor parser
+- [x] Implement DependencyDetector topological sorter
+- [x] Build PlanningEngine coordinator
+- [x] Register planning API endpoints
+- [x] Integrate Planning Studio UI console
+<!-- ARPS:NEXT_ASCENT_PHASE_32:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_33:BEGIN -->
+### Next Development Ascent — Phase 33
+- [/] Define MeeRun and MeeCheckpoint schemas
+- [ ] Implement FileMeeRunStore
+- [ ] Implement MeeRunEngine
+- [ ] Register execution runs API endpoints
+- [ ] Integrate Runs tab panel into MetaEvolutionConsole
+<!-- ARPS:NEXT_ASCENT_PHASE_33:END -->
+
 

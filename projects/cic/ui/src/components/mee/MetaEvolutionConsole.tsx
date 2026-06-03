@@ -23,15 +23,44 @@ interface ValidationReport {
   issues?: ValidationIssue[];
 }
 
+interface RefactorInsight {
+  id: string;
+  file: string;
+  type:
+    | "complexity"
+    | "duplication"
+    | "dead_code"
+    | "unused_import"
+    | "long_function"
+    | "large_module"
+    | "drift"
+    | "style"
+    | "architecture";
+  message: string;
+  severity: "low" | "medium" | "high" | "critical";
+  location?: {
+    startLine: number;
+    endLine: number;
+  };
+  metadata?: Record<string, any>;
+}
+
+interface RefactorPlan {
+  insights: RefactorInsight[];
+  patches: Patch[];
+  summary: string;
+}
+
 interface PhaseProposal {
   id: string;
   title: string;
-  trigger: MeeTriggerEvent;
-  status: "pending" | "validated" | "rejected" | "applied";
+  trigger?: MeeTriggerEvent;
+  status: "pending" | "validated" | "rejected" | "applied" | "proposed";
   filesCreated: string[];
   planSummary: string;
   timestamp: number;
   validationReport?: ValidationReport;
+  refactorPlan?: RefactorPlan;
 }
 
 interface Patch {
@@ -79,6 +108,192 @@ export function MetaEvolutionConsole() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
+
+  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety">("evolution");
+  const [refactorInsights, setRefactorInsights] = useState<RefactorInsight[]>([]);
+  const [isScanningRefactor, setIsScanningRefactor] = useState<boolean>(false);
+
+  const [runs, setRuns] = useState<any[]>([]);
+  const [selectedRunId, setSelectedRunId] = useState<string>("");
+  const [selectedRunData, setSelectedRunData] = useState<{ run: any; checkpoints: any[] } | null>(null);
+  const [isFetchingRuns, setIsFetchingRuns] = useState<boolean>(false);
+
+  const overrideSafetyCheck = async (id: string) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/v1/mee/proposals/${encodeURIComponent(id)}/override`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Safety check overridden successfully for proposal ${id}.`);
+        fetchProposals();
+        if (patchDetails && patchDetails.proposal.id === id) {
+          setPatchDetails({
+            ...patchDetails,
+            proposal: data.data
+          });
+        }
+      } else {
+        setMessage(`Failed to override safety check: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to override safety check: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchRuns = async () => {
+    setIsFetchingRuns(true);
+    try {
+      const res = await fetch("/v1/mee/runs");
+      const data = await res.json();
+      if (data.ok) {
+        setRuns(Array.isArray(data.data.runs) ? data.data.runs : []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch runs:", err);
+    } finally {
+      setIsFetchingRuns(false);
+    }
+  };
+
+  const fetchRunDetails = async (id: string) => {
+    try {
+      const res = await fetch(`/v1/mee/runs/${encodeURIComponent(id)}`);
+      const data = await res.json();
+      if (data.ok) {
+        setSelectedRunData(data.data);
+        setSelectedRunId(id);
+      }
+    } catch (err) {
+      console.error("Failed to fetch run details:", err);
+    }
+  };
+
+  const cancelRun = async (id: string) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/v1/mee/runs/${encodeURIComponent(id)}/cancel`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Run ${id} cancelled successfully.`);
+        fetchRuns();
+        fetchRunDetails(id);
+      } else {
+        setMessage(`Failed to cancel run: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to cancel run: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createManualCheckpoint = async (id: string) => {
+    const label = prompt("Enter checkpoint label (optional):") || undefined;
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/v1/mee/runs/${encodeURIComponent(id)}/checkpoint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label, data: { manual: true, timestamp: Date.now() } })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Checkpoint created successfully.`);
+        fetchRunDetails(id);
+      } else {
+        setMessage(`Failed to create checkpoint: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to create checkpoint: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const [planRequest, setPlanRequest] = useState("");
+  const [plan, setPlan] = useState<any | null>(null);
+  const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
+
+  const runRefactorScan = async () => {
+    setIsScanningRefactor(true);
+    setMessage("");
+    try {
+      const res = await fetch("/v1/mee/refactor/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "repo" })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setRefactorInsights(data.data.insights || []);
+        setMessage(`Scan complete. Found ${data.data.insights?.length || 0} refactor insights.`);
+      } else {
+        setMessage(`Scan failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Scan failed: ${err.message}`);
+    } finally {
+      setIsScanningRefactor(false);
+    }
+  };
+
+  const generateRefactorProposal = async () => {
+    if (refactorInsights.length === 0) return;
+    setIsLoading(true);
+    setMessage("");
+    try {
+      const res = await fetch("/v1/mee/refactor/propose", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ insights: refactorInsights })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Proposal generated successfully. ID: ${data.data.proposalId}`);
+        setRefactorInsights([]);
+        setActiveTab("evolution");
+        fetchProposals();
+        fetchGraph();
+        if (data.data.proposalId) {
+          fetchPatch(data.data.proposalId);
+        }
+      } else {
+        setMessage(`Failed to generate proposal: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to generate proposal: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const generatePlan = async () => {
+    if (!planRequest) return;
+    setIsGeneratingPlan(true);
+    setMessage("");
+    try {
+      const r = await fetch("/v1/mee/plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ request: planRequest }),
+      });
+      const json = await r.json();
+      if (json.ok) {
+        setPlan(json.data.plan);
+        setMessage(`Plan generated successfully. Created ${json.data.plan.tasks.length} tasks.`);
+        fetchProposals();
+        fetchGraph();
+      } else {
+        setMessage(`Plan generation failed: ${json.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Plan generation failed: ${err.message}`);
+    } finally {
+      setIsGeneratingPlan(false);
+    }
+  };
   
   // Phase 30F, 30G, 30H States
   const [diffs, setDiffs] = useState<DiffResult[] | null>(null);
@@ -97,12 +312,17 @@ export function MetaEvolutionConsole() {
     fetchProposals();
     fetchAutoStatus();
     fetchGraph();
+    fetchRuns();
     const interval = setInterval(() => {
       fetchAutoStatus();
       fetchGraph();
+      fetchRuns();
+      if (selectedRunId) {
+        fetchRunDetails(selectedRunId);
+      }
     }, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedRunId]);
 
   const fetchProposals = async () => {
     try {
@@ -458,13 +678,103 @@ export function MetaEvolutionConsole() {
         </div>
       )}
 
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: "16px", marginBottom: "24px", borderBottom: "1px solid #1f2937", paddingBottom: "12px" }}>
+        <button
+          onClick={() => setActiveTab("evolution")}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "evolution" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "evolution" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Evolution Pipeline
+        </button>
+        <button
+          onClick={() => setActiveTab("refactor")}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "refactor" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "refactor" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Self-Refactor Studio
+        </button>
+        <button
+          onClick={() => setActiveTab("planning")}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "planning" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "planning" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Planning Studio
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("runs");
+            fetchRuns();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "runs" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "runs" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Execution Runs
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("safety");
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "safety" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "safety" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Safety Center
+        </button>
+      </div>
+
       {/* Main Grid */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 2fr",
-        gap: "24px",
-        marginBottom: "32px"
-      }}>
+      {activeTab === "evolution" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
         {/* Left Column: Proposals List + Auto-Evolution Panel + Graph & Conflicts + Negotiation */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           {/* Proposals List */}
@@ -771,6 +1081,33 @@ export function MetaEvolutionConsole() {
                       </p>
                     </div>
 
+                    {prop.refactorPlan && (
+                      <div style={{ marginBottom: "20px" }}>
+                        <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Refactor Insights</h3>
+                        <div style={{ backgroundColor: "#1f2937", padding: "12px", borderRadius: "6px" }}>
+                          {prop.refactorPlan.insights.map((insight, idx) => (
+                            <div key={idx} style={{ borderBottom: idx < prop.refactorPlan!.insights.length - 1 ? "1px solid #374151" : "none", padding: "8px 0" }}>
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <span style={{ fontWeight: 600, fontSize: "0.875rem", color: "#f3f4f6", fontFamily: "monospace" }}>{insight.file}</span>
+                                <span style={{
+                                  fontSize: "0.75rem",
+                                  padding: "2px 6px",
+                                  borderRadius: "4px",
+                                  backgroundColor: insight.severity === "critical" || insight.severity === "high" ? "#7f1d1d" : insight.severity === "medium" ? "#78350f" : "#111827",
+                                  color: insight.severity === "critical" || insight.severity === "high" ? "#fca5a5" : insight.severity === "medium" ? "#fde68a" : "#cbd5e1"
+                                }}>
+                                  {insight.severity}
+                                </span>
+                              </div>
+                              <div style={{ fontSize: "0.8rem", color: "#9ca3af", marginTop: "4px" }}>
+                                [{insight.type.toUpperCase()}] {insight.message}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Diff Preview Panel */}
                     {diffs && diffs.length > 0 && (
                       <div style={{ marginBottom: "20px" }}>
@@ -941,7 +1278,875 @@ export function MetaEvolutionConsole() {
             </div>
           )}
         </div>
-      </div>
+      )}
+
+      {activeTab === "refactor" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Actions and Scan Insights List */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "12px" }}>
+                Refactor Scanner
+              </h2>
+              <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: "16px", lineHeight: "1.4" }}>
+                Execute a TypeScript AST parser audit across MEE module components to check cyclomatic complexity, dead code, unused imports, long functions, or architectural boundary violations.
+              </p>
+              <div style={{ display: "flex", gap: "12px" }}>
+                <button
+                  onClick={runRefactorScan}
+                  disabled={isScanningRefactor}
+                  style={{
+                    flex: 1,
+                    backgroundColor: "#2563eb",
+                    color: "#ffffff",
+                    padding: "10px 14px",
+                    borderRadius: "6px",
+                    border: "none",
+                    fontWeight: 600,
+                    cursor: isScanningRefactor ? "not-allowed" : "pointer",
+                    transition: "opacity 0.2s"
+                  }}
+                >
+                  {isScanningRefactor ? "Scanning AST..." : "Run Scanner"}
+                </button>
+                <button
+                  onClick={generateRefactorProposal}
+                  disabled={refactorInsights.length === 0 || isLoading}
+                  style={{
+                    flex: 1,
+                    backgroundColor: "#8b5cf6",
+                    color: "#ffffff",
+                    padding: "10px 14px",
+                    borderRadius: "6px",
+                    border: "none",
+                    fontWeight: 600,
+                    cursor: (refactorInsights.length === 0 || isLoading) ? "not-allowed" : "pointer",
+                    transition: "opacity 0.2s"
+                  }}
+                >
+                  Generate Proposal
+                </button>
+              </div>
+            </div>
+
+            {/* Severity Stats block */}
+            {refactorInsights.length > 0 && (
+              <div style={{
+                backgroundColor: "#111827",
+                border: "1px solid #1f2937",
+                borderRadius: "12px",
+                padding: "20px"
+              }}>
+                <h3 style={{ fontSize: "1rem", color: "#f3f4f6", fontWeight: 600, marginBottom: "12px" }}>Insight Summary</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div style={{ padding: "8px", backgroundColor: "#1e293b", borderRadius: "6px", textAlign: "center" }}>
+                    <div style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#f87171" }}>
+                      {refactorInsights.filter(i => i.severity === "high" || i.severity === "critical").length}
+                    </div>
+                    <div style={{ fontSize: "0.75rem", color: "#9ca3af" }}>High/Critical</div>
+                  </div>
+                  <div style={{ padding: "8px", backgroundColor: "#1e293b", borderRadius: "6px", textAlign: "center" }}>
+                    <div style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#fbbf24" }}>
+                      {refactorInsights.filter(i => i.severity === "medium").length}
+                    </div>
+                    <div style={{ fontSize: "0.75rem", color: "#9ca3af" }}>Medium</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Insights List Table / Detail Grid */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            minHeight: "600px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "16px" }}>
+              Code Quality Audits
+            </h2>
+            <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+              {refactorInsights.length === 0 ? (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", minHeight: "400px", color: "#6b7280", padding: "24px" }}>
+                  <span style={{ fontSize: "2.5rem", marginBottom: "12px" }}>🔍</span>
+                  <div style={{ fontSize: "1rem", fontWeight: 600, color: "#9ca3af" }}>No insights loaded</div>
+                  <p style={{ fontSize: "0.85rem", color: "#6b7280", textAlign: "center", marginTop: "6px", maxWidth: "320px" }}>
+                    Click "Run Scanner" to start static AST analysis on the workspace components.
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {refactorInsights.map((insight) => (
+                    <div
+                      key={insight.id}
+                      style={{
+                        padding: "16px",
+                        borderRadius: "8px",
+                        backgroundColor: "#1f2937",
+                        border: "1px solid #374151"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                        <div>
+                          <code style={{ fontSize: "0.85rem", color: "#60a5fa", fontWeight: "bold", fontFamily: "monospace" }}>
+                            {insight.file}
+                          </code>
+                          {insight.location && (
+                            <span style={{ fontSize: "0.75rem", color: "#9ca3af", marginLeft: "8px" }}>
+                              (Lines {insight.location.startLine}–{insight.location.endLine})
+                            </span>
+                          )}
+                        </div>
+                        <span style={{
+                          fontSize: "0.75rem",
+                          fontWeight: "bold",
+                          padding: "3px 8px",
+                          borderRadius: "4px",
+                          backgroundColor: insight.severity === "critical" || insight.severity === "high" ? "#7f1d1d" : insight.severity === "medium" ? "#78350f" : "#111827",
+                          color: insight.severity === "critical" || insight.severity === "high" ? "#fca5a5" : insight.severity === "medium" ? "#fde68a" : "#cbd5e1"
+                        }}>
+                          {insight.severity.toUpperCase()}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px" }}>
+                        <span style={{
+                          fontSize: "0.7rem",
+                          backgroundColor: "#1e293b",
+                          color: "#9ca3af",
+                          padding: "2px 6px",
+                          borderRadius: "3px",
+                          textTransform: "uppercase"
+                        }}>
+                          {insight.type}
+                        </span>
+                        <p style={{ fontSize: "0.875rem", color: "#e2e8f0", margin: 0 }}>
+                          {insight.message}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "planning" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Actions */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "12px" }}>
+                Planning Agent
+              </h2>
+              <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: "16px", lineHeight: "1.4" }}>
+                Decompose a high-level development instruction into sub-tasks, establish logical dependencies, and create proposals automatically.
+              </p>
+              <textarea
+                value={planRequest}
+                onChange={(e) => setPlanRequest(e.target.value)}
+                placeholder="Example: Add new extractor, update the UI, and refactor the validator."
+                style={{
+                  width: "100%",
+                  height: "100px",
+                  padding: "12px",
+                  backgroundColor: "#0b0f19",
+                  border: "1px solid #374151",
+                  borderRadius: "6px",
+                  color: "#e2e8f0",
+                  fontFamily: "inherit",
+                  fontSize: "0.875rem",
+                  resize: "none",
+                  marginBottom: "16px",
+                  boxSizing: "border-box"
+                }}
+              />
+              <button
+                onClick={generatePlan}
+                disabled={isGeneratingPlan || !planRequest}
+                style={{
+                  backgroundColor: "#2563eb",
+                  color: "#ffffff",
+                  padding: "10px 14px",
+                  borderRadius: "6px",
+                  border: "none",
+                  fontWeight: 600,
+                  cursor: (isGeneratingPlan || !planRequest) ? "not-allowed" : "pointer",
+                  transition: "opacity 0.2s"
+                }}
+              >
+                {isGeneratingPlan ? "Generating Plan..." : "Generate Plan"}
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Decomposed Tasks List */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            minHeight: "600px",
+            display: "flex",
+            flexDirection: "column"
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "16px" }}>
+              Planned Execution Sequence
+            </h2>
+            <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+              {!plan ? (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", minHeight: "400px", color: "#6b7280", padding: "24px" }}>
+                  <span style={{ fontSize: "2.5rem", marginBottom: "12px" }}>📋</span>
+                  <div style={{ fontSize: "1rem", fontWeight: 600, color: "#9ca3af" }}>No plan active</div>
+                  <p style={{ fontSize: "0.85rem", color: "#6b7280", textAlign: "center", marginTop: "6px", maxWidth: "320px" }}>
+                    Enter an instruction on the left to decompose it into dependency-ordered proposals.
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {plan.tasks.map((task: any, idx: number) => (
+                    <div
+                      key={task.id}
+                      style={{
+                        padding: "16px",
+                        borderRadius: "8px",
+                        backgroundColor: "#1f2937",
+                        border: "1px solid #374151"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <span style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            backgroundColor: "#1e293b",
+                            color: "#9ca3af",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "0.8rem",
+                            fontWeight: "bold",
+                            border: "1px solid #374151"
+                          }}>
+                            {idx + 1}
+                          </span>
+                          <span style={{ fontWeight: 600, fontSize: "0.9rem", color: "#f3f4f6" }}>
+                            {task.title}
+                          </span>
+                        </div>
+                        <span style={{
+                          fontSize: "0.7rem",
+                          backgroundColor: "#1e293b",
+                          color: "#9ca3af",
+                          padding: "2px 6px",
+                          borderRadius: "3px",
+                          textTransform: "uppercase"
+                        }}>
+                          {task.type}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: "0.85rem", color: "#9ca3af", margin: "8px 0 0 32px" }}>
+                        {task.description}
+                      </p>
+                      {task.dependsOn.length > 0 && (
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center", marginTop: "8px", marginLeft: "32px", fontSize: "0.75rem", color: "#64748b" }}>
+                          <span>Depends on:</span>
+                          {task.dependsOn.map((depId: string) => (
+                            <code key={depId} style={{ backgroundColor: "#0b0f19", color: "#60a5fa", padding: "1px 4px", borderRadius: "3px", fontFamily: "monospace" }}>
+                              {depId.substring(0, 8)}
+                            </code>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "runs" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Runs List */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              height: "600px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                  Execution Runs
+                </h2>
+                <button
+                  onClick={fetchRuns}
+                  disabled={isFetchingRuns}
+                  style={{
+                    backgroundColor: "#1f2937",
+                    color: "#ffffff",
+                    border: "1px solid #374151",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    cursor: "pointer"
+                  }}
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+                {runs.length === 0 ? (
+                  <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
+                    No execution runs found. Runs will be created when proposals are executed.
+                  </div>
+                ) : (
+                  runs.map(r => {
+                    let badgeBg = "#1f2937";
+                    let badgeColor = "#9ca3af";
+                    if (r.status === "completed") { badgeBg = "#064e3b"; badgeColor = "#10b981"; }
+                    else if (r.status === "running") { badgeBg = "#1e3a8a"; badgeColor = "#3b82f6"; }
+                    else if (r.status === "failed") { badgeBg = "#7f1d1d"; badgeColor = "#ef4444"; }
+                    else if (r.status === "canceled") { badgeBg = "#374151"; badgeColor = "#9ca3af"; }
+                    else if (r.status === "pending") { badgeBg = "#78350f"; badgeColor = "#fbbf24"; }
+
+                    return (
+                      <div
+                        key={r.id}
+                        onClick={() => fetchRunDetails(r.id)}
+                        style={{
+                          padding: "12px",
+                          borderRadius: "6px",
+                          marginBottom: "8px",
+                          cursor: "pointer",
+                          backgroundColor: selectedRunId === r.id ? "#1d4ed8" : "#1f2937",
+                          border: "1px solid #374151",
+                          transition: "background-color 0.2s"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb", fontFamily: "monospace" }}>
+                            {r.id.substring(0, 8)}...
+                          </span>
+                          <span style={{
+                            fontSize: "0.7rem",
+                            fontWeight: "bold",
+                            padding: "2px 6px",
+                            borderRadius: "4px",
+                            backgroundColor: badgeBg,
+                            color: badgeColor,
+                            textTransform: "uppercase"
+                          }}>
+                            {r.status}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "8px" }}>
+                          <span>Step: {r.currentStepIndex} / {r.totalSteps}</span>
+                          <span>{new Date(r.createdAt).toLocaleTimeString()}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Run Details */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            minHeight: "600px"
+          }}>
+            {selectedRunId && selectedRunData ? (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                  <div>
+                    <h2 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                      Run Execution Detail
+                    </h2>
+                    <span style={{ color: "#60a5fa", fontSize: "0.875rem", fontFamily: "monospace" }}>
+                      ID: {selectedRunData.run.id}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      onClick={() => createManualCheckpoint(selectedRunData.run.id)}
+                      disabled={isLoading || selectedRunData.run.status !== "running"}
+                      style={{
+                        backgroundColor: "#1f2937",
+                        color: "#ffffff",
+                        border: "1px solid #374151",
+                        padding: "8px 14px",
+                        borderRadius: "6px",
+                        fontWeight: 600,
+                        cursor: (isLoading || selectedRunData.run.status !== "running") ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      Checkpoint
+                    </button>
+                    <button
+                      onClick={() => cancelRun(selectedRunData.run.id)}
+                      disabled={isLoading || (selectedRunData.run.status !== "running" && selectedRunData.run.status !== "pending")}
+                      style={{
+                        backgroundColor: "#dc2626",
+                        color: "#ffffff",
+                        padding: "8px 14px",
+                        borderRadius: "6px",
+                        border: "none",
+                        fontWeight: 600,
+                        cursor: (isLoading || (selectedRunData.run.status !== "running" && selectedRunData.run.status !== "pending")) ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      Cancel Run
+                    </button>
+                  </div>
+                </div>
+
+                <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
+
+                {/* Progress Bar & Status */}
+                <div style={{ marginBottom: "24px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.875rem", marginBottom: "6px" }}>
+                    <span>Step Progress ({selectedRunData.run.currentStepIndex} / {selectedRunData.run.totalSteps} Completed)</span>
+                    <strong style={{ color: "#3b82f6" }}>
+                      {selectedRunData.run.totalSteps > 0 
+                        ? Math.round((selectedRunData.run.currentStepIndex / selectedRunData.run.totalSteps) * 100) 
+                        : 0}%
+                    </strong>
+                  </div>
+                  <div style={{ width: "100%", height: "8px", backgroundColor: "#1f2937", borderRadius: "4px", overflow: "hidden" }}>
+                    <div style={{
+                      width: `${selectedRunData.run.totalSteps > 0 ? (selectedRunData.run.currentStepIndex / selectedRunData.run.totalSteps) * 100 : 0}%`,
+                      height: "100%",
+                      backgroundColor: "#3b82f6",
+                      transition: "width 0.4s ease"
+                    }} />
+                  </div>
+                </div>
+
+                {/* Metadata info */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px", fontSize: "0.875rem", color: "#cbd5e1" }}>
+                  <div style={{ backgroundColor: "#1f2937", padding: "12px", borderRadius: "8px" }}>
+                    <div><strong>Created At:</strong> {new Date(selectedRunData.run.createdAt).toLocaleString()}</div>
+                    <div><strong>Updated At:</strong> {new Date(selectedRunData.run.updatedAt).toLocaleString()}</div>
+                  </div>
+                  <div style={{ backgroundColor: "#1f2937", padding: "12px", borderRadius: "8px" }}>
+                    <div><strong>Status:</strong> <span style={{ textTransform: "uppercase", fontWeight: "bold" }}>{selectedRunData.run.status}</span></div>
+                    <div><strong>Last Checkpoint:</strong> <span style={{ fontFamily: "monospace" }}>{selectedRunData.run.lastCheckpointId?.substring(0, 8) || "None"}</span></div>
+                  </div>
+                </div>
+
+                {/* Error Banner if failed */}
+                {selectedRunData.run.error && (
+                  <div style={{
+                    backgroundColor: "#7f1d1d",
+                    border: "1px solid #b91c1c",
+                    borderRadius: "8px",
+                    padding: "12px",
+                    marginBottom: "24px",
+                    fontSize: "0.875rem",
+                    color: "#fca5a5"
+                  }}>
+                    <strong>Execution Error:</strong> {selectedRunData.run.error.message}
+                  </div>
+                )}
+
+                {/* Proposals list */}
+                <div style={{ marginBottom: "24px" }}>
+                  <h3 style={{ fontSize: "1rem", color: "#f3f4f6", fontWeight: 600, marginBottom: "12px" }}>
+                    Execution Sequence Steps
+                  </h3>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    {selectedRunData.run.proposalIds.map((pId: string, idx: number) => {
+                      const isActive = idx === selectedRunData.run.currentStepIndex && selectedRunData.run.status === "running";
+                      const isCompleted = idx < selectedRunData.run.currentStepIndex;
+                      
+                      return (
+                        <div
+                          key={pId}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "12px",
+                            backgroundColor: isActive ? "rgba(37, 99, 235, 0.1)" : "#1f2937",
+                            border: isActive ? "1px solid #2563eb" : "1px solid #374151",
+                            borderRadius: "8px"
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                            <span style={{
+                              width: "20px",
+                              height: "20px",
+                              borderRadius: "50%",
+                              backgroundColor: isCompleted ? "#064e3b" : isActive ? "#2563eb" : "#0b0f19",
+                              color: isCompleted ? "#10b981" : "#ffffff",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "0.75rem",
+                              fontWeight: "bold"
+                            }}>
+                              {isCompleted ? "✓" : idx + 1}
+                            </span>
+                            <span style={{ fontSize: "0.875rem", fontFamily: "monospace", color: "#cbd5e1" }}>
+                              {pId}
+                            </span>
+                          </div>
+                          <span style={{
+                            fontSize: "0.75rem",
+                            color: isCompleted ? "#10b981" : isActive ? "#3b82f6" : "#6b7280",
+                            fontWeight: 600
+                          }}>
+                            {isCompleted ? "Completed" : isActive ? "Active" : "Queued"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Checkpoints list */}
+                <div>
+                  <h3 style={{ fontSize: "1rem", color: "#f3f4f6", fontWeight: 600, marginBottom: "12px" }}>
+                    Checkpoint Logs
+                  </h3>
+                  {selectedRunData.checkpoints.length === 0 ? (
+                    <div style={{ padding: "12px", color: "#6b7280", fontSize: "0.875rem", textAlign: "center", backgroundColor: "#0b0f19", borderRadius: "8px" }}>
+                      No checkpoints created for this run yet.
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "250px", overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+                      {selectedRunData.checkpoints.map((cp: any) => (
+                        <div
+                          key={cp.id}
+                          style={{
+                            padding: "10px",
+                            borderBottom: "1px solid #1f2937",
+                            fontSize: "0.8rem",
+                            lineHeight: "1.4"
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 600, color: "#60a5fa" }}>
+                            <span>{cp.label || "Manual Checkpoint"}</span>
+                            <span style={{ color: "#6b7280", fontFamily: "monospace" }}>{cp.id.substring(0, 8)}</span>
+                          </div>
+                          <div style={{ color: "#9ca3af", fontSize: "0.75rem", marginTop: "4px" }}>
+                            Saved at {new Date(cp.createdAt).toLocaleString()}
+                          </div>
+                          <pre style={{
+                            margin: "6px 0 0 0",
+                            padding: "6px",
+                            backgroundColor: "#1f2937",
+                            borderRadius: "4px",
+                            fontSize: "0.7rem",
+                            fontFamily: "monospace",
+                            overflowX: "auto"
+                          }}>
+                            {JSON.stringify(cp.data, null, 2)}
+                          </pre>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", color: "#6b7280" }}>
+                Select an execution run from the left panel to inspect progress and manage checkpoints.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {activeTab === "safety" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Proposals List */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              height: "600px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "16px" }}>
+                Proposals Audit
+              </h2>
+
+              <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+                {proposals.length === 0 ? (
+                  <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
+                    No proposals found.
+                  </div>
+                ) : (
+                  proposals.map(prop => {
+                    const rLevel = prop.safetyReport?.riskLevel || "unknown";
+                    let badgeBg = "#1f2937";
+                    let badgeColor = "#9ca3af";
+                    if (rLevel === "low") { badgeBg = "#064e3b"; badgeColor = "#10b981"; }
+                    else if (rLevel === "medium") { badgeBg = "#78350f"; badgeColor = "#fbbf24"; }
+                    else if (rLevel === "high") { badgeBg = "#7c2d12"; badgeColor = "#fb923c"; }
+                    else if (rLevel === "critical") { badgeBg = "#7f1d1d"; badgeColor = "#f87171"; }
+
+                    return (
+                      <div
+                        key={prop.id}
+                        onClick={() => fetchPatch(prop.id)}
+                        style={{
+                          padding: "12px",
+                          borderRadius: "6px",
+                          marginBottom: "8px",
+                          cursor: "pointer",
+                          backgroundColor: selectedProposalId === prop.id ? "#1d4ed8" : "#1f2937",
+                          border: "1px solid #374151",
+                          transition: "background-color 0.2s"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb" }}>
+                            {prop.title}
+                          </span>
+                          <span style={{
+                            fontSize: "0.7rem",
+                            fontWeight: "bold",
+                            padding: "2px 6px",
+                            borderRadius: "4px",
+                            backgroundColor: badgeBg,
+                            color: badgeColor,
+                            textTransform: "uppercase"
+                          }}>
+                            {rLevel}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "8px" }}>
+                          <span>Status: <strong>{prop.status}</strong></span>
+                          <span style={{ fontFamily: "monospace" }}>{prop.id.substring(0, 8)}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Safety Center Details */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            minHeight: "600px"
+          }}>
+            {selectedProposalId && patchDetails ? (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                  <div>
+                    <h2 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                      Safety & Sandbox Audit
+                    </h2>
+                    <span style={{ color: "#60a5fa", fontSize: "0.875rem", fontFamily: "monospace" }}>
+                      Proposal ID: {patchDetails.proposal.id}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      onClick={() => overrideSafetyCheck(patchDetails.proposal.id)}
+                      disabled={isLoading || !patchDetails.proposal.safetyReport || patchDetails.proposal.safetyReport.passed}
+                      style={{
+                        backgroundColor: "#7c2d12",
+                        color: "#ffffff",
+                        border: "1px solid #fb923c",
+                        padding: "8px 14px",
+                        borderRadius: "6px",
+                        fontWeight: 600,
+                        cursor: (isLoading || !patchDetails.proposal.safetyReport || patchDetails.proposal.safetyReport.passed) ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      Override Gating
+                    </button>
+                    <button
+                      onClick={() => runValidation(patchDetails.proposal.id)}
+                      disabled={isLoading || patchDetails.proposal.status === "applied"}
+                      style={{
+                        backgroundColor: "#2563eb",
+                        color: "#ffffff",
+                        padding: "8px 14px",
+                        borderRadius: "6px",
+                        border: "none",
+                        fontWeight: 600,
+                        cursor: (isLoading || patchDetails.proposal.status === "applied") ? "not-allowed" : "pointer"
+                      }}
+                    >
+                      Trigger Validation
+                    </button>
+                  </div>
+                </div>
+
+                <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
+
+                {/* Safety Report Card */}
+                <div style={{ marginBottom: "24px" }}>
+                  <h3 style={{ fontSize: "1rem", color: "#f3f4f6", fontWeight: 600, marginBottom: "12px" }}>
+                    Static Safety Assessment
+                  </h3>
+                  {patchDetails.proposal.safetyReport ? (
+                    <div style={{
+                      backgroundColor: patchDetails.proposal.safetyReport.passed ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)",
+                      border: `1px solid ${patchDetails.proposal.safetyReport.passed ? "#10b981" : "#ef4444"}`,
+                      borderRadius: "8px",
+                      padding: "16px"
+                    }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                        <span style={{ fontSize: "0.9rem" }}>
+                          Gating Status: <strong style={{ color: patchDetails.proposal.safetyReport.passed ? "#10b981" : "#ef4444" }}>
+                            {patchDetails.proposal.safetyReport.passed ? "PASSED" : "BLOCKED"}
+                          </strong>
+                        </span>
+                        <span style={{
+                          fontSize: "0.85rem",
+                          fontWeight: "bold",
+                          textTransform: "uppercase",
+                          padding: "3px 8px",
+                          borderRadius: "4px",
+                          backgroundColor: patchDetails.proposal.safetyReport.riskLevel === "critical" ? "#7f1d1d" : patchDetails.proposal.safetyReport.riskLevel === "high" ? "#7c2d12" : "#1f2937",
+                          color: patchDetails.proposal.safetyReport.riskLevel === "critical" ? "#f87171" : patchDetails.proposal.safetyReport.riskLevel === "high" ? "#fb923c" : "#cbd5e1"
+                        }}>
+                          {patchDetails.proposal.safetyReport.riskLevel} Risk
+                        </span>
+                      </div>
+                      {patchDetails.proposal.safetyReport.issues.length > 0 ? (
+                        <ul style={{ margin: 0, paddingLeft: "20px", fontSize: "0.85rem", color: "#cbd5e1" }}>
+                          {patchDetails.proposal.safetyReport.issues.map((issue: string, idx: number) => (
+                            <li key={idx} style={{ marginBottom: "6px" }}>{issue}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p style={{ margin: 0, fontSize: "0.85rem", color: "#10b981" }}>
+                          No static safety violations discovered. Safe for compilation sandbox execution.
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <div style={{ padding: "12px", color: "#6b7280", fontSize: "0.875rem", textAlign: "center", backgroundColor: "#0b0f19", borderRadius: "8px" }}>
+                      Run verification to perform static safety analysis.
+                    </div>
+                  )}
+                </div>
+
+                {/* Sandbox Results Card */}
+                <div>
+                  <h3 style={{ fontSize: "1rem", color: "#f3f4f6", fontWeight: 600, marginBottom: "12px" }}>
+                    Sandbox Build & Test Logs
+                  </h3>
+                  {patchDetails.proposal.sandboxResult ? (
+                    <div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "12px" }}>
+                        <div style={{ backgroundColor: "#1f2937", padding: "10px", borderRadius: "6px", textAlign: "center", fontSize: "0.8rem" }}>
+                          <div>Compile</div>
+                          <strong style={{ color: patchDetails.proposal.sandboxResult.compilePassed ? "#10b981" : "#ef4444" }}>
+                            {patchDetails.proposal.sandboxResult.compilePassed ? "PASSED" : "FAILED"}
+                          </strong>
+                        </div>
+                        <div style={{ backgroundColor: "#1f2937", padding: "10px", borderRadius: "6px", textAlign: "center", fontSize: "0.8rem" }}>
+                          <div>Tests</div>
+                          <strong style={{ color: patchDetails.proposal.sandboxResult.testsPassed ? "#10b981" : "#ef4444" }}>
+                            {patchDetails.proposal.sandboxResult.testsPassed ? "PASSED" : "FAILED"}
+                          </strong>
+                        </div>
+                        <div style={{ backgroundColor: "#1f2937", padding: "10px", borderRadius: "6px", textAlign: "center", fontSize: "0.8rem" }}>
+                          <div>Overall</div>
+                          <strong style={{ color: patchDetails.proposal.sandboxResult.passed ? "#10b981" : "#ef4444" }}>
+                            {patchDetails.proposal.sandboxResult.passed ? "PASSED" : "FAILED"}
+                          </strong>
+                        </div>
+                      </div>
+                      <pre style={{
+                        margin: 0,
+                        padding: "16px",
+                        backgroundColor: "#05050a",
+                        color: "#38bdf8",
+                        border: "1px solid #1e293b",
+                        borderRadius: "8px",
+                        fontSize: "0.8rem",
+                        fontFamily: "monospace",
+                        maxHeight: "300px",
+                        overflowY: "auto",
+                        whiteSpace: "pre-wrap",
+                        lineHeight: "1.4"
+                      }}>
+                        {patchDetails.proposal.sandboxResult.output || "No build logs captured."}
+                      </pre>
+                    </div>
+                  ) : (
+                    <div style={{ padding: "12px", color: "#6b7280", fontSize: "0.875rem", textAlign: "center", backgroundColor: "#0b0f19", borderRadius: "8px" }}>
+                      Sandbox build outputs will populate here after verification runs.
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", color: "#6b7280" }}>
+                Select a proposal from the left panel to inspect its safety metrics and sandboxed execution logs.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

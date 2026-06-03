@@ -22,6 +22,9 @@ Foundational documents defining the CIC subsystem architecture and current state
 - **[Phase 28 KDE Roadmap](implementation_plan_phase_28.md)**: Detailed specification for Knowledge Distillation Engine.
 - **[Phase 29 RLF Roadmap](implementation_plan_phase_29.md)**: Detailed specification for Rewrite Labs ↔ CIC Fusion Layer.
 - **[Phase 30 MEE Roadmap](implementation_plan_phase_30.md)**: Detailed specification for Meta‑Evolution Engine.
+- **[Phase 31 SRE Roadmap](implementation_plan_phase_31.md)**: Detailed specification for Self-Refactoring Engine.
+- **[Phase 32 MAPE Roadmap](implementation_plan_phase_32.md)**: Detailed specification for Multi-Agent Planning Engine.
+
 
 
 

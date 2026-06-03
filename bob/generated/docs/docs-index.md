@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-03T20:33:22.818Z
+Generated at: 2026-06-03T23:21:58.868Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -81,6 +81,8 @@ Generated at: 2026-06-03T20:33:22.818Z
 - [MLA_UI_SPEC.md](docs/cic/MLA_UI_SPEC.md)
 - [MLA_ROADMAP.md](docs/cic/MLA_ROADMAP.md)
 - [MIGRATION_V1.1_CHECKLIST.md](docs/cic/MIGRATION_V1.1_CHECKLIST.md)
+- [implementation_plan_phase_32.md](docs/cic/implementation_plan_phase_32.md)
+- [implementation_plan_phase_31.md](docs/cic/implementation_plan_phase_31.md)
 - [implementation_plan_phase_30.md](docs/cic/implementation_plan_phase_30.md)
 - [implementation_plan_phase_29.md](docs/cic/implementation_plan_phase_29.md)
 - [implementation_plan_phase_28.md](docs/cic/implementation_plan_phase_28.md)
