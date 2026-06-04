@@ -1,0 +1,21 @@
+mkdocs.yml
+  s_7eb04519120919::t_95c32c7252adf9 68
+docs/rewrite-labs/REWRITE_LABS_ROADMAP.md
+  s_7eb04519120919::t_e2329e5717ee3c 1-145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "2c5f04e648b6d9935259462464eb0566c8bf7bd6",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
