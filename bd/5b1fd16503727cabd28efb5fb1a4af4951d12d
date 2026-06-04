@@ -1,0 +1,39 @@
+tools/mcp/test-helm-phase-6-7.js
+  s_589686640e3b65::t_00ab83b068e6e0 1-182
+tools/mcp/helm-server.js
+  s_7eb04519120919::t_1b90eec305a997 167-168
+  s_7eb04519120919::t_db88621c19bb17 22-23,25-27,31-32
+  s_7eb04519120919::t_ba476f2fc50812 104-151
+  s_589686640e3b65::t_d90ffa2607088c 827-829
+  s_7eb04519120919::t_d0621ef5d3f54e 815-826
+  s_7eb04519120919::t_db2238c1459a8b 319-457
+  s_7eb04519120919::t_b47ebb39eb1b90 862
+  s_589686640e3b65::t_f2036693fa7cd5 713-731
+  s_7eb04519120919::t_d106c28bc4a8f9 651-712
+  s_589686640e3b65::t_56dc0b89404ab4 523-553
+  s_7eb04519120919::t_f1c8df39a2c188 460,463-467,470,475-488,497,501,505,509,519
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "bd5b1fd16503727cabd28efb5fb1a4af4951d12d",
+  "prompts": {},
+  "sessions": {
+    "s_589686640e3b65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "545821fc-452f-427c-bd0f-059587fe5f6b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
