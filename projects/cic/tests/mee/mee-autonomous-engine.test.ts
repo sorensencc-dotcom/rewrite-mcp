@@ -70,14 +70,14 @@ describe("MeeAutonomousEngine & Worker", () => {
     }
   });
 
-  it("creates and starts a job", () => {
+  it("creates and starts a job", async () => {
     const request = "Refactor validator and improve UI";
     const job = engine.createJob(request);
     expect(job.status).toBe("pending");
     expect(job.request).toBe(request);
     expect(job.proposalIds.length).toBe(0);
 
-    const started = engine.startJob(job.id);
+    const started = await engine.startJob(job.id);
     expect(started).toBeDefined();
     expect(started?.status).toBe("running");
     expect(started?.proposalIds.length).toBeGreaterThan(0);
@@ -87,7 +87,7 @@ describe("MeeAutonomousEngine & Worker", () => {
 
   it("completes job successfully via worker when all checks pass", async () => {
     const job = engine.createJob("Optimize UI styling and extractor");
-    engine.startJob(job.id);
+    await engine.startJob(job.id);
 
     // Retrieve the updated job from store to have the runId
     const updatedJob = jobStore.get(job.id);
@@ -135,7 +135,7 @@ describe("MeeAutonomousEngine & Worker", () => {
     });
 
     const job = engine.createJob("Add new extractor");
-    engine.startJob(job.id);
+    await engine.startJob(job.id);
 
     // Retrieve the updated job from store to have the runId
     const updatedJob = jobStore.get(job.id);
@@ -176,7 +176,7 @@ describe("MeeAutonomousEngine & Worker", () => {
     });
 
     const job = engine.createJob("Fix build for new extractor");
-    engine.startJob(job.id);
+    await engine.startJob(job.id);
 
     // Retrieve the updated job from store to have the runId
     const updatedJob = jobStore.get(job.id);

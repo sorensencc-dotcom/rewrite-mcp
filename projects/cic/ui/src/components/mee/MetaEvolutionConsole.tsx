@@ -115,6 +115,46 @@ export function MetaEvolutionConsole() {
   const [abmJobs, setAbmJobs] = useState<any[]>([]);
   const [isSubmittingJob, setIsSubmittingJob] = useState<boolean>(false);
   const [isFetchingJobs, setIsFetchingJobs] = useState<boolean>(false);
+  const [healingPlan, setHealingPlan] = useState<any | null>(null);
+  const [failureContext, setFailureContext] = useState<any | null>(null);
+  const [planningMode, setPlanningMode] = useState<"deterministic" | "llm" | "hybrid">("deterministic");
+  const [jobSubTab, setJobSubTab] = useState<"general" | "agents" | "memory">("general");
+  const [jobTasks, setJobTasks] = useState<any[]>([]);
+  const [jobExchanges, setJobExchanges] = useState<any[]>([]);
+  const [isFetchingJobAgents, setIsFetchingJobAgents] = useState<boolean>(false);
+  const [jobMemoryItems, setJobMemoryItems] = useState<any[]>([]);
+  const [isFetchingJobMemory, setIsFetchingJobMemory] = useState<boolean>(false);
+
+  const fetchJobAgents = async (jobId: string) => {
+    setIsFetchingJobAgents(true);
+    try {
+      const res = await fetch(`/v1/mee/autonomous/jobs/${jobId}/agents`);
+      const data = await res.json();
+      if (data.ok) {
+        setJobTasks(data.data.tasks || []);
+        setJobExchanges(data.data.exchanges || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch job agents:", err);
+    } finally {
+      setIsFetchingJobAgents(false);
+    }
+  };
+
+  const fetchJobMemory = async (jobId: string) => {
+    setIsFetchingJobMemory(true);
+    try {
+      const res = await fetch(`/v1/mee/autonomous/jobs/${jobId}/memory`);
+      const data = await res.json();
+      if (data.ok) {
+        setJobMemoryItems(data.data.items || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch job memory:", err);
+    } finally {
+      setIsFetchingJobMemory(false);
+    }
+  };
 
   const fetchAutonomousJobs = async () => {
     setIsFetchingJobs(true);
@@ -145,7 +185,7 @@ export function MetaEvolutionConsole() {
       const res = await fetch("/v1/mee/autonomous/jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ request: abmRequest })
+        body: JSON.stringify({ request: abmRequest, planningMode })
       });
       const data = await res.json();
       if (data.ok) {
@@ -160,6 +200,55 @@ export function MetaEvolutionConsole() {
       setMessage(`Failed to start autonomous job: ${err.message}`);
     } finally {
       setIsSubmittingJob(false);
+    }
+  };
+
+  const fetchHealingPlan = async (jobId: string) => {
+    try {
+      const r = await fetch(`/v1/mee/autonomous/jobs/${jobId}/healing-plan`);
+      const json = await r.json();
+      if (json.ok) {
+        setHealingPlan(json.data.plan);
+      } else {
+        setHealingPlan(null);
+      }
+    } catch (err) {
+      console.error("Failed to fetch healing plan:", err);
+      setHealingPlan(null);
+    }
+  };
+
+  const fetchFailureContext = async (jobId: string) => {
+    try {
+      const r = await fetch(`/v1/mee/autonomous/jobs/${jobId}/failure-context`);
+      const json = await r.json();
+      if (json.ok) {
+        setFailureContext(json.data.failure);
+      } else {
+        setFailureContext(null);
+      }
+    } catch (err) {
+      console.error("Failed to fetch failure context:", err);
+      setFailureContext(null);
+    }
+  };
+
+  const startHealingJob = async (jobId: string) => {
+    setMessage("Starting self-healing build run...");
+    try {
+      const r = await fetch(`/v1/mee/autonomous/jobs/${jobId}/healing/start`, {
+        method: "POST",
+      });
+      const json = await r.json();
+      if (json.ok) {
+        setMessage("Self-healing job started successfully!");
+        setAbmJob(json.data.job);
+        fetchAutonomousJobs();
+      } else {
+        setMessage(`Failed to start healing job: ${json.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Failed to start healing job: ${err.message}`);
     }
   };
 
@@ -387,12 +476,51 @@ export function MetaEvolutionConsole() {
     if (hasRunning || (abmJob && abmJob.status === "running")) {
       interval = setInterval(() => {
         fetchAutonomousJobs();
+        if (abmJob) {
+          if (jobSubTab === "agents") {
+            fetchJobAgents(abmJob.id);
+          } else if (jobSubTab === "memory") {
+            fetchJobMemory(abmJob.id);
+          }
+        }
       }, 2000);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [abmJobs, abmJob]);
+  }, [abmJobs, abmJob, jobSubTab]);
+
+  useEffect(() => {
+    if (abmJob) {
+      if (abmJob.status === "failed") {
+        fetchHealingPlan(abmJob.id);
+        fetchFailureContext(abmJob.id);
+      } else {
+        setHealingPlan(null);
+        setFailureContext(null);
+      }
+    } else {
+      setHealingPlan(null);
+      setFailureContext(null);
+    }
+  }, [abmJob?.id, abmJob?.status]);
+
+  useEffect(() => {
+    setJobSubTab("general");
+    setJobTasks([]);
+    setJobExchanges([]);
+    setJobMemoryItems([]);
+  }, [abmJob?.id]);
+
+  useEffect(() => {
+    if (abmJob) {
+      if (jobSubTab === "agents") {
+        fetchJobAgents(abmJob.id);
+      } else if (jobSubTab === "memory") {
+        fetchJobMemory(abmJob.id);
+      }
+    }
+  }, [abmJob?.id, jobSubTab]);
 
   const fetchProposals = async () => {
     try {
@@ -2360,6 +2488,25 @@ export function MetaEvolutionConsole() {
                   marginBottom: "12px"
                 }}
               />
+              <div style={{ display: "flex", gap: "12px", alignItems: "center", marginBottom: "12px" }}>
+                <span style={{ fontSize: "0.875rem", color: "#9ca3af" }}>Planning Mode:</span>
+                <select
+                  value={planningMode}
+                  onChange={(e) => setPlanningMode(e.target.value as any)}
+                  style={{
+                    backgroundColor: "#0b0f19",
+                    border: "1px solid #374151",
+                    borderRadius: "6px",
+                    color: "#ffffff",
+                    padding: "6px 12px",
+                    fontSize: "0.875rem"
+                  }}
+                >
+                  <option value="deterministic">Deterministic</option>
+                  <option value="llm">LLM-assisted</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
               <button
                 onClick={startAutonomousJob}
                 disabled={isSubmittingJob || !abmRequest.trim()}
@@ -2408,95 +2555,378 @@ export function MetaEvolutionConsole() {
                       textTransform: "uppercase"
                     }}>
                       {abmJob.status}
-                    </span>
+                                      <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
+
+                  {/* Job Sub-Tabs */}
+                  <div style={{ display: "flex", gap: "12px", borderBottom: "1px solid #1f2937", marginBottom: "16px" }}>
+                    <button
+                      onClick={() => setJobSubTab("general")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "general" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "general" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      General Info
+                    </button>
+                    <button
+                      onClick={() => setJobSubTab("agents")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "agents" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "agents" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      Agent Timeline
+                    </button>
+                    <button
+                      onClick={() => setJobSubTab("memory")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "memory" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "memory" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      Memory Logs
+                    </button>
                   </div>
 
-                  <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
-
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "0.875rem" }}>
-                    <div>
-                      <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Request Prompt</span>
-                      <div style={{ backgroundColor: "#0b0f19", padding: "12px", borderRadius: "6px", border: "1px solid #1f2937" }}>
-                        {abmJob.request}
-                      </div>
-                    </div>
+                    {jobSubTab === "general" && (
+                      <>
+                        <div>
+                          <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Request Prompt</span>
+                          <div style={{ backgroundColor: "#0b0f19", padding: "12px", borderRadius: "6px", border: "1px solid #1f2937" }}>
+                            {abmJob.request}
+                          </div>
+                        </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                      <div>
-                        <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Execution Run</span>
-                        {abmJob.runId ? (
-                          <span
-                            onClick={() => {
-                              setActiveTab("runs");
-                              fetchRunDetails(abmJob.runId);
-                            }}
-                            style={{ color: "#3b82f6", textDecoration: "underline", cursor: "pointer", fontFamily: "monospace" }}
-                          >
-                            {abmJob.runId.substring(0, 8)} (Inspect Run)
-                          </span>
-                        ) : (
-                          <span style={{ color: "#6b7280" }}>None</span>
-                        )}
-                      </div>
-                      <div>
-                        <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Plan Request</span>
-                        <span style={{ color: "#cbd5e1", fontFamily: "monospace" }}>
-                          {abmJob.planId ? abmJob.planId.substring(0, 8) : "Pending"}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Tasks & Proposals</span>
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                        {abmJob.proposalIds && abmJob.proposalIds.length > 0 ? (
-                          abmJob.proposalIds.map((pId: string, idx: number) => (
-                            <span
-                              key={pId}
-                              onClick={() => {
-                                setActiveTab("evolution");
-                                fetchPatch(pId);
-                              }}
-                              style={{
-                                display: "inline-block",
-                                padding: "4px 8px",
-                                backgroundColor: "#1f2937",
-                                border: "1px solid #374151",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                                fontSize: "0.75rem",
-                                color: "#cbd5e1",
-                                fontFamily: "monospace"
-                              }}
-                            >
-                              Step {idx + 1}: {pId.substring(0, 8)}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                          <div>
+                            <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Execution Run</span>
+                            {abmJob.runId ? (
+                              <span
+                                onClick={() => {
+                                  setActiveTab("runs");
+                                  fetchRunDetails(abmJob.runId);
+                                }}
+                                style={{ color: "#3b82f6", textDecoration: "underline", cursor: "pointer", fontFamily: "monospace" }}
+                              >
+                                {abmJob.runId.substring(0, 8)} (Inspect Run)
+                              </span>
+                            ) : (
+                              <span style={{ color: "#6b7280" }}>None</span>
+                            )}
+                          </div>
+                          <div>
+                            <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Plan Request</span>
+                            <span style={{ color: "#cbd5e1", fontFamily: "monospace" }}>
+                              {abmJob.planId ? abmJob.planId.substring(0, 8) : "Pending"}
                             </span>
-                          ))
+                          </div>
+                        </div>
+
+                        <div>
+                          <span style={{ color: "#6b7280", display: "block", marginBottom: "4px" }}>Tasks & Proposals</span>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                            {abmJob.proposalIds && abmJob.proposalIds.length > 0 ? (
+                              abmJob.proposalIds.map((pId: string, idx: number) => (
+                                <span
+                                  key={pId}
+                                  onClick={() => {
+                                    setActiveTab("evolution");
+                                    fetchPatch(pId);
+                                  }}
+                                  style={{
+                                    display: "inline-block",
+                                    padding: "4px 8px",
+                                    backgroundColor: "#1f2937",
+                                    border: "1px solid #374151",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontSize: "0.75rem",
+                                    color: "#cbd5e1",
+                                    fontFamily: "monospace"
+                                  }}
+                                >
+                                  Step {idx + 1}: {pId.substring(0, 8)}
+                                </span>
+                              ))
+                            ) : (
+                              <span style={{ color: "#6b7280" }}>No tasks generated yet.</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {abmJob.error && (
+                          <div style={{ marginTop: "16px" }}>
+                            <span style={{ color: "#ef4444", fontWeight: 600, display: "block", marginBottom: "4px" }}>Job Failure Details</span>
+                            <pre style={{
+                              margin: 0,
+                              padding: "12px",
+                              backgroundColor: "rgba(239, 68, 68, 0.1)",
+                              color: "#f87171",
+                              border: "1px solid #ef4444",
+                              borderRadius: "6px",
+                              fontSize: "0.8rem",
+                              fontFamily: "monospace",
+                              whiteSpace: "pre-wrap",
+                              overflowY: "auto",
+                              maxHeight: "150px"
+                            }}>
+                              {abmJob.error.message}
+                              {abmJob.error.code ? `\nCode: ${abmJob.error.code}` : ""}
+                            </pre>
+                          </div>
+                        )}
+
+                        {abmJob.status === "failed" && (
+                          <div style={{ marginTop: "24px", borderTop: "1px solid #1f2937", paddingTop: "16px" }}>
+                            <h4 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#fb7185", marginBottom: "12px" }}>
+                              Self-Healing Intelligence
+                            </h4>
+
+                            {/* Failure Context Details */}
+                            {failureContext && (
+                              <div style={{ marginBottom: "16px" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.85rem", display: "block", marginBottom: "4px" }}>Failure Context</span>
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #374151", borderRadius: "6px", padding: "10px", fontSize: "0.85rem" }}>
+                                  <div style={{ marginBottom: "4px" }}><strong>Failing Proposals:</strong> {failureContext.failingProposalIds?.join(", ") || "None"}</div>
+                                  <div style={{ marginBottom: "4px" }}><strong>Error Code:</strong> <code style={{ color: "#ef4444" }}>{failureContext.errorCode || "N/A"}</code></div>
+                                  {failureContext.sandboxOutput && (
+                                    <div style={{ marginTop: "8px" }}>
+                                      <strong>Sandbox Output:</strong>
+                                      <pre style={{ margin: "4px 0 0 0", padding: "8px", backgroundColor: "#1f2937", color: "#38bdf8", borderRadius: "4px", fontSize: "0.75rem", fontFamily: "monospace", overflowX: "auto", maxHeight: "120px", whiteSpace: "pre-wrap" }}>
+                                        {failureContext.sandboxOutput.buildOutput || failureContext.sandboxOutput.testOutput || "No logs."}
+                                      </pre>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Healing Plan Recommendations */}
+                            {healingPlan ? (
+                              <div style={{ backgroundColor: "rgba(16, 185, 129, 0.05)", border: "1px solid rgba(16, 185, 129, 0.2)", borderRadius: "8px", padding: "16px" }}>
+                                <h5 style={{ fontSize: "0.95rem", fontWeight: 600, color: "#34d399", margin: "0 0 8px 0" }}>
+                                  Suggested Healing Plan
+                                </h5>
+                                <p style={{ margin: "0 0 12px 0", fontSize: "0.85rem", color: "#cbd5e1", lineHeight: "1.4" }}>
+                                  {healingPlan.summary}
+                                </p>
+
+                                {healingPlan.suggestedTasks && healingPlan.suggestedTasks.length > 0 && (
+                                  <ul style={{ margin: "0 0 16px 0", paddingLeft: "20px", fontSize: "0.85rem", color: "#9ca3af" }}>
+                                    {healingPlan.suggestedTasks.map((t: any, i: number) => (
+                                      <li key={i} style={{ marginBottom: "6px" }}>
+                                        <strong style={{ color: "#cbd5e1" }}>[{t.type}]</strong> {t.title} &mdash; {t.description}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+
+                                <button
+                                  onClick={() => startHealingJob(abmJob.id)}
+                                  style={{
+                                    backgroundColor: "#10b981",
+                                    color: "#ffffff",
+                                    padding: "8px 16px",
+                                    borderRadius: "6px",
+                                    border: "none",
+                                    fontWeight: 600,
+                                    fontSize: "0.85rem",
+                                    cursor: "pointer",
+                                    transition: "opacity 0.2s"
+                                  }}
+                                >
+                                  Execute Healing Run
+                                </button>
+                              </div>
+                            ) : (
+                              <div style={{ fontSize: "0.85rem", color: "#6b7280", fontStyle: "italic" }}>
+                                Generating or loading healing recommendation plan...
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {jobSubTab === "agents" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                        {isFetchingJobAgents && jobTasks.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            Loading agent logs...
+                          </div>
+                        ) : jobTasks.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            No agent tasks dispatched for this job.
+                          </div>
                         ) : (
-                          <span style={{ color: "#6b7280" }}>No tasks generated yet.</span>
+                          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                            {jobTasks.map((task: any) => {
+                              const taskExchanges = jobExchanges.filter((e) => e.taskId === task.id);
+                              return (
+                                <div
+                                  key={task.id}
+                                  style={{
+                                    backgroundColor: "#0b0f19",
+                                    border: "1px solid #1f2937",
+                                    borderRadius: "8px",
+                                    padding: "12px",
+                                    fontSize: "0.85rem"
+                                  }}
+                                >
+                                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                                    <strong style={{ color: "#e2e8f0" }}>Task: {task.type}</strong>
+                                    <span style={{
+                                      fontSize: "0.75rem",
+                                      padding: "2px 6px",
+                                      borderRadius: "4px",
+                                      backgroundColor: task.status === "completed" ? "rgba(16, 185, 129, 0.1)" : task.status === "failed" ? "rgba(239, 68, 68, 0.1)" : "rgba(245, 158, 11, 0.1)",
+                                      color: task.status === "completed" ? "#10b981" : task.status === "failed" ? "#ef4444" : "#f59e0b",
+                                      textTransform: "uppercase",
+                                      fontWeight: "bold"
+                                    }}>
+                                      {task.status}
+                                    </span>
+                                  </div>
+                                  <div style={{ color: "#6b7280", fontSize: "0.75rem", marginBottom: "8px" }}>
+                                    Agent ID: <code style={{ color: "#9ca3af" }}>{task.agentId}</code> | Created: {new Date(task.createdAt).toLocaleTimeString()}
+                                  </div>
+                                  {task.errorMessage && (
+                                    <div style={{ color: "#f87171", backgroundColor: "rgba(239,68,68,0.1)", padding: "8px", borderRadius: "4px", marginBottom: "8px", fontFamily: "monospace", fontSize: "0.75rem" }}>
+                                      Error: {task.errorMessage}
+                                    </div>
+                                  )}
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", borderLeft: "2px solid #374151", paddingLeft: "8px", marginTop: "8px" }}>
+                                    {taskExchanges.map((ex: any) => (
+                                      <div key={ex.id} style={{ fontSize: "0.75rem" }}>
+                                        <div style={{ color: ex.direction === "request" ? "#60a5fa" : "#34d399", fontWeight: 600 }}>
+                                          {ex.direction === "request" ? "→ Request" : "← Response"} ({new Date(ex.createdAt).toLocaleTimeString()}):
+                                        </div>
+                                        <pre style={{
+                                          margin: "4px 0 0 0",
+                                          padding: "6px",
+                                          backgroundColor: "#1f2937",
+                                          borderRadius: "4px",
+                                          fontFamily: "monospace",
+                                          color: "#cbd5e1",
+                                          overflowX: "auto",
+                                          whiteSpace: "pre-wrap"
+                                        }}>
+                                          {(() => {
+                                            try {
+                                              return JSON.stringify(JSON.parse(ex.content), null, 2);
+                                            } catch {
+                                              return ex.content;
+                                            }
+                                          })()}
+                                        </pre>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
                         )}
                       </div>
-                    </div>
+                    )}
 
-                    {abmJob.error && (
-                      <div style={{ marginTop: "16px" }}>
-                        <span style={{ color: "#ef4444", fontWeight: 600, display: "block", marginBottom: "4px" }}>Job Failure Details</span>
-                        <pre style={{
-                          margin: 0,
-                          padding: "12px",
-                          backgroundColor: "rgba(239, 68, 68, 0.1)",
-                          color: "#f87171",
-                          border: "1px solid #ef4444",
-                          borderRadius: "6px",
-                          fontSize: "0.8rem",
-                          fontFamily: "monospace",
-                          whiteSpace: "pre-wrap",
-                          overflowY: "auto",
-                          maxHeight: "150px"
-                        }}>
-                          {abmJob.error.message}
-                          {abmJob.error.code ? `\nCode: ${abmJob.error.code}` : ""}
-                        </pre>
+                    {jobSubTab === "memory" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                        {isFetchingJobMemory && jobMemoryItems.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            Loading memory logs...
+                          </div>
+                        ) : jobMemoryItems.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            No memory logs generated for this job yet.
+                          </div>
+                        ) : (
+                          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                            {jobMemoryItems.map((item: any) => (
+                              <div
+                                key={item.id}
+                                style={{
+                                  backgroundColor: "#0b0f19",
+                                  border: "1px solid #1f2937",
+                                  borderRadius: "8px",
+                                  padding: "12px",
+                                  fontSize: "0.85rem"
+                                }}
+                              >
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                                  <strong style={{ color: "#f3f4f6" }}>{item.summary}</strong>
+                                  <span style={{ fontSize: "0.75rem", color: "#6b7280" }}>
+                                    {new Date(item.createdAt).toLocaleTimeString()}
+                                  </span>
+                                </div>
+                                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "8px" }}>
+                                  <span style={{
+                                    backgroundColor: "#1e293b",
+                                    color: "#3b82f6",
+                                    fontSize: "0.7rem",
+                                    padding: "2px 6px",
+                                    borderRadius: "4px",
+                                    textTransform: "uppercase"
+                                  }}>
+                                    Scope: {item.scope}
+                                  </span>
+                                  {item.tags && item.tags.map((tag: string) => (
+                                    <span
+                                      key={tag}
+                                      style={{
+                                        backgroundColor: "#064e3b",
+                                        color: "#10b981",
+                                        fontSize: "0.7rem",
+                                        padding: "2px 6px",
+                                        borderRadius: "4px"
+                                      }}
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+                                <pre style={{
+                                  margin: 0,
+                                  padding: "8px",
+                                  backgroundColor: "#1f2937",
+                                  color: "#cbd5e1",
+                                  borderRadius: "4px",
+                                  fontFamily: "monospace",
+                                  fontSize: "0.75rem",
+                                  overflowX: "auto",
+                                  whiteSpace: "pre-wrap"
+                                }}>
+                                  {(() => {
+                                    try {
+                                      return JSON.stringify(JSON.parse(item.details), null, 2);
+                                    } catch {
+                                      return item.details;
+                                    }
+                                  })()}
+                                </pre>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

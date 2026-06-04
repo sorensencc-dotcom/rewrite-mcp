@@ -1,10 +1,11 @@
-// File: projects/cic/src/mee/mee-autonomous-worker.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-autonomous-worker.ts | Date: 2026-06-04 | v1.1.0
 
 import { MeeAutonomousEngine, MeeAutonomousJobStore } from "./mee-autonomous-engine.js";
 import { MeeRunEngine } from "./mee-run-engine.js";
 
 export class MeeAutonomousWorker {
   private isRunning = false;
+  private readonly processingJobs = new Set<string>();
 
   constructor(
     private readonly jobs: MeeAutonomousJobStore,
@@ -24,59 +25,95 @@ export class MeeAutonomousWorker {
   }
 
   private async loop(intervalMs: number) {
+    let currentIntervalMs = intervalMs;
+
     while (this.isRunning) {
       try {
         const activeJobs = this.jobs.list().filter((j) => j.status === "running");
 
         for (const job of activeJobs) {
-          const run = job.runId ? this.runs.getRun(job.runId) : undefined;
-          if (!run) continue;
-
-          // If run is finished (completed or failed), synchronize status
-          if (run.status === "completed") {
-            job.status = "completed";
-            job.updatedAt = new Date().toISOString();
-            this.jobs.save(job);
-            continue;
-          } else if (run.status === "failed" || run.status === "canceled") {
-            job.status = run.status === "canceled" ? "failed" : "failed";
-            job.error = run.error || { message: `Run finished with status: ${run.status}` };
-            job.updatedAt = new Date().toISOString();
-            this.jobs.save(job);
+          if (this.processingJobs.has(job.id)) {
             continue;
           }
 
-          // Determine next proposal
-          const nextIndex = run.currentStepIndex;
-          const proposalId = job.proposalIds[nextIndex];
-          if (!proposalId) {
-            // No more proposals but run not completed, complete it
-            job.status = "completed";
-            job.updatedAt = new Date().toISOString();
-            this.jobs.save(job);
-            continue;
-          }
+          this.processingJobs.add(job.id);
 
-          // Execute step
           try {
-            await this.engine.executeStep(job.id, proposalId, this.workspacePath);
-          } catch (err: any) {
-            console.error(`Error executing step for job ${job.id}:`, err);
-            job.status = "failed";
-            job.error = { message: err.message || "Execution exception occurred", code: "worker_exception" };
-            job.updatedAt = new Date().toISOString();
-            this.jobs.save(job);
+            const run = job.runId ? this.runs.getRun(job.runId) : undefined;
+            if (!run) continue;
+
+            // If run is finished (completed or failed), synchronize status
+            if (run.status === "completed") {
+              job.status = "completed";
+              job.updatedAt = new Date().toISOString();
+              this.jobs.save(job);
+              this.engine.addMemory(
+                "job",
+                job.id,
+                job.runId,
+                ["success", "completed"],
+                `Job ${job.id} completed successfully`,
+                `All proposals in the plan ${job.planId || "" } were applied and verified successfully.`
+              );
+              continue;
+            } else if (run.status === "failed" || run.status === "canceled") {
+              job.status = run.status === "canceled" ? "failed" : "failed";
+              job.error = run.error || { message: `Run finished with status: ${run.status}` };
+              job.updatedAt = new Date().toISOString();
+              this.jobs.save(job);
+              continue;
+            }
+
+            // Determine next proposal
+            const nextIndex = run.currentStepIndex;
+            const proposalId = job.proposalIds[nextIndex];
+            if (!proposalId) {
+              // No more proposals but run not completed, complete it
+              job.status = "completed";
+              job.updatedAt = new Date().toISOString();
+              this.jobs.save(job);
+              this.engine.addMemory(
+                "job",
+                job.id,
+                job.runId,
+                ["success", "completed"],
+                `Job ${job.id} completed successfully`,
+                `All proposals in the plan ${job.planId || "" } were applied and verified successfully.`
+              );
+              continue;
+            }
+
+            // Execute step
+            try {
+              await this.engine.executeStep(job.id, proposalId, this.workspacePath);
+            } catch (err: any) {
+              console.error(`Error executing step for job ${job.id}:`, err);
+              job.status = "failed";
+              job.error = { message: err.message || "Execution exception occurred", code: "worker_exception" };
+              job.updatedAt = new Date().toISOString();
+              this.jobs.save(job);
+            }
+          } finally {
+            this.processingJobs.delete(job.id);
           }
         }
+
+        // Reset backoff on successful execution loop
+        currentIntervalMs = intervalMs;
       } catch (loopErr) {
         console.error("Error in MeeAutonomousWorker poll iteration:", loopErr);
+        // Exponential backoff up to 5 seconds
+        currentIntervalMs = Math.min(currentIntervalMs * 2, 5000);
       }
 
-      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      // Apply random jitter (0 to 50ms) to prevent synchronization issues
+      const jitter = Math.random() * 50;
+      await new Promise((resolve) => setTimeout(resolve, currentIntervalMs + jitter));
     }
   }
 
   stop() {
     this.isRunning = false;
+    this.processingJobs.clear();
   }
 }

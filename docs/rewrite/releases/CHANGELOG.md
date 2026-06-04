@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.29.2] - 2026-06-04
+### Added
+- **HELM: Daily Operator OS** (`docs/helm/HELM_ROADMAP.md`): Vision and roadmap for the unified personal + business command dashboard. Covers layout architecture, panel specs, data source map, 5-phase build plan, and identity (name, logo concept).
+    - **mkdocs.yml**: Registered HELM as top-level nav section.
+
 ## [2.29.1] - 2026-06-03
 ### Added
 - **CIC Manual: Executive Intelligence Engine** (`docs/cic/manuals/executive_intelligence_engine.md`): Operator manual covering all three MCP tools (`execute_24h_triage_scan`, `stage_email_attachments`, `commit_triage_action`), triage rule engine, auth, audit log format, and scheduled execution.

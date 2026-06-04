@@ -194,4 +194,52 @@ export interface MeeHealingPlan {
   }[];
 }
 
+export type MeeAgentRole =
+  | "planner"
+  | "refactor"
+  | "tester"
+  | "docs"
+  | "safety";
+
+export interface MeeAgent {
+  id: string;
+  role: MeeAgentRole;
+  name: string;
+  createdAt: string;
+}
+
+export interface MeeAgentTask {
+  id: string;
+  agentId: string;
+  jobId: string;
+  runId?: string;
+  createdAt: string;
+  type: string;
+  payload: Record<string, unknown>;
+  status: "pending" | "running" | "completed" | "failed";
+  errorMessage?: string;
+}
+
+export interface MeeAgentExchange {
+  id: string;
+  taskId: string;
+  agentId: string;
+  createdAt: string;
+  direction: "request" | "response";
+  content: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface MeeMemoryItem {
+  id: string;
+  createdAt: string;
+  scope: "repo" | "job" | "run";
+  repoId?: string;
+  jobId?: string;
+  runId?: string;
+  tags: string[];
+  summary: string;
+  details: string;
+}
+
 

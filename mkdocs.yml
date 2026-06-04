@@ -26,6 +26,7 @@ theme:
 
 nav:
   - Home: index.md
+  - "HELM: Daily Operator OS Roadmap": helm/HELM_ROADMAP.md
   - "CIC: System Overview": cic/CIC_SYSTEM.md
   - "CIC: Documents Index": cic/CIC_DOCS_INDEX.md
   - "CIC: GAP-002 Danish Origins": GAP-002_Narrative_Gap_Report.md

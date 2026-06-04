@@ -24,9 +24,15 @@ import os from "node:os";
 import { MeeSafetyEngine } from "../../mee/safety/safety-engine.js";
 import { MeeSandboxEngine } from "../../mee/safety/sandbox-engine.js";
 import { MeeRollbackEngine } from "../../mee/safety/rollback-engine.js";
-import { FileMeeAutonomousJobStore } from "../../mee/mee-autonomous-store.js";
+import { FileMeeAutonomousJobStore, FileMeeRunFailureContextStore, FileMeeHealingPlanStore } from "../../mee/mee-autonomous-store.js";
 import { MeeAutonomousEngine } from "../../mee/mee-autonomous-engine.js";
 import { MeeAutonomousWorker } from "../../mee/mee-autonomous-worker.js";
+import { SelfHealingEngine } from "../../mee/self-healing/self-healing-engine.js";
+import { LLMPlanningEngine } from "../../mee/planning/llm-planning-engine.js";
+import { createLlamaClient } from "../../../ingestion/src/clients/llamaClient.js";
+import { FileMeeMemoryStore } from "../../mee/mee-memory-store.js";
+import { MeeAgentOrchestrator } from "../../mee/mee-agent-orchestrator.js";
+import { PlannerAgent } from "../../mee/planner-agent.js";
 
 export function registerMeeRoutes(router: Router) {
   const workspaceRoot = process.cwd();
@@ -42,7 +48,110 @@ export function registerMeeRoutes(router: Router) {
   const graphEngine = new MeeProposalGraph(synth, validator);
   const negotiationEngine = new MeeNegotiationEngine();
   const selfRefactor = new SelfRefactorEngine();
-  const planningEngine = new PlanningEngine();
+
+  const llama = createLlamaClient();
+  const llmClient = {
+    async generatePlan(input: {
+      request: string;
+      repoSummary?: string;
+      recentFailures?: string;
+    }) {
+      const prompt = `You are a planning agent for Cast Iron Charlie.
+User Request: ${input.request}
+Repository Summary: ${input.repoSummary || "N/A"}
+Recent Failures: ${input.recentFailures || "N/A"}
+
+Generate a plan tree consisting of tasks. Each task should have id, title, description, type, and dependsOn (array of dependency task ids).
+Return the result strictly in this JSON format:
+{
+  "rootRequest": "${input.request}",
+  "summary": "A short summary of the plan",
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Create schema file",
+      "description": "Define the types and interfaces for the new feature",
+      "type": "feature",
+      "dependsOn": []
+    }
+  ]
+}
+JSON:`;
+
+      try {
+        const res = await llama.complete({
+          model: "local-llama",
+          prompt,
+          max_tokens: 1024
+        });
+        const match = res.text.match(/\{[\s\S]*\}/);
+        if (match) {
+          return JSON.parse(match[0]);
+        }
+      } catch (err) {
+        console.error("LLM planning failed:", err);
+      }
+
+      return {
+        rootRequest: input.request,
+        summary: `Failed to generate LLM plan. Falling back.`,
+        tasks: []
+      };
+    }
+  };
+
+  const healingLLMClient = {
+    async suggestHealing(input: {
+      request: string;
+      plan: any;
+      failure: any;
+    }) {
+      const prompt = `You are a self-healing assistant for Cast Iron Charlie.
+Original Request: ${input.request}
+Failure Message: ${input.failure.errorMessage}
+Error Code: ${input.failure.errorCode}
+Failing Proposal IDs: ${input.failure.failingProposalIds.join(", ")}
+Sandbox Output: ${JSON.stringify(input.failure.sandboxOutput)}
+
+Suggest a healing plan with a summary and a list of suggested tasks to fix this.
+Return the result strictly in this JSON format:
+{
+  "summary": "Short summary of what went wrong and how to fix it",
+  "tasks": [
+    {
+      "title": "Fix target function signature",
+      "description": "Adjust the function parameters to match the new schema",
+      "type": "fix"
+    }
+  ]
+}
+JSON:`;
+
+      try {
+        const res = await llama.complete({
+          model: "local-llama",
+          prompt,
+          max_tokens: 1024
+        });
+        const match = res.text.match(/\{[\s\S]*\}/);
+        if (match) {
+          return JSON.parse(match[0]);
+        }
+      } catch (err) {
+        console.error("LLM healing suggestion failed:", err);
+      }
+
+      return {
+        summary: `Self-healing plan for failure: ${input.failure.errorMessage}`,
+        tasks: [{ title: "Manual Review Needed", description: "Review the failure and fix it manually", type: "fix" }]
+      };
+    }
+  };
+
+  const selfHealing = new SelfHealingEngine(healingLLMClient);
+  const llmPlanning = new LLMPlanningEngine(llmClient);
+
+  const planningEngine = new PlanningEngine("deterministic", llmPlanning);
 
   const runStore = new FileMeeRunStore(path.join(workspaceRoot, "projects/cic/data/runs"));
   const runEngine = new MeeRunEngine(runStore);
@@ -52,6 +161,13 @@ export function registerMeeRoutes(router: Router) {
   const rollbackEngine = new MeeRollbackEngine();
 
   const autonomousJobStore = new FileMeeAutonomousJobStore(path.join(workspaceRoot, "projects/cic/data/jobs"));
+  const failureContextStore = new FileMeeRunFailureContextStore(path.join(workspaceRoot, "projects/cic/data/failures"));
+  const healingPlanStore = new FileMeeHealingPlanStore(path.join(workspaceRoot, "projects/cic/data/healing-plans"));
+  const memoryStore = new FileMeeMemoryStore(path.join(workspaceRoot, "projects/cic/data/memory"));
+  const orchestrator = new MeeAgentOrchestrator(path.join(workspaceRoot, "projects/cic/data/orchestrator"));
+  const plannerAgent = new PlannerAgent("agent-planner-1", "planner", planningEngine);
+  orchestrator.registerAgent(plannerAgent);
+
   const autonomousEngine = new MeeAutonomousEngine(
     autonomousJobStore,
     planningEngine,
@@ -61,7 +177,12 @@ export function registerMeeRoutes(router: Router) {
     store,
     synth,
     validator,
-    rollbackEngine
+    rollbackEngine,
+    failureContextStore,
+    selfHealing,
+    healingPlanStore,
+    memoryStore,
+    orchestrator
   );
 
   const autonomousWorker = new MeeAutonomousWorker(
@@ -1165,7 +1286,7 @@ export function registerMeeRoutes(router: Router) {
 
   router.post("/mee/autonomous/jobs", async (req, res) => {
     try {
-      const { request } = req.body || {};
+      const { request, planningMode } = req.body || {};
       if (!request) {
         return res.status(400).json({
           ok: false,
@@ -1177,8 +1298,8 @@ export function registerMeeRoutes(router: Router) {
         });
       }
 
-      const job = autonomousEngine.createJob(request);
-      const started = autonomousEngine.startJob(job.id);
+      const job = autonomousEngine.createJob(request, planningMode);
+      const started = await autonomousEngine.startJob(job.id);
 
       return res.json({
         ok: true,
@@ -1232,6 +1353,132 @@ export function registerMeeRoutes(router: Router) {
         error: {
           code: "internal.exception",
           message: err.message || "Failed to retrieve autonomous job.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/healing-plan", (req, res) => {
+    try {
+      const plan = healingPlanStore.getByParentJob(req.params.id);
+      if (!plan) {
+        return res.status(404).json({
+          ok: false,
+          error: {
+            code: "not_found.healing_plan",
+            message: "No healing plan found",
+            details: { id: req.params.id }
+          }
+        });
+      }
+      return res.json({ ok: true, data: { plan } });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve healing plan.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/failure-context", (req, res) => {
+    try {
+      const failure = failureContextStore.getByJob(req.params.id);
+      if (!failure) {
+        return res.status(404).json({
+          ok: false,
+          error: {
+            code: "not_found.failure_context",
+            message: "No failure context found",
+            details: { id: req.params.id }
+          }
+        });
+      }
+      return res.json({ ok: true, data: { failure } });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve failure context.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.post("/mee/autonomous/jobs/:id/healing/start", async (req, res) => {
+    try {
+      const plan = healingPlanStore.getByParentJob(req.params.id);
+      if (!plan) {
+        return res.status(404).json({
+          ok: false,
+          error: {
+            code: "not_found.healing_plan",
+            message: "No healing plan found to trigger healing.",
+            details: { id: req.params.id }
+          }
+        });
+      }
+
+      const job = autonomousEngine.createJob(plan.summary);
+      job.parentJobId = req.params.id;
+      autonomousJobStore.save(job);
+
+      const started = await autonomousEngine.startJob(job.id);
+
+      return res.json({ ok: true, data: { job: started || job } });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to start healing job.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/agents", (req, res) => {
+    try {
+      const jobId = req.params.id;
+      const tasks = orchestrator.getTasksForJob(jobId);
+      const exchanges = orchestrator.getExchangesForJob(jobId);
+      return res.json({
+        ok: true,
+        data: { tasks, exchanges }
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve job agents info.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/memory", (req, res) => {
+    try {
+      const jobId = req.params.id;
+      const items = memoryStore.queryByJob(jobId);
+      return res.json({
+        ok: true,
+        data: { items }
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve job memory items.",
           details: {}
         }
       });

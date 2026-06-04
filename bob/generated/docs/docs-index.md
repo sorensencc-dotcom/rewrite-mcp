@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-04T02:17:16.338Z
+Generated at: 2026-06-04T03:28:29.098Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -75,6 +75,7 @@ Generated at: 2026-06-04T02:17:16.338Z
 - [mas-introspection.md](docs/rewrite/architecture/mas-introspection.md)
 - [control-plane-design.md](docs/rewrite/architecture/control-plane-design.md)
 - [agents.md](docs/rewrite/architecture/agents.md)
+- [HELM_ROADMAP.md](docs/helm/HELM_ROADMAP.md)
 - [VISUAL_INDEX_TEMPLATE.md](docs/cic/VISUAL_INDEX_TEMPLATE.md)
 - [SKILLOPT_VALIDATOR_SPEC.md](docs/cic/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite-labs-roadmap.md](docs/cic/rewrite-labs-roadmap.md)

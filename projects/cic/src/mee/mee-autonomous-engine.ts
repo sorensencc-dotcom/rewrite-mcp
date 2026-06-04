@@ -1,22 +1,47 @@
-// File: projects/cic/src/mee/mee-autonomous-engine.ts | Date: 2026-06-03 | v1.0.0
+// File: projects/cic/src/mee/mee-autonomous-engine.ts | Date: 2026-06-04 | v1.2.0
 
 import crypto from "node:crypto";
 import path from "node:path";
 import fs from "node:fs";
 import { PlanningEngine } from "./planning/planning-engine.js";
 import { MeeRunEngine } from "./mee-run-engine.js";
-import { MeeAutonomousJob, MeeAutonomousJobStatus, PhaseProposal } from "./mee-schema.js";
+import {
+  MeeAutonomousJob,
+  MeeAutonomousJobStatus,
+  PhaseProposal,
+  MeePlanningMode,
+  MeeRunFailureContext,
+  MeeHealingPlan,
+  PlanTree,
+} from "./mee-schema.js";
 import { MeeSafetyEngine } from "./safety/safety-engine.js";
 import { MeeSandboxEngine } from "./safety/sandbox-engine.js";
 import { MeeRollbackEngine } from "./safety/rollback-engine.js";
 import { MeePatchSynthesizer } from "./mee-synthesizer.js";
 import { MeeValidator } from "./mee-validator.js";
 import { MeeProposalStore } from "./mee-proposal-store.js";
+import { SelfHealingEngine } from "./self-healing/self-healing-engine.js";
+import { MeeMemoryStore } from "./mee-memory-store.js";
+import { MeeAgentOrchestrator } from "./mee-agent-orchestrator.js";
 
 export interface MeeAutonomousJobStore {
   save(job: MeeAutonomousJob): void;
   get(id: string): MeeAutonomousJob | undefined;
   list(): MeeAutonomousJob[];
+}
+
+export interface MeeRunFailureContextStore {
+  save(context: MeeRunFailureContext): void;
+  get(runId: string): MeeRunFailureContext | undefined;
+  getByJob(jobId: string): MeeRunFailureContext | undefined;
+  list(): MeeRunFailureContext[];
+}
+
+export interface MeeHealingPlanStore {
+  save(plan: MeeHealingPlan): void;
+  get(id: string): MeeHealingPlan | undefined;
+  getByParentJob(jobId: string): MeeHealingPlan | undefined;
+  list(): MeeHealingPlan[];
 }
 
 export class MeeAutonomousEngine {
@@ -30,9 +55,14 @@ export class MeeAutonomousEngine {
     private readonly synth: MeePatchSynthesizer,
     private readonly validator: MeeValidator,
     private readonly rollback: MeeRollbackEngine,
+    private readonly failureStore?: MeeRunFailureContextStore,
+    private readonly selfHealing?: SelfHealingEngine,
+    private readonly healingPlanStore?: MeeHealingPlanStore,
+    private readonly memoryStore?: MeeMemoryStore,
+    private readonly orchestrator?: MeeAgentOrchestrator,
   ) {}
 
-  createJob(request: string): MeeAutonomousJob {
+  createJob(request: string, planningMode?: MeePlanningMode): MeeAutonomousJob {
     const now = new Date().toISOString();
     const job: MeeAutonomousJob = {
       id: crypto.randomUUID(),
@@ -41,17 +71,39 @@ export class MeeAutonomousEngine {
       status: "pending",
       request,
       proposalIds: [],
+      planningMode,
     };
     this.jobs.save(job);
     return job;
   }
 
-  startJob(id: string): MeeAutonomousJob | undefined {
+  async startJob(id: string): Promise<MeeAutonomousJob | undefined> {
     const job = this.jobs.get(id);
     if (!job) return undefined;
     if (job.status !== "pending") return job;
 
-    const plan = this.planning.generatePlan(job.request);
+    let plan = await this.planning.generatePlanWithMode(job.request, job.planningMode);
+
+    // Coordinate with PlannerAgent via Orchestrator if available
+    if (this.orchestrator) {
+      const tasks = this.orchestrator.scheduleTasksForPlan(job, plan);
+      if (tasks.length > 0) {
+        await this.orchestrator.dispatchTask(tasks[0].id);
+        const history = this.orchestrator.getTaskHistory(tasks[0].id);
+        const response = history.find((h) => h.direction === "response");
+        if (response) {
+          try {
+            const data = JSON.parse(response.content);
+            if (data.refinedPlan) {
+              plan = data.refinedPlan;
+            }
+          } catch (e) {
+            console.error("Failed to parse refined plan from agent response:", e);
+          }
+        }
+      }
+    }
+
     const proposals = this.planning.generateProposals(plan);
     proposals.forEach((p) => this.proposals.add(p));
 
@@ -105,6 +157,8 @@ export class MeeAutonomousEngine {
       if (job.runId) {
         this.runs.failRun(job.runId, job.error);
       }
+
+      await this.handleFailure(job, [proposal.id], "safety_block", job.error.message, { safetyReports: safetyReport });
       return;
     }
 
@@ -125,6 +179,14 @@ export class MeeAutonomousEngine {
       if (job.runId) {
         this.runs.failRun(job.runId, job.error);
       }
+
+      await this.handleFailure(job, [proposal.id], "sandbox_failed", job.error.message, {
+        sandboxOutput: {
+          buildOutput: sandboxResult.output,
+          testOutput: "",
+          errors: [sandboxResult.output]
+        }
+      });
       return;
     }
 
@@ -145,6 +207,14 @@ export class MeeAutonomousEngine {
       if (job.runId) {
         this.runs.failRun(job.runId, job.error);
       }
+
+      await this.handleFailure(job, [proposal.id], "validation_failed", job.error.message, {
+        sandboxOutput: {
+          buildOutput: "",
+          testOutput: validationReport.errors.join("; "),
+          errors: validationReport.errors
+        }
+      });
       return;
     }
 
@@ -190,6 +260,8 @@ export class MeeAutonomousEngine {
       if (job.runId) {
         this.runs.failRun(job.runId, job.error);
       }
+
+      await this.handleFailure(job, [proposal.id], "apply_failed", job.error.message);
       return;
     }
 
@@ -199,5 +271,68 @@ export class MeeAutonomousEngine {
 
     job.updatedAt = new Date().toISOString();
     this.jobs.save(job);
+  }
+
+  private async handleFailure(
+    job: MeeAutonomousJob,
+    failingProposalIds: string[],
+    errorCode: string,
+    errorMessage: string,
+    extra?: { safetyReports?: unknown; sandboxOutput?: MeeRunFailureContext["sandboxOutput"] }
+  ): Promise<void> {
+    if (!this.failureStore || !this.selfHealing || !this.healingPlanStore) {
+      return;
+    }
+
+    const failure: MeeRunFailureContext = {
+      runId: job.runId || `run-failed-${crypto.randomUUID()}`,
+      jobId: job.id,
+      createdAt: new Date().toISOString(),
+      failingProposalIds,
+      errorCode,
+      errorMessage,
+      safetyReports: extra?.safetyReports,
+      sandboxOutput: extra?.sandboxOutput,
+    };
+    this.failureStore.save(failure);
+
+    this.addMemory(
+      "job",
+      job.id,
+      job.runId,
+      [errorCode, "failure"],
+      `Failure in job ${job.id}: ${errorMessage}`,
+      JSON.stringify(failure)
+    );
+
+    try {
+      const plan = await this.planning.generatePlanWithMode(job.request, job.planningMode);
+      const healingPlan = await this.selfHealing.generateHealingPlan(job, plan, failure);
+      this.healingPlanStore.save(healingPlan);
+    } catch (healErr) {
+      console.error("Failed to generate healing plan:", healErr);
+    }
+  }
+
+  public addMemory(
+    scope: "repo" | "job" | "run",
+    jobId: string | undefined,
+    runId: string | undefined,
+    tags: string[],
+    summary: string,
+    details: string
+  ) {
+    if (this.memoryStore) {
+      this.memoryStore.add({
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        scope,
+        jobId,
+        runId,
+        tags,
+        summary,
+        details
+      });
+    }
   }
 }
