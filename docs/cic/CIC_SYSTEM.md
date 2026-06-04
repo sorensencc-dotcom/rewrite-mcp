@@ -944,9 +944,111 @@ Coordinates specialized agents over long-running jobs and persists reasoning exp
 - **Console UI tabs**: Timeline and Memory visual logs.
 <!-- ARPS:SYSTEM_PHASE_37:END -->
 
+<!-- ARPS:SYSTEM_PHASE_37:END -->
+
 ---
 
-**Version:** 12.0.0  
+<!-- ARPS:SYSTEM_PHASE_38:BEGIN -->
+## Section 33 — Multi‑Agent Negotiation & Consensus (Phase 38)
+
+The Multi-Agent Negotiation & Consensus subsystem manages collaborative decision-making across autonomous agents. Before applying generated code patches to the active workspace, agent proposals undergo a round-based negotiation phase to resolve file path collisions followed by a consensus gating evaluation based on critique severity scoring.
+
+### Purpose
+Coordinate specialized execution agents to negotiate conflicting resource allocations and ensure all patches meet standard security, architectural, and quality benchmarks before execution.
+
+### Components
+- **Consensus Engine** ([mee-consensus-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-consensus-engine.ts)): Evaluates proposal critiques to calculate composite readiness scores.
+- **Negotiation Engine** ([mee-negotiation-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-engine.ts)): Runs round-based negotiation loops across agents until a stable proposal set is reached.
+- **Negotiation Agent** ([mee-negotiation-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-agent.ts)): Analyzes file patches to identify overlapping paths and propose resolution actions.
+- **Consensus UI Console**: The "Consensus" tab in `MetaEvolutionConsole.tsx` displays active critiques, severity scores, and current gating decisions.
+
+### Negotiation & Consensus Logic
+1. **Collision Analysis**: Negotiation agents compare proposal patch paths. If two agents attempt to edit the same file, a collision is flagged, and a resolution strategy (such as topological `reorder`) is injected.
+2. **Critique Severity Scoring**: The `MeeConsensusEngine` starts with a base score of 100 and applies severe penalties for agent critiques:
+   - **Error**: Subtracts 40 points
+   - **Warning**: Subtracts 20 points
+   - **Info**: Subtracts 5 points
+3. **Refinement Cycle Decay**: To prevent infinite cycles of critique and revision, every cycle after the first applies a cumulative penalty:
+   $$Score = BaseScore - \sum Penalty - (Cycle - 1) \times 10$$
+4. **Gating Threshold**: Proposals must score $\ge 70$ (configurable) to be marked as `ready` for sandbox execution. If a proposal fails to pass within the maximum cycle limit (default 3), its state is set to `blocked`.
+
+### Guarantees
+- **No Overlapping Patches**: Negotiation loops run until stable, ensuring no conflicting file modifications are executed concurrently.
+- **Gated Staging**: No code changes are committed to the master branch without achieving consensus scoring above the threshold.
+- **Refinement Termination**: The cycle decay factor guarantees that proposals either converge to consensus or terminate in a blocked state, avoiding infinite loops.
+<!-- ARPS:SYSTEM_PHASE_38:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_39:BEGIN -->
+## Section 34 — Knowledge Graph & Semantic Memory (Phase 39)
+
+The Knowledge Graph & Semantic Memory subsystem integrates cognitive events with the persistent Knowledge Graph. It tracks execution results, agent negotiations, critiques, and compilation failures, allowing the planner to query past experiences and locate fragile files.
+
+### Purpose
+Serialize active task progress, agent decisions, and execution failures into a durable graph and ledger to enable historical reasoning and systematic diagnostic queries.
+
+### Components
+- **MeeKnowledgeGraph** ([mee-kg.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-kg.ts)): Serializes autonomous build events as nodes and edges in the persistent `CkgStore`.
+- **FileMeeMemoryStore** ([mee-memory-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-memory-store.ts)): Implements a schema-validated, local JSON-backed event registry (`mee-memory.json`).
+- **Memory Query Plane**: Exposes endpoints and queries to search logs by tags and retrieve neighboring nodes.
+- **Memory Logs tab**: Consumes the `/memory` endpoint to render scope-based events and details in the UI console.
+
+### CKG Schema Mapping
+- **Nodes**:
+  - `task`: Represents an instruction step (e.g. `type: "refactor"`).
+  - `proposal`: Represents a planned patch set.
+  - `file`: Tracks modified or created files.
+  - `agent`: Represents specialized agents (e.g., `planner`, `critic`).
+  - `failure`: Represents compile errors or unit test failures.
+- **Edges**:
+  - `depends_on`: Connects task dependencies.
+  - `refines`: Connects a proposal to the files it modifies.
+  - `critique_by`: Connects a proposal to its critiquing agent (includes severity and issues in metadata).
+  - `caused_failure`: Links a proposal node to a compilation/test failure.
+  - `fixed_by`: Links a healing proposal node to the failure it corrected.
+
+### Diagnostics
+- **Module Fragility Metrics**: Scans the CKG to calculate failure densities per file. Files with high failure rates are flagged as fragile, biasing future PlannerAgent decisions to avoid them.
+- **Safety Risk Aggregator**: Extracts a list of unique critical issues from high-severity critiques to guide override gating checks.
+
+### Guarantees
+- **Append-Only Memory**: Memory event logs are append-only, preserving an immutable record of agent interactions.
+- **Transactional Graph Ingestion**: Graph nodes are serialized synchronously during key build cycles, preventing split-brain states between the database files and local workspaces.
+<!-- ARPS:SYSTEM_PHASE_39:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_40:BEGIN -->
+## Section 35 — Autonomous Multi‑Job Scheduling (Phase 40)
+
+The Autonomous Multi-Job Scheduling subsystem runs background queues that orchestrate plans, track job statuses, evaluate dependencies, and enforce concurrency constraints.
+
+### Purpose
+Manage, prioritize, and run long-running autonomous development jobs while enforcing resource limits and preventing task starvation.
+
+### Components
+- **MeeScheduler** ([mee-scheduler.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-scheduler.ts)): Coordinates tick cycles, handles preemption, and controls active job execution streams.
+- **Autonomous Engine** ([mee-autonomous-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-autonomous-engine.ts)): Drives the execution loop of individual job steps.
+- **Scheduler Dashboard**: A visual tab in the UI console displaying active queue states, concurrency slots, and running, paused, or pending jobs.
+
+### Scheduler Queue Algorithms
+1. **Dependency Verification**: A job is only eligible for scheduling if all of its dependency job IDs (`dependsOnJobIds`) are in a `completed` state.
+2. **Starvation Prevention Scoring**: Eligible jobs are prioritized based on a compound score of user-assigned priority and queue wait age:
+   $$Score = Priority \times 1000 + Age \times 0.0001$$
+   This ensures that low-priority jobs are eventually executed if they spend a significant amount of time waiting in the queue.
+3. **Active Preemption**: If the scheduler reaches its concurrency limit (default: 2 workers) and a higher-priority job enters the queue, the lowest-priority active job is paused (`status = "paused"`), its run is detached, and the new job is scheduled immediately.
+4. **Crash State Recovery**: Upon scheduler startup, any jobs marked as `running` are safely reset to `paused` so they can be rescheduled cleanly, avoiding orphaned or corrupted execution streams.
+
+### Guarantees
+- **Concurrency Bounds**: The active job count never exceeds the configured limit, preventing CPU/memory exhaustion.
+- **Order Enforcement**: Jobs are executed in strict topological order as defined by their dependency graphs.
+- **Execution Logging**: Scheduler tick events, preemption actions, and completions append structured events to the Memory Store.
+<!-- ARPS:SYSTEM_PHASE_40:END -->
+
+---
+
+**Version:** 13.0.0  
 **Last Updated:** 2026-06-04  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
@@ -954,4 +1056,5 @@ Coordinates specialized agents over long-running jobs and persists reasoning exp
 See **CIC_AI_RUNTIME_CONTRACT.md** for multi-agent orchestration details.
 See **PMS_INTEGRATION_SPECIFICATION.md** for Prompt Management System details.
 See **CIC_SKILLOPT_SYSTEM.md** for SkillOpt subsystem specification.
+
 

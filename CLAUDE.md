@@ -1,13 +1,13 @@
 # CLAUDE.md — rewrite-mcp
 # Version: 1.0.0 | Date: 2026-05-23
 
-Operator instructions for all AI tools working in this repo.
+Operator instructions for AI tools in repo.
 
 ---
 
 ## Commit Attribution Convention
 
-Every commit subject line must carry a tool prefix:
+Commit subject lines must carry tool prefix:
 
 ```
 [claude]  — architectural decisions, PMS/prompt/extractor/LLM work
@@ -16,33 +16,31 @@ Every commit subject line must carry a tool prefix:
 [human]   — manual edits by Chris
 ```
 
-No prefix = rejected at review. When in doubt, use `[human]`.
+No prefix = rejected. When in doubt, use `[human]`.
 
 ---
 
 ## Session Protocol
 
-1. Read `AGENTS.md` before touching any file
-2. Read `HANDOFF.md` to pick up from the last session
-3. Run `git log --oneline -15` to orient on recent changes
-4. Update `HANDOFF.md` at end of session before committing
+1. Read `AGENTS.md` before touch files
+2. Read `HANDOFF.md` pick up from last session
+3. Run `git log --oneline -15` orient on recent changes
+4. Update `HANDOFF.md` end of session before commit
 
 ---
 
 ## Output Standards
 
 - Deterministic, modular, implementation-ready
-- Full drop-in files with clean namespaces
+- Full drop-in files, clean namespaces
 - Operator-grade error handling — zero silent failures
-- No fluff, no repeated conclusions
+- No fluff, no conclusions
 
 ---
 
 ## Zone Ownership
 
-See `AGENTS.md` at repo root and `projects/cic/ingestion/AGENTS.md` for
-path-level ownership rules. Do not bypass zone ownership without a
-`[human]` commit acknowledging the exception.
+See `AGENTS.md` at repo root and `projects/cic/ingestion/AGENTS.md` for path-level ownership rules. Do not bypass zone ownership without `[human]` commit acknowledging exception.
 
 ---
 

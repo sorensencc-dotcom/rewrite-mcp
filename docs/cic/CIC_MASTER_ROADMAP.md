@@ -952,17 +952,71 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 
 ---
 
-# **PHASE 38 — Monitoring & Long-Term Drift (Queued)**
-**Goal:** Track compliance over time and detect patterns.
+# **PHASE 38 — Multi-Agent Negotiation & Consensus (Complete)**
+**Goal:** Coordinate multiple specialized agents to negotiate and form consensus on proposed modifications and dependency order.
 
-- Historical compliance metrics (rolling 90 days)
-- Drift detection: repos regressing to old standards
-- Operator dashboard: trends, anomalies, forecasts
-- Auto-escalation for chronic non-compliance
-- Yearly compliance audit report generation
+- Bounded multi-agent proposal generation and critique scoring
+- Bounded severity critiques (errors subtract 40, warnings 20, info 5)
+- Cycle decay factor to prevent infinite refinement loops
+- Collision analysis and resolution proposing reorder strategies
+
+**Status:** ✅ COMPLETED  
+**Outcome:** Agents negotiate conflicting file patches and compile a stable consensus plan.
+
+---
+
+# **PHASE 39 — Knowledge Graph & Semantic Memory (Complete)**
+**Goal:** Form a durable Knowledge Graph and semantic Memory Store tracking system state, dependencies, critiques, and failures.
+
+- Append-only schema-validated event memory store (`FileMeeMemoryStore`)
+- Task and proposal node serialization to CKG
+- Agent relationship, critique, failure, and healing edge mapping
+- Fragility checks analyzing module failure densities
+
+**Status:** ✅ COMPLETED  
+**Outcome:** CIC logs structured cognitive event memories and maps them to a queryable CKG substrate.
+
+---
+
+# **PHASE 40 — Autonomous Multi-Job Scheduling (Complete)**
+**Goal:** Run, queue, priority-schedule, and preempt concurrent autonomous build loop steps.
+
+- Multi-job tick execution loop with concurrency gates
+- Priority and age-based starvation prevention scoring ($Priority \times 1000 + Age \times 0.0001$)
+- Strict preemption of lower-priority active jobs by higher-priority queued tasks
+- Crash recovery resetting active/running jobs on system start
+
+**Status:** ✅ COMPLETED  
+**Outcome:** Background scheduler executes multi-job queues respecting priority, starvation bounds, and preemption.
+
+---
+
+# **PHASE 41 — Meta-Learning Engine (MLE) (Pending)**
+**Goal:** Enable CIC to learn from past runs, critiques, consensus patterns, failures, and KG evolution to improve planning and execution.
+
+- **Meta-Learning Loop**: Analyze historical critiques, consensus, failures, and KG patterns to extract heuristics saved as `MeeMetaRule`.
+- **Meta-Rule Engine**: Bias `PlanningEngine`, `ConsensusEngine`, refinement cycles, and scheduler priorities using learned rules.
+- **Adaptive Planning**: Prevent task decomposition/module selection inside fragile areas using rule weight biases.
+- **Adaptive Consensus**: Weight agent critiques and votes based on historical reliability.
+- **Adaptive Scheduling**: Predict job duration, adjust concurrency levels, and prioritize based on past runs.
+- **UI**: Show learned rules, rule weights, historical accuracy, and planning influence.
 
 **Status:** PENDING  
-**Outcome:** Compliance becomes a measurable, tracked system property.
+**Outcome:** CIC learns dynamically from execution history to improve planning stability and patch quality.
+
+---
+
+# **PHASE 42 — Autonomous Research Mode (ARM) (Pending)**
+**Goal:** Enable CIC to autonomously research code improvements, explore new patterns, and propose new evolutionary phases.
+
+- **Research Agent**: A specialized `"research"` agent that parses the code, KG, and memory logs to generate improvement findings.
+- **Research Loop**: Runs periodic background scans to draft proposed improvements and risk/benefit reports.
+- **Research Proposal Pipeline**: Creates MEE-like phase proposals with summaries, implementation plans, and safety risk metrics.
+- **Operator Review**: Operator-gated controls to approve and spawn new research-proposed development phases.
+- **Integration**: Feeds meta-rules to the MLE and updates rulesets based on research outcomes.
+
+**Status:** PENDING  
+**Outcome:** CIC becomes a self-directed, self-improving research and development platform.
 
 ---
 
@@ -990,12 +1044,17 @@ PHASE 29 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
 PHASE 31 (SRE) — ✔ (complete)
 PHASE 32 (MAPE) — ✔ (complete)
-PHASE 33 (Runs) — 🚧 (in progress)
-PHASE 34 (GH-Actions) — ✔ (complete)
-PHASE 35 (GH-App Deploy) — next
-PHASE 36 (Slack Integration) — next
-PHASE 37 (CI/CD Compliance) — next
-PHASE 38 (Monitoring & Drift) — queued
+PHASE 33 (Runs) — ✔ (complete)
+PHASE 34 (Safety Gates) — ✔ (complete)
+PHASE 35 (ABM Loops) — ✔ (complete)
+PHASE 36 (Self-Healing) — ✔ (complete)
+PHASE 37 (Multi-Agent) — ✔ (complete)
+PHASE 38 (Consensus & Negotiation) — ✔ (complete)
+PHASE 39 (KG & Semantic Memory) — ✔ (complete)
+PHASE 40 (Autonomous Scheduling) — ✔ (complete)
+PHASE 41 (Meta-Learning Engine) — next
+PHASE 42 (Autonomous Research Mode) — queued
 ```
+
 
 

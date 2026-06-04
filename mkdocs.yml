@@ -47,6 +47,7 @@ nav:
   - "CIC: Phase 28 KDE Roadmap": cic/implementation_plan_phase_28.md
   - "CIC: Phase 29 RLF Roadmap": cic/implementation_plan_phase_29.md
   - "CIC: Phase 30 MEE Roadmap": cic/implementation_plan_phase_30.md
+  - "CIC: Phase 41-42 ABM Request": cic/abm_mega_request_phase_41_42.md
 
 
 
@@ -88,6 +89,8 @@ nav:
   - "RL Tool: Prompt Telemetry": rewrite/tools/prompt-telemetry.md
   - "RL Skill: Doc Update": rewrite/skills/doc-update.md
   - "RL Skill: Web Regression": rewrite/skills/web-regression.md
+  - "RL Skill: Docs Sync & Release": rewrite/skills/docs-sync-release.md
+  - "RL Skill: Approvals Audit": rewrite/skills/approvals-audit.md
   - "RL Release: Changelog": rewrite/releases/CHANGELOG.md
   - "RL Release: Phase 25 (Antigravity)": rewrite/releases/phase-25-antigravity.md
   - "RL Release: v2.15.0": rewrite/releases/2.15.0.md

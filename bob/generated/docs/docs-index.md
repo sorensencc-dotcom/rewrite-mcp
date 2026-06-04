@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-04T04:24:48.583Z
+Generated at: 2026-06-04T05:05:49.883Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -23,7 +23,9 @@ Generated at: 2026-06-04T04:24:48.583Z
 - [web-regression.md](docs/rewrite/skills/web-regression.md)
 - [treatment-update.md](docs/rewrite/skills/treatment-update.md)
 - [research-capture.md](docs/rewrite/skills/research-capture.md)
+- [docs-sync-release.md](docs/rewrite/skills/docs-sync-release.md)
 - [doc-update.md](docs/rewrite/skills/doc-update.md)
+- [approvals-audit.md](docs/rewrite/skills/approvals-audit.md)
 - [roadmap.md](docs/rewrite/roadmaps/master-roadmap/v1.1/roadmap.md)
 - [changelog.md](docs/rewrite/roadmaps/master-roadmap/v1.1/changelog.md)
 - [phase-25-antigravity.md](docs/rewrite/releases/phase-25-antigravity.md)
@@ -125,6 +127,7 @@ Generated at: 2026-06-04T04:24:48.583Z
 - [ARPS_OPERATOR_MANUAL.md](docs/cic/ARPS_OPERATOR_MANUAL.md)
 - [ARPS_ONBOARDING.md](docs/cic/ARPS_ONBOARDING.md)
 - [antigravity_coherence_contract_template_v1.0.0.md](docs/cic/antigravity_coherence_contract_template_v1.0.0.md)
+- [abm_mega_request_phase_41_42.md](docs/cic/abm_mega_request_phase_41_42.md)
 - [task_extractor.md](docs/cic/manuals/task_extractor.md)
 - [replay_engine.md](docs/cic/manuals/replay_engine.md)
 - [release-automation.md](docs/cic/manuals/release-automation.md)

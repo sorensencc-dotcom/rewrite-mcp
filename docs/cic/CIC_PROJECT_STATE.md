@@ -1,14 +1,14 @@
-# v1.8.0 | 2026-06-04 | Status: ACTIVE
+# v1.9.0 | 2026-06-04 | Status: ACTIVE
 
 This document maintains the active development status, version controls, and compliance certifications for the Cast Iron Charlie (CIC) Intelligence Core.
 
 ---
 
 ## 1. Version Controls
-- **Core System Version**: `v1.10.0` (Rewrite Labs Fusion Layer & Multi-Agent Reasoning substrate)
+- **Core System Version**: `v1.12.0` (Multi-Agent Consensus & Autonomous Scheduling substrate)
 - **API Specification**: `/v1` public REST API
 - **Last Verification Run**: 2026-06-04
-- **Test Integrity**: **167 / 167 tests passing (100% compliance)**
+- **Test Integrity**: **278 / 278 tests passing (100% compliance)**
 
 ---
 
@@ -28,6 +28,9 @@ This document maintains the active development status, version controls, and com
 | **Optimization** | Autonomous Optimizer (Phase 10) | `v10.0.0` | 🟢 STABLE | O1→O5 loops, load maps, weight mutations. |
 | **Meta-Evolution** | Reflexive Meta-Evolution (Phase 11) | `v11.0.0` | 🟢 ACTIVE | M1→M5 meta-loops, dynamic thresholds, strategy retirement, topology rules. |
 | **Meta-Evolution** | Multi-Agent Reasoning & Memory (Phase 37) | `v1.2.0` | 🟢 ACTIVE | Coordinated PlannerAgent refinement, persistent FileMeeMemoryStore, task timelines. |
+| **Meta-Evolution** | Multi-Agent Negotiation & Consensus (Phase 38) | `v1.0.0` | 🟢 ACTIVE | Bounded severity critique scoring, cycle decay factors, and reorder conflict resolution. |
+| **Meta-Evolution** | Knowledge Graph & Semantic Memory (Phase 39) | `v1.0.0` | 🟢 ACTIVE | Event logging FileMeeMemoryStore and serialization of task/proposal nodes. |
+| **Meta-Evolution** | Autonomous Multi-Job Scheduling (Phase 40) | `v1.0.0` | 🟢 ACTIVE | Priority/age queue scheduler with task preemption and concurrency bounds. |
 | **Evolution** | Instinct Lifecycle (Phase 3.0) | `v1.0.0` | 🟢 ACTIVE | proposed → canary → active → rejected patch governance on disk. |
 | **ARPS** | Prompt Sandbox | `v1.0.0` | 🟢 ACTIVE | Registry-backed drift gates, ownership rules, fallback Jaccard checks. |
 | **ARPS** | Harvester + Synthesizer Agents | `v1.0.0` | 🟢 ACTIVE | Git-log parsing, task/telemetry checks, fenced markdown updates. |
@@ -386,11 +389,49 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 
 <!-- ARPS:NEXT_ASCENT_PHASE_38:BEGIN -->
 ### Next Development Ascent — Phase 38
-- [ ] Define Monitoring & Long-Term Drift schemas
-- [ ] Implement System Metrics Monitoring
-- [ ] Implement Long-Term Drift Checker
-- [ ] Expose Monitoring REST Endpoints
-- [ ] Integrate Monitoring Console UI tab
+- [x] Build MeeConsensusEngine for critique grading and score calculation
+- [x] Build MeeNegotiationEngine for round-based agent-to-agent conflict resolution
+- [x] Build MeeNegotiationAgent for conflict detection (reorder path collisions)
+- [x] Register consensus endpoints in `mee-routes.ts`
+- [x] Integrate Consensus UI panel in `MetaEvolutionConsole.tsx`
 <!-- ARPS:NEXT_ASCENT_PHASE_38:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_39:BEGIN -->
+### Next Development Ascent — Phase 39
+- [x] Build MeeKnowledgeGraph mapping tasks, proposals, and failures to CKG
+- [x] Implement FileMeeMemoryStore for local `mee-memory.json` serialization
+- [x] Add dynamic CKG query plane (BFS neighborhood traversals)
+- [x] Register memory endpoints in `mee-routes.ts`
+- [x] Integrate Memory Logs and KG Graph panels in `MetaEvolutionConsole.tsx`
+<!-- ARPS:NEXT_ASCENT_PHASE_39:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_40:BEGIN -->
+### Next Development Ascent — Phase 40
+- [x] Build MeeScheduler supporting concurrent job tick loops
+- [x] Implement priority and age starvation prevention scoring
+- [x] Implement preemption logic pausing lower-priority tasks
+- [x] Register scheduler endpoints in `mee-routes.ts`
+- [x] Integrate Scheduler and queue panels in `MetaEvolutionConsole.tsx`
+<!-- ARPS:NEXT_ASCENT_PHASE_40:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_41:BEGIN -->
+### Next Development Ascent — Phase 41
+- [ ] Implement Meta-Learning loop parsing historical runs/critiques/failures
+- [ ] Implement Meta-Rule Engine to store heuristics as `MeeMetaRule`
+- [ ] Integrate meta-rule heuristics with PlannerAgent for task decomposition bias
+- [ ] Integrate meta-rule heuristics with ConsensusEngine to weight agent scores
+- [ ] Integrate meta-rule heuristics with Scheduler to predict durations & concurrency
+- [ ] Design and integrate "Meta-Learning" panel in MetaEvolutionConsole UI
+<!-- ARPS:NEXT_ASCENT_PHASE_41:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_42:BEGIN -->
+### Next Development Ascent — Phase 42
+- [ ] Create specialized `"research"` agent role using LLM + KG + memory context
+- [ ] Build Autonomous Research Loop for background scanning & findings draft
+- [ ] Build Research Proposal pipeline mapping findings to MEE phase structures
+- [ ] Design operator controls for proposal approval/rejection and build triggers
+- [ ] Integrate Research Loop outcomes to refine MLE Meta-Rules
+- [ ] Design and integrate "Research Mode" panel in MetaEvolutionConsole UI
+<!-- ARPS:NEXT_ASCENT_PHASE_42:END -->
 
 
