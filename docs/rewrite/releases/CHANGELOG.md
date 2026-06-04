@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.29.3] - 2026-06-04
+### Added
+- **CIC Policy-Driven Optimization Layer** (`projects/cic/ingestion/`): Built a declarative policy engine for Headroom control, dynamic condition evaluations, and a styled glassmorphic dark-theme monitoring dashboard.
+    - **headroomPolicyEngine.js**: Parses and evaluates rules against telemetry, logging decisions and caching via TTL.
+    - **llmClientWithHeadroom.js**: Wired shouldBypassByPolicy check into chatWithHeadroom execution.
+    - **intelligence-server.js**: Added /telemetry/headroom-policy endpoint with authentication bypass configuration.
+    - **dashboard**: Implemented policy panel rendering and a refreshed modern glassmorphism design.
+    - **headroomPolicy.test.js**: Created unit test suite verifying condition evaluations, caching, and rule hot-reloading.
+
 ## [2.29.2] - 2026-06-04
 ### Added
 - **HELM: Daily Operator OS** (`docs/helm/HELM_ROADMAP.md`): Vision and roadmap for the unified personal + business command dashboard. Covers layout architecture, panel specs, data source map, 5-phase build plan, and identity (name, logo concept).

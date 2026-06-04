@@ -19,12 +19,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // ============================================================
 
 const PREFS_PATH = path.join(process.cwd(), "benchmarks", "routing", "helm-prefs.json");
+const BUDGET_PATH = path.join(process.cwd(), "benchmarks", "costs", "helm-budget.json");
+const ALERTS_PATH = path.join(process.cwd(), "benchmarks", "costs", "helm-alerts.json");
+
+function ensureDir(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+}
 
 function ensurePrefsDir() {
-  const dir = path.dirname(PREFS_PATH);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  ensureDir(path.dirname(PREFS_PATH));
 }
 
 function readPreferences() {
@@ -96,6 +101,54 @@ function readCostLog() {
   }
 }
 
+function readBudgetConfig() {
+  ensureDir(path.dirname(BUDGET_PATH));
+  if (!fs.existsSync(BUDGET_PATH)) {
+    return {
+      dailyBudget: 10.0,
+      alertThresholds: {
+        warning: 80,
+        critical: 95,
+      },
+      alertsEnabled: true,
+      lastUpdated: new Date().toISOString(),
+    };
+  }
+  try {
+    return JSON.parse(fs.readFileSync(BUDGET_PATH, "utf8"));
+  } catch {
+    return {
+      dailyBudget: 10.0,
+      alertThresholds: { warning: 80, critical: 95 },
+      alertsEnabled: true,
+      lastUpdated: new Date().toISOString(),
+    };
+  }
+}
+
+function writeBudgetConfig(config) {
+  ensureDir(path.dirname(BUDGET_PATH));
+  config.lastUpdated = new Date().toISOString();
+  fs.writeFileSync(BUDGET_PATH, JSON.stringify(config, null, 2), "utf8");
+}
+
+function readAlerts() {
+  ensureDir(path.dirname(ALERTS_PATH));
+  if (!fs.existsSync(ALERTS_PATH)) {
+    return { alerts: [], lastAlert: null };
+  }
+  try {
+    return JSON.parse(fs.readFileSync(ALERTS_PATH, "utf8"));
+  } catch {
+    return { alerts: [], lastAlert: null };
+  }
+}
+
+function writeAlerts(alertsData) {
+  ensureDir(path.dirname(ALERTS_PATH));
+  fs.writeFileSync(ALERTS_PATH, JSON.stringify(alertsData, null, 2), "utf8");
+}
+
 // ============================================================
 // TIER 1: MVP TOOLS
 // ============================================================
@@ -111,7 +164,8 @@ function helmToday() {
   }
 
   const today = helm.today;
-  const dailyBudget = 10.0;
+  const budgetConfig = readBudgetConfig();
+  const dailyBudget = budgetConfig.dailyBudget;
 
   const budgetRemaining = dailyBudget - today.totalRealUsd;
   const budgetPercent = Math.max(0, (budgetRemaining / dailyBudget) * 100);
@@ -262,17 +316,175 @@ function helmSetRouting(input) {
   };
 }
 
-function helmBudgetWarning() {
-  const helm = readHelm();
+function helmSetBudget(input) {
+  const config = readBudgetConfig();
 
-  if (!helm) {
-    return { warning: false, message: "No cost data yet." };
+  if (input?.daily) {
+    const newBudget = parseFloat(input.daily);
+    if (isNaN(newBudget) || newBudget <= 0) {
+      return {
+        success: false,
+        error: "Daily budget must be a positive number",
+      };
+    }
+    config.dailyBudget = newBudget;
   }
 
-  const dailyBudget = 10.0;
+  if (input?.warningThreshold !== undefined) {
+    const thresh = parseInt(input.warningThreshold);
+    if (isNaN(thresh) || thresh < 1 || thresh > 99) {
+      return {
+        success: false,
+        error: "Warning threshold must be 1-99",
+      };
+    }
+    config.alertThresholds.warning = thresh;
+  }
+
+  if (input?.criticalThreshold !== undefined) {
+    const thresh = parseInt(input.criticalThreshold);
+    if (isNaN(thresh) || thresh < 1 || thresh > 100) {
+      return {
+        success: false,
+        error: "Critical threshold must be 1-100",
+      };
+    }
+    config.alertThresholds.critical = thresh;
+  }
+
+  writeBudgetConfig(config);
+
+  return {
+    success: true,
+    message: "Budget configuration updated",
+    config,
+  };
+}
+
+function helmCostForecast() {
+  const helm = readHelm();
+  const costLog = readCostLog();
+  const budgetConfig = readBudgetConfig();
+
+  if (!helm || costLog.length === 0) {
+    return {
+      forecast: null,
+      message: "Insufficient data for forecasting",
+    };
+  }
+
+  const today = helm.today;
+  const spent = today.totalRealUsd;
+  const dailyBudget = budgetConfig.dailyBudget;
+
+  // Calculate burn rate (cost per entry)
+  const costPerCall = costLog.length > 0 ? spent / costLog.length : 0;
+  const estimatedCallsPerDay = costLog.length; // Approximate
+
+  const remaining = dailyBudget - spent;
+  const estimatedCallsUntilBudget =
+    remaining > 0 ? Math.floor(remaining / costPerCall) : 0;
+
+  return {
+    currentSpend: spent,
+    budgetRemaining: remaining,
+    dailyBudget,
+    burnRate: {
+      costPerCall: costPerCall.toFixed(4),
+      callsProcessedToday: costLog.length,
+    },
+    forecast: {
+      estimatedCallsUntilBudgetExhausted: estimatedCallsUntilBudget,
+      estimatedTimeUntilExhausted:
+        estimatedCallsUntilBudget > 0 ? "Unknown (depends on usage)" : "Already exceeded",
+      recommendation:
+        remaining < dailyBudget * 0.2
+          ? "Switch to cheaper models to extend budget"
+          : "Budget OK for typical usage",
+    },
+  };
+}
+
+function helmQualityMetrics() {
+  const costLog = readCostLog();
+
+  if (costLog.length === 0) {
+    return { message: "No quality data available yet" };
+  }
+
+  // Group by model and calculate metrics
+  const modelMetrics = costLog.reduce((acc, entry) => {
+    const model = entry.model;
+    if (!acc[model]) {
+      acc[model] = {
+        calls: 0,
+        totalCost: 0,
+        totalTokens: 0,
+        taskTypes: {},
+      };
+    }
+    acc[model].calls++;
+    acc[model].totalCost += entry.amountUsd ?? 0;
+    acc[model].totalTokens +=
+      (entry.inputTokens || 0) + (entry.outputTokens || 0);
+
+    const taskType = entry.metadata?.taskType || "unknown";
+    if (!acc[model].taskTypes[taskType]) {
+      acc[model].taskTypes[taskType] = 0;
+    }
+    acc[model].taskTypes[taskType]++;
+
+    return acc;
+  }, {});
+
+  // Calculate cost-effectiveness
+  const quality = Object.entries(modelMetrics)
+    .map(([model, metrics]) => ({
+      model,
+      calls: metrics.calls,
+      totalCost: metrics.totalCost.toFixed(4),
+      avgCostPerCall: (metrics.totalCost / metrics.calls).toFixed(6),
+      costPerMToken: ((metrics.totalCost / (metrics.totalTokens / 1000000)) || 0).toFixed(4),
+      taskDistribution: metrics.taskTypes,
+    }))
+    .sort((a, b) => parseFloat(b.avgCostPerCall) - parseFloat(a.avgCostPerCall));
+
+  return {
+    summary: `${quality.length} models analyzed, ${costLog.length} total calls`,
+    models: quality,
+  };
+}
+
+function helmBudgetWarning() {
+  const helm = readHelm();
+  const budgetConfig = readBudgetConfig();
+
+  if (!helm) {
+    return {
+      warning: false,
+      message: "No cost data yet.",
+      config: budgetConfig,
+    };
+  }
+
+  const dailyBudget = budgetConfig.dailyBudget;
   const spent = helm.today.totalRealUsd;
   const remaining = dailyBudget - spent;
   const percentUsed = (spent / dailyBudget) * 100;
+
+  // Record alert if triggered
+  if (percentUsed >= budgetConfig.alertThresholds.critical || remaining < 0) {
+    const alertsData = readAlerts();
+    alertsData.alerts.push({
+      timestamp: new Date().toISOString(),
+      level: remaining < 0 ? "critical" : "critical",
+      spent,
+      remaining,
+      percentUsed,
+    });
+    alertsData.lastAlert = new Date().toISOString();
+    writeAlerts(alertsData);
+  }
 
   if (remaining < 0) {
     return {
@@ -282,17 +494,19 @@ function helmBudgetWarning() {
       spent,
       remaining,
       percentUsed,
+      budgetConfig,
     };
   }
 
-  if (percentUsed >= 80) {
+  if (percentUsed >= budgetConfig.alertThresholds.warning) {
     return {
       warning: true,
       level: "warning",
-      message: `⚠️ Budget low: $${remaining.toFixed(2)} remaining (${Math.round(100 - percentUsed)}% left). Consider switching to cheaper models.`,
+      message: `⚠️ Budget warning: $${remaining.toFixed(2)} remaining (${Math.round(100 - percentUsed)}% left). Threshold: ${budgetConfig.alertThresholds.warning}%`,
       spent,
       remaining,
       percentUsed,
+      budgetConfig,
     };
   }
 
@@ -302,6 +516,41 @@ function helmBudgetWarning() {
     spent,
     remaining,
     percentUsed,
+    budgetConfig,
+  };
+}
+
+function helmAlerts(input) {
+  const alertsData = readAlerts();
+
+  if (input?.clear) {
+    alertsData.alerts = [];
+    alertsData.lastAlert = null;
+    writeAlerts(alertsData);
+    return {
+      success: true,
+      message: "All alerts cleared",
+      alertsData,
+    };
+  }
+
+  if (input?.last) {
+    return {
+      success: true,
+      lastAlert: alertsData.lastAlert,
+      alertCount: alertsData.alerts.length,
+    };
+  }
+
+  return {
+    success: true,
+    alerts: alertsData.alerts,
+    summary: {
+      total: alertsData.alerts.length,
+      critical: alertsData.alerts.filter((a) => a.level === "critical").length,
+      warning: alertsData.alerts.filter((a) => a.level === "warning").length,
+      lastAlert: alertsData.lastAlert,
+    },
   };
 }
 
@@ -399,6 +648,87 @@ const tools = {
       required: [],
     },
   },
+  "helm:set-preference": {
+    name: "helm:set-preference",
+    description:
+      "Set routing preferences for model selection by task type. Tier 2 feature.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        set: {
+          type: "string",
+          description: "Set override (e.g., 'rewrite:haiku' to use Haiku for rewrite tasks)",
+        },
+        clear: {
+          type: "string",
+          description: "Clear override for a task type (e.g., 'rewrite')",
+        },
+      },
+      required: [],
+    },
+  },
+  "helm:set-budget": {
+    name: "helm:set-budget",
+    description:
+      "Configure daily budget and alert thresholds. Tier 2 feature.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        daily: {
+          type: "number",
+          description: "Daily budget amount in USD (e.g., 25.0)",
+        },
+        warningThreshold: {
+          type: "integer",
+          description: "Percentage to trigger warning (1-99, default 80)",
+        },
+        criticalThreshold: {
+          type: "integer",
+          description: "Percentage to trigger critical alert (1-100, default 95)",
+        },
+      },
+      required: [],
+    },
+  },
+  "helm:cost-forecast": {
+    name: "helm:cost-forecast",
+    description:
+      "Calculate cost burn rate and forecast budget exhaustion. Tier 2 feature.",
+    inputSchema: {
+      type: "object",
+      properties: {},
+      required: [],
+    },
+  },
+  "helm:quality-metrics": {
+    name: "helm:quality-metrics",
+    description:
+      "Analyze model cost-effectiveness and quality metrics. Tier 2 feature.",
+    inputSchema: {
+      type: "object",
+      properties: {},
+      required: [],
+    },
+  },
+  "helm:alerts": {
+    name: "helm:alerts",
+    description:
+      "View and manage budget alerts. List all alerts, view last alert, or clear all alerts.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        last: {
+          type: "boolean",
+          description: "Show only the last alert and count",
+        },
+        clear: {
+          type: "boolean",
+          description: "Clear all alerts",
+        },
+      },
+      required: [],
+    },
+  },
 };
 
 // ============================================================
@@ -482,6 +812,21 @@ function handleToolCall(toolName, input, id) {
       case "budget":
         result = helmBudgetWarning();
         break;
+      case "helm:set-preference":
+        result = helmSetRouting(input);
+        break;
+      case "helm:set-budget":
+        result = helmSetBudget(input);
+        break;
+      case "helm:cost-forecast":
+        result = helmCostForecast();
+        break;
+      case "helm:quality-metrics":
+        result = helmQualityMetrics();
+        break;
+      case "helm:alerts":
+        result = helmAlerts(input);
+        break;
       default:
         sendError(id, -32601, `Unknown tool: ${toolName}`);
         return;
@@ -514,7 +859,7 @@ rl.on("line", (line) => {
   try {
     const msg = JSON.parse(line);
 
-    if (!msg.method || !msg.id) {
+    if (!msg.method || msg.id === undefined || msg.id === null) {
       console.error("[Helm] Invalid message: missing method or id");
       return;
     }
