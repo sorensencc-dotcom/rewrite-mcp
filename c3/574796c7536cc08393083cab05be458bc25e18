@@ -1,0 +1,63 @@
+benchmarks/input/dentist_us.context.json
+  s_7eb04519120919::t_1b8535b7bcf620 1-9
+benchmarks/sites.json
+  s_7eb04519120919::t_1e275213e588e8 1-123
+benchmarks/input/auto_us.context.json
+  s_7eb04519120919::t_7099514b86e61c 1-9
+benchmarks/input/salon_us.context.json
+  s_7eb04519120919::t_9c6ee6725b7baa 1-9
+benchmarks/input/dentist_fl.context.json
+  s_7eb04519120919::t_d6c40e6564ba43 1-9
+benchmarks/input/fitness_us.context.json
+  s_7eb04519120919::t_5a93cb97eefca1 1-9
+benchmarks/input/hvac_fl.context.json
+  s_7eb04519120919::t_df051256b33ae3 1-9
+benchmarks/input/landscaping_us.context.json
+  s_7eb04519120919::t_428fee4cf070cf 1-9
+benchmarks/README.md
+  s_7eb04519120919::t_48d97b9808bb41 1-105
+benchmarks/input/fitness_fl.context.json
+  s_7eb04519120919::t_3f44e9eec9d0dd 1-9
+benchmarks/input/plumber_us.context.json
+  s_7eb04519120919::t_7b2757d167b74e 1-9
+benchmarks/input/plumber_fl.context.json
+  s_7eb04519120919::t_9d60fc9fd15eae 1-9
+benchmarks/input/restaurant_fl.context.json
+  s_7eb04519120919::t_67dff36a46387a 1-9
+benchmarks/input/auto_fl.context.json
+  s_7eb04519120919::t_7416cdb857fa9f 1-9
+benchmarks/input/landscaping_fl.context.json
+  s_7eb04519120919::t_437f5649541be3 1-9
+benchmarks/input/roofing_fl.context.json
+  s_7eb04519120919::t_5aee1d56e8726e 1-9
+benchmarks/input/hvac_us.context.json
+  s_7eb04519120919::t_b18b1b563cd4cf 1-9
+benchmarks/input/restaurant_us.context.json
+  s_7eb04519120919::t_13e1c0015a60b6 1-9
+benchmarks/input/roofing_us.context.json
+  s_7eb04519120919::t_ad5886d8c43a1f 1-9
+benchmarks/input/legal_us.context.json
+  s_7eb04519120919::t_82936c4ded51e4 1-9
+benchmarks/capture/capture.js
+  s_7eb04519120919::t_4dcf5732f0fbb6 1-62
+benchmarks/input/legal_fl.context.json
+  s_7eb04519120919::t_a9440ac85d2e5f 1-9
+benchmarks/input/salon_fl.context.json
+  s_7eb04519120919::t_13971b6e7d0774 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "c3574796c7536cc08393083cab05be458bc25e18",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
