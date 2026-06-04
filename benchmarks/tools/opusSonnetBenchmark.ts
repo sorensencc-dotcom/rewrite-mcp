@@ -80,10 +80,10 @@ async function main() {
     const context = JSON.parse(fs.readFileSync(contextPath, "utf8"));
 
     console.log(`[${site.id}] Running Sonnet...`);
-    const sonnet = await runRewrite("claude-sonnet-4.6", html, context);
+    const sonnet = await runRewrite("claude-sonnet-4-6", html, context);
 
     console.log(`[${site.id}] Running Opus...`);
-    const opus = await runRewrite("claude-opus-4.8", html, context);
+    const opus = await runRewrite("claude-opus-4-8", html, context);
 
     fs.writeFileSync(`${outDir}/${site.id}.sonnet.html`, sonnet.text);
     fs.writeFileSync(`${outDir}/${site.id}.opus.html`, opus.text);

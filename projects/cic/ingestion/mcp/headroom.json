@@ -1,0 +1,10 @@
+{
+  "name": "headroom",
+  "command": "headroom",
+  "args": ["mcp"],
+  "env": {
+    "HEADROOM_API_KEY": "${HEADROOM_API_KEY:-}",
+    "HEADROOM_ENABLE_CCR": "true"
+  },
+  "timeout_ms": 30000
+}

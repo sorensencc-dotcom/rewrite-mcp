@@ -1,9 +1,30 @@
 {
-  "version": "pb-2026-05-31-9346",
+  "version": "pb-2026-06-04-8595",
   "stages": [
     {
       "name": "SemanticExtractor",
-      "mode": "serial"
+      "mode": "parallel",
+      "weight": 0.9
+    },
+    {
+      "name": "RelationshipExtractor",
+      "mode": "conditional",
+      "requires": [
+        "semantic.confidence > 0.85"
+      ]
+    },
+    {
+      "name": "TopicExtractor",
+      "mode": "parallel"
     }
-  ]
+  ],
+  "rules": {
+    "skipIf": [
+      "latency.p95 > 500ms",
+      "drift.accuracy < 0.6"
+    ],
+    "forceRun": [
+      "ImageAnalyzerV2 when doc.type == image"
+    ]
+  }
 }

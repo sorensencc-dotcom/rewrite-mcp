@@ -5,10 +5,10 @@ This document maintains the active development status, version controls, and com
 ---
 
 ## 1. Version Controls
-- **Core System Version**: `v1.15.0` (Autonomous Evolution & Capability Expansion substrate)
+- **Core System Version**: `v1.16.0` (Autonomous Evolution & Research Mode substrate)
 - **API Specification**: `/v1` public REST API
 - **Last Verification Run**: 2026-06-04
-- **Test Integrity**: **288 / 288 tests passing (100% compliance)**
+- **Test Integrity**: **292 / 292 tests passing (100% compliance)**
 
 ---
 
@@ -39,6 +39,7 @@ This document maintains the active development status, version controls, and com
 | **Meta-Evolution** | Autonomous Phase Generation (Phase 43) | `v1.0.0` | 🟢 ACTIVE | Auto-generates evolutionary phases, scores spec details, and coordinates consensus. |
 | **Meta-Evolution** | Autonomous Architecture Refactoring (Phase 44) | `v1.0.0` | 🟢 ACTIVE | Analyzes component failure hotspot logs and deploys AST patches autonomously. |
 | **Meta-Evolution** | Autonomous Capability Expansion (Phase 45) | `v1.0.0` | 🟢 ACTIVE | Scans functional capability gaps and deploys skeleton blueprints into CKG. |
+| **Meta-Evolution** | Autonomous Research Loop & Mode (Phase 42) | `v1.0.0` | 🟢 ACTIVE | Scans run failures, logs, and graph schemas to refine MLE meta-rules and generate spec findings. |
 <!-- ARPS:HEALTH_LEDGER:END -->
 
 <!-- ARPS:HEALTH_LEDGER_PHASE_23:BEGIN -->
@@ -207,6 +208,16 @@ This document maintains the active development status, version controls, and com
 | Agent REST Endpoints | COMPLETE | `/mee/autonomous/jobs/:id/agents` and `/memory` registered |
 | Agent Console UI | COMPLETE | Agent Timeline & Memory Logs tabs in console |
 <!-- ARPS:HEALTH_LEDGER_PHASE_37:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_42:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Research Engine | COMPLETE | MeeResearchEngine implementation collating observations |
+| Finding Store | COMPLETE | FileMeeResearchFindingStore created for drafted findings |
+| Meta-Rule Store | COMPLETE | FileMeeMetaRuleStore created for MLE meta-rules heuristics |
+| Research REST Endpoints | COMPLETE | `/mee/research/*` endpoints registered |
+| Research Console UI | COMPLETE | Research Mode sub-panel integrated into MetaEvolutionConsole |
+<!-- ARPS:HEALTH_LEDGER_PHASE_42:END -->
 
 <!-- ARPS:HEALTH_LEDGER_PHASE_43:BEGIN -->
 | Component | Status | Notes |
@@ -457,12 +468,12 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 
 <!-- ARPS:NEXT_ASCENT_PHASE_42:BEGIN -->
 ### Next Development Ascent — Phase 42
-- [ ] Create specialized `"research"` agent role using LLM + KG + memory context
-- [ ] Build Autonomous Research Loop for background scanning & findings draft
-- [ ] Build Research Proposal pipeline mapping findings to MEE phase structures
-- [ ] Design operator controls for proposal approval/rejection and build triggers
-- [ ] Integrate Research Loop outcomes to refine MLE Meta-Rules
-- [ ] Design and integrate "Research Mode" panel in MetaEvolutionConsole UI
+- [x] Create specialized `"research"` agent role using LLM + KG + memory context
+- [x] Build Autonomous Research Loop for background scanning & findings draft
+- [x] Build Research Proposal pipeline mapping findings to MEE phase structures
+- [x] Design operator controls for proposal approval/rejection and build triggers
+- [x] Integrate Research Loop outcomes to refine MLE Meta-Rules
+- [x] Design and integrate "Research Mode" panel in MetaEvolutionConsole UI
 <!-- ARPS:NEXT_ASCENT_PHASE_42:END -->
 
 <!-- ARPS:NEXT_ASCENT_PHASE_43:BEGIN -->

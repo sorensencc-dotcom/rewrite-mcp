@@ -1097,6 +1097,198 @@ ACE enables CIC to dynamically expand its system boundaries by introducing new a
 Identify functional gaps and dynamically deploy code blueprints to create new capabilities.
 
 ### Components
+### Purpose
+Coordinates the complete background lifecycle of proposal planning, sandboxing, validation, and patching.
+
+### Components
+- **Job Store**: Durable job state tracking.
+- **Autonomous Engine**: Coordinates step execution loops.
+- **Autonomous Worker**: Background loops with exponential backoff and jitter.
+- **REST Endpoints** (`/v1/mee/autonomous/jobs/*`)
+<!-- ARPS:SYSTEM_PHASE_35:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_36:BEGIN -->
+## Section 31 — Self‑Healing & LLM‑Assisted Planning
+
+### Purpose
+Allows autonomous build jobs to capture failure context on compilation/test blocks, formulate self-healing plans, and execute repairs.
+
+### Components
+- **Failure Context Schema & Store**
+- **Self-Healing Engine**: LLM-assisted repair suggestions.
+- **Dynamic Planning**: Planning mode selectors in UI and API (deterministic, LLM, hybrid).
+<!-- ARPS:SYSTEM_PHASE_36:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_37:BEGIN -->
+## Section 32 — Multi‑Agent Reasoning & Memory (MEE-Agent)
+
+### Purpose
+Coordinates specialized agents over long-running jobs and persists reasoning experiences in a long-horizon memory store.
+
+### Components
+- **Multi-Agent Schema**: Agent, Task, and Exchange data structures.
+- **FileMeeMemoryStore**: Persistent `mee-memory.json` memory log repository.
+- **MeeAgentOrchestrator**: Core task schedule and dispatch manager.
+- **Planner Agent**: Refines initial goals using agent task exchanges.
+- **Agent REST Endpoints**: API routes for timeline tasks and memory queries.
+- **Console UI tabs**: Timeline and Memory visual logs.
+<!-- ARPS:SYSTEM_PHASE_37:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_38:BEGIN -->
+## Section 33 — Multi‑Agent Negotiation & Consensus (Phase 38)
+
+The Multi-Agent Negotiation & Consensus subsystem manages collaborative decision-making across autonomous agents. Before applying generated code patches to the active workspace, agent proposals undergo a round-based negotiation phase to resolve file path collisions followed by a consensus gating evaluation based on critique severity scoring.
+
+### Purpose
+Coordinate specialized execution agents to negotiate conflicting resource allocations and ensure all patches meet standard security, architectural, and quality benchmarks before execution.
+
+### Components
+- **Consensus Engine** ([mee-consensus-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-consensus-engine.ts)): Evaluates proposal critiques to calculate composite readiness scores.
+- **Negotiation Engine** ([mee-negotiation-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-engine.ts)): Runs round-based negotiation loops across agents until a stable proposal set is reached.
+- **Negotiation Agent** ([mee-negotiation-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-negotiation-agent.ts)): Analyzes file patches to identify overlapping paths and propose resolution actions.
+- **Consensus UI Console**: The "Consensus" tab in `MetaEvolutionConsole.tsx` displays active critiques, severity scores, and current gating decisions.
+
+### Negotiation & Consensus Logic
+1. **Collision Analysis**: Negotiation agents compare proposal patch paths. If two agents attempt to edit the same file, a collision is flagged, and a resolution strategy (such as topological `reorder`) is injected.
+2. **Critique Severity Scoring**: The `MeeConsensusEngine` starts with a base score of 100 and applies severe penalties for agent critiques:
+   - **Error**: Subtracts 40 points
+   - **Warning**: Subtracts 20 points
+   - **Info**: Subtracts 5 points
+3. **Refinement Cycle Decay**: To prevent infinite cycles of critique and revision, every cycle after the first applies a cumulative penalty:
+   $$Score = BaseScore - \sum Penalty - (Cycle - 1) \times 10$$
+4. **Gating Threshold**: Proposals must score $\ge 70$ (configurable) to be marked as `ready` for sandbox execution. If a proposal fails to pass within the maximum cycle limit (default 3), its state is set to `blocked`.
+
+### Guarantees
+- **No Overlapping Patches**: Negotiation loops run until stable, ensuring no conflicting file modifications are executed concurrently.
+- **Gated Staging**: No code changes are committed to the master branch without achieving consensus scoring above the threshold.
+- **Refinement Termination**: The cycle decay factor guarantees that proposals either converge to consensus or terminate in a blocked state, avoiding infinite loops.
+<!-- ARPS:SYSTEM_PHASE_38:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_39:BEGIN -->
+## Section 34 — Knowledge Graph & Semantic Memory (Phase 39)
+
+The Knowledge Graph & Semantic Memory subsystem integrates cognitive events with the persistent Knowledge Graph. It tracks execution results, agent negotiations, critiques, and compilation failures, allowing the planner to query past experiences and locate fragile files.
+
+### Purpose
+Serialize active task progress, agent decisions, and execution failures into a durable graph and ledger to enable historical reasoning and systematic diagnostic queries.
+
+### Components
+- **MeeKnowledgeGraph** ([mee-kg.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-kg.ts)): Serializes autonomous build events as nodes and edges in the persistent `CkgStore`.
+- **FileMeeMemoryStore** ([mee-memory-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-memory-store.ts)): Implements a schema-validated, local JSON-backed event registry (`mee-memory.json`).
+- **Memory Query Plane**: Exposes endpoints and queries to search logs by tags and retrieve neighboring nodes.
+- **Memory Logs tab**: Consumes the `/memory` endpoint to render scope-based events and details in the UI console.
+
+### CKG Schema Mapping
+- **Nodes**:
+  - `task`: Represents an instruction step (e.g. `type: "refactor"`).
+  - `proposal`: Represents a planned patch set.
+  - `file`: Tracks modified or created files.
+  - `agent`: Represents specialized agents (e.g., `planner`, `critic`).
+  - `failure`: Represents compile errors or unit test failures.
+- **Edges**:
+  - `depends_on`: Connects task dependencies.
+  - `refines`: Connects a proposal to the files it modifies.
+  - `critique_by`: Connects a proposal to its critiquing agent (includes severity and issues in metadata).
+  - `caused_failure`: Links a proposal node to a compilation/test failure.
+  - `fixed_by`: Links a healing proposal node to the failure it corrected.
+
+### Diagnostics
+- **Module Fragility Metrics**: Scans the CKG to calculate failure densities per file. Files with high failure rates are flagged as fragile, biasing future PlannerAgent decisions to avoid them.
+- **Safety Risk Aggregator**: Extracts a list of unique critical issues from high-severity critiques to guide override gating checks.
+
+### Guarantees
+- **Append-Only Memory**: Memory event logs are append-only, preserving an immutable record of agent interactions.
+- **Transactional Graph Ingestion**: Graph nodes are serialized synchronously during key build cycles, preventing split-brain states between the database files and local workspaces.
+<!-- ARPS:SYSTEM_PHASE_39:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_40:BEGIN -->
+## Section 35 — Autonomous Multi‑Job Scheduling (Phase 40)
+
+The Autonomous Multi-Job Scheduling subsystem runs background queues that orchestrate plans, track job statuses, evaluate dependencies, and enforce concurrency constraints.
+
+### Purpose
+Manage, prioritize, and run long-running autonomous development jobs while enforcing resource limits and preventing task starvation.
+
+### Components
+- **MeeScheduler** ([mee-scheduler.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-scheduler.ts)): Coordinates tick cycles, handles preemption, and controls active job execution streams.
+- **Autonomous Engine** ([mee-autonomous-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-autonomous-engine.ts)): Drives the execution loop of individual job steps.
+- **Scheduler Dashboard**: A visual tab in the UI console displaying active queue states, concurrency slots, and running, paused, or pending jobs.
+
+### Scheduler Queue Algorithms
+1. **Dependency Verification**: A job is only eligible for scheduling if all of its dependency job IDs (`dependsOnJobIds`) are in a `completed` state.
+2. **Starvation Prevention Scoring**: Eligible jobs are prioritized based on a compound score of user-assigned priority and queue wait age:
+   $$Score = Priority \times 1000 + Age \times 0.0001$$
+   This ensures that low-priority jobs are eventually executed if they spend a significant amount of time waiting in the queue.
+3. **Active Preemption**: If the scheduler reaches its concurrency limit (default: 2 workers) and a higher-priority job enters the queue, the lowest-priority active job is paused (`status = "paused"`), its run is detached, and the new job is scheduled immediately.
+4. **Crash State Recovery**: Upon scheduler startup, any jobs marked as `running` are safely reset to `paused` so they can be rescheduled cleanly, avoiding orphaned or corrupted execution streams.
+
+### Guarantees
+- **Concurrency Bounds**: The active job count never exceeds the configured limit, preventing CPU/memory exhaustion.
+- **Order Enforcement**: Jobs are executed in strict topological order as defined by their dependency graphs.
+- **Execution Logging**: Scheduler tick events, preemption actions, and completions append structured events to the Memory Store.
+<!-- ARPS:SYSTEM_PHASE_40:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_43:BEGIN -->
+## Section 36 — Autonomous Phase Generation (Phase 43)
+
+APG enables CIC to autonomously generate new evolutionary phases based on CKG research findings, meta-learning signals, and failure patterns.
+
+### Purpose
+Automate the synthesis, planning, and evaluation of new architectural evolution phases.
+
+### Components
+- **MeePhaseGeneratorEngine** ([mee-phase-generator-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-generator-engine.ts)): Core logic for generating and scoring new phase specs.
+- **ResearchAgent** ([research-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/research-agent.ts)): Critique and refinement handler for phase specs and proposals.
+- **FileMeePhaseSpecStore** ([mee-phase-spec-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-spec-store.ts)): Persistent store for phase specifications.
+- **Operator Approval UI Panel**: Interactive dashboard for phase spec reviews and manual activation triggers.
+
+### Scoring Model
+The generator scores candidate phases based on a weighted composite of expected impact, feasibility, risk, and alignment:
+$$Score = (Impact \times 0.4) + (Feasibility \times 0.3) - (Risk \times 0.2) + (Alignment \times 0.3)$$
+Approved phases spawn active build jobs automatically in the scheduler.
+<!-- ARPS:SYSTEM_PHASE_43:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_44:BEGIN -->
+## Section 37 — Autonomous Architecture Refactoring (Phase 44)
+
+AAR enables CIC to analyze CKG components for design fragility and deploy refactoring patches autonomously.
+
+### Purpose
+Detect fragile components with high validation/compilation failure counts and resolve code quality hotspots.
+
+### Components
+- **MeeArchitectureRefactorEngine** ([mee-architecture-refactor-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-architecture-refactor-engine.ts)): Scans the CKG for fragile modules and generates refactoring patch sets.
+- **Refactoring Console**: Visual display of refactoring opportunities, severity levels, and patch progress.
+
+### Document Sync
+Applying a refactoring proposal automatically logs details and updates the evolution trace under `## 18. Self-Refactor & Evolution Log` in `docs/cic/CIC_SYSTEM.md`.
+<!-- ARPS:SYSTEM_PHASE_44:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_45:BEGIN -->
+## Section 38 — Autonomous Capability Expansion (Phase 45)
+
+ACE enables CIC to dynamically expand its system boundaries by introducing new agent roles, workflows, and subsystems.
+
+### Purpose
+Identify functional gaps and dynamically deploy code blueprints to create new capabilities.
+
+### Components
 - **MeeCapabilityExpansionEngine** ([mee-capability-expansion-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-capability-expansion-engine.ts)): Scans context parameters and deploys skeletal capability files.
 - **Capability Explorer UI**: Dashboard panel for tracking capability blueprints and deployment states.
 
@@ -1106,7 +1298,27 @@ Integration of a new capability automatically appends a new `capability` node to
 
 ---
 
-**Version:** 14.0.0  
+<!-- ARPS:SYSTEM_PHASE_42:BEGIN -->
+## Section 39 — Autonomous Research Loop & Mode (Phase 42)
+
+The Autonomous Research Loop enables Cast Iron Charlie to periodically scan its runtime artifacts (CKG node configurations, failed execution runs, and error logs) and synthesize these observations into research discoveries.
+
+### Purpose
+Automate target research processes and dynamically refine MLE meta-learning rule heuristics based on runtime performance.
+
+### Components
+- **MeeResearchEngine** ([mee-research-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-research-engine.ts)): Gathers graph structure parameters and failure contexts, calling the LLM client to generate findings and rules.
+- **FileMeeResearchFindingStore** ([mee-research-finding-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-research-finding-store.ts)): Persistent store for drafted discoveries.
+- **FileMeeMetaRuleStore** ([mee-meta-rule-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-meta-rule-store.ts)): Persistent store for MLE heuristic meta-rules.
+- **Research Mode Console UI**: Interactive operator dashboard displaying discovered findings and refined meta-rules.
+
+### Rule Mutation
+Refined meta-rules dynamically modify PlannerAgent decomposition biases, consensus critiques weights, and scheduler concurrency boundaries during subsequent runs.
+<!-- ARPS:SYSTEM_PHASE_42:END -->
+
+---
+
+**Version:** 15.0.0  
 **Last Updated:** 2026-06-04  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  

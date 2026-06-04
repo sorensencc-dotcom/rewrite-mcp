@@ -44,6 +44,10 @@ import { MeePhaseGeneratorEngine } from "../../mee/mee-phase-generator-engine.js
 import { ResearchAgent } from "../../mee/research-agent.js";
 import { MeeArchitectureRefactorEngine } from "../../mee/mee-architecture-refactor-engine.js";
 import { MeeCapabilityExpansionEngine } from "../../mee/mee-capability-expansion-engine.js";
+import { FileMeeResearchFindingStore } from "../../mee/mee-research-finding-store.js";
+import { FileMeeMetaRuleStore } from "../../mee/mee-meta-rule-store.js";
+import { MeeResearchEngine } from "../../mee/mee-research-engine.js";
+
 
 export function registerMeeRoutes(router: Router) {
   const workspaceRoot = process.cwd();
@@ -192,6 +196,9 @@ JSON:`;
   const phaseGeneratorEngine = new MeePhaseGeneratorEngine();
   const refactorEngine = new MeeArchitectureRefactorEngine();
   const expansionEngine = new MeeCapabilityExpansionEngine();
+  const findingsStore = new FileMeeResearchFindingStore(workspaceRoot);
+  const metaRulesStore = new FileMeeMetaRuleStore(workspaceRoot);
+  const researchEngine = new MeeResearchEngine(findingsStore, metaRulesStore, runStore, failureContextStore, llama);
 
   const kg = new MeeKnowledgeGraph(ckg);
 
@@ -1729,6 +1736,69 @@ JSON:`;
       }
       await expansionEngine.applyExpansion(spec, kg, workspaceRoot);
       res.json({ ok: true, data: { spec } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  // --- Phase 42: Autonomous Research Loop & Mode ---
+  router.get("/mee/research/findings", (_req, res) => {
+    try {
+      res.json({ ok: true, data: { findings: findingsStore.loadAll() } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/research/scan", async (_req, res) => {
+    try {
+      const result = await researchEngine.runResearchScan(kg);
+      res.json({ ok: true, data: result });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/research/findings/:id/approve", async (req, res) => {
+    try {
+      const finding = findingsStore.get(req.params.id);
+      if (!finding) {
+        return res.status(404).json({ ok: false, error: { message: "Finding not found" } });
+      }
+      findingsStore.update(finding.id, { status: "approved" });
+
+      // Trigger APG phase generation from this approved finding
+      const activePhases = phaseSpecStore.loadAll();
+      const nextPhaseNumber = Math.max(45, ...activePhases.map((p) => p.phaseNumber)) + 1;
+      const spec = phaseGeneratorEngine.generatePhaseSpec([finding], nextPhaseNumber);
+      phaseSpecStore.add(spec);
+
+      // Run multi-agent critique validation
+      const consensusResult = await phaseGeneratorEngine.runValidationRound(spec, orchestrator, `job-spec-${crypto.randomUUID()}`);
+      findingsStore.update(finding.id, { status: "promoted" });
+
+      res.json({ ok: true, data: { finding: findingsStore.get(finding.id), spec, consensusResult } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/research/findings/:id/reject", (req, res) => {
+    try {
+      const finding = findingsStore.get(req.params.id);
+      if (!finding) {
+        return res.status(404).json({ ok: false, error: { message: "Finding not found" } });
+      }
+      findingsStore.update(finding.id, { status: "rejected" });
+      res.json({ ok: true, data: findingsStore.get(finding.id) });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.get("/mee/research/meta-rules", (_req, res) => {
+    try {
+      res.json({ ok: true, data: { rules: metaRulesStore.loadAll() } });
     } catch (err: any) {
       res.status(500).json({ ok: false, error: { message: err.message } });
     }

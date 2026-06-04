@@ -109,7 +109,7 @@ export function MetaEvolutionConsole() {
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
 
-  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety" | "autonomous" | "apg" | "aar" | "ace">("evolution");
+  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety" | "autonomous" | "apg" | "aar" | "ace" | "research">("evolution");
   const [abmRequest, setAbmRequest] = useState<string>("");
   const [abmJob, setAbmJob] = useState<any | null>(null);
   const [abmJobs, setAbmJobs] = useState<any[]>([]);
@@ -140,6 +140,91 @@ export function MetaEvolutionConsole() {
   const [isFetchingOpps, setIsFetchingOpps] = useState<boolean>(false);
   const [capabilitySpecs, setCapabilitySpecs] = useState<any[]>([]);
   const [isFetchingSpecs, setIsFetchingSpecs] = useState<boolean>(false);
+
+  const [researchFindings, setResearchFindings] = useState<any[]>([]);
+  const [isFetchingFindings, setIsFetchingFindings] = useState<boolean>(false);
+  const [metaRules, setMetaRules] = useState<any[]>([]);
+  const [isFetchingMetaRules, setIsFetchingMetaRules] = useState<boolean>(false);
+
+  const fetchResearchFindings = async () => {
+    setIsFetchingFindings(true);
+    try {
+      const res = await fetch("/v1/mee/research/findings");
+      const data = await res.json();
+      if (data.ok) {
+        setResearchFindings(data.data.findings || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch research findings:", err);
+    } finally {
+      setIsFetchingFindings(false);
+    }
+  };
+
+  const fetchMetaRules = async () => {
+    setIsFetchingMetaRules(true);
+    try {
+      const res = await fetch("/v1/mee/research/meta-rules");
+      const data = await res.json();
+      if (data.ok) {
+        setMetaRules(data.data.rules || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch meta rules:", err);
+    } finally {
+      setIsFetchingMetaRules(false);
+    }
+  };
+
+  const triggerResearchScan = async () => {
+    setMessage("Triggering background research scan...");
+    try {
+      const res = await fetch("/v1/mee/research/scan", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Research scan completed. Found ${data.data.findings.length} findings and ${data.data.rules.length} meta-rules.`);
+        fetchResearchFindings();
+        fetchMetaRules();
+      } else {
+        setMessage(`Research scan failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Research scan failed: ${err.message}`);
+    }
+  };
+
+  const approveFinding = async (id: string) => {
+    setMessage("Approving finding and triggering phase generator...");
+    try {
+      const res = await fetch(`/v1/mee/research/findings/${encodeURIComponent(id)}/approve`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Finding approved. Draft Phase ${data.data.spec.phaseNumber} spec generated.`);
+        fetchResearchFindings();
+        fetchGeneratedPhases();
+      } else {
+        setMessage(`Finding approval failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Finding approval failed: ${err.message}`);
+    }
+  };
+
+  const rejectFinding = async (id: string) => {
+    try {
+      const res = await fetch(`/v1/mee/research/findings/${encodeURIComponent(id)}/reject`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage("Finding rejected.");
+        fetchResearchFindings();
+      } else {
+        setMessage(`Finding rejection failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Finding rejection failed: ${err.message}`);
+    }
+  };
+
 
   const fetchGeneratedPhases = async () => {
     try {
@@ -686,6 +771,9 @@ export function MetaEvolutionConsole() {
       fetchRefactorOpportunities();
     } else if (activeTab === "ace") {
       fetchCapabilitySpecs();
+    } else if (activeTab === "research") {
+      fetchResearchFindings();
+      fetchMetaRules();
     }
   }, [activeTab]);
 
@@ -1272,6 +1360,26 @@ export function MetaEvolutionConsole() {
           }}
         >
           Capability Expansion (ACE)
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("research");
+            fetchResearchFindings();
+            fetchMetaRules();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "research" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "research" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Research Mode (MLE)
         </button>
       </div>
 
@@ -4114,6 +4222,170 @@ export function MetaEvolutionConsole() {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {activeTab === "research" && (
+        <div style={{
+          backgroundColor: "#111827",
+          border: "1px solid #1f2937",
+          borderRadius: "12px",
+          padding: "20px",
+          minHeight: "600px"
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <div>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                MLE Research Mode Console
+              </h2>
+              <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginTop: "4px" }}>
+                Analyze failures, runs, and Knowledge Graph to refine meta-learning rule heuristics and generate evolution specs.
+              </p>
+            </div>
+            <button
+              onClick={triggerResearchScan}
+              disabled={isFetchingFindings}
+              style={{
+                backgroundColor: "#2563eb",
+                color: "#ffffff",
+                padding: "8px 16px",
+                borderRadius: "6px",
+                border: "none",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              Trigger Research Scan
+            </button>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "24px" }}>
+            {/* Findings Section */}
+            <div>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#f8fafc", marginBottom: "12px" }}>
+                Research Discoveries & Findings
+              </h3>
+              {isFetchingFindings && researchFindings.length === 0 ? (
+                <div style={{ color: "#6b7280", padding: "20px" }}>Scanning workspace statistics...</div>
+              ) : researchFindings.length === 0 ? (
+                <div style={{ color: "#6b7280", padding: "20px", backgroundColor: "#1f2937", borderRadius: "8px" }}>
+                  No current findings draft. Trigger a research scan to discover codebase opportunities.
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {researchFindings.map((finding) => (
+                    <div
+                      key={finding.id}
+                      style={{
+                        backgroundColor: "#1f2937",
+                        border: "1px solid #374151",
+                        borderRadius: "8px",
+                        padding: "16px"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+                        <h4 style={{ fontSize: "1rem", fontWeight: 600, color: "#f8fafc", margin: 0 }}>
+                          {finding.title}
+                        </h4>
+                        <span style={{
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          backgroundColor: finding.severity === "high" || finding.severity === "critical" ? "#ef4444" : "#f59e0b",
+                          color: "#ffffff"
+                        }}>
+                          {finding.severity}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: "0.875rem", color: "#cbd5e1", margin: "0 0 12px 0", lineHeight: "1.4" }}>
+                        {finding.description}
+                      </p>
+
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px" }}>
+                        <span style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
+                          Category: <code style={{ backgroundColor: "#0b0f19", color: "#38bdf8", padding: "2px 4px", borderRadius: "4px" }}>{finding.category}</code>
+                        </span>
+                        {(!finding.status || finding.status === "draft") ? (
+                          <div style={{ display: "flex", gap: "8px" }}>
+                            <button
+                              onClick={() => rejectFinding(finding.id)}
+                              style={{
+                                backgroundColor: "#ef4444",
+                                color: "#ffffff",
+                                padding: "4px 10px",
+                                borderRadius: "4px",
+                                border: "none",
+                                fontSize: "0.8rem",
+                                cursor: "pointer"
+                              }}
+                            >
+                              Reject
+                            </button>
+                            <button
+                              onClick={() => approveFinding(finding.id)}
+                              style={{
+                                backgroundColor: "#10b981",
+                                color: "#ffffff",
+                                padding: "4px 10px",
+                                borderRadius: "4px",
+                                border: "none",
+                                fontSize: "0.8rem",
+                                cursor: "pointer"
+                              }}
+                            >
+                              Approve & Spec
+                            </button>
+                          </div>
+                        ) : (
+                          <span style={{ fontSize: "0.8rem", color: finding.status === "promoted" || finding.status === "approved" ? "#34d399" : "#ef4444" }}>
+                            Status: {finding.status}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Meta Rules Section */}
+            <div>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#f8fafc", marginBottom: "12px" }}>
+                MLE Refined Meta-Rules
+              </h3>
+              {metaRules.length === 0 ? (
+                <div style={{ color: "#6b7280", padding: "20px", backgroundColor: "#1f2937", borderRadius: "8px" }}>
+                  No meta-rules currently registered. Run scans to generate heuristic rules.
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {metaRules.map((rule) => (
+                    <div
+                      key={rule.id}
+                      style={{
+                        backgroundColor: "#1f2937",
+                        border: "1px solid #374151",
+                        borderRadius: "8px",
+                        padding: "12px"
+                      }}
+                    >
+                      <h4 style={{ fontSize: "0.95rem", fontWeight: 600, color: "#f8fafc", margin: "0 0 4px 0" }}>
+                        {rule.name}
+                      </h4>
+                      <p style={{ fontSize: "0.8rem", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                        {rule.description}
+                      </p>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.75rem" }}>
+                        <span style={{ color: "#38bdf8" }}>{rule.heuristicType}</span>
+                        <span style={{ color: "#10b981", fontWeight: 600 }}>Weight: {rule.weight}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

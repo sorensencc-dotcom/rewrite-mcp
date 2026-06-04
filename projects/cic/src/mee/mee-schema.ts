@@ -279,6 +279,7 @@ export interface ResearchFinding {
   severity: "low" | "medium" | "high" | "critical";
   category: "bug" | "bottleneck" | "drift" | "gap" | "opportunity";
   timestamp: number;
+  status?: "draft" | "approved" | "rejected" | "promoted";
 }
 
 export interface MeePhaseSpec {
@@ -318,5 +319,17 @@ export interface MeeCapabilitySpec {
   status: "proposed" | "approved" | "rejected" | "integrated";
   timestamp: number;
 }
+
+export interface MeeMetaRule {
+  id: string;
+  name: string;
+  description: string;
+  heuristicType: "planner_decomposition" | "consensus_weight" | "scheduler_concurrency";
+  weight: number; // 0.0 to 1.0
+  conditions: string[];
+  action: string;
+  timestamp: number;
+}
+
 
 
