@@ -1,0 +1,44 @@
+tests/render/runRenderTests.ts
+  s_7eb04519120919::t_31a5ce336dabe4 1-85
+tests/utils/diff.ts
+  s_7eb04519120919::t_53bc7ce0c472ea 1-23
+tests/utils/generateStatus.ts
+  s_7eb04519120919::t_e1e5a880e8b545 1-49
+tests/metadata/runMetadataTests.ts
+  s_7eb04519120919::t_55e72083afe57d 1-59
+benchmarks/out/dashboard.html
+  s_7eb04519120919::t_daef655592643a 1-235
+tests/rewrite/runRewriteTests.ts
+  s_7eb04519120919::t_a5f5543956264d 1-97
+tests/runAll.ts
+  s_7eb04519120919::t_4ecb7882ae63f7 1-6
+tests/utils/snapshot.ts
+  s_7eb04519120919::t_4bb1923c424486 1-16
+tests/README.md
+  s_7eb04519120919::t_8ac0decd8c4657 1-113
+.github/workflows/nightly-bench.yml
+  s_7eb04519120919::t_58339f9d4b5148 1-84
+package.json
+  s_7eb04519120919::t_15f5f2ee0cc395 40-53
+Makefile
+  s_7eb04519120919::t_c38777bc4d0c1e 48-75
+  s_7eb04519120919::t_66c0f0d13dd1c1 1,4,6,12-24
+tests/stc/runStcTests.ts
+  s_7eb04519120919::t_eff6c025f8812e 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b665c7918b2eb87aae600248aa2efa2ca3497bca",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
