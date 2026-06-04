@@ -1,0 +1,113 @@
+import fs from "node:fs";
+import path from "node:path";
+import { Anthropic } from "@anthropic-ai/sdk";
+
+interface Site {
+  id: string;
+  htmlPath: string;
+  contextPath: string;
+}
+
+interface RewriteResult {
+  text: string;
+  durationMs: number;
+  tokens?: number;
+}
+
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+function buildRewritePrompt(html: string, context: any): string {
+  return `You are a web design expert. Rewrite the following HTML to be modern, accessible, and conversion-optimized.
+
+Business Name: ${context.businessName}
+Address: ${context.address}
+Phone: ${context.phone}
+Services: ${context.services.join(", ")}
+
+Original HTML:
+${html}
+
+Provide only the rewritten HTML, no explanations.`;
+}
+
+async function runRewrite(
+  model: string,
+  html: string,
+  context: any
+): Promise<RewriteResult> {
+  const prompt = buildRewritePrompt(html, context);
+  const start = Date.now();
+
+  const res = await anthropic.messages.create({
+    model,
+    max_tokens: 4096,
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const durationMs = Date.now() - start;
+  const text =
+    res.content[0].type === "text" ? res.content[0].text : "";
+
+  return {
+    text,
+    durationMs,
+    tokens: res.usage.output_tokens,
+  };
+}
+
+async function main() {
+  const sitesPath = path.resolve("benchmarks/sites.json");
+  const sites: Site[] = JSON.parse(fs.readFileSync(sitesPath, "utf8"));
+
+  console.log(`[opusSonnetBenchmark] Running A/B test on ${sites.length} sites...\n`);
+
+  const results: any[] = [];
+  const outDir = "benchmarks/out";
+  fs.mkdirSync(outDir, { recursive: true });
+
+  for (const site of sites) {
+    const htmlPath = path.resolve(site.htmlPath);
+    const contextPath = path.resolve(site.contextPath);
+
+    if (!fs.existsSync(htmlPath)) {
+      console.warn(`⚠ Skipping ${site.id}: HTML not captured`);
+      continue;
+    }
+
+    const html = fs.readFileSync(htmlPath, "utf8");
+    const context = JSON.parse(fs.readFileSync(contextPath, "utf8"));
+
+    console.log(`[${site.id}] Running Sonnet...`);
+    const sonnet = await runRewrite("claude-sonnet-4.6", html, context);
+
+    console.log(`[${site.id}] Running Opus...`);
+    const opus = await runRewrite("claude-opus-4.8", html, context);
+
+    fs.writeFileSync(`${outDir}/${site.id}.sonnet.html`, sonnet.text);
+    fs.writeFileSync(`${outDir}/${site.id}.opus.html`, opus.text);
+
+    results.push({
+      id: site.id,
+      sonnet: { durationMs: sonnet.durationMs, tokens: sonnet.tokens },
+      opus: { durationMs: opus.durationMs, tokens: opus.tokens },
+    });
+
+    console.log(
+      `✓ ${site.id}: Sonnet ${sonnet.durationMs}ms, Opus ${opus.durationMs}ms\n`
+    );
+  }
+
+  fs.writeFileSync(
+    `${outDir}/benchmark-results.json`,
+    JSON.stringify(results, null, 2)
+  );
+
+  console.log(`[opusSonnetBenchmark] Results saved → ${outDir}/benchmark-results.json`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
