@@ -1,14 +1,14 @@
-# v1.9.0 | 2026-06-04 | Status: ACTIVE
+# v1.10.0 | 2026-06-04 | Status: ACTIVE
 
 This document maintains the active development status, version controls, and compliance certifications for the Cast Iron Charlie (CIC) Intelligence Core.
 
 ---
 
 ## 1. Version Controls
-- **Core System Version**: `v1.12.0` (Multi-Agent Consensus & Autonomous Scheduling substrate)
+- **Core System Version**: `v1.15.0` (Autonomous Evolution & Capability Expansion substrate)
 - **API Specification**: `/v1` public REST API
 - **Last Verification Run**: 2026-06-04
-- **Test Integrity**: **278 / 278 tests passing (100% compliance)**
+- **Test Integrity**: **288 / 288 tests passing (100% compliance)**
 
 ---
 
@@ -36,6 +36,9 @@ This document maintains the active development status, version controls, and com
 | **ARPS** | Harvester + Synthesizer Agents | `v1.0.0` | 🟢 ACTIVE | Git-log parsing, task/telemetry checks, fenced markdown updates. |
 | **MLA** | Memory Substrate & API | `v1.0.0` | 🟢 ACTIVE | Durable memory ledger, query API, and Command Center panel. |
 | **MLA** | Memory Harvester + Synthesizer | `v1.0.0` | 🟢 ACTIVE | Memory-aware agents gathering timelines and condensing drift logs. |
+| **Meta-Evolution** | Autonomous Phase Generation (Phase 43) | `v1.0.0` | 🟢 ACTIVE | Auto-generates evolutionary phases, scores spec details, and coordinates consensus. |
+| **Meta-Evolution** | Autonomous Architecture Refactoring (Phase 44) | `v1.0.0` | 🟢 ACTIVE | Analyzes component failure hotspot logs and deploys AST patches autonomously. |
+| **Meta-Evolution** | Autonomous Capability Expansion (Phase 45) | `v1.0.0` | 🟢 ACTIVE | Scans functional capability gaps and deploys skeleton blueprints into CKG. |
 <!-- ARPS:HEALTH_LEDGER:END -->
 
 <!-- ARPS:HEALTH_LEDGER_PHASE_23:BEGIN -->
@@ -204,6 +207,34 @@ This document maintains the active development status, version controls, and com
 | Agent REST Endpoints | COMPLETE | `/mee/autonomous/jobs/:id/agents` and `/memory` registered |
 | Agent Console UI | COMPLETE | Agent Timeline & Memory Logs tabs in console |
 <!-- ARPS:HEALTH_LEDGER_PHASE_37:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_43:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Phase Spec Store | COMPLETE | FileMeePhaseSpecStore created for proposals persistence |
+| Phase Generator Engine | COMPLETE | MeePhaseGeneratorEngine implementation with composite scoring |
+| Research Agent | COMPLETE | ResearchAgent implemented with critique-enabled scoring |
+| APG REST Endpoints | COMPLETE | `/mee/phases/*` endpoints registered |
+| APG Console UI | COMPLETE | APG sub-panel integrated into MetaEvolutionConsole |
+<!-- ARPS:HEALTH_LEDGER_PHASE_43:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_44:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Refactor Engine | COMPLETE | MeeArchitectureRefactorEngine scans CKG for hotspots and failure logs |
+| Refactor Patch Generator | COMPLETE | Autonomous refactor patch generation and git integration |
+| AAR REST Endpoints | COMPLETE | `/mee/refactor/*` endpoints registered |
+| AAR Console UI | COMPLETE | AAR sub-panel integrated into MetaEvolutionConsole |
+<!-- ARPS:HEALTH_LEDGER_PHASE_44:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_45:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Capability Expansion Engine | COMPLETE | MeeCapabilityExpansionEngine detects functional gaps |
+| Blueprint Deployment | COMPLETE | Dynamic skeletal capability generator and CKG node linking |
+| ACE REST Endpoints | COMPLETE | `/mee/expansion/*` endpoints registered |
+| ACE Console UI | COMPLETE | ACE sub-panel integrated into MetaEvolutionConsole |
+<!-- ARPS:HEALTH_LEDGER_PHASE_45:END -->
 
 ---
 
@@ -433,5 +464,30 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 - [ ] Integrate Research Loop outcomes to refine MLE Meta-Rules
 - [ ] Design and integrate "Research Mode" panel in MetaEvolutionConsole UI
 <!-- ARPS:NEXT_ASCENT_PHASE_42:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_43:BEGIN -->
+### Next Development Ascent — Phase 43
+- [x] Create FileMeePhaseSpecStore for serializing generated phase proposals
+- [x] Build MeePhaseGeneratorEngine scoring proposals based on impact, feasibility, risk, and alignment
+- [x] Build critique-enabled ResearchAgent to analyze and refine draft specifications
+- [x] Register phase generation endpoints in control plane
+- [x] Integrate APG Console sub-panels into MetaEvolutionConsole UI
+<!-- ARPS:NEXT_ASCENT_PHASE_43:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_44:BEGIN -->
+### Next Development Ascent — Phase 44
+- [x] Build MeeArchitectureRefactorEngine scanning CKG for high-failure hotspots
+- [x] Generate AST refactoring patch sets and validation workflows
+- [x] Register refactoring endpoints in control plane
+- [x] Integrate AAR Console sub-panels into MetaEvolutionConsole UI
+<!-- ARPS:NEXT_ASCENT_PHASE_44:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_45:BEGIN -->
+### Next Development Ascent — Phase 45
+- [x] Build MeeCapabilityExpansionEngine detecting capability gaps and generating skeletons
+- [x] Deploy capability skeleton structures and register corresponding CKG nodes
+- [x] Register expansion endpoints in control plane
+- [x] Integrate ACE Console sub-panels into MetaEvolutionConsole UI
+<!-- ARPS:NEXT_ASCENT_PHASE_45:END -->
 
 

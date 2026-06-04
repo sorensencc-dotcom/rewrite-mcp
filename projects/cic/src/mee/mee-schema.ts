@@ -202,7 +202,8 @@ export type MeeAgentRole =
   | "refactor"
   | "tester"
   | "docs"
-  | "safety";
+  | "safety"
+  | "research";
 
 export interface MeeAgent {
   id: string;
@@ -268,6 +269,54 @@ export interface MeeConsensusResult {
   score: number;
   critiques: MeeAgentCritique[];
   cycles: number;
+}
+
+export interface ResearchFinding {
+  id: string;
+  title: string;
+  description: string;
+  evidence: string[];
+  severity: "low" | "medium" | "high" | "critical";
+  category: "bug" | "bottleneck" | "drift" | "gap" | "opportunity";
+  timestamp: number;
+}
+
+export interface MeePhaseSpec {
+  id: string;
+  phaseNumber: number;
+  title: string;
+  purpose: string;
+  objectives: string[];
+  tasks: string[];
+  requiredCapabilities: string[];
+  estimatedImpact: number; // 0-100
+  feasibility: number;     // 0-100
+  risk: number;            // 0-100
+  alignment: number;       // 0-100
+  score: number;           // calculated scoring
+  status: "draft" | "proposed" | "approved" | "rejected" | "implemented";
+  findings: ResearchFinding[];
+  timestamp: number;
+}
+
+export interface RefactorOpportunity {
+  id: string;
+  file: string;
+  type: "complexity" | "duplication" | "coupling" | "outdated_pattern";
+  description: string;
+  severity: "low" | "medium" | "high" | "critical";
+  suggestedAction: string;
+}
+
+export interface MeeCapabilitySpec {
+  id: string;
+  title: string;
+  description: string;
+  requirements: string[];
+  suggestedAgents: string[];
+  suggestedSubsystems: string[];
+  status: "proposed" | "approved" | "rejected" | "integrated";
+  timestamp: number;
 }
 
 

@@ -1048,7 +1048,65 @@ Manage, prioritize, and run long-running autonomous development jobs while enfor
 
 ---
 
-**Version:** 13.0.0  
+<!-- ARPS:SYSTEM_PHASE_43:BEGIN -->
+## Section 36 — Autonomous Phase Generation (Phase 43)
+
+APG enables CIC to autonomously generate new evolutionary phases based on CKG research findings, meta-learning signals, and failure patterns.
+
+### Purpose
+Automate the synthesis, planning, and evaluation of new architectural evolution phases.
+
+### Components
+- **MeePhaseGeneratorEngine** ([mee-phase-generator-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-generator-engine.ts)): Core logic for generating and scoring new phase specs.
+- **ResearchAgent** ([research-agent.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/research-agent.ts)): Critique and refinement handler for phase specs and proposals.
+- **FileMeePhaseSpecStore** ([mee-phase-spec-store.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-spec-store.ts)): Persistent store for phase specifications.
+- **Operator Approval UI Panel**: Interactive dashboard for phase spec reviews and manual activation triggers.
+
+### Scoring Model
+The generator scores candidate phases based on a weighted composite of expected impact, feasibility, risk, and alignment:
+$$Score = (Impact \times 0.4) + (Feasibility \times 0.3) - (Risk \times 0.2) + (Alignment \times 0.3)$$
+Approved phases spawn active build jobs automatically in the scheduler.
+<!-- ARPS:SYSTEM_PHASE_43:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_44:BEGIN -->
+## Section 37 — Autonomous Architecture Refactoring (Phase 44)
+
+AAR enables CIC to analyze CKG components for design fragility and deploy refactoring patches autonomously.
+
+### Purpose
+Detect fragile components with high validation/compilation failure counts and resolve code quality hotspots.
+
+### Components
+- **MeeArchitectureRefactorEngine** ([mee-architecture-refactor-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-architecture-refactor-engine.ts)): Scans the CKG for fragile modules and generates refactoring patch sets.
+- **Refactoring Console**: Visual display of refactoring opportunities, severity levels, and patch progress.
+
+### Document Sync
+Applying a refactoring proposal automatically logs details and updates the evolution trace under `## 18. Self-Refactor & Evolution Log` in `docs/cic/CIC_SYSTEM.md`.
+<!-- ARPS:SYSTEM_PHASE_44:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_45:BEGIN -->
+## Section 38 — Autonomous Capability Expansion (Phase 45)
+
+ACE enables CIC to dynamically expand its system boundaries by introducing new agent roles, workflows, and subsystems.
+
+### Purpose
+Identify functional gaps and dynamically deploy code blueprints to create new capabilities.
+
+### Components
+- **MeeCapabilityExpansionEngine** ([mee-capability-expansion-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-capability-expansion-engine.ts)): Scans context parameters and deploys skeletal capability files.
+- **Capability Explorer UI**: Dashboard panel for tracking capability blueprints and deployment states.
+
+### Graph Registration
+Integration of a new capability automatically appends a new `capability` node to the CKG and records integration logs in `docs/cic/CIC_SYSTEM.md`.
+<!-- ARPS:SYSTEM_PHASE_45:END -->
+
+---
+
+**Version:** 14.0.0  
 **Last Updated:** 2026-06-04  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
@@ -1056,5 +1114,3 @@ Manage, prioritize, and run long-running autonomous development jobs while enfor
 See **CIC_AI_RUNTIME_CONTRACT.md** for multi-agent orchestration details.
 See **PMS_INTEGRATION_SPECIFICATION.md** for Prompt Management System details.
 See **CIC_SKILLOPT_SYSTEM.md** for SkillOpt subsystem specification.
-
-

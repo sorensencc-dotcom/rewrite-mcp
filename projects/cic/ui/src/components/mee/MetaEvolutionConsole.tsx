@@ -109,7 +109,7 @@ export function MetaEvolutionConsole() {
   const [message, setMessage] = useState<string>("");
   const [patchDetails, setPatchDetails] = useState<{ proposal: PhaseProposal; patchSet: PatchSet } | null>(null);
 
-  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety" | "autonomous">("evolution");
+  const [activeTab, setActiveTab] = useState<"evolution" | "refactor" | "planning" | "runs" | "safety" | "autonomous" | "apg" | "aar" | "ace">("evolution");
   const [abmRequest, setAbmRequest] = useState<string>("");
   const [abmJob, setAbmJob] = useState<any | null>(null);
   const [abmJobs, setAbmJobs] = useState<any[]>([]);
@@ -132,6 +132,162 @@ export function MetaEvolutionConsole() {
   const [isFetchingJobKg, setIsFetchingJobKg] = useState<boolean>(false);
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+
+  const [generatedPhases, setGeneratedPhases] = useState<any[]>([]);
+  const [selectedPhaseId, setSelectedPhaseId] = useState<string>("");
+  const [isGeneratingPhase, setIsGeneratingPhase] = useState<boolean>(false);
+  const [refactorOpps, setRefactorOpps] = useState<any[]>([]);
+  const [isFetchingOpps, setIsFetchingOpps] = useState<boolean>(false);
+  const [capabilitySpecs, setCapabilitySpecs] = useState<any[]>([]);
+  const [isFetchingSpecs, setIsFetchingSpecs] = useState<boolean>(false);
+
+  const fetchGeneratedPhases = async () => {
+    try {
+      const res = await fetch("/v1/mee/phases");
+      const data = await res.json();
+      if (data.ok) {
+        setGeneratedPhases(data.data || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch generated phases:", err);
+    }
+  };
+
+  const generatePhase = async () => {
+    setIsGeneratingPhase(true);
+    setMessage("Triggering autonomous phase generator...");
+    try {
+      const res = await fetch("/v1/mee/phases/generate", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`New phase generated: ${data.data.spec.title} (Phase ${data.data.spec.phaseNumber})`);
+        fetchGeneratedPhases();
+        setSelectedPhaseId(data.data.spec.id);
+      } else {
+        setMessage(`Phase generation failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Phase generation failed: ${err.message}`);
+    } finally {
+      setIsGeneratingPhase(false);
+    }
+  };
+
+  const approvePhase = async (id: string) => {
+    setMessage("Approving phase and spawning active build job...");
+    try {
+      const res = await fetch(`/v1/mee/phases/${encodeURIComponent(id)}/approve`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Phase approved. Autonomous build job ${data.data.job.id} dispatched successfully.`);
+        fetchGeneratedPhases();
+      } else {
+        setMessage(`Approval failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Approval failed: ${err.message}`);
+    }
+  };
+
+  const rejectPhase = async (id: string) => {
+    try {
+      const res = await fetch(`/v1/mee/phases/${encodeURIComponent(id)}/reject`, { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Phase rejected.`);
+        fetchGeneratedPhases();
+      } else {
+        setMessage(`Rejection failed: ${data.error.message}`);
+      }
+    } catch (err: any) {
+      setMessage(`Rejection failed: ${err.message}`);
+    }
+  };
+
+  const fetchRefactorOpportunities = async () => {
+    setIsFetchingOpps(true);
+    try {
+      const res = await fetch("/v1/mee/refactor/opportunities");
+      const data = await res.json();
+      if (data.ok) {
+        setRefactorOpps(data.data.opportunities || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch refactor opportunities:", err);
+    } finally {
+      setIsFetchingOpps(false);
+    }
+  };
+
+  const proposeAndApplyRefactor = async (opp: any) => {
+    setMessage("Generating refactor proposal...");
+    try {
+      const resPropose = await fetch("/v1/mee/refactor/propose", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ opportunity: opp })
+      });
+      const dataPropose = await resPropose.json();
+      if (dataPropose.ok) {
+        const proposalId = dataPropose.data.proposal.id;
+        setMessage("Proposal generated. Applying refactor patches...");
+        const resApply = await fetch("/v1/mee/refactor/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ proposalId })
+        });
+        const dataApply = await resApply.json();
+        if (dataApply.ok) {
+          setMessage(`Successfully refactored ${opp.file} and updated architecture logs.`);
+          fetchRefactorOpportunities();
+        }
+      }
+    } catch (err: any) {
+      setMessage(`Refactoring failed: ${err.message}`);
+    }
+  };
+
+  const fetchCapabilitySpecs = async () => {
+    setIsFetchingSpecs(true);
+    try {
+      const res = await fetch("/v1/mee/expansion/specs");
+      const data = await res.json();
+      if (data.ok) {
+        setCapabilitySpecs(data.data.specs || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch capability specs:", err);
+    } finally {
+      setIsFetchingSpecs(false);
+    }
+  };
+
+  const proposeAndApplyCapability = async (spec: any) => {
+    setMessage("Proposing capability expansion...");
+    try {
+      const resPropose = await fetch("/v1/mee/expansion/propose", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ spec })
+      });
+      const dataPropose = await resPropose.json();
+      if (dataPropose.ok) {
+        setMessage("Applying capability expansion...");
+        const resApply = await fetch("/v1/mee/expansion/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ spec })
+        });
+        const dataApply = await resApply.json();
+        if (dataApply.ok) {
+          setMessage(`Integrated capability: ${spec.title}. Blueprints and system docs updated.`);
+          fetchCapabilitySpecs();
+        }
+      }
+    } catch (err: any) {
+      setMessage(`Expansion failed: ${err.message}`);
+    }
+  };
 
   const fetchSchedulerStatus = async () => {
     setIsFetchingScheduler(true);
@@ -522,6 +678,16 @@ export function MetaEvolutionConsole() {
     }, 10000);
     return () => clearInterval(interval);
   }, [selectedRunId, activeTab]);
+
+  useEffect(() => {
+    if (activeTab === "apg") {
+      fetchGeneratedPhases();
+    } else if (activeTab === "aar") {
+      fetchRefactorOpportunities();
+    } else if (activeTab === "ace") {
+      fetchCapabilitySpecs();
+    }
+  }, [activeTab]);
 
   useEffect(() => {
     let interval: any = null;
@@ -1049,6 +1215,63 @@ export function MetaEvolutionConsole() {
           }}
         >
           Autonomous Build
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("apg");
+            fetchGeneratedPhases();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "apg" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "apg" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Phase Generator (APG)
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("aar");
+            fetchRefactorOpportunities();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "aar" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "aar" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Auto Refactor (AAR)
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab("ace");
+            fetchCapabilitySpecs();
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: activeTab === "ace" ? "#3b82f6" : "#9ca3af",
+            border: "none",
+            borderBottom: activeTab === "ace" ? "2px solid #3b82f6" : "none",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s"
+          }}
+        >
+          Capability Expansion (ACE)
         </button>
       </div>
 
@@ -3481,6 +3704,416 @@ export function MetaEvolutionConsole() {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {activeTab === "apg" && (
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+          gap: "24px",
+          marginBottom: "32px"
+        }}>
+          {/* Left Column: Proposed Phase specs */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div style={{
+              backgroundColor: "#111827",
+              border: "1px solid #1f2937",
+              borderRadius: "12px",
+              padding: "20px",
+              height: "600px",
+              display: "flex",
+              flexDirection: "column"
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                  Proposed Phase Spec List
+                </h2>
+                <button
+                  onClick={generatePhase}
+                  disabled={isGeneratingPhase}
+                  style={{
+                    backgroundColor: "#2563eb",
+                    color: "#ffffff",
+                    border: "none",
+                    padding: "6px 12px",
+                    borderRadius: "6px",
+                    fontWeight: 600,
+                    fontSize: "0.8rem",
+                    cursor: isGeneratingPhase ? "not-allowed" : "pointer"
+                  }}
+                >
+                  {isGeneratingPhase ? "Analyzing..." : "Generate Phase"}
+                </button>
+              </div>
+
+              <div style={{ flex: 1, overflowY: "auto", border: "1px solid #1f2937", borderRadius: "8px", padding: "8px", backgroundColor: "#0b0f19" }}>
+                {generatedPhases.length === 0 ? (
+                  <div style={{ padding: "16px", color: "#6b7280", textAlign: "center" }}>
+                    No generated phases found. Click "Generate Phase" to trigger analysis.
+                  </div>
+                ) : (
+                  generatedPhases.map(phase => {
+                    return (
+                      <div
+                        key={phase.id}
+                        onClick={() => setSelectedPhaseId(phase.id)}
+                        style={{
+                          padding: "12px",
+                          borderRadius: "6px",
+                          marginBottom: "8px",
+                          cursor: "pointer",
+                          backgroundColor: selectedPhaseId === phase.id ? "#1d4ed8" : "#1f2937",
+                          border: "1px solid #374151",
+                          transition: "background-color 0.2s"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: "0.875rem", fontWeight: 600, color: "#f9fafb" }}>
+                            Phase {phase.phaseNumber}: {phase.title}
+                          </span>
+                          <span style={{
+                            fontSize: "0.75rem",
+                            fontWeight: "bold",
+                            padding: "2px 6px",
+                            borderRadius: "4px",
+                            backgroundColor: phase.score >= 70 ? "#064e3b" : "#7f1d1d",
+                            color: phase.score >= 70 ? "#34d399" : "#f87171"
+                          }}>
+                            {phase.score}/100
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", color: "#9ca3af", marginTop: "8px" }}>
+                          <span>Status: <strong style={{
+                            color: phase.status === "approved" ? "#10b981" : phase.status === "rejected" ? "#ef4444" : "#fbbf24"
+                          }}>{phase.status}</strong></span>
+                          <span>Findings: {phase.findings?.length ?? 0}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Spec Inspector */}
+          <div style={{
+            backgroundColor: "#111827",
+            border: "1px solid #1f2937",
+            borderRadius: "12px",
+            padding: "20px",
+            minHeight: "600px"
+          }}>
+            {(() => {
+              const phase = generatedPhases.find(p => p.id === selectedPhaseId);
+              if (!phase) {
+                return (
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", color: "#6b7280" }}>
+                    Select a generated phase blueprint from the left panel to review its configuration.
+                  </div>
+                );
+              }
+
+              return (
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                    <div>
+                      <h2 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#f3f4f6", margin: 0 }}>
+                        Phase Spec: {phase.title}
+                      </h2>
+                      <span style={{ color: "#60a5fa", fontSize: "0.875rem" }}>
+                        Phase Spec ID: {phase.id}
+                      </span>
+                    </div>
+                    {phase.status === "draft" && (
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <button
+                          onClick={() => rejectPhase(phase.id)}
+                          style={{
+                            backgroundColor: "#7f1d1d",
+                            color: "#ffffff",
+                            padding: "8px 14px",
+                            borderRadius: "6px",
+                            border: "none",
+                            fontWeight: 600,
+                            cursor: "pointer"
+                          }}
+                        >
+                          Reject Spec
+                        </button>
+                        <button
+                          onClick={() => approvePhase(phase.id)}
+                          style={{
+                            backgroundColor: "#10b981",
+                            color: "#ffffff",
+                            padding: "8px 14px",
+                            borderRadius: "6px",
+                            border: "none",
+                            fontWeight: 600,
+                            cursor: "pointer"
+                          }}
+                        >
+                          Approve & Execute
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  <hr style={{ borderColor: "#1f2937", margin: "16px 0" }} />
+
+                  {/* Purpose */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Purpose</h3>
+                    <p style={{ fontSize: "0.875rem", lineHeight: "1.5", color: "#cbd5e1", backgroundColor: "#1f2937", padding: "12px", borderRadius: "6px" }}>
+                      {phase.purpose}
+                    </p>
+                  </div>
+
+                  {/* Objectives */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Objectives</h3>
+                    <ul style={{ paddingLeft: "20px", fontSize: "0.875rem", color: "#cbd5e1" }}>
+                      {phase.objectives.map((obj: string, i: number) => (
+                        <li key={i} style={{ marginBottom: "6px" }}>{obj}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Tasks */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Planned Tasks</h3>
+                    <ul style={{ paddingLeft: "20px", fontSize: "0.875rem", color: "#cbd5e1" }}>
+                      {phase.tasks.map((task: string, i: number) => (
+                        <li key={i} style={{ marginBottom: "6px" }}>{task}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Findings */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Linked Research Findings</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      {phase.findings && phase.findings.map((f: any) => (
+                        <div key={f.id} style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "10px", fontSize: "0.8rem" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", color: "#cbd5e1", fontWeight: 600, marginBottom: "4px" }}>
+                            <span>{f.title}</span>
+                            <span style={{ textTransform: "uppercase", color: f.severity === "critical" ? "#ef4444" : "#f59e0b" }}>{f.severity}</span>
+                          </div>
+                          <div style={{ color: "#9ca3af" }}>{f.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Feasibility Vector Metrics */}
+                  <div>
+                    <h3 style={{ fontSize: "1rem", color: "#9ca3af", fontWeight: 700, marginBottom: "8px" }}>Scoring Vectors</h3>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "12px", fontSize: "0.8rem" }}>
+                      <div style={{ backgroundColor: "#1f2937", padding: "8px", borderRadius: "6px", textAlign: "center" }}>
+                        <div>Impact</div>
+                        <strong style={{ color: "#38bdf8" }}>{phase.estimatedImpact}</strong>
+                      </div>
+                      <div style={{ backgroundColor: "#1f2937", padding: "8px", borderRadius: "6px", textAlign: "center" }}>
+                        <div>Feasibility</div>
+                        <strong style={{ color: "#34d399" }}>{phase.feasibility}</strong>
+                      </div>
+                      <div style={{ backgroundColor: "#1f2937", padding: "8px", borderRadius: "6px", textAlign: "center" }}>
+                        <div>Risk</div>
+                        <strong style={{ color: "#ef4444" }}>{phase.risk}</strong>
+                      </div>
+                      <div style={{ backgroundColor: "#1f2937", padding: "8px", borderRadius: "6px", textAlign: "center" }}>
+                        <div>Alignment</div>
+                        <strong style={{ color: "#a78bfa" }}>{phase.alignment}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
+
+      {activeTab === "aar" && (
+        <div style={{
+          backgroundColor: "#111827",
+          border: "1px solid #1f2937",
+          borderRadius: "12px",
+          padding: "20px",
+          minHeight: "600px"
+        }}>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "8px" }}>
+            Autonomous Architecture Refactoring (AAR)
+          </h2>
+          <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: "20px" }}>
+            Scans the persistent system Knowledge Graph to locate volatile components with high failure frequencies and suggests isolated patch strategies.
+          </p>
+
+          {isFetchingOpps && refactorOpps.length === 0 ? (
+            <div style={{ color: "#6b7280", textAlign: "center", padding: "40px" }}>
+              Scanning KG for refactoring opportunities...
+            </div>
+          ) : refactorOpps.length === 0 ? (
+            <div style={{ color: "#6b7280", textAlign: "center", padding: "40px" }}>
+              No current fragile modules or boundaries identified. System is highly cohesive.
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+              {refactorOpps.map((opp) => (
+                <div
+                  key={opp.id}
+                  style={{
+                    backgroundColor: "#1f2937",
+                    border: "1px solid #374151",
+                    borderRadius: "8px",
+                    padding: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                      <code style={{ fontSize: "0.85rem", color: "#60a5fa", fontWeight: "bold" }}>
+                        {opp.file}
+                      </code>
+                      <span style={{
+                        fontSize: "0.7rem",
+                        fontWeight: "bold",
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        backgroundColor: opp.severity === "critical" || opp.severity === "high" ? "#7f1d1d" : "#1e293b",
+                        color: opp.severity === "critical" || opp.severity === "high" ? "#fca5a5" : "#cbd5e1",
+                        textTransform: "uppercase"
+                      }}>
+                        {opp.severity} severity
+                      </span>
+                    </div>
+                    <div style={{ fontSize: "0.75rem", color: "#9ca3af", textTransform: "uppercase", marginBottom: "6px" }}>
+                      Refactor Type: {opp.type}
+                    </div>
+                    <p style={{ fontSize: "0.875rem", color: "#cbd5e1", margin: "0 0 12px 0", lineHeight: "1.4" }}>
+                      {opp.description}
+                    </p>
+                    <div style={{ backgroundColor: "#0b0f19", padding: "10px", borderRadius: "6px", fontSize: "0.8rem", color: "#a7f3d0", marginBottom: "16px", fontStyle: "italic" }}>
+                      <strong>Suggested Fix:</strong> {opp.suggestedAction}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => proposeAndApplyRefactor(opp)}
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#8b5cf6",
+                      color: "#ffffff",
+                      border: "none",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      fontWeight: 600,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Propose & Synthesize Refactor
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === "ace" && (
+        <div style={{
+          backgroundColor: "#111827",
+          border: "1px solid #1f2937",
+          borderRadius: "12px",
+          padding: "20px",
+          minHeight: "600px"
+        }}>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 600, color: "#f3f4f6", marginBottom: "8px" }}>
+            Autonomous Capability Expansion (ACE) Center
+          </h2>
+          <p style={{ fontSize: "0.875rem", color: "#9ca3af", marginBottom: "20px" }}>
+            Autonomously scan current architecture parameters to identify missing interfaces, workflows, or agent roles.
+          </p>
+
+          {isFetchingSpecs && capabilitySpecs.length === 0 ? (
+            <div style={{ color: "#6b7280", textAlign: "center", padding: "40px" }}>
+              Analyzing system gaps for expansion blueprints...
+            </div>
+          ) : capabilitySpecs.length === 0 ? (
+            <div style={{ color: "#6b7280", textAlign: "center", padding: "40px" }}>
+              No current capability gaps detected in active context.
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+              {capabilitySpecs.map((spec) => (
+                <div
+                  key={spec.id}
+                  style={{
+                    backgroundColor: "#1f2937",
+                    border: "1px solid #374151",
+                    borderRadius: "8px",
+                    padding: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <div>
+                    <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#f8fafc", margin: "0 0 8px 0" }}>
+                      {spec.title}
+                    </h3>
+                    <p style={{ fontSize: "0.875rem", color: "#cbd5e1", margin: "0 0 12px 0", lineHeight: "1.4" }}>
+                      {spec.description}
+                    </p>
+
+                    <div style={{ marginBottom: "12px" }}>
+                      <span style={{ fontSize: "0.75rem", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Required Interfaces:</span>
+                      <div style={{ display: "flex", gap: "6px" }}>
+                        {spec.requirements && spec.requirements.map((req: string) => (
+                          <code key={req} style={{ backgroundColor: "#0b0f19", color: "#38bdf8", padding: "2px 6px", borderRadius: "4px", fontSize: "0.7rem", fontFamily: "monospace" }}>
+                            {req}
+                          </code>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", fontSize: "0.75rem", color: "#cbd5e1", marginBottom: "16px" }}>
+                      <div>
+                        <strong style={{ color: "#9ca3af" }}>Agents Dispatched:</strong>
+                        <ul style={{ margin: "4px 0 0 0", paddingLeft: "16px" }}>
+                          {spec.suggestedAgents && spec.suggestedAgents.map((a: string) => <li key={a}>{a}</li>)}
+                        </ul>
+                      </div>
+                      <div>
+                        <strong style={{ color: "#9ca3af" }}>Subsystems Created:</strong>
+                        <ul style={{ margin: "4px 0 0 0", paddingLeft: "16px" }}>
+                          {spec.suggestedSubsystems && spec.suggestedSubsystems.map((s: string) => <li key={s}>{s}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => proposeAndApplyCapability(spec)}
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#10b981",
+                      color: "#ffffff",
+                      border: "none",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      fontWeight: 600,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Integrate & Deploy Blueprint
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

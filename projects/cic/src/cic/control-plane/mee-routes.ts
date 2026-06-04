@@ -39,6 +39,11 @@ import { PlannerAgent } from "../../mee/planner-agent.js";
 import { RefactorAgent } from "../../mee/refactor-agent.js";
 import { DocsAgent } from "../../mee/docs-agent.js";
 import { SafetyAgent } from "../../mee/safety-agent.js";
+import { FileMeePhaseSpecStore } from "../../mee/mee-phase-spec-store.js";
+import { MeePhaseGeneratorEngine } from "../../mee/mee-phase-generator-engine.js";
+import { ResearchAgent } from "../../mee/research-agent.js";
+import { MeeArchitectureRefactorEngine } from "../../mee/mee-architecture-refactor-engine.js";
+import { MeeCapabilityExpansionEngine } from "../../mee/mee-capability-expansion-engine.js";
 
 export function registerMeeRoutes(router: Router) {
   const workspaceRoot = process.cwd();
@@ -175,11 +180,18 @@ JSON:`;
   const refactorAgent = new RefactorAgent("agent-refactor-1", "refactor");
   const docsAgent = new DocsAgent("agent-docs-1", "docs");
   const safetyAgent = new SafetyAgent("agent-safety-1", "safety");
+  const researchAgent = new ResearchAgent("agent-research-1", "research");
   
   orchestrator.registerAgent(plannerAgent);
   orchestrator.registerAgent(refactorAgent);
   orchestrator.registerAgent(docsAgent);
   orchestrator.registerAgent(safetyAgent);
+  orchestrator.registerAgent(researchAgent);
+
+  const phaseSpecStore = new FileMeePhaseSpecStore(workspaceRoot);
+  const phaseGeneratorEngine = new MeePhaseGeneratorEngine();
+  const refactorEngine = new MeeArchitectureRefactorEngine();
+  const expansionEngine = new MeeCapabilityExpansionEngine();
 
   const kg = new MeeKnowledgeGraph(ckg);
 
@@ -1561,6 +1573,164 @@ JSON:`;
           details: {}
         }
       });
+    }
+  });
+
+  // --- Phase 43: Autonomous Phase Generation (APG) ---
+  router.get("/mee/phases", (_req, res) => {
+    try {
+      res.json({ ok: true, data: phaseSpecStore.loadAll() });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/phases/generate", async (req, res) => {
+    try {
+      const gaps = trigger.detectTriggers();
+      const findings = gaps.map((gap) => ({
+        id: `finding-${crypto.randomUUID()}`,
+        title: `Research Discovery: ${gap.type}`,
+        description: `Discovered discrepancies in CKG: ${JSON.stringify(gap.payload)}`,
+        evidence: [gap.id],
+        severity: "high" as const,
+        category: "gap" as const,
+        timestamp: Date.now()
+      }));
+
+      if (findings.length === 0) {
+        findings.push({
+          id: `finding-${crypto.randomUUID()}`,
+          title: "Research Discovery: Codebase Verification",
+          description: "Routine verification audit has flagged component test density optimizations.",
+          evidence: [],
+          severity: "low" as const,
+          category: "opportunity" as const,
+          timestamp: Date.now()
+        });
+      }
+
+      const activePhases = phaseSpecStore.loadAll();
+      const nextPhaseNumber = Math.max(42, ...activePhases.map((p) => p.phaseNumber)) + 1;
+
+      const spec = phaseGeneratorEngine.generatePhaseSpec(findings, nextPhaseNumber);
+      phaseSpecStore.add(spec);
+
+      const consensusResult = await phaseGeneratorEngine.runValidationRound(spec, orchestrator, `job-spec-${crypto.randomUUID()}`);
+      
+      res.json({ ok: true, data: { spec, consensusResult } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/phases/:id/approve", async (req, res) => {
+    try {
+      const phase = phaseSpecStore.get(req.params.id);
+      if (!phase) {
+        return res.status(404).json({ ok: false, error: { message: "Phase spec not found" } });
+      }
+      phaseSpecStore.update(phase.id, { status: "approved" });
+
+      const requestText = `Implement objectives for Phase ${phase.phaseNumber}: ${phase.title}. Objectives: ${phase.objectives.join("; ")}`;
+      const job = autonomousEngine.createJob(requestText, "hybrid");
+      await autonomousEngine.startJob(job.id);
+
+      res.json({ ok: true, data: { phase: phaseSpecStore.get(phase.id), job } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/phases/:id/reject", (req, res) => {
+    try {
+      const phase = phaseSpecStore.get(req.params.id);
+      if (!phase) {
+        return res.status(404).json({ ok: false, error: { message: "Phase spec not found" } });
+      }
+      phaseSpecStore.update(phase.id, { status: "rejected" });
+      res.json({ ok: true, data: phaseSpecStore.get(phase.id) });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  // --- Phase 44: Autonomous Architecture Refactoring (AAR) ---
+  router.get("/mee/refactor/opportunities", (_req, res) => {
+    try {
+      const opps = refactorEngine.scan(kg);
+      res.json({ ok: true, data: { opportunities: opps } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/refactor/propose", (req, res) => {
+    try {
+      const { opportunity } = req.body;
+      if (!opportunity) {
+        return res.status(400).json({ ok: false, error: { message: "Opportunity is required" } });
+      }
+      const proposal = refactorEngine.proposeRefactor(opportunity);
+      store.add(proposal);
+      res.json({ ok: true, data: { proposal } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/refactor/apply", async (req, res) => {
+    try {
+      const { proposalId } = req.body;
+      const proposal = store.get(proposalId);
+      if (!proposal) {
+        return res.status(404).json({ ok: false, error: { message: "Proposal not found" } });
+      }
+      await refactorEngine.applyRefactorPatch(proposal, workspaceRoot);
+
+      proposal.status = "applied";
+      store.update(proposal.id, { status: "applied" });
+
+      res.json({ ok: true, data: { proposal } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  // --- Phase 45: Autonomous Capability Expansion (ACE) ---
+  router.get("/mee/expansion/specs", (_req, res) => {
+    try {
+      const specs = expansionEngine.detectGaps(kg);
+      res.json({ ok: true, data: { specs } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/expansion/propose", (req, res) => {
+    try {
+      const { spec } = req.body;
+      if (!spec) {
+        return res.status(400).json({ ok: false, error: { message: "Capability spec is required" } });
+      }
+      const proposal = expansionEngine.generateProposal(spec);
+      store.add(proposal);
+      res.json({ ok: true, data: { proposal } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
+    }
+  });
+
+  router.post("/mee/expansion/apply", async (req, res) => {
+    try {
+      const { spec } = req.body;
+      if (!spec) {
+        return res.status(400).json({ ok: false, error: { message: "Capability spec is required" } });
+      }
+      await expansionEngine.applyExpansion(spec, kg, workspaceRoot);
+      res.json({ ok: true, data: { spec } });
+    } catch (err: any) {
+      res.status(500).json({ ok: false, error: { message: err.message } });
     }
   });
 }

@@ -3,6 +3,31 @@
 
 ---
 
+## This Session: MEE Self-Evolution (Phases 43, 44, 45) (Claude)
+
+**What changed**
+- **Extended MEE Types**: Added `ResearchFinding`, `MeePhaseSpec`, `RefactorOpportunity`, and `MeeCapabilitySpec` to [mee-schema.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-schema.ts), registering the `"research"` agent role.
+- **Phase 43 (APG)**: Implemented [MeePhaseGeneratorEngine](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-generator-engine.ts), [FileMeePhaseSpecStore](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-phase-spec-store.ts), and [ResearchAgent](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/research-agent.ts) to autonomously generate, score, critique, and persist new architectural evolution specs.
+- **Phase 44 (AAR)**: Implemented [MeeArchitectureRefactorEngine](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-architecture-refactor-engine.ts) scanning the CKG/failure logs for design fragility/hotspots and deploying refactoring patches.
+- **Phase 45 (ACE)**: Implemented [MeeCapabilityExpansionEngine](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-capability-expansion-engine.ts) detecting capability gaps and deploying skeleton code modules integrated into the CKG.
+- **Control Plane API**: Registered REST endpoints under `/mee/phases/*`, `/mee/refactor/*`, and `/mee/expansion/*` in [mee-routes.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/cic/control-plane/mee-routes.ts).
+- **UI Console Integration**: Extended [MetaEvolutionConsole.tsx](file:///c:/dev/rewrite-mcp/projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx) with APG, AAR, and ACE sub-panels.
+- **System Docs & Status**: Updated [CIC_SYSTEM.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_SYSTEM.md) (bumped to v14.0.0 with Sections 36-38) and [CIC_PROJECT_STATE.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_PROJECT_STATE.md) (bumped to v1.15.0 with 288 passing tests).
+
+**Tests**
+- Vitest suite: `npx vitest run tests/mee/mee-self-evolution.test.ts` (10/10 PASS).
+- Full suite: `npm test` in `projects/cic` (73 test files, 288 tests PASS).
+- UI stability validation: `npm run cic-ui:sentinel`, `npm run cic-ui:validate`, `npm run cic-ui:smoke`, and `node tools/cic-ui/golden-master.js verify` all pass.
+- MkDocs: Build compiles without drift.
+
+**Next session should start with**
+```bash
+npx vitest run tests/mee/mee-self-evolution.test.ts
+node tools/cic-ui/golden-master.js verify
+```
+
+---
+
 ## This Session: HELM Phase 2 + EIE Attachment Staging (Claude)
 
 **What changed**
