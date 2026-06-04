@@ -130,6 +130,8 @@ export function MetaEvolutionConsole() {
   const [isFetchingScheduler, setIsFetchingScheduler] = useState<boolean>(false);
   const [jobKg, setJobKg] = useState<any>(null);
   const [isFetchingJobKg, setIsFetchingJobKg] = useState<boolean>(false);
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   const fetchSchedulerStatus = async () => {
     setIsFetchingScheduler(true);
@@ -3206,61 +3208,268 @@ export function MetaEvolutionConsole() {
                           <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
                             No Knowledge Graph data recorded.
                           </div>
-                        ) : (
-                          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                            {/* Stats */}
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
-                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
-                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Nodes</span>
-                                <strong style={{ color: "#3b82f6", fontSize: "1.2rem" }}>{jobKg.nodes?.length ?? 0}</strong>
-                              </div>
-                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
-                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Edges</span>
-                                <strong style={{ color: "#10b981", fontSize: "1.2rem" }}>{jobKg.edges?.length ?? 0}</strong>
-                              </div>
-                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
-                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Failures Caused</span>
-                                <strong style={{ color: "#ef4444", fontSize: "1.2rem" }}>
-                                  {jobKg.nodes?.filter((n: any) => n.type === "failure")?.length ?? 0}
-                                </strong>
-                              </div>
-                            </div>
+                        ) : (() => {
+                          const nodes = jobKg.nodes || [];
+                          const edges = jobKg.edges || [];
 
-                            {/* Node Inspector */}
-                            <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
-                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Node List</span>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "180px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
-                                {jobKg.nodes?.map((node: any) => (
-                                  <div key={node.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", borderBottom: "1px solid #1f2937", fontSize: "0.75rem" }}>
-                                    <div>
-                                      <span style={{
-                                        color: node.type === "file" ? "#34d399" : node.type === "task" ? "#60a5fa" : node.type === "failure" ? "#f87171" : "#a855f7",
-                                        fontWeight: "bold",
-                                        marginRight: "8px"
-                                      }}>[{node.type.toUpperCase()}]</span>
-                                      <span style={{ color: "#cbd5e1" }}>{node.name}</span>
+                          // Lay out nodes dynamically in 2D coordinate space
+                          const nodesByType: Record<string, any[]> = {};
+                          nodes.forEach((node: any) => {
+                            if (!nodesByType[node.type]) {
+                              nodesByType[node.type] = [];
+                            }
+                            nodesByType[node.type].push(node);
+                          });
+
+                          const typeKeys = Object.keys(nodesByType);
+                          const nodeCoords: Record<string, { x: number; y: number }> = {};
+                          typeKeys.forEach((type, typeIdx) => {
+                            const x = typeKeys.length === 1 ? 50 : 10 + (typeIdx / (typeKeys.length - 1)) * 80;
+                            const typeNodes = nodesByType[type];
+                            typeNodes.forEach((node: any, idx: number) => {
+                              const y = typeNodes.length === 1 ? 50 : 15 + (idx / (typeNodes.length - 1)) * 70;
+                              nodeCoords[node.id] = { x, y };
+                            });
+                          });
+
+                          const isHighlightedNode = (nodeId: string) => {
+                            if (!hoveredNodeId) return true;
+                            if (nodeId === hoveredNodeId) return true;
+                            return edges.some((e: any) => 
+                              (e.from === hoveredNodeId && e.to === nodeId) ||
+                              (e.to === hoveredNodeId && e.from === nodeId)
+                            );
+                          };
+
+                          const isHighlightedEdge = (edge: any) => {
+                            if (!hoveredNodeId) return true;
+                            return edge.from === hoveredNodeId || edge.to === hoveredNodeId;
+                          };
+
+                          const getNodeColor = (type: string) => {
+                            switch (type) {
+                              case "file": return "#10b981"; // emerald
+                              case "task": return "#3b82f6"; // blue
+                              case "failure": return "#f43f5e"; // rose
+                              case "agent": return "#8b5cf6"; // purple
+                              case "proposal": return "#f59e0b"; // orange/amber
+                              default: return "#6b7280";
+                            }
+                          };
+
+                          const selectedNode = nodes.find((n: any) => n.id === selectedNodeId);
+
+                          return (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                              {/* Stats */}
+                              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                  <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Nodes</span>
+                                  <strong style={{ color: "#3b82f6", fontSize: "1.2rem" }}>{nodes.length}</strong>
+                                </div>
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                  <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Edges</span>
+                                  <strong style={{ color: "#10b981", fontSize: "1.2rem" }}>{edges.length}</strong>
+                                </div>
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                  <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Failures Caused</span>
+                                  <strong style={{ color: "#ef4444", fontSize: "1.2rem" }}>
+                                    {nodes.filter((n: any) => n.type === "failure").length}
+                                  </strong>
+                                </div>
+                              </div>
+
+                              {/* Interactive Graph Canvas */}
+                              <div style={{
+                                position: "relative",
+                                height: "350px",
+                                backgroundColor: "#05050a",
+                                border: "1px solid #1f2937",
+                                borderRadius: "8px",
+                                overflow: "hidden",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
+                              }}>
+                                {/* Connection lines SVG overlay */}
+                                <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
+                                  <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="16" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563" />
+                                    </marker>
+                                    <marker id="arrow-highlight" viewBox="0 0 10 10" refX="16" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8" />
+                                    </marker>
+                                  </defs>
+                                  {edges.map((edge: any, idx: number) => {
+                                    const fromNode = nodeCoords[edge.from];
+                                    const toNode = nodeCoords[edge.to];
+                                    if (!fromNode || !toNode) return null;
+                                    const highlighted = isHighlightedEdge(edge);
+                                    return (
+                                      <line
+                                        key={idx}
+                                        x1={`${fromNode.x}%`}
+                                        y1={`${fromNode.y}%`}
+                                        x2={`${toNode.x}%`}
+                                        y2={`${toNode.y}%`}
+                                        stroke={highlighted ? "#38bdf8" : "#27272a"}
+                                        strokeWidth={highlighted ? 2 : 1}
+                                        strokeDasharray={edge.type === "depends_on" ? "5,5" : undefined}
+                                        markerEnd={highlighted ? "url(#arrow-highlight)" : "url(#arrow)"}
+                                        style={{ transition: "all 0.2s ease" }}
+                                      />
+                                    );
+                                  })}
+                                </svg>
+
+                                {/* Render Nodes absolute */}
+                                {nodes.map((node: any) => {
+                                  const coords = nodeCoords[node.id];
+                                  if (!coords) return null;
+                                  const active = isHighlightedNode(node.id);
+                                  const selected = node.id === selectedNodeId;
+                                  return (
+                                    <div
+                                      key={node.id}
+                                      onMouseEnter={() => setHoveredNodeId(node.id)}
+                                      onMouseLeave={() => setHoveredNodeId(null)}
+                                      onClick={() => setSelectedNodeId(selected ? null : node.id)}
+                                      style={{
+                                        position: "absolute",
+                                        left: `${coords.x}%`,
+                                        top: `${coords.y}%`,
+                                        transform: "translate(-50%, -50%)",
+                                        padding: "6px 12px",
+                                        borderRadius: "16px",
+                                        backgroundColor: getNodeColor(node.type),
+                                        border: selected ? "2px solid #ffffff" : "1px solid rgba(255,255,255,0.1)",
+                                        color: "#ffffff",
+                                        fontSize: "0.7rem",
+                                        fontWeight: 700,
+                                        cursor: "pointer",
+                                        whiteSpace: "nowrap",
+                                        boxShadow: selected ? "0 0 10px #ffffff" : "0 4px 6px -1px rgba(0,0,0,0.3)",
+                                        transition: "all 0.2s ease",
+                                        opacity: active ? 1 : 0.15,
+                                        zIndex: selected || (hoveredNodeId === node.id) ? 10 : 2,
+                                        userSelect: "none"
+                                      }}
+                                    >
+                                      {node.name.length > 18 ? `${node.name.substring(0, 15)}...` : node.name}
                                     </div>
-                                    <code style={{ color: "#6b7280", fontSize: "0.7rem" }}>{node.id.substring(0, 8)}</code>
-                                  </div>
-                                ))}
+                                  );
+                                })}
                               </div>
-                            </div>
 
-                            {/* Edge Inspector */}
-                            <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
-                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Semantic Mappings</span>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "180px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
-                                {jobKg.edges?.map((edge: any, idx: number) => (
-                                  <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", borderBottom: "1px solid #1f2937", fontSize: "0.75rem" }}>
-                                    <span style={{ color: "#cbd5e1" }}>{edge.from.substring(0, 8)}</span>
-                                    <span style={{ color: "#fb923c", fontWeight: 600 }}>&mdash; {edge.type} &rarr;</span>
-                                    <span style={{ color: "#cbd5e1" }}>{edge.to.substring(0, 8)}</span>
+                              {/* Selected Node Details inspector */}
+                              {selectedNode && (
+                                <div style={{
+                                  backgroundColor: "#0b0f19",
+                                  border: `1px solid ${getNodeColor(selectedNode.type)}50`,
+                                  borderRadius: "8px",
+                                  padding: "12px",
+                                  fontSize: "0.8rem",
+                                  animation: "fadeIn 0.2s ease"
+                                }}>
+                                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                                    <span style={{
+                                      fontSize: "0.7rem",
+                                      fontWeight: "bold",
+                                      textTransform: "uppercase",
+                                      padding: "2px 6px",
+                                      borderRadius: "4px",
+                                      backgroundColor: getNodeColor(selectedNode.type) + "20",
+                                      color: getNodeColor(selectedNode.type)
+                                    }}>
+                                      {selectedNode.type} Node
+                                    </span>
+                                    <code style={{ color: "#6b7280" }}>{selectedNode.id}</code>
                                   </div>
-                                ))}
+                                  <div style={{ color: "#f8fafc", fontWeight: 600, fontSize: "0.9rem", marginBottom: "6px" }}>
+                                    {selectedNode.name}
+                                  </div>
+                                  {selectedNode.meta && Object.keys(selectedNode.meta).length > 0 && (
+                                    <div style={{ marginTop: "8px" }}>
+                                      <span style={{ color: "#6b7280", fontSize: "0.75rem", display: "block", marginBottom: "4px" }}>Metadata:</span>
+                                      <pre style={{
+                                        margin: 0,
+                                        padding: "8px",
+                                        backgroundColor: "#05050a",
+                                        color: "#38bdf8",
+                                        borderRadius: "4px",
+                                        fontFamily: "monospace",
+                                        fontSize: "0.75rem",
+                                        overflowX: "auto"
+                                      }}>{JSON.stringify(selectedNode.meta, null, 2)}</pre>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Traditional tables collapsible/simplified */}
+                              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                                {/* Node Inspector list */}
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
+                                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Node List</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "150px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
+                                    {nodes.map((node: any) => (
+                                      <div
+                                        key={node.id}
+                                        onClick={() => setSelectedNodeId(node.id === selectedNodeId ? null : node.id)}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                          padding: "6px 10px",
+                                          borderBottom: "1px solid #1f2937",
+                                          fontSize: "0.75rem",
+                                          cursor: "pointer",
+                                          backgroundColor: node.id === selectedNodeId ? "rgba(255,255,255,0.05)" : "transparent"
+                                        }}
+                                      >
+                                        <div>
+                                          <span style={{ color: getNodeColor(node.type), fontWeight: "bold", marginRight: "8px" }}>
+                                            [{node.type.toUpperCase()}]
+                                          </span>
+                                          <span style={{ color: "#cbd5e1" }}>{node.name}</span>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Semantic connections list */}
+                                <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
+                                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Semantic Connections</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "150px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
+                                    {edges.map((edge: any, idx: number) => {
+                                      const isHighlighted = isHighlightedEdge(edge);
+                                      return (
+                                        <div
+                                          key={idx}
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            padding: "6px 10px",
+                                            borderBottom: "1px solid #1f2937",
+                                            fontSize: "0.75rem",
+                                            opacity: isHighlighted ? 1 : 0.4
+                                          }}
+                                        >
+                                          <span style={{ color: "#cbd5e1" }}>{edge.from.substring(0, 8)}</span>
+                                          <span style={{ color: "#fb923c", fontWeight: 600 }}>&mdash; {edge.type} &rarr;</span>
+                                          <span style={{ color: "#cbd5e1" }}>{edge.to.substring(0, 8)}</span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
+                          );
+                        })()}
                       </div>
                     )}
                   </div>
