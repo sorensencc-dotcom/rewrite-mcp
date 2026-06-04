@@ -110,38 +110,44 @@ Natural language command bar. Triggers actions without leaving HELM:
 
 ## Build Phases
 
-### Phase 1 — Foundation (Now)
-- [ ] Connect Era Context MCP for real bank/account data
-- [ ] Build TODAY column as first Cowork live artifact
-- [ ] Wire Calendar agenda + @Action Required + upcoming payments
-- [ ] `askClaude` morning brief at top of artifact
-- [ ] Update scheduled triage task to include agenda in output
+### Phase 1 — Foundation ✅ COMPLETE (2026-06-04)
+- [x] Connect Era Context MCP for real bank/account data
+- [x] Build TODAY column as first Cowork live artifact
+- [x] Wire Calendar agenda + @Action Required + upcoming payments
+- [x] `askClaude` morning brief at top of artifact
+- [x] Gmail triage label counts surfaced
 
-### Phase 2 — Finance OS
-- [ ] Finance panel: net worth, cash flow, upcoming bills
-- [ ] Parse Gmail financial alerts into structured Finance signals
-- [ ] Credit score delta display
-- [ ] Investment portfolio pulse (Robinhood + Coinbase via Gmail)
-- [ ] Era Context real balance integration
+### Phase 2 — Finance OS ✅ COMPLETE (2026-06-04)
+- [x] Finance panel: composite net worth, cash flow, upcoming bills
+- [x] Era Context real balance integration (2-account free tier)
+- [x] Full 10-account snapshot via rotation workflow — $2,059,038 NW
+  - Live: Citizens One Deposit + Fidelity My Checking
+  - Snapshot: 401k, FACTSET Plan, State Street SS, Rollover IRA, HSA, Olivia's 529, Joint Checking
+- [x] Market alerts from Gmail (Coinbase, Simply Wall St)
+- [x] Investment proportion bar visualization
+- [ ] Credit score delta display (Credit Karma Gmail parsing — Phase 3)
+- [ ] Full Era Context paid tier (unlock all accounts live)
 
-### Phase 3 — Business Layer
-- [ ] Rewrite Labs pipeline panel from HubSpot
-- [ ] CIC phase status + last run indicator
-- [ ] Outreach queue surface
-- [ ] Open deals / revenue tracker
+### Phase 3 — Business Layer (Next)
+- [ ] RL pipeline panel — live HubSpot deals with stage, amount, close date
+- [ ] CIC live status — read from `intel.log` or pipeline health endpoint
+- [ ] CIC phase progress — derive from git log or HANDOFF.md
+- [ ] Outreach queue surface from HubSpot
+- [ ] Revenue pipeline total
+- [ ] Credit score delta widget from Gmail Credit Karma alerts
 
 ### Phase 4 — Command & Intelligence
-- [ ] Natural language command bar
-- [ ] Cross-domain correlation alerts ("payment due + portfolio down")
-- [ ] Anomaly detection ("spend 23% above average this month")
-- [ ] Weekly summary view (vs. daily)
-- [ ] Mobile-optimized narrow layout
+- [ ] Natural language command bar (`sendPrompt` integration)
+- [ ] Cross-domain correlation alerts ("payment due + portfolio down this week")
+- [ ] Anomaly detection ("spend 23% above 3-month average")
+- [ ] Weekly digest view (vs. daily)
+- [ ] Snapshot refresh prompt — remind Chris to rotate when >30 days stale
 
-### Phase 5 — Split Views
-- [ ] Separate Personal OS vs. Business OS views
-- [ ] Role-switching (personal mode vs. operator mode)
-- [ ] Configurable panel layout
-- [ ] Dark/light theme toggle
+### Phase 5 — Split Views & Polish
+- [ ] Personal OS vs. Business OS tab switching
+- [ ] Configurable panel layout (drag to reorder)
+- [ ] Investment snapshot auto-refresh workflow (CSV import or custom Fidelity connector)
+- [ ] Mobile-optimized narrow layout
 
 ---
 

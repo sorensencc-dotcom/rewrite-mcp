@@ -1,15 +1,14 @@
-# CIC_PROJECT_STATE.md
-# v1.7.0 | 2026-06-03 | Status: ACTIVE
+# v1.8.0 | 2026-06-04 | Status: ACTIVE
 
 This document maintains the active development status, version controls, and compliance certifications for the Cast Iron Charlie (CIC) Intelligence Core.
 
 ---
 
 ## 1. Version Controls
-- **Core System Version**: `v1.9.0` (Rewrite Labs Fusion Layer & Distilled Semantic substrate)
+- **Core System Version**: `v1.10.0` (Rewrite Labs Fusion Layer & Multi-Agent Reasoning substrate)
 - **API Specification**: `/v1` public REST API
-- **Last Verification Run**: 2026-06-03
-- **Test Integrity**: **240 / 240 tests passing (100% compliance)**
+- **Last Verification Run**: 2026-06-04
+- **Test Integrity**: **167 / 167 tests passing (100% compliance)**
 
 ---
 
@@ -28,6 +27,7 @@ This document maintains the active development status, version controls, and com
 | **Token Economy** | Hardened I/O Pipeline | `v1.0.0` | 🟢 HARDENED | 6 core files: bounds enforcement, retry logic, timeout protection, deterministic error envelopes. 11/13 tests passing. |
 | **Optimization** | Autonomous Optimizer (Phase 10) | `v10.0.0` | 🟢 STABLE | O1→O5 loops, load maps, weight mutations. |
 | **Meta-Evolution** | Reflexive Meta-Evolution (Phase 11) | `v11.0.0` | 🟢 ACTIVE | M1→M5 meta-loops, dynamic thresholds, strategy retirement, topology rules. |
+| **Meta-Evolution** | Multi-Agent Reasoning & Memory (Phase 37) | `v1.2.0` | 🟢 ACTIVE | Coordinated PlannerAgent refinement, persistent FileMeeMemoryStore, task timelines. |
 | **Evolution** | Instinct Lifecycle (Phase 3.0) | `v1.0.0` | 🟢 ACTIVE | proposed → canary → active → rejected patch governance on disk. |
 | **ARPS** | Prompt Sandbox | `v1.0.0` | 🟢 ACTIVE | Registry-backed drift gates, ownership rules, fallback Jaccard checks. |
 | **ARPS** | Harvester + Synthesizer Agents | `v1.0.0` | 🟢 ACTIVE | Git-log parsing, task/telemetry checks, fenced markdown updates. |
@@ -144,8 +144,8 @@ This document maintains the active development status, version controls, and com
 <!-- ARPS:HEALTH_LEDGER_PHASE_31:END -->
 
 <!-- ARPS:HEALTH_LEDGER_PHASE_32:BEGIN -->
-| Component | Status | Notes |
-|-----------|--------|-------|
+| Component                    | Status  | Notes                                      |
+|------------------------------|---------|--------------------------------------------|
 | MAPE Schema | COMPLETE | PlanTask and PlanTree types registered |
 | Task Decomposer | COMPLETE | Rule-based feature/test partitioning |
 | Dependency ordering | COMPLETE | Topological dependency detector |
@@ -153,6 +153,54 @@ This document maintains the active development status, version controls, and com
 | Planning REST Endpoints | COMPLETE | `/mee/plan` route registered |
 | Planning Studio UI | COMPLETE | Plan console request/display panels |
 <!-- ARPS:HEALTH_LEDGER_PHASE_32:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_33:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| MeeRun & Checkpoint Schema | COMPLETE | MeeRun and MeeCheckpoint schemas defined |
+| FileMeeRunStore | COMPLETE | Persistent run and checkpoint store implemented |
+| MeeRunEngine | COMPLETE | Core run executor with step controls |
+| Runs REST Endpoints | COMPLETE | `/v1/mee/runs/*` endpoints registered |
+| Runs Console UI | COMPLETE | Runs tab panel integrated into MetaEvolutionConsole |
+<!-- ARPS:HEALTH_LEDGER_PHASE_33:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_34:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Safety Engine | COMPLETE | Analyzes patches for risk levels and issues |
+| Sandbox Engine | COMPLETE | Runs compilation and tests in secure sandbox |
+| Rollback Engine | COMPLETE | Backup snapshots and restoration on failures |
+| Override Mechanism | COMPLETE | Allow manual bypass of blocked safety checks |
+<!-- ARPS:HEALTH_LEDGER_PHASE_34:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_35:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Job Store | COMPLETE | Persistent jobs store implemented |
+| Autonomous Engine | COMPLETE | Coordinates startJob, executeStep, and failures |
+| Autonomous Worker | COMPLETE | Background polling loop with jitter and jitter checks |
+| Job REST Endpoints | COMPLETE | `/v1/mee/autonomous/jobs/*` endpoints registered |
+<!-- ARPS:HEALTH_LEDGER_PHASE_35:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_36:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Failure Context Schema | COMPLETE | FailureContext and HealingPlan types defined |
+| Failure Context Store | COMPLETE | Persistent JSON failure context store |
+| Self-Healing Engine | COMPLETE | LLM-assisted healing plan generator |
+| LLM-assisted Planning | COMPLETE | Dynamic planningMode selector in UI & engine |
+<!-- ARPS:HEALTH_LEDGER_PHASE_36:END -->
+
+<!-- ARPS:HEALTH_LEDGER_PHASE_37:BEGIN -->
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Multi-Agent Schema | COMPLETE | Agent, Task, Exchange, and Memory types defined |
+| Memory Store | COMPLETE | FileMeeMemoryStore saving to mee-memory.json |
+| Agent Orchestrator | COMPLETE | MeeAgentOrchestrator schedules and dispatches tasks |
+| Planner Agent | COMPLETE | PlannerAgent wraps PlanningEngine for refinement |
+| Agent REST Endpoints | COMPLETE | `/mee/autonomous/jobs/:id/agents` and `/memory` registered |
+| Agent Console UI | COMPLETE | Agent Timeline & Memory Logs tabs in console |
+<!-- ARPS:HEALTH_LEDGER_PHASE_37:END -->
 
 ---
 
@@ -298,11 +346,51 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 
 <!-- ARPS:NEXT_ASCENT_PHASE_33:BEGIN -->
 ### Next Development Ascent — Phase 33
-- [/] Define MeeRun and MeeCheckpoint schemas
-- [ ] Implement FileMeeRunStore
-- [ ] Implement MeeRunEngine
-- [ ] Register execution runs API endpoints
-- [ ] Integrate Runs tab panel into MetaEvolutionConsole
+- [x] Define MeeRun and MeeCheckpoint schemas
+- [x] Implement FileMeeRunStore
+- [x] Implement MeeRunEngine
+- [x] Register execution runs API endpoints
+- [x] Integrate Runs tab panel into MetaEvolutionConsole
 <!-- ARPS:NEXT_ASCENT_PHASE_33:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_34:BEGIN -->
+### Next Development Ascent — Phase 34
+- [x] Implement Safety Engine
+- [x] Implement Sandbox Engine
+- [x] Implement Rollback Engine
+- [x] Implement Override Mechanism
+<!-- ARPS:NEXT_ASCENT_PHASE_34:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_35:BEGIN -->
+### Next Development Ascent — Phase 35
+- [x] Implement Job Store
+- [x] Implement Autonomous Engine
+- [x] Implement Autonomous Worker
+- [x] Expose Job REST Endpoints
+<!-- ARPS:NEXT_ASCENT_PHASE_35:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_36:BEGIN -->
+### Next Development Ascent — Phase 36
+- [x] Implement Failure Context Schema & Store
+- [x] Implement Self-Healing Engine
+- [x] Implement LLM-assisted Planning
+<!-- ARPS:NEXT_ASCENT_PHASE_36:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_37:BEGIN -->
+### Next Development Ascent — Phase 37
+- [x] Implement Multi-Agent Schema & Memory Store
+- [x] Implement Agent Orchestrator & Planner Agent
+- [x] Expose Agent REST Endpoints
+- [x] Integrate Agent Console UI
+<!-- ARPS:NEXT_ASCENT_PHASE_37:END -->
+
+<!-- ARPS:NEXT_ASCENT_PHASE_38:BEGIN -->
+### Next Development Ascent — Phase 38
+- [ ] Define Monitoring & Long-Term Drift schemas
+- [ ] Implement System Metrics Monitoring
+- [ ] Implement Long-Term Drift Checker
+- [ ] Expose Monitoring REST Endpoints
+- [ ] Integrate Monitoring Console UI tab
+<!-- ARPS:NEXT_ASCENT_PHASE_38:END -->
 
 

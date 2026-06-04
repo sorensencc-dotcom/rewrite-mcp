@@ -37,7 +37,20 @@
     "release:bundle": "node tools/release-bundle.mjs",
     "release:full": "npm run doc:drift && npm run build-docs && npm run release:notes && npm run release:diff && npm run release:timeline && npm run release:tag && npm run release:bundle",
     "doc:drift": "node tools/doc-drift-check.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "bench:capture": "node benchmarks/capture/capture.js",
+    "bench:metadata": "npx ts-node benchmarks/tools/extractMetadata.ts",
+    "bench:opus-sonnet": "npx ts-node benchmarks/tools/opusSonnetBenchmark.ts",
+    "bench:render": "npx ts-node benchmarks/tools/renderBenchmark.ts",
+    "bench:stc": "npx ts-node benchmarks/tools/screenshotToCodeHarness.ts",
+    "bench:status": "npx ts-node tests/utils/generateStatus.ts",
+    "bench:all": "npm run bench:capture && npm run bench:metadata && npm run bench:opus-sonnet",
+    "test:rewrite": "npx ts-node tests/rewrite/runRewriteTests.ts",
+    "test:render": "npx ts-node tests/render/runRenderTests.ts",
+    "test:stc": "npx ts-node tests/stc/runStcTests.ts",
+    "test:metadata": "npx ts-node tests/metadata/runMetadataTests.ts",
+    "test:rewrite-labs": "npx ts-node tests/runAll.ts",
+    "ci": "npm run bench:metadata && npm run test:rewrite-labs"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",

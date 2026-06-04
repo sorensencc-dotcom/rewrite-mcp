@@ -838,8 +838,116 @@ Provide a self-evolution substrate enabling CIC to analyze its own architecture,
 
 ---
 
-**Version:** 11.0.0  
-**Last Updated:** 2026-06-03  
+<!-- ARPS:SYSTEM_PHASE_31:BEGIN -->
+## Section 26 — Self‑Refactor Studio (SRE)
+
+### Purpose
+Allows CIC to autonomously scan, identify, and refactor its own source code components based on AST parsing (cyclomatic complexity, dead code, boundaries).
+
+### Components
+- **Refactor Insights & Plans** ([mee-schema.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-schema.ts))
+- **Static AST Analysis Engine** ([self-refactor-engine.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/self-refactor/self-refactor-engine.ts))
+- **REST Endpoints** (`/mee/refactor/*`)
+- **Self-Refactor Studio UI panel**
+<!-- ARPS:SYSTEM_PHASE_31:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_32:BEGIN -->
+## Section 27 — Planning Studio (MAPE)
+
+### Purpose
+Enables step-by-step task decomposition and topological dependency ordering for high-level instructions.
+
+### Components
+- **PlanTask & PlanTree schemas**
+- **Task Decomposer**
+- **Dependency ordering engine**
+- **REST Endpoints** (`/mee/plan`)
+- **Planning Studio UI panel**
+<!-- ARPS:SYSTEM_PHASE_32:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_33:BEGIN -->
+## Section 28 — Runs Engine & Checkpoint Manager (MeeRun)
+
+### Purpose
+Manages execution runs of patch sets, supporting state checkpointing and recovery steps.
+
+### Components
+- **MeeRun & Checkpoint schemas**
+- **FileMeeRunStore**
+- **MeeRunEngine**
+- **REST Endpoints** (`/v1/mee/runs/*`)
+- **Runs tab panel in UI console**
+<!-- ARPS:SYSTEM_PHASE_33:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_34:BEGIN -->
+## Section 29 — Safety Gates & Sandbox Validation
+
+### Purpose
+Prevents execution drift and system instability by dry-running patches in a secure compilation/test sandbox.
+
+### Components
+- **Safety Engine**: RISK analyzer for patch sets.
+- **Sandbox Engine**: Bounded compilation/test execution environment.
+- **Rollback Engine**: Safe restore of filesystem state.
+- **Safety Overrides**: Operator capability to bypass safety gates.
+<!-- ARPS:SYSTEM_PHASE_34:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_35:BEGIN -->
+## Section 30 — Autonomous Build Loops (ABM)
+
+### Purpose
+Coordinates the complete background lifecycle of proposal planning, sandboxing, validation, and patching.
+
+### Components
+- **Job Store**: Durable job state tracking.
+- **Autonomous Engine**: Coordinates step execution loops.
+- **Autonomous Worker**: Background loops with exponential backoff and jitter.
+- **REST Endpoints** (`/v1/mee/autonomous/jobs/*`)
+<!-- ARPS:SYSTEM_PHASE_35:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_36:BEGIN -->
+## Section 31 — Self‑Healing & LLM‑Assisted Planning
+
+### Purpose
+Allows autonomous build jobs to capture failure context on compilation/test blocks, formulate self-healing plans, and execute repairs.
+
+### Components
+- **Failure Context Schema & Store**
+- **Self-Healing Engine**: LLM-assisted repair suggestions.
+- **Dynamic Planning**: Planning mode selectors in UI and API (deterministic, LLM, hybrid).
+<!-- ARPS:SYSTEM_PHASE_36:END -->
+
+---
+
+<!-- ARPS:SYSTEM_PHASE_37:BEGIN -->
+## Section 32 — Multi‑Agent Reasoning & Memory (MEE-Agent)
+
+### Purpose
+Coordinates specialized agents over long-running jobs and persists reasoning experiences in a long-horizon memory store.
+
+### Components
+- **Multi-Agent Schema**: Agent, Task, and Exchange data structures.
+- **FileMeeMemoryStore**: Persistent `mee-memory.json` memory log repository.
+- **MeeAgentOrchestrator**: Core task schedule and dispatch manager.
+- **Planner Agent**: Refines initial goals using agent task exchanges.
+- **Agent REST Endpoints**: API routes for timeline tasks and memory queries.
+- **Console UI tabs**: Timeline and Memory visual logs.
+<!-- ARPS:SYSTEM_PHASE_37:END -->
+
+---
+
+**Version:** 12.0.0  
+**Last Updated:** 2026-06-04  
 **Owner:** CIC-SYSTEM  
 **Status:** ACTIVE  
 
