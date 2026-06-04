@@ -1,0 +1,27 @@
+benchmarks/tools/opusSonnetBenchmark.ts
+  s_7eb04519120919::t_03cfdd9bf7f7af 1-113
+Makefile
+  s_7eb04519120919::t_1b248d417dece2 1-41
+benchmarks/tools/renderBenchmark.ts
+  s_7eb04519120919::t_d470683d4bc1f0 1-113
+benchmarks/tools/screenshotToCodeHarness.ts
+  s_7eb04519120919::t_4f1d61e4b2da86 1-79
+benchmarks/tools/extractMetadata.ts
+  s_7eb04519120919::t_d59df5811f0dd1 1-159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "ba89892c1c4e0fa0e090290588bd71355116bb78",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
