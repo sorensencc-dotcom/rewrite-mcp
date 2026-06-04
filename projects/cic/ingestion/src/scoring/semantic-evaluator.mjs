@@ -53,7 +53,7 @@ Respond with ONLY valid JSON (no markdown, no code blocks):
  * @param {Object} metadata      — { intent, user_id, correlation_id }
  * @returns {Promise<SemanticScore>}
  */
-export async function evaluateSemantics(content, metadata = {}) {
+async function evaluateSemantics(content, metadata = {}) {
   try {
     const text = _extractText(content);
     const { intent = 'general', correlation_id } = metadata;
@@ -146,7 +146,7 @@ export async function evaluateSemantics(content, metadata = {}) {
  * @param {Array<{content: string, metadata?: Object}>} items
  * @returns {Promise<Array<SemanticScore>>}
  */
-export async function evaluateSemanticsBatch(items) {
+async function evaluateSemanticsBatch(items) {
   return Promise.all(
     items.map(({ content, metadata }) => evaluateSemantics(content, metadata))
   );

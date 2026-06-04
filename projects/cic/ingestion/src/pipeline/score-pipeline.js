@@ -22,6 +22,7 @@
 import { scoreContent } from '../scoring/scoring-engine.mjs';
 import { log } from '../logging/logger.js';
 import crypto from 'node:crypto';
+import { computeContextEfficiencyScore } from '../lib/headroomAutotune.js';
 
 const MODULE = 'score-pipeline';
 
@@ -55,7 +56,7 @@ const MODULE = 'score-pipeline';
  * @param {ScoringPipelineInput} input
  * @returns {Promise<ScoringPipelineResult>}
  */
-export async function runScoringPipeline({
+async function runScoringPipeline({
   content,
   user_id = 'anonymous',
   url = null,
@@ -93,6 +94,7 @@ export async function runScoringPipeline({
       duration_ms,
     });
 
+    const efficiency = computeContextEfficiencyScore();
     return {
       correlation_id,
       user_id,
@@ -103,6 +105,9 @@ export async function runScoringPipeline({
       suggestions: scoringResult.suggestions,
       metadata: scoringResult.metadata,
       duration_ms,
+      contextEfficiencyScore: efficiency.score,
+      contextEfficiencyCompression: efficiency.avgCompression,
+      contextEfficiencyLatency: efficiency.avgLatency,
     };
   } catch (err) {
     log.error('scoring_pipeline_failed', {
@@ -123,7 +128,7 @@ export async function runScoringPipeline({
  * @param {Array<ScoringPipelineInput>} items
  * @returns {Promise<Array<ScoringPipelineResult>>}
  */
-export async function runScoringPipelineBatch(items) {
+async function runScoringPipelineBatch(items) {
   return Promise.all(
     items.map(input => runScoringPipeline(input))
   );
@@ -135,7 +140,7 @@ export async function runScoringPipelineBatch(items) {
  * @param {ScoringPipelineInput & { systems?: Array<string> }} input
  * @returns {Promise<ScoringPipelineResult>}
  */
-export async function runScoringPipelinePartial({
+async function runScoringPipelinePartial({
   content,
   user_id = 'anonymous',
   url = null,
@@ -166,6 +171,7 @@ export async function runScoringPipelinePartial({
       duration_ms,
     });
 
+    const efficiency = computeContextEfficiencyScore();
     return {
       correlation_id,
       user_id,
@@ -176,6 +182,9 @@ export async function runScoringPipelinePartial({
       suggestions: [],
       metadata: scoringResult.metadata,
       duration_ms,
+      contextEfficiencyScore: efficiency.score,
+      contextEfficiencyCompression: efficiency.avgCompression,
+      contextEfficiencyLatency: efficiency.avgLatency,
     };
   } catch (err) {
     log.error('scoring_pipeline_partial_failed', {

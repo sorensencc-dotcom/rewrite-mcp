@@ -48,7 +48,7 @@ const RULES = {
  * @param {string|Object} content — HTML string or DOM object
  * @returns {Promise<HeuristicScore>}
  */
-export async function applyHeuristicRules(content) {
+async function applyHeuristicRules(content) {
   try {
     const text = _extractText(content);
     const words = _tokenizeWords(text);

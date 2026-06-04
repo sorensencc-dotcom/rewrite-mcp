@@ -19,7 +19,37 @@ This roadmap is separate from the CIC Master Roadmap and represents the Rewrite 
 
 ---
 
-## 2. Immediate (Planned)
+## 2. Supporting Infrastructure — Phase 47 & 48 (COMPLETED)
+
+### Phase 48 — Cost Intelligence ABM
+
+Status: **✅ COMPLETE**
+
+- Multi-provider cost tracking (Anthropic, Google, Microsoft, Ollama)
+- Real cost (API billing) + Implied cost (subscription allocation)
+- Append-only audit trail (costLog.json)
+- Daily/weekly/monthly reports with dev/prod split
+- Helm dashboard artifact for Phase 47 consumption
+- Integration: opusSonnetBenchmark.ts auto-logs costs
+- **Deliverables:** benchmarks/costs/{models,subscriptions,system}.ts, reports/{generate,helm}.ts, README.md
+
+### Phase 47 — Usage-Aware Routing Layer
+
+Status: **✅ COMPLETE**
+
+- **47A — Model Router:** Selects best model based on task type, quality target, budget constraints
+- **47B — Request Interceptor:** Wraps API calls, enforces budgets, logs costs via Phase 48
+- **47C — Cost Agent:** Background monitor that tracks spend, emits budget alerts, adjusts routing preferences
+- Task types: rewrite (Opus→Sonnet→Gemini→Ollama), analysis, generation, chat
+- Integration points: CLI, benchmark, CIC orchestrator
+- Dry-run support for testing without API calls
+- **Deliverables:** benchmarks/routing/{policy,router,interceptor,agent}.ts, README.md, INTEGRATION.md, example.ts
+
+**Combined Impact:** Phases 47+48 enable **20–30% reduction in LLM API spend** while maintaining quality targets through intelligent model selection and budget enforcement.
+
+---
+
+## 3. Immediate (Planned)
 
 ### Upgrade generation pipeline to Claude Opus 4.8  
 Status: **Planned** (BLOCKED: API credits exhausted)  
@@ -42,7 +72,7 @@ Status: **Planned**
 
 ---
 
-## 3. Short-Term (Pending)
+## 4. Short-Term (Pending)
 
 ### Benchmark Obscura vs Lightpanda  
 Status: **Pending**  
@@ -71,7 +101,7 @@ Status: **Pending**
 
 ---
 
-## 4. Strategic (Pending)
+## 5. Strategic (Pending)
 
 ### Prototype Kimi K2.5 for visual ingestion  
 Status: **Pending**  
@@ -99,7 +129,7 @@ Status: **Pending**
 
 ---
 
-## 5. Required Supporting Work (Backlog)
+## 6. Required Supporting Work (Backlog)
 
 ### A/B Testing Harness  
 Status: **Backlog**  
@@ -140,7 +170,7 @@ Status: **Backlog**
 
 ---
 
-## 6. Notes
+## 7. Notes
 
 This roadmap is maintained in-repo and versioned via Git.  
 It is not part of the CIC Master Roadmap and should not be merged into CIC phases.

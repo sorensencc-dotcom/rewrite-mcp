@@ -118,12 +118,28 @@ describe("MeeAutonomousEngine & Worker", () => {
 
     // Clean up created proposal md files
     const proposals = proposalStore.loadAll();
-    proposals.forEach((p) => {
+    for (const p of proposals) {
       const docPath = path.resolve(process.cwd(), `docs/mee/proposal-${p.id}.md`);
       if (fs.existsSync(docPath)) {
-        fs.unlinkSync(docPath);
+        let deleted = false;
+        for (let attempt = 0; attempt < 5; attempt++) {
+          try {
+            fs.unlinkSync(docPath);
+            deleted = true;
+            break;
+          } catch (e) {
+            await new Promise((r) => setTimeout(r, 50));
+          }
+        }
+        if (!deleted) {
+          try {
+            fs.unlinkSync(docPath);
+          } catch (e) {
+            console.warn(`[Cleanup] Failed to unlink ${docPath}:`, e.message);
+          }
+        }
       }
-    });
+    }
   });
 
   it("fails job on safety block", async () => {

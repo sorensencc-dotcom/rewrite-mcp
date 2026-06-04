@@ -46,7 +46,7 @@ const A11Y_RULES = {
  * @param {string|Object} content — HTML string or DOM object
  * @returns {Promise<A11yScore>}
  */
-export async function checkAccessibility(content) {
+async function checkAccessibility(content) {
   try {
     const doc = _parseContent(content);
 
@@ -91,7 +91,7 @@ export async function checkAccessibility(content) {
  * @param {Array<{content: string, metadata?: Object}>} items
  * @returns {Promise<Array<A11yScore>>}
  */
-export async function checkAccessibilityBatch(items) {
+async function checkAccessibilityBatch(items) {
   return Promise.all(
     items.map(({ content }) => checkAccessibility(content))
   );

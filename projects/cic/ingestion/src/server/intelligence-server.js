@@ -22,7 +22,13 @@
 import 'dotenv/config';
 import http           from 'node:http';
 import crypto         from 'node:crypto';
+import fs             from 'node:fs';
+import path           from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { ask, ingestChunk } from '../llm/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { runPipeline }      from '../pipeline/run-pipeline.js';
 import { log }              from '../logging/logger.js';
 import {
@@ -33,6 +39,10 @@ import {
   rollbackPlaybook,
   evolvePlaybookCycle
 } from '../playbook/index.js';
+import { getHeadroomTelemetry } from '../lib/headroomTelemetry.js';
+import { getHeadroomAutotuneState } from '../lib/headroomAutotune.js';
+import { evaluatePolicies, getPolicyState } from '../lib/headroomPolicyEngine.js';
+
 
 const PORT    = parseInt(process.env.PORT ?? '4000', 10);
 const TOKEN   = process.env.INTELLIGENCE_TOKEN;  // optional shared secret
@@ -196,6 +206,20 @@ async function handlePlaybookEvolve(req, res) {
   send(res, 200, result);
 }
 
+async function handleTelemetryHeadroom(req, res) {
+  send(res, 200, getHeadroomTelemetry());
+}
+
+async function handleTelemetryHeadroomAutotune(req, res) {
+  send(res, 200, getHeadroomAutotuneState());
+}
+
+async function handleTelemetryHeadroomPolicy(req, res) {
+  evaluatePolicies();
+  send(res, 200, getPolicyState());
+}
+
+
 // ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
@@ -211,20 +235,65 @@ const ROUTES = {
   'POST /playbook/simulate': handlePlaybookSimulate,
   'POST /playbook/promote':  handlePlaybookPromote,
   'POST /playbook/evolve':   handlePlaybookEvolve,
+  'GET /telemetry/headroom': handleTelemetryHeadroom,
+  'GET /telemetry/headroom-autotune': handleTelemetryHeadroomAutotune,
+  'GET /telemetry/headroom-policy': handleTelemetryHeadroomPolicy,
 };
+
 
 // ---------------------------------------------------------------------------
 // Server bootstrap
 // ---------------------------------------------------------------------------
 
 const server = http.createServer(async (req, res) => {
-  const key = `${req.method} ${req.url?.split('?')[0]}`;
+  const urlPath = req.url?.split('?')[0] ?? '';
+  if (req.method === 'GET' && (urlPath === '/dashboard' || urlPath.startsWith('/dashboard/'))) {
+    let subPath = urlPath === '/dashboard' ? 'index.html' : urlPath.substring('/dashboard/'.length);
+    if (!subPath || subPath === '/') subPath = 'index.html';
 
-  // Auth check (skip /health)
-  if (req.url !== '/health' && !checkToken(req)) {
+    const dashboardDir = path.resolve(__dirname, '../../dashboard');
+    const filePath = path.join(dashboardDir, subPath);
+
+    if (!filePath.startsWith(dashboardDir)) {
+      res.writeHead(403, { 'Content-Type': 'text/plain' });
+      res.end('Forbidden');
+      return;
+    }
+
+    fs.readFile(filePath, (err, content) => {
+      if (err) {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+        return;
+      }
+
+      const ext = path.extname(filePath);
+      const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'application/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json'
+      };
+      res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' });
+      res.end(content);
+    });
+    return;
+  }
+
+  const key = `${req.method} ${urlPath}`;
+
+  // Auth check (skip /health, /telemetry/headroom, /telemetry/headroom-autotune, and /telemetry/headroom-policy)
+  if (
+    req.url !== '/health' &&
+    req.url !== '/telemetry/headroom' &&
+    req.url !== '/telemetry/headroom-autotune' &&
+    req.url !== '/telemetry/headroom-policy' &&
+    !checkToken(req)
+  ) {
     log.warn('auth_rejected', { url: req.url, method: req.method });
     return send(res, 401, { error: 'Unauthorized' });
   }
+
 
   const handler = ROUTES[key];
   if (!handler) {

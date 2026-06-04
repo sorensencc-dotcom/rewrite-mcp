@@ -37,7 +37,7 @@ const client = new Anthropic({
  * @param {Object} metadata         — Context { user_id, correlation_id }
  * @returns {Promise<Array<RepairSuggestion>>}
  */
-export async function generateRepairSuggestions(content, issues = [], metadata = {}) {
+async function generateRepairSuggestions(content, issues = [], metadata = {}) {
   try {
     if (!issues || issues.length === 0) {
       return [];
@@ -270,7 +270,7 @@ Respond with ONLY valid JSON (no markdown):
  * @param {Array<RepairSuggestion>} suggestions
  * @returns {Object} Repair plan with phases
  */
-export function createRepairPlan(suggestions) {
+function createRepairPlan(suggestions) {
   const plan = {
     totalSuggestions: suggestions.length,
     phases: {

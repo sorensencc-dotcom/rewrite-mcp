@@ -1,0 +1,10 @@
+{
+  "preferLocal": false,
+  "preferCheaperModels": false,
+  "taskTypeOverrides": {
+    "rewrite": "haiku",
+    "analysis": "",
+    "generation": "",
+    "chat": ""
+  }
+}

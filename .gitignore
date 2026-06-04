@@ -76,6 +76,13 @@ tmp/
 cache/
 
 # -------------------------
+# PHASE 47/48 (Cost & Routing)
+# -------------------------
+benchmarks/costs/costLog.json
+benchmarks/costs/reports/
+benchmarks/routing/.agent-prefs.json
+
+# -------------------------
 # MISC
 # -------------------------
 *.log

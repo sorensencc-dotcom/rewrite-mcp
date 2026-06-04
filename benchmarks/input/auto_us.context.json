@@ -1,9 +1,24 @@
 {
-  "businessName": "",
+  "businessName": "Car Care: From Wash to MOT Testing",
   "address": "",
-  "phone": "",
-  "services": [],
-  "about": "",
+  "phone": "8578538130",
+  "services": [
+    "Automotive & DMV Services",
+    "Business Management & Entrepreneurship",
+    "Consumer Products & Smart Shopping",
+    "Employment & Career Development",
+    "Personal Finance & Money Management",
+    "Industrial & Materials",
+    "Insurance Planning & Coverage Guide",
+    "Lifestyle & Wellness",
+    "News & Trends",
+    "Real Estate Guide & Market Insights",
+    "Shopping & Consumer Guides",
+    "Technology Trends & Innovation",
+    "Amazing Travel Destinations",
+    "Privacy Policy"
+  ],
+  "about": "Keeping your car safe, clean, and reliable requires more than occasional washes. This guide explains the differences between cleaning, detailing, repairs, and inspections, and offers practical tips for choosing trustworthy providers and planning a smart maintenance schedule. Regular vehicle maintenance keeps your car safe, efficient, and pleasant to drive. Beyond oil changes, think of a routine that includes cleaning, inspections, and timely repairs so small issues don’t become big bills. Start by mapping out what needs to be done monthly, seasonally, and annually, and by identifying trustwort",
   "cta": "",
-  "notes": "Fill after snapshot"
+  "notes": "Auto-generated; review and adjust as needed."
 }

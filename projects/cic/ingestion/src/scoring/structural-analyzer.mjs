@@ -34,7 +34,7 @@ const STRUCTURAL_CONFIG = {
  * @param {string|Object} content — HTML string or DOM object
  * @returns {Promise<StructuralScore>}
  */
-export async function analyzeStructure(content) {
+async function analyzeStructure(content) {
   try {
     const doc = _parseContent(content);
     const metrics = _analyzeMetrics(doc);
