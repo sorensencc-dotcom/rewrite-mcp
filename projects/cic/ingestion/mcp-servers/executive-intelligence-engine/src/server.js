@@ -20,8 +20,15 @@ const TOKEN_PATH = path.join(CONFIG_DIR, "token.json");
 const RULES_PATH = path.join(CONFIG_DIR, "triage_rules.json");
 const AUDIT_LOG_PATH = path.join(LOGS_DIR, "audit.log");
 
+// Staging paths
+const DATA_ROOT = path.join(__dirname, "..", "..", "..", "data");
+const STAGING_PATHS = {
+  "Projects/Cast Iron Charlie": path.join(DATA_ROOT, "staged", "cic"),
+  "Business/Rewrite Labs": path.join(DATA_ROOT, "staged", "rewritelabs"),
+};
+
 // Ensure directories exist
-[CONFIG_DIR, LOGS_DIR].forEach((dir) => {
+[CONFIG_DIR, LOGS_DIR, ...Object.values(STAGING_PATHS)].forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -264,6 +271,51 @@ class GmailClient {
       throw new Error(`Failed to get message details: ${err.message}`);
     }
   }
+
+  async getMessagesWithAttachments(labelName) {
+    try {
+      const response = await this.gmail.users.messages.list({
+        userId: "me",
+        q: `label:"${labelName}" has:attachment`,
+        maxResults: 50,
+      });
+      return response.data.messages || [];
+    } catch (err) {
+      throw new Error(`Failed to fetch messages for label "${labelName}": ${err.message}`);
+    }
+  }
+
+  async downloadAttachment(messageId, attachmentId) {
+    try {
+      const response = await this.gmail.users.messages.attachments.get({
+        userId: "me",
+        messageId,
+        id: attachmentId,
+      });
+      // Gmail returns base64url-encoded data
+      const data = response.data.data.replace(/-/g, "+").replace(/_/g, "/");
+      return Buffer.from(data, "base64");
+    } catch (err) {
+      throw new Error(`Failed to download attachment: ${err.message}`);
+    }
+  }
+
+  extractAttachmentParts(payload, parts = []) {
+    if (payload.filename && payload.filename.length > 0 && payload.body?.attachmentId) {
+      parts.push({
+        filename: payload.filename,
+        mimeType: payload.mimeType,
+        attachmentId: payload.body.attachmentId,
+        size: payload.body.size || 0,
+      });
+    }
+    if (payload.parts) {
+      for (const part of payload.parts) {
+        this.extractAttachmentParts(part, parts);
+      }
+    }
+    return parts;
+  }
 }
 
 // ============================================================================
@@ -342,7 +394,9 @@ class ExecutiveIntelligenceEngine {
       }
 
       let labelsApplied = 0;
+      const projectTargets = []; // messages labeled as CIC or RL for Pass 2
 
+      // --- PASS 1: CLASSIFICATION & LABELING ---
       for (const message of messages) {
         try {
           const details = await this.gmailClient.getMessageDetails(message.id);
@@ -355,37 +409,125 @@ class ExecutiveIntelligenceEngine {
 
           const category = this.triageEngine.categorize(sender, keywords);
           await this.gmailClient.applyLabel(message.id, category);
-
           labelsApplied++;
 
           this.auditLogger.log("label_applied", "execute24hTriageScan", {
-            messageId: message.id,
-            sender,
-            label: category,
+            messageId: message.id, sender, label: category,
           });
+
+          if (STAGING_PATHS[category]) {
+            projectTargets.push({ id: message.id, label: category });
+          }
         } catch (err) {
           this.auditLogger.log("label_apply_failed", "execute24hTriageScan", {
-            messageId: message.id,
-            error: err.message,
+            messageId: message.id, error: err.message,
           });
         }
+      }
+
+      // --- PASS 2: INLINE ATTACHMENT STAGING ---
+      let stagingResult = null;
+      if (projectTargets.length > 0) {
+        this.auditLogger.log("auto_staging_triggered", "execute24hTriageScan", {
+          count: projectTargets.length,
+        });
+        stagingResult = await this.executeAttachmentStaging({ messageTargets: projectTargets });
       }
 
       this.auditLogger.log("triage_scan_complete", "execute24hTriageScan", {
         messageCount: messages.length,
         labelsApplied,
+        attachmentsStaged: stagingResult?.staged?.length ?? 0,
       });
 
       return {
         messageCount: messages.length,
         labelsApplied,
-        result: `Processed ${messages.length} unread messages. Applied ${labelsApplied} labels.`,
+        staging: stagingResult,
+        result: `Processed ${messages.length} messages. Applied ${labelsApplied} labels.${stagingResult ? ` Staged ${stagingResult.staged.length} attachment(s).` : ""}`,
       };
     } catch (err) {
       this.auditLogger.log("execute24hTriageScan_failed", "ExecutiveIntelligenceEngine", {
         error: err.message,
       });
       throw err;
+    }
+  }
+
+  async executeAttachmentStaging(args = {}) {
+    const staged = [];
+    const skipped = [];
+    const errors = [];
+
+    await this.tokenManager.ensureValidToken();
+
+    // Fast-path: caller supplies specific message targets (e.g. from inline triage pass)
+    if (args.messageTargets && args.messageTargets.length > 0) {
+      for (const { id, label } of args.messageTargets) {
+        const stagingDir = STAGING_PATHS[label];
+        if (!stagingDir) {
+          errors.push({ label, messageId: id, error: `No staging path for label "${label}"` });
+          continue;
+        }
+        await this._stageMessageAttachments(id, label, stagingDir, staged, skipped, errors);
+      }
+      return { staged, skipped, errors, summary: `Staged ${staged.length} file(s). Skipped ${skipped.length}. Errors: ${errors.length}.` };
+    }
+
+    // Default-path: scan by label query
+    const targetLabels = args.labels || Object.keys(STAGING_PATHS);
+
+    for (const label of targetLabels) {
+      const stagingDir = STAGING_PATHS[label];
+      if (!stagingDir) {
+        errors.push({ label, error: `No staging path configured for label "${label}"` });
+        continue;
+      }
+
+      const messages = await this.gmailClient.getMessagesWithAttachments(label);
+
+      for (const msg of messages) {
+        await this._stageMessageAttachments(msg.id, label, stagingDir, staged, skipped, errors);
+      }
+    }
+
+    return { staged, skipped, errors, summary: `Staged ${staged.length} file(s). Skipped ${skipped.length}. Errors: ${errors.length}.` };
+  }
+
+  async _stageMessageAttachments(messageId, label, stagingDir, staged, skipped, errors) {
+    try {
+      const details = await this.gmailClient.getMessageDetails(messageId);
+      const headers = details.payload.headers || [];
+      const subject = headers.find((h) => h.name === "Subject")?.value || "no-subject";
+      const date = headers.find((h) => h.name === "Date")?.value || "";
+      const datePart = date ? new Date(date).toISOString().split("T")[0] : "unknown-date";
+
+      const attachments = this.gmailClient.extractAttachmentParts(details.payload);
+
+      for (const att of attachments) {
+        const safeName = att.filename.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const prefix = `${datePart}_${messageId.slice(-6)}_`;
+        const destPath = path.join(stagingDir, prefix + safeName);
+
+        if (fs.existsSync(destPath)) {
+          skipped.push({ label, filename: safeName, reason: "already exists" });
+          continue;
+        }
+
+        const buffer = await this.gmailClient.downloadAttachment(messageId, att.attachmentId);
+        fs.writeFileSync(destPath, buffer);
+
+        this.auditLogger.log("attachment_staged", "_stageMessageAttachments", {
+          label, messageId, subject, filename: safeName, destPath, sizeBytes: buffer.length,
+        });
+
+        staged.push({ label, filename: safeName, subject, destPath, sizeBytes: buffer.length });
+      }
+    } catch (err) {
+      errors.push({ label, messageId, error: err.message });
+      this.auditLogger.log("attachment_stage_failed", "_stageMessageAttachments", {
+        label, messageId, error: err.message,
+      });
     }
   }
 
@@ -459,6 +601,22 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       },
     },
     {
+      name: "stage_email_attachments",
+      description:
+        "Scans emails labeled 'Projects/Cast Iron Charlie' or 'Business/Rewrite Labs' for attachments and downloads them into the appropriate local staging directory. Skips files already staged.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          labels: {
+            type: "array",
+            items: { type: "string" },
+            description: `Subset of labels to scan. Defaults to all: ${Object.keys(STAGING_PATHS).join(", ")}`,
+          },
+        },
+        required: [],
+      },
+    },
+    {
       name: "commit_triage_action",
       description:
         "Applies a manual pipeline label to a specific message and optionally learns the sender-to-label mapping for future auto-categorization.",
@@ -497,6 +655,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             text: JSON.stringify(result, null, 2),
           },
         ],
+      };
+    } else if (request.params.name === "stage_email_attachments") {
+      const result = await engine.executeAttachmentStaging(request.params.arguments || {});
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
       };
     } else if (request.params.name === "commit_triage_action") {
       const { messageId, targetLabel, learnSender } = request.params.arguments;

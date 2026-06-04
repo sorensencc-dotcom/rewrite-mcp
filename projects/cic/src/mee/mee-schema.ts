@@ -157,10 +157,41 @@ export interface MeeAutonomousJob {
   planId?: string;
   runId?: string;
   proposalIds: string[];
+  parentJobId?: string;
+  planningMode?: MeePlanningMode;
   error?: {
     message: string;
     code?: string;
   };
+}
+
+export type MeePlanningMode = "deterministic" | "llm" | "hybrid";
+
+export interface MeeRunFailureContext {
+  runId: string;
+  jobId?: string;
+  createdAt: string;
+  failingProposalIds: string[];
+  errorCode?: string;
+  errorMessage: string;
+  safetyReports?: unknown;
+  sandboxOutput?: {
+    buildOutput: string;
+    testOutput: string;
+    errors?: string[];
+  };
+}
+
+export interface MeeHealingPlan {
+  id: string;
+  parentJobId: string;
+  createdAt: string;
+  summary: string;
+  suggestedTasks: {
+    title: string;
+    description: string;
+    type: string;
+  }[];
 }
 
 

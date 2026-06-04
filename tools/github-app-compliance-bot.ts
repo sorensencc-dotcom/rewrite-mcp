@@ -117,7 +117,8 @@ async function fixRepoCompliance(repoPath: string): Promise<string[]> {
 export default function (app: Probot) {
   // Listen for schedule events (e.g., daily or weekly)
   app.on("schedule.repository", async (context) => {
-    const { owner, repo } = context.payload.repository;
+    const { owner: ownerObj, name: repo } = context.payload.repository;
+    const owner = ownerObj.login;
     const repoFullName = `${owner}/${repo}`;
 
     console.log(`[${repoFullName}] Checking compliance...`);
@@ -187,7 +188,8 @@ export default function (app: Probot) {
       return;
     }
 
-    const { owner, repo } = context.payload.repository;
+    const { owner: ownerObj, name: repo } = context.payload.repository;
+    const owner = ownerObj.login;
     const repoFullName = `${owner}/${repo}`;
 
     console.log(`[${repoFullName}] Manual trigger, checking for non-compliance...`);
@@ -243,8 +245,11 @@ async function checkoutRepo(
     execSync(`rm -rf ${repoPath}`);
   }
 
+  const auth = await context.octokit.auth({ type: "installation" }) as any;
+  const token = auth.token;
+
   execSync(
-    `git clone https://x-access-token:${context.octokit.rest.repos.config.auth}@github.com/${owner}/${repo}.git ${repoPath}`
+    `git clone https://x-access-token:${token}@github.com/${owner}/${repo}.git ${repoPath}`
   );
 
   return repoPath;

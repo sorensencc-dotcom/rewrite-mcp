@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.29.1] - 2026-06-03
+### Added
+- **CIC Manual: Executive Intelligence Engine** (`docs/cic/manuals/executive_intelligence_engine.md`): Operator manual covering all three MCP tools (`execute_24h_triage_scan`, `stage_email_attachments`, `commit_triage_action`), triage rule engine, auth, audit log format, and scheduled execution.
+    - **mkdocs.yml**: Registered new manual in CIC Manual nav section.
+    - **server.js** (`projects/cic/ingestion/mcp-servers/executive-intelligence-engine/src/server.js`): Added `stage_email_attachments` tool with idempotent local file staging, `messageTargets` fast-path for inline triage integration, and `_stageMessageAttachments` helper. Wired Pass 2 inline staging into `execute_24h_triage_scan`.
+
 ## [2.29.0] - 2026-05-30
 ### Added
 - **Phase 40: The Sociological Department Conflict (GAP-008)**: Materialized and executed the sixth biographical mission focusing on the social-industrial governance clash (1914-1925).
