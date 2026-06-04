@@ -118,12 +118,63 @@ export function MetaEvolutionConsole() {
   const [healingPlan, setHealingPlan] = useState<any | null>(null);
   const [failureContext, setFailureContext] = useState<any | null>(null);
   const [planningMode, setPlanningMode] = useState<"deterministic" | "llm" | "hybrid">("deterministic");
-  const [jobSubTab, setJobSubTab] = useState<"general" | "agents" | "memory">("general");
+  const [jobSubTab, setJobSubTab] = useState<"general" | "agents" | "memory" | "consensus" | "scheduler" | "kg">("general");
   const [jobTasks, setJobTasks] = useState<any[]>([]);
   const [jobExchanges, setJobExchanges] = useState<any[]>([]);
   const [isFetchingJobAgents, setIsFetchingJobAgents] = useState<boolean>(false);
   const [jobMemoryItems, setJobMemoryItems] = useState<any[]>([]);
   const [isFetchingJobMemory, setIsFetchingJobMemory] = useState<boolean>(false);
+  const [jobConsensus, setJobConsensus] = useState<any[]>([]);
+  const [isFetchingJobConsensus, setIsFetchingJobConsensus] = useState<boolean>(false);
+  const [schedulerStatus, setSchedulerStatus] = useState<any>(null);
+  const [isFetchingScheduler, setIsFetchingScheduler] = useState<boolean>(false);
+  const [jobKg, setJobKg] = useState<any>(null);
+  const [isFetchingJobKg, setIsFetchingJobKg] = useState<boolean>(false);
+
+  const fetchSchedulerStatus = async () => {
+    setIsFetchingScheduler(true);
+    try {
+      const res = await fetch("/v1/mee/autonomous/scheduler/status");
+      const data = await res.json();
+      if (data.ok) {
+        setSchedulerStatus(data.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch scheduler status:", err);
+    } finally {
+      setIsFetchingScheduler(false);
+    }
+  };
+
+  const fetchJobKg = async (jobId: string) => {
+    setIsFetchingJobKg(true);
+    try {
+      const res = await fetch(`/v1/mee/autonomous/jobs/${jobId}/kg`);
+      const data = await res.json();
+      if (data.ok) {
+        setJobKg(data.data.graph);
+      }
+    } catch (err) {
+      console.error("Failed to fetch job kg:", err);
+    } finally {
+      setIsFetchingJobKg(false);
+    }
+  };
+
+  const fetchJobConsensus = async (jobId: string) => {
+    setIsFetchingJobConsensus(true);
+    try {
+      const res = await fetch(`/v1/mee/autonomous/jobs/${jobId}/consensus`);
+      const data = await res.json();
+      if (data.ok) {
+        setJobConsensus(data.data.consensus || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch job consensus:", err);
+    } finally {
+      setIsFetchingJobConsensus(false);
+    }
+  };
 
   const fetchJobAgents = async (jobId: string) => {
     setIsFetchingJobAgents(true);
@@ -481,6 +532,12 @@ export function MetaEvolutionConsole() {
             fetchJobAgents(abmJob.id);
           } else if (jobSubTab === "memory") {
             fetchJobMemory(abmJob.id);
+          } else if (jobSubTab === "consensus") {
+            fetchJobConsensus(abmJob.id);
+          } else if (jobSubTab === "scheduler") {
+            fetchSchedulerStatus();
+          } else if (jobSubTab === "kg") {
+            fetchJobKg(abmJob.id);
           }
         }
       }, 2000);
@@ -510,6 +567,9 @@ export function MetaEvolutionConsole() {
     setJobTasks([]);
     setJobExchanges([]);
     setJobMemoryItems([]);
+    setJobConsensus([]);
+    setSchedulerStatus(null);
+    setJobKg(null);
   }, [abmJob?.id]);
 
   useEffect(() => {
@@ -518,6 +578,12 @@ export function MetaEvolutionConsole() {
         fetchJobAgents(abmJob.id);
       } else if (jobSubTab === "memory") {
         fetchJobMemory(abmJob.id);
+      } else if (jobSubTab === "consensus") {
+        fetchJobConsensus(abmJob.id);
+      } else if (jobSubTab === "scheduler") {
+        fetchSchedulerStatus();
+      } else if (jobSubTab === "kg") {
+        fetchJobKg(abmJob.id);
       }
     }
   }, [abmJob?.id, jobSubTab]);
@@ -2604,6 +2670,51 @@ export function MetaEvolutionConsole() {
                     >
                       Memory Logs
                     </button>
+                    <button
+                      onClick={() => setJobSubTab("consensus")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "consensus" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "consensus" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      Consensus
+                    </button>
+                    <button
+                      onClick={() => setJobSubTab("scheduler")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "scheduler" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "scheduler" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      Scheduler
+                    </button>
+                    <button
+                      onClick={() => setJobSubTab("kg")}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: jobSubTab === "kg" ? "#3b82f6" : "#9ca3af",
+                        border: "none",
+                        borderBottom: jobSubTab === "kg" ? "2px solid #3b82f6" : "none",
+                        padding: "8px 12px",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        cursor: "pointer"
+                      }}
+                    >
+                      KG Graph
+                    </button>
                   </div>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "0.875rem" }}>
@@ -2925,6 +3036,229 @@ export function MetaEvolutionConsole() {
                                 </pre>
                               </div>
                             ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {jobSubTab === "consensus" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                        {isFetchingJobConsensus && jobConsensus.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            Loading consensus data...
+                          </div>
+                        ) : jobConsensus.length === 0 ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            No consensus gating execution recorded for this job.
+                          </div>
+                        ) : (
+                          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                            {jobConsensus.map((result: any, index: number) => (
+                              <div
+                                key={result.proposalId + "-" + index}
+                                style={{
+                                  backgroundColor: "#0b0f19",
+                                  border: "1px solid #1f2937",
+                                  borderRadius: "8px",
+                                  padding: "16px",
+                                  fontSize: "0.85rem"
+                                }}
+                              >
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                                  <strong style={{ color: "#f3f4f6" }}>Proposal: {result.proposalId.substring(0, 8)}</strong>
+                                  <span style={{
+                                    fontSize: "0.75rem",
+                                    padding: "2px 6px",
+                                    borderRadius: "4px",
+                                    backgroundColor: result.decision === "ready" ? "rgba(16, 185, 129, 0.1)" : result.decision === "needs_revision" ? "rgba(245, 158, 11, 0.1)" : "rgba(239, 68, 68, 0.1)",
+                                    color: result.decision === "ready" ? "#10b981" : result.decision === "needs_revision" ? "#f59e0b" : "#ef4444",
+                                    textTransform: "uppercase",
+                                    fontWeight: "bold"
+                                  }}>
+                                    Decision: {result.decision}
+                                  </span>
+                                </div>
+                                <div style={{ display: "flex", gap: "12px", fontSize: "0.75rem", color: "#9ca3af", marginBottom: "12px" }}>
+                                  <span>Score: <strong style={{ color: result.score >= 70 ? "#10b981" : "#ef4444" }}>{result.score}/100</strong></span>
+                                  <span>Cycle: <strong>{result.cycles}</strong></span>
+                                  <span>Critiques: <strong>{result.critiques?.length ?? 0}</strong></span>
+                                </div>
+                                {result.critiques && result.critiques.length > 0 ? (
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                    <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600 }}>Active Agent Critiques:</span>
+                                    {result.critiques.map((critique: any) => (
+                                      <div
+                                        key={critique.id}
+                                        style={{
+                                          backgroundColor: "#1f2937",
+                                          borderRadius: "6px",
+                                          padding: "10px",
+                                          borderLeft: `3px solid ${critique.severity === "error" ? "#ef4444" : critique.severity === "warn" ? "#f59e0b" : "#3b82f6"}`
+                                        }}
+                                      >
+                                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem", marginBottom: "4px" }}>
+                                          <span style={{ color: "#9ca3af" }}>From: <code style={{ color: "#60a5fa" }}>{critique.agentId}</code> &rarr; <code style={{ color: "#f43f5e" }}>{critique.targetAgentId}</code></span>
+                                          <span style={{
+                                            fontWeight: "bold",
+                                            textTransform: "uppercase",
+                                            color: critique.severity === "error" ? "#ef4444" : critique.severity === "warn" ? "#f59e0b" : "#3b82f6"
+                                          }}>{critique.severity}</span>
+                                        </div>
+                                        <div style={{ color: "#e2e8f0", fontWeight: 600, fontSize: "0.8rem", marginTop: "4px" }}>
+                                          {critique.issue}
+                                        </div>
+                                        {critique.suggestedFix && (
+                                          <div style={{ color: "#a7f3d0", fontSize: "0.75rem", marginTop: "6px", fontStyle: "italic" }}>
+                                            Suggested Fix: {critique.suggestedFix}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <div style={{ fontSize: "0.85rem", color: "#10b981", fontStyle: "italic" }}>
+                                    No critiques issued. All agents approved this proposal layout.
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {jobSubTab === "scheduler" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                        {isFetchingScheduler && !schedulerStatus ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            Loading scheduler status...
+                          </div>
+                        ) : !schedulerStatus ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            No scheduler status available.
+                          </div>
+                        ) : (
+                          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                            {/* Scheduler Overview */}
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px", textAlign: "center" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.75rem", display: "block" }}>Active Worker Count</span>
+                                <strong style={{ color: "#3b82f6", fontSize: "1.5rem" }}>{schedulerStatus.activeCount} / {schedulerStatus.concurrencyLimit}</strong>
+                              </div>
+                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px", textAlign: "center" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.75rem", display: "block" }}>Pending / Paused Queue</span>
+                                <strong style={{ color: "#fb923c", fontSize: "1.5rem" }}>
+                                  {schedulerStatus.pendingJobIds?.length ?? 0} / {schedulerStatus.pausedJobIds?.length ?? 0}
+                                </strong>
+                              </div>
+                            </div>
+
+                            {/* Active Queue Details */}
+                            <div>
+                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Active Workers</span>
+                              {schedulerStatus.activeJobIds && schedulerStatus.activeJobIds.length > 0 ? (
+                                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                  {schedulerStatus.activeJobIds.map((id: string) => (
+                                    <div key={id} style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#1f2937", padding: "8px 12px", borderRadius: "6px", fontSize: "0.75rem" }}>
+                                      <code style={{ color: "#38bdf8" }}>{id}</code>
+                                      <span style={{ color: "#10b981", fontWeight: 600 }}>Executing Step Loop...</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div style={{ color: "#6b7280", fontSize: "0.75rem", fontStyle: "italic" }}>No active worker threads running.</div>
+                              )}
+                            </div>
+
+                            {/* Paused & Pending Queues */}
+                            <div>
+                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Priority Queue</span>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                {schedulerStatus.pendingJobIds?.map((id: string) => (
+                                  <div key={id} style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#0b0f19", border: "1px solid #1f2937", padding: "8px 12px", borderRadius: "6px", fontSize: "0.75rem" }}>
+                                    <code style={{ color: "#cbd5e1" }}>{id}</code>
+                                    <span style={{ color: "#fb923c", fontWeight: 600 }}>Pending</span>
+                                  </div>
+                                ))}
+                                {schedulerStatus.pausedJobIds?.map((id: string) => (
+                                  <div key={id} style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#0b0f19", border: "1px solid #1f2937", padding: "8px 12px", borderRadius: "6px", fontSize: "0.75rem" }}>
+                                    <code style={{ color: "#cbd5e1" }}>{id}</code>
+                                    <span style={{ color: "#a855f7", fontWeight: 600 }}>Paused (Preempted)</span>
+                                  </div>
+                                ))}
+                                {(!schedulerStatus.pendingJobIds?.length && !schedulerStatus.pausedJobIds?.length) && (
+                                  <div style={{ color: "#6b7280", fontSize: "0.75rem", fontStyle: "italic" }}>Priority queue is empty.</div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {jobSubTab === "kg" && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                        {isFetchingJobKg && !jobKg ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            Loading Knowledge Graph...
+                          </div>
+                        ) : !jobKg ? (
+                          <div style={{ color: "#6b7280", fontSize: "0.85rem", textAlign: "center", padding: "20px" }}>
+                            No Knowledge Graph data recorded.
+                          </div>
+                        ) : (
+                          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                            {/* Stats */}
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Nodes</span>
+                                <strong style={{ color: "#3b82f6", fontSize: "1.2rem" }}>{jobKg.nodes?.length ?? 0}</strong>
+                              </div>
+                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Graph Edges</span>
+                                <strong style={{ color: "#10b981", fontSize: "1.2rem" }}>{jobKg.edges?.length ?? 0}</strong>
+                              </div>
+                              <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "6px", padding: "8px", textAlign: "center" }}>
+                                <span style={{ color: "#9ca3af", fontSize: "0.7rem", display: "block" }}>Failures Caused</span>
+                                <strong style={{ color: "#ef4444", fontSize: "1.2rem" }}>
+                                  {jobKg.nodes?.filter((n: any) => n.type === "failure")?.length ?? 0}
+                                </strong>
+                              </div>
+                            </div>
+
+                            {/* Node Inspector */}
+                            <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
+                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Node List</span>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "180px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
+                                {jobKg.nodes?.map((node: any) => (
+                                  <div key={node.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", borderBottom: "1px solid #1f2937", fontSize: "0.75rem" }}>
+                                    <div>
+                                      <span style={{
+                                        color: node.type === "file" ? "#34d399" : node.type === "task" ? "#60a5fa" : node.type === "failure" ? "#f87171" : "#a855f7",
+                                        fontWeight: "bold",
+                                        marginRight: "8px"
+                                      }}>[{node.type.toUpperCase()}]</span>
+                                      <span style={{ color: "#cbd5e1" }}>{node.name}</span>
+                                    </div>
+                                    <code style={{ color: "#6b7280", fontSize: "0.7rem" }}>{node.id.substring(0, 8)}</code>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Edge Inspector */}
+                            <div style={{ backgroundColor: "#0b0f19", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px" }}>
+                              <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 600, display: "block", marginBottom: "8px" }}>Semantic Mappings</span>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxHeight: "180px", overflowY: "auto", padding: "4px", backgroundColor: "#05050a", borderRadius: "6px" }}>
+                                {jobKg.edges?.map((edge: any, idx: number) => (
+                                  <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", borderBottom: "1px solid #1f2937", fontSize: "0.75rem" }}>
+                                    <span style={{ color: "#cbd5e1" }}>{edge.from.substring(0, 8)}</span>
+                                    <span style={{ color: "#fb923c", fontWeight: 600 }}>&mdash; {edge.type} &rarr;</span>
+                                    <span style={{ color: "#cbd5e1" }}>{edge.to.substring(0, 8)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         )}
                       </div>

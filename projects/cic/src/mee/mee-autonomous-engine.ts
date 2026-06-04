@@ -13,6 +13,8 @@ import {
   MeeRunFailureContext,
   MeeHealingPlan,
   PlanTree,
+  MeeAgentTask,
+  MeeAgentCritique,
 } from "./mee-schema.js";
 import { MeeSafetyEngine } from "./safety/safety-engine.js";
 import { MeeSandboxEngine } from "./safety/sandbox-engine.js";
@@ -23,6 +25,7 @@ import { MeeProposalStore } from "./mee-proposal-store.js";
 import { SelfHealingEngine } from "./self-healing/self-healing-engine.js";
 import { MeeMemoryStore } from "./mee-memory-store.js";
 import { MeeAgentOrchestrator } from "./mee-agent-orchestrator.js";
+import { MeeKnowledgeGraph } from "./mee-kg.js";
 
 export interface MeeAutonomousJobStore {
   save(job: MeeAutonomousJob): void;
@@ -60,6 +63,7 @@ export class MeeAutonomousEngine {
     private readonly healingPlanStore?: MeeHealingPlanStore,
     private readonly memoryStore?: MeeMemoryStore,
     private readonly orchestrator?: MeeAgentOrchestrator,
+    private readonly kg?: MeeKnowledgeGraph,
   ) {}
 
   createJob(request: string, planningMode?: MeePlanningMode): MeeAutonomousJob {
@@ -83,6 +87,13 @@ export class MeeAutonomousEngine {
     if (job.status !== "pending") return job;
 
     let plan = await this.planning.generatePlanWithMode(job.request, job.planningMode);
+
+    // Record tasks in Knowledge Graph if available
+    if (this.kg) {
+      for (const t of plan.tasks) {
+        this.kg.recordTaskNode(t.id, t.title, t.type, t.dependsOn);
+      }
+    }
 
     // Coordinate with PlannerAgent via Orchestrator if available
     if (this.orchestrator) {
@@ -137,8 +148,130 @@ export class MeeAutonomousEngine {
     }
 
     // 1. Synthesize patches
-    const patchSet = this.synth.synthesize(proposal);
-    const patches = patchSet.patches;
+    let patchSet = this.synth.synthesize(proposal);
+    let patches = patchSet.patches;
+
+    // Consensus Engine Gating
+    if (this.orchestrator) {
+      let currentProposal = { ...proposal };
+      let currentPatches = [...patches];
+      let currentPlan: PlanTree = { rootRequest: proposal.title, summary: proposal.planSummary, tasks: [] };
+      
+      let cycle = 1;
+      const maxCycles = 3;
+      let consensusPassed = false;
+      let lastResult: any = null;
+
+      while (cycle <= maxCycles && !consensusPassed) {
+        const agents = this.orchestrator.getAgents();
+        const critiqueTasks: MeeAgentTask[] = [];
+        const now = new Date().toISOString();
+
+        const fragile = this.kg ? this.kg.getFragileModules() : [];
+        const risks = this.kg ? this.kg.getSafetyRisks() : [];
+        const kgSummary = { fragile, risks };
+
+        for (const agent of agents) {
+          critiqueTasks.push({
+            id: crypto.randomUUID(),
+            agentId: agent.id,
+            jobId,
+            createdAt: now,
+            type: "critique",
+            payload: { proposal: currentProposal, patches: currentPatches, plan: currentPlan, kgSummary },
+            status: "pending"
+          });
+        }
+
+        const allTasks = this.orchestrator.loadTasks();
+        allTasks.push(...critiqueTasks);
+        this.orchestrator.saveTasks(allTasks);
+
+        const exchanges = await this.orchestrator.runCritiqueRound(critiqueTasks);
+        const critiques: MeeAgentCritique[] = [];
+        for (const exchange of exchanges) {
+          try {
+            const data = JSON.parse(exchange.content);
+            if (data.critiques) {
+              critiques.push(...data.critiques);
+              if (this.kg) {
+                for (const c of data.critiques) {
+                  this.kg.recordCritiqueEdge(proposalId, c);
+                }
+              }
+            }
+          } catch (e) {
+            console.error("Failed to parse critiques from agent response:", e);
+          }
+        }
+
+        const result = this.orchestrator.runConsensusRound(critiques, proposalId, cycle);
+        lastResult = result;
+
+        this.addMemory(
+          "job",
+          jobId,
+          job.runId,
+          ["consensus", "critique", "phase38"],
+          `Consensus round for proposal ${proposalId} (Cycle ${cycle})`,
+          JSON.stringify(result)
+        );
+
+        if (result.decision === "ready") {
+          consensusPassed = true;
+          // Apply refined proposal back
+          proposal.title = currentProposal.title;
+          proposal.planSummary = currentProposal.planSummary;
+          this.proposals.update(proposal.id, { 
+            title: proposal.title,
+            planSummary: proposal.planSummary
+          });
+          break;
+        } else if (result.decision === "needs_revision") {
+          const refined = await this.orchestrator.runRefinementRound(currentPlan, [currentProposal], critiques, jobId);
+          currentPlan = refined.refinedPlan;
+          if (refined.refinedProposals[0]) {
+            currentProposal = refined.refinedProposals[0];
+            patchSet = this.synth.synthesize(currentProposal);
+            patches = patchSet.patches;
+            currentPatches = patches;
+          }
+
+          this.addMemory(
+            "job",
+            jobId,
+            job.runId,
+            ["refinement", "phase38"],
+            `Refinement completed for proposal ${proposalId} (Cycle ${cycle})`,
+            JSON.stringify({ plan: currentPlan, proposal: currentProposal })
+          );
+          cycle++;
+        } else {
+          // Blocked
+          break;
+        }
+      }
+
+      if (!consensusPassed) {
+        proposal.status = "rejected";
+        this.proposals.update(proposal.id, { status: "rejected" });
+
+        job.status = "failed";
+        job.error = { 
+          message: `Consensus block: Proposal ${proposalId} failed agent critiques with score ${lastResult?.score ?? 0}. Decision: ${lastResult?.decision ?? "blocked"}`, 
+          code: "consensus_blocked" 
+        };
+        job.updatedAt = new Date().toISOString();
+        this.jobs.save(job);
+
+        if (job.runId) {
+          this.runs.failRun(job.runId, job.error);
+        }
+
+        await this.handleFailure(job, [proposal.id], "consensus_blocked", job.error.message);
+        return;
+      }
+    }
 
     // 2. Safety check
     const safetyReport = this.safety.analyze(patches);
@@ -194,6 +327,10 @@ export class MeeAutonomousEngine {
     const validationReport = await this.validator.validateAll(patchSet);
     proposal.validationReport = validationReport;
     this.proposals.update(proposal.id, { validationReport });
+
+    if (validationReport.passed && this.kg) {
+      this.kg.recordProposalNode(proposalId, proposal.title, proposal.planSummary, proposal.filesCreated);
+    }
 
     if (!validationReport.passed) {
       proposal.status = "rejected";
@@ -295,6 +432,13 @@ export class MeeAutonomousEngine {
       sandboxOutput: extra?.sandboxOutput,
     };
     this.failureStore.save(failure);
+
+    if (this.kg) {
+      const failureId = `fail-${crypto.randomUUID()}`;
+      for (const propId of failingProposalIds) {
+        this.kg.recordFailureNode(failureId, propId, errorCode, errorMessage);
+      }
+    }
 
     this.addMemory(
       "job",

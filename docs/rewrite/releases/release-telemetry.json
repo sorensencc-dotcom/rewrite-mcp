@@ -1,5 +1,21 @@
 [
   {
+    "timestamp": "2026-06-04T00:00:00.000Z",
+    "version": "2.29.2",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": -1
+  },
+  {
+    "timestamp": "2026-06-03T00:00:00.000Z",
+    "version": "2.29.1",
+    "drift_passed": true,
+    "docs_synced": true,
+    "cloudflare_deploy": true,
+    "velocity_delta": 0
+  },
+  {
     "timestamp": "2026-05-30T00:00:00.000Z",
     "version": "2.29.0",
     "drift_passed": true,

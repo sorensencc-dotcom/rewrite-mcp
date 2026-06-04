@@ -145,6 +145,7 @@ export interface MeeSandboxResult {
 export type MeeAutonomousJobStatus =
   | "pending"
   | "running"
+  | "paused"
   | "completed"
   | "failed";
 
@@ -159,6 +160,8 @@ export interface MeeAutonomousJob {
   proposalIds: string[];
   parentJobId?: string;
   planningMode?: MeePlanningMode;
+  priority?: number;
+  dependsOnJobIds?: string[];
   error?: {
     message: string;
     code?: string;
@@ -240,6 +243,31 @@ export interface MeeMemoryItem {
   tags: string[];
   summary: string;
   details: string;
+}
+
+export interface MeeAgentCritique {
+  id: string;
+  agentId: string;
+  targetAgentId: string;
+  issue: string;
+  severity: "info" | "warn" | "error";
+  suggestedFix: string;
+  timestamp: string;
+}
+
+export interface MeeConsensusScore {
+  proposalId: string;
+  score: number;
+  critiquesCount: number;
+  passed: boolean;
+}
+
+export interface MeeConsensusResult {
+  proposalId: string;
+  decision: "ready" | "needs_revision" | "blocked";
+  score: number;
+  critiques: MeeAgentCritique[];
+  cycles: number;
 }
 
 

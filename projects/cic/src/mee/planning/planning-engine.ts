@@ -16,12 +16,13 @@ export class PlanningEngine {
     private readonly llm?: LLMPlanningEngine
   ) {}
 
-  async generatePlanWithMode(request: string): Promise<PlanTree> {
-    if (this.mode === "llm" && this.llm) {
+  async generatePlanWithMode(request: string, mode?: MeePlanningMode): Promise<PlanTree> {
+    const activeMode = mode || this.mode;
+    if (activeMode === "llm" && this.llm) {
       return this.llm.generatePlan(request);
     }
 
-    if (this.mode === "hybrid" && this.llm) {
+    if (activeMode === "hybrid" && this.llm) {
       const deterministic = this.generatePlan(request);
       const llmPlan = await this.llm.generatePlan(request);
       return llmPlan.tasks.length ? llmPlan : deterministic;

@@ -28,11 +28,17 @@ import { FileMeeAutonomousJobStore, FileMeeRunFailureContextStore, FileMeeHealin
 import { MeeAutonomousEngine } from "../../mee/mee-autonomous-engine.js";
 import { MeeAutonomousWorker } from "../../mee/mee-autonomous-worker.js";
 import { SelfHealingEngine } from "../../mee/self-healing/self-healing-engine.js";
+import { MeeKnowledgeGraph } from "../../mee/mee-kg.js";
+import { MeeScheduler } from "../../mee/mee-scheduler.js";
 import { LLMPlanningEngine } from "../../mee/planning/llm-planning-engine.js";
+// @ts-ignore
 import { createLlamaClient } from "../../../ingestion/src/clients/llamaClient.js";
 import { FileMeeMemoryStore } from "../../mee/mee-memory-store.js";
 import { MeeAgentOrchestrator } from "../../mee/mee-agent-orchestrator.js";
 import { PlannerAgent } from "../../mee/planner-agent.js";
+import { RefactorAgent } from "../../mee/refactor-agent.js";
+import { DocsAgent } from "../../mee/docs-agent.js";
+import { SafetyAgent } from "../../mee/safety-agent.js";
 
 export function registerMeeRoutes(router: Router) {
   const workspaceRoot = process.cwd();
@@ -166,7 +172,16 @@ JSON:`;
   const memoryStore = new FileMeeMemoryStore(path.join(workspaceRoot, "projects/cic/data/memory"));
   const orchestrator = new MeeAgentOrchestrator(path.join(workspaceRoot, "projects/cic/data/orchestrator"));
   const plannerAgent = new PlannerAgent("agent-planner-1", "planner", planningEngine);
+  const refactorAgent = new RefactorAgent("agent-refactor-1", "refactor");
+  const docsAgent = new DocsAgent("agent-docs-1", "docs");
+  const safetyAgent = new SafetyAgent("agent-safety-1", "safety");
+  
   orchestrator.registerAgent(plannerAgent);
+  orchestrator.registerAgent(refactorAgent);
+  orchestrator.registerAgent(docsAgent);
+  orchestrator.registerAgent(safetyAgent);
+
+  const kg = new MeeKnowledgeGraph(ckg);
 
   const autonomousEngine = new MeeAutonomousEngine(
     autonomousJobStore,
@@ -182,18 +197,20 @@ JSON:`;
     selfHealing,
     healingPlanStore,
     memoryStore,
-    orchestrator
+    orchestrator,
+    kg
   );
 
-  const autonomousWorker = new MeeAutonomousWorker(
+  const autonomousScheduler = new MeeScheduler(
     autonomousJobStore,
     runEngine,
     autonomousEngine,
-    workspaceRoot
+    workspaceRoot,
+    2 // concurrencyLimit
   );
 
   if (process.env.NODE_ENV !== "test") {
-    autonomousWorker.start();
+    autonomousScheduler.start();
   }
 
   router.post("/mee/propose", (req, res) => {
@@ -1286,27 +1303,24 @@ JSON:`;
 
   router.post("/mee/autonomous/jobs", async (req, res) => {
     try {
-      const { request, planningMode } = req.body || {};
+      const { request, planningMode, priority, dependsOnJobIds } = req.body;
       if (!request) {
         return res.status(400).json({
           ok: false,
-          error: {
-            code: "validation.invalid_payload",
-            message: "request is required",
-            details: {}
-          }
+          error: { message: "Missing request parameter" }
         });
       }
-
       const job = autonomousEngine.createJob(request, planningMode);
-      const started = await autonomousEngine.startJob(job.id);
+      job.priority = priority !== undefined ? Number(priority) : 0;
+      job.dependsOnJobIds = dependsOnJobIds || [];
+      autonomousJobStore.save(job);
 
-      return res.json({
+      res.json({
         ok: true,
-        data: { job: started ?? job }
+        data: { job }
       });
     } catch (err: any) {
-      return res.status(500).json({
+      res.status(500).json({
         ok: false,
         error: {
           code: "internal.exception",
@@ -1479,6 +1493,71 @@ JSON:`;
         error: {
           code: "internal.exception",
           message: err.message || "Failed to retrieve job memory items.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/consensus", (req, res) => {
+    try {
+      const jobId = req.params.id;
+      const job = autonomousJobStore.get(jobId);
+      if (!job) {
+        return res.status(404).json({
+          ok: false,
+          error: { message: "Job not found" }
+        });
+      }
+      const consensus = orchestrator.getConsensusForJob(jobId, job.proposalIds);
+      return res.json({
+        ok: true,
+        data: { consensus }
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve job consensus.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/jobs/:id/kg", (req, res) => {
+    try {
+      const graph = kg.getGraph();
+      return res.json({
+        ok: true,
+        data: { graph }
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve knowledge graph.",
+          details: {}
+        }
+      });
+    }
+  });
+
+  router.get("/mee/autonomous/scheduler/status", (_req, res) => {
+    try {
+      const status = autonomousScheduler.getQueueState();
+      return res.json({
+        ok: true,
+        data: status
+      });
+    } catch (err: any) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          code: "internal.exception",
+          message: err.message || "Failed to retrieve scheduler status.",
           details: {}
         }
       });
