@@ -74,4 +74,26 @@ describe("MeeKnowledgeGraph Subsystem", () => {
     expect(risks.length).toBe(1);
     expect(risks[0]).toBe("Found forbidden eval pattern");
   });
+
+  it("should record verification metrics correctly", () => {
+    const metrics = {
+      testCount: 15,
+      passed: true,
+      durationMs: 320,
+      validationErrorsCount: 0
+    };
+    kg.recordProposalNode("prop-metrics-test", "Update Auth Scheme", "Updating auth scheme", []);
+    kg.recordVerificationMetricsNode("prop-metrics-test", metrics);
+
+    const graph = kg.getGraph();
+    const metricsNode = graph.nodes.find(n => n.id === "metrics-prop-metrics-test");
+    expect(metricsNode).toBeDefined();
+    expect(metricsNode?.type).toBe("verification_metrics");
+    expect(metricsNode?.meta?.testCount).toBe(15);
+    expect(metricsNode?.meta?.passed).toBe(true);
+
+    const metricsEdge = graph.edges.find(e => e.from === "prop-metrics-test" && e.to === "metrics-prop-metrics-test");
+    expect(metricsEdge).toBeDefined();
+    expect(metricsEdge?.type).toBe("has_metrics");
+  });
 });

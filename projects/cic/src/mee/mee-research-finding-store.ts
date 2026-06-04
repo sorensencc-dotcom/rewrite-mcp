@@ -2,7 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { ResearchFinding } from "./mee-schema.js";
+import { ResearchFinding, isResearchFinding } from "./mee-schema.js";
 
 interface MeeFindingsFile {
   findings: ResearchFinding[];
@@ -52,6 +52,9 @@ export class FileMeeResearchFindingStore {
   }
 
   add(finding: ResearchFinding): void {
+    if (!isResearchFinding(finding)) {
+      throw new Error(`Invalid ResearchFinding schema: ${JSON.stringify(finding)}`);
+    }
     const data = this.loadFile();
     data.findings = [...data.findings, finding];
     this.saveFile(data);
@@ -61,11 +64,18 @@ export class FileMeeResearchFindingStore {
     const data = this.loadFile();
     const idx = data.findings.findIndex((f) => f.id === id);
     if (idx === -1) return;
-    data.findings[idx] = { ...data.findings[idx], ...partial };
+    const updated = { ...data.findings[idx], ...partial };
+    if (!isResearchFinding(updated)) {
+      throw new Error(`Invalid ResearchFinding schema after update: ${JSON.stringify(updated)}`);
+    }
+    data.findings[idx] = updated;
     this.saveFile(data);
   }
 
   saveAll(findings: ResearchFinding[]): void {
+    if (!findings.every(isResearchFinding)) {
+      throw new Error("One or more findings do not match ResearchFinding schema.");
+    }
     this.saveFile({ findings });
   }
 }

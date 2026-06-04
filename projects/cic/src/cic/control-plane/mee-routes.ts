@@ -15,7 +15,7 @@ import { CkgStore } from "../../ckg/ckg-store.js";
 import path from "node:path";
 import fs from "node:fs";
 import crypto from "node:crypto";
-import { PhaseProposal, RefactorInsight, MeeRun } from "../../mee/mee-schema.js";
+import { PhaseProposal, RefactorInsight, MeeRun, isRefactorInsight, isMeePhaseSpec, isResearchFinding } from "../../mee/mee-schema.js";
 import { SelfRefactorEngine } from "../../mee/self-refactor/self-refactor-engine.js";
 import { PlanningEngine } from "../../mee/planning/planning-engine.js";
 import { FileMeeRunStore } from "../../mee/mee-run-store.js";
@@ -1070,6 +1070,17 @@ JSON:`;
           error: {
             code: "validation.invalid_payload",
             message: "Insights array is required.",
+            details: {}
+          }
+        });
+      }
+
+      if (!insights.every(isRefactorInsight)) {
+        return res.status(400).json({
+          ok: false,
+          error: {
+            code: "validation.invalid_schema",
+            message: "One or more items in insights array do not match RefactorInsight schema.",
             details: {}
           }
         });

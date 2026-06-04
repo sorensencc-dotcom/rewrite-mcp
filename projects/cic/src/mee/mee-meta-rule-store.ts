@@ -2,7 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { MeeMetaRule } from "./mee-schema.js";
+import { MeeMetaRule, isMeeMetaRule } from "./mee-schema.js";
 
 interface MeeMetaRulesFile {
   rules: MeeMetaRule[];
@@ -52,6 +52,9 @@ export class FileMeeMetaRuleStore {
   }
 
   add(rule: MeeMetaRule): void {
+    if (!isMeeMetaRule(rule)) {
+      throw new Error(`Invalid MeeMetaRule schema: ${JSON.stringify(rule)}`);
+    }
     const data = this.loadFile();
     data.rules = [...data.rules, rule];
     this.saveFile(data);
@@ -61,11 +64,18 @@ export class FileMeeMetaRuleStore {
     const data = this.loadFile();
     const idx = data.rules.findIndex((r) => r.id === id);
     if (idx === -1) return;
-    data.rules[idx] = { ...data.rules[idx], ...partial };
+    const updated = { ...data.rules[idx], ...partial };
+    if (!isMeeMetaRule(updated)) {
+      throw new Error(`Invalid MeeMetaRule schema after update: ${JSON.stringify(updated)}`);
+    }
+    data.rules[idx] = updated;
     this.saveFile(data);
   }
 
   saveAll(rules: MeeMetaRule[]): void {
+    if (!rules.every(isMeeMetaRule)) {
+      throw new Error("One or more rules do not match MeeMetaRule schema.");
+    }
     this.saveFile({ rules });
   }
 }

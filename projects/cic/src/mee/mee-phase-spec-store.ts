@@ -2,7 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { MeePhaseSpec } from "./mee-schema.js";
+import { MeePhaseSpec, isMeePhaseSpec } from "./mee-schema.js";
 
 interface MeePhaseSpecFile {
   phases: MeePhaseSpec[];
@@ -52,6 +52,9 @@ export class FileMeePhaseSpecStore {
   }
 
   add(phase: MeePhaseSpec): void {
+    if (!isMeePhaseSpec(phase)) {
+      throw new Error(`Invalid MeePhaseSpec schema: ${JSON.stringify(phase)}`);
+    }
     const data = this.loadFile();
     data.phases = [...data.phases, phase];
     this.saveFile(data);
@@ -61,11 +64,18 @@ export class FileMeePhaseSpecStore {
     const data = this.loadFile();
     const idx = data.phases.findIndex((p) => p.id === id);
     if (idx === -1) return;
-    data.phases[idx] = { ...data.phases[idx], ...partial };
+    const updated = { ...data.phases[idx], ...partial };
+    if (!isMeePhaseSpec(updated)) {
+      throw new Error(`Invalid MeePhaseSpec schema after update: ${JSON.stringify(updated)}`);
+    }
+    data.phases[idx] = updated;
     this.saveFile(data);
   }
 
   saveAll(phases: MeePhaseSpec[]): void {
+    if (!phases.every(isMeePhaseSpec)) {
+      throw new Error("One or more phases do not match MeePhaseSpec schema.");
+    }
     this.saveFile({ phases });
   }
 }

@@ -79,6 +79,26 @@ export class MeeKnowledgeGraph {
     });
   }
 
+  public recordVerificationMetricsNode(proposalId: string, metrics: { testCount: number; passed: boolean; durationMs: number; validationErrorsCount: number }) {
+    this.store.appendNode({
+      id: `metrics-${proposalId}`,
+      type: "verification_metrics",
+      name: `Metrics for ${proposalId}`,
+      meta: {
+        testCount: metrics.testCount,
+        passed: metrics.passed,
+        durationMs: metrics.durationMs,
+        validationErrorsCount: metrics.validationErrorsCount,
+        timestamp: Date.now()
+      }
+    });
+    this.store.appendEdge({
+      from: proposalId,
+      to: `metrics-${proposalId}`,
+      type: "has_metrics"
+    });
+  }
+
   public getFragileModules(): { path: string; failureCount: number }[] {
     const graph = this.store.load();
     const failures = graph.nodes.filter(n => n.type === "failure");

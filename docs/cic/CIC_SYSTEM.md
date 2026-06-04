@@ -633,6 +633,23 @@ CIC v11.0.0 implements **reflexive meta-evolution** via a second-order **M1 → 
 
 ---
 
+## 17. Strict Runtime Verification & Schema Safeguards (Phase 43)
+
+The Runtime Verification Layer enforces deterministic schema validations across the self-evolution and persistence layers. It acts as an automated safety gate preventing corrupted, unaligned, or malformed data from persisting or routing.
+
+### 17.1 Type Guards
+- **`isResearchFinding`**: Validates telemetry anomalies, gaps, and opportunity findings.
+- **`isMeePhaseSpec`**: Validates autonomously generated phases, their objectives, alignment scoring, and multi-agent critique validation results.
+- **`isMeeMetaRule`**: Validates weight-tuning rules for scheduler concurrency, consensus weight, and planner decomposition.
+- **`isRefactorInsight`**: Validates static analysis findings, complexity metrics, and severity.
+
+### 17.2 Store-Layer Enforcement
+- **`FileMeeResearchFindingStore`**: Rejects and throws on any non-conforming ResearchFinding payload addition or modification.
+- **`FileMeePhaseSpecStore`**: Rejects and throws on any malformed phase specification updates or saves.
+- **`FileMeeMetaRuleStore`**: Enforces strict heuristic type and weight constraints (e.g. weight must be a float between `0.0` and `1.0`).
+
+---
+
 <!-- ARPS:SYSTEM_PHASE_23:BEGIN -->
 ## Section 18 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)
 

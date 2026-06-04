@@ -22,10 +22,11 @@ This roadmap is separate from the CIC Master Roadmap and represents the Rewrite 
 ## 2. Immediate (Planned)
 
 ### Upgrade generation pipeline to Claude Opus 4.8  
-Status: **Planned**  
+Status: **Planned** (BLOCKED: API credits exhausted)  
 - A/B test HTML output vs Sonnet  
 - Measure DOM structure, CSS fidelity, Lighthouse deltas  
-- Track cost-per-site delta
+- Track cost-per-site delta  
+- **Note:** Corpus capture complete (13/20 sites). Metadata extraction complete. Benchmark harness ready. Awaiting API credit replenishment to run bench:opus-sonnet.
 
 ### Add Bumblebee (Perplexity) to CI pipeline  
 Status: **Planned**  

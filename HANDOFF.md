@@ -10,11 +10,12 @@
 - **Autonomous Research Engine**: Created [MeeResearchEngine](file:///c:/dev/rewrite-mcp/projects/cic/src/mee/mee-research-engine.ts) to gather runtime statistics, failure details, and CKG hotspots, using the LLM client to synthesize observations into structured research findings and refined heuristics.
 - **REST Endpoints**: Registered control plane endpoints under `/mee/research/findings`, `/mee/research/scan`, `/mee/research/findings/:id/approve` (with spec promotion and consensus triggers), `/mee/research/findings/:id/reject`, and `/mee/research/meta-rules` in [mee-routes.ts](file:///c:/dev/rewrite-mcp/projects/cic/src/cic/control-plane/mee-routes.ts).
 - **UI Panel Integration**: Extended [MetaEvolutionConsole.tsx](file:///c:/dev/rewrite-mcp/projects/cic/ui/src/components/mee/MetaEvolutionConsole.tsx) with a new "Research Mode (MLE)" sub-panel displaying active findings, meta-rule ledgers, scan controls, and spec promotion approval workflows.
-- **System Docs & State**: Updated [CIC_SYSTEM.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_SYSTEM.md) (bumped to v15.0.0 with Section 39) and [CIC_PROJECT_STATE.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_PROJECT_STATE.md) (bumped to v1.16.0 with 292 passing tests).
+- **System Docs & State**: Updated [CIC_SYSTEM.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_SYSTEM.md) (bumped to v15.0.0 with Section 17 & Section 39) and [CIC_PROJECT_STATE.md](file:///c:/dev/rewrite-mcp/docs/cic/CIC_PROJECT_STATE.md) (bumped to v1.16.0 with 304 passing tests).
+- **Strict Verification & Schema Safeguards**: Introduced runtime type guards (`isResearchFinding`, `isMeePhaseSpec`, `isMeeMetaRule`, `isRefactorInsight`) and wired them into the file store layers to block and throw errors on malformed updates.
 
 **Tests**
-- Vitest suite: `tests/mee/mee-research-loop.test.ts` (PASS).
-- Full suite: `npm --prefix projects/cic test` (74 test files, 292 tests PASS).
+- Vitest suite: `tests/mee/mee-research-loop.test.ts` (PASS), `tests/mee/mee-verification-regression.test.ts` (PASS).
+- Full suite: `npm --prefix projects/cic test` (75 test files, 304 tests PASS).
 - UI stability validation: `drift-sentinel.js`, `integrity-validator.js`, `smoke-tests.js`, and `golden-master.js verify` all PASS.
 - MkDocs: Rebuilt successfully via WSL.
 

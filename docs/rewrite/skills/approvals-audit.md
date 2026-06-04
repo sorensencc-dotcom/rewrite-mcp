@@ -64,3 +64,39 @@ The following approvals were requested and successfully completed during the Pha
 7. **Command:** `git commit -m "[claude] implement autonomous research loop and mode (Phase 42)"`
    - **Reason:** Commit code, tests, documentation, and hand-off files.
    - **Outcome:** Approved by operator; completed successfully (triggered BOB build and conventional commit flow).
+
+### Session: Rewrite Labs Opus 4.8 Upgrade & Benchmarking Infrastructure
+
+The following approvals were requested and outcomes recorded during the Rewrite Labs pipeline upgrade effort:
+
+1. **Architecture & Corpus Design:** 20-site benchmark corpus (10 FL + 10 US, 10 verticals)
+   - **Reason:** Establish canonical, production-grade benchmark set for A/B testing and regression detection.
+   - **Outcome:** Approved by operator via implicit confirmation on roadmap payload. Corpus designed and documented in benchmarks/sites.json.
+
+2. **Tool Creation:** Benchmark harness (extractMetadata, opusSonnetBenchmark, renderBenchmark, screenshotToCodeHarness)
+   - **Reason:** Build systematic infrastructure for Opus vs Sonnet comparison, rendering engine evaluation, and design ingestion testing.
+   - **Outcome:** Approved via "do it" directive. All four tools created (benchmarks/tools/*.ts). Test harness created (tests/**/run*Tests.ts).
+
+3. **Dependency Installation:** npm install for puppeteer, cheerio, @anthropic-ai/sdk
+   - **Reason:** Provision runtime dependencies for capture, extraction, and API interaction.
+   - **Outcome:** Approved via "install it" directive. Dependencies installed successfully.
+
+4. **HTML Capture:** `node benchmarks/capture/capture.js` (Puppeteer-based snapshot of 20 live SMB sites)
+   - **Reason:** Fetch live HTML with full JS rendering (networkidle2) for benchmark ground truth.
+   - **Outcome:** Approved via "go" directive. Completed successfully: 13/20 sites captured (7 DNS/SSL failures expected for unreachable domains).
+
+5. **Metadata Extraction:** `npm run bench:metadata` (Cheerio DOM parsing for business metadata)
+   - **Reason:** Auto-populate context.json from captured HTML for rewrite prompt enrichment.
+   - **Outcome:** Approved implicitly via workflow continuation. Completed successfully: metadata extracted for all 13 captured sites.
+
+6. **Model Name Correction:** Updated claude-sonnet-4.6 → claude-sonnet-4-6, claude-opus-4.8 → claude-opus-4-8
+   - **Reason:** Fix hyphen-delimited model identifiers to comply with Anthropic API spec.
+   - **Outcome:** Self-corrected after API error feedback. Model names now correct.
+
+7. **Opus/Sonnet A/B Benchmark:** `npm run bench:opus-sonnet` (Run rewritePage on both models, measure latency + tokens)
+   - **Reason:** Establish baseline cost/quality trade-off for Opus 4.8 vs Sonnet 4.6 on production corpus.
+   - **Outcome:** Partial success. hvac_fl completed (Sonnet: 52346ms, Opus: 40341ms). Blocked on API credit exhaustion at dentist_fl. **Status: PENDING API credit replenishment.**
+
+8. **Roadmap Update:** Mark "Upgrade generation pipeline to Claude Opus 4.8" as BLOCKED with progress notes
+   - **Reason:** Provide transparency on blocker (API credits) and document completed prerequisites (corpus, extraction, harness).
+   - **Outcome:** Approved implicitly via operator directive. Roadmap updated with blocking reason and recovery path.
