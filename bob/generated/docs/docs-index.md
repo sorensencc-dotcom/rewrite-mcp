@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-05T09:29:42.690Z
+Generated at: 2026-06-05T09:32:35.705Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -143,6 +143,7 @@ Generated at: 2026-06-05T09:29:42.690Z
 - [daily_digest.md](docs/cic/manuals/daily_digest.md)
 - [discovery.md](projects/rl/rewrite-labs-core/specs/discovery.md)
 - [README.md](projects/cic/README.md)
+- [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
 - [README.md](projects/cic/orchestrator/node_modules/why-is-node-running/README.md)

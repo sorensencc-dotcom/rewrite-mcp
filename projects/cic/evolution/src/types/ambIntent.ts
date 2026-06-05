@@ -46,4 +46,9 @@ export interface AmbIntentArtifact {
     description: string;
     metrics: Record<string, number>; // target values, e.g. {"graph_entropy_reduction": 0.12}
   };
+
+  status?: "approved" | "blocked" | "downgraded" | "pending";
+  blocked_reason?: string;
+  governance_notes?: string;
 }
+

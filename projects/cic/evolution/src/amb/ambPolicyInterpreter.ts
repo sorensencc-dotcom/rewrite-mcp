@@ -1,60 +1,81 @@
 // File: projects/cic/evolution/src/amb/ambPolicyInterpreter.ts | Date: 2026-06-05 | v1.0.0
 
 import { AmbIntentArtifact } from "../types/ambIntent.js";
+import { PolicyCharter } from "../types/ambPolicyCharter.js";
 
 export class AmbPolicyInterpreter {
-  public interpretPolicy(intent: Partial<AmbIntentArtifact>): {
-    alignment: AmbIntentArtifact["policy_alignment"];
-    risk_class: AmbIntentArtifact["risk_class"];
-  } {
+  constructor(private charter: PolicyCharter) {}
+
+  applyPolicy(intent: AmbIntentArtifact): AmbIntentArtifact {
+    const updated = { ...intent };
+
+    if (!updated.policy_alignment) {
+      updated.policy_alignment = {
+        forbidden_domain: false,
+        operator_required: false,
+        lineage_required: false,
+        rl_dependent: false
+      };
+    }
+
+    updated.policy_alignment.forbidden_domain = this.isForbiddenDomain(intent);
+    updated.policy_alignment.operator_required = this.isOperatorRequired(intent);
+    updated.policy_alignment.lineage_required = this.isLineageRequired(intent);
+    updated.policy_alignment.rl_dependent = this.isRlDependent(intent);
+    updated.risk_class = this.computeRiskClass(intent);
+
+    return updated;
+  }
+
+  private isForbiddenDomain(intent: AmbIntentArtifact): boolean {
     const summary = (intent.justification?.summary || "").toLowerCase();
     const type = (intent.intent_type || "").toLowerCase();
 
-    // 1. Forbidden Domain Check
-    const forbiddenKeywords = [
-      "security",
-      "credentials",
-      "authorization",
-      "authentication",
-      "billing",
-      "financial",
-      "payment",
-      "disable logging",
-      "remove lineage",
-      "bypass audit"
-    ];
-    const forbidden = forbiddenKeywords.some(kw => summary.includes(kw));
+    // Check target domains matching forbidden domains
+    const hasForbiddenTarget = this.charter.forbiddenDomains.some(domain =>
+      intent.target_domains[domain as keyof typeof intent.target_domains] === true
+    );
+    if (hasForbiddenTarget) return true;
 
-    // 2. Operator Required Check
-    const isMasTopology = intent.target_domains?.mas_topology === true || type.includes("mas_stability");
-    const isPlannerTuning = type.includes("planner_tuning");
-    const isFusionDomain = intent.target_domains?.rl_fusion === true || type.includes("rl_fusion");
-    const operator = isMasTopology || isPlannerTuning || isFusionDomain;
+    // Direct text checks for safety fallback
+    const forbiddenKeywords = ["security", "auth", "billing", "financial", "disable logging", "remove lineage", "bypass audit"];
+    return forbiddenKeywords.some(kw => summary.includes(kw) || type.includes(kw));
+  }
 
-    // 3. Lineage Required Check
-    const isTenantRef = intent.justification?.references?.some(ref => ref.includes("tenant")) ?? false;
-    const lineage = isTenantRef || isFusionDomain || intent.target_domains?.ckg_graph === true;
+  private isOperatorRequired(intent: AmbIntentArtifact): boolean {
+    const type = (intent.intent_type || "").toLowerCase();
+    const hasOperatorTarget = this.charter.operatorOnlyDomains.some(domain =>
+      intent.target_domains[domain as keyof typeof intent.target_domains] === true
+    );
+    if (hasOperatorTarget) return true;
 
-    // 4. RL Dependent Check
-    const rlDependent = isFusionDomain;
+    return type.includes("planner_tuning") || type.includes("mas_stability");
+  }
 
-    // Risk Classification Determination
-    let risk: AmbIntentArtifact["risk_class"] = "low";
-    if (isMasTopology || isPlannerTuning || intent.target_domains?.ckg_graph === true) {
-      risk = "medium";
+  private isLineageRequired(intent: AmbIntentArtifact): boolean {
+    const hasLineageTarget = this.charter.lineageRequiredDomains.some(domain =>
+      intent.target_domains[domain as keyof typeof intent.target_domains] === true
+    );
+    if (hasLineageTarget) return true;
+
+    const summary = (intent.justification?.summary || "").toLowerCase();
+    return summary.includes("tenant") || summary.includes("site");
+  }
+
+  private isRlDependent(intent: AmbIntentArtifact): boolean {
+    return (
+      intent.intent_type === "rl_fusion" ||
+      intent.target_domains?.rl_fusion === true
+    );
+  }
+
+  private computeRiskClass(intent: AmbIntentArtifact): AmbIntentArtifact["risk_class"] {
+    if (intent.target_domains?.rl_fusion || intent.target_domains?.ckg_graph) {
+      return "high";
     }
-    if (rlDependent || isTenantRef) {
-      risk = "high";
+    if (intent.target_domains?.mas_topology || intent.target_domains?.cic_config) {
+      return "medium";
     }
-
-    return {
-      alignment: {
-        forbidden_domain: forbidden,
-        operator_required: operator,
-        lineage_required: lineage,
-        rl_dependent: rlDependent
-      },
-      risk_class: risk
-    };
+    return "low";
   }
 }

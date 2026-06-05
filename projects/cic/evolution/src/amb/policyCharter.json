@@ -1,0 +1,15 @@
+{
+  "forbiddenDomains": [
+    "security",
+    "auth",
+    "billing"
+  ],
+  "operatorOnlyDomains": [
+    "mas_topology",
+    "cic_config"
+  ],
+  "lineageRequiredDomains": [
+    "ckg_graph",
+    "rl_fusion"
+  ]
+}
