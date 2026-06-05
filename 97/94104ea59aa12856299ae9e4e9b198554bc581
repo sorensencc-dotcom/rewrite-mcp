@@ -1,0 +1,47 @@
+projects/cic/ruflo-orchestration/FlowLoader.ts
+  s_e06868f0ac3104::t_ab64b80c21fa7c 1-61
+PHASE_45_SPEC.md
+  s_ef85f8b92a3bc3::t_533e6e3f14811b 3
+projects/cic/tsconfig.json
+  s_e06868f0ac3104::t_ff6abd96499f87 17-26
+  s_e06868f0ac3104::t_c57de216016d8c 15
+SKILLS_POLICY_AGENT_SPEC.md
+  s_ef85f8b92a3bc3::t_cdf3949ad1f872 3
+PHASE_44.4_SPEC.md
+  s_ef85f8b92a3bc3::t_c0da51a5c6321b 3
+projects/cic/ruflo-orchestration/FlowRegistry.ts
+  s_e06868f0ac3104::t_dd1348230f7fee 66
+projects/cic/scripts/test-first-flow.ts
+  s_e06868f0ac3104::t_097a79b7b4c47e 6-8
+BLOCKED_PHASES_SUMMARY.md
+  s_ef85f8b92a3bc3::t_9458ec46c7e1ad 4-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "9794104ea59aa12856299ae9e4e9b198554bc581",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
