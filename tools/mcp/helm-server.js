@@ -775,13 +775,11 @@ function sendError(id, code, message) {
 // ============================================================
 
 function handleInitialize(params, id) {
-  const serverCapabilities = {
-    tools: Object.keys(tools).map((name) => tools[name]),
-  };
-
   sendResponse(id, {
     protocolVersion: "2024-11-05",
-    capabilities: serverCapabilities,
+    capabilities: {
+      tools: {},
+    },
     serverInfo: {
       name: "helm-cost-intelligence",
       version: "1.0.0",

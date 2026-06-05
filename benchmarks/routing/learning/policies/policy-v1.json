@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "timestamp": "2026-06-04T23:47:13.384Z",
+  "policies": {
+    "rewrite": {
+      "taskType": "rewrite",
+      "preferredOrder": [
+        "claude-sonnet-4-6",
+        "gemini-2.0-pro",
+        "llama2",
+        "claude-opus-4-8"
+      ],
+      "qualityTarget": 8,
+      "maxCostUsd": 0.25,
+      "fallbackAggressiveness": 0.5,
+      "localPreference": 0.2,
+      "providerWeights": {
+        "anthropic": 1,
+        "google": 1,
+        "microsoft": 1,
+        "ollama": 1
+      }
+    },
+    "analysis": {
+      "taskType": "analysis",
+      "preferredOrder": [
+        "claude-opus-4-8",
+        "claude-sonnet-4-6",
+        "gemini-2.0-pro",
+        "llama2"
+      ],
+      "qualityTarget": 8,
+      "maxCostUsd": 0.25,
+      "fallbackAggressiveness": 0.5,
+      "localPreference": 0.2,
+      "providerWeights": {
+        "anthropic": 1,
+        "google": 1,
+        "microsoft": 1,
+        "ollama": 1
+      }
+    },
+    "generation": {
+      "taskType": "generation",
+      "preferredOrder": [
+        "claude-sonnet-4-6",
+        "gemini-1.5-flash",
+        "claude-haiku-4-5",
+        "mistral"
+      ],
+      "qualityTarget": 7,
+      "maxCostUsd": 0.25,
+      "fallbackAggressiveness": 0.5,
+      "localPreference": 0.2,
+      "providerWeights": {
+        "anthropic": 1,
+        "google": 1,
+        "microsoft": 1,
+        "ollama": 1
+      }
+    },
+    "chat": {
+      "taskType": "chat",
+      "preferredOrder": [
+        "claude-sonnet-4-6",
+        "gemini-1.5-flash",
+        "claude-haiku-4-5",
+        "llama2"
+      ],
+      "qualityTarget": 7,
+      "maxCostUsd": 0.25,
+      "fallbackAggressiveness": 0.5,
+      "localPreference": 0.2,
+      "providerWeights": {
+        "anthropic": 1,
+        "google": 1,
+        "microsoft": 1,
+        "ollama": 1
+      }
+    }
+  }
+}

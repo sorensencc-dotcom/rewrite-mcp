@@ -19,7 +19,7 @@ This roadmap is separate from the CIC Master Roadmap and represents the Rewrite 
 
 ---
 
-## 2. Supporting Infrastructure — Phase 47 & 48 (COMPLETED)
+## 2. Supporting Infrastructure — Phases 47, 48, & 50 (COMPLETED)
 
 ### Phase 48 — Cost Intelligence ABM
 
@@ -45,7 +45,19 @@ Status: **✅ COMPLETE**
 - Dry-run support for testing without API calls
 - **Deliverables:** benchmarks/routing/{policy,router,interceptor,agent}.ts, README.md, INTEGRATION.md, example.ts
 
-**Combined Impact:** Phases 47+48 enable **20–30% reduction in LLM API spend** while maintaining quality targets through intelligent model selection and budget enforcement.
+### Phase 50 — Autonomous Routing Policy Engine (ARPE)
+
+Status: **✅ COMPLETE**
+
+- **50A — Feature Extraction:** Processes `costLog.json` to extract cost, quality, usage, temporal, and local compute features.
+- **50B — Performance Evaluator:** Scores models using a weighted cost-quality-reliability utility formula.
+- **50C — Policy Optimizer:** Gradient-free hill-climbing search with log replay simulation to find maximum-fitness routing policies.
+- **50D — Policy Store:** Persists, versions (`policy-v1.json`, etc.), and diffs routing policies to track drift.
+- **50E — Nightly/Manual Trainer:** Nightly training loop and dashboard update runner.
+- **Helm Dashboard Integration:** Added a "Routing Policy Intelligence" panel (drift graphs, tabbed targets) and terminal-styled "HELM Command Bar".
+- **Deliverables:** benchmarks/routing/learning/{features,evaluator,optimizer,policyStore,trainer,test_trainer}.ts, README.md, intelligence-server.js integration, dashboard index.html, dashboard.js, and routingIntelligence.js panel.
+
+**Combined Impact:** Phases 47+48+50 enable **20–30% reduction in LLM API spend** while maintaining quality targets through autonomous, self-optimizing model selection, active fallback tuning, and budget enforcement.
 
 ---
 

@@ -25,6 +25,7 @@ import crypto         from 'node:crypto';
 import fs             from 'node:fs';
 import path           from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync }   from 'node:child_process';
 import { ask, ingestChunk } from '../llm/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -219,6 +220,63 @@ async function handleTelemetryHeadroomPolicy(req, res) {
   send(res, 200, getPolicyState());
 }
 
+const MONOREPO_ROOT = path.resolve(__dirname, '../../../../../');
+const STORE_PATH = 'file:///' + path.resolve(MONOREPO_ROOT, 'benchmarks/routing/learning/policyStore.ts').replace(/\\/g, '/');
+
+function runTsScript(expression) {
+  try {
+    const cmd = `npx tsx -e "${expression}"`;
+    const stdout = execSync(cmd, { cwd: MONOREPO_ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    return JSON.parse(stdout.trim());
+  } catch (err) {
+    return { error: err.message, stderr: err.stderr?.toString() };
+  }
+}
+
+async function handleRoutingPolicy(req, res) {
+  const activePath = path.resolve(MONOREPO_ROOT, 'benchmarks/routing/learning/policies/policy-active.json');
+  if (!fs.existsSync(activePath)) {
+    const defaults = runTsScript(`import('${STORE_PATH}').then(m => console.log(JSON.stringify(m.getDefaultPolicies())))`);
+    return send(res, 200, {
+      version: 0,
+      timestamp: new Date().toISOString(),
+      policies: defaults.error ? {} : defaults
+    });
+  }
+
+  try {
+    const data = JSON.parse(fs.readFileSync(activePath, 'utf8'));
+    send(res, 200, data);
+  } catch (err) {
+    send(res, 500, { error: err.message });
+  }
+}
+
+async function handleRoutingDiff(req, res) {
+  const diffResult = runTsScript(`import('${STORE_PATH}').then(m => console.log(JSON.stringify(m.getPolicyDiff())))`);
+  if (diffResult.error) {
+    return send(res, 500, diffResult);
+  }
+  send(res, 200, diffResult);
+}
+
+async function handleRoutingTrain(req, res) {
+  try {
+    console.log("[server] Triggering policy trainer run...");
+    const cmd = 'npx tsx benchmarks/routing/learning/trainer.ts';
+    execSync(cmd, { cwd: MONOREPO_ROOT });
+    
+    const activePath = path.resolve(MONOREPO_ROOT, 'benchmarks/routing/learning/policies/policy-active.json');
+    if (fs.existsSync(activePath)) {
+      const data = JSON.parse(fs.readFileSync(activePath, 'utf8'));
+      send(res, 200, { success: true, ...data });
+    } else {
+      send(res, 500, { error: "Trainer ran but policy-active.json was not found." });
+    }
+  } catch (err) {
+    send(res, 500, { error: err.message });
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Router
@@ -238,6 +296,9 @@ const ROUTES = {
   'GET /telemetry/headroom': handleTelemetryHeadroom,
   'GET /telemetry/headroom-autotune': handleTelemetryHeadroomAutotune,
   'GET /telemetry/headroom-policy': handleTelemetryHeadroomPolicy,
+  'GET /telemetry/routing-policy': handleRoutingPolicy,
+  'GET /telemetry/routing-diff':   handleRoutingDiff,
+  'POST /telemetry/routing-train': handleRoutingTrain,
 };
 
 
@@ -282,12 +343,15 @@ const server = http.createServer(async (req, res) => {
 
   const key = `${req.method} ${urlPath}`;
 
-  // Auth check (skip /health, /telemetry/headroom, /telemetry/headroom-autotune, and /telemetry/headroom-policy)
+  // Auth check (skip /health, /telemetry/headroom, /telemetry/headroom-autotune, /telemetry/headroom-policy, /telemetry/routing-policy, /telemetry/routing-diff, and /telemetry/routing-train)
   if (
     req.url !== '/health' &&
     req.url !== '/telemetry/headroom' &&
     req.url !== '/telemetry/headroom-autotune' &&
     req.url !== '/telemetry/headroom-policy' &&
+    req.url !== '/telemetry/routing-policy' &&
+    req.url !== '/telemetry/routing-diff' &&
+    req.url !== '/telemetry/routing-train' &&
     !checkToken(req)
   ) {
     log.warn('auth_rejected', { url: req.url, method: req.method });

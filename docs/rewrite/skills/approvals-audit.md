@@ -27,3 +27,23 @@ The following approvals were requested from the operator during this session:
 6. **Command:** `npm run cic-ui:snapshot -- verify`
    - **Reason:** Verify UI golden master snapshot.
    - **Outcome:** Approved by operator; command completed successfully.
+
+7. **Command:** `npx ts-node benchmarks/routing/learning/test_trainer.ts`
+   - **Reason:** Test trainer script compilation and execution.
+   - **Outcome:** Failed due to Node ESM specifier resolution missing extension.
+   
+8. **Command:** `npx tsx benchmarks/routing/learning/test_trainer.ts`
+   - **Reason:** Re-run trainer verification using tsx to support extensionless imports.
+   - **Outcome:** Succeeded (ran training loop twice due to string path check bug).
+
+9. **Command:** `npm start` (in projects/cic/ingestion)
+   - **Reason:** Launch backend intelligence server to host routing policy APIs.
+   - **Outcome:** Succeeded in launching, but commands failed due to path resolution bug on Windows.
+
+10. **Command:** `npx tsx benchmarks/routing/learning/test_trainer.ts`
+    - **Reason:** Re-verify trainer after fixing pattern matching bug in main check.
+    - **Outcome:** Succeeded (ran exactly once).
+
+11. **Command:** `npm start` (in projects/cic/ingestion, re-launch)
+    - **Reason:** Restart intelligence server with corrected monorepo root path checks.
+    - **Outcome:** Running successfully, fully verified by browser subagent testing.

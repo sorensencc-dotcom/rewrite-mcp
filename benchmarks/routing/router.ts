@@ -6,6 +6,7 @@ import {
   DEFAULT_CONSTRAINTS,
 } from "./policy";
 import { PROVIDER_PRICING, estimateDirectCostUsd } from "../costs/models";
+import { loadActivePolicies } from "./learning/policyStore";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
@@ -24,7 +25,11 @@ export async function selectModel(
   }
 
   const costSummary = readTodaySummary();
-  const candidates = taskConfig.candidates;
+  const candidates = [...taskConfig.candidates];
+
+  // Try to load learned policy
+  const activePayload = loadActivePolicies();
+  const policy = activePayload ? activePayload.policies?.[ctx.taskType] : null;
 
   // Score each candidate
   const scored = candidates.map((candidate) => {
@@ -34,20 +39,42 @@ export async function selectModel(
       taskConfig.estimatedOutputTokens
     );
 
+    // Apply policy maxCostUsd override if not explicitly in context
+    const maxCostUsd = ctx.maxCostUsd ?? policy?.maxCostUsd ?? DEFAULT_CONSTRAINTS.maxCostPerRequestUsd;
+
     const penalty = computeBudgetPenalty(
       costSummary,
       cost,
-      ctx,
+      { ...ctx, maxCostUsd },
       taskConfig.estimatedInputTokens + taskConfig.estimatedOutputTokens
     );
 
-    const score = candidate.estimatedQuality - penalty;
+    let baseScore = candidate.estimatedQuality - penalty;
+
+    // Apply learned policy weights if available
+    if (policy) {
+      // 1. Provider weight multiplier
+      const providerWeight = policy.providerWeights?.[candidate.provider] ?? 1.0;
+      baseScore *= providerWeight;
+
+      // 2. Local Preference boost
+      if (candidate.provider === "ollama" && policy.localPreference > 0) {
+        baseScore += policy.localPreference * 5.0; // Boost local model score
+      }
+
+      // 3. Preferred Order boost to reflect optimal rank
+      const orderIndex = policy.preferredOrder.indexOf(candidate.model);
+      if (orderIndex !== -1) {
+        // Boost models earlier in the preferred order slightly to act as tie breakers
+        baseScore += (policy.preferredOrder.length - orderIndex) * 0.15;
+      }
+    }
 
     return {
       candidate,
       cost,
       penalty,
-      score,
+      score: baseScore,
     };
   });
 
@@ -58,7 +85,9 @@ export async function selectModel(
   const alternatives = scored.slice(1).map((s) => s.candidate);
 
   // Build reason
+  const policyStatus = policy ? `policy-v${activePayload!.version} ` : "static-rules ";
   const reason =
+    `${policyStatus}` +
     `quality=${best.candidate.estimatedQuality.toFixed(1)} ` +
     `penalty=${best.penalty.toFixed(2)} ` +
     `score=${best.score.toFixed(2)} ` +

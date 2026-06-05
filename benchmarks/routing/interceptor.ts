@@ -1,4 +1,4 @@
-import { RoutingContext, RoutingDecision } from "./policy";
+import { RoutingContext, RoutingDecision, TASK_CONFIG } from "./policy";
 import { selectModel } from "./router";
 import { Anthropic } from "@anthropic-ai/sdk";
 import {
@@ -45,14 +45,55 @@ export async function routedCall<T extends RoutedCallResult>(
     } as T & { decision: RoutingDecision };
   }
 
-  // Execute call with chosen model
-  const result = await params.call(
-    decision.chosen.model,
-    decision.chosen.provider
-  );
+  const startTime = Date.now();
+  let result: RoutedCallResult;
+  let success = true;
 
-  // Log cost via Phase 48
-  logCostForResult(result, params);
+  try {
+    // Execute call with chosen model
+    result = await params.call(
+      decision.chosen.model,
+      decision.chosen.provider
+    );
+  } catch (err) {
+    success = false;
+    const latencyMs = Date.now() - startTime;
+    // Log failure cost (tokens are 0)
+    logCostForResult(
+      {
+        content: "",
+        inputTokens: 0,
+        outputTokens: 0,
+        model: decision.chosen.model,
+        provider: decision.chosen.provider,
+      },
+      {
+        ...params,
+        metadata: {
+          ...params.metadata,
+          success: false,
+          fallbackUsed: true, // Treat failure routing as a fallback event
+          latencyMs,
+        },
+      }
+    );
+    throw err;
+  }
+
+  const latencyMs = Date.now() - startTime;
+  const baseModel = TASK_CONFIG[params.taskType]?.candidates[0]?.model;
+  const fallbackUsed = result.model !== decision.chosen.model || decision.chosen.model !== baseModel;
+
+  // Log cost via Phase 48 with success, latency, and fallback info
+  logCostForResult(result, {
+    ...params,
+    metadata: {
+      ...params.metadata,
+      success,
+      fallbackUsed,
+      latencyMs,
+    },
+  });
 
   return {
     ...result,

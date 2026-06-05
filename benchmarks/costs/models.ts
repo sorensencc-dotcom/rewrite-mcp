@@ -25,6 +25,9 @@ export interface CostEntry {
     qualityScore?: number;
     command?: string;
     phase?: number;
+    success?: boolean;
+    fallbackUsed?: boolean;
+    latencyMs?: number;
   };
 }
 
