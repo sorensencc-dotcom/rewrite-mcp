@@ -1,5 +1,56 @@
 # HANDOFF.md — rewrite-mcp Monorepo
-# Updated: 2026-06-04 | Tool: claude
+# Updated: 2026-06-05 | Tool: claude
+
+---
+
+## This Session: Rewrite Labs Benchmark Pipeline Setup (Claude)
+
+### What changed
+
+- **Environment Setup**: Created `.env` file with ANTHROPIC_API_KEY for rewrite-mcp root
+- **Benchmark Script Fixes**: Removed optional cost-tracking imports from [opusSonnetBenchmark.ts](c:\dev\rewrite-mcp\benchmarks\tools\opusSonnetBenchmark.ts) that referenced non-existent modules (`../costs/system`, `../costs/reports/generate`, `../costs/reports/helm`)
+- **Metadata Extraction**: Successfully extracted business metadata from 12 captured HTML files via `npm run bench:metadata`
+  - ✅ hvac_fl, dentist_fl, roofing_fl, landscaping_fl, salon_fl, legal_fl (FL cohort: 6/10 captured)
+  - ✅ hvac_us, dentist_us, roofing_us, auto_us, salon_us, legal_us, fitness_us (US cohort: 7/10 captured)
+  - ⚠️ Missing HTML: plumber_fl, restaurant_fl, auto_fl, fitness_fl, plumber_us, restaurant_us, landscaping_us (7 sites)
+- **Benchmark Execution**: Rewrite benchmark pipeline invoked with `npm run bench:opus-sonnet`
+  - Completed initial Sonnet call for hvac_fl before encountering API credit limit
+  - Error: `400 invalid_request_error - Your credit balance is too low to access the Anthropic API`
+
+### Current State
+
+- ✅ Pipeline infrastructure: FUNCTIONAL
+- ✅ Metadata extraction: COMPLETE (12/20 sites)
+- ⚠️ Rewrite A/B benchmark: BLOCKED (insufficient API credits)
+- 📁 Previous results: hvac_fl.{opus,sonnet}.html from prior session still in `benchmarks/out/`
+
+### Files Modified
+
+- `.env` (NEW) — API key configuration
+- `benchmarks/tools/opusSonnetBenchmark.ts` — Removed cost-report imports
+
+### Next Steps / Resume
+
+Once API credits are replenished:
+
+```bash
+cd rewrite-mcp
+export ANTHROPIC_API_KEY='sk-ant-...'
+npm run bench:opus-sonnet  # Continue A/B benchmark for all 12 sites with metadata
+```
+
+To capture remaining 7 sites:
+
+```bash
+npm run bench:capture  # Re-run to fetch plumber_fl, restaurant_fl, auto_fl, etc.
+npm run bench:metadata # Auto-extract from newly captured HTML
+npm run bench:opus-sonnet # Final benchmark run
+```
+
+### Tests
+
+- Metadata extraction: 12/20 sites ✅
+- Benchmark pipeline: Execution path validated, API auth working, awaiting credits
 
 ---
 

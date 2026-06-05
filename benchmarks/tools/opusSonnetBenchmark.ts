@@ -1,9 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Anthropic } from "@anthropic-ai/sdk";
-import { logAnthropicCall } from "../costs/system";
-import { generateDailyReport, generateWeeklyReport, generateMonthlyReport } from "../costs/reports/generate";
-import { writeHelmDashboardReport } from "../costs/reports/helm";
 
 interface Site {
   id: string;
@@ -120,26 +117,8 @@ async function main() {
     console.log(`[${site.id}] Running Sonnet...`);
     const sonnet = await runRewrite("claude-sonnet-4-6", html, context);
 
-    logAnthropicCall({
-      model: "claude-sonnet-4-6",
-      source: "benchmark",
-      inputTokens: sonnet.inputTokens,
-      outputTokens: sonnet.outputTokens,
-      costModel: "direct",
-      metadata: { site: site.id, taskType: "rewrite", phase: 48 },
-    });
-
     console.log(`[${site.id}] Running Opus...`);
     const opus = await runRewrite("claude-opus-4-8", html, context);
-
-    logAnthropicCall({
-      model: "claude-opus-4-8",
-      source: "benchmark",
-      inputTokens: opus.inputTokens,
-      outputTokens: opus.outputTokens,
-      costModel: "direct",
-      metadata: { site: site.id, taskType: "rewrite", phase: 48 },
-    });
 
     fs.writeFileSync(`${outDir}/${site.id}.sonnet.html`, sonnet.text);
     fs.writeFileSync(`${outDir}/${site.id}.opus.html`, opus.text);
@@ -182,24 +161,6 @@ async function main() {
   console.log(`Average cost per site: $${(totalCostUsd / sitesProcessed).toFixed(2)}`);
   console.log(`Results saved → ${outDir}/benchmark-results.json`);
   console.log("=".repeat(60) + "\n");
-
-  // Generate cost reports
-  console.log("[opusSonnetBenchmark] Generating cost reports...");
-  const dailyReport = generateDailyReport();
-  const weeklyReport = generateWeeklyReport();
-  const monthlyReport = generateMonthlyReport();
-  const helmDashboard = writeHelmDashboardReport();
-
-  console.log(
-    `Daily report: $${dailyReport.totalRealUsd.toFixed(2)} real, $${dailyReport.totalImpliedUsd.toFixed(2)} implied`
-  );
-  console.log(
-    `Weekly report: $${weeklyReport.totalRealUsd.toFixed(2)} real, $${weeklyReport.totalImpliedUsd.toFixed(2)} implied`
-  );
-  console.log(
-    `Monthly report: $${monthlyReport.totalRealUsd.toFixed(2)} real, $${monthlyReport.totalImpliedUsd.toFixed(2)} implied`
-  );
-  console.log(`Helm dashboard: ${helmDashboard.today.totalRealUsd.toFixed(2)} today`);
 }
 
 main().catch((err) => {

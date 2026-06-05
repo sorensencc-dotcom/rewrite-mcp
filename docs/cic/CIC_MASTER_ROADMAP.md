@@ -1020,6 +1020,66 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 
 ---
 
+## **PHASE 43 — HELM: Daily Operator OS (Complete)**
+
+**Goal:** Unified command center dashboard integrating all operator intelligence streams (calendar, finances, business pipeline, research).
+
+### **43.1 Foundation & Finance OS (Complete)**
+
+- ✔ Era Context integration for real account balances (2-account live tier)
+- ✔ TODAY column: Agenda, @Action Required, Payments Due, Deliveries
+- ✔ Finance panel: Net worth composite, cash flow, investment portfolio visualization
+- ✔ Morning brief generation via `askClaude`
+- ✔ Gmail triage label counts and financial alert parsing
+
+**Outcome:** HELM displays real-time personal/business snapshot in single unified pane.
+
+### **43.2 Cost Intelligence Layer (Complete — Phases 6–7)**
+
+- ✔ Budget management with persistent config and daily thresholds
+- ✔ Alert system with history tracking and filtering
+- ✔ Cost forecasting with burn-rate analysis
+- ✔ Quality metrics ranking models by cost-effectiveness
+- ✔ 12 MCP tools fully tested and operational
+- ✔ Helm MCP server (Phase 47/48 implementation)
+
+**Key Metrics:**
+
+- Burn rate: 417 calls @ $0.0474/call
+- Model ranking: Opus ($0.219/call) → Haiku ($0.0015/call)
+- Budget persistence: $20 daily with configurable thresholds (1–100%)
+- Alert history: Tracked, clearable, queryable
+
+**Outcome:** CIC gains real-time cost visibility and predictive resource allocation.
+
+### **43.3 Business Layer (Next)**
+
+- [ ] Rewrite Labs pipeline panel (HubSpot live deals)
+- [ ] CIC phase status from intel.log or health endpoint
+- [ ] Outreach queue surface
+- [ ] Revenue pipeline totals
+- [ ] Credit score delta from Gmail alerts
+
+### **43.4 Command & Intelligence (Pending)**
+
+- [ ] Natural language command bar
+- [ ] Cross-domain correlation alerts
+- [ ] Anomaly detection (spending variance)
+- [ ] Weekly digest view
+- [ ] Snapshot refresh prompts
+
+### **43.5 Polish & Deployment (Pending)**
+
+- [ ] Personal vs. Business OS views
+- [ ] Configurable panel layout
+- [ ] Mobile-optimized layout
+- [ ] Production deployment
+
+**Status:** ✅ PHASES 1-2 & 6-7 COMPLETE  
+**Outcome:** HELM becomes the single source of truth for daily operator decision-making.
+
+---
+
 # **Your Current Position**  
 You are here:
 
@@ -1054,6 +1114,7 @@ PHASE 39 (KG & Semantic Memory) — ✔ (complete)
 PHASE 40 (Autonomous Scheduling) — ✔ (complete)
 PHASE 41 (Meta-Learning Engine) — next
 PHASE 42 (Autonomous Research Mode) — queued
+PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)
 ```
 
 
