@@ -1,0 +1,197 @@
+skills/environment-diagnostics/index.js
+  s_ef85f8b92a3bc3::t_a1e949422174e4 10
+  s_ef85f8b92a3bc3::t_0964f52677570f 2-7,12-48
+  s_ef85f8b92a3bc3::t_cc13f8a5bc8bf7 1,8-9,11
+skills-runtime/skill-tool-config.json
+  s_ef85f8b92a3bc3::t_fb5de9c5b5ec0d 1-226
+skills/cic-section-summarizer/index.js
+  s_ef85f8b92a3bc3::t_e6ebb1ab22acb6 7
+  s_ef85f8b92a3bc3::t_0d46c121cfd5f3 2-4,9-28
+  s_ef85f8b92a3bc3::t_e967fd875cef97 1,5-6,8
+skills/operator-grade-procedures/index.js
+  s_ef85f8b92a3bc3::t_86cafad36dd9cd 2-7,12-52
+  s_ef85f8b92a3bc3::t_7e274f758fa552 1,8-9,11
+  s_ef85f8b92a3bc3::t_a4a6e634c58ea2 10
+package.json
+  s_109dab5d02dd8c::t_1c618a9c4463c3 58-61
+skills/operator-grade-procedures/index.test.js
+  s_ef85f8b92a3bc3::t_d61e1a57a51ab7 28-29
+  s_ef85f8b92a3bc3::t_30db7e50f794a3 9-10
+  s_ef85f8b92a3bc3::t_171c0fd4783d31 1-4,6-8,11-18,21-27,30-36
+  s_ef85f8b92a3bc3::t_fd6847a9ddbd9d 19-20
+  s_ef85f8b92a3bc3::t_2b7f522cbab51c 5
+skills/CLAUDE_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_159f0050867ff9 1-199
+skills/shared/validate.js
+  s_ef85f8b92a3bc3::t_3b3d05987f50f0 1-50
+skills-runtime/loader.js
+  s_ef85f8b92a3bc3::t_9b625e5df67f60 1-63
+skills-runtime/index.js
+  s_ef85f8b92a3bc3::t_e05fd096559527 108-111
+  s_ef85f8b92a3bc3::t_68f5dd3095b743 1-107
+SKILLS_LIBRARY.md
+  s_ef85f8b92a3bc3::t_7e4b62ff57418c 1-509
+skills/shared/errors.js
+  s_ef85f8b92a3bc3::t_769089a554173e 1-42
+skills/session-boundary-manager/schema.json
+  s_ef85f8b92a3bc3::t_c4b1a9abcfe7a7 1-18
+skills-runtime/MCP_DEPLOYMENT_GUIDE.md
+  s_ef85f8b92a3bc3::t_18bdee7ab14567 1-394
+skills/agent-drift-detector/schema.json
+  s_ef85f8b92a3bc3::t_bee0cdbe00790c 1-19
+SUGGESTED_SKILLS.md
+  s_ef85f8b92a3bc3::t_352647ff47cf44 1-536
+skills/cic-roadmap-updater/index.js
+  s_ef85f8b92a3bc3::t_a2067d667dff07 2-7,12-45
+  s_ef85f8b92a3bc3::t_1ba3998527145d 1,8-9,11
+  s_ef85f8b92a3bc3::t_fa3f19391007e9 10
+skills/index.js
+  s_ef85f8b92a3bc3::t_4eaa102c5971b7 1-31
+projects/cic/ingestion/src/reasoning/arl/engine/SelfDiagnosticsEngine.ts
+  s_109dab5d02dd8c::t_5dbc04364bcb4e 1-14,18-22,24-102,107-166,185-209
+  s_109dab5d02dd8c::t_8cd8fe68434e45 103-106
+  s_109dab5d02dd8c::t_9e5df5da66e3e6 15-17,23
+  s_109dab5d02dd8c::t_7b2064538723c0 167-184
+projects/cic/ingestion/src/reasoning/arl/contracts/ThresholdConfig.ts
+  s_109dab5d02dd8c::t_b5f827b6fc9b08 1-35
+skills-runtime/mcp-server.test.js
+  s_ef85f8b92a3bc3::t_bcb8d14c4fa8b8 1-141
+skills/rewrite-labs-orchestrator/index.js
+  s_ef85f8b92a3bc3::t_061f76265407f3 1,5-6,8
+  s_ef85f8b92a3bc3::t_63aeca06ace11d 7
+  s_ef85f8b92a3bc3::t_6625b749015625 2-4,9-33
+skills-runtime/telemetry.js
+  s_ef85f8b92a3bc3::t_aec9f10d113779 1-119
+skills-runtime/context.js
+  s_ef85f8b92a3bc3::t_dcee4e7defb29d 1-86
+skills-runtime/README.md
+  s_ef85f8b92a3bc3::t_f98e5d6ab5e0f5 1-290
+skills/rewrite-labs-orchestrator/index.test.js
+  s_ef85f8b92a3bc3::t_4554eab4e6ee54 9-10
+  s_ef85f8b92a3bc3::t_95bf16fb5b7b41 24-25
+  s_ef85f8b92a3bc3::t_2529b6fbf5d05f 1-4,6-8,11-23,26-37
+  s_ef85f8b92a3bc3::t_d69b8589398f25 5
+skills/shared/index.js
+  s_ef85f8b92a3bc3::t_94fa51df8fa903 1-5
+skills-runtime/sandbox.js
+  s_ef85f8b92a3bc3::t_b60a5b485167b4 1-76
+DELIVERY_SUMMARY.txt
+  s_ef85f8b92a3bc3::t_911fc8585e991a 1-399
+skills/session-boundary-manager/index.js
+  s_ef85f8b92a3bc3::t_c5fa8e7bc6b2e0 2-4,9-41
+  s_ef85f8b92a3bc3::t_2497f71dacaed8 7
+  s_ef85f8b92a3bc3::t_4b0016e0d534fa 1,5-6,8
+skills/session-boundary-manager/index.test.js
+  s_ef85f8b92a3bc3::t_d63e0096c8c256 1-4,6-8,10-13,15-18,21-29,32-39
+  s_ef85f8b92a3bc3::t_4273d24fd6bd85 5
+  s_ef85f8b92a3bc3::t_3029faba48808f 9,14
+  s_ef85f8b92a3bc3::t_b5c4a40ea8b4b9 30-31
+  s_ef85f8b92a3bc3::t_3fe220c66a7c4f 19-20
+projects/cic/ingestion/src/reasoning/arl/engine/ThresholdModel.ts
+  s_109dab5d02dd8c::t_c9a15028734d85 1-92
+skills-runtime/PHASE_44.1_QUICKSTART.md
+  s_ef85f8b92a3bc3::t_8f7dc17b7912ef 1-101
+skills-runtime/mcp-server-client.js
+  s_ef85f8b92a3bc3::t_f62c8dab0bf0f6 1-63
+SKILLS_API_REFERENCE.md
+  s_ef85f8b92a3bc3::t_b7dc9fb9a53112 1-541
+projects/cic/ingestion/src/reasoning/arl/tests/Batch1.test.ts
+  s_109dab5d02dd8c::t_f6cc596a495264 90-91
+  s_109dab5d02dd8c::t_a81a42820f884d 1-89,92-203,208-212,214-278
+  s_109dab5d02dd8c::t_328046e76651ce 204-207,213
+projects/cic/ingestion/src/reasoning/arl/engine/GovernanceHookExecutor.ts
+  s_109dab5d02dd8c::t_aca7c654e56254 1-90
+skills/rewrite-labs-orchestrator/schema.json
+  s_ef85f8b92a3bc3::t_321e415021ec81 1-23
+skills/operator-grade-procedures/schema.json
+  s_ef85f8b92a3bc3::t_d519f686bff951 1-20
+SKILLS_PLATFORM_NOTES.md
+  s_ef85f8b92a3bc3::t_099f63d4ae1838 1-319
+SKILLS_INDEX.md
+  s_ef85f8b92a3bc3::t_7701301bde11c0 1-258
+PHASE_44.1_COMPLETION.md
+  s_ef85f8b92a3bc3::t_e18ff69b7a552d 1-287
+skills/agent-drift-detector/index.test.js
+  s_ef85f8b92a3bc3::t_d16199ea14f1db 9-10
+  s_ef85f8b92a3bc3::t_b141cc251e4c97 1-4,6-8,11-18,21-28,31-38
+  s_ef85f8b92a3bc3::t_ec8110eb165f9a 29-30
+  s_ef85f8b92a3bc3::t_2b7243fd9c2509 5
+  s_ef85f8b92a3bc3::t_2bdfa09cd9c527 19-20
+skills-runtime/dependency-graph.js
+  s_ef85f8b92a3bc3::t_8bebc43f73a450 1-123
+README_SKILLS_LIBRARY.md
+  s_ef85f8b92a3bc3::t_51b4ff7f8d6a85 1-363
+skills/manifest.json
+  s_ef85f8b92a3bc3::t_55c70b3e61cc7c 1-92
+skills/skill-loader.js
+  s_ef85f8b92a3bc3::t_f9f9c700b67deb 1-63
+skills-runtime/validator.js
+  s_ef85f8b92a3bc3::t_53217068a48adb 1-82
+SKILLS_SUMMARY.md
+  s_ef85f8b92a3bc3::t_9a479dfacaaa8e 1-273
+ARL_7.12_7.25_EXECUTION_PLAN.md
+  s_109dab5d02dd8c::t_7b53a1b25d63a1 1-376
+skills-runtime/mcp-server.js
+  s_ef85f8b92a3bc3::t_5718051e1b5b54 1-182
+skills/environment-diagnostics/schema.json
+  s_ef85f8b92a3bc3::t_d5335a00c76830 1-16
+skills/cic-section-summarizer/schema.json
+  s_ef85f8b92a3bc3::t_8d9d46113fad25 1-16
+skills/cic-roadmap-updater/schema.json
+  s_ef85f8b92a3bc3::t_6629764e40bce5 1-23
+skills-runtime/CLAUDE_CODE_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_16e0a3fc8b2654 1-347
+projects/cic/ingestion/src/reasoning/arl/contracts/GovernanceSignal.ts
+  s_109dab5d02dd8c::t_2693f3798138e5 1-49
+projects/cic/ingestion/src/reasoning/arl/contracts/HealthMetrics.ts
+  s_109dab5d02dd8c::t_b3d24da5713b21 1-32
+skills/cic-roadmap-updater/index.test.js
+  s_ef85f8b92a3bc3::t_da7d4454a50b4d 5
+  s_ef85f8b92a3bc3::t_24fddd331cb0ba 1-4,6-8,11-22,25-36,39-48
+  s_ef85f8b92a3bc3::t_d4b3ad8dabf672 37-38
+  s_ef85f8b92a3bc3::t_4965adc9f99251 23-24
+  s_ef85f8b92a3bc3::t_d33c53ff1ef959 9-10
+skills/cic-section-summarizer/index.test.js
+  s_ef85f8b92a3bc3::t_cb299e9f093e84 9-10
+  s_ef85f8b92a3bc3::t_7c51346e4566b6 5
+  s_ef85f8b92a3bc3::t_2d51daa16ea8e7 19-20
+  s_ef85f8b92a3bc3::t_298bf9efdf1e5f 1-4,6-8,11-18,21-26
+skills/agent-drift-detector/index.js
+  s_ef85f8b92a3bc3::t_88b487b8c168e4 1,11-12,14
+  s_ef85f8b92a3bc3::t_ca13f093e01681 2-10,15-33
+  s_ef85f8b92a3bc3::t_c4226d9c530106 13
+skills/shared/logger.js
+  s_ef85f8b92a3bc3::t_1ca8ed9d970409 1-42
+skills/environment-diagnostics/index.test.js
+  s_ef85f8b92a3bc3::t_4feced2f1eb61c 9-10
+  s_ef85f8b92a3bc3::t_81af7ca595abd0 5
+  s_ef85f8b92a3bc3::t_3c16f66bb351df 18-19
+  s_ef85f8b92a3bc3::t_2c96723eb8adb7 27-28
+  s_ef85f8b92a3bc3::t_846405e8705f93 1-4,6-8,11-17,20-26,29-34
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_ef85f8b92a3bc3::t_f1fd543b369a25 1337-1471,1507-1508
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "7a13a9db1f6f037c96043ad100a559d8df391c01",
+  "prompts": {},
+  "sessions": {
+    "s_109dab5d02dd8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2f01f33-d8de-4699-aa50-72505eb2239f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
