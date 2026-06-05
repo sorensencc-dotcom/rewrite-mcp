@@ -289,6 +289,51 @@ Smoke tests to validate:
 
 ---
 
+## Operator Console v2
+
+**Location:** `projects/cic-operator-console/`
+
+Production-grade observability and control dashboard for CIC:
+
+| Page | Purpose |
+| --- | --- |
+| **Dashboard** | Service health + request metrics |
+| **Flow Explorer** | Execute flows, view execution timeline + spans |
+| **Agent Performance** | Latency histogram + success rate by agent |
+| **Context Inspector** | Load and inspect code contexts (lazy-load slices) |
+| **CRG Health** | Backend status + cache metrics |
+| **Metrics** | Raw Prometheus-style metrics |
+| **Settings** | Flow registry, agent registry, configuration |
+
+### Quick Start
+
+```bash
+cd projects/cic-operator-console
+npm install
+npm run dev
+# Visit http://localhost:5173
+```
+
+### Deployment
+
+**Docker:**
+
+```bash
+docker build -t cic-operator-console:1.0.0 .
+docker run -p 5173:5173 -e VITE_CIC_API_URL=http://cic-service:8080 cic-operator-console:1.0.0
+```
+
+**Kubernetes:**
+
+```bash
+kubectl apply -f kubernetes.yaml
+kubectl port-forward svc/cic-operator-console 80:5173
+```
+
+See `projects/cic-operator-console/README.md` for full documentation.
+
+---
+
 ## Zone Governance
 
 See `AGENTS.md` for detailed zone ownership and cross-subsystem rules.

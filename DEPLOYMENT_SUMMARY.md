@@ -236,10 +236,28 @@ npm start
 
 ---
 
+## Operator Console v2
+
+**Location**: `projects/cic-operator-console/`
+
+Single authoritative dashboard for monitoring and controlling CIC:
+
+```bash
+cd projects/cic-operator-console
+npm install && npm run dev
+# Visit http://localhost:5173
+```
+
+- 7 pages: Dashboard, Flow Explorer, Agent Performance, Context Inspector, CRG Health, Metrics, Settings
+- Real-time data from CIC service API
+- Docker + Kubernetes ready
+- See [projects/cic-operator-console/README.md](projects/cic-operator-console/README.md)
+
 ## Support & Documentation
 
-- **Full Guide**: [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
-- **Architecture**: [README.md](projects/cic/README.md)
+- **CIC Service**: [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
+- **CIC Architecture**: [README.md](projects/cic/README.md)
+- **Console**: [projects/cic-operator-console/README.md](projects/cic-operator-console/README.md)
 - **Governance**: [AGENTS.md](projects/cic/AGENTS.md)
 - **Approval Audit**: `PowerShell -File scripts/audit-abm-block.ps1`
 - **Tests**: `npm test`
