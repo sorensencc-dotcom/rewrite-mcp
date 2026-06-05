@@ -321,19 +321,37 @@ Logs are retained for 12 months for governance and model improvement.
 
 ## Testing
 
+### Unit & Integration Tests
+
 To verify the server works, run:
 
 ```bash
 node tools/mcp/test-idea-inbox.js
 ```
 
-This script:
+This script (9/9 passing):
 1. Initializes the server
 2. Captures a test idea
 3. Lists inbox items
 4. Verifies deduplication
 5. Reads configuration
 6. Reports results
+
+### Smoke Tests
+
+For comprehensive system verification:
+
+```bash
+node tools/mcp/idea-inbox.smoke-test.js
+```
+
+This script (12/12 passing) validates:
+- All 10 tools register and respond correctly
+- Idea capture with deduplication
+- Inbox querying and filtering
+- PRI generation and status updates
+- Configuration management
+- Data persistence (inbox.json, config.json, audit.log)
 
 ## Troubleshooting
 

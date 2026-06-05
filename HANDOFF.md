@@ -3,6 +3,130 @@
 
 ---
 
+## This Session: CIC/CRG/Ruflo Integration Layer ABM Block (Scaffolded) (Claude)
+
+### What changed
+
+Generated complete implementation scaffold for unified Context API integrating code-review-graph (CRG), CIC, and Ruflo multi-agent orchestration:
+
+**Contract & Architecture:**
+
+- ✅ `projects/cic/context-api/CONTRACT.md` — API specification defining Context, ContextFile, ContextSlice data models
+  - Lazy-loaded slice content (fetch on demand)
+  - Semantic search endpoint with ranking
+  - Trace ID propagation for distributed tracing
+  - Error codes and retry semantics
+  - Semantic versioning and backward compatibility rules
+
+**Core Service:**
+
+- ✅ `projects/cic/context-service/ContextService.ts` — Core service logic (cache management, backend coordination)
+- ✅ `projects/cic/context-service/ContextServer.ts` — Express HTTP server implementing API contract
+- ✅ `projects/cic/context-service/index.ts` — Entrypoint with subsystem wiring
+
+**CRG Integration:**
+
+- ✅ `projects/cic/crg-adapter/CRGAdapter.ts` — Translates CRG structures (files, functions, classes) to Context API format
+  - Call graph mapping
+  - FQN (fully qualified name) resolution
+  - Lazy slice extraction
+
+**Ruflo Multi-Agent Orchestration:**
+
+- ✅ `projects/cic/ruflo-orchestration/FlowRegistry.ts` — Flow template registry + execution state management
+  - 2 built-in flows: context-enrichment, idea-classification
+  - Immutable template versioning
+- ✅ `projects/cic/ruflo-orchestration/FlowOrchestrator.ts` — Flow executor with agent coordination
+  - Serial and parallel stage execution
+  - Retry policies and timeouts
+  - Template variable interpolation (TODO)
+  - Conditional routing (TODO)
+
+**Observability:**
+
+- ✅ `projects/cic/observability/TraceMiddleware.ts` — Distributed tracing middleware
+- ✅ `projects/cic/observability/MetricsMiddleware.ts` — HTTP metrics (duration, errors, cache hits)
+
+**Configuration & Governance:**
+
+- ✅ `projects/cic/config/ContextConfig.ts` — Configuration schema with environment variable loading
+- ✅ `projects/cic/.env.example` — Sample environment configuration
+- ✅ `projects/cic/AGENTS.md` — Zone governance for CIC subsystems
+- ✅ `projects/cic/README.md` — Comprehensive architecture guide with usage examples
+
+### Current State
+
+- ✅ Full ABM block scaffolded (11 files)
+- ✅ Contract-first design complete
+- ✅ All module stubs with proper type signatures
+- 📋 Next: Implement backend connectivity (CRG/CIC)
+- 📋 Next: Wire up agent clients
+- 📋 Next: Add test suite
+
+### Files Created (projects/cic/)
+
+```plaintext
+context-api/
+  └── CONTRACT.md                      (201 lines)
+context-service/
+  ├── ContextService.ts                (115 lines)
+  ├── ContextServer.ts                 (174 lines)
+  └── index.ts                         (65 lines)
+crg-adapter/
+  └── CRGAdapter.ts                    (155 lines)
+ruflo-orchestration/
+  ├── FlowRegistry.ts                  (197 lines)
+  └── FlowOrchestrator.ts              (299 lines)
+observability/
+  ├── TraceMiddleware.ts               (82 lines)
+  └── MetricsMiddleware.ts             (108 lines)
+config/
+  └── ContextConfig.ts                 (181 lines)
+AGENTS.md                              (73 lines)
+README.md                              (399 lines)
+.env.example                           (54 lines)
+```
+
+### Architecture Summary
+
+```plaintext
+Context API Contract (lazy-loaded contexts, semantic search)
+         ↓
+Context Service (HTTP server, caching, coordination)
+    ↙                    ↘
+CRG Adapter          Ruflo Orchestration
+(code structure)     (multi-agent flows)
+    ↓                    ↓
+CRG Backend          Agent Clients
+```
+
+### Key Design Decisions
+
+1. **Contract-First:** API contract is authoritative; implementations follow spec exactly
+2. **Lazy Loading:** Slice content not loaded by default; clients fetch via dedicated endpoint
+3. **Stateless Service:** ContextService is stateless; clients manage context references
+4. **Trace Propagation:** All requests include trace IDs for end-to-end visibility
+5. **Immutable Templates:** Flow templates are versioned; changes create new versions
+6. **Modular Stubs:** Every module has complete type signatures and TODO comments for unimplemented features
+
+### Next Steps — CIC Integration (Priority Order)
+
+1. **Backend Connectivity** — Implement CRG and CIC HTTP clients in ContextService
+2. **Agent Registration** — Wire up actual agent clients (code-analyzer, narrative-linker, etc.)
+3. **Template Interpolation** — Implement variable interpolation in flow inputs ({{input.foo}}, {{stages[0].output}})
+4. **Test Suite** — Create integration tests for service, adapter, and orchestration
+5. **Cache Implementation** — Add Redis or in-memory cache for contexts and slices
+6. **Distributed Execution** — Scale flow orchestration across multiple processes/machines
+
+### Zone Governance
+
+- All CIC subsystem changes follow `projects/cic/AGENTS.md`
+- Context API contract changes require architectural review
+- CRG adapter coordinates with CRG maintainers
+- Observability is always-on (tracing, metrics, health checks)
+
+---
+
 ## This Session: Idea-Inbox MCP Server (Complete & Tested) (Claude)
 
 ### What changed

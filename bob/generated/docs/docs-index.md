@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-05T03:08:01.968Z
+Generated at: 2026-06-05T03:19:09.429Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -142,6 +142,8 @@ Generated at: 2026-06-05T03:08:01.968Z
 - [dry_run.md](docs/cic/manuals/dry_run.md)
 - [daily_digest.md](docs/cic/manuals/daily_digest.md)
 - [discovery.md](projects/rl/rewrite-labs-core/specs/discovery.md)
+- [README.md](projects/cic/README.md)
+- [AGENTS.md](projects/cic/AGENTS.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
 - [README.md](projects/cic/orchestrator/node_modules/why-is-node-running/README.md)
 - [README.md](projects/cic/orchestrator/node_modules/vitest/README.md)
@@ -505,3 +507,4 @@ Generated at: 2026-06-05T03:08:01.968Z
 - [proposal-task-f74bee11-9754-42fe-8420-29be2d8a7d46.md](projects/cic/docs/mee/proposal-task-f74bee11-9754-42fe-8420-29be2d8a7d46.md)
 - [proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md](projects/cic/docs/mee/proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md)
 - [proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md](projects/cic/docs/mee/proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md)
+- [CONTRACT.md](projects/cic/context-api/CONTRACT.md)
