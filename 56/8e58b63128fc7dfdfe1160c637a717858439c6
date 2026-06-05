@@ -1,0 +1,63 @@
+tools/policy-agent/criterion-evaluator.js
+  s_ef85f8b92a3bc3::t_a1f5877c19ea9b 1-347
+tools/policy-agent/index.test.js
+  s_ef85f8b92a3bc3::t_09934f6353f710 1-609
+.husky/pre-commit
+  s_ef85f8b92a3bc3::t_5d5aaac12bc5f6 26-46
+projects/cic/tsconfig.json
+  s_e06868f0ac3104::t_1581889ee2dd79 24-25,27
+SKILLS_POLICY_AGENT.md
+  s_ef85f8b92a3bc3::t_47dbc7198b8e19 1-402
+package.json
+  s_ef85f8b92a3bc3::t_1f15cfc3d689c8 40-43
+.github/pull_request_template.md
+  s_ef85f8b92a3bc3::t_cc335630e2c693 1-52
+tools/policy-agent/config.json
+  s_ef85f8b92a3bc3::t_1b4634b9bd8f2d 1-55
+SKILLS_EXCEPTIONS.md
+  s_ef85f8b92a3bc3::t_714c7c4875432d 1-39
+tools/policy-agent/policy-report-generator.js
+  s_ef85f8b92a3bc3::t_70ca2ea1a9c214 1-136
+tools/policy-agent/evaluate-skill.js
+  s_ef85f8b92a3bc3::t_d9c969e82931a9 1-248
+tools/policy-agent/cli-validator.js
+  s_ef85f8b92a3bc3::t_a7aa01abdf78a7 1-145
+tools/policy-agent/exception-manager.js
+  s_ef85f8b92a3bc3::t_2f3b0de68f5731 1-147
+projects/cic/ruflo-orchestration/FlowRegistry.ts
+  s_e06868f0ac3104::t_cb297ddfb3b4f5 145,148
+projects/cic/context-service/ContextServer.ts
+  s_e06868f0ac3104::t_8e56549fc8c751 128,132
+  s_e06868f0ac3104::t_43b9b72f5a3619 94,98
+  s_e06868f0ac3104::t_109b84513ff7b3 204,208
+  s_e06868f0ac3104::t_8f6ec518081410 276,280
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "568e58b63128fc7dfdfe1160c637a717858439c6",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
