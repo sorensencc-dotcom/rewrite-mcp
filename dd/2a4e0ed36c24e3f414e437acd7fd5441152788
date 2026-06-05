@@ -1,0 +1,65 @@
+projects/cic/context-service/ContextServer.ts
+  s_e06868f0ac3104::t_f288060e2a90f5 1-199
+projects/cic/config/ContextConfig.ts
+  s_e06868f0ac3104::t_f365c414c4920d 1-157
+projects/cic/context-service/index.ts
+  s_e06868f0ac3104::t_681678ea55590b 1-80
+projects/cic/observability/TraceMiddleware.ts
+  s_e06868f0ac3104::t_e34c3c47c1e9e8 1-90
+projects/cic/README.md
+  s_e06868f0ac3104::t_260377423e900c 1-311
+projects/cic/ruflo-orchestration/FlowRegistry.ts
+  s_e06868f0ac3104::t_518e7b1cf32ebe 1-299
+tools/mcp/QUICK-EXAMPLES.md
+  s_f1da5cbfcc7905::t_b48eeb9efe5010 1-420
+tools/mcp/README-idea-inbox.md
+  s_f1da5cbfcc7905::t_1ce627b5ca835c 324-325,332,340-354
+projects/cic/.env.example
+  s_e06868f0ac3104::t_4a76006e7a533d 1-45
+tools/mcp/IMPLEMENTATION-SUMMARY.md
+  s_f1da5cbfcc7905::t_409af42e7542b9 126,143-165
+  s_f1da5cbfcc7905::t_41699a7e28d376 1-125,127-142,166-306
+  s_f1da5cbfcc7905::t_db38dd3f16ffbe 307-309
+projects/cic/AGENTS.md
+  s_e06868f0ac3104::t_7316c28f8fb4a7 1-67
+projects/cic/crg-adapter/CRGAdapter.ts
+  s_e06868f0ac3104::t_0268ef89c1dbe2 1-173
+projects/cic/context-service/ContextService.ts
+  s_e06868f0ac3104::t_ef6ecb13dddbe9 1-164
+projects/cic/observability/MetricsMiddleware.ts
+  s_e06868f0ac3104::t_fb2d33680dc02e 1-123
+HANDOFF.md
+  s_e06868f0ac3104::t_dffb37401cb579 92
+  s_e06868f0ac3104::t_c70a1d0c6a6873 22,28,35,46,51
+  s_e06868f0ac3104::t_2b85599abc000b 13
+  s_e06868f0ac3104::t_78d9d75c48dc35 6-12,14-21,23-27,29-34,36-45,47-50,52-67,69-91,93-129
+  s_e06868f0ac3104::t_4711d03bc0d3ef 68
+projects/cic/ruflo-orchestration/FlowOrchestrator.ts
+  s_e06868f0ac3104::t_626f7536797484 1-305
+projects/cic/context-api/CONTRACT.md
+  s_e06868f0ac3104::t_6e9c014c79a380 1-310
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "dd2a4e0ed36c24e3f414e437acd7fd5441152788",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f1da5cbfcc7905": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "67935109-94fb-406c-97da-eb6a60d1c0a8",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
