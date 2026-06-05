@@ -1,4 +1,4 @@
-.PHONY: capture extract-metadata bench-rewrite bench-render bench-design bench-all test-all clean help
+.PHONY: capture extract-metadata bench-rewrite bench-render bench-design bench-all bench-fast test-all clean help
 
 help:
 	@echo "Rewrite Labs Benchmark & Test Pipeline"
@@ -9,6 +9,10 @@ help:
 	@echo "  make bench-rewrite        - Run Opus vs Sonnet A/B test"
 	@echo "  make bench-render         - Compare Obscura vs Lightpanda rendering"
 	@echo "  make bench-design         - Run screenshot-to-code ingestion harness"
+	@echo ""
+	@echo "Fast Local Development:"
+	@echo "  make bench-fast           - Autonomous pipeline (capture → metadata → benchmark)"
+	@echo "                              No hooks, no prompts, single command"
 	@echo ""
 	@echo "Tests:"
 	@echo "  make test-all             - Run all regression tests"
@@ -76,6 +80,10 @@ status:
 clean:
 	@echo "[benchmark] Cleaning benchmarks/out/"
 	@rm -rf benchmarks/out/
+
+bench-fast:
+	@echo "[autonomous] Launching deterministic benchmark pipeline..."
+	@powershell -NoProfile -ExecutionPolicy Bypass -File scripts/bench-autonomous.ps1 -ApiKey "$(ANTHROPIC_API_KEY)"
 
 all: capture extract-metadata bench-rewrite
 	@echo "[benchmark] Pipeline complete"
