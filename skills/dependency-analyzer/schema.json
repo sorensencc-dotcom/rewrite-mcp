@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "projectPath": { "type": "string", "description": "Project root path" },
+    "action": { "type": "string", "enum": ["list", "check-updates", "check-compatibility", "audit"] },
+    "includeDevDeps": { "type": "boolean", "default": true },
+    "includeTransitive": { "type": "boolean", "default": true }
+  },
+  "required": ["projectPath", "action"]
+}

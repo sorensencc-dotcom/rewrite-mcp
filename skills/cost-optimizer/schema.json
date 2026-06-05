@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "action": { "type": "string", "enum": ["analyze", "forecast", "suggest", "report"] },
+    "timeRange": { "type": "string", "description": "Time range (7d, 30d, 90d)" },
+    "groupBy": { "type": "string", "enum": ["skill", "workflow", "provider"] },
+    "threshold": { "type": "number", "description": "Cost threshold for alerts" },
+    "includeForecasts": { "type": "boolean", "default": true }
+  },
+  "required": ["action"]
+}

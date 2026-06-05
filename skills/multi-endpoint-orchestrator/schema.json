@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "endpoints": {
+      "type": "array",
+      "description": "Array of service endpoints to invoke",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service": { "type": "string", "description": "Service identifier" },
+          "skill": { "type": "string", "description": "Skill name to invoke" },
+          "params": { "type": "object", "description": "Parameters for skill" }
+        },
+        "required": ["service", "skill"]
+      }
+    },
+    "sequentialMode": {
+      "type": "boolean",
+      "description": "Execute endpoints sequentially (true) or in parallel (false)",
+      "default": true
+    },
+    "timeout": {
+      "type": "number",
+      "description": "Timeout per endpoint in milliseconds",
+      "default": 60000
+    },
+    "fallbackStrategy": {
+      "type": "string",
+      "enum": ["skip-failed", "retry-3x", "use-default"],
+      "description": "How to handle failed endpoints",
+      "default": "skip-failed"
+    }
+  },
+  "required": ["endpoints"]
+}

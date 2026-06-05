@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": ["store", "retrieve", "delete", "list"],
+      "description": "Action to perform"
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Namespace for isolation (conversation, user, project)"
+    },
+    "key": {
+      "type": "string",
+      "description": "Key for storage"
+    },
+    "value": {
+      "type": "object",
+      "description": "Value to store (action: store)"
+    },
+    "ttl": {
+      "type": "number",
+      "description": "Time to live in seconds",
+      "default": 86400
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for bulk operations",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["action", "namespace"]
+}

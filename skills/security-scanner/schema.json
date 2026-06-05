@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "scanType": { "type": "string", "enum": ["code", "config", "dependencies", "all"] },
+    "codeDir": { "type": "string", "description": "Directory to scan" },
+    "rules": { "type": "array", "items": { "type": "string" } },
+    "severity": { "type": "string", "enum": ["high", "medium", "low", "all"] }
+  },
+  "required": ["scanType"]
+}
