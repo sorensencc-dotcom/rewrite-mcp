@@ -61,6 +61,61 @@ Status: **✅ COMPLETE**
 
 ---
 
+## 2.5. Cross-Platform Skills & Orchestration — Phase 44 (COMPLETED)
+
+Status: **✅ COMPLETE** (2026-06-05)
+
+### Phase 44.0 — 7 Skill Scaffolds
+
+- **cic-section-summarizer** — Summarizes CIC phase progress
+- **agent-drift-detector** — Detects schema/behavior drift
+- **rewrite-labs-orchestrator** — Monitors pipeline stages
+- **environment-diagnostics** — Debugs environment issues
+- **session-boundary-manager** — Detects context overflow
+- **cic-roadmap-updater** — Updates roadmap with progress
+- **operator-grade-procedures** — Generates deterministic procedures
+- **Tests:** 26 tests, all passing
+- **Status:** Production ready
+
+### Phase 44.1 — Claude Code MCP Deployment
+
+- MCP server exposing 13 skills as tools
+- Error handling & validation layer
+- Telemetry hooks integrated
+- **Status:** Live in Claude Code
+
+### Phase 44.2 — 3 Canonical Workflows
+
+- **phase-summary-roadmap** — Summarize + update roadmap
+- **environment-check-procedure** — Validate + fix environment
+- **pipeline-orchestration-dashboard** — Orchestrate pipeline
+- **Tests:** 55 tests (16+17+22), all passing
+- **Status:** Production ready
+
+### Phase 44.3 — Telemetry & Operator Console
+
+- **Extended Telemetry:** Workflow, alert, system metrics
+- **Unified Status:** Snapshots, health scores, trends
+- **Operator Console UI:** HTML/JS, no build required
+- **Telemetry Dashboard:** Skill/workflow/health/alerts panels
+- **Tests:** All integration tests passing
+- **Status:** Production ready
+
+### Phase 44.5 — HTTP Gateway (Ready to Deploy)
+
+- REST API for all 13 skills
+- Workflow execution endpoints
+- Telemetry & status endpoints
+- Deployment guides: Azure, GCP, Docker
+- **Platform Availability:**
+  - Claude Code: ✅ Live (MCP)
+  - Copilot: ✅ Ready (30 min setup)
+  - Gemini: ✅ Ready (45 min setup)
+
+**Combined Impact:** Phase 44 enables **cross-platform skill orchestration** (Claude → Copilot → Gemini) with unified telemetry, procedural automation, and real-time dashboard monitoring.
+
+---
+
 ## 3. Immediate (Planned)
 
 ### Upgrade generation pipeline to Claude Opus 4.8  
