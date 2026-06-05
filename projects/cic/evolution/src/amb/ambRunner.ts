@@ -1,4 +1,4 @@
-// File: projects/cic/evolution/src/amb/ambRunner.ts | Date: 2026-06-05 | v1.0.0
+// File: projects/cic/evolution/src/amb/ambRunner.ts | Date: 2026-06-05 | v1.1.0 (Milestone 4)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -10,8 +10,13 @@ import { AmbGovernanceGate } from "./ambGovernanceGate.js";
 import { AmbPolicyInterpreter } from "./ambPolicyInterpreter.js";
 import { AmbMasHealthGate } from "./ambMasHealthGate.js";
 import { AmbRlTestGate } from "./ambRlTestGate.js";
+import { AmbMemoryStore } from "./ambMemoryStore.js";
+import { AmbStrategicScorer } from "./ambStrategicScorer.js";
+import { AmbIntentBundler } from "./ambIntentBundler.js";
+import { AmbStrategicPlanner } from "./ambStrategicPlanner.js";
 import { PolicyCharter } from "../types/ambPolicyCharter.js";
 import { MasHealthSnapshot } from "./ambMasHealthConfig.js";
+import { IntentBundleArtifact, StrategicPlanArtifact } from "../types/ambStrategic.js";
 import { LoopRunner } from "../loopRunner.js";
 
 export class AmbRunner {
@@ -61,11 +66,11 @@ export class AmbRunner {
     const rawIntents = this.intentSynthesizer.synthesizeIntents(this.runId, priorities, signals);
     console.log(`[AMB] Synthesized ${rawIntents.length} raw evolution intents.`);
 
-    // 4. Apply Policy Interpreter (Milestone 3 addition)
+    // 4. Apply Policy Interpreter
     const alignedIntents = rawIntents.map(intent => this.policyInterpreter.applyPolicy(intent));
     console.log("[AMB] Policy alignment completed.");
 
-    // 5. Governance Filtering with Gates (Milestone 3 addition)
+    // 5. Governance Filtering with Gates
     const masSnapshot: MasHealthSnapshot = {
       globalErrorRate: parseFloat((1 - signals.mas_health!.agent_consensus_rate!).toFixed(3)),
       globalTimeoutRate: signals.mas_health!.critique_count! * 0.01,
@@ -79,13 +84,33 @@ export class AmbRunner {
     const { approvedIntents, allIntentsWithStatus, report: govReport } = governanceGate.evaluateIntents(alignedIntents);
     console.log(`[AMB] Governance check completed. Approved: ${approvedIntents.length}, Rejected: ${govReport.rejectedCount}`);
 
-    // Filter approved intents (non-operator required for auto-trigger)
-    const approvedNonOperatorIntents = approvedIntents.filter(i => i.policy_alignment.operator_required === false);
+    // 6. Load Cross-Run Memory (Milestone 4)
+    const memoryStore = new AmbMemoryStore();
+    const memory = memoryStore.loadLatestSnapshot();
+    console.log(`[AMB] Memory loaded: ${memory ? memory.intents.length + " historical intents" : "no prior memory"}.`);
 
-    // Trigger Evolution Loop if approved intents exist
+    // 7. Strategic Scoring (Milestone 4)
+    const scorer = new AmbStrategicScorer(memory);
+    const rankedIntents = scorer.rankIntents(approvedIntents);
+    console.log(`[AMB] Strategic scoring completed. Top score: ${rankedIntents[0]?.strategic_score ?? "N/A"}.`);
+
+    // 8. Intent Bundling (Milestone 4)
+    const bundler = new AmbIntentBundler();
+    const bundles = bundler.bundleIntents(this.runId, rankedIntents);
+    console.log(`[AMB] Intent bundling completed: ${bundles.length} bundle(s) formed.`);
+
+    // 9. Strategic Planning (Milestone 4)
+    const planner = new AmbStrategicPlanner();
+    const strategicPlan = planner.generatePlan(this.runId, rankedIntents, bundles, memory);
+    console.log(`[AMB] Strategic plan generated: ${strategicPlan.planned_intents.length} step(s) over ${strategicPlan.horizon_runs} future run(s).`);
+
+    // 10. Filter approved non-operator intents for auto-trigger
+    const approvedNonOperatorIntents = rankedIntents.filter(i => i.policy_alignment.operator_required === false);
+
+    // 11. Trigger Evolution Loop if approved intents exist
     let triggeredRunId: string | undefined;
     if (options.triggerLoop && approvedNonOperatorIntents.length > 0) {
-      console.log(`[AMB] Triggering Evolution Loop with ${approvedNonOperatorIntents.length} approved intents...`);
+      console.log(`[AMB] Triggering Evolution Loop with ${approvedNonOperatorIntents.length} strategically-ranked intents...`);
       const loop = new LoopRunner({ autoApprove: true, ambIntents: approvedNonOperatorIntents });
       await loop.runLifecycle();
       triggeredRunId = loop.getRunId();
@@ -93,8 +118,34 @@ export class AmbRunner {
       console.log("[AMB] Evolution Loop trigger skipped or no approved intents available.");
     }
 
-    // 6. Persist output artifacts (saving allIntentsWithStatus so the log keeps status)
-    this.persistArtifacts(allIntentsWithStatus, govReport, signals, triggeredRunId, approvedNonOperatorIntents.map(i => i.intent_id));
+    // 12. Record run to memory (Milestone 4)
+    const driftMetrics = {
+      tenant_drift_index: signals.drift_metrics?.tenant_drift_index,
+      graph_entropy: signals.distillation_stats?.stale_node_ratio
+    };
+    memoryStore.recordRun({
+      runId: this.runId,
+      intents: allIntentsWithStatus,
+      proposals: [], // populated by LoopRunner; memory tracks intents primarily
+      masSnapshot,
+      driftMetrics,
+      rlMetrics: signals.rl_metrics ? {
+        tenant_id: "tenant-omega-corp",
+        site_id: "site-omega-main",
+        metrics: {
+          average_lighthouse_improvement: signals.rl_metrics.average_lighthouse_improvement ?? 0,
+          conversion_rate: signals.rl_metrics.conversion_rate ?? 0
+        }
+      } : undefined
+    });
+    console.log("[AMB] Cross-run memory updated.");
+
+    // 13. Persist output artifacts
+    this.persistArtifacts(
+      allIntentsWithStatus, govReport, signals,
+      triggeredRunId, approvedNonOperatorIntents.map(i => i.intent_id),
+      bundles, strategicPlan
+    );
 
     console.log(`=== AMB Orchestrator Run Completed: ${this.runId} ===\n`);
     return true;
@@ -162,16 +213,22 @@ export class AmbRunner {
     };
   }
 
-  private persistArtifacts(allIntents: any[], govReport: any, signals: AmbSignals, triggeredRunId?: string, intentIds?: string[]) {
+  private persistArtifacts(
+    allIntents: any[], govReport: any, signals: AmbSignals,
+    triggeredRunId?: string, intentIds?: string[],
+    bundles?: IntentBundleArtifact[], strategicPlan?: StrategicPlanArtifact
+  ) {
     const ambDir = path.resolve(process.cwd(), "projects/cic/evolution/data/evolution/amb");
     
     const intentsDir = path.join(ambDir, "intents");
     const logsDir = path.join(ambDir, "logs");
     const reportsDir = path.join(ambDir, "reports");
+    const strategicDir = path.resolve(process.cwd(), "projects/cic/evolution/data/amb/strategic");
 
     fs.mkdirSync(intentsDir, { recursive: true });
     fs.mkdirSync(logsDir, { recursive: true });
     fs.mkdirSync(reportsDir, { recursive: true });
+    fs.mkdirSync(strategicDir, { recursive: true });
 
     // Write all intents with their updated governance status
     fs.writeFileSync(
@@ -218,7 +275,28 @@ export class AmbRunner {
       "utf8"
     );
 
+    // Write strategic plan (Milestone 4)
+    if (strategicPlan) {
+      fs.writeFileSync(
+        path.join(strategicDir, `strategic_plan_${this.runId}.json`),
+        JSON.stringify(strategicPlan, null, 2),
+        "utf8"
+      );
+    }
+
+    // Write intent bundles (Milestone 4)
+    if (bundles && bundles.length > 0) {
+      fs.writeFileSync(
+        path.join(strategicDir, `intent_bundles_${this.runId}.json`),
+        JSON.stringify({ runId: this.runId, timestamp: this.timestamp, bundles }, null, 2),
+        "utf8"
+      );
+    }
+
     console.log(`[AMB] Artifacts written successfully under ${ambDir}`);
+    if (strategicPlan) {
+      console.log(`[AMB] Strategic artifacts written under ${strategicDir}`);
+    }
   }
 }
 

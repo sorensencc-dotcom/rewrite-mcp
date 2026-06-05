@@ -199,7 +199,7 @@ export class CRGAdapter {
 
     // Parse imports
     const imports = file.imports.map((imp) => imp.module);
-    const importedBy: string[] = []; // TODO: compute from call graph
+    const importedBy: string[] = this.findImporters(file.path, callGraph);
 
     return {
       path: file.path,
@@ -224,6 +224,26 @@ export class CRGAdapter {
       }
     }
     return callers;
+  }
+
+  /**
+   * Find files that import a given file path via call graph references
+   */
+  private findImporters(
+    filePath: string,
+    callGraph: Record<string, string[]>
+  ): string[] {
+    const importers = new Set<string>();
+    for (const [caller, callees] of Object.entries(callGraph)) {
+      const callerFile = caller.split(":")[0];
+      if (callerFile === filePath) continue;
+      for (const callee of callees) {
+        if (callee.startsWith(filePath + ":")) {
+          importers.add(callerFile);
+        }
+      }
+    }
+    return Array.from(importers);
   }
 
   /**

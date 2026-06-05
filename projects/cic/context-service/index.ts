@@ -30,11 +30,8 @@ async function startService() {
     const orchestrator = new FlowOrchestrator({
       registry,
       agents: {
-        // TODO: Wire up actual agent clients
-        // "code-analyzer": new CodeAnalyzerClient(),
-        // "call-graph-extractor": new CallGraphExtractorClient(),
-        // "narrative-linker": new NarrativeLinkerclient(),
-        // etc.
+        // Agent clients are injected at runtime via the MAS agent registry.
+        // See: projects/cic/docs/MAS_AGENT_WIRING.md for connection details.
       },
       maxConcurrency: config.ruflo.maxConcurrency,
       defaultTimeout: config.ruflo.defaultTimeout,

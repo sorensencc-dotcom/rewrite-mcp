@@ -6,8 +6,8 @@ Zone governance for CIC subsystems and CIC/CRG/Ruflo integration layer.
 
 ## Zone Ownership — CIC Subsystems
 
-| Path | Primary | May Assist | Notes |
-|------|---------|-----------|-------|
+| Path | Primary Owner | May Assist | Notes |
+|------|---------------|-----------|-------|
 | `context-api/` | Claude | — | Context API contract, schema, versioning — no edits without architectural review. |
 | `context-service/` | Claude | Copilot | Core context inference engine; test stubs via Copilot OK. |
 | `crg-adapter/` | Claude | — | CRG structural integration layer — coordinate with CRG maintainers. |
