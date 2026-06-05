@@ -1,0 +1,27 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_63603ea83ef563 1358
+  s_098041771ceb78::t_7f432800972b8b 1374-1400,1402,1404-1408,1411-1414
+  s_098041771ceb78::t_06106a074b07f6 1403
+  s_098041771ceb78::t_3fcaf16734a993 1401,1409-1410
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "82c54b6993032a4d4f6f829e26b4a2e27fcda755",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
