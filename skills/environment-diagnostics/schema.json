@@ -1,0 +1,16 @@
+{
+  "title": "Environment Diagnostics",
+  "type": "object",
+  "properties": {
+    "logs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Event logs or debug output to analyze"
+    },
+    "systemInfo": {
+      "type": "object",
+      "description": "System information (OS, WSL status, etc.)"
+    }
+  },
+  "required": ["logs", "systemInfo"]
+}

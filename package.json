@@ -55,6 +55,10 @@
     "cic:evolution-loop": "npx tsx projects/cic/evolution/src/loopRunner.ts",
     "cic:evolution-challenge": "npx tsx projects/cic/evolution/src/challengeRunner.ts",
     "cic:amb-run": "npx tsx projects/cic/evolution/src/amb/ambRunner.ts",
+    "arl:build:7.12": "npx tsc projects/cic/ingestion/src/reasoning/arl/engine/ThresholdModel.ts --skipLibCheck",
+    "arl:build:7.13": "npx tsc projects/cic/ingestion/src/reasoning/arl/engine/GovernanceHookExecutor.ts --skipLibCheck",
+    "arl:build:7.14": "npx tsc projects/cic/ingestion/src/reasoning/arl/engine/SelfDiagnosticsEngine.ts --skipLibCheck",
+    "test:arl": "vitest run projects/cic/ingestion/src/reasoning/arl/tests/",
     "ci": "npm run bench:metadata && npm run test:rewrite-labs"
   },
   "devDependencies": {

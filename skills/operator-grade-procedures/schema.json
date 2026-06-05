@@ -1,0 +1,20 @@
+{
+  "title": "Operator Grade Procedures",
+  "type": "object",
+  "properties": {
+    "task": {
+      "type": "string",
+      "description": "High-level task description"
+    },
+    "environment": {
+      "type": "object",
+      "description": "Environmental context (OS, tools, config)",
+      "properties": {
+        "name": { "type": "string" },
+        "osType": { "type": "string" },
+        "tools": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "required": ["task", "environment"]
+}

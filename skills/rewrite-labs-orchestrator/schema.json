@@ -1,0 +1,23 @@
+{
+  "title": "Rewrite Labs Orchestrator",
+  "type": "object",
+  "properties": {
+    "pipelineState": {
+      "type": "object",
+      "description": "Full pipeline state with stages array",
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "type": "string", "enum": ["pending", "running", "complete", "blocked"] }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["pipelineState"]
+}

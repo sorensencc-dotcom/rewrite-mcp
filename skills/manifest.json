@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "name": "Shared Skills Library",
+  "description": "Cross-platform skills for Claude, Copilot, and Gemini",
+  "skills": {
+    "cic-section-summarizer": {
+      "version": "1.0.0",
+      "entry": "./cic-section-summarizer/index.js",
+      "schema": "./cic-section-summarizer/schema.json",
+      "description": "Auto-summarize CIC phase progress",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "agent-drift-detector": {
+      "version": "1.0.0",
+      "entry": "./agent-drift-detector/index.js",
+      "schema": "./agent-drift-detector/schema.json",
+      "description": "Detect agent/extractor schema drift",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "rewrite-labs-orchestrator": {
+      "version": "1.0.0",
+      "entry": "./rewrite-labs-orchestrator/index.js",
+      "schema": "./rewrite-labs-orchestrator/schema.json",
+      "description": "Monitor RL pipeline continuously",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "environment-diagnostics": {
+      "version": "1.0.0",
+      "entry": "./environment-diagnostics/index.js",
+      "schema": "./environment-diagnostics/schema.json",
+      "description": "Debug Windows/WSL2/MSIX issues",
+      "platforms": ["claude"]
+    },
+    "session-boundary-manager": {
+      "version": "1.0.0",
+      "entry": "./session-boundary-manager/index.js",
+      "schema": "./session-boundary-manager/schema.json",
+      "description": "Detect session overflow/drift",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "cic-roadmap-updater": {
+      "version": "1.0.0",
+      "entry": "./cic-roadmap-updater/index.js",
+      "schema": "./cic-roadmap-updater/schema.json",
+      "description": "Auto-update roadmap from progress",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "operator-grade-procedures": {
+      "version": "1.0.0",
+      "entry": "./operator-grade-procedures/index.js",
+      "schema": "./operator-grade-procedures/schema.json",
+      "description": "Generate deterministic runbooks",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "web-regression": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Verify doc links (rewrite-mcp release cycle)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "research-capture": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Route findings to documents (CIC workflow)",
+      "platforms": ["claude", "gemini"]
+    },
+    "treatment-update": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Apply narrative changes (documentary)",
+      "platforms": ["claude"]
+    },
+    "doc-update": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Update changelog/roadmap (maintenance)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "docs-sync-release": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Validate + build docs (release)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "approvals-audit": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Log operator approvals (governance)",
+      "platforms": ["claude"]
+    }
+  }
+}

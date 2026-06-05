@@ -1334,6 +1334,141 @@ PHASE 35 (ABM Loops) — ✔ (complete)
 
 ---
 
+# **PHASE 44 — Shared Skills Library (Cross-Platform)**
+
+**Goal:** Document and standardize 13 skills for deployment across Claude, Copilot, and Gemini platforms.
+
+## **44.0 — Documentation & Existing Skills Review (Complete)**
+
+### Deliverables (7 comprehensive guides):
+- **SKILLS_LIBRARY.md** — Inventory of all 13 skills, platform readiness, suggested Phase 2 skills
+- **SKILLS_API_REFERENCE.md** — Detailed API specs with input/output examples for all skills
+- **SKILLS_PLATFORM_NOTES.md** — Platform-specific integration guidance (Claude, Copilot, Gemini)
+- **README_SKILLS_LIBRARY.md** — Quick start guide with architecture and usage examples
+- **SUGGESTED_SKILLS.md** — 7 new skills with detailed specs and evidence from repo analysis
+- **SKILLS_SUMMARY.md** — Executive summary, timeline, success criteria
+- **SKILLS_INDEX.md** — Navigation index organized by role
+
+### Reviewed & Documented Existing Skills (6):
+- ✔ **web-regression** — Link verification (rewrite-mcp release cycle)
+- ✔ **research-capture** — Route findings to documents (CIC workflow)
+- ✔ **treatment-update** — Apply narrative changes (documentary)
+- ✔ **doc-update** — Update changelog/roadmap (maintenance)
+- ✔ **docs-sync-release** — Validate + build docs (release)
+- ✔ **approvals-audit** — Log operator approvals (governance)
+
+### New Skills (7) — Scaffolds Ready:
+- ✔ **cic-section-summarizer** — Auto-summarize CIC phase progress
+- ✔ **agent-drift-detector** — Detect agent/extractor schema drift
+- ✔ **rewrite-labs-orchestrator** — Monitor RL pipeline continuously
+- ✔ **environment-diagnostics** — Debug Windows/WSL2/MSIX issues
+- ✔ **session-boundary-manager** — Detect session overflow/drift
+- ✔ **cic-roadmap-updater** — Auto-update roadmap from progress
+- ✔ **operator-grade-procedures** — Generate deterministic runbooks
+
+**Status:** ✅ COMPLETED  
+**Outcome:** All 13 skills documented, 7 new skills with implementation-ready scaffolds.
+
+---
+
+## **44.1 — Claude Deployment (Phase 1)**
+
+**Dependencies:** Documentation complete
+
+### Tasks:
+- [ ] Deploy 7 new skills to Claude Code
+- [ ] Test all 13 skills in Claude environment
+- [ ] Update CLAUDE.md with skill guidelines
+- [ ] Verify MCP server integration
+
+**Effort:** 1 week  
+**Status:** PENDING  
+**Outcome:** Claude has full skill capability set.
+
+---
+
+# **PHASE 45 — Suggested New Skills (7) — Phase 2 Backlog**
+
+**Goal:** Build 7 additional skills identified from repo activity analysis.
+
+Based on analysis of commits from last 7 days, HANDOFF.md sessions, and operational patterns:
+
+## **45.1 — mee-phase-executor (High Priority)**
+Execute MEE phases (43–45) with state tracking, resumable execution, progress visibility.
+- **Evidence:** Phase 43–45 are complex; manual npm script invocation error-prone
+- **Effort:** 2–3 weeks
+- **Status:** PENDING
+
+## **45.2 — cic-benchmark-runner (High Priority)**
+Automate RL benchmark pipeline with cost tracking, credit balance checking, resumable runs.
+- **Evidence:** Benchmark pipeline blocked this week (API credits); no orchestration
+- **Effort:** 2 weeks
+- **Status:** PENDING
+
+## **45.3 — environment-validator (High Priority)**
+Fast health check (<2s) for session startup (separate from deep diagnostics).
+- **Evidence:** Session startup experience matters; quick validator is low-hanging fruit
+- **Effort:** 1 week
+- **Status:** PENDING
+
+## **45.4 — mee-finding-assessor (Medium Priority)**
+Review and approve/reject autonomous research findings from Phase 42.
+- **Evidence:** Phase 42 generates findings autonomously; approval process is manual
+- **Effort:** 1.5 weeks
+- **Status:** PENDING
+
+## **45.5 — helm-daily-brief (Medium Priority)**
+Generate morning briefing from Calendar, Gmail, Finance, Deals.
+- **Evidence:** HELM Phase 2 live; automating daily brief improves experience
+- **Effort:** 2 weeks
+- **Status:** PENDING
+
+## **45.6 — idea-inbox-harvester (Medium Priority)**
+Harvest ideas to priority list for roadmap integration.
+- **Evidence:** Idea-inbox fully functional (12/12 tests pass); harvester closes automation loop
+- **Effort:** 1.5 weeks
+- **Status:** PENDING
+
+## **45.7 — phase-validator (Medium Priority)**
+Verify phase completion (tests + docs + integration).
+- **Evidence:** Phase completion is manual and error-prone; validator reduces errors
+- **Effort:** 2 weeks
+- **Status:** PENDING
+
+**Total Phase 45 Effort:** 10–12 weeks (prioritized across 4 sprints)  
+**Execution Order:** 45.3 → 45.2 → 45.1 → 45.4 → 45.5 → 45.6 → 45.7
+
+**Status:** PENDING  
+**Outcome:** 7 new skills enable automation of MEE execution, benchmarking, research, and phase validation.
+
+---
+
+## **44.2 — Copilot Adaptation (Phase 2, Optional)**
+
+**Dependencies:** Claude deployment complete, platform wrappers designed
+
+### Scope:
+Adapt 9 recommended skills to Copilot platform (exclude: treatment-update, research-capture, approvals-audit, environment-diagnostics)
+
+**Effort:** 6–8 weeks  
+**Status:** PENDING  
+**Outcome:** Copilot has cross-platform skill capability (9/13 skills).
+
+---
+
+## **44.3 — Gemini Adaptation (Phase 3, Optional)**
+
+**Dependencies:** Copilot adaptation complete, JavaScript wrapper patterns established
+
+### Scope:
+Adapt 9 recommended skills to Gemini (async-first, JavaScript-only)
+
+**Effort:** 6–8 weeks  
+**Status:** PENDING  
+**Outcome:** Gemini has cross-platform skill capability (9/13 skills).
+
+---
+
 # **Your Current Position**  
 You are here:
 
@@ -1369,6 +1504,8 @@ PHASE 40 (Autonomous Scheduling) — ✔ (complete)
 PHASE 41 (Meta-Learning Engine) — next  
 PHASE 42 (Autonomous Research Mode) — ✔ (complete)  
 PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)  
+PHASE 44 (Shared Skills Library) — ✔ (documentation complete; deployment next)
+PHASE 45 (Suggested Skills Phase 2) — PENDING (7 new skills, 10-12 weeks)
 ```
 
 ---
