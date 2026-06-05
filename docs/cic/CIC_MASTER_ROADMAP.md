@@ -1067,6 +1067,29 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 - Mock data files: benchmarks/business/rl-pipeline.json, benchmarks/cic/phase-status.json, benchmarks/finance/credit-score.json
 - Comprehensive test suite: test-helm-phase-3.js — 5/5 passing
 
+### **43.3.1 Intelligence Fabric — v2.5.0 (Complete)**
+
+**Zod-validated Ideas system substrate for Phase 43.4 Command Bar.**
+
+**Architecture:**
+
+- ✔ **ideaSchemas.ts** — Zod runtime validation for inbox items and PRIs
+- ✔ **ideaClientValidated.ts** — IdeaClient with typed, validated responses across all 10 idea: tools
+- ✔ **helm-service.ts** — IdeasService layer (getInbox, getPRIs, getSummary, searchPRIs)
+- ✔ **Meta-tools** — 2 new MCP tools:
+  - `helm:ideas-summary` — Aggregates inbox + PRIs into daily briefing (idea counts, high-signal items, escalation tracking)
+  - `helm:pri-search` — Natural-language PRI search (query-driven ranking by relevance and score)
+
+**Deliverables:**
+
+- tools/clients/ideaSchemas.ts — 9 Zod schemas + inferred TypeScript types
+- tools/clients/ideaClientValidated.ts — Runtime validation wrapper with error boundaries
+- tools/helm-service.ts — Service layer decoupling transport from HELM logic
+- Extends helm-server.js with 2 new meta-tools and support functions (getIdeasSummary, searchPRIs)
+- Updated phase-status.json tracking: Phase 43.3.1 complete, Phase 43.4 queued
+
+**Outcome:** HELM gains unified intelligence fabric for ideas, PRIs, and synthesis — ready for Phase 43.4 Command Bar wiring.
+
 ### **43.4 Command & Intelligence (Pending)**
 
 - [ ] Natural language command bar
@@ -1267,6 +1290,29 @@ PHASE 35 (ABM Loops) — ✔ (complete)
 - 5 new MCP tools: helm:rl-pipeline, helm:cic-status, helm:credit-score, helm:outreach-queue, helm:revenue-pipeline
 - Mock data files: benchmarks/business/rl-pipeline.json, benchmarks/cic/phase-status.json, benchmarks/finance/credit-score.json
 - Comprehensive test suite: test-helm-phase-3.js — 5/5 passing
+
+### **43.3.1 Intelligence Fabric — v2.5.0 (Complete)**
+
+**Zod-validated Ideas system substrate for Phase 43.4 Command Bar.**
+
+**Architecture:**
+
+- ✔ **ideaSchemas.ts** — Zod runtime validation for inbox items and PRIs
+- ✔ **ideaClientValidated.ts** — IdeaClient with typed, validated responses across all 10 idea: tools
+- ✔ **helm-service.ts** — IdeasService layer (getInbox, getPRIs, getSummary, searchPRIs)
+- ✔ **Meta-tools** — 2 new MCP tools:
+  - `helm:ideas-summary` — Aggregates inbox + PRIs into daily briefing (idea counts, high-signal items, escalation tracking)
+  - `helm:pri-search` — Natural-language PRI search (query-driven ranking by relevance and score)
+
+**Deliverables:**
+
+- tools/clients/ideaSchemas.ts — 9 Zod schemas + inferred TypeScript types
+- tools/clients/ideaClientValidated.ts — Runtime validation wrapper with error boundaries
+- tools/helm-service.ts — Service layer decoupling transport from HELM logic
+- Extends helm-server.js with 2 new meta-tools and support functions (getIdeasSummary, searchPRIs)
+- Updated phase-status.json tracking: Phase 43.3.1 complete, Phase 43.4 queued
+
+**Outcome:** HELM gains unified intelligence fabric for ideas, PRIs, and synthesis — ready for Phase 43.4 Command Bar wiring.
 
 ### **43.4 Command & Intelligence (Pending)**
 

@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-cic-dark text-white font-mono;
+}
+
+.card {
+  @apply bg-cic-muted border border-cic-border rounded p-4;
+}
+
+.button-primary {
+  @apply bg-cic-accent text-black px-4 py-2 rounded font-bold hover:opacity-80 transition;
+}
+
+.button-secondary {
+  @apply bg-cic-muted border border-cic-accent text-cic-accent px-4 py-2 rounded hover:bg-cic-border transition;
+}

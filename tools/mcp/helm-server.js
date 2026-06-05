@@ -810,6 +810,167 @@ function getRevenuePipeline() {
   };
 }
 
+function getIdeasSummary() {
+  const rlData = readRLPipeline();
+  const cicStatus = readCICPhaseStatus();
+  const creditData = readCreditScore();
+
+  // Mock idea inbox and PRIs (in Phase 4, these come from idea: MCP tools)
+  const mockInbox = [
+    {
+      id: "idea-001",
+      text: "API rate limiting causing customer churn",
+      status: "new",
+      created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      score: 85,
+    },
+    {
+      id: "idea-002",
+      text: "Billing reconciliation delay with PayPal",
+      status: "new",
+      created_at: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      score: 72,
+    },
+  ];
+
+  const mockPRIs = [
+    {
+      id: "pri-001",
+      title: "Improve API rate limit handling",
+      body: "Implement exponential backoff and queue management",
+      status: "Accepted",
+      score: 88,
+    },
+    {
+      id: "pri-002",
+      title: "Streamline billing workflow",
+      body: "Auto-reconcile payments from major providers",
+      status: "Accepted",
+      score: 75,
+    },
+    {
+      id: "pri-003",
+      title: "Customer onboarding optimization",
+      body: "Reduce setup time from 2 hours to 30 minutes",
+      status: "Under Review",
+      score: 82,
+    },
+  ];
+
+  const acceptedCount = mockPRIs.filter((p) => p.status === "Accepted").length;
+  const underReviewCount = mockPRIs.filter((p) => p.status === "Under Review").length;
+  const escalatedCount = mockInbox.filter((i) => i.status === "escalated").length;
+  const highSignalPRIs = mockPRIs.filter((p) => p.score >= 80).slice(0, 5);
+
+  return {
+    timestamp: new Date().toISOString(),
+    inboxSummary: {
+      totalItems: mockInbox.length,
+      newItems: mockInbox.filter((i) => i.status === "new").length,
+      escalated: escalatedCount,
+    },
+    priSummary: {
+      totalCount: mockPRIs.length,
+      acceptedCount,
+      underReviewCount,
+      rejectedCount: mockPRIs.filter((p) => p.status === "Rejected").length,
+    },
+    highSignal: highSignalPRIs.map((p) => ({
+      id: p.id,
+      title: p.title,
+      status: p.status,
+      score: p.score,
+    })),
+    recentIdeas: mockInbox.slice(0, 3).map((i) => ({
+      id: i.id,
+      text: i.text,
+      createdAt: i.created_at,
+      score: i.score,
+    })),
+    operationalHealth: {
+      cicPhase: cicStatus.currentPhase,
+      creditScore: creditData.score,
+      rlPipelineValue: rlData.activeDeals.reduce((sum, d) => sum + d.value, 0),
+    },
+  };
+}
+
+function searchPRIs(input) {
+  if (!input?.query) {
+    return {
+      error: "query parameter required",
+      results: [],
+    };
+  }
+
+  // Mock PRI database (in Phase 4, this comes from idea:list-pris)
+  const priDatabase = [
+    {
+      id: "pri-001",
+      title: "Improve API rate limit handling",
+      body: "Implement exponential backoff and queue management for API calls",
+      status: "Accepted",
+      score: 88,
+      tags: ["api", "performance", "reliability"],
+    },
+    {
+      id: "pri-002",
+      title: "Streamline billing workflow",
+      body: "Auto-reconcile payments from major providers to reduce manual overhead",
+      status: "Accepted",
+      score: 75,
+      tags: ["billing", "finance", "automation"],
+    },
+    {
+      id: "pri-003",
+      title: "Customer onboarding optimization",
+      body: "Reduce setup time from 2 hours to 30 minutes with guided workflow",
+      status: "Under Review",
+      score: 82,
+      tags: ["onboarding", "ux", "customer"],
+    },
+    {
+      id: "pri-004",
+      title: "API documentation improvements",
+      body: "Add interactive code examples and SDK quickstarts",
+      status: "Under Review",
+      score: 71,
+      tags: ["api", "documentation", "developer"],
+    },
+    {
+      id: "pri-005",
+      title: "Database query optimization",
+      body: "Add indexing and connection pooling for high-traffic queries",
+      status: "Accepted",
+      score: 79,
+      tags: ["performance", "database", "infrastructure"],
+    },
+  ];
+
+  const query = input.query.toLowerCase();
+  const results = priDatabase
+    .filter((pri) =>
+      pri.title.toLowerCase().includes(query) ||
+      pri.body.toLowerCase().includes(query) ||
+      pri.tags.some((tag) => tag.includes(query))
+    )
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
+
+  return {
+    timestamp: new Date().toISOString(),
+    query,
+    resultCount: results.length,
+    results: results.map((p) => ({
+      id: p.id,
+      title: p.title,
+      status: p.status,
+      score: p.score,
+      tags: p.tags,
+    })),
+  };
+}
+
 // ============================================================
 // TOOL DEFINITIONS FOR MCP
 // ============================================================
@@ -1035,6 +1196,31 @@ const tools = {
       required: [],
     },
   },
+  "helm:ideas-summary": {
+    name: "helm:ideas-summary",
+    description:
+      "Aggregate inbox and PRIs into HELM's daily briefing. Shows idea inbox counts, PRI status, high-signal items, and escalation tracking.",
+    inputSchema: {
+      type: "object",
+      properties: {},
+      required: [],
+    },
+  },
+  "helm:pri-search": {
+    name: "helm:pri-search",
+    description:
+      "Search PRIs (Problem-Resolution Items) by natural-language query. Returns top matching PRIs ranked by relevance and score.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "Search query (e.g., 'billing issues', 'API performance', 'customer onboarding')",
+        },
+      },
+      required: ["query"],
+    },
+  },
 };
 
 // ============================================================
@@ -1145,6 +1331,12 @@ function handleToolCall(toolName, input, id) {
         break;
       case "helm:revenue-pipeline":
         result = getRevenuePipeline();
+        break;
+      case "helm:ideas-summary":
+        result = getIdeasSummary();
+        break;
+      case "helm:pri-search":
+        result = searchPRIs(input);
         break;
       default:
         sendError(id, -32601, `Unknown tool: ${toolName}`);
