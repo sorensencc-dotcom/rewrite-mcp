@@ -1,0 +1,55 @@
+{
+  "criteria": {
+    "generalizability": {
+      "weight": 0.25,
+      "minScore": 0.70,
+      "description": "Skill is reusable by multiple CLIs/services, not specific to one tool"
+    },
+    "schemaCompleteness": {
+      "weight": 0.20,
+      "required": true,
+      "description": "Valid JSON schema with all required fields documented"
+    },
+    "testCoverage": {
+      "weight": 0.20,
+      "minCoverage": 0.80,
+      "description": "Unit tests covering happy path and error cases (80%+ coverage)"
+    },
+    "documentation": {
+      "weight": 0.15,
+      "minScore": 0.60,
+      "description": "README or inline docs with purpose, inputs, outputs, examples"
+    },
+    "productionReadiness": {
+      "weight": 0.15,
+      "required": true,
+      "description": "Error handling, logging, no code smells (console.log, hardcoded values)"
+    },
+    "nonCLISpecific": {
+      "weight": 0.05,
+      "required": true,
+      "description": "No TTY, process.exit, file watching, or CLI-specific libraries"
+    }
+  },
+  "passThreshold": 0.70,
+  "cliPatterns": [
+    "process.argv",
+    "process.exit",
+    "yargs",
+    "commander",
+    "readline",
+    "tty.isatty",
+    "fs.watch",
+    "child_process"
+  ],
+  "codeSmells": [
+    "console.log",
+    "console.error",
+    "hardcoded API keys",
+    "hardcoded URLs",
+    "TODO without deadline"
+  ],
+  "exceptionRegistry": "SKILLS_EXCEPTIONS.md",
+  "reportDir": "reports/policy",
+  "enabled": true
+}

@@ -21,7 +21,8 @@
     "context-api/**/*.ts",
     "crg-adapter/**/*.ts",
     "observability/**/*.ts",
-    "config/**/*.ts"
+    "config/**/*.ts",
+    "scripts/**/*.ts"
   ],
-  "exclude": ["node_modules", "dist", "ingestion", "tests", "scripts", "**/*.test.ts", "data"]
+  "exclude": ["node_modules", "dist", "ingestion", "tests", "**/*.test.ts", "data", "src/cic/**", "src/mee/**"]
 }

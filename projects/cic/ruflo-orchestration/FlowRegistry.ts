@@ -142,10 +142,10 @@ export class FlowRegistry {
       stage_index: 0,
       stage_status: template.stages.reduce(
         (acc, stage) => {
-          acc[stage.id] = "pending";
+          acc[stage.id] = "pending" as const;
           return acc;
         },
-        {} as Record<string, string>
+        {} as Record<string, "pending" | "running" | "completed" | "failed" | "skipped">
       ),
       trace_id: traceId,
       spans: [],

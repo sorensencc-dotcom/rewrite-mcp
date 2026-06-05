@@ -91,11 +91,11 @@ export class ContextServer {
 
     // GET /context/:id
     this.app.get("/context/:id", async (req: Request, res: Response) => {
-      const { id } = req.params;
+      const { id } = req.params as Record<string, string>;
       const traceId = (req as any).traceId;
 
       try {
-        const context = await this.service.getContext(id, traceId);
+        const context = await this.service.getContext(id as string, traceId);
         res.status(200).json({ context });
       } catch (error) {
         const message = (error as Error).message;
@@ -125,11 +125,11 @@ export class ContextServer {
     this.app.get(
       "/context/:id/slices/:slice_id",
       async (req: Request, res: Response) => {
-        const { id, slice_id } = req.params;
+        const { id, slice_id } = req.params as Record<string, string>;
         const traceId = (req as any).traceId;
 
         try {
-          const slice = await this.service.getSlice(id, slice_id, traceId);
+          const slice = await this.service.getSlice(id as string, slice_id as string, traceId);
           res.status(200).json({ slice });
         } catch (error) {
           const message = (error as Error).message;
@@ -169,7 +169,6 @@ export class ContextServer {
           query,
           context_id,
           limit,
-          trace_id: traceId,
         });
         res.status(200).json({ results });
       } catch (error) {
@@ -202,11 +201,11 @@ export class ContextServer {
 
     // GET /flows/:template_id - Get flow template
     this.app.get("/flows/:template_id", async (req: Request, res: Response) => {
-      const { template_id } = req.params;
+      const { template_id } = req.params as Record<string, string>;
       const traceId = (req as any).traceId;
 
       try {
-        const template = this.flowRegistry.getTemplate(template_id);
+        const template = this.flowRegistry.getTemplate(template_id as string);
         if (!template) {
           res.status(404).json({
             error: "template_not_found",
@@ -274,11 +273,11 @@ export class ContextServer {
     this.app.get(
       "/flow/execution/:execution_id",
       async (req: Request, res: Response) => {
-        const { execution_id } = req.params;
+        const { execution_id } = req.params as Record<string, string>;
         const traceId = (req as any).traceId;
 
         try {
-          const execution = this.flowRegistry.getExecution(execution_id);
+          const execution = this.flowRegistry.getExecution(execution_id as string);
           if (!execution) {
             res.status(404).json({
               error: "execution_not_found",
