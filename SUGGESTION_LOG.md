@@ -182,6 +182,57 @@
 
 ---
 
+## Skills Policy Agent (NEW REQUIREMENT)
+
+### Suggestion: Skills Library Governance
+
+**Question:** How do we prevent ad-hoc local skills and enforce shared library adoption?
+
+**Problem:**
+- Developers create `/cli-local-skills`, `/tools/custom-skills`, etc.
+- Skills duplicate across services
+- Never promoted to shared library
+- Orchestrator can't use them
+- Maintenance burden multiplies
+
+**Options:**
+- A. No governance (current state — problems continue)
+- B. Manual review in PR (slow, subjective)
+- C. Automated policy agent (criteria-based, consistent)
+
+**Decision:** C — Automated Skills Policy Agent (Planned)
+
+**Criteria:**
+1. **Generalizability** (25%) — Not CLI-specific
+2. **Schema Completeness** (20%) — Valid JSON schema
+3. **Test Coverage** (20%) — >= 80% coverage
+4. **Documentation** (15%) — Purpose + examples
+5. **Production Readiness** (15%) — Error handling, no code smells
+6. **Non-CLI-Specific** (5%) — No TTY/argv/process.exit
+
+**Workflow:**
+- Pre-commit hook evaluates new skills
+- Score >= 0.70 → Approve for shared library
+- Score < 0.70 → Either fix it or request exception
+- Exceptions registered in `SKILLS_EXCEPTIONS.md` with approval + sunset date
+
+**Implementation:**
+- Criterion evaluator (weighted scoring)
+- Exception manager (registry + approval)
+- Pre-commit hook (blocks non-compliant commits)
+- CLI validator (detects patterns: yargs, readline, process.argv, etc.)
+- Policy report generator (guides developers)
+
+**Timeline:** 2-3 hours (standalone, can run in parallel with 44.4/45)
+
+**Success Metrics:**
+- All new skills evaluated before commit
+- Zero ad-hoc local skills outside exceptions
+- Exceptions documented with reasoning + sunset dates
+- Developers guided toward shared library
+
+---
+
 ## Phase 45 Recommendations (7 New Skills)
 
 ### Skills to Build (Priority Order)
@@ -195,6 +246,8 @@
 7. **audit-logger** — Centralized audit trail for compliance
 
 **Rationale:** These skills fill gaps in orchestration (1,2), operations (3,4,5,6), and compliance (7).
+
+**Governance Note:** All Phase 45 skills will be evaluated by Skills Policy Agent before commit. Exception mechanism available for CLI-native skills.
 
 ---
 

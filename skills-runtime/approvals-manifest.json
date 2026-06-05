@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-05T00:00:00Z",
+  "description": "Proactive approval manifest with threshold-based auto-promotion",
+  "config": {
+    "autoPromoteThreshold": 2,
+    "trackingEnabled": true
+  },
+  "preApproved": [
+    {
+      "command": "npm run build-docs",
+      "reason": "Build MkDocs documentation site",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T10:00:00Z",
+      "autoPromotedAt": "2026-06-04T12:00:00Z"
+    },
+    {
+      "command": "npm run cic-ui:sentinel",
+      "reason": "Verify UI layer status",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T10:30:00Z",
+      "autoPromotedAt": "2026-06-04T12:30:00Z"
+    },
+    {
+      "command": "npm run cic-ui:validate",
+      "reason": "Run UI integrity checks",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T11:00:00Z",
+      "autoPromotedAt": "2026-06-04T13:00:00Z"
+    },
+    {
+      "command": "npm run cic-ui:smoke",
+      "reason": "Run UI smoke tests",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T11:30:00Z",
+      "autoPromotedAt": "2026-06-04T13:30:00Z"
+    },
+    {
+      "command": "npm run cic-ui:snapshot -- verify",
+      "reason": "Verify UI golden master snapshot",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T12:00:00Z",
+      "autoPromotedAt": "2026-06-04T14:00:00Z"
+    },
+    {
+      "command": "npx tsx benchmarks/routing/learning/test_trainer.ts",
+      "reason": "Test trainer script with tsx support",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T13:00:00Z",
+      "autoPromotedAt": "2026-06-04T15:00:00Z"
+    },
+    {
+      "command": "npm start",
+      "context": "projects/cic/ingestion",
+      "reason": "Launch backend intelligence server",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T14:00:00Z",
+      "autoPromotedAt": "2026-06-04T16:00:00Z"
+    }
+  ],
+  "pending": [
+    {
+      "command": "python .venv/bin/mkdocs --version",
+      "reason": "Check mkdocs version",
+      "status": "pending",
+      "occurrences": 1,
+      "firstSeen": "2026-06-04T09:00:00Z",
+      "failureReason": "WSL-only venv, not available on Windows"
+    }
+  ],
+  "tracking": {
+    "totalRequests": 13,
+    "autoPromoted": 7,
+    "manuallyApproved": 5,
+    "rejected": 1,
+    "autoPromotionRate": "53.8%"
+  }
+}

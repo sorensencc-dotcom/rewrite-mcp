@@ -7,6 +7,9 @@ import express, { Request, Response, NextFunction } from "express";
 import { ContextService, ContextServiceConfig } from "./ContextService";
 import { TraceMiddleware } from "../observability/TraceMiddleware";
 import { MetricsMiddleware } from "../observability/MetricsMiddleware";
+import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
+import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
+import { FlowLoader } from "../ruflo-orchestration/FlowLoader";
 import { v4 as uuidv4 } from "uuid";
 
 export interface ServerConfig extends ContextServiceConfig {
@@ -19,15 +22,28 @@ export class ContextServer {
   private app: express.Application;
   private service: ContextService;
   private config: ServerConfig;
+  private flowRegistry: FlowRegistry;
+  private flowOrchestrator: FlowOrchestrator;
 
   constructor(config: ServerConfig) {
     this.config = config;
     this.app = express();
     this.service = new ContextService(config);
+    this.flowRegistry = new FlowRegistry();
+
+    // Initialize orchestrator with mock agents
+    const mockAgents = this.createMockAgents();
+    this.flowOrchestrator = new FlowOrchestrator({
+      registry: this.flowRegistry,
+      agents: mockAgents,
+      maxConcurrency: 10,
+      defaultTimeout: 30000,
+    });
 
     this.setupMiddleware();
     this.setupRoutes();
     this.setupErrorHandling();
+    this.loadFlowTemplates();
   }
 
   private setupMiddleware(): void {
@@ -164,6 +180,123 @@ export class ContextServer {
         });
       }
     });
+
+    // GET /flows - List flow templates
+    this.app.get("/flows", async (req: Request, res: Response) => {
+      const traceId = (req as any).traceId;
+      const status = req.query.status as string | undefined;
+
+      try {
+        const templates = this.flowRegistry.listTemplates(
+          status as any
+        );
+        res.status(200).json({ flows: templates, count: templates.length });
+      } catch (error) {
+        res.status(500).json({
+          error: "internal_error",
+          message: (error as Error).message,
+          trace_id: traceId,
+        });
+      }
+    });
+
+    // GET /flows/:template_id - Get flow template
+    this.app.get("/flows/:template_id", async (req: Request, res: Response) => {
+      const { template_id } = req.params;
+      const traceId = (req as any).traceId;
+
+      try {
+        const template = this.flowRegistry.getTemplate(template_id);
+        if (!template) {
+          res.status(404).json({
+            error: "template_not_found",
+            message: `Flow template ${template_id} not found`,
+            trace_id: traceId,
+          });
+          return;
+        }
+        res.status(200).json({ template });
+      } catch (error) {
+        res.status(500).json({
+          error: "internal_error",
+          message: (error as Error).message,
+          trace_id: traceId,
+        });
+      }
+    });
+
+    // POST /flow/execute - Execute a flow
+    this.app.post("/flow/execute", async (req: Request, res: Response) => {
+      const { template_id, input } = req.body;
+      const traceId = (req as any).traceId;
+
+      if (!template_id || !input) {
+        res.status(400).json({
+          error: "request_malformed",
+          message: "Missing required fields: template_id, input",
+          trace_id: traceId,
+        });
+        return;
+      }
+
+      try {
+        const executionId = await this.flowOrchestrator.executeFlow(
+          template_id,
+          input,
+          traceId
+        );
+        res.status(202).json({
+          execution_id: executionId,
+          template_id,
+          status: "queued",
+          created_at: new Date().toISOString(),
+          trace_id: traceId,
+        });
+      } catch (error) {
+        const message = (error as Error).message;
+        if (message.includes("not found")) {
+          res.status(404).json({
+            error: "template_not_found",
+            message,
+            trace_id: traceId,
+          });
+        } else {
+          res.status(500).json({
+            error: "internal_error",
+            message,
+            trace_id: traceId,
+          });
+        }
+      }
+    });
+
+    // GET /flow/execution/:execution_id - Get execution status
+    this.app.get(
+      "/flow/execution/:execution_id",
+      async (req: Request, res: Response) => {
+        const { execution_id } = req.params;
+        const traceId = (req as any).traceId;
+
+        try {
+          const execution = this.flowRegistry.getExecution(execution_id);
+          if (!execution) {
+            res.status(404).json({
+              error: "execution_not_found",
+              message: `Execution ${execution_id} not found`,
+              trace_id: traceId,
+            });
+            return;
+          }
+          res.status(200).json({ execution });
+        } catch (error) {
+          res.status(500).json({
+            error: "internal_error",
+            message: (error as Error).message,
+            trace_id: traceId,
+          });
+        }
+      }
+    );
   }
 
   private setupErrorHandling(): void {
@@ -178,6 +311,40 @@ export class ContextServer {
         });
       }
     );
+  }
+
+  private loadFlowTemplates(): void {
+    const flowsPath = "projects/cic/data/flows.json";
+    const loaded = FlowLoader.loadAndRegister(this.flowRegistry, flowsPath);
+    if (loaded > 0) {
+      console.log(`✓ Loaded ${loaded} flow templates`);
+    }
+  }
+
+  private createMockAgents(): Record<string, any> {
+    // Inline mock agents for simplicity
+    const mockAgentFactory = (name: string) => ({
+      invoke: async (method: string, input: any, traceId: string) => {
+        console.log(`[${name}.${method}] Invoked with input:`, Object.keys(input));
+        return {
+          status: "success",
+          agent: name,
+          method,
+          timestamp: new Date().toISOString(),
+        };
+      },
+    });
+
+    return {
+      "code-analyzer": mockAgentFactory("code-analyzer"),
+      "call-graph-extractor": mockAgentFactory("call-graph-extractor"),
+      "narrative-linker": mockAgentFactory("narrative-linker"),
+      "context-synthesizer": mockAgentFactory("context-synthesizer"),
+      "idea-parser": mockAgentFactory("idea-parser"),
+      "idea-classifier": mockAgentFactory("idea-classifier"),
+      "refactor-proposal-engine": mockAgentFactory("refactor-proposal-engine"),
+      "test-generator": mockAgentFactory("test-generator"),
+    };
   }
 
   start(): Promise<void> {

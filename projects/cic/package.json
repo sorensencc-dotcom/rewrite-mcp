@@ -8,9 +8,12 @@
   },
   "scripts": {
     "build": "tsc",
+    "start": "node dist/context-service/index.js",
+    "dev": "node dist/context-service/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:first-flow": "node --loader ts-node/esm scripts/test-first-flow.ts"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.6",
