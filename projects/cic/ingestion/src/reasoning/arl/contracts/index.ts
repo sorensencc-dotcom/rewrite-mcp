@@ -37,3 +37,17 @@ export interface DriftImpact {
   score: number;
   details: string;
 }
+
+export * from './ExpansionContext';
+export * from './MemorySnapshot';
+export * from './MemoryConsistencyResult';
+export * from './RunSummary';
+export * from './MultiRunAggregate';
+export * from './AdversarialSignal';
+export * from './AdversarialAnalysisResult';
+export * from './OperatorFeedback';
+export * from './FeedbackAdjustment';
+export * from './ThresholdConfig';
+export * from './GovernanceSignal';
+export * from './HealthMetrics';
+export * from './Weights';

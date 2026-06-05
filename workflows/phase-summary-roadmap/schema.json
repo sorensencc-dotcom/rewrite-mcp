@@ -1,0 +1,34 @@
+{
+  "title": "Phase Summary and Roadmap Update Workflow",
+  "type": "object",
+  "properties": {
+    "phaseId": {
+      "type": "string",
+      "description": "Phase identifier (e.g., phase-44.0)"
+    },
+    "sectionIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of section IDs within phase"
+    },
+    "roadmap": {
+      "type": "object",
+      "description": "Current roadmap object"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File paths to analyze (optional)"
+    },
+    "tests": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Test identifiers (optional)"
+    },
+    "generateProcedure": {
+      "type": "boolean",
+      "description": "Generate next steps procedure (default: true)"
+    }
+  },
+  "required": ["phaseId", "sectionIds", "roadmap"]
+}
