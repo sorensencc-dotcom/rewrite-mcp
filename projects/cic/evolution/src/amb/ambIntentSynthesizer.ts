@@ -1,12 +1,15 @@
-// File: projects/cic/evolution/src/amb/ambIntentSynthesizer.ts | Date: 2026-06-05 | v1.0.0
-
 import { AmbIntentArtifact } from "../types/ambIntent.js";
 import { AmbSignals, AmbPriorityResult } from "./ambPriorityEngine.js";
 import { AmbPolicyInterpreter } from "./ambPolicyInterpreter.js";
+import { PolicyCharter } from "../types/ambPolicyCharter.js";
 import crypto from "node:crypto";
 
 export class AmbIntentSynthesizer {
-  private interpreter = new AmbPolicyInterpreter();
+  private interpreter: AmbPolicyInterpreter;
+
+  constructor(charter: PolicyCharter) {
+    this.interpreter = new AmbPolicyInterpreter(charter);
+  }
 
   public synthesizeIntents(
     runId: string,
@@ -72,9 +75,21 @@ export class AmbIntentSynthesizer {
         references.push("tenant:omega-corp");
       }
 
-      // Base partial intent to evaluate policy
-      const partialIntent: Partial<AmbIntentArtifact> = {
+      const draftIntent: AmbIntentArtifact = {
+        intent_id: intentId,
+        run_id: runId,
+        timestamp: new Date().toISOString(),
+        version: "v0.1.0",
+        source: "AMB",
         intent_type: p.intent_type,
+        priority_score: p.priority_score,
+        risk_class: "low", // populated by interpreter
+        policy_alignment: {
+          forbidden_domain: false,
+          operator_required: false,
+          lineage_required: false,
+          rl_dependent: false
+        }, // populated by interpreter
         justification: {
           summary,
           signals: {
@@ -85,43 +100,30 @@ export class AmbIntentSynthesizer {
           },
           references
         },
-        target_domains: targetDomains
+        constraints: {
+          required_tests: requiredTests,
+          required_challenge_runs: ["baseline"], // populated below
+          required_operator_actions: ["review_decisions_json"] // populated below
+        },
+        target_domains: targetDomains,
+        desired_outcomes: outcomes
       };
 
-      const policyEval = this.interpreter.interpretPolicy(partialIntent);
+      const policyEval = this.interpreter.applyPolicy(draftIntent);
 
       const requiredChallengeRuns: ("baseline" | "distillation" | "fusion" | "full_stack")[] = ["baseline"];
       if (p.intent_type === "graph_distillation") requiredChallengeRuns.push("distillation");
       if (p.intent_type === "rl_fusion") requiredChallengeRuns.push("fusion", "full_stack");
 
       const requiredOperatorActions: string[] = ["review_decisions_json"];
-      if (policyEval.risk_class === "high" || policyEval.alignment.operator_required) {
+      if (policyEval.risk_class === "high" || policyEval.policy_alignment.operator_required) {
         requiredOperatorActions.push("approve_high_risk_changes");
       }
 
-      intents.push({
-        intent_id: intentId,
-        run_id: runId,
-        timestamp: new Date().toISOString(),
-        version: "v0.1.0",
-        source: "AMB",
-        intent_type: p.intent_type,
-        priority_score: p.priority_score,
-        risk_class: policyEval.risk_class,
-        policy_alignment: policyEval.alignment,
-        justification: {
-          summary,
-          signals: partialIntent.justification!.signals!,
-          references
-        },
-        constraints: {
-          required_tests: requiredTests,
-          required_challenge_runs: requiredChallengeRuns,
-          required_operator_actions: requiredOperatorActions
-        },
-        target_domains: targetDomains,
-        desired_outcomes: outcomes
-      });
+      policyEval.constraints.required_challenge_runs = requiredChallengeRuns;
+      policyEval.constraints.required_operator_actions = requiredOperatorActions;
+
+      intents.push(policyEval);
     }
 
     return intents;

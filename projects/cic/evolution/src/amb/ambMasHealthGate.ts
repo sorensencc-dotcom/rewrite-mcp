@@ -6,13 +6,21 @@ import { AmbIntentArtifact } from "../types/ambIntent.js";
 export class AmbMasHealthGate {
   constructor(private masSnapshot: MasHealthSnapshot) {}
 
-  isMasStableFor(_intent: AmbIntentArtifact): boolean {
-    const t = MAS_HEALTH_THRESHOLDS;
+  public isMasStableFor(intent: AmbIntentArtifact): boolean {
+    const thresholds = MAS_HEALTH_THRESHOLDS;
 
-    if (this.masSnapshot.globalErrorRate > t.maxGlobalErrorRate) return false;
-    if (this.masSnapshot.globalTimeoutRate > t.maxTimeoutRate) return false;
-    if (this.masSnapshot.queueBacklogDepth > t.maxBacklogDepth) return false;
-    if (this.masSnapshot.criticalAgentsHealth < t.criticalAgentsMinHealth) return false;
+    if (this.masSnapshot.globalErrorRate > thresholds.maxGlobalErrorRate) {
+      return false;
+    }
+    if (this.masSnapshot.globalTimeoutRate > thresholds.maxTimeoutRate) {
+      return false;
+    }
+    if (this.masSnapshot.queueBacklogDepth > thresholds.maxBacklogDepth) {
+      return false;
+    }
+    if (this.masSnapshot.criticalAgentsHealth < thresholds.criticalAgentsMinHealth) {
+      return false;
+    }
 
     return true;
   }

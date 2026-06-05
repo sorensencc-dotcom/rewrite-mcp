@@ -7,7 +7,7 @@ export class AmbRlTestGate {
 
   constructor(private readonly baseDir: string = process.cwd()) {}
 
-  isRlHealthy(): boolean {
+  public isRlHealthy(): boolean {
     if (this.cachedHealthy !== null) return this.cachedHealthy;
 
     if (process.env.BYPASS_RL_TESTS === "true") {
@@ -15,9 +15,8 @@ export class AmbRlTestGate {
       return true;
     }
 
-    console.log("[AmbRlTestGate] Executing npm run test:rewrite-labs...");
     const result = spawnSync("npm", ["run", "test:rewrite-labs"], {
-      stdio: "inherit",
+      stdio: "ignore",
       shell: true,
       cwd: this.baseDir
     });

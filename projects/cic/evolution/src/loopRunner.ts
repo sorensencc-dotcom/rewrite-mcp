@@ -148,8 +148,9 @@ export class LoopRunner {
     if (this.ambIntents.length > 0) {
       console.log(`[Stage 3: Proposals] Translating ${this.ambIntents.length} AMB intents into action proposals.`);
       for (const intent of this.ambIntents) {
+        let prop: any = null;
         if (intent.intent_type === "graph_distillation") {
-          proposals.push({
+          prop = {
             proposalId: `prop-distill-${crypto.randomUUID().substring(0, 8)}`,
             title: intent.justification.summary,
             patches: [
@@ -161,9 +162,9 @@ export class LoopRunner {
             ],
             pruneActions: pruneCandidates.length > 0 ? pruneCandidates : [{ nodeId: "task:old-1", type: "task", action: "delete", reason: "stale" }],
             source_intent_id: intent.intent_id
-          });
+          };
         } else if (intent.intent_type === "rl_fusion") {
-          proposals.push({
+          prop = {
             proposalId: `prop-fusion-${crypto.randomUUID().substring(0, 8)}`,
             title: intent.justification.summary,
             patches: [],
@@ -176,9 +177,9 @@ export class LoopRunner {
               }
             },
             source_intent_id: intent.intent_id
-          });
+          };
         } else if (intent.intent_type === "planner_tuning") {
-          proposals.push({
+          prop = {
             proposalId: `prop-tune-${crypto.randomUUID().substring(0, 8)}`,
             title: intent.justification.summary,
             patches: [
@@ -189,9 +190,9 @@ export class LoopRunner {
               }
             ],
             source_intent_id: intent.intent_id
-          });
+          };
         } else if (intent.intent_type === "mas_stability") {
-          proposals.push({
+          prop = {
             proposalId: `prop-mas-${crypto.randomUUID().substring(0, 8)}`,
             title: intent.justification.summary,
             patches: [
@@ -202,7 +203,13 @@ export class LoopRunner {
               }
             ],
             source_intent_id: intent.intent_id
-          });
+          };
+        }
+
+        if (prop) {
+          prop.source_intent_risk_class = intent.risk_class;
+          prop.source_intent_status = intent.status;
+          proposals.push(prop);
         }
       }
     } else {

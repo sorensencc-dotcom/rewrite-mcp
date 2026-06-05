@@ -1,7 +1,7 @@
 [
   {
     "id": "plumber_fl",
-    "url": "https://gulfcoastplumbingfl.com/",
+    "url": "https://www.benfranklinplumbingbradenton.com",
     "htmlPath": "benchmarks/input/plumber_fl.html",
     "contextPath": "benchmarks/input/plumber_fl.context.json"
   },
@@ -19,7 +19,7 @@
   },
   {
     "id": "restaurant_fl",
-    "url": "https://yborsushihouse.com/",
+    "url": "https://www.madfishstpete.com",
     "htmlPath": "benchmarks/input/restaurant_fl.html",
     "contextPath": "benchmarks/input/restaurant_fl.context.json"
   },
@@ -31,7 +31,7 @@
   },
   {
     "id": "auto_fl",
-    "url": "https://icecoldautorepair.com/",
+    "url": "https://www.tuffybradenton.com",
     "htmlPath": "benchmarks/input/auto_fl.html",
     "contextPath": "benchmarks/input/auto_fl.context.json"
   },
@@ -55,14 +55,14 @@
   },
   {
     "id": "fitness_fl",
-    "url": "https://crossfithydepark.com/",
+    "url": "https://www.crossfit9.com",
     "htmlPath": "benchmarks/input/fitness_fl.html",
     "contextPath": "benchmarks/input/fitness_fl.context.json"
   },
 
   {
     "id": "plumber_us",
-    "url": "https://www.johnsplumbingcompany.com/",
+    "url": "https://www.mrrooter.com",
     "htmlPath": "benchmarks/input/plumber_us.html",
     "contextPath": "benchmarks/input/plumber_us.context.json"
   },
@@ -80,7 +80,7 @@
   },
   {
     "id": "restaurant_us",
-    "url": "https://www.reddoorboise.com/",
+    "url": "https://www.littleitaly-usa.com",
     "htmlPath": "benchmarks/input/restaurant_us.html",
     "contextPath": "benchmarks/input/restaurant_us.context.json"
   },
@@ -98,7 +98,7 @@
   },
   {
     "id": "landscaping_us",
-    "url": "https://www.greenthumbseattle.com/",
+    "url": "https://www.trugreen.com",
     "htmlPath": "benchmarks/input/landscaping_us.html",
     "contextPath": "benchmarks/input/landscaping_us.context.json"
   },
