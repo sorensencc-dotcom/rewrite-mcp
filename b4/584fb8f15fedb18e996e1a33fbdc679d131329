@@ -1,0 +1,38 @@
+scripts/audit-abm-block.ps1
+  s_e06868f0ac3104::t_c825ff31ac90e6 1-24,26-52,54-56,58-65,67-78,80-88,90-100,102-109,111-118,120-135,137-139,141-148,150-158,160-171,173-178,180-195,197-198
+projects/cic/.husky/pre-commit
+  s_e06868f0ac3104::t_0d9a7158c32079 1-14
+projects/cic/context-service/ContextService.ts
+  s_e06868f0ac3104::t_8030cf097f3b91 7
+  s_e06868f0ac3104::t_c2c8ccd0713d5c 73
+  s_e06868f0ac3104::t_cc3212f5374413 81-84,88-93,96-103,111-112,114,117-130,142-143,145,148-185,189,191-196,199,202-227,229-234,243,246-250,252-254,265-267,270-291
+projects/cic/ruflo-orchestration/FlowOrchestrator.ts
+  s_e06868f0ac3104::t_b07a405c2d497a 278-325,329,335-353
+projects/cic/crg-adapter/CRGAdapter.ts
+  s_e06868f0ac3104::t_eed598b490ddc9 54-121,125
+  s_e06868f0ac3104::t_04408aa5bed52c 169
+  s_e06868f0ac3104::t_b45efb54f89ff9 183,196
+  s_e06868f0ac3104::t_1f992de257c582 216,230,232,237-316
+  s_e06868f0ac3104::t_e316f187d54db6 152
+  s_e06868f0ac3104::t_6ea3571fd3fe3e 6-9,12
+projects/cic/tests/integration.test.ts
+  s_e06868f0ac3104::t_3130eb2558b7e1 1-323
+projects/cic/tests/context-service.test.ts
+  s_e06868f0ac3104::t_49a62b4e69f062 1-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b4584fb8f15fedb18e996e1a33fbdc679d131329",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
