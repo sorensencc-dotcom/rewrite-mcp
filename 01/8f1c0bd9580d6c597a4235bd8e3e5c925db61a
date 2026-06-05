@@ -1,0 +1,25 @@
+projects/cic/tests/context-service.test.ts
+  s_e06868f0ac3104::t_edbe1e1d6f496e 26
+  s_e06868f0ac3104::t_a0211a656043d6 11,13
+  s_e06868f0ac3104::t_c2cfde2d4c535e 75
+  s_e06868f0ac3104::t_6a174053a2a597 52
+  s_e06868f0ac3104::t_da64d5b2cde22c 23,25
+projects/cic/tests/integration.test.ts
+  s_e06868f0ac3104::t_cce7ea3e7c8a93 304
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "018f1c0bd9580d6c597a4235bd8e3e5c925db61a",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
