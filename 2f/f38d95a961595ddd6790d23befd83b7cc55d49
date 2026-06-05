@@ -1,0 +1,36 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_f4ea0f031db75b 1023-1024,1028,1038,1047,1056,1064,1072
+  s_098041771ceb78::t_fb731b50e90a8c 1025-1027,1029-1037,1039-1046,1048-1055,1057-1063,1065-1071,1073-1082,1117
+HANDOFF.md
+  s_109dab5d02dd8c::t_45aac7801f1283 8
+  s_109dab5d02dd8c::t_d1e8f0caf77c61 2-7,10-19,22-26,29-31,34,36-42,44-49,52-53
+  s_109dab5d02dd8c::t_d332bbfc11cb5a 9,21,28,33,35,43,51
+  s_109dab5d02dd8c::t_4babdf0f00fdfa 32
+  s_109dab5d02dd8c::t_76514c977bf947 27
+  s_109dab5d02dd8c::t_7836aee14167bf 50
+  s_109dab5d02dd8c::t_8e541fc7f3c8b8 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "2ff38d95a961595ddd6790d23befd83b7cc55d49",
+  "prompts": {},
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_109dab5d02dd8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2f01f33-d8de-4699-aa50-72505eb2239f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
