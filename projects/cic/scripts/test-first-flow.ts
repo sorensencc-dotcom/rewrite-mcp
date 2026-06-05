@@ -3,9 +3,9 @@
  * Demonstrates end-to-end CIC flow execution with agents and observability
  */
 
-import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
-import { FlowLoader } from "../ruflo-orchestration/FlowLoader";
+import { FlowRegistry } from "../dist/ruflo-orchestration/FlowRegistry.js";
+import { FlowOrchestrator } from "../dist/ruflo-orchestration/FlowOrchestrator.js";
+import { FlowLoader } from "../dist/ruflo-orchestration/FlowLoader.js";
 
 // Simple mock agents for demonstration
 const createMockAgents = () => {

@@ -12,8 +12,16 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "baseUrl": "."
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "ingestion", "tests", "**/*.test.ts"]
+  "include": [
+    "src/**/*.ts",
+    "ruflo-orchestration/**/*.ts",
+    "context-service/**/*.ts",
+    "context-api/**/*.ts",
+    "crg-adapter/**/*.ts",
+    "observability/**/*.ts",
+    "config/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist", "ingestion", "tests", "scripts", "**/*.test.ts", "data"]
 }

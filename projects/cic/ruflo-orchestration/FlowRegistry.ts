@@ -63,7 +63,7 @@ export interface FlowExecution {
 
   // State
   stage_index: number;
-  stage_status: Record<string, "pending" | "running" | "completed" | "failed">;
+  stage_status: Record<string, "pending" | "running" | "completed" | "failed" | "skipped">;
 
   // Observability
   trace_id: string;
