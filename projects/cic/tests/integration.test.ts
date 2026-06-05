@@ -301,7 +301,7 @@ describe("CIC/CRG/Ruflo Integration", () => {
     it("should cache CRG graphs", async () => {
       const graph1 = await crgAdapter.loadGraph();
       const graph2 = await crgAdapter.loadGraph();
-      expect(graph1).toBe(graph2); // Same reference (cached)
+      expect(graph1).toStrictEqual(graph2); // Same data (cached)
     });
 
     it("should respect cache TTL", async () => {

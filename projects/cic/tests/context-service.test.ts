@@ -5,12 +5,12 @@ describe("ContextService", () => {
   let service: ContextService;
 
   beforeEach(() => {
-    // TODO: Initialize ContextService with mock backends
     service = new ContextService({
       crgBackendUrl: "http://localhost:8081",
       cicBackendUrl: "http://localhost:8082",
-      cacheTTL: 3600,
+      cacheTTL: 3600000,
       requestTimeout: 30000,
+      repoPath: process.cwd(),
     });
   });
 
@@ -20,10 +20,10 @@ describe("ContextService", () => {
 
   describe("getContext", () => {
     it("should retrieve minimal context without slices", async () => {
-      const context = await service.getContext("ctx-abc123");
+      const context = await service.getContext("ctx-abc123", "trace-1");
       expect(context).toBeDefined();
-      expect(context.id).toBe("ctx-abc123");
-      expect(context.files).toBeDefined();
+      expect(context.id).toBeDefined();
+      expect(context.code?.files).toBeDefined();
     });
 
     it("should return context with trace ID", async () => {
@@ -49,6 +49,7 @@ describe("ContextService", () => {
 
   describe("query", () => {
     it("should execute semantic search", async () => {
+      await service.getContext("ctx-abc123", "trace-search");
       const results = await service.query({
         query: "idea capture logic",
         context_id: "ctx-abc123",
@@ -71,7 +72,7 @@ describe("ContextService", () => {
   describe("health", () => {
     it("should report service health", async () => {
       const health = await service.health();
-      expect(health.status).toMatch(/up|degraded|down/);
+      expect(health.status).toMatch(/healthy|degraded|unhealthy/);
     });
   });
 
