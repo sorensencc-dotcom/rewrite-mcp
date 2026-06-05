@@ -1,0 +1,101 @@
+projects/cic/ingestion/src/reasoning/arl/contracts/MemorySnapshot.ts
+  s_cc99cc2cdc31cd::t_afe57134ffefd9 1-14
+projects/cic/ingestion/src/reasoning/arl/engine/MemoryConsistencyValidator.ts
+  s_cc99cc2cdc31cd::t_0dc4c7e77a437b 1-41,43,46-142
+  s_cc99cc2cdc31cd::t_a3358b17ec541b 42,44-45
+workflows/phase-summary-roadmap.spec.md
+  s_ef85f8b92a3bc3::t_18d2f273e6bac5 1-660
+projects/cic/ingestion/src/reasoning/arl/contracts/AdversarialAnalysisResult.ts
+  s_cc99cc2cdc31cd::t_fdd12bc25ffc72 1-8
+projects/cic/ingestion/src/reasoning/arl/contracts/index.ts
+  s_cc99cc2cdc31cd::t_e0aaec55b04fff 40-53
+projects/cic/ingestion/src/reasoning/arl/tests/AdversarialResistanceEngine.test.ts
+  s_cc99cc2cdc31cd::t_6d1946cfb87b44 1-179
+projects/cic/ingestion/src/reasoning/arl/engine/MultiRunAggregator.ts
+  s_cc99cc2cdc31cd::t_7eb57ea8e0c8ac 1-78,81-105
+  s_cc99cc2cdc31cd::t_7fe326a6cbe311 79-80
+workflows/pipeline-orchestration-dashboard/schema.json
+  s_ef85f8b92a3bc3::t_97d049be65a3b1 1-75
+workflows/phase-summary-roadmap/index.test.js
+  s_ef85f8b92a3bc3::t_d54c00e2b116af 1-17,19-21,23-26,28-30,32-35,37-38,40-43,45-47,49-73,75-76,79-157
+  s_ef85f8b92a3bc3::t_65c2a3293da94b 18,22,27,31,36,39,44,48
+  s_ef85f8b92a3bc3::t_d0ebf7729722d6 74,77-78
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/MemoryFixtures.ts
+  s_cc99cc2cdc31cd::t_5770feced8b6bd 1-113
+workflows/phase-summary-roadmap/schema.json
+  s_ef85f8b92a3bc3::t_ff7ec24d37b609 1-34
+workflows/pipeline-orchestration-dashboard/index.js
+  s_ef85f8b92a3bc3::t_203a4c2966ba20 1-256
+projects/cic/ingestion/src/reasoning/arl/contracts/RunSummary.ts
+  s_cc99cc2cdc31cd::t_c02064e8888a8f 1-7
+workflows/environment-check-procedure/index.test.js
+  s_ef85f8b92a3bc3::t_8756d117198878 1-21,23-25,27-30,32-34,36-39,41-43,45-48,50-52,54-57,59-60,62-168
+  s_ef85f8b92a3bc3::t_174e0a1451abb8 22,26,31,35,40,44,49,53,58,61
+projects/cic/ingestion/src/reasoning/arl/contracts/ExpansionContext.ts
+  s_cc99cc2cdc31cd::t_a454d3d6df37c8 1-22
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/ExpansionFixtures.ts
+  s_cc99cc2cdc31cd::t_29921f262e5179 1-98
+workflows/pipeline-orchestration-dashboard.spec.md
+  s_ef85f8b92a3bc3::t_2b167aa115f0ab 1-1000
+projects/cic/ingestion/src/reasoning/arl/tests/MultiRunAggregator.test.ts
+  s_cc99cc2cdc31cd::t_f231d59c432975 1-106,108-114,116-214
+  s_cc99cc2cdc31cd::t_8a3f0984156970 107,115
+workflows/pipeline-orchestration-dashboard/index.test.js
+  s_ef85f8b92a3bc3::t_a367e0418ec61a 27,31,36,40,45,49,54,58,63,67,72,76
+  s_ef85f8b92a3bc3::t_ee94a5892f5200 1-26,28-30,32-35,37-39,41-44,46-48,50-53,55-57,59-62,64-66,68-71,73-75,77-230
+projects/cic/ingestion/src/reasoning/arl/tests/MemoryConsistencyValidator.test.ts
+  s_cc99cc2cdc31cd::t_1d4c1f3bdfb5b3 1-179
+projects/cic/ingestion/src/reasoning/arl/contracts/MemoryConsistencyResult.ts
+  s_cc99cc2cdc31cd::t_6b17242e53a476 1-11
+workflows/environment-check-procedure/schema.json
+  s_ef85f8b92a3bc3::t_eae3ac3320747d 1-46
+projects/cic/ingestion/src/reasoning/arl/contracts/OperatorFeedback.ts
+  s_cc99cc2cdc31cd::t_9412bf8fae432f 1-7
+projects/cic/ingestion/src/reasoning/arl/engine/AdversarialResistanceEngine.ts
+  s_cc99cc2cdc31cd::t_67caf806df2df3 1-124
+projects/cic/ingestion/src/reasoning/arl/engine/OperatorFeedbackLoop.ts
+  s_cc99cc2cdc31cd::t_b7217caa5233fe 1-12,19-33,37-40,44-46,49-50,52-138
+  s_cc99cc2cdc31cd::t_1452c755c44583 13-18,34-36,41-43,47-48,51
+projects/cic/ingestion/src/reasoning/arl/tests/OperatorFeedbackLoop.test.ts
+  s_cc99cc2cdc31cd::t_65c79830724cab 1-198
+projects/cic/ingestion/src/reasoning/arl/contracts/MultiRunAggregate.ts
+  s_cc99cc2cdc31cd::t_92ab8ed2a1ccd8 1-8
+projects/cic/ingestion/src/reasoning/arl/contracts/AdversarialSignal.ts
+  s_cc99cc2cdc31cd::t_455587b6736b9d 1-5
+workflows/environment-check-procedure.spec.md
+  s_ef85f8b92a3bc3::t_4ad8ce5c0f6d9f 1-700
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/FeedbackFixtures.ts
+  s_cc99cc2cdc31cd::t_0fe0c8a10d61f6 1-69
+workflows/environment-check-procedure/index.js
+  s_ef85f8b92a3bc3::t_526021c471c521 1-179
+workflows/phase-summary-roadmap/index.js
+  s_ef85f8b92a3bc3::t_0c1d05e2cca226 1-203
+projects/cic/ingestion/src/reasoning/arl/contracts/FeedbackAdjustment.ts
+  s_cc99cc2cdc31cd::t_71a375f7e1b867 1-10
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/RunSummaryFixtures.ts
+  s_cc99cc2cdc31cd::t_bf42186eee568d 1-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b819cf2ef5ab102f1b3516e92a91778d0f0d4f41",
+  "prompts": {},
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
