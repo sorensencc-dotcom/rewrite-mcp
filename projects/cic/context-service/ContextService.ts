@@ -4,6 +4,7 @@
  */
 
 import { EventEmitter } from "events";
+import { CRGAdapter } from "../crg-adapter/CRGAdapter";
 
 export interface Context {
   id: string;
@@ -69,6 +70,7 @@ export interface ContextServiceConfig {
   cacheTTL?: number;
   requestTimeout?: number;
   maxSliceSize?: number;
+  repoPath?: string; // For local CRG adapter
 }
 
 /**
@@ -76,14 +78,29 @@ export interface ContextServiceConfig {
  */
 export class ContextService extends EventEmitter {
   private config: ContextServiceConfig;
-  private contextCache: Map<string, Context>;
-  private sliceCache: Map<string, ContextSlice>;
+  private contextCache: Map<string, { value: Context; expiry: number }>;
+  private sliceCache: Map<string, { value: ContextSlice; expiry: number }>;
+  private crgAdapter: CRGAdapter | null = null;
+  private lastHealthCheck: { crg: boolean; cic: boolean } = { crg: false, cic: false };
 
   constructor(config: ContextServiceConfig) {
     super();
-    this.config = config;
+    this.config = {
+      cacheTTL: 3600000, // 1 hour default
+      requestTimeout: 30000,
+      maxSliceSize: 50000,
+      ...config,
+    };
     this.contextCache = new Map();
     this.sliceCache = new Map();
+
+    // Initialize CRG adapter if repo path provided
+    if (config.repoPath) {
+      this.crgAdapter = new CRGAdapter(config.repoPath);
+    }
+
+    // Start cache eviction timer
+    this.startCacheEviction();
   }
 
   /**
@@ -91,13 +108,26 @@ export class ContextService extends EventEmitter {
    */
   async getContext(contextId: string, traceId: string): Promise<Context> {
     // Check cache
-    if (this.contextCache.has(contextId)) {
+    const cached = this.contextCache.get(contextId);
+    if (cached && cached.expiry > Date.now()) {
       this.emit("cache_hit", { contextId, type: "context" });
-      return this.contextCache.get(contextId)!;
+      return cached.value;
     }
 
-    // TODO: Fetch from CRG or CIC backend
-    throw new Error("Not implemented: getContext");
+    if (!this.crgAdapter) {
+      throw new Error("CRG adapter not initialized");
+    }
+
+    // Fetch from CRG adapter
+    const context = await this.crgAdapter.getMinimalContext(["*"], traceId);
+
+    // Cache it
+    this.contextCache.set(contextId, {
+      value: context,
+      expiry: Date.now() + (this.config.cacheTTL || 3600000),
+    });
+
+    return context;
   }
 
   /**
@@ -109,30 +139,99 @@ export class ContextService extends EventEmitter {
     traceId: string
   ): Promise<ContextSlice> {
     // Check cache
-    if (this.sliceCache.has(sliceId)) {
+    const cached = this.sliceCache.get(sliceId);
+    if (cached && cached.expiry > Date.now()) {
       this.emit("cache_hit", { sliceId, type: "slice" });
-      return this.sliceCache.get(sliceId)!;
+      return cached.value;
     }
 
-    // TODO: Fetch from CRG backend with full content
-    throw new Error("Not implemented: getSlice");
+    if (!this.crgAdapter) {
+      throw new Error("CRG adapter not initialized");
+    }
+
+    // Parse slice ID: filePath:functionName:startLine-endLine
+    const [filePath, ...rest] = sliceId.split(":");
+    const lineRange = rest[rest.length - 1];
+    const [startLineStr, endLineStr] = lineRange.split("-");
+
+    const startLine = parseInt(startLineStr, 10);
+    const endLine = parseInt(endLineStr, 10);
+
+    // Load content
+    const content = await this.crgAdapter.loadSliceContent(
+      filePath,
+      startLine,
+      endLine
+    );
+
+    // Build slice
+    const slice: ContextSlice = {
+      id: sliceId,
+      type: "function",
+      start_line: startLine,
+      end_line: endLine,
+      content: content.substring(0, this.config.maxSliceSize),
+      tags: [],
+      calls: [],
+      called_by: [],
+    };
+
+    // Cache it
+    this.sliceCache.set(sliceId, {
+      value: slice,
+      expiry: Date.now() + (this.config.cacheTTL || 3600000),
+    });
+
+    return slice;
   }
 
   /**
-   * Semantic search across contexts
+   * Semantic search across contexts (simple cosine similarity)
    */
-  async query(request: QueryRequest): Promise<QueryResult[]> {
-    const { query, context_id, limit = 10, trace_id } = request;
+  async query(request: {
+    query: string;
+    context_id: string;
+    limit?: number;
+  }): Promise<{ results?: QueryResult[]; error?: string }> {
+    const { query, context_id, limit = 10 } = request;
 
     if (!query || query.trim().length === 0) {
-      throw new Error("Query cannot be empty");
+      return { error: "Query cannot be empty" };
     }
 
-    // TODO: Execute semantic search against CRG/CIC backends
-    // TODO: Rank results by relevance score
-    // TODO: Truncate snippets to reasonable size
+    try {
+      const context = await this.getContext(context_id, "");
+      const results: QueryResult[] = [];
 
-    return [];
+      // Simple keyword matching across all slices
+      if (context.code?.files) {
+        const queryTerms = query.toLowerCase().split(/\s+/);
+
+        for (const file of context.code.files) {
+          for (const slice of file.slices) {
+            const sliceText = `${slice.id} ${slice.tags.join(" ")}`.toLowerCase();
+            const matches = queryTerms.filter((term) =>
+              sliceText.includes(term)
+            ).length;
+
+            if (matches > 0) {
+              const score = matches / queryTerms.length;
+              results.push({
+                slice_id: slice.id,
+                score,
+                snippet: `${file.path}:${slice.start_line}-${slice.end_line}`,
+              });
+            }
+          }
+        }
+      }
+
+      // Sort by score and limit
+      results.sort((a, b) => b.score - a.score);
+      return { results: results.slice(0, limit) };
+    } catch (error) {
+      return { error: `Query failed: ${error}` };
+    }
   }
 
   /**
@@ -141,12 +240,18 @@ export class ContextService extends EventEmitter {
   async health(): Promise<{
     status: "healthy" | "degraded" | "unhealthy";
     backends: Record<string, boolean>;
+    cache_size: number;
     timestamp: string;
   }> {
-    // TODO: Check connectivity to CRG and CIC backends
+    const cacheSize = this.contextCache.size + this.sliceCache.size;
+
+    // Simple health check: adapter availability
+    const crgHealthy = this.crgAdapter !== null;
+
     return {
-      status: "healthy",
-      backends: { crg: true, cic: true },
+      status: crgHealthy ? "healthy" : "degraded",
+      backends: { crg: crgHealthy, cic: false },
+      cache_size: cacheSize,
       timestamp: new Date().toISOString(),
     };
   }
@@ -157,7 +262,33 @@ export class ContextService extends EventEmitter {
   clearCaches(): void {
     this.contextCache.clear();
     this.sliceCache.clear();
+    if (this.crgAdapter) {
+      this.crgAdapter.clearCaches();
+    }
     this.emit("cache_cleared");
+  }
+
+  /**
+   * Start cache eviction timer
+   */
+  private startCacheEviction(): void {
+    setInterval(() => {
+      const now = Date.now();
+
+      // Evict expired context cache entries
+      for (const [key, cached] of this.contextCache.entries()) {
+        if (cached.expiry <= now) {
+          this.contextCache.delete(key);
+        }
+      }
+
+      // Evict expired slice cache entries
+      for (const [key, cached] of this.sliceCache.entries()) {
+        if (cached.expiry <= now) {
+          this.sliceCache.delete(key);
+        }
+      }
+    }, 60000); // Check every minute
   }
 }
 

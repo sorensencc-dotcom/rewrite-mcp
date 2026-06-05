@@ -137,6 +137,19 @@
         "appliedCount": 2,
         "status": "success"
       }
+    },
+    {
+      "id": "evolution-run:02efa783-cb28-46f6-a4d8-564b678ab24d",
+      "type": "evolution_run",
+      "name": "Evolution Run 02efa783",
+      "meta": {
+        "timestamp": 1780630628716,
+        "appliedCount": 1,
+        "status": "success",
+        "amb_origin": [
+          "amb-intent-36229eda"
+        ]
+      }
     }
   ],
   "edges": [
@@ -169,9 +182,14 @@
       "from": "lineage-38728221-973b-434c-bad0-b9a41e54fbe2",
       "to": "redesign:rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
       "type": "contains_redesign"
+    },
+    {
+      "from": "evolution-run:02efa783-cb28-46f6-a4d8-564b678ab24d",
+      "to": "amb-intent-36229eda",
+      "type": "initiated_by"
     }
   ],
   "meta": {
-    "lastUpdated": "2026-06-05T03:03:51.156Z"
+    "lastUpdated": "2026-06-05T03:37:08.719Z"
   }
 }

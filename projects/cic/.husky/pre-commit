@@ -1,0 +1,14 @@
+#!/bin/sh
+# Pre-commit hook: run tests before allowing commit
+
+set -e
+
+echo "🧪 Running CIC test suite..."
+npm run test
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Commit aborted."
+  exit 1
+fi
+
+echo "✅ Tests passed. Commit allowed."

@@ -275,21 +275,82 @@ export class FlowOrchestrator extends EventEmitter {
     input: Record<string, unknown>,
     execution: FlowExecution
   ): Record<string, unknown> {
-    // TODO: Implement template interpolation
-    // For now, return input as-is
-    return input;
+    const interpolated: Record<string, unknown> = {};
+
+    for (const [key, value] of Object.entries(input)) {
+      if (typeof value === "string" && value.includes("{{")) {
+        // Replace {{}} patterns
+        let result = value;
+
+        // Replace {{input.xxx}} with execution input values
+        result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
+          const val = (execution.input as Record<string, unknown>)[field];
+          return String(val ?? "");
+        });
+
+        // Replace {{output.xxx}} with stage outputs
+        result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
+          const val = (execution.output as Record<string, unknown>)[field];
+          return String(val ?? "");
+        });
+
+        // Replace {{stages[n].output}} patterns
+        result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
+          const stageIndex = parseInt(idx, 10);
+          const stageId = execution.stage_index !== undefined && stageIndex < execution.stage_index
+            ? `stage-${stageIndex}`
+            : "";
+
+          if (stageId && execution.output) {
+            const stageOutput = (execution.output as Record<string, unknown>)[stageId];
+            if (stageOutput && typeof stageOutput === "object") {
+              return String((stageOutput as Record<string, unknown>)[field] ?? "");
+            }
+          }
+          return "";
+        });
+
+        interpolated[key] = result;
+      } else if (typeof value === "object" && value !== null) {
+        // Recursively interpolate nested objects
+        interpolated[key] = this.interpolateInput(
+          value as Record<string, unknown>,
+          execution
+        );
+      } else {
+        interpolated[key] = value;
+      }
+    }
+
+    return interpolated;
   }
 
   /**
-   * Evaluate conditional expressions
+   * Evaluate conditional expressions (simple comparison operators)
    */
   private evaluateCondition(
     condition: string,
     stageOutputs: Record<string, Record<string, unknown>>
   ): boolean {
-    // TODO: Implement proper condition evaluation
-    // For now, return true (always execute)
-    return true;
+    if (!condition) return true;
+
+    // Simple pattern matching: "outputKey == value" or "outputKey != value"
+    const eqMatch = condition.match(/(\w+)\s*==\s*(.+)/);
+    if (eqMatch) {
+      const [, key, expectedValue] = eqMatch;
+      const actualValue = stageOutputs[key] ?? "";
+      return String(actualValue).trim() === expectedValue.trim();
+    }
+
+    const neMatch = condition.match(/(\w+)\s*!=\s*(.+)/);
+    if (neMatch) {
+      const [, key, expectedValue] = neMatch;
+      const actualValue = stageOutputs[key] ?? "";
+      return String(actualValue).trim() !== expectedValue.trim();
+    }
+
+    // Check existence: "outputKey"
+    return stageOutputs[condition] !== undefined;
   }
 
   /**
