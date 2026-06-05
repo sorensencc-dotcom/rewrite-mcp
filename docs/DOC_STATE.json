@@ -1,13 +1,13 @@
 {
   "_note": "Machine-maintained. Updated by skills/doc-update and tools/doc-drift-check.js. Do not hand-edit.",
   "version": "2.29.3",
-  "date": "2026-06-04",
+  "date": "2026-06-05",
   "changelog": {
     "headLine": "## [2.29.3] - 2026-06-04",
     "entryCount": 28
   },
   "roadmap": {
-    "lastUpdated": "2026-06-04",
+    "lastUpdated": "2026-06-05",
     "completedHead": "[v2.15.0] MAS Predictive Mode — Forward-looking cognitive model (TTI, Agent Drift, Recovery Forecasts) + One-Click Desktop Launcher + PMS Subsystem Installation — 2026-05-22",
     "activeCount": 0
   },

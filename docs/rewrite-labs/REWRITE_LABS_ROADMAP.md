@@ -180,9 +180,22 @@ Status: **Backlog**
 - CTA simulation  
 - Latency budget
 
+### E2E Pipeline Testing Suite
+Status: **Backlog**  
+- E2E flow testing for discovery, extraction, redesign generation, and outreach delivery.
+
+### Tier 1-3 Custom Library Wrappers
+Status: **Backlog**  
+- Custom wrappers for SearXNG, Newspaper3k, Trafilatura, and llama.cpp.
+
+## 7. Execution Order
+
+For the full dependency-ordered sequence linking Rewrite Labs and CIC features, please refer to the **Unified Execution Plan & Dependency Matrix** at the end of the [CIC Master Roadmap](file:///c:/dev/rewrite-mcp/docs/cic/CIC_MASTER_ROADMAP.md).
+
 ---
 
-## 7. Notes
+## 8. Notes
 
 This roadmap is maintained in-repo and versioned via Git.  
 It is not part of the CIC Master Roadmap and should not be merged into CIC phases.
+

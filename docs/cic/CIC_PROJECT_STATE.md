@@ -18,6 +18,7 @@ This document maintains the active development status, version controls, and com
 | Pillar | Subsystem | Version | Status | Scoped Details |
 | :--- | :--- | :--- | :---: | :--- |
 | **Ingestion** | Harvester + Extractor Chain | `v1.2.0` | 🟢 STABLE | Threaded multi-pass composer resolving context pipelines. |
+| **Ingestion** | Daily Digest Subsystem | `v1.0.0` | 🟢 STABLE | Synthesizes daily activity brief of memos, tasks, ideas into Joplin. Manual trigger script works. |
 | **Observability** | MetricsCollector + Telemetry | `v1.3.4` | 🟢 ACTIVE | Thread-safe, memory-bounded 24h rolling windows & 13 SLO evaluators. |
 | **Vector Index** | Qdrant Client + Keyword Store | `v1.4.0` | 🟢 ACTIVE | Segregated collections namespaces (`cic_semantic_{tenantId}`). |
 | **Durable Graph** | Persistent Memory Graph | `v1.4.0` | 🟢 ACTIVE | Chronological Playback (`sliceAtDate`) partitioned under tenant paths. |
@@ -280,6 +281,7 @@ Under the 10,000 transaction pressure validation, all 13 production SLOs are cer
 - [x] Implement Phase 22: Autonomous Roadmap & Prompt Sandbox (ARPS)
 - [ ] Implement Phase 3.1: Skill SLO Engine (Latency p95 & Error Rate Guardrails)
 - [ ] Implement Phase 3.2: Drift‑Aware Evolution Engine
+- [ ] Implement automated scheduling (cron or CIC-triggered) for the Daily Digest Subsystem.
 - [ ] Integrate **ImageAnalyzerV2** extractor into CIC registry (`plan-extractor-integration`).
 - [ ] Remediate systematic codebase corruption (audioTranscriber.js, tokenMeter.js, joplin/client.js, memos/*, ops/*, pipeline/*, server/*).
 - [x] Implement Phase 23: CIC Memory Layer & Long‑Horizon Autonomy (MLA)

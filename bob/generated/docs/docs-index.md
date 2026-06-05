@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-05T01:08:45.698Z
+Generated at: 2026-06-05T03:08:01.968Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -483,7 +483,10 @@ Generated at: 2026-06-05T01:08:45.698Z
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/undici-types/README.md)
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/@types/node/README.md)
 - [SKILLOPT_VALIDATOR_SPEC.md](projects/cic/docs/SKILLOPT_VALIDATOR_SPEC.md)
+- [rewrite_labs_cic_fusion_layer.md](projects/cic/docs/rewrite_labs_cic_fusion_layer.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](projects/cic/docs/PMS_INTEGRATION_SPECIFICATION.md)
+- [meta_evolution_logic_loop.md](projects/cic/docs/meta_evolution_logic_loop.md)
+- [knowledge_distillation_engine.md](projects/cic/docs/knowledge_distillation_engine.md)
 - [claude_coherence_contract_implementation_v1.0.0.md](projects/cic/docs/claude_coherence_contract_implementation_v1.0.0.md)
 - [CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md](projects/cic/docs/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md)
 - [CIC_SYSTEM.md](projects/cic/docs/CIC_SYSTEM.md)

@@ -669,6 +669,7 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 ✔ Observability Dashboard v1  
 ✔ Region context + tenant isolation  
 ✔ MCP‑native runtime  
+✔ Daily Digest Subsystem (collector, synthesizer, writer, consumer)  
 
 **ECC Parallels:**  
 - Hooks → Arbitration  
@@ -1006,7 +1007,7 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 
 ---
 
-# **PHASE 42 — Autonomous Research Mode (ARM) (Pending)**
+# **PHASE 42 — Autonomous Research Mode (ARM) (Complete)**
 **Goal:** Enable CIC to autonomously research code improvements, explore new patterns, and propose new evolutionary phases.
 
 - **Research Agent**: A specialized `"research"` agent that parses the code, KG, and memory logs to generate improvement findings.
@@ -1015,7 +1016,202 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 - **Operator Review**: Operator-gated controls to approve and spawn new research-proposed development phases.
 - **Integration**: Feeds meta-rules to the MLE and updates rulesets based on research outcomes.
 
+**Status:** ✅ COMPLETED  
+**Outcome:** CIC becomes a self-directed, self-improving research and development platform.
+
+---
+
+## **PHASE 43 — HELM: Daily Operator OS (Complete)**
+
+**Goal:** Unified command center dashboard integrating all operator intelligence streams (calendar, finances, business pipeline, research).
+
+### **43.1 Foundation & Finance OS (Complete)**
+
+- ✔ Era Context integration for real account balances (2-account live tier)
+- ✔ TODAY column: Agenda, @Action Required, Payments Due, Deliveries
+- ✔ Finance panel: Net worth composite, cash flow, investment portfolio visualization
+- ✔ Morning brief generation via `askClaude`
+- ✔ Gmail triage label counts and financial alert parsing
+
+**Outcome:** HELM displays real-time personal/business snapshot in single unified pane.
+
+### **43.2 Cost Intelligence Layer (Complete — Phases 6–7)**
+
+- ✔ Budget management with persistent config and daily thresholds
+- ✔ Alert system with history tracking and filtering
+- ✔ Cost forecasting with burn-rate analysis
+- ✔ Quality metrics ranking models by cost-effectiveness
+- ✔ 12 MCP tools fully tested and operational
+- ✔ Helm MCP server (Phase 47/48 implementation)
+
+**Key Metrics:**
+
+- Burn rate: 417 calls @ $0.0474/call
+- Model ranking: Opus ($0.219/call) → Haiku ($0.0015/call)
+- Budget persistence: $20 daily with configurable thresholds (1–100%)
+- Alert history: Tracked, clearable, queryable
+
+**Outcome:** CIC gains real-time cost visibility and predictive resource allocation.
+
+### **43.3 Business Layer (Next)**
+
+- [ ] Rewrite Labs pipeline panel (HubSpot live deals)
+- [ ] CIC phase status from intel.log or health endpoint
+- [ ] Outreach queue surface
+- [ ] Revenue pipeline totals
+- [ ] Credit score delta from Gmail alerts
+
+### **43.4 Command & Intelligence (Pending)**
+
+- [ ] Natural language command bar
+- [ ] Cross-domain correlation alerts
+- [ ] Anomaly detection (spending variance)
+- [ ] Weekly digest view
+- [ ] Snapshot refresh prompts
+
+### **43.5 Polish & Deployment (Pending)**
+
+- [ ] Personal vs. Business OS views
+- [ ] Configurable panel layout
+- [ ] Mobile-optimized layout
+- [ ] Production deployment
+
+**Status:** ✅ PHASES 1-2 & 6-7 COMPLETE  
+**Outcome:** HELM becomes the single source of truth for daily operator decision-making.
+
+---
+
+# **Your Current Position**  
+You are here:
+
+```
+PHASE 0 — ✔  
+PHASE 1 — ✔  
+PHASE 2 — ✔  
+PHASE 3.0 — ✔ (complete)  
+PHASE 3.1 — next  
+PHASE 3.2 — next  
+PHASE 4 — queued  
+PHASE 5 — future  
+PHASE 6 — long‑term convergence  
+PHASE 22 (ARPS) — ✔ (complete)  
+PHASE 23 (MLA) — ✔ (complete)
+PHASE 24 (SGD) — ✔ (complete)
+PHASE 25 (APR) — ✔ (complete)
+PHASE 26 (CRO) — ✔ (complete)
+PHASE 27 (CKG) — ✔ (complete)
+PHASE 28 (KDE) — queued
+PHASE 29 (RLF) — queued
+PHASE 30 (MEE) — ✔ (complete)
+PHASE 31 (SRE) — ✔ (complete)
+PHASE 32 (MAPE) — ✔ (complete)
+PHASE 33 (Runs) — ✔ (complete)
+PHASE 34 (Safety Gates) — ✔ (complete)
+PHASE 35 (ABM Loops) — ✔ (complete)
+- Register GitHub App on GitHub.com
+- Configure webhook URL and secret
+- Deploy Probot server (Heroku/AWS/GCP)
+- Set GITHUB_APP_ID and GITHUB_APP_PRIVATE_KEY secrets
+- Enable on target repositories (rewrite-mcp, cic)
+- Verify auto-fix PR generation
+
 **Status:** PENDING  
+**Outcome:** GitHub App actively monitors and auto-fixes non-compliant workflows.
+
+---
+
+# **PHASE 36 — Slack Webhook & Alert Integration (Next)**
+**Goal:** Route compliance reports to team Slack channels.
+
+- Configure SLACK_WEBHOOK_URL environment variable
+- Set up Slack webhook in workspace
+- Route dashboard to post on schedule (nightly/weekly)
+- Alert on critical compliance violations
+- Dashboard mutation events trigger notifications
+
+**Status:** PENDING  
+**Outcome:** Team receives real-time compliance alerts.
+
+---
+
+# **PHASE 37 — CI/CD Compliance Workflow (Next)**
+**Goal:** Add compliance checks to GitHub Actions CI pipeline.
+
+- Pre-merge compliance gate: `npm run gh-actions:check-manifest`
+- Publish compliance report as artifact
+- Fail CI if non-compliant workflows detected
+- Block merge if compliance violations found
+- Dashboard auto-refresh on workflow completion
+
+**Status:** PENDING  
+**Outcome:** Non-compliant code cannot ship.
+
+---
+
+# **PHASE 38 — Multi-Agent Negotiation & Consensus (Complete)**
+**Goal:** Coordinate multiple specialized agents to negotiate and form consensus on proposed modifications and dependency order.
+
+- Bounded multi-agent proposal generation and critique scoring
+- Bounded severity critiques (errors subtract 40, warnings 20, info 5)
+- Cycle decay factor to prevent infinite refinement loops
+- Collision analysis and resolution proposing reorder strategies
+
+**Status:** ✅ COMPLETED  
+**Outcome:** Agents negotiate conflicting file patches and compile a stable consensus plan.
+
+---
+
+# **PHASE 39 — Knowledge Graph & Semantic Memory (Complete)**
+**Goal:** Form a durable Knowledge Graph and semantic Memory Store tracking system state, dependencies, critiques, and failures.
+
+- Append-only schema-validated event memory store (`FileMeeMemoryStore`)
+- Task and proposal node serialization to CKG
+- Agent relationship, critique, failure, and healing edge mapping
+- Fragility checks analyzing module failure densities
+
+**Status:** ✅ COMPLETED  
+**Outcome:** CIC logs structured cognitive event memories and maps them to a queryable CKG substrate.
+
+---
+
+# **PHASE 40 — Autonomous Multi-Job Scheduling (Complete)**
+**Goal:** Run, queue, priority-schedule, and preempt concurrent autonomous build loop steps.
+
+- Multi-job tick execution loop with concurrency gates
+- Priority and age-based starvation prevention scoring ($Priority \times 1000 + Age \times 0.0001$)
+- Strict preemption of lower-priority active jobs by higher-priority queued tasks
+- Crash recovery resetting active/running jobs on system start
+
+**Status:** ✅ COMPLETED  
+**Outcome:** Background scheduler executes multi-job queues respecting priority, starvation bounds, and preemption.
+
+---
+
+# **PHASE 41 — Meta-Learning Engine (MLE) (Pending)**
+**Goal:** Enable CIC to learn from past runs, critiques, consensus patterns, failures, and KG evolution to improve planning and execution.
+
+- **Meta-Learning Loop**: Analyze historical critiques, consensus, failures, and KG patterns to extract heuristics saved as `MeeMetaRule`.
+- **Meta-Rule Engine**: Bias `PlanningEngine`, `ConsensusEngine`, refinement cycles, and scheduler priorities using learned rules.
+- **Adaptive Planning**: Prevent task decomposition/module selection inside fragile areas using rule weight biases.
+- **Adaptive Consensus**: Weight agent critiques and votes based on historical reliability.
+- **Adaptive Scheduling**: Predict job duration, adjust concurrency levels, and prioritize based on past runs.
+- **UI**: Show learned rules, rule weights, historical accuracy, and planning influence.
+
+**Status:** PENDING  
+**Outcome:** CIC learns dynamically from execution history to improve planning stability and patch quality.
+
+---
+
+# **PHASE 42 — Autonomous Research Mode (ARM) (Complete)**
+**Goal:** Enable CIC to autonomously research code improvements, explore new patterns, and propose new evolutionary phases.
+
+- **Research Agent**: A specialized `"research"` agent that parses the code, KG, and memory logs to generate improvement findings.
+- **Research Loop**: Runs periodic background scans to draft proposed improvements and risk/benefit reports.
+- **Research Proposal Pipeline**: Creates MEE-like phase proposals with summaries, implementation plans, and safety risk metrics.
+- **Operator Review**: Operator-gated controls to approve and spawn new research-proposed development phases.
+- **Integration**: Feeds meta-rules to the MLE and updates rulesets based on research outcomes.
+
+**Status:** ✅ COMPLETED  
 **Outcome:** CIC becomes a self-directed, self-improving research and development platform.
 
 ---
@@ -1112,10 +1308,192 @@ PHASE 37 (Multi-Agent) — ✔ (complete)
 PHASE 38 (Consensus & Negotiation) — ✔ (complete)
 PHASE 39 (KG & Semantic Memory) — ✔ (complete)
 PHASE 40 (Autonomous Scheduling) — ✔ (complete)
-PHASE 41 (Meta-Learning Engine) — next
-PHASE 42 (Autonomous Research Mode) — queued
-PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)
+PHASE 41 (Meta-Learning Engine) — next  
+PHASE 42 (Autonomous Research Mode) — ✔ (complete)  
+PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)  
 ```
 
+---
 
+# 🌐 **CIC + REWRITE LABS — UNIFIED DEPENDENCY-ORDERED EXECUTION PLAN (v1.0)**
+*This is the authoritative, dependency-resolved execution sequence combining the states of CIC Core, Rewrite Labs, MAS, UI, and Integrations. Each phase unlocks the downstream capabilities.*
 
+## **PHASE 1 — Foundation Stabilization (Already Complete)**
+These are prerequisites for everything downstream.
+
+### **1.1 CIC Security Plane**
+- ClamAV
+- Sandbox extraction
+- Busboy hardening
+- Secret management
+- SEC‑OPS dashboard  
+*Status:* ✔ Complete
+
+### **1.2 CIC UI Component Hardening**
+- cic-shell, cic-panel, cic-alert, cic-stat, cic-grid
+- L1 validator, Token expansion  
+*Status:* ✔ Complete
+
+### **1.3 MAS Core (Phases 25, 32, 34, 36, 37, 38)**
+- Multi‑agent orchestrator
+- Planning engine
+- Negotiation & consensus
+- Safety gates
+- Self‑healing  
+*Status:* ✔ Complete
+
+### **1.4 Daily Digest Subsystem**
+- collector, synthesizer, writer, consumer
+- tests, operator manual  
+*Status:* ✔ Complete  
+*Remaining:* automated scheduling (later phase)
+
+---
+
+## **PHASE 2 — Rewrite Labs Activation (Critical Path)**
+Rewrite Labs cannot run until these are done.
+
+### **2.1 Tier 1–3 Integration Layer (Wrappers + Providers)**
+*Dependencies:* Security Plane, MAS Core  
+*Includes:* SearXNG provider, Llama.cpp provider, Newspaper3k adapter, Trafilatura adapter  
+*Status:* ❌ Not started  
+*Why now:* Rewrite Labs discovery + ingestion depends on these.
+
+### **2.2 Rewrite Labs E2E Pipeline Testing Suite**
+*Dependencies:* Tier 1–3 integrations  
+*Includes:* discovery → extraction → redesign → outreach flow, tenant isolation, region divergence, lineage correctness, canary validation  
+*Status:* ❌ Not started  
+*Why now:* This is the gating test for Rewrite Labs production.
+
+---
+
+## **PHASE 3 — CIC Evolution Layer (Core Intelligence)**
+These phases depend on MAS Core + stable ingestion + stable UI.
+
+### **3.1 CIC Evolution Loop (Phase 10)**
+*Dependencies:* MAS Core  
+*Includes:* meta_evolution_logic_loop.md, runtime orchestrator, artifact pipeline, operator decision loop  
+*Status:* ❌ Not started  
+*Why now:* This unlocks autonomous improvement.
+
+### **3.2 Knowledge Distillation Engine (Phase 28)**
+*Dependencies:* Evolution Loop  
+*Includes:* graph compression, stale node pruning, memory consolidation  
+*Status:* ❌ Not started  
+*Why now:* Prevents graph bloat before similarity engine.
+
+### **3.3 Rewrite Labs ↔ CIC Fusion Layer (Phase 29)**
+*Dependencies:* Evolution Loop, Rewrite Labs E2E  
+*Includes:* CIC planner → RL redesign, RL redesign → CIC outreach, unified lineage  
+*Status:* ❌ Not started  
+*Why now:* This is the bridge between the two systems.
+
+---
+
+## **PHASE 4 — Intelligence Expansion Layer**
+These depend on the Evolution Loop + Distillation Engine.
+
+### **4.1 Cross‑Asset Similarity Engine**
+*Dependencies:* Distillation Engine  
+*Includes:* embedding store, vector index, hybrid scoring, cluster generator, AIR + Synthesis integration  
+*Status:* ❌ Not started  
+*Why now:* Required for Sorensen Graph, clustering, narrative adjacency.
+
+### **4.2 Temporal Intelligence (Phase 15)**
+*Dependencies:* Similarity Engine  
+*Includes:* temporal memory, drift analyzer, sequence forecaster, narrative planner  
+*Status:* ❌ Not started  
+*Why now:* Requires similarity + clustering to detect drift.
+
+---
+
+## **PHASE 5 — Documentation Intelligence Layer**
+These depend on Similarity + Temporal Intelligence.
+
+### **5.1 Semantic Graph View**
+*Dependencies:* Similarity Engine  
+*Includes:* term graph, subsystem graph, release graph  
+*Status:* ❌ Not started
+
+### **5.2 API Change Heatmap**
+*Dependencies:* Temporal Intelligence  
+*Includes:* drift visualization, endpoint evolution  
+*Status:* ❌ Not started
+
+### **5.3 Glossary Auto‑Expander**
+*Dependencies:* Semantic Graph View  
+*Includes:* hover definitions, inline expansions  
+*Status:* ❌ Not started
+
+---
+
+## **PHASE 6 — Rewrite Labs Productionization**
+These depend on Fusion Layer + E2E Tests + Similarity Engine.
+
+### **6.1 Rewrite Labs Control Plane Panel**
+*Dependencies:* Fusion Layer  
+*Includes:* lineage viewer, drift metrics, redesign preview, tenant dashboard  
+*Status:* ❌ Not started
+
+### **6.2 Rewrite Labs Redesign Engine v1.0**
+*Dependencies:* Tier 1–3 integrations + E2E tests  
+*Includes:* layout detector, content extractor, UI generator, copy generator  
+*Status:* ❌ Not started
+
+### **6.3 Rewrite Labs Outreach Engine v1.0**
+*Dependencies:* Redesign Engine  
+*Includes:* email generator, CRM sync, multi‑tenant routing  
+*Status:* ❌ Not started
+
+---
+
+## **PHASE 7 — CIC Design System v2.0 + Generative Surfaces**
+These depend on UI Hardening + Similarity + Temporal Intelligence.
+
+### **7.1 CIC Design System v2.0**
+*Dependencies:* UI Hardening  
+*Includes:* generative tokens, semantic layout grammar  
+*Status:* ❌ Not started
+
+### **7.2 Generative Surface Engine (GSE)**
+*Dependencies:* Design System v2.0  
+*Includes:* auto‑assembled UI surfaces, agent‑driven layout synthesis  
+*Status:* ❌ Not started
+
+### **7.3 Visual Index Auto‑Generator**
+*Dependencies:* GSE  
+*Includes:* automatic component catalog, live previews  
+*Status:* ❌ Not started
+
+---
+
+## **PHASE 8 — Downstream Autonomous Evolution (Phases 12–20)**
+These depend on Evolution Loop + Similarity + Temporal Intelligence.
+
+### **8.1 Predictive Evolution Layer (Phase 12)**
+*Status:* ❌ Not started
+### **8.2 Autogenous Governance (Phase 13)**
+*Status:* ❌ Not started
+### **8.3 Emergent Heuristic Creation (Phase 14)**
+*Status:* ❌ Not started
+### **8.4 Self‑Repair (Phase 18)**
+*Status:* ❌ Not started
+### **8.5 Digital Autopoiesis (Phase 20)**
+*Status:* ❌ Not started  
+*Why last:* These require the entire intelligence stack to be stable.
+
+---
+
+## 🏆 **THE TOP-LEVEL EXECUTION ORDER SUMMARY**
+
+1. **Tier 1–3 Integrations** (Wrappers & Providers)
+2. **Rewrite Labs E2E Pipeline Tests**
+3. **CIC Evolution Loop (Phase 10)**
+4. **Knowledge Distillation Engine (Phase 28)**
+5. **Rewrite Labs ↔ CIC Fusion Layer (Phase 29)**
+6. **Cross‑Asset Similarity Engine**
+7. **Temporal Intelligence (Phase 15)**
+8. **Docs Intelligence Layer** (Graph, Heatmap, Expander)
+9. **Rewrite Labs Productionization** (Control Plane, Redesign, Outreach)
+10. **CIC Design System v2.0 + GSE**
+11. **Downstream Autonomous Evolution (Phases 12–20)**

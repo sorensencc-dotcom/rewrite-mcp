@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "id": "failure:dup-1",
+      "type": "failure",
+      "name": "CompileError",
+      "meta": {
+        "message": "Unexpected token",
+        "count": 1
+      }
+    },
+    {
+      "id": "capability:core-1",
+      "type": "capability",
+      "name": "Core File Ingestion"
+    },
+    {
+      "id": "schema:rules",
+      "type": "schema",
+      "name": "Rules Schema",
+      "meta": {
+        "protected": true
+      }
+    },
+    {
+      "id": "evolution-run:0040a5dc-6c6d-4dfa-ac48-17807177dc14",
+      "type": "evolution_run",
+      "name": "Evolution Run 0040a5dc",
+      "meta": {
+        "timestamp": 1780628631034,
+        "appliedCount": 1,
+        "status": "success"
+      }
+    },
+    {
+      "id": "evolution-run:fc9f8a64-f7dc-43ac-992e-908fc675613d",
+      "type": "evolution_run",
+      "name": "Evolution Run fc9f8a64",
+      "meta": {
+        "timestamp": 1780628631062,
+        "appliedCount": 2,
+        "status": "success"
+      }
+    },
+    {
+      "id": "tenant:tenant-delta-corp",
+      "type": "tenant",
+      "name": "tenant-delta-corp",
+      "meta": {
+        "url": "http://delta.example.com"
+      }
+    },
+    {
+      "id": "lineage-6622cf8a-ae0c-45f3-9e47-65fceab64854",
+      "type": "lineage",
+      "name": "Lineage for tenant-delta-corp",
+      "meta": {
+        "runId": "rl-run-218ad716-627f-473d-87b1-424ad0ffffa9",
+        "timestamp": 1780628631093,
+        "framework": "Next.js"
+      }
+    },
+    {
+      "id": "discovery:rl-run-218ad716-627f-473d-87b1-424ad0ffffa9",
+      "type": "discovery_run",
+      "name": "Discovery for tenant-delta-corp",
+      "meta": {
+        "contentBlocks": 12
+      }
+    },
+    {
+      "id": "redesign:rl-run-218ad716-627f-473d-87b1-424ad0ffffa9",
+      "type": "redesign_run",
+      "name": "Redesign rl-modern-01",
+      "meta": {
+        "templateId": "rl-modern-01",
+        "colorSystem": {
+          "primary": "#C4501A",
+          "background": "#0a0806"
+        }
+      }
+    },
+    {
+      "id": "evolution-run:c3037e51-3f8b-4a4d-aa04-0603f24f00f0",
+      "type": "evolution_run",
+      "name": "Evolution Run c3037e51",
+      "meta": {
+        "timestamp": 1780628631107,
+        "appliedCount": 2,
+        "status": "success"
+      }
+    },
+    {
+      "id": "tenant:tenant-omega-corp",
+      "type": "tenant",
+      "name": "tenant-omega-corp",
+      "meta": {
+        "url": "http://omega.example.com"
+      }
+    },
+    {
+      "id": "lineage-38728221-973b-434c-bad0-b9a41e54fbe2",
+      "type": "lineage",
+      "name": "Lineage for tenant-omega-corp",
+      "meta": {
+        "runId": "rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
+        "timestamp": 1780628631130,
+        "framework": "Next.js"
+      }
+    },
+    {
+      "id": "discovery:rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
+      "type": "discovery_run",
+      "name": "Discovery for tenant-omega-corp",
+      "meta": {
+        "contentBlocks": 12
+      }
+    },
+    {
+      "id": "redesign:rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
+      "type": "redesign_run",
+      "name": "Redesign rl-modern-01",
+      "meta": {
+        "templateId": "rl-modern-01",
+        "colorSystem": {
+          "primary": "#C4501A",
+          "background": "#0a0806"
+        }
+      }
+    },
+    {
+      "id": "evolution-run:7369521b-0b61-4c04-8d12-9fb951efb574",
+      "type": "evolution_run",
+      "name": "Evolution Run 7369521b",
+      "meta": {
+        "timestamp": 1780628631155,
+        "appliedCount": 2,
+        "status": "success"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "tenant:tenant-delta-corp",
+      "to": "lineage-6622cf8a-ae0c-45f3-9e47-65fceab64854",
+      "type": "has_lineage"
+    },
+    {
+      "from": "lineage-6622cf8a-ae0c-45f3-9e47-65fceab64854",
+      "to": "discovery:rl-run-218ad716-627f-473d-87b1-424ad0ffffa9",
+      "type": "contains_discovery"
+    },
+    {
+      "from": "lineage-6622cf8a-ae0c-45f3-9e47-65fceab64854",
+      "to": "redesign:rl-run-218ad716-627f-473d-87b1-424ad0ffffa9",
+      "type": "contains_redesign"
+    },
+    {
+      "from": "tenant:tenant-omega-corp",
+      "to": "lineage-38728221-973b-434c-bad0-b9a41e54fbe2",
+      "type": "has_lineage"
+    },
+    {
+      "from": "lineage-38728221-973b-434c-bad0-b9a41e54fbe2",
+      "to": "discovery:rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
+      "type": "contains_discovery"
+    },
+    {
+      "from": "lineage-38728221-973b-434c-bad0-b9a41e54fbe2",
+      "to": "redesign:rl-run-5966665a-e5fe-45f4-b0b7-27f706d5cd5e",
+      "type": "contains_redesign"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2026-06-05T03:03:51.156Z"
+  }
+}

@@ -52,6 +52,8 @@
     "test:rewrite-labs": "npx ts-node tests/runAll.ts",
     "cost:reports": "npx ts-node -e \"import('./benchmarks/costs/reports/generate.ts').then(m => m.generateAllReports())\"",
     "cost:helm": "npx ts-node -e \"import('./benchmarks/costs/reports/helm.ts').then(m => m.writeHelmDashboardReport())\"",
+    "cic:evolution-loop": "npx tsx projects/cic/evolution/src/loopRunner.ts",
+    "cic:evolution-challenge": "npx tsx projects/cic/evolution/src/challengeRunner.ts",
     "ci": "npm run bench:metadata && npm run test:rewrite-labs"
   },
   "devDependencies": {
