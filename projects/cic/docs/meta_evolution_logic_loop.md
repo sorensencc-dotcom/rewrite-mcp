@@ -133,3 +133,102 @@ projects/cic/evolution/data/
   }
 }
 ```
+
+---
+
+## AMB Integration (Phase 4)
+
+The **Autonomous Meta-Brain (AMB)** extends the Evolution Loop from reactive anomaly resolution to **strategic, intent-driven self-evolution**.
+
+### AMB → Evolution Loop Pipeline
+
+```
+AMB Orchestrator (ambRunner.ts)
+  │
+  ├── 1. collectSignals()          — CKG drift, MAS health, RL metrics
+  ├── 2. priorityEngine            — scores: graph_distillation, mas_stability, planner_tuning, rl_fusion
+  ├── 3. intentSynthesizer         — generates AmbIntentArtifact[]
+  ├── 4. policyInterpreter         — forbidden/operator/lineage/rl_dependent classification
+  ├── 5. governanceGate            — status: approved | blocked | downgraded | pending
+  ├── 6. memoryStore               — loads cross-run memory snapshot
+  ├── 7. strategicScorer           — ranks by impact/(risk × operator_burden)
+  ├── 8. intentBundler             — groups into graph_cleanup | mas_stability | tenant_redesign | planner_tuning
+  ├── 9. strategicPlanner          — generates multi-step plan (3-run horizon)
+  ├── 10. memoryStore.recordRun()  — persists run data to memory ledger
+  ├── 11. persistArtifacts()       — writes intents, logs, reports, strategic plan, bundles
+  └── 12. triggerLoop()            — launches LoopRunner with approved intents
+              │
+              └── LoopRunner receives AmbIntentArtifact[]
+                  ├── Maps intents → proposals (with source_intent_id, risk_class, status)
+                  ├── Simulates, ranks, applies
+                  └── Logs CKG lineage edges (evolution_run → initiated_by → amb_intent)
+```
+
+### Governance Gate Rules
+
+| Condition | Intent Status |
+|-----------|--------------|
+| Forbidden domain (security, auth, billing) | `blocked` |
+| RL-dependent + RL tests failing | `blocked` |
+| MAS health below thresholds | `downgraded` |
+| High-risk class | `pending` (operator review) |
+| All gates pass, low/medium risk | `approved` |
+
+### Strategic Planning
+
+The strategic planner detects 4 cross-run patterns:
+- **recurring_drift** — persistent tenant drift > 0.2
+- **persistent_mas_instability** — MAS error rate > 0.03
+- **rl_plateau** — RL metrics flat across runs
+- **stale_graph** — graph distillation block rate > 30%
+
+Plans follow a sequenced strategy: **cleanup → stabilize → tune → redesign**.
+
+### Updated Artifact Folder Structure
+
+```text
+projects/cic/evolution/data/
+├── runs/
+│   └── run_<run_id>_<timestamp>/
+│       ├── audit.json
+│       ├── proposals.json               # now includes source_intent_id, risk_class, status
+│       ├── simulations.json
+│       ├── ranked_proposals.json
+│       ├── decisions.json
+│       └── applied_changes.json
+├── evolution/amb/
+│   ├── intents/
+│   │   └── amb_intents_<run_id>.json    # all intents with governance status
+│   ├── logs/
+│   │   └── amb_log_<run_id>.json        # governance report + triggered_evolution_run
+│   └── reports/
+│       └── amb_report_<run_id>.json     # summary metrics
+├── amb/
+│   ├── strategic/
+│   │   ├── strategic_plan_<run_id>.json # multi-step plan with impact projections
+│   │   └── intent_bundles_<run_id>.json # domain-grouped intent bundles
+│   └── memory/
+│       └── memory_<timestamp>.json      # accumulated cross-run snapshot
+└── policy_charter.json                  # forbidden/operator/lineage domain config
+```
+
+### Key Source Files
+
+| File | Purpose |
+|------|---------|
+| `evolution/src/loopRunner.ts` | 8-stage evolution lifecycle |
+| `evolution/src/amb/ambRunner.ts` | 13-stage AMB orchestrator (v1.1.0) |
+| `evolution/src/amb/ambPriorityEngine.ts` | Signal → priority scoring |
+| `evolution/src/amb/ambIntentSynthesizer.ts` | Priority → intent generation |
+| `evolution/src/amb/ambPolicyInterpreter.ts` | Charter-based policy classification |
+| `evolution/src/amb/ambGovernanceGate.ts` | MAS + RL + forbidden domain gating |
+| `evolution/src/amb/ambMasHealthGate.ts` | MAS stability threshold checks |
+| `evolution/src/amb/ambRlTestGate.ts` | Rewrite Labs test gate |
+| `evolution/src/amb/ambMemoryStore.ts` | Cross-run memory accumulation |
+| `evolution/src/amb/ambStrategicScorer.ts` | Strategic scoring engine |
+| `evolution/src/amb/ambIntentBundler.ts` | Domain-based intent bundling |
+| `evolution/src/amb/ambStrategicPlanner.ts` | Multi-run pattern detection and planning |
+| `evolution/src/types/ambIntent.ts` | Intent artifact type definition |
+| `evolution/src/types/ambPolicyCharter.ts` | Policy charter type |
+| `evolution/src/types/ambStrategic.ts` | Memory, bundle, and plan types |
+

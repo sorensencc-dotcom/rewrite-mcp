@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-05T17:13:36.134Z
+Generated at: 2026-06-05T17:41:55.001Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -502,6 +502,7 @@ Generated at: 2026-06-05T17:13:36.134Z
 - [CIC_AI_RUNTIME_DIAGRAM.md](projects/cic/docs/CIC_AI_RUNTIME_DIAGRAM.md)
 - [CIC_AI_RUNTIME_CONTRACT.md](projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md)
 - [antigravity_coherence_contract_template_v1.0.0.md](projects/cic/docs/antigravity_coherence_contract_template_v1.0.0.md)
+- [amb_strategic_planning.md](projects/cic/docs/amb_strategic_planning.md)
 - [skillopt-objective-redesign.md](projects/cic/docs/skillopt/skillopt-objective-redesign.md)
 - [skillopt-exporter-spec.md](projects/cic/docs/skillopt/skillopt-exporter-spec.md)
 - [skillopt-bridge-redesign-v1.md](projects/cic/docs/skillopt/skillopt-bridge-redesign-v1.md)

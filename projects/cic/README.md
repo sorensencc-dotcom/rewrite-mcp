@@ -56,7 +56,37 @@ projects/cic/
 │   └── MetricsMiddleware.ts           HTTP metrics
 ├── config/
 │   └── ContextConfig.ts               Configuration schema + loader
-└── tests/                             Test suite (coming)
+├── evolution/
+│   ├── src/
+│   │   ├── loopRunner.ts              8-stage evolution lifecycle
+│   │   ├── distillationEngine.ts      CKG knowledge distillation
+│   │   ├── rewriteLineageRecorder.ts  RL lineage tracking
+│   │   ├── amb/
+│   │   │   ├── ambRunner.ts           13-stage AMB orchestrator (v1.1.0)
+│   │   │   ├── ambPriorityEngine.ts   Signal → priority scoring
+│   │   │   ├── ambIntentSynthesizer.ts Intent generation
+│   │   │   ├── ambPolicyInterpreter.ts Policy charter enforcement
+│   │   │   ├── ambGovernanceGate.ts    Governance gating (approve/block/downgrade/pending)
+│   │   │   ├── ambMasHealthGate.ts     MAS stability thresholds
+│   │   │   ├── ambRlTestGate.ts        Rewrite Labs test gate
+│   │   │   ├── ambMemoryStore.ts       Cross-run memory accumulation
+│   │   │   ├── ambStrategicScorer.ts   Strategic scoring engine
+│   │   │   ├── ambIntentBundler.ts     Domain-based intent bundling
+│   │   │   └── ambStrategicPlanner.ts  Multi-run planning engine
+│   │   └── types/
+│   │       ├── ambIntent.ts           Intent artifact types
+│   │       ├── ambPolicyCharter.ts    Policy charter interface
+│   │       └── ambStrategic.ts        Memory, bundle, plan types
+│   └── data/
+│       ├── runs/                       Evolution run artifacts
+│       ├── amb/strategic/              Strategic plans + intent bundles
+│       ├── amb/memory/                 Cross-run memory snapshots
+│       └── policy_charter.json         Governance policy config
+└── tests/
+    └── evolution/
+        ├── amb-gates.test.ts           Governance gate tests (10)
+        ├── evolutionPolicy.test.ts     Policy + E2E tests (38)
+        └── ambStrategic.test.ts        Strategic module tests (27)
 ```
 
 ---
@@ -249,43 +279,54 @@ Key configuration groups:
 
 ## Testing
 
-(Coming soon)
+```bash
+cd projects/cic && npm test
+```
 
-Smoke tests to validate:
-- Context service startup and health checks
-- CRG adapter translation correctness
-- Flow execution and orchestration
-- End-to-end integration with CRG and CIC
+**Current test suite: 75/75 passing**
+
+| Test File | Tests | Coverage |
+|-----------|------|---------|
+| `tests/evolution/amb-gates.test.ts` | 10 | Governance gates, policy interpreter, MAS/RL gates |
+| `tests/evolution/evolutionPolicy.test.ts` | 38 | Full policy classification matrix, E2E pipeline |
+| `tests/evolution/ambStrategic.test.ts` | 27 | Memory store, scorer, bundler, planner, strategic E2E |
+| `tests/context-service.test.ts` | 10 | Context service API, caching, health checks |
 
 ---
 
 ## Development Roadmap
 
-### Phase 1 (Current)
+### Phase 1 — Context Layer
 - ✅ Context API contract
 - ✅ Context service skeleton
 - ✅ CRG adapter skeleton
 - ✅ Ruflo flow registry and orchestrator
 - ✅ Configuration and entrypoints
 
-### Phase 2
-- [ ] Implement CRG backend connectivity
-- [ ] Implement CIC backend connectivity
-- [ ] Agent client implementations (code-analyzer, narrative-linker, etc.)
+### Phase 2 — Backend Integration
+- [ ] CRG backend connectivity
+- [ ] CIC backend connectivity
+- [ ] Agent client implementations (via MAS agent registry)
 - [ ] Template interpolation in flows
 - [ ] Condition evaluation in flows
 
-### Phase 3
+### Phase 3 — Infrastructure
 - [ ] Cache implementations (Redis, in-memory)
 - [ ] Batch query support
 - [ ] Streaming endpoints
 - [ ] Advanced observability (Prometheus, OpenTelemetry)
 
-### Phase 4
-- [ ] Distributed execution (horizontal scaling)
-- [ ] Flow versioning and promotion
-- [ ] Dynamic flow registration via git
-- [ ] Performance optimization and benchmarking
+### Phase 4 — Autonomous Evolution ✅
+- ✅ **Milestone 1** — AMB Foundations (priority engine, intent synthesizer, governance gate)
+- ✅ **Milestone 2** — AMB ↔ Evolution Loop integration (intent→proposal mapping, CKG lineage)
+- ✅ **Milestone 3** — Governance Enforcement (policy charter, MAS/RL gates, status transitions)
+- ✅ **Milestone 4** — Strategic Planning Engine (cross-run memory, scorer, bundler, planner)
+
+### Phase 5 — Next Horizon
+- [ ] Adaptive learning from proposal outcomes
+- [ ] Multi-tenant strategic planning
+- [ ] Operator dashboard for strategic plan visualization
+- [ ] Distributed evolution execution
 
 ---
 
@@ -352,5 +393,10 @@ See `AGENTS.md` for detailed zone ownership and cross-subsystem rules.
 
 - [CIC System Architecture](../../docs/cic/CIC_SYSTEM.md)
 - [CIC Master Roadmap](../../docs/cic/CIC_MASTER_ROADMAP.md)
+- [Meta Evolution Logic Loop](docs/meta_evolution_logic_loop.md)
+- [AMB Strategic Planning Engine](docs/amb_strategic_planning.md)
+- [Knowledge Distillation Engine](docs/knowledge_distillation_engine.md)
+- [Rewrite Labs CIC Fusion](docs/rewrite_labs_cic_fusion_layer.md)
 - Context API Contract: `context-api/CONTRACT.md`
 - Zone Governance: `AGENTS.md`
+
