@@ -1355,7 +1355,7 @@ PHASE 35 (ABM Loops) — ✔ (complete)
 - ✔ **treatment-update** — Apply narrative changes (documentary)
 - ✔ **doc-update** — Update changelog/roadmap (maintenance)
 - ✔ **docs-sync-release** — Validate + build docs (release)
-- ✔ **approvals-audit** — Log operator approvals (governance)
+- ✔ **approvals-audit** (v2.0.0) — Proactive approval governance with auto-promotion at threshold=2
 
 ### New Skills (7) — Scaffolds Ready:
 - ✔ **cic-section-summarizer** — Auto-summarize CIC phase progress
@@ -1368,6 +1368,47 @@ PHASE 35 (ABM Loops) — ✔ (complete)
 
 **Status:** ✅ COMPLETED  
 **Outcome:** All 13 skills documented, 7 new skills with implementation-ready scaffolds.
+
+---
+
+## **44.0.1 — Approvals-Audit v2.0.0: Proactive Auto-Promotion (Complete)**
+
+**Enhancement:** Upgraded approvals-audit skill from passive logging to proactive governance with automatic threshold-based approval.
+
+### Architecture:
+
+- **Approval Manifest** (`approvals-manifest.json`) — Persistent state tracking pre-approved commands, pending approvals, occurrence counts, and auto-promotion timestamps
+- **Approval Handler** (`approval-handler.js`) — Core logic with methods:
+  - `trackApproval()` — Increments occurrence counter, auto-promotes at threshold (default: 2)
+  - `approveCommand()` — Manual approval (skips threshold)
+  - `getSummary()` — Returns stats, auto-promotion rate, and pending items
+  - `getPreApproved()` / `getPending()` — List views
+
+### Key Features:
+
+- ✔ **Auto-Promotion:** Commands reaching 2 occurrences auto-approve (threshold configurable)
+- ✔ **Frequency Tracking:** Every build/command increments persistent counter
+- ✔ **Proactive Manifest:** Maintains approval state with timestamps and status tracking
+- ✔ **Trend Reporting:** 53.8% auto-promotion rate, 13 total requests tracked
+- ✔ **Status Discrimination:** Distinguishes `auto-promoted`, `manually-approved`, `auto-approved` states
+
+### Deliverables:
+
+- `skills-runtime/approvals-manifest.json` — 7 pre-approved, 1 pending, full tracking stats
+- `skills-runtime/approval-handler.js` — Production handler with async/sync support
+- `skills/approvals-audit.md` (v2.0.0) — Updated documentation with API usage examples
+
+### Usage Flow
+
+```javascript
+Request #1 → trackApproval() → Status: pending (1/2)
+Request #2 → trackApproval() → Status: auto-promoted (2/2) + saved to manifest
+Request #3+ → trackApproval() → Status: auto-approved (no approval needed)
+```
+
+**Status:** ✅ COMPLETED
+
+**Outcome:** Approval audit becomes proactive; stabilized patterns automatically bypass approval overhead.
 
 ---
 
