@@ -1,0 +1,12 @@
+{
+  "score": 755,
+  "lastUpdated": "2026-05-29T09:44:28.231Z",
+  "factors": {
+    "paymentHistory": 35,
+    "creditUtilization": 25,
+    "creditAge": 15,
+    "creditMix": 10,
+    "newInquiries": 10,
+    "totals": 5
+  }
+}
