@@ -1,0 +1,24 @@
+PORTFOLIO_MCP_STATUS.md
+  s_cc99cc2cdc31cd::t_bb09f18bfd52a5 1-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "4ff2fa45442040ad77f2667e0760c3a0f324fde7",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
