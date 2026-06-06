@@ -1,0 +1,124 @@
+projects/cic/docs/PHASE_E_ARCHITECTURE.md
+  s_fedd75f531f5b1::t_9363f81445b9fe 1-678
+src/mcp/README.md
+  s_2db26e86454bcc::t_3767cd70fb001e 1-268
+src/mcp/cic-section-summarizer/README.md
+  s_2db26e86454bcc::t_12686ec8c7a52d 1-126
+projects/cic/src/demo-cic-main-pipeline.ts
+  s_2db26e86454bcc::t_c43fbafcb06e2d 1-13,30-247
+  s_2db26e86454bcc::t_3fcbaa9be34765 14-29
+docs/SETUP-CIC-PIPELINE.md
+  s_2db26e86454bcc::t_e99b837626e06c 1-343
+docs/DELIVERY-MCP-RUFLO-INTEGRATION.md
+  s_2db26e86454bcc::t_f9778aeaa5f2b3 1-391
+projects/cic/src/ruflo-orchestration/IExecutionStore.ts
+  s_fedd75f531f5b1::t_c3c36a304a9cb3 1-106
+projects/cic/docs/PHASE_E_WEEK1_INTEGRATION.md
+  s_fedd75f531f5b1::t_ed1751426398c1 1-278
+src/mcp/startup.ts
+  s_2db26e86454bcc::t_c83d522dd74ae4 83-84
+  s_2db26e86454bcc::t_026a305c1deb71 94-114
+  s_2db26e86454bcc::t_10e237db850b4d 1-17,19-65,67-82,85-93,115-147
+  s_2db26e86454bcc::t_f2b093ea9b1f73 66
+  s_2db26e86454bcc::t_d398380e1d3e27 18
+projects/cic/scripts/test-first-flow.ts
+  s_fedd75f531f5b1::t_7c407f2835241d 65
+  s_fedd75f531f5b1::t_07e50dad4af869 6-8
+src/mcp/package.json
+  s_2db26e86454bcc::t_a9417c910cd32f 1-36
+src/mcp/cic-env-diagnostics/README.md
+  s_2db26e86454bcc::t_573a645a7f9852 1-192
+src/mcp/rewrite-labs-orchestrator/README.md
+  s_2db26e86454bcc::t_b4a2841977aca9 1-277
+src/mcp/tsconfig.json
+  s_2db26e86454bcc::t_d210ab6c0ec7ea 1-41
+projects/cic/docs/MCP_INTEGRATION.md
+  s_2db26e86454bcc::t_2349464a2f1d6f 1-499
+projects/cic/src/flows/mcp-integration-flow.ts
+  s_2db26e86454bcc::t_e398ddef78c6fb 1-109
+projects/cic/src/ruflo-orchestration/FlowRegistry.ts
+  s_2db26e86454bcc::t_3a3ea640c66111 300,302-304
+  s_2db26e86454bcc::t_2c9c004db47b31 6,8
+  s_2db26e86454bcc::t_207bd27e45b718 7
+  s_2db26e86454bcc::t_608ffd33f2b75a 299,301
+projects/cic/src/flows/cic-main-pipeline.ts
+  s_2db26e86454bcc::t_95f68ad56ac67c 1-294
+projects/cic/docs/CIC-MAIN-PIPELINE.md
+  s_2db26e86454bcc::t_29afec883f2aee 1-312,315,319-581
+  s_2db26e86454bcc::t_b8b63ca00d2fba 313-314,316-318
+src/mcp/cic-drift-detector/cic-drift-detector.ts
+  s_2db26e86454bcc::t_f69994b7ddf336 1-124
+projects/cic/src/ruflo-orchestration/agents.ts
+  s_fedd75f531f5b1::t_9fbb9363aa4276 52-53,55-56
+  s_2db26e86454bcc::t_adb937b33cc0c6 1-51,54,57-192
+src/mcp/DEPLOYMENT.md
+  s_2db26e86454bcc::t_3d948c5c6afe10 1-430
+docs/DELIVERY-CIC-MAIN-PIPELINE.md
+  s_2db26e86454bcc::t_4a9fdb12dd87af 1-310,324,328-329,339-474
+  s_2db26e86454bcc::t_447a0fc1db08a9 313,315,317,326
+  s_2db26e86454bcc::t_197775336e977e 311-312,314,316,318-323,325,327,330-338
+projects/cic/src/ruflo-orchestration/FileExecutionStore.ts
+  s_fedd75f531f5b1::t_dd1a2e6d611355 1-228
+projects/cic/docs/PHASE_E_SCALING_READINESS_REVIEW.md
+  s_fedd75f531f5b1::t_23084caa157b59 1-362
+projects/cic/src/config/mcp.ts
+  s_2db26e86454bcc::t_6ee43673626bdc 1-271
+projects/cic/src/demo-mcp-flow.ts
+  s_2db26e86454bcc::t_309b481d34be47 1-5,19-158
+  s_2db26e86454bcc::t_77310c6a3f70a1 6-18
+projects/cic/package.json
+  s_2db26e86454bcc::t_64aa32c5d9ef47 16-17,19
+  s_2db26e86454bcc::t_982eb86b33b357 18
+  s_2db26e86454bcc::t_f5dff69167c46f 23
+src/mcp/cic-docs-sync/cic-docs-sync.ts
+  s_2db26e86454bcc::t_ab59523fcebe2b 1-149
+projects/cic/src/observability/mcp-tracing.ts
+  s_2db26e86454bcc::t_e1438289fe6591 1-322
+src/mcp/cic-drift-detector/README.md
+  s_2db26e86454bcc::t_1a49bd0e725f38 1-144
+src/mcp/cic-env-diagnostics/cic-env-diagnostics.ts
+  s_2db26e86454bcc::t_be47de936267ce 1-232
+src/mcp/rewrite-labs-orchestrator/rewrite-labs-orchestrator.ts
+  s_2db26e86454bcc::t_f46eb84ca4a452 1-177
+projects/cic/src/integration.test.ts
+  s_2db26e86454bcc::t_cadbc560214a69 1-146
+src/mcp/MANIFEST.md
+  s_2db26e86454bcc::t_4074b2bd13aa3a 1-290
+projects/cic/docs/RUFLO_MCP_INTEGRATION.md
+  s_2db26e86454bcc::t_da03b215de3149 1-535
+src/mcp/test-harness.ts
+  s_2db26e86454bcc::t_3820b5205969e7 1-385
+src/mcp/cic-section-summarizer/cic-section-summarizer.ts
+  s_2db26e86454bcc::t_e7c9ac1905c676 1-99
+src/mcp/cic-docs-sync/README.md
+  s_2db26e86454bcc::t_74a8ce0f845858 1-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "c24248c5f79b4885852a56b17cb8c0840bd7f66b",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_2db26e86454bcc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a04a36e7-7dec-478b-b35a-a896f932fde7",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
