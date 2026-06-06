@@ -194,12 +194,13 @@ See detailed roadmap below.
 ## **PHASE 7.16 — ARL Multi‑Run Aggregator**
 *Evaluate reasoning across multiple expansions.*
 
-- Rolling drift average
-- Multi‑run contradiction detection
-- Trend analysis (semantic, narrative, causal)
-- Stability‑over‑time metrics
+- Rolling drift average (drift, contradiction, confidence, composite)
+- Trend analysis (IMPROVING, DEGRADING, STABLE)
+- Stability scoring (0-1 composite metric)
+- Multi-run aggregation with 14 comprehensive tests
+- Integration with Phase 7.14 self-diagnostics
 
-**Status:** PENDING  
+**Status:** ✅ COMPLETED  
 **Outcome:** CIC becomes *historically stable*.
 
 ---
