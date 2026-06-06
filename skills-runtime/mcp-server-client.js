@@ -13,10 +13,14 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { mcpServer } from "./mcp-server.js";
 
-// Initialize MCP server
+// Initialize MCP server with tools capability
 const server = new Server({
   name: "skill-runtime",
   version: "1.0.0"
+}, {
+  capabilities: {
+    tools: {}
+  }
 });
 
 // Handle ListTools request
