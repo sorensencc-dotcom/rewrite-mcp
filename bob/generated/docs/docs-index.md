@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T20:03:56.768Z
+Generated at: 2026-06-06T21:01:04.682Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -158,6 +158,8 @@ Generated at: 2026-06-06T20:03:56.768Z
 - [README.md](projects/cic-operator-console/node_modules/esbuild/README.md)
 - [LICENSE.md](projects/cic-operator-console/node_modules/esbuild/LICENSE.md)
 - [README.md](projects/cic-operator-console/node_modules/@esbuild/win32-x64/README.md)
+- [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
+- [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)
 - [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
@@ -246,6 +248,7 @@ Generated at: 2026-06-06T20:03:56.768Z
 - [HANDOFF.md](projects/cic/ingestion/HANDOFF.md)
 - [AGENTS.md](projects/cic/ingestion/AGENTS.md)
 - [README.md](projects/cic/ingestion/src/validators/README.md)
+- [integration-guide.md](projects/cic/ingestion/src/stability/integration-guide.md)
 - [README.md](projects/cic/ingestion/src/scoring/README.md)
 - [WEIGHTING_INTEGRATION.md](projects/cic/ingestion/src/reasoning/arl/WEIGHTING_INTEGRATION.md)
 - [ROADMAP_7.12_TO_7.25.md](projects/cic/ingestion/src/reasoning/arl/ROADMAP_7.12_TO_7.25.md)

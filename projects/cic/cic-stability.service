@@ -1,0 +1,50 @@
+[Unit]
+Description=CIC Phase 7.15–7.20 Stability Soak Runner (ARL & Validator)
+After=network.target
+StartLimitInterval=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=cic-runner
+WorkingDirectory=/opt/cic-ingestion
+
+# Start command — runs 12-hour orchestrated stability soak
+ExecStart=/usr/bin/npm run orchestrate:stability -- --hours=12
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Restart policy — auto-restart on failure with backoff
+Restart=on-failure
+RestartSec=5
+MaxStartCount=3
+
+# Resource limits
+MemoryMax=2G
+MemoryHigh=1.8G
+CPUQuota=80%
+TasksMax=1024
+
+# Process management
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+# Graceful handling of long-running operations
+Type=simple
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cic-stability
+
+# Environment
+Environment="NODE_ENV=test"
+Environment="STABILITY_PHASE=7.15-7.20"
+Environment="STABILITY_DURATION=12h"
+
+# Health check (requires Type=notify)
+# Uncomment to enable systemd-level health monitoring
+# Type=notify
+# NotifyAccess=main
+# WatchdogSec=300
+
+[Install]
+WantedBy=multi-user.target

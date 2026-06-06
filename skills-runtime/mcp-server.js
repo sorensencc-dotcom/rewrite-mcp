@@ -3,7 +3,12 @@
 
 import { runtime } from "./index.js";
 import { SkillError, ValidationError } from "../skills/shared/errors.js";
-import skillToolConfig from "./skill-tool-config.json" assert { type: "json" };
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const skillToolConfig = JSON.parse(readFileSync(`${__dirname}/skill-tool-config.json`, "utf-8"));
 
 export class SkillMcpServer {
   constructor(options = {}) {

@@ -1,0 +1,395 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "cic",
+    "stability",
+    "arl",
+    "7.15-7.20"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "CIC Phase 7.15–7.20 Stability Soak Alerts",
+  "uid": "cic-stability-alerts",
+  "version": 0,
+  "weekStart": "sunday",
+  "rules": [
+    {
+      "uid": "drift-metric-stall",
+      "title": "CIC Stability — Drift Metric Stalled",
+      "condition": "B",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "model": {
+            "expr": "increase(cic_stability_drift_avg[5m])",
+            "interval": "",
+            "legendFormat": "Drift Avg"
+          },
+          "datasourceUid": "prometheus",
+          "relativeTimeRange": {
+            "from": 300,
+            "to": 0
+          }
+        },
+        {
+          "refId": "B",
+          "queryType": "",
+          "model": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [0],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": ["A"]
+                },
+                "type": "query"
+              }
+            ],
+            "datasourceUid": "-100",
+            "expression": "A",
+            "hide": false,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "reducer": "avg",
+            "type": "threshold"
+          },
+          "datasourceUid": "-100",
+          "expression": "A",
+          "hide": false,
+          "intervalMs": 1000,
+          "maxDataPoints": 43200,
+          "reducer": "avg",
+          "type": "threshold"
+        }
+      ],
+      "noDataState": "Alerting",
+      "execErrState": "Alerting",
+      "for": "5m",
+      "annotations": {
+        "description": "Drift Avg metric has not changed in 5 minutes. The stability soak runner may have crashed or become unresponsive.",
+        "runbook_url": "https://wiki.internal/cic/stability-soak-runbook#drift-stall"
+      },
+      "labels": {
+        "phase": "7.15-7.20",
+        "severity": "critical"
+      }
+    },
+    {
+      "uid": "contradiction-metric-stall",
+      "title": "CIC Stability — Contradiction Metric Stalled",
+      "condition": "B",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "model": {
+            "expr": "increase(cic_stability_contradiction_avg[5m])",
+            "interval": "",
+            "legendFormat": "Contradiction Avg"
+          },
+          "datasourceUid": "prometheus",
+          "relativeTimeRange": {
+            "from": 300,
+            "to": 0
+          }
+        },
+        {
+          "refId": "B",
+          "queryType": "",
+          "model": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [0],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": ["A"]
+                },
+                "type": "query"
+              }
+            ],
+            "datasourceUid": "-100",
+            "expression": "A",
+            "hide": false,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "reducer": "avg",
+            "type": "threshold"
+          },
+          "datasourceUid": "-100",
+          "expression": "A",
+          "hide": false,
+          "intervalMs": 1000,
+          "maxDataPoints": 43200,
+          "reducer": "avg",
+          "type": "threshold"
+        }
+      ],
+      "noDataState": "Alerting",
+      "execErrState": "Alerting",
+      "for": "5m",
+      "annotations": {
+        "description": "Contradiction Avg metric has not changed in 5 minutes. The stability soak runner may have crashed or become unresponsive.",
+        "runbook_url": "https://wiki.internal/cic/stability-soak-runbook#contradiction-stall"
+      },
+      "labels": {
+        "phase": "7.15-7.20",
+        "severity": "critical"
+      }
+    },
+    {
+      "uid": "adversarial-rate-stall",
+      "title": "CIC Stability — Adversarial Rate Not Advancing",
+      "condition": "B",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "model": {
+            "expr": "increase(cic_stability_adversarial_rate[5m])",
+            "interval": "",
+            "legendFormat": "Adversarial Rate"
+          },
+          "datasourceUid": "prometheus",
+          "relativeTimeRange": {
+            "from": 300,
+            "to": 0
+          }
+        },
+        {
+          "refId": "B",
+          "queryType": "",
+          "model": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [0],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": ["A"]
+                },
+                "type": "query"
+              }
+            ],
+            "datasourceUid": "-100",
+            "expression": "A",
+            "hide": false,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "reducer": "avg",
+            "type": "threshold"
+          },
+          "datasourceUid": "-100",
+          "expression": "A",
+          "hide": false,
+          "intervalMs": 1000,
+          "maxDataPoints": 43200,
+          "reducer": "avg",
+          "type": "threshold"
+        }
+      ],
+      "noDataState": "Alerting",
+      "execErrState": "Alerting",
+      "for": "5m",
+      "annotations": {
+        "description": "Adversarial Rate has not increased in 5 minutes. The stability soak runner may be stuck or unresponsive.",
+        "runbook_url": "https://wiki.internal/cic/stability-soak-runbook#adversarial-stall"
+      },
+      "labels": {
+        "phase": "7.15-7.20",
+        "severity": "warning"
+      }
+    },
+    {
+      "uid": "stability-score-update-stall",
+      "title": "CIC Stability — Stability Score Not Updating",
+      "condition": "B",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "model": {
+            "expr": "abs(delta(cic_stability_score[5m]))",
+            "interval": "",
+            "legendFormat": "Stability Score Change"
+          },
+          "datasourceUid": "prometheus",
+          "relativeTimeRange": {
+            "from": 300,
+            "to": 0
+          }
+        },
+        {
+          "refId": "B",
+          "queryType": "",
+          "model": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [0.001],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": ["A"]
+                },
+                "type": "query"
+              }
+            ],
+            "datasourceUid": "-100",
+            "expression": "A",
+            "hide": false,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "reducer": "avg",
+            "type": "threshold"
+          },
+          "datasourceUid": "-100",
+          "expression": "A",
+          "hide": false,
+          "intervalMs": 1000,
+          "maxDataPoints": 43200,
+          "reducer": "avg",
+          "type": "threshold"
+        }
+      ],
+      "noDataState": "Alerting",
+      "execErrState": "Alerting",
+      "for": "5m",
+      "annotations": {
+        "description": "Stability Score has not changed more than 0.001 in 5 minutes. The soak may be hung or data collection is stalled.",
+        "runbook_url": "https://wiki.internal/cic/stability-soak-runbook#score-stall"
+      },
+      "labels": {
+        "phase": "7.15-7.20",
+        "severity": "critical"
+      }
+    },
+    {
+      "uid": "stability-process-down",
+      "title": "CIC Stability — Process Not Running",
+      "condition": "B",
+      "data": [
+        {
+          "refId": "A",
+          "queryType": "",
+          "model": {
+            "expr": "up{job=\"cic-stability\"}",
+            "interval": "",
+            "legendFormat": "Process Up"
+          },
+          "datasourceUid": "prometheus",
+          "relativeTimeRange": {
+            "from": 60,
+            "to": 0
+          }
+        },
+        {
+          "refId": "B",
+          "queryType": "",
+          "model": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [1],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": ["A"]
+                },
+                "type": "query"
+              }
+            ],
+            "datasourceUid": "-100",
+            "expression": "A",
+            "hide": false,
+            "intervalMs": 1000,
+            "maxDataPoints": 43200,
+            "reducer": "avg",
+            "type": "threshold"
+          },
+          "datasourceUid": "-100",
+          "expression": "A",
+          "hide": false,
+          "intervalMs": 1000,
+          "maxDataPoints": 43200,
+          "reducer": "avg",
+          "type": "threshold"
+        }
+      ],
+      "noDataState": "Alerting",
+      "execErrState": "Alerting",
+      "for": "2m",
+      "annotations": {
+        "description": "CIC Stability soak process is down or unreachable for >2 minutes. Immediate restart may be required.",
+        "runbook_url": "https://wiki.internal/cic/stability-soak-runbook#process-down"
+      },
+      "labels": {
+        "phase": "7.15-7.20",
+        "severity": "critical"
+      }
+    }
+  ]
+}

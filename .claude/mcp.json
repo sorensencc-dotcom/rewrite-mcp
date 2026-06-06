@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "skill-runtime": {
+      "command": "node",
+      "args": ["./skills-runtime/mcp-server-client.js"],
+      "env": {
+        "NODE_PATH": "./skills-runtime:./skills",
+        "SKILL_RUNTIME_PATH": "./skills-runtime",
+        "SKILL_DATA_PATH": "./skills-runtime"
+      }
+    }
+  }
+}

@@ -108,4 +108,3 @@ export { getDependencies, getTransitiveDependencies, detectCycles };
 
 // MCP Server exports
 export { SkillMcpServer, mcpServer } from "./mcp-server.js";
-export { default as skillToolConfig } from "./skill-tool-config.json" assert { type: "json" };
