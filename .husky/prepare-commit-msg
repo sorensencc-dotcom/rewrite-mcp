@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+# Real-Time Policy Agent — Approval Gate (NO CLICKS, NO BYPASSES)
+#
+# Runs BEFORE commit is even created. Validates:
+# - Zone ownership (from AGENTS.md)
+# - File bundling (no cross-zone mixing)
+# - Tool prefix ([claude], [copilot], etc.)
+#
+# If violations found: COMMIT IS BLOCKED. No workarounds.
+
+set -e
+
+COMMIT_MSG_FILE="$1"
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# Skip for merge commits and other special cases
+COMMIT_SOURCE="$2"
+if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ] || [ "$COMMIT_SOURCE" = "commit" ]; then
+  if [ "$COMMIT_SOURCE" != "message" ]; then
+    exit 0
+  fi
+fi
+
+echo "🔍 Real-Time Policy Validation..."
+echo "   Checking zone ownership, file bundling, tool prefix..."
+echo ""
+
+# Run policy validator
+node "$REPO_ROOT/tools/git-policy-agent/validate-commit.js" "$COMMIT_MSG_FILE" "$REPO_ROOT"
+VALIDATION_RESULT=$?
+
+if [ $VALIDATION_RESULT -ne 0 ]; then
+  echo ""
+  echo "⛔ Validation failed. Commit blocked."
+  exit 1
+fi
+
+echo ""
+echo "✅ Policy validation passed"
+exit 0
