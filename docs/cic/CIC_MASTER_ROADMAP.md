@@ -1671,8 +1671,55 @@ These depend on Fusion Layer + E2E Tests + Similarity Engine.
 *Includes:* lineage viewer, drift metrics, redesign preview, tenant dashboard  
 *Status:* ❌ Not started
 
+### **6.2a — Ideogram 4.0 Model Evaluation (Rewrite Labs Redesign)**
+*Dependencies:* Tier 1–3 integrations  
+*Timeline:* 2 days (Day 1–2)  
+*Purpose:* Evaluate Ideogram 4.0 for use as primary redesign generator; compare against Claude Sonnet/Opus on SMB corpus.
+
+**Evaluation Dimensions (Day 1):**
+- **Benchmark Setup:** 10 representative prompts across 6 verticals (local service, fitness, salon, restaurant, contractor, generic SMB)
+- **A/B Test Harness:** Ideogram 4.0 vs. Claude Sonnet vs. Claude Opus on 0–5 rubric:
+  - Typography fidelity
+  - Layout stability
+  - Brand coherence
+  - Prompt determinism
+  - Hallucination rate
+  - HTML-compatibility
+  - AEO compatibility
+  - Pipeline throughput
+  - Cost efficiency
+
+**Integration Test (Day 2):**
+- Feed Ideogram outputs → HTML/CSS generator
+- Validate layout integrity, typography tokens, color palette mapping
+- Run through AEO metadata injector (P1 item)
+- Test in ChatGPT/Perplexity/Gemini crawl to ensure AI-search visibility
+
+**Decision Logic (End of Day 2):**
+- **If Overall Score ≥ 4.0** → Promote to primary generator (replace Sonnet)
+- **If 3.0 ≤ Overall < 4.0** → Use as style-enhancer (Sonnet → Ideogram refinement → HTML)
+- **If Overall < 3.0** → Keep Sonnet primary, revisit when Ideogram updates
+
+**Weighted Formula:**
+```
+Overall = 0.25T + 0.20L + 0.15B + 0.10D + 0.10H + 0.10C + 0.10A
+```
+(See [IDEOGRAM_4_0_DECISION_MATRIX.md](./IDEOGRAM_4_0_DECISION_MATRIX.md) for details)
+
+**Deliverables:**
+- Completed scoring sheet ([IDEOGRAM_4_0_SCORING_SHEET.md](./IDEOGRAM_4_0_SCORING_SHEET.md))
+- Integration decision matrix ([IDEOGRAM_4_0_DECISION_MATRIX.md](./IDEOGRAM_4_0_DECISION_MATRIX.md))
+- A/B comparison report
+- Updated redesign pipeline diagram
+- Week 2 roadmap recommendations
+
+*Status:* PENDING  
+*Outcome:* Cost-per-redesign drops; typography quality increases; pipeline throughput improves
+
+---
+
 ### **6.2 Rewrite Labs Redesign Engine v1.0**
-*Dependencies:* Tier 1–3 integrations + E2E tests  
+*Dependencies:* Tier 1–3 integrations + E2E tests + Model Evaluation (6.2a)  
 *Includes:* layout detector, content extractor, UI generator, copy generator  
 *Status:* ❌ Not started
 
@@ -1724,12 +1771,13 @@ These depend on Evolution Loop + Similarity + Temporal Intelligence.
 
 1. **Tier 1–3 Integrations** (Wrappers & Providers)
 2. **Rewrite Labs E2E Pipeline Tests**
-3. **CIC Evolution Loop (Phase 10)**
-4. **Knowledge Distillation Engine (Phase 28)**
-5. **Rewrite Labs ↔ CIC Fusion Layer (Phase 29)**
-6. **Cross‑Asset Similarity Engine**
-7. **Temporal Intelligence (Phase 15)**
-8. **Docs Intelligence Layer** (Graph, Heatmap, Expander)
-9. **Rewrite Labs Productionization** (Control Plane, Redesign, Outreach)
-10. **CIC Design System v2.0 + GSE**
-11. **Downstream Autonomous Evolution (Phases 12–20)**
+3. **Ideogram 4.0 Model Evaluation (Phase 6.2a)** ← CRITICAL PATH: 2 days, informs redesign engine choice
+4. **CIC Evolution Loop (Phase 10)**
+5. **Knowledge Distillation Engine (Phase 28)**
+6. **Rewrite Labs ↔ CIC Fusion Layer (Phase 29)**
+7. **Cross‑Asset Similarity Engine**
+8. **Temporal Intelligence (Phase 15)**
+9. **Docs Intelligence Layer** (Graph, Heatmap, Expander)
+10. **Rewrite Labs Productionization** (Control Plane, Redesign, Outreach)
+11. **CIC Design System v2.0 + GSE**
+12. **Downstream Autonomous Evolution (Phases 12–20)**

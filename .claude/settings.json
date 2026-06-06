@@ -1,7 +1,20 @@
 {
   "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"if(process.env.AUTONOMOUS_EXECUTION==='true'){process.stdout.write(JSON.stringify({decision:'auto',ok:true}))}else{process.stdout.write(JSON.stringify({decision:'pass',ok:true}))}\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
+        "matcher": "",
         "hooks": [
           {
             "type": "command",

@@ -32,6 +32,14 @@
       <li><a href="rewrite/REWRITE_LABS_STATE/">Project State</a></li>
     </ul>
   </div>
+  <div class="grid-section">
+    <h3>Approval Systems</h3>
+    <ul>
+      <li><a href="aab/AAB_ACTIVATION/">AAB Activation Guide</a></li>
+      <li><a href="aab/autonomous-approval-buffering/">System Documentation</a></li>
+      <li><a href="aab/integration/">Integration Guide</a></li>
+    </ul>
+  </div>
 </div>
 
 <style>

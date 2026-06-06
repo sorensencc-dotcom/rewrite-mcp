@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T01:25:38.695Z
+Generated at: 2026-06-06T01:39:43.234Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -99,6 +99,8 @@ Generated at: 2026-06-06T01:25:38.695Z
 - [implementation_plan_phase_25.md](docs/cic/implementation_plan_phase_25.md)
 - [implementation_plan_phase_24.md](docs/cic/implementation_plan_phase_24.md)
 - [implementation_plan_phase_23.md](docs/cic/implementation_plan_phase_23.md)
+- [IDEOGRAM_4_0_SCORING_SHEET.md](docs/cic/IDEOGRAM_4_0_SCORING_SHEET.md)
+- [IDEOGRAM_4_0_DECISION_MATRIX.md](docs/cic/IDEOGRAM_4_0_DECISION_MATRIX.md)
 - [GITHUB_APP_SETUP.md](docs/cic/GITHUB_APP_SETUP.md)
 - [GH_ACTIONS_COMPLIANCE_STATUS.md](docs/cic/GH_ACTIONS_COMPLIANCE_STATUS.md)
 - [GH_ACTIONS_COMPLIANCE_GUIDE.md](docs/cic/GH_ACTIONS_COMPLIANCE_GUIDE.md)
