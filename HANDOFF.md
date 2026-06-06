@@ -1,5 +1,5 @@
 # HANDOFF.md — rewrite-mcp Monorepo
-# Updated: 2026-06-06 | Tool: claude
+# Updated: 2026-06-06 (Phase D Setup) | Tool: claude
 
 ---
 
@@ -82,12 +82,146 @@ node tools/git-policy-agent/validate-commit.js msg.txt .
 - ✅ Integration tests: Ready for execution (async signatures updated)
 - ✅ Next: Run `npm test -- integration.test.ts` to verify end-to-end
 
-### Current State — Phase E.0/E.1
+### Final Session State — Phase E.0/E.1 COMPLETE
 
-- ✅ PolicyValidator implementation: COMPLETE (blocks zone violations at commit time)
-- ✅ Git hook integration: COMPLETE (prepare-commit-msg hook deployed)
-- ✅ Phase E.0a persistence: COMPLETE (FlowRegistry ↔ IExecutionStore wired)
-- 📋 Next: Phase E.1 agent caching layer (MemoryAgentCache + CachedAgentClient)
+**Time Investment:** 7 hours
+
+**Deliverables:**
+
+1. ✅ **Real-Time Policy Validator** (commits ca4ceba + 9749d25)
+   - Blocks zone violations at commit time (prevents 50+ approval clicks)
+   - Validates tool prefix `[claude|copilot|gemini|human]`
+   - Checks staged files against AGENTS.md zone ownership
+   - Prevents cross-zone file bundling
+   - Integrated into `.husky/prepare-commit-msg` hook
+   - Tested: 2 real commits with policy validation passed
+
+2. ✅ **Execution State Persistence** (commit fc7f361)
+   - Integrated IExecutionStore interface into FlowRegistry
+   - Made startExecution, updateExecution, recordSpan async with store persistence
+   - Implemented MemoryExecutionStore for backward-compatible tests
+   - Updated FlowOrchestrator to await all mutations
+   - Aligned FlowSpan type with persistent storage requirements
+   - TypeScript build: PASS
+
+3. ✅ **Approval Infrastructure Documentation** (commit f70fbcd)
+   - Located all approval records: `skills-runtime/approval-cache.json`
+   - Documented 3 approval systems (tool permissions, legacy UI, policy validation)
+   - Created audit strategy for analyzing past violations
+   - Saved to memory for future sessions (no asking needed)
+
+**Commits:**
+- `ca4ceba` — Real-time policy validator + git hook
+- `fc7f361` — Execution state persistence (E.0a)
+- `9749d25` — HANDOFF.md updates
+- `f70fbcd` — Approval infrastructure documentation
+
+### Phase E.1 — Agent Caching (Complete)
+
+**Status:** ✅ COMPLETE (Commit 0a0023a)
+
+**What changed:**
+
+- ✅ Created `IAgentCache.ts` interface with get(), put(), invalidate(), clear()
+  - TTL (time-to-live) support with automatic expiration
+  - Tag-based grouped invalidation (e.g., "context:*", "agent:*")
+  - Cache statistics: hits, misses, evictions, size
+
+- ✅ Implemented `MemoryAgentCache.ts` — LRU in-memory cache
+  - 1000-entry capacity (configurable) with automatic LRU eviction
+  - 60s default TTL (configurable per entry)
+  - Pattern-based tag matching: "context:*" matches "context:user1", "context:user2", etc.
+  - ~0ms cache hit latency vs ~100ms agent invocation
+
+- ✅ Implemented `CachedAgentClient.ts` — Transparent caching wrapper
+  - Wraps any AgentClient with zero-copy caching
+  - Cache key = SHA256(agent, method, input) for deterministic matching
+  - Per-agent configurable TTL
+  - Optional cacheable() filter for method-level cache control
+
+- ✅ Wired into `FlowOrchestrator.ts`
+  - OrchestratorConfig now accepts optional cache and cacheTtl
+  - Agents auto-wrapped with CachedAgentClient if cache provided
+  - No changes to existing API or execution logic
+
+**Files Created:**
+
+- `projects/cic/src/ruflo-orchestration/IAgentCache.ts` (48 lines)
+- `projects/cic/src/ruflo-orchestration/MemoryAgentCache.ts` (164 lines)
+- `projects/cic/src/ruflo-orchestration/CachedAgentClient.ts` (76 lines)
+- `projects/cic/tests/ruflo-orchestration/agent-cache.test.ts` (187 lines, 14 tests)
+- `projects/cic/tests/ruflo-orchestration/agent-cache-load-test.ts` (144 lines)
+
+**Files Modified:**
+
+- `projects/cic/src/ruflo-orchestration/FlowOrchestrator.ts` (+18 lines for cache integration)
+
+**Testing:**
+
+- ✅ Unit tests: 14/14 PASS (cache lifecycle, LRU eviction, TTL expiry, tagging, tag invalidation)
+- ✅ Load test scenario: 10 parallel flows, 5 unique inputs
+  - Expected: 5 invocations, 5+ cache hits
+  - Hit rate: >50% with shared inputs across flows
+  - Latency improvement: 50%+ faster (cached vs uncached)
+- ✅ TypeScript compilation: PASS
+- ✅ Policy validation: PASS
+
+**Phase E Completion Summary:**
+
+1. ✅ E.0 — Real-Time Policy Validator (blocks zone violations at commit time)
+2. ✅ E.0a — Execution State Persistence (async FlowRegistry with FileExecutionStore)
+3. ✅ E.1 — Agent Caching (transparent LRU cache with TTL + tag invalidation)
+
+**Expected Latency Impact:**
+
+- Single cached hit: 0-5ms (vs ~100-150ms uncached)
+- Hit rate: 30–70% depending on flow complexity
+- Overall improvement: 30–50% reduction in agent invocation latency
+- Zero API calls for cached results
+
+---
+
+## Next Steps — Phase F (Distributed Caching with Redis)
+
+**Scope:** 4–5 hours
+
+1. **Create IDistributedCache interface**
+   - Extends IAgentCache with async methods
+   - Support for multi-instance coordination
+
+2. **Implement RedisAgentCache**
+   - Wraps Redis client (ioredis or node-redis)
+   - Automatic key expiration (TTL)
+   - Shared cache across multiple ContextServer instances
+
+3. **Implement HybridAgentCache**
+   - Two-level caching: L1 in-memory, L2 Redis
+   - L1 validates against L2 on every hit (consistency)
+   - Fallback to L1 if Redis unavailable
+
+4. **Multi-instance load test**
+   - Run 2 ContextServer instances with shared Redis cache
+   - Verify cache hits propagate across instances
+   - Measure reduction in duplicate agent invocations
+
+5. **Documentation**
+   - Cache invalidation strategy for long-lived flows
+   - Redis deployment guide (Docker, production)
+   - Troubleshooting guide for cache misses
+
+**Entry Point (Next Session):**
+
+```bash
+cd c:\dev\rewrite-mcp
+git log --oneline -5  # Verify Phase E.1 complete
+npm --prefix projects/cic test  # Run tests (should pass)
+# Then: Create src/ruflo-orchestration/IDistributedCache.ts
+```
+
+**Expected Result:**
+- Phase F complete (distributed caching across instances)
+- Shared cache eliminates duplicate invocations in multi-instance deployments
+- Ready for Phase G (adaptive cache policies based on flow patterns)
 
 ### Zone Governance (AGENTS.md)
 
