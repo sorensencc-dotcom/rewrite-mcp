@@ -1,7 +1,10 @@
 /**
  * Ruflo Flow Registry
  * Manages multi-agent flow templates and execution
+ * With optional persistent execution state via IExecutionStore
  */
+
+import { IExecutionStore, FlowExecution as StoredFlowExecution, FlowSpan as StoredFlowSpan } from "./IExecutionStore.js";
 
 export interface FlowTemplate {
   id: string; // e.g., "flow-context-enrichment-v1"
@@ -72,14 +75,67 @@ export interface FlowExecution {
 
 export interface FlowSpan {
   id: string;
-  parent_id?: string;
+  span_id: string;
+  execution_id: string;
   stage_id: string;
   agent: string;
-  start_time: string;
-  end_time?: string;
-  duration_ms?: number;
   status: "pending" | "running" | "completed" | "failed";
+  duration_ms?: number;
+  input?: Record<string, unknown>;
+  output?: Record<string, unknown>;
   error?: string;
+  started_at?: string;
+  completed_at?: string;
+  trace_id: string;
+}
+
+/**
+ * In-memory execution store (fallback for tests)
+ */
+class MemoryExecutionStore implements IExecutionStore {
+  private executions = new Map<string, StoredFlowExecution>();
+
+  async save(execution: StoredFlowExecution): Promise<void> {
+    this.executions.set(execution.id, execution);
+  }
+
+  async update(executionId: string, updates: Partial<StoredFlowExecution>): Promise<void> {
+    const exec = this.executions.get(executionId);
+    if (!exec) throw new Error(`Execution not found: ${executionId}`);
+    this.executions.set(executionId, { ...exec, ...updates });
+  }
+
+  async get(executionId: string): Promise<StoredFlowExecution | null> {
+    return this.executions.get(executionId) || null;
+  }
+
+  async list(): Promise<StoredFlowExecution[]> {
+    return Array.from(this.executions.values());
+  }
+
+  async delete(executionId: string): Promise<void> {
+    this.executions.delete(executionId);
+  }
+
+  async archive(): Promise<number> {
+    return 0;
+  }
+
+  async addSpan(executionId: string, span: StoredFlowSpan): Promise<void> {
+    const exec = this.executions.get(executionId);
+    if (!exec) throw new Error(`Execution not found: ${executionId}`);
+    exec.spans.push(span);
+    await this.save(exec);
+  }
+
+  async updateSpan(executionId: string, spanId: string, updates: Partial<StoredFlowSpan>): Promise<void> {
+    const exec = this.executions.get(executionId);
+    if (!exec) throw new Error(`Execution not found: ${executionId}`);
+    const spanIdx = exec.spans.findIndex((s) => s.id === spanId);
+    if (spanIdx === -1) throw new Error(`Span not found: ${spanId}`);
+    exec.spans[spanIdx] = { ...exec.spans[spanIdx], ...updates };
+    await this.save(exec);
+  }
 }
 
 /**
@@ -88,10 +144,12 @@ export interface FlowSpan {
 export class FlowRegistry {
   private templates: Map<string, FlowTemplate>;
   private executions: Map<string, FlowExecution>;
+  private store: IExecutionStore;
 
-  constructor() {
+  constructor(store?: IExecutionStore) {
     this.templates = new Map();
     this.executions = new Map();
+    this.store = store || new MemoryExecutionStore();
     this.registerDefaultFlows();
   }
 
@@ -123,11 +181,11 @@ export class FlowRegistry {
   /**
    * Start a new flow execution
    */
-  startExecution(
+  async startExecution(
     templateId: string,
     input: Record<string, unknown>,
     traceId: string
-  ): FlowExecution {
+  ): Promise<FlowExecution> {
     const template = this.getTemplate(templateId);
     if (!template) {
       throw new Error(`Template ${templateId} not found`);
@@ -152,6 +210,11 @@ export class FlowRegistry {
     };
 
     this.executions.set(execution.id, execution);
+    // Persist to store
+    await this.store.save({
+      ...execution,
+      status: execution.status as "queued" | "running" | "completed" | "failed",
+    } as StoredFlowExecution);
     return execution;
   }
 
@@ -165,26 +228,30 @@ export class FlowRegistry {
   /**
    * Update execution state (internal use)
    */
-  updateExecution(
+  async updateExecution(
     executionId: string,
     updates: Partial<FlowExecution>
-  ): void {
+  ): Promise<void> {
     const execution = this.getExecution(executionId);
     if (!execution) {
       throw new Error(`Execution ${executionId} not found`);
     }
     Object.assign(execution, updates);
+    // Persist to store
+    await this.store.update(executionId, updates as Partial<StoredFlowExecution>);
   }
 
   /**
    * Record a span for observability
    */
-  recordSpan(executionId: string, span: FlowSpan): void {
+  async recordSpan(executionId: string, span: FlowSpan): Promise<void> {
     const execution = this.getExecution(executionId);
     if (!execution) {
       throw new Error(`Execution ${executionId} not found`);
     }
     execution.spans.push(span);
+    // Persist to store
+    await this.store.addSpan(executionId, span as StoredFlowSpan);
   }
 
   /**

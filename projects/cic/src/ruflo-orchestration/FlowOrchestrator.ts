@@ -48,15 +48,15 @@ export class FlowOrchestrator extends EventEmitter {
     input: Record<string, unknown>,
     traceId: string
   ): Promise<string> {
-    const execution = this.registry.startExecution(templateId, input, traceId);
+    const execution = await this.registry.startExecution(templateId, input, traceId);
     const executionId = execution.id;
 
     // Start execution asynchronously
-    this.runExecution(executionId).catch((error) => {
+    this.runExecution(executionId).catch(async (error) => {
       console.error(`Execution ${executionId} failed:`, error);
       const exec = this.registry.getExecution(executionId);
       if (exec) {
-        this.registry.updateExecution(executionId, { status: "failed" });
+        await this.registry.updateExecution(executionId, { status: "failed" });
       }
     });
 
@@ -108,7 +108,7 @@ export class FlowOrchestrator extends EventEmitter {
     }
 
     this.activeExecutions.set(executionId, true);
-    this.registry.updateExecution(executionId, {
+    await this.registry.updateExecution(executionId, {
       status: "running",
       started_at: new Date().toISOString(),
     });
@@ -118,11 +118,11 @@ export class FlowOrchestrator extends EventEmitter {
 
       for (let i = 0; i < template.stages.length; i++) {
         const stage = template.stages[i];
-        this.registry.updateExecution(executionId, { stage_index: i });
+        await this.registry.updateExecution(executionId, { stage_index: i });
 
         // Check conditional
         if (stage.if && !this.evaluateCondition(stage.if, stageOutputs)) {
-          this.registry.updateExecution(executionId, {
+          await this.registry.updateExecution(executionId, {
             stage_status: { ...execution.stage_status, [stage.id]: "skipped" },
           });
           continue;
@@ -137,7 +137,7 @@ export class FlowOrchestrator extends EventEmitter {
           );
           stageOutputs[stage.id] = stageOutput;
 
-          this.registry.updateExecution(executionId, {
+          await this.registry.updateExecution(executionId, {
             stage_status: {
               ...execution.stage_status,
               [stage.id]: "completed",
@@ -147,11 +147,11 @@ export class FlowOrchestrator extends EventEmitter {
           console.error(`Stage ${stage.id} failed:`, error);
 
           if (stage.on_error === "continue") {
-            this.registry.updateExecution(executionId, {
+            await this.registry.updateExecution(executionId, {
               stage_status: { ...execution.stage_status, [stage.id]: "failed" },
             });
           } else if (stage.on_error === "skip") {
-            this.registry.updateExecution(executionId, {
+            await this.registry.updateExecution(executionId, {
               stage_status: { ...execution.stage_status, [stage.id]: "skipped" },
             });
           } else {
@@ -161,7 +161,7 @@ export class FlowOrchestrator extends EventEmitter {
         }
       }
 
-      this.registry.updateExecution(executionId, {
+      await this.registry.updateExecution(executionId, {
         status: "completed",
         completed_at: new Date().toISOString(),
         output: stageOutputs,
@@ -169,7 +169,7 @@ export class FlowOrchestrator extends EventEmitter {
 
       this.emit("execution_completed", { executionId, output: stageOutputs });
     } catch (error) {
-      this.registry.updateExecution(executionId, {
+      await this.registry.updateExecution(executionId, {
         status: "failed",
         completed_at: new Date().toISOString(),
       });
@@ -229,15 +229,20 @@ export class FlowOrchestrator extends EventEmitter {
     }
 
     const spanId = `span-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const startTime = Date.now();
+    const now = new Date().toISOString();
     const span: FlowSpan = {
       id: spanId,
+      span_id: spanId,
+      execution_id: executionId,
       stage_id: stageId,
       agent: task.agent,
-      start_time: new Date().toISOString(),
+      started_at: now,
       status: "running",
+      trace_id: execution.trace_id,
     };
 
-    this.registry.recordSpan(executionId, span);
+    await this.registry.recordSpan(executionId, span);
 
     const agent = this.agents[task.agent];
     if (!agent) {
@@ -254,15 +259,15 @@ export class FlowOrchestrator extends EventEmitter {
       ]);
 
       span.status = "completed";
-      span.end_time = new Date().toISOString();
-      span.duration_ms = Date.now() - new Date(span.start_time).getTime();
+      span.completed_at = new Date().toISOString();
+      span.duration_ms = Date.now() - startTime;
 
       return result;
     } catch (error) {
       span.status = "failed";
       span.error = (error as Error).message;
-      span.end_time = new Date().toISOString();
-      span.duration_ms = Date.now() - new Date(span.start_time).getTime();
+      span.completed_at = new Date().toISOString();
+      span.duration_ms = Date.now() - startTime;
 
       throw error;
     }
@@ -270,6 +275,7 @@ export class FlowOrchestrator extends EventEmitter {
 
   /**
    * Interpolate template variables in input (e.g., {{input.foo}}, {{stages[0].output}})
+   * Preserves arrays and objects; only stringifies when necessary for string replacement
    */
   private interpolateInput(
     input: Record<string, unknown>,
@@ -279,38 +285,72 @@ export class FlowOrchestrator extends EventEmitter {
 
     for (const [key, value] of Object.entries(input)) {
       if (typeof value === "string" && value.includes("{{")) {
-        // Replace {{}} patterns
-        let result = value;
+        // Check if the entire value is a single template variable (preserve type)
+        const singleVarMatch = value.match(/^\{\{(input|output|stages)\.([\w\[\]\.]+)\}\}$/);
 
-        // Replace {{input.xxx}} with execution input values
-        result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
-          const val = (execution.input as Record<string, unknown>)[field];
-          return String(val ?? "");
-        });
+        if (singleVarMatch) {
+          // Single variable: preserve its original type (array, object, string, etc.)
+          const [, varType, varPath] = singleVarMatch;
 
-        // Replace {{output.xxx}} with stage outputs
-        result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
-          const val = (execution.output as Record<string, unknown>)[field];
-          return String(val ?? "");
-        });
-
-        // Replace {{stages[n].output}} patterns
-        result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
-          const stageIndex = parseInt(idx, 10);
-          const stageId = execution.stage_index !== undefined && stageIndex < execution.stage_index
-            ? `stage-${stageIndex}`
-            : "";
-
-          if (stageId && execution.output) {
-            const stageOutput = (execution.output as Record<string, unknown>)[stageId];
-            if (stageOutput && typeof stageOutput === "object") {
-              return String((stageOutput as Record<string, unknown>)[field] ?? "");
+          if (varType === "input") {
+            const val = (execution.input as Record<string, unknown>)[varPath];
+            interpolated[key] = val !== undefined ? val : "";
+          } else if (varType === "output") {
+            const val = (execution.output as Record<string, unknown>)[varPath];
+            interpolated[key] = val !== undefined ? val : "";
+          } else if (varType === "stages") {
+            // Handle {{stages[n].field}} patterns
+            const stagesMatch = varPath.match(/^stages\[(\d+)\]\.(\w+)$/);
+            if (stagesMatch) {
+              const [, idxStr, field] = stagesMatch;
+              const stageIndex = parseInt(idxStr, 10);
+              const stageId = `stage-${stageIndex}`;
+              if (execution.output) {
+                const stageOutput = (execution.output as Record<string, unknown>)[stageId];
+                if (stageOutput && typeof stageOutput === "object") {
+                  const val = (stageOutput as Record<string, unknown>)[field];
+                  interpolated[key] = val !== undefined ? val : "";
+                } else {
+                  interpolated[key] = "";
+                }
+              } else {
+                interpolated[key] = "";
+              }
+            } else {
+              interpolated[key] = "";
             }
           }
-          return "";
-        });
+        } else {
+          // Multiple variables or partial replacements: convert to strings
+          let result = value;
 
-        interpolated[key] = result;
+          // Replace {{input.xxx}} with execution input values
+          result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
+            const val = (execution.input as Record<string, unknown>)[field];
+            return String(val ?? "");
+          });
+
+          // Replace {{output.xxx}} with stage outputs
+          result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
+            const val = (execution.output as Record<string, unknown>)[field];
+            return String(val ?? "");
+          });
+
+          // Replace {{stages[n].output}} patterns
+          result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
+            const stageIndex = parseInt(idx, 10);
+            const stageId = `stage-${stageIndex}`;
+            if (execution.output) {
+              const stageOutput = (execution.output as Record<string, unknown>)[stageId];
+              if (stageOutput && typeof stageOutput === "object") {
+                return String((stageOutput as Record<string, unknown>)[field] ?? "");
+              }
+            }
+            return "";
+          });
+
+          interpolated[key] = result;
+        }
       } else if (typeof value === "object" && value !== null) {
         // Recursively interpolate nested objects
         interpolated[key] = this.interpolateInput(
