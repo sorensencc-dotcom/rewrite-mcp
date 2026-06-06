@@ -11,6 +11,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import readline from "readline";
+import { checkPermission, recordApproval } from "../../.claude/permissions.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -1281,6 +1282,14 @@ function handleInitialize(params, id) {
 
 function handleToolCall(toolName, input, id) {
   try {
+    // Check permission first
+    const permission = checkPermission("call", toolName, input);
+
+    if (permission.requires && !permission.autoApproved) {
+      sendError(id, -32603, `Permission required: ${toolName} (${permission.reason})`);
+      return;
+    }
+
     let result;
     switch (toolName) {
       case "helm:today":
@@ -1343,11 +1352,14 @@ function handleToolCall(toolName, input, id) {
         return;
     }
 
+    recordApproval("call", toolName, true, permission.reason);
+
     sendResponse(id, {
       type: "text",
       text: JSON.stringify(result, null, 2),
     });
   } catch (err) {
+    recordApproval("call", toolName, false, err.message);
     sendError(id, -32603, err.message);
   }
 }

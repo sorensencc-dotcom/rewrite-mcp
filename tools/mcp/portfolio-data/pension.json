@@ -1,0 +1,13 @@
+{
+  "provider": "Fidelity Pension Plan",
+  "currentBalance": 109800,
+  "monthlyBenefit": 4247,
+  "fullRetirementAge": 67,
+  "earlyRetiringAge": 62,
+  "delayedRetiringAge": 70,
+  "earlyBenefit": 2956,
+  "delayedBenefit": 5276,
+  "projectYears": 25,
+  "presentValue": 158000,
+  "lastUpdated": "2024-06-01"
+}
