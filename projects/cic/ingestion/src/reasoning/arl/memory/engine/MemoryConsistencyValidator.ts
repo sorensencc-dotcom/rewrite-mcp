@@ -179,20 +179,22 @@ export class MemoryConsistencyValidator {
       const priorEvents = entity.events.filter(
         (e) => new Date(e.timestamp) <= claimTime
       );
-      const laterEvents = entity.events.filter(
-        (e) => new Date(e.timestamp) > claimTime
-      );
 
-      // Simple causality check: if event E1 says "moved to X" and later event E2 says "was at Y", check temporal coherence
-      if (priorEvents.length > 0 && laterEvents.length > 0) {
+      // Check for death-then-event violations
+      if (priorEvents.length > 0) {
         const lastPrior = priorEvents[priorEvents.length - 1];
         const description = claim.statement.toLowerCase();
+        const lastPriorDesc = lastPrior.description.toLowerCase();
 
-        // Check for obvious contradictions in sequencing
-        if (
-          lastPrior.description.includes('died') &&
-          !description.includes('posthumous')
-        ) {
+        // Detect various ways of saying someone died
+        const isDeath =
+          lastPriorDesc.includes('died') ||
+          lastPriorDesc.includes('passed away') ||
+          lastPriorDesc.includes('death') ||
+          lastPriorDesc.includes('passed') ||
+          lastPriorDesc.includes('deceased');
+
+        if (isDeath && !description.includes('posthumous')) {
           violations.push({
             entityId: claim.entityId,
             type: 'TEMPORAL_ORDER',
@@ -224,11 +226,8 @@ export class MemoryConsistencyValidator {
       if (entity.attributes[attrKey]) {
         const existingValue = entity.attributes[attrKey];
 
-        // Direct contradiction
-        if (
-          existingValue.toLowerCase() !== attrValue.toLowerCase() &&
-          this.isContradictory(existingValue, attrValue)
-        ) {
+        // Any different value for same attribute is a conflict
+        if (existingValue.toLowerCase() !== attrValue.toLowerCase()) {
           violations.push({
             entityId: claim.entityId,
             type: 'ATTRIBUTE_CONFLICT',
@@ -239,23 +238,54 @@ export class MemoryConsistencyValidator {
           });
         }
       }
+
+      // Check for conflicts within this expansion (two claims about same attribute)
+      const otherAttributeClaims = expansion.claims.filter(
+        (c) =>
+          c.entityId === claim.entityId &&
+          c.claimType === 'attribute' &&
+          c !== claim
+      );
+      for (const other of otherAttributeClaims) {
+        const [otherKey, otherValue] = other.statement
+          .split(':')
+          .map((s) => s.trim());
+        if (
+          attrKey === otherKey &&
+          attrValue.toLowerCase() !== otherValue.toLowerCase()
+        ) {
+          violations.push({
+            entityId: claim.entityId,
+            type: 'ATTRIBUTE_CONFLICT',
+            severity: 'high',
+            details: `Attribute conflict within expansion: ${attrKey} is both "${attrValue}" and "${otherValue}"`,
+            suggestedResolution: 'Reconcile conflicting claims within expansion',
+          });
+        }
+      }
     }
 
     if (claim.claimType === 'relationship') {
       const [relType, relatedId] = claim.statement.split('→').map((s) => s.trim());
 
-      // Check if contradictory relationship exists
+      // Check if conflicting relationship exists
       const existingRel = entity.relationships.find(
         (r) => r.relatedEntityId === relatedId
       );
-      if (existingRel && this.isContradictory(existingRel.relationshipType, relType)) {
-        violations.push({
-          entityId: claim.entityId,
-          type: 'RELATIONSHIP_CONFLICT',
-          severity: 'medium',
-          details: `Relationship conflict: ${claim.entityId} is "${existingRel.relationshipType}" with ${relatedId} but claim says "${relType}"`,
-          suggestedResolution: 'Reconcile relationship types or update existing relationship',
-        });
+      if (
+        existingRel &&
+        existingRel.relationshipType.toLowerCase() !== relType.toLowerCase()
+      ) {
+        // Only flag as conflict if types are clearly contradictory
+        if (this.isContradictory(existingRel.relationshipType, relType)) {
+          violations.push({
+            entityId: claim.entityId,
+            type: 'RELATIONSHIP_CONFLICT',
+            severity: 'medium',
+            details: `Relationship conflict: ${claim.entityId} is "${existingRel.relationshipType}" with ${relatedId} but claim says "${relType}"`,
+            suggestedResolution: 'Reconcile relationship types or update existing relationship',
+          });
+        }
       }
     }
 
@@ -316,6 +346,10 @@ export class MemoryConsistencyValidator {
       ['present', 'absent'],
       ['true', 'false'],
       ['yes', 'no'],
+      ['colleague', 'friend'],
+      ['colleague', 'stranger'],
+      ['friend', 'enemy'],
+      ['parent', 'child'],
     ];
 
     for (const [a, b] of contradictions) {
