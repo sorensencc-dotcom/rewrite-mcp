@@ -34,11 +34,11 @@ function initializePermissions() {
 
     const summary = permissionManager.getSummary();
 
-    // Log initialization
-    console.log(`\n✅ CLAUDE CODE PERMISSION MANAGER INITIALIZED`);
-    console.log(`   Whitelisted tools: ${summary.config.whitelistCount}`);
-    console.log(`   Cache TTL: ${summary.config.cacheExpiry}ms`);
-    console.log(`   Auto-approval enabled: Yes\n`);
+    // Log initialization (to stderr, not stdout which is reserved for JSON-RPC)
+    console.error(`\n✅ CLAUDE CODE PERMISSION MANAGER INITIALIZED`);
+    console.error(`   Whitelisted tools: ${summary.config.whitelistCount}`);
+    console.error(`   Cache TTL: ${summary.config.cacheExpiry}ms`);
+    console.error(`   Auto-approval enabled: Yes\n`);
 
     return permissionManager;
   } catch (e) {
@@ -91,15 +91,15 @@ function logWhitelistStatus() {
   const pm = getPermissionManager();
   const summary = pm.getSummary();
 
-  console.log("\n📋 PERMISSION MANAGER STATUS");
-  console.log(`   Whitelisted: ${summary.config.whitelistCount} tools`);
-  console.log(`   Cache enabled: ${summary.config.cacheEnabled}`);
-  console.log(`   Cache TTL: ${summary.config.cacheExpiry}ms`);
-  console.log(`   Total tracked: ${summary.stats.totalRequests}`);
-  console.log(`   Auto-approved: ${summary.stats.autoApproved}`);
-  console.log(`   Cached: ${summary.stats.cachedApprovals}`);
-  console.log(`   Manual: ${summary.stats.manualApprovals}`);
-  console.log(`   Auto-approval rate: ${summary.autoApprovalRate}\n`);
+  console.error("\n📋 PERMISSION MANAGER STATUS");
+  console.error(`   Whitelisted: ${summary.config.whitelistCount} tools`);
+  console.error(`   Cache enabled: ${summary.config.cacheEnabled}`);
+  console.error(`   Cache TTL: ${summary.config.cacheExpiry}ms`);
+  console.error(`   Total tracked: ${summary.stats.totalRequests}`);
+  console.error(`   Auto-approved: ${summary.stats.autoApproved}`);
+  console.error(`   Cached: ${summary.stats.cachedApprovals}`);
+  console.error(`   Manual: ${summary.stats.manualApprovals}`);
+  console.error(`   Auto-approval rate: ${summary.autoApprovalRate}\n`);
 }
 
 /**
