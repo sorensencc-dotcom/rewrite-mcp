@@ -1,0 +1,21 @@
+HANDOFF.md
+  s_fedd75f531f5b1::t_0928477bb68dc2 63-90
+  s_fedd75f531f5b1::t_cd869e603b301a 2-62,91-95,97-114
+  s_fedd75f531f5b1::t_05cb0325b88157 96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "9749d254a10939ba106cbfcc2fdbe5bc26f804ca",
+  "prompts": {},
+  "sessions": {
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
