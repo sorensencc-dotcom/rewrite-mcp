@@ -1,0 +1,32 @@
+tools/git-approval-broker/GitApprovalBroker.ts
+  s_098041771ceb78::t_f7428edb2ab0d2 1-339
+tools/git-approval-broker/git-broker-cli.js
+  s_098041771ceb78::t_e7203ba1605744 1-312
+tools/git-approval-broker/package.json
+  s_098041771ceb78::t_75ec1b234aca4a 1-25
+tools/git-approval-broker/README.md
+  s_098041771ceb78::t_2dfe20caa74dfe 1-226
+tools/git-approval-broker/SETUP.md
+  s_098041771ceb78::t_22e3e266f90694 1-204
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "944f3b43703272f62f1c8d8ba8cd8882d81fcad6",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
