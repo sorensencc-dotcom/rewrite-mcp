@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"if(process.env.AUTONOMOUS_EXECUTION==='true'){process.stdout.write(JSON.stringify({decision:'auto',ok:true}))}else{process.stdout.write(JSON.stringify({decision:'pass',ok:true}))}\"",
+            "command": "node -e \"if(process.env.AUTONOMOUS_EXECUTION==='true'){console.log(JSON.stringify({decision:'auto',ok:true}))}else{console.log(JSON.stringify({decision:'pass',ok:true}))}\" 2>/dev/null",
             "timeout": 2
           }
         ]
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.stdout.write(JSON.stringify({systemMessage: 'DOC-UPDATE CHECK: If a phase completed or source files changed this session, run skills/doc-update.md\\n  Changelog: docs/CHANGELOG.md  |  Roadmap: docs/ROADMAP.md  |  Policy: docs/DOC_POLICY.md'}))\"",
+            "command": "node -e \"console.log(JSON.stringify({systemMessage: 'DOC-UPDATE CHECK: If a phase completed or source files changed this session, run skills/doc-update.md. Changelog: docs/CHANGELOG.md | Roadmap: docs/ROADMAP.md | Policy: docs/DOC_POLICY.md'}))\" 2>/dev/null",
             "timeout": 10
           }
         ]
