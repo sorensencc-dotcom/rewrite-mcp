@@ -1,0 +1,30 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_881d300e12b55d 137-140,142-143
+projects/cic/ingestion/src/reasoning/arl/governance/ArlGovernanceHooks.ts
+  s_098041771ceb78::t_0f2355e21811d5 1-288
+projects/cic/ingestion/tests/reasoning/arl/governance/ArlGovernanceHooks.test.ts
+  s_098041771ceb78::t_6dbfbaa68f5c3e 1-475
+docs/cic/PHASE_7_13_GOVERNANCE_HOOKS.md
+  s_098041771ceb78::t_1663e94af48f1d 1-315
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "0d679467b48afd34d439a0308dccf1a5921206b6",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
