@@ -123,6 +123,21 @@
       "tool": "idea:*",
       "reason": "All idea tools are read/capture operations",
       "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "git:add",
+      "reason": "Safe staging operation",
+      "addedAt": "2026-06-06T01:40:00Z"
+    },
+    {
+      "tool": "git:commit",
+      "reason": "Safe commit operation",
+      "addedAt": "2026-06-06T01:40:00Z"
+    },
+    {
+      "tool": ".claude",
+      "reason": "Safe directory access for configuration",
+      "addedAt": "2026-06-06T01:40:00Z"
     }
   ],
   "blacklisted": [
