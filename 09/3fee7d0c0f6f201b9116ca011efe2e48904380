@@ -1,0 +1,48 @@
+projects/cic/cic-stability.service
+  s_9907fc29218a5e::t_3638e22096e89c 1-50
+projects/cic/provisioning/dashboards/cic-stability-alerts.json
+  s_9907fc29218a5e::t_88836b62a00832 1-395
+projects/cic/ingestion/src/stability/integration-guide.md
+  s_9907fc29218a5e::t_b765cc85bc7caf 1-393
+projects/cic/ecosystem.config.js
+  s_9907fc29218a5e::t_d51a8605466701 1-84
+projects/cic/scripts/restart-stability-soak.ps1
+  s_9907fc29218a5e::t_6a4ede724ec166 1-15,17-65,67-94,96-124
+  s_9907fc29218a5e::t_108b14120ab63d 66
+  s_9907fc29218a5e::t_f7df9db37ea464 95
+  s_9907fc29218a5e::t_d6dce655f87fff 16
+projects/cic/ingestion/src/stability/health-endpoint.js
+  s_9907fc29218a5e::t_cd6f05b991ac75 1-176
+.claude/mcp.json
+  s_8337ea0f3217d7::t_2008aa441f7762 1-13
+projects/cic/STABILITY_SOAK_RUNBOOK.md
+  s_9907fc29218a5e::t_81ca01f05fd611 1-472
+projects/cic/STABILITY_SOAK_QUICKREF.md
+  s_9907fc29218a5e::t_7f7ec9958a37b1 1-99
+skills-runtime/mcp-server.js
+  s_8337ea0f3217d7::t_05bed476e5e3a0 6-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "093fee7d0c0f6f201b9116ca011efe2e48904380",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9907fc29218a5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f043a510-6910-4123-a078-4f25c9540d74",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
