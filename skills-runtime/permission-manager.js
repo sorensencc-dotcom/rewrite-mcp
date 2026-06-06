@@ -340,6 +340,38 @@ class PermissionManager {
     };
     this.saveCache();
   }
+
+  /**
+   * Auto-decide an approval in autonomous mode
+   * Returns: { approved: boolean, reason: string, autonomousDecision: true }
+   */
+  autoDecideAutonomous(operation, tool, args = {}) {
+    // Check whitelist - whitelisted tools are auto-approved
+    if (this.isWhitelisted(tool)) {
+      return {
+        approved: true,
+        reason: "whitelisted",
+        autonomousDecision: true,
+      };
+    }
+
+    // Check cache - cached approvals are auto-approved
+    const cacheKey = this.getCacheKey(operation, tool);
+    if (this.isCached(cacheKey)) {
+      return {
+        approved: true,
+        reason: "cached",
+        autonomousDecision: true,
+      };
+    }
+
+    // Unknown/non-whitelisted operations require approval (will be blocked)
+    return {
+      approved: false,
+      reason: "unknown-operation",
+      autonomousDecision: true,
+    };
+  }
 }
 
 /**

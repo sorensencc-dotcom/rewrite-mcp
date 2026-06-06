@@ -3,7 +3,7 @@
  * These implement the AgentClient interface with actual code analysis and LLM integration
  */
 
-import { AgentClient } from "./FlowOrchestrator";
+import { AgentClient } from "../../ruflo-orchestration/FlowOrchestrator";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -486,7 +486,7 @@ export class RealIdeaParserAgent implements AgentClient {
 
   private extractTags(description: string): string[] {
     const tags: string[] = [];
-    const tagKeywords: Record<string, string> = {
+    const tagKeywords: Record<string, string[]> = {
       infrastructure: ["distributed", "deployment", "infrastructure"],
       observability: ["tracing", "monitoring", "logging", "observability"],
       performance: ["latency", "throughput", "performance", "optimization"],

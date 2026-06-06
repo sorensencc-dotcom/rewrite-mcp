@@ -23,5 +23,5 @@
     "config/**/*.ts",
     "scripts/**/*.ts"
   ],
-  "exclude": ["node_modules", "dist", "ingestion", "tests", "**/*.test.ts", "data", "src/cic/**", "src/mee/**"]
+  "exclude": ["node_modules", "dist", "ingestion", "tests", "**/*.test.ts", "data", "src/cic/**", "src/mee/**", "ruflo-orchestration/**/*.d.ts"]
 }
