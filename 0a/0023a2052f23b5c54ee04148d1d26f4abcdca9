@@ -1,0 +1,38 @@
+projects/cic/tests/ruflo-orchestration/agent-cache.test.ts
+  s_bd7c4e786c1792::t_dccf04b7ba80f8 1-167
+projects/cic/tests/ruflo-orchestration/agent-cache-load-test.ts
+  s_bd7c4e786c1792::t_6e9eb03cc15ab9 1-133
+projects/cic/src/ruflo-orchestration/FlowOrchestrator.ts
+  s_bd7c4e786c1792::t_ab3eba05fdf297 8-9,22-23
+  s_bd7c4e786c1792::t_5c5365dba83168 41-55
+projects/cic/src/ruflo-orchestration/IAgentCache.ts
+  s_bd7c4e786c1792::t_0165601df59986 1-61
+projects/cic/src/ruflo-orchestration/MemoryAgentCache.ts
+  s_bd7c4e786c1792::t_bd6870c7c39409 140-146
+  s_bd7c4e786c1792::t_7b84ae739a877a 29,37
+  s_bd7c4e786c1792::t_05cd5660ce8040 130-132
+  s_bd7c4e786c1792::t_ebd929ec3ab744 44
+  s_bd7c4e786c1792::t_135dd1d26b299c 1-11,13-21,23-28,30-36,38-43,45-79,81-101,103-110,112-124,126-129,133-139,147-148
+  s_bd7c4e786c1792::t_7f6ff0871765b4 102,111
+  s_bd7c4e786c1792::t_bc48c8158913ad 80
+  s_bd7c4e786c1792::t_21df0dd56ba145 125
+  s_bd7c4e786c1792::t_f8767d26d2f7e3 12,22
+projects/cic/src/ruflo-orchestration/CachedAgentClient.ts
+  s_bd7c4e786c1792::t_9f53d2ba673a89 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "0a0023a2052f23b5c54ee04148d1d26f4abcdca9",
+  "prompts": {},
+  "sessions": {
+    "s_bd7c4e786c1792": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a0d6932-a65a-4ad4-8497-d893b76ec8a6",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
