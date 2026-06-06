@@ -371,35 +371,7 @@ export class FlowOrchestrator extends EventEmitter {
         }
       } else if (Array.isArray(value)) {
         // Handle arrays: interpolate each element but preserve array structure
-        interpolated[key] = value.map((item) => {
-          if (typeof item === "string" && item.includes("{{")) {
-            // Interpolate string templates in array elements
-            let result = item;
-            result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
-              const val = (execution.input as Record<string, unknown>)[field];
-              return String(val ?? "");
-            });
-            result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
-              const val = (execution.output as Record<string, unknown>)[field];
-              return String(val ?? "");
-            });
-            result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
-              const stageIndex = parseInt(idx, 10);
-              const stageId = `stage-${stageIndex}`;
-              if (execution.output) {
-                const stageOutput = (execution.output as Record<string, unknown>)[stageId];
-                if (stageOutput && typeof stageOutput === "object") {
-                  return String((stageOutput as Record<string, unknown>)[field] ?? "");
-                }
-              }
-              return "";
-            });
-            return result;
-          } else if (typeof item === "object" && item !== null) {
-            return this.interpolateInput(item as Record<string, unknown>, execution);
-          }
-          return item;
-        });
+        interpolated[key] = value.map((item) => this.interpolateArrayItem(item, execution));
       } else if (typeof value === "object" && value !== null) {
         // Recursively interpolate nested objects
         interpolated[key] = this.interpolateInput(
@@ -412,6 +384,46 @@ export class FlowOrchestrator extends EventEmitter {
     }
 
     return interpolated;
+  }
+
+  /**
+   * Interpolate a single array item while preserving its type
+   */
+  private interpolateArrayItem(
+    item: unknown,
+    execution: FlowExecution
+  ): unknown {
+    if (typeof item === "string" && item.includes("{{")) {
+      // Interpolate string templates in array elements
+      let result = item;
+      result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
+        const val = (execution.input as Record<string, unknown>)[field];
+        return String(val ?? "");
+      });
+      result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
+        const val = (execution.output as Record<string, unknown>)[field];
+        return String(val ?? "");
+      });
+      result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
+        const stageIndex = parseInt(idx, 10);
+        const stageId = `stage-${stageIndex}`;
+        if (execution.output) {
+          const stageOutput = (execution.output as Record<string, unknown>)[stageId];
+          if (stageOutput && typeof stageOutput === "object") {
+            return String((stageOutput as Record<string, unknown>)[field] ?? "");
+          }
+        }
+        return "";
+      });
+      return result;
+    } else if (Array.isArray(item)) {
+      // Recursively handle nested arrays
+      return item.map((nested) => this.interpolateArrayItem(nested, execution));
+    } else if (typeof item === "object" && item !== null) {
+      // Recursively interpolate nested objects
+      return this.interpolateInput(item as Record<string, unknown>, execution);
+    }
+    return item;
   }
 
   /**
