@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T01:57:58.409Z
+Generated at: 2026-06-06T02:13:31.711Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -86,6 +86,7 @@ Generated at: 2026-06-06T01:57:58.409Z
 - [SKILLOPT_VALIDATOR_SPEC.md](docs/cic/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite-labs-roadmap.md](docs/cic/rewrite-labs-roadmap.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](docs/cic/PMS_INTEGRATION_SPECIFICATION.md)
+- [PHASE_7_12_THRESHOLD_MODEL.md](docs/cic/PHASE_7_12_THRESHOLD_MODEL.md)
 - [MLA_UI_SPEC.md](docs/cic/MLA_UI_SPEC.md)
 - [MLA_ROADMAP.md](docs/cic/MLA_ROADMAP.md)
 - [MIGRATION_V1.1_CHECKLIST.md](docs/cic/MIGRATION_V1.1_CHECKLIST.md)
