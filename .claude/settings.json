@@ -3,11 +3,14 @@
     "allow": [
       "Edit(.claude/**)",
       "Read(.claude/**)",
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(git status *)",
-      "Bash(git log *)",
-      "Bash(git diff *)"
+      "Edit(docs/**)",
+      "Read(docs/**)",
+      "PowerShell(git add *)",
+      "PowerShell(git commit *)",
+      "PowerShell(git status *)",
+      "PowerShell(git log *)",
+      "PowerShell(git diff *)",
+      "PowerShell(npm *)"
     ]
   },
   "hooks": {
