@@ -4,8 +4,8 @@
  */
 
 import { ContextServer } from "./ContextServer";
-import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
 import { loadConfig, validateConfig } from "../config/ContextConfig";
 
 /**

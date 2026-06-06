@@ -71,9 +71,12 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
+    "@modelcontextprotocol/sdk": "^1.0.0",
     "cheerio": "^1.2.0",
+    "dotenv": "^16.3.1",
     "googleapis": "^173.0.0",
     "puppeteer": "^25.1.0",
-    "yaml": "^2.9.0"
+    "yaml": "^2.9.0",
+    "zod": "^3.22.4"
   }
 }

@@ -7,9 +7,9 @@ import express, { Request, Response, NextFunction } from "express";
 import { ContextService, ContextServiceConfig } from "./ContextService";
 import { TraceMiddleware } from "../observability/TraceMiddleware";
 import { MetricsMiddleware } from "../observability/MetricsMiddleware";
-import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
-import { FlowLoader } from "../ruflo-orchestration/FlowLoader";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
+import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader";
 import { createRealAgents } from "../src/agents/RealAgentClients";
 import { v4 as uuidv4 } from "uuid";
 

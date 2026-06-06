@@ -4,7 +4,7 @@
  * In production, these would be replaced with real agent implementations
  */
 
-import { AgentClient } from "../../ruflo-orchestration/FlowOrchestrator";
+import { AgentClient } from "../ruflo-orchestration/FlowOrchestrator";
 
 /**
  * Code Analyzer Mock

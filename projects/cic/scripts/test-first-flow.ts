@@ -3,9 +3,9 @@
  * Demonstrates end-to-end CIC flow execution with agents and observability
  */
 
-import { FlowRegistry } from "../dist/ruflo-orchestration/FlowRegistry.js";
-import { FlowOrchestrator } from "../dist/ruflo-orchestration/FlowOrchestrator.js";
-import { FlowLoader } from "../dist/ruflo-orchestration/FlowLoader.js";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
+import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader";
 
 // Simple mock agents for demonstration
 const createMockAgents = () => {
@@ -69,7 +69,7 @@ async function runFirstFlow() {
   // 3. List available flows
   console.log("📋 [3] Available Flows:");
   const flows = registry.listTemplates("active");
-  flows.forEach((flow) => {
+  flows.forEach((flow: any) => {
     console.log(`   • ${flow.id} (${flow.description})`);
   });
   console.log();
@@ -110,7 +110,7 @@ async function runFirstFlow() {
 
     // 6. Show span timeline
     console.log("📊 [7] Execution Timeline (Spans):\n");
-    execution.spans.forEach((span, idx) => {
+    execution.spans.forEach((span: any, idx: number) => {
       const indent = "   ";
       const duration = span.duration_ms || 0;
       console.log(`   ${idx + 1}. ${span.stage_id}`);
@@ -139,7 +139,7 @@ async function runFirstFlow() {
     console.log(`   Total Duration: ${duration}ms`);
     console.log(`   Stages: ${Object.keys(execution.stage_status).length}`);
     console.log(`   Spans: ${execution.spans.length}`);
-    console.log(`   Success Rate: ${execution.spans.filter(s => s.status === "completed").length}/${execution.spans.length}`);
+    console.log(`   Success Rate: ${execution.spans.filter((s: any) => s.status === "completed").length}/${execution.spans.length}`);
     console.log();
 
     // 9. Ready for next phase

@@ -3,7 +3,7 @@
  * These implement the AgentClient interface with actual code analysis and LLM integration
  */
 
-import { AgentClient } from "../../ruflo-orchestration/FlowOrchestrator";
+import { AgentClient } from "../ruflo-orchestration/FlowOrchestrator";
 import * as fs from "fs";
 import * as path from "path";
 

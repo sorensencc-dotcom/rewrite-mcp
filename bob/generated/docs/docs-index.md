@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T01:09:08.009Z
+Generated at: 2026-06-06T01:16:00.113Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -496,6 +496,7 @@ Generated at: 2026-06-06T01:09:08.009Z
 - [SKILLOPT_VALIDATOR_SPEC.md](projects/cic/docs/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite_labs_cic_fusion_layer.md](projects/cic/docs/rewrite_labs_cic_fusion_layer.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](projects/cic/docs/PMS_INTEGRATION_SPECIFICATION.md)
+- [PHASE_C_REAL_AGENTS.md](projects/cic/docs/PHASE_C_REAL_AGENTS.md)
 - [meta_evolution_logic_loop.md](projects/cic/docs/meta_evolution_logic_loop.md)
 - [knowledge_distillation_engine.md](projects/cic/docs/knowledge_distillation_engine.md)
 - [claude_coherence_contract_implementation_v1.0.0.md](projects/cic/docs/claude_coherence_contract_implementation_v1.0.0.md)
