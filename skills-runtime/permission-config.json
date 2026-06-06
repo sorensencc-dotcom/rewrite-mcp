@@ -78,6 +78,51 @@
       "tool": "npm:build",
       "reason": "High-frequency tool (10+ approvals/day) — auto-whitelisted",
       "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "git:diff",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "git:show",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "npm:info",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "npm:audit",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "lint",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "type-check",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "validate",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "helm:*",
+      "reason": "All helm tools are read-only queries",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "idea:*",
+      "reason": "All idea tools are read/capture operations",
+      "addedAt": "2026-06-06T01:20:00Z"
     }
   ],
   "blacklisted": [

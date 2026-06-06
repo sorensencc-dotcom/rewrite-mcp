@@ -117,8 +117,33 @@ class PermissionManager {
   /**
    * Check if operation requires approval
    * Returns: { requires: boolean, reason: string }
+   *
+   * In autonomous mode: auto-decides instead of requiring approval
    */
   checkPermission(operation, tool, args = {}) {
+    // Autonomous mode first: auto-decide instead of asking
+    if (process.env.AUTONOMOUS_EXECUTION === 'true') {
+      const autonomous = this.autoDecideAutonomous(operation, tool, args);
+      if (autonomous.approved) {
+        return {
+          requires: false,
+          reason: "autonomous:auto-approved",
+          autonomousDecision: true,
+        };
+      } else {
+        // Unknown operation in autonomous mode - fail fast with clear error
+        throw new Error(
+          `[AUTONOMOUS MODE] Approval blocked: ${tool}:${operation}\n` +
+          `Reason: unknown or risky operation\n\n` +
+          `To proceed:\n` +
+          `1. Add to whitelist: pm.whitelist('${tool}')\n` +
+          `2. Exit autonomous mode and approve manually\n` +
+          `3. Run outside autonomous context\n`
+        );
+      }
+    }
+
+    // Normal mode: whitelist, cache, then ask
     // Check whitelist
     if (this.isWhitelisted(tool)) {
       return {
@@ -162,12 +187,20 @@ class PermissionManager {
   }
 
   /**
-   * Check if tool is whitelisted
+   * Check if tool is whitelisted (supports wildcard patterns like helm:* or idea:*)
    */
   isWhitelisted(tool) {
-    return this.config.whitelisted.some((t) =>
-      typeof t === "string" ? t === tool : t.tool === tool
-    );
+    return this.config.whitelisted.some((t) => {
+      const whitelistEntry = typeof t === "string" ? t : t.tool;
+      // Exact match
+      if (whitelistEntry === tool) return true;
+      // Wildcard match (e.g., helm:* matches helm:ideas-summary)
+      if (whitelistEntry.endsWith("*")) {
+        const pattern = whitelistEntry.slice(0, -1); // Remove *
+        return tool.startsWith(pattern);
+      }
+      return false;
+    });
   }
 
   /**
