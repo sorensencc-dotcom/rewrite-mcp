@@ -147,14 +147,14 @@ See detailed roadmap below.
 ## **PHASE 7.13 — Governance Hooks (BOB Integration)**
 *Connect ARL verdicts to CIC governance.*
 
-- BOB rule triggers (reject, quarantine, escalate)
-- Drift‑based escalation paths
-- Narrative‑risk flags
-- Operator override pathways
-- Audit log entries for every ARL decision
+- BOB rule triggers for all 5 reject codes (E001-E005)
+- 3 escalation handlers: memory integrity, narrative coherence, operator review
+- Deterministic routing based on failure type
+- Operator override mechanism with audit trail
+- Complete audit logging for all governance decisions
 
-**Status:** PENDING  
-**Outcome:** CIC becomes *self‑governing* with explainable reasoning.
+**Status:** ✅ COMPLETED  
+**Outcome:** CIC becomes *self‑governing* with explainable governance signals and operator audit trails.
 
 ---
 
