@@ -1,0 +1,40 @@
+projects/cic/src/ruflo-orchestration/FlowOrchestrator.ts
+  s_fedd75f531f5b1::t_0a75e5a08efc76 55,59
+  s_fedd75f531f5b1::t_88a07b1eac11b5 51
+  s_fedd75f531f5b1::t_0884c3340b0da2 111,121,125,140,150,154,164,172
+  s_fedd75f531f5b1::t_85a676a5528846 232-233,236-237,240,242,262-263,269-270
+  s_fedd75f531f5b1::t_6cb5b436efa266 245
+  s_2db26e86454bcc::t_448a7f9a6f2c92 278,288-320,323-337,339-353
+projects/cic/src/ruflo-orchestration/FlowRegistry.ts
+  s_fedd75f531f5b1::t_25a581fe256248 4,7
+  s_fedd75f531f5b1::t_59ee8d342a6338 247,253-254
+  s_fedd75f531f5b1::t_b749d564f27675 78-79,83-85,87-89
+  s_fedd75f531f5b1::t_46154c4a6305ea 93-138,147,149,152
+  s_fedd75f531f5b1::t_e2fb96882a8bb7 231,234,240-241
+  s_2db26e86454bcc::t_4eb67815467ed8 8,90-92
+  s_fedd75f531f5b1::t_8c4d9095a44c80 184,188,213-217
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "fc7f361885c27ac44333259102a9a9c60e82d5d0",
+  "prompts": {},
+  "sessions": {
+    "s_2db26e86454bcc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a04a36e7-7dec-478b-b35a-a896f932fde7",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
