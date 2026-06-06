@@ -1,0 +1,36 @@
+projects/cic/ingestion/tests/reasoning/arl/memory/MemoryConsistencyValidator.test.ts
+  s_098041771ceb78::t_bb7aa526ad58e1 1-550
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/MemoryConsistencyResult.ts
+  s_098041771ceb78::t_592ec8bd270de7 1-42
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_9de9404756fa81 164-170,172-173
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/MemorySnapshot.ts
+  s_098041771ceb78::t_f04ae25fdef9ba 1-63
+projects/cic/ingestion/src/reasoning/arl/memory/engine/MemoryConsistencyValidator.ts
+  s_098041771ceb78::t_c4100003738e24 1-367
+docs/cic/PHASE_7_15_MEMORY_CONSISTENCY.md
+  s_098041771ceb78::t_c2d3e26d8eac1d 1-338
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/EntityTimeline.ts
+  s_098041771ceb78::t_580ad725f0193d 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "612a06a3fc52f862bdb9810c99822d8c990ca87d",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
