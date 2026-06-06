@@ -5,6 +5,8 @@
 
 import { EventEmitter } from "events";
 import { FlowRegistry, FlowExecution, FlowSpan } from "./FlowRegistry";
+import { IAgentCache } from "./IAgentCache";
+import { CachedAgentClient } from "./CachedAgentClient";
 
 export interface AgentClient {
   invoke(
@@ -17,6 +19,8 @@ export interface AgentClient {
 export interface OrchestratorConfig {
   registry: FlowRegistry;
   agents: Record<string, AgentClient>;
+  cache?: IAgentCache;
+  cacheTtl?: number; // per-agent cache TTL in milliseconds
   maxConcurrency?: number;
   defaultTimeout?: number;
 }
@@ -34,7 +38,21 @@ export class FlowOrchestrator extends EventEmitter {
   constructor(config: OrchestratorConfig) {
     super();
     this.registry = config.registry;
-    this.agents = config.agents;
+
+    // Wrap agents with caching layer if cache provided
+    if (config.cache) {
+      this.agents = {};
+      for (const [name, agent] of Object.entries(config.agents)) {
+        this.agents[name] = new CachedAgentClient({
+          agent,
+          cache: config.cache,
+          ttl: config.cacheTtl,
+        });
+      }
+    } else {
+      this.agents = config.agents;
+    }
+
     this.maxConcurrency = config.maxConcurrency || 10;
     this.defaultTimeout = config.defaultTimeout || 30000;
     this.activeExecutions = new Map();
