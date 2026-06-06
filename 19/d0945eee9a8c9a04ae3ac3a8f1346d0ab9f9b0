@@ -1,0 +1,49 @@
+projects/cic/src/agents/RealAgentClients.ts
+  s_fedd75f531f5b1::t_28f494eaf3a22c 6
+tools/mcp/test-portfolio-mcp.js
+  s_cc99cc2cdc31cd::t_0376dfe3033bf8 1-82
+projects/cic/docs/PHASE_C_REAL_AGENTS.md
+  s_fedd75f531f5b1::t_3e5562b777d7d0 1-207
+projects/cic/scripts/test-first-flow.ts
+  s_fedd75f531f5b1::t_0b6e77f5106099 6-8
+  s_fedd75f531f5b1::t_867821afc41665 113
+  s_fedd75f531f5b1::t_363813664ad0a8 142
+  s_fedd75f531f5b1::t_7bcc5bc20e111a 72
+projects/cic/context-service/index.ts
+  s_fedd75f531f5b1::t_fab0749eac97b4 7-8
+projects/cic/src/agents/MockAgentClients.ts
+  s_fedd75f531f5b1::t_4ccdf662279ff6 7
+projects/cic/context-service/ContextServer.ts
+  s_fedd75f531f5b1::t_f8567ca06db932 10-12
+package.json
+  s_cc99cc2cdc31cd::t_a6cb416d783771 74,76,79-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "19d0945eee9a8c9a04ae3ac3a8f1346d0ab9f9b0",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
