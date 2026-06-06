@@ -134,11 +134,13 @@ See detailed roadmap below.
 *Turn weighted reasoning + drift + confidence into deterministic decisions.*
 
 - Hard thresholds for: composite reasoning, confidence, drift magnitude, contradiction severity
-- Operator‑visible "why rejected" codes
-- BOB‑consumable governance signals
+- Operator‑visible "why rejected" codes (E001-E005)
+- BOB‑consumable governance signals with escalation routing
+- Comprehensive test suite (40+ tests for ThresholdModel, 15+ for GovernanceSignalGenerator)
+- Integration into VerdictSynthesizer with backward compatibility
 
-**Status:** PENDING  
-**Outcome:** ARL becomes a *decision engine*.
+**Status:** ✅ COMPLETED  
+**Outcome:** ARL becomes a *decision engine* with explainable governance signals.
 
 ---
 
