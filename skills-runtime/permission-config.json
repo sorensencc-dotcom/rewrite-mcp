@@ -63,6 +63,21 @@
       "tool": "npm:test",
       "reason": "Safe verification operation",
       "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "idea:capture",
+      "reason": "High-frequency tool (15+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "idea:list-inbox",
+      "reason": "High-frequency tool (15+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "npm:build",
+      "reason": "High-frequency tool (10+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
     }
   ],
   "blacklisted": [
