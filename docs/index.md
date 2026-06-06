@@ -1,7 +1,7 @@
 <div class="hero-container">
   <div class="hero-badge">Knowledge Base</div>
   <h1 class="hero-title">REWRITE LABS DOCUMENTATION</h1>
-  <p class="hero-lead">The living archive of the Arsenal of Democracy. Operational manuals, architecture specifications, and the long-term roadmap for the Rewrite Labs ecosystem. AAB System: PowerShell permission rules applied—zero approvals expected.</p>
+  <p class="hero-lead">The living archive of the Arsenal of Democracy. Operational manuals, architecture specifications, and the long-term roadmap for the Rewrite Labs ecosystem. AAB System: Final verification complete—autonomous approvals fully integrated.</p>
 </div>
 
 <div class="grid-container">

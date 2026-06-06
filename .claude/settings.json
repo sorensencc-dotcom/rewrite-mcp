@@ -1,16 +1,13 @@
 {
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Edit(.claude/**)",
       "Read(.claude/**)",
       "Edit(docs/**)",
       "Read(docs/**)",
-      "PowerShell(git add *)",
-      "PowerShell(git commit *)",
-      "PowerShell(git status *)",
-      "PowerShell(git log *)",
-      "PowerShell(git diff *)",
-      "PowerShell(npm *)"
+      "PowerShell(*)",
+      "Bash(*)"
     ]
   },
   "hooks": {
