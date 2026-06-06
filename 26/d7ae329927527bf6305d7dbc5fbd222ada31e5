@@ -1,0 +1,24 @@
+CLAUDE.md
+  s_8337ea0f3217d7::t_cd4c6bdf27d2de 2
+  s_8337ea0f3217d7::t_39b1e209cb66cb 47-51,53-72
+  s_8337ea0f3217d7::t_04ead03da282a5 52
+HANDOFF.md
+  s_8337ea0f3217d7::t_196e14f0c08082 8-12,15-19,22-27,31-36,39-51,54-59,63
+  s_8337ea0f3217d7::t_e20a59977ffc8a 3-7,13-14,20-21,28-30,37-38,52-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "26d7ae329927527bf6305d7dbc5fbd222ada31e5",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
