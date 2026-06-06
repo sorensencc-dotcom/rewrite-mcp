@@ -31,7 +31,18 @@ class PermissionManager {
   loadConfig() {
     try {
       if (fs.existsSync(PERMISSION_CONFIG)) {
-        return JSON.parse(fs.readFileSync(PERMISSION_CONFIG, "utf-8"));
+        const loaded = JSON.parse(fs.readFileSync(PERMISSION_CONFIG, "utf-8"));
+        // Flatten nested config structure if present
+        return {
+          version: loaded.version,
+          lastUpdated: loaded.lastUpdated,
+          whitelisted: loaded.whitelisted || [],
+          blacklisted: loaded.blacklisted || [],
+          requireApproval: loaded.config?.requireApproval ?? loaded.requireApproval ?? true,
+          batchApprovals: loaded.config?.batchApprovals ?? loaded.batchApprovals ?? true,
+          cacheApprovals: loaded.config?.cacheApprovals ?? loaded.cacheApprovals ?? true,
+          cacheExpiry: loaded.config?.cacheExpiry ?? loaded.cacheExpiry ?? 3600000,
+        };
       }
     } catch (e) {
       console.warn(`⚠ Failed to load permission config: ${e.message}`);
@@ -154,14 +165,18 @@ class PermissionManager {
    * Check if tool is whitelisted
    */
   isWhitelisted(tool) {
-    return this.config.whitelisted.includes(tool);
+    return this.config.whitelisted.some((t) =>
+      typeof t === "string" ? t === tool : t.tool === tool
+    );
   }
 
   /**
    * Check if tool is blacklisted
    */
   isBlacklisted(tool) {
-    return this.config.blacklisted.includes(tool);
+    return this.config.blacklisted.some((t) =>
+      typeof t === "string" ? t === tool : t.tool === tool
+    );
   }
 
   /**

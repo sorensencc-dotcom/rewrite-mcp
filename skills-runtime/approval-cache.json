@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "approvals": {
+    "deploy:npm:deploy": {
+      "operation": "deploy",
+      "tool": "npm:deploy",
+      "approved": true,
+      "reason": "manual",
+      "approvedAt": "2026-06-06T00:10:04.901Z"
+    },
+    "call:helm:ideas-summary": {
+      "operation": "call",
+      "tool": "helm:ideas-summary",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.916Z"
+    },
+    "call:helm:pri-search": {
+      "operation": "call",
+      "tool": "helm:pri-search",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.931Z"
+    },
+    "call:idea:capture": {
+      "operation": "call",
+      "tool": "idea:capture",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.943Z"
+    },
+    "call:npm:build": {
+      "operation": "call",
+      "tool": "npm:build",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.951Z"
+    },
+    "call:npm:test": {
+      "operation": "call",
+      "tool": "npm:test",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.961Z"
+    }
+  },
+  "stats": {
+    "totalRequests": 132,
+    "autoApproved": 65,
+    "cachedApprovals": 0,
+    "manualApprovals": 2
+  }
+}
