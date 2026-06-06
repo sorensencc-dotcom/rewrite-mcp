@@ -4,10 +4,10 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { ContextService } from "../context-service/ContextService";
-import { CRGAdapter } from "../crg-adapter/CRGAdapter";
-import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
+import { ContextService } from "../src/context-service/ContextService";
+import { CRGAdapter } from "../src/crg-adapter/CRGAdapter";
+import FlowRegistry from "../src/ruflo-orchestration/FlowRegistry.js";
+import FlowOrchestrator from "../src/ruflo-orchestration/FlowOrchestrator.js";
 
 describe("CIC/CRG/Ruflo Integration", () => {
   let contextService: ContextService;

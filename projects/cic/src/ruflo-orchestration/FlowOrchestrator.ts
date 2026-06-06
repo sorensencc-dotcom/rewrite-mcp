@@ -4,9 +4,9 @@
  */
 
 import { EventEmitter } from "events";
-import { FlowRegistry, FlowExecution, FlowSpan } from "./FlowRegistry";
-import { IAgentCache } from "./IAgentCache";
-import { CachedAgentClient } from "./CachedAgentClient";
+import { FlowRegistry, FlowExecution, FlowSpan } from "./FlowRegistry.js";
+import { IAgentCache } from "./IAgentCache.js";
+import { CachedAgentClient } from "./CachedAgentClient.js";
 
 export interface AgentClient {
   invoke(
@@ -369,6 +369,37 @@ export class FlowOrchestrator extends EventEmitter {
 
           interpolated[key] = result;
         }
+      } else if (Array.isArray(value)) {
+        // Handle arrays: interpolate each element but preserve array structure
+        interpolated[key] = value.map((item) => {
+          if (typeof item === "string" && item.includes("{{")) {
+            // Interpolate string templates in array elements
+            let result = item;
+            result = result.replace(/\{\{input\.(\w+)\}\}/g, (_, field) => {
+              const val = (execution.input as Record<string, unknown>)[field];
+              return String(val ?? "");
+            });
+            result = result.replace(/\{\{output\.(\w+)\}\}/g, (_, field) => {
+              const val = (execution.output as Record<string, unknown>)[field];
+              return String(val ?? "");
+            });
+            result = result.replace(/\{\{stages\[(\d+)\]\.(\w+)\}\}/g, (_, idx, field) => {
+              const stageIndex = parseInt(idx, 10);
+              const stageId = `stage-${stageIndex}`;
+              if (execution.output) {
+                const stageOutput = (execution.output as Record<string, unknown>)[stageId];
+                if (stageOutput && typeof stageOutput === "object") {
+                  return String((stageOutput as Record<string, unknown>)[field] ?? "");
+                }
+              }
+              return "";
+            });
+            return result;
+          } else if (typeof item === "object" && item !== null) {
+            return this.interpolateInput(item as Record<string, unknown>, execution);
+          }
+          return item;
+        });
       } else if (typeof value === "object" && value !== null) {
         // Recursively interpolate nested objects
         interpolated[key] = this.interpolateInput(

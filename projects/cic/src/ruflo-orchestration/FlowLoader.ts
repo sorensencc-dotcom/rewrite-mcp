@@ -5,7 +5,7 @@
 
 import fs from "fs";
 import path from "path";
-import { FlowRegistry, FlowTemplate } from "./FlowRegistry";
+import { FlowRegistry, FlowTemplate } from "./FlowRegistry.js";
 
 export interface FlowsManifest {
   version: string;

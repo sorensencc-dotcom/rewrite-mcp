@@ -3,9 +3,9 @@
  * Demonstrates end-to-end CIC flow execution with agents and observability
  */
 
-import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
-import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry.js";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator.js";
+import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader.js";
 
 // Simple mock agents for demonstration
 const createMockAgents = () => {
@@ -62,7 +62,7 @@ async function runFirstFlow() {
 
   // 2. Load flow templates
   console.log("📂 [2] Loading Flow Templates from data/flows.json...");
-  const flowsPath = "projects/cic/data/flows.json";
+  const flowsPath = "data/flows.json";
   const loaded = FlowLoader.loadAndRegister(registry, flowsPath);
   console.log(`   ✓ Loaded ${loaded} flow templates\n`);
 

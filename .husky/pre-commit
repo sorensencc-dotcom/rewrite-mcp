@@ -20,8 +20,9 @@ cd bob
 node bin/bob.js build
 cd ..
 
-# Auto-stage any regenerated files by BOB
-git add -A
+# Auto-stage only BOB-generated files (not all untracked files)
+# BOB outputs to bob/generated/, history.jsonl, and modifies bob-owned files only
+git add bob/generated/ history/history.jsonl 2>/dev/null || true
 
 echo "🔍 Checking new skills against policy..."
 # Check for new skill directories in staged files

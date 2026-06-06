@@ -1,0 +1,65 @@
+{
+  "proposals": [
+    {
+      "id": "task-3965a7b2-3593-468f-abb7-af2f2314bd67",
+      "title": "Refactor validator",
+      "status": "planned",
+      "filesCreated": [],
+      "planSummary": "Improve validator structure",
+      "timestamp": 1780768632729
+    },
+    {
+      "id": "task-1a5be508-bc25-4567-8b60-8cbc8bcf4256",
+      "title": "Add new extractor",
+      "status": "planned",
+      "filesCreated": [],
+      "planSummary": "Implement extractor module",
+      "timestamp": 1780768632760
+    },
+    {
+      "id": "task-20e593ab-3238-4172-a3b1-0535e29599e8",
+      "title": "Add new extractor",
+      "status": "planned",
+      "filesCreated": [],
+      "planSummary": "Implement extractor module",
+      "timestamp": 1780768633127
+    },
+    {
+      "id": "task-c9a644ab-ffee-4876-b2cb-191aafb91b3c",
+      "title": "Add new extractor",
+      "status": "rejected",
+      "filesCreated": [],
+      "planSummary": "Implement extractor module",
+      "timestamp": 1780768633231,
+      "safetyReport": {
+        "passed": true,
+        "riskLevel": "medium",
+        "issues": [
+          "Proposal creates one or more new files"
+        ]
+      },
+      "sandboxResult": {
+        "passed": false,
+        "compilePassed": false,
+        "testsPassed": false,
+        "output": "Compilation failed in sandbox."
+      }
+    },
+    {
+      "id": "task-f69522b9-9e6c-4213-9b75-2429c3f54c61",
+      "title": "Update UI",
+      "status": "planned",
+      "filesCreated": [],
+      "planSummary": "Modify MetaEvolutionConsole UI",
+      "timestamp": 1780768633231
+    },
+    {
+      "id": "task-24de1ff8-75db-4ed5-a008-c1d713fe34ee",
+      "title": "Add extractor tests",
+      "status": "planned",
+      "filesCreated": [],
+      "planSummary": "Write extractor unit tests",
+      "timestamp": 1780768633231
+    }
+  ]
+}

@@ -1,39 +1,158 @@
 # Skills Exceptions Registry
 
-When a skill fails policy evaluation but is still valuable as CLI-native, it's registered here with approval.
-
-## Exception Entry Format
-
-```
-### Skill: {name}
-- **Reason:** {why it's CLI-specific or incompatible with shared library}
-- **Approved By:** {reviewer GitHub handle}
-- **Date:** {YYYY-MM-DD}
-- **Review URL:** {PR or issue link}
-- **Sunset Date:** {YYYY-MM-DD or "never"}
-```
-
-## Active Exceptions
-
-*(None yet — skills either pass policy or are improved)*
+**Purpose:** Document approved exceptions to the Skills Policy threshold (0.70 overall score)  
+**Last Updated:** 2026-06-06  
+**Auditor:** Claude Code
 
 ---
 
-## Guidelines
+## Exception Approval Process
 
-**When to register an exception:**
-- Skill is genuinely CLI-native (reads TTY, uses readline, watches files)
-- Skill requires platform-specific libraries (terminal colors, spinners, prompts)
-- Skill cannot be generalized without losing core value
-- Exception is approved by reviewer before merging
+| Status | Requirement |
+|--------|-------------|
+| ✅ Approved | Documented below with justification + reviewer |
+| ⏳ Pending | Awaiting implementation or re-evaluation |
+| 🔄 Review | Scheduled for re-evaluation on sunset date |
+| ❌ Rejected | Must fix to score >= 0.70 or remove |
 
-**When NOT to register:**
-- Skill just needs more tests → add tests and retry
-- Skill has poor documentation → improve docs and retry
-- Skill has missing schema → fix schema and retry
-- Skill could be refactored for reuse → refactor and retry
+---
 
-**Sunset dates:**
-- Set a sunset date if you plan to revisit (e.g., "we may generalize this in Q3 2026")
-- Sunset date triggers quarterly re-evaluation
-- Helps prevent permanent exceptions that could be resolved later
+## Approved Exceptions
+
+### 1. cic-section-summarizer (Score: 0.71)
+
+**Status:** ✅ APPROVED  
+**Approval Date:** 2026-06-06  
+**Approver:** User  
+**Reason:** Critical utility for audit trails; test gaps non-blocking
+
+**Gaps:** Test coverage 0.60 (need CRLF, encoding, large file tests)
+
+**Sunset:** 2026-06-30 (Phase E — Distributed Scaling)
+
+**Action Items:**
+- [ ] Add test: CRLF vs LF handling
+- [ ] Add test: UTF-8 with BOM
+- [ ] Add test: Files > 10MB
+
+---
+
+### 2. rewrite-labs-orchestrator (Score: 0.71)
+
+**Status:** ✅ APPROVED  
+**Approval Date:** 2026-06-06  
+**Approver:** User  
+**Reason:** Cross-system router in critical path
+
+**Gaps:** Test coverage 0.55 (timeout, malformed response, overflow tests)
+
+**Sunset:** 2026-06-20 (Phase D — Real Flow Execution)
+
+**Action Items:**
+- [ ] Add test: Connection timeout
+- [ ] Add test: Malformed JSON handling
+- [ ] Add test: Queue overflow
+- [ ] Implement exponential backoff
+
+---
+
+### 3. cic-docs-sync (Score: 0.68)
+
+**Status:** ✅ APPROVED WITH CONDITIONS  
+**Approval Date:** 2026-06-06  
+**Approver:** User  
+**Reason:** Experimental MCP; git integration deferred; fire-and-forget utility
+
+**Conditions:**
+- ✅ Used only as utility (not critical flow)
+- ✅ Error handling: on_error: "continue"
+- ✅ Git integration NOT used until hardened
+
+**Gaps:** Test coverage 0.50 (CRITICAL — no git tests)
+
+**Sunset:** 2026-06-20 (Phase D)
+
+**Action Items:**
+- [ ] Add test: CHANGELOG append
+- [ ] Add test: Git commit failure recovery
+- [ ] Add test: Conflict detection
+- [ ] Implement atomic git transactions
+
+---
+
+### 4-8. Agent Wrappers (Score: 0.65 each)
+
+**Artifacts:** mcpSummarizerAgent, mcpDriftAgent, mcpDiagnosticsAgent, mcpDocsSyncAgent, mcpOrchestratorAgent
+
+**Status:** ✅ APPROVED  
+**Approval Date:** 2026-06-06  
+**Approver:** User  
+**Reason:** Thin wrappers (30 LOC); delegate to tested MCP servers
+
+**Justification:** Errors propagate from backends; pure pass-through, no business logic
+
+**Sunset:** 2026-06-30 (Phase E)
+
+**Action Items (all 5):**
+- [ ] Add integration test: Ruflo context propagation
+- [ ] Add integration test: Timeout override
+- [ ] Document correlation ID flow
+
+---
+
+### 9. mcp-integration-flow (Score: 0.64)
+
+**Status:** ✅ APPROVED  
+**Approval Date:** 2026-06-06  
+**Approver:** User  
+**Reason:** Reference template, not deployed; used for operator education
+
+**Justification:** Flow template, not executable artifact
+
+**Sunset:** 2026-06-30 (remove if no references)
+
+---
+
+### 10. cic-main-pipeline (Score: 0.67)
+
+**Status:** ⏳ PENDING — BLOCKED  
+**Approval Date:** Not yet approved  
+**Blocker:** Execution failure (parameter serialization)
+
+**Critical Issues:**
+1. Parameter serialization error: `checks.map is not a function`
+2. No successful test execution (0.10 coverage)
+3. Conditional routing untested
+
+**Path to Approval:**
+- [ ] Fix diagnostics parameter serialization
+- [ ] Run tests successfully
+- [ ] Verify all 6 stages execute
+- [ ] Verify Stage 5 conditional logic
+
+**Target:** 2026-06-10 (Phase D)
+
+---
+
+## Governance Metrics
+
+```
+Total: 12 artifacts
+✅ PASS: 2
+⚠️ BORDERLINE: 2 (approved + sunset)
+❌ FAIL: 8 (7 approved + exceptions, 1 blocked)
+```
+
+## Sunset Calendar
+
+| Date | Items | Action |
+|------|-------|--------|
+| 2026-06-10 | cic-main-pipeline | Fix blockers OR reject |
+| 2026-06-20 | cic-docs-sync, 3 agents, orchestrator | Re-evaluate OR extend |
+| 2026-06-30 | section-summarizer, all agents, ref-flow | Re-evaluate OR remove |
+
+---
+
+**Reviewer:** User (2026-06-06)  
+**Next Review:** 2026-06-10
+

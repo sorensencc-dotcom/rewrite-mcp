@@ -1,0 +1,20 @@
+[
+  {
+    "id": "07f03a35-2cbc-4395-b4b5-ab5646399ac8",
+    "createdAt": "2026-06-06T17:57:13.244Z",
+    "updatedAt": "2026-06-06T17:57:13.309Z",
+    "status": "failed",
+    "planId": "Fix build for new extractor",
+    "proposalIds": [
+      "task-c9a644ab-ffee-4876-b2cb-191aafb91b3c",
+      "task-f69522b9-9e6c-4213-9b75-2429c3f54c61",
+      "task-24de1ff8-75db-4ed5-a008-c1d713fe34ee"
+    ],
+    "currentStepIndex": 0,
+    "totalSteps": 3,
+    "error": {
+      "message": "Sandbox validation failed. Output: Compilation failed in sandbox.",
+      "code": "sandbox_failed"
+    }
+  }
+]
