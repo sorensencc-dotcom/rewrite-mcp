@@ -13,7 +13,7 @@
       "tool": "helm:ideas-summary",
       "approved": true,
       "reason": "whitelisted",
-      "approvedAt": "2026-06-06T00:10:04.916Z"
+      "approvedAt": "2026-06-06T00:35:09.665Z"
     },
     "call:helm:pri-search": {
       "operation": "call",
@@ -45,8 +45,8 @@
     }
   },
   "stats": {
-    "totalRequests": 132,
-    "autoApproved": 65,
+    "totalRequests": 133,
+    "autoApproved": 66,
     "cachedApprovals": 0,
     "manualApprovals": 2
   }

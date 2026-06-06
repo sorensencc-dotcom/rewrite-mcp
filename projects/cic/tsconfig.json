@@ -16,7 +16,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "ruflo-orchestration/**/*.ts",
     "context-service/**/*.ts",
     "context-api/**/*.ts",
     "crg-adapter/**/*.ts",

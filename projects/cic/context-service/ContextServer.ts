@@ -7,9 +7,10 @@ import express, { Request, Response, NextFunction } from "express";
 import { ContextService, ContextServiceConfig } from "./ContextService";
 import { TraceMiddleware } from "../observability/TraceMiddleware";
 import { MetricsMiddleware } from "../observability/MetricsMiddleware";
-import { FlowRegistry } from "../ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../ruflo-orchestration/FlowOrchestrator";
-import { FlowLoader } from "../ruflo-orchestration/FlowLoader";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
+import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader";
+import { createRealAgents } from "../src/agents/RealAgentClients";
 import { v4 as uuidv4 } from "uuid";
 
 export interface ServerConfig extends ContextServiceConfig {
@@ -31,11 +32,11 @@ export class ContextServer {
     this.service = new ContextService(config);
     this.flowRegistry = new FlowRegistry();
 
-    // Initialize orchestrator with mock agents
-    const mockAgents = this.createMockAgents();
+    // Initialize orchestrator with real agents (Phase C)
+    const realAgents = createRealAgents();
     this.flowOrchestrator = new FlowOrchestrator({
       registry: this.flowRegistry,
-      agents: mockAgents,
+      agents: realAgents,
       maxConcurrency: 10,
       defaultTimeout: 30000,
     });
@@ -318,32 +319,6 @@ export class ContextServer {
     if (loaded > 0) {
       console.log(`✓ Loaded ${loaded} flow templates`);
     }
-  }
-
-  private createMockAgents(): Record<string, any> {
-    // Inline mock agents for simplicity
-    const mockAgentFactory = (name: string) => ({
-      invoke: async (method: string, input: any, traceId: string) => {
-        console.log(`[${name}.${method}] Invoked with input:`, Object.keys(input));
-        return {
-          status: "success",
-          agent: name,
-          method,
-          timestamp: new Date().toISOString(),
-        };
-      },
-    });
-
-    return {
-      "code-analyzer": mockAgentFactory("code-analyzer"),
-      "call-graph-extractor": mockAgentFactory("call-graph-extractor"),
-      "narrative-linker": mockAgentFactory("narrative-linker"),
-      "context-synthesizer": mockAgentFactory("context-synthesizer"),
-      "idea-parser": mockAgentFactory("idea-parser"),
-      "idea-classifier": mockAgentFactory("idea-classifier"),
-      "refactor-proposal-engine": mockAgentFactory("refactor-proposal-engine"),
-      "test-generator": mockAgentFactory("test-generator"),
-    };
   }
 
   start(): Promise<void> {
