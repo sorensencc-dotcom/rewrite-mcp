@@ -1,9 +1,66 @@
 # HANDOFF.md — rewrite-mcp Monorepo
-# Updated: 2026-06-06 (Phase D Setup) | Tool: claude
+
+Updated: 2026-06-06 (Phase 44.1 Deployment) | Tool: claude
 
 ---
 
-## This Session: Phase E.0/E.1 — Real-Time Policy Validator & Approval Gate (Claude)
+## This Session: Phase 44.1 — Claude Deployment (Complete)
+
+### What changed
+
+**Deployed 13 skills to Claude Code as MCP tools.**
+
+Infrastructure complete:
+
+- ✅ Fixed MCP server Node.js v24 compatibility (JSON import syntax)
+- ✅ Created `.claude/mcp.json` configuration
+- ✅ All 14 MCP server tests passing (vitest)
+- ✅ Verified 13 tools available and loadable
+- ✅ Updated CLAUDE.md with skill guidelines (v1.1.0)
+
+Files modified:
+
+- `skills-runtime/mcp-server.js` — Fixed JSON import for Node.js v24
+- `skills-runtime/index.js` — Removed problematic assert syntax
+- `.claude/mcp.json` — NEW, MCP server configuration
+- `CLAUDE.md` — Added skills & MCP section with 13-tool reference table
+
+Testing:
+
+```bash
+✓ MCP Server Tests: 14/14 PASS
+✓ Module Load: SUCCESS
+✓ Tools Exported: 13/13
+✓ Policy Validation: PASS
+```
+
+13 Skills Deployed:
+
+1. summarize_cic_phase (cic-section-summarizer)
+2. detect_agent_drift (agent-drift-detector)
+3. orchestrate_rl_pipeline (rewrite-labs-orchestrator)
+4. diagnose_environment (environment-diagnostics)
+5. manage_session_boundary (session-boundary-manager)
+6. update_cic_roadmap (cic-roadmap-updater)
+7. generate_procedure (operator-grade-procedures)
+8. detect_web_regression (web-regression)
+9. capture_research (research-capture)
+10. update_treatment (treatment-update)
+11. update_documentation (doc-update)
+12. sync_docs_release (docs-sync-release)
+13. audit_approvals (approvals-audit)
+
+Next steps:
+
+1. Restart Claude Code (load new MCP config)
+2. Test skills invocation in Claude
+3. Phase 45: Build 7 additional skills (Phase 2 backlog)
+
+**Status:** ✅ COMPLETE (awaiting Claude Code restart)
+
+---
+
+## Previous Session: Phase E.0/E.1 — Real-Time Policy Validator & Approval Gate (Claude)
 
 ### What changed
 
