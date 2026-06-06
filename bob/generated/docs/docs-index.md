@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T17:07:07.727Z
+Generated at: 2026-06-06T17:23:55.368Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -10,6 +10,7 @@ Generated at: 2026-06-06T17:07:07.727Z
 - [GAP-004_Narrative_Gap_Report.md](docs/GAP-004_Narrative_Gap_Report.md)
 - [GAP-003_Narrative_Gap_Report.md](docs/GAP-003_Narrative_Gap_Report.md)
 - [GAP-002_Narrative_Gap_Report.md](docs/GAP-002_Narrative_Gap_Report.md)
+- [APPROVAL_INFRASTRUCTURE.md](docs/APPROVAL_INFRASTRUCTURE.md)
 - [REWRITE_LABS_ROADMAP.md](docs/rewrite-labs/REWRITE_LABS_ROADMAP.md)
 - [REWRITE_LABS_SYSTEM.md](docs/rewrite/REWRITE_LABS_SYSTEM.md)
 - [REWRITE_LABS_STATE.md](docs/rewrite/REWRITE_LABS_STATE.md)
