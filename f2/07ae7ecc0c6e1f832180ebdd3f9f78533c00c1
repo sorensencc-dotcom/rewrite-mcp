@@ -1,0 +1,34 @@
+.claude/PERMISSIONS_SETUP.md
+  s_098041771ceb78::t_04b9d916b5f6da 1-207
+.claude/INTEGRATION_EXAMPLES.md
+  s_098041771ceb78::t_5fb05087f4c1d8 1-267
+tools/mcp/helm-server.js
+  s_098041771ceb78::t_176fae31d60c6e 1355-1356,1362
+  s_098041771ceb78::t_d98c3b173c721a 1285-1292
+  s_098041771ceb78::t_71a7c1404054fa 14
+.claude/QUICK_START.md
+  s_098041771ceb78::t_0e129aaf3b69cf 1-177
+.claude/permissions.js
+  s_098041771ceb78::t_8212437088258b 1-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f207ae7ecc0c6e1f832180ebdd3f9f78533c00c1",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
