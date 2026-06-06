@@ -161,14 +161,16 @@ See detailed roadmap below.
 ## **PHASE 7.14 — ARL Self‑Diagnostics**
 *ARL evaluates itself.*
 
-- Subsystem health checks
-- Drift‑of‑drift detection
-- Weighting model sanity checks
-- Contradiction detector self‑tests
-- "Reasoning integrity" score
+- Subsystem health checks (mean, variance, deteriorating trends)
+- Meta‑drift detection (drift magnitude stability)
+- Seasonal pattern detection
+- Anomaly detection (values >2σ from mean)
+- Weighting model validation (max deviation tracking)
+- Threshold calibration analysis (operator override rates)
+- Reasoning Integrity Score (0-1 composite)
 
-**Status:** PENDING  
-**Outcome:** ARL becomes *self‑monitoring* and resilient.
+**Status:** ✅ COMPLETED  
+**Outcome:** ARL becomes *self‑monitoring* and resilient with continuous health assessment.
 
 ---
 
