@@ -2129,21 +2129,210 @@ ingest → OCR → classify → organize → research-log → curate
 
 ---
 
-## **PHASE 55 — Interview & Oral History Pipeline (IOHP)**
+## **PHASE 55 — Interview Pipeline + Gap-Driven Feedback Loop**
 
-**Status:** PENDING
+**Status:** 55A–55B COMPLETE (2026-06-07); 55C–55D PENDING
 
-**Dual-use:** CIC begins historian interviews in Phase 2. Family research business uses the same pipeline for family interviews — the premium differentiator that separates deep research from self-service.
+**Strategic Purpose:** Phase 54 gap analysis identifies what's missing from the research. Phase 55 converts those gaps into two parallel research streams:
+1. **Interview prompts** — Ask subjects/experts the questions raised by gaps
+2. **Archive crawl directives** — Auto-feed gaps back to Phase 53 as targeted search queries, creating a self-reinforcing research loop
 
-### Deliverables
-- Audio/video ingest → Whisper transcription (via `whisper.cpp` or OpenAI Whisper API)
-- Segment extraction: automatically identifies key statements by topic
-- Speaker diarization: labels speakers when multiple participants
-- Research log integration: extracts facts, dates, names from transcript and appends to research log format
-- Interview session schema: `interview_session.json` (subject, date, interviewer, topics covered, media ID)
-- Export: clean transcript PDF + structured JSON for AI summarization
+**Dual-use:** CIC Phase 2 historian interviews use the same framework. Family research business uses it for family member interviews — the premium differentiator that separates deep research from self-service.
 
-**Outcome:** Every interview — historian for CIC, grandmother for a client — is automatically transcribed, indexed, and searchable within 10 minutes of recording.
+---
+
+### **Phase 55A — Gap-to-Interview-Prompt Converter**
+
+**Status:** ✅ COMPLETE (2026-06-07)
+
+**Purpose:** Parse Phase 54 gap analysis → convert into structured interview questions ranked by research value.
+
+**Script:** `gap-to-interview-prompts.ps1`
+
+**Inputs:**
+- `report_gaps_latest.md` from Phase 54
+- `genealogy_config.json` for person names and context
+- `entity_graph.json` for related entities and timeline context
+
+**Outputs:**
+- `interview_prompts_latest.json` — structured prompt queue with priorities
+- `interview_prompts_latest.md` — markdown guide for interviewer
+
+**Logic:**
+- Classify gaps into: **content** (High priority oral history), **entity** (relationship questions), **archive coverage** (system actions)
+- Enrich with person names, dates, and related entities from config + graph
+- Generate natural-language questions with follow-ups
+- Rank by priority (High → Medium → Low) and gap type
+- Annotate with answer type: `oral_history`, `names_dates`, `documents`, `system_action`
+
+**Example Output:**
+```json
+{
+  "id": "gap_content_sorensen_early_life",
+  "priority": "High",
+  "gap_type": "content",
+  "entity": "Sorensen early life (1881–1904)",
+  "question": "Tell us about your early years in Denmark. What was your childhood like, and what led your family to emigrate?",
+  "follow_ups": [
+    "What do you remember about your parents?",
+    "Were there any events that prompted the emigration decision?",
+    "Do you have memories or photos from that period?"
+  ],
+  "answer_type": "oral_history",
+  "time_estimate_minutes": 15,
+  "metadata": {
+    "gap_source": "No documents found: Sorensen early life (1881–1904)",
+    "related_entities": ["Charles Emil Sorensen", "Odense", "Denmark"]
+  }
+}
+```
+
+**Verification:**
+```powershell
+& "C:\CIC_MEDIA_LIBRARY\CIC\scripts\gap-to-interview-prompts.ps1" -Domain documentary
+# Outputs: 4 High-priority content gaps → 4 interview prompts + system actions
+```
+
+---
+
+### **Phase 55B — Reconciliation Loop (Gap-Driven Archive Crawling)**
+
+**Status:** ✅ COMPLETE (2026-06-07)
+
+**Purpose:** Convert gaps into archive search directives and orchestrate a full research iteration: gaps → directives → crawl → ingest → graph update → report regeneration.
+
+**Script:** `reconciliation-loop.ps1`
+
+**Workflow:**
+1. Generate fresh report (optional)
+2. Parse gaps from Phase 54
+3. Convert **content gaps only** → archive search directives
+4. Enqueue targets in `archive_crawl_queue.json`
+5. Execute crawls via `query-archives.ps1`
+6. Ingest results into entity sidecars
+7. Rebuild entity graph (Phase 52)
+8. Regenerate report (Phase 54)
+9. Compare old gaps vs. new gaps → report closed vs. new gaps
+10. Log iteration in `reconciliation_log.md`
+
+**Gap → Directive Conversion:**
+
+| Gap | Directive Query | Domain | Suggested Connectors |
+|-----|-----------------|--------|----------------------|
+| "Sorensen early life 1881–1904" | "Sorensen Denmark 1881 1904" | genealogy | Rigsarkivet, FamilySearch |
+| "Willow Run construction 1941–1942" | "Willow Run B-24 Ford 1941 1942" | documentary | NARA RG179, BensonFord |
+| "Sorensen departure from Ford 1944" | "Charles Sorensen Ford 1944" | documentary | BensonFord, BurtonDPL |
+| "Post-Ford career 1944–1968" | "Willys-Overland Sorensen 1944–1968" | documentary | InternetArchive, Smithsonian |
+
+**Crawl Queue (`archive_crawl_queue.json`):**
+```json
+{
+  "items": [
+    {
+      "id": "dir_abc123",
+      "query": "Sorensen Denmark 1881 1904",
+      "domain": "genealogy",
+      "priority": "High",
+      "gap_source": "Sorensen early life (1881–1904)",
+      "suggested_connectors": ["Rigsarkivet", "FamilySearch"],
+      "max_attempts": 3,
+      "executed": false,
+      "results_count": 0
+    }
+  ]
+}
+```
+
+**Invocation:**
+```powershell
+# Dry run: generate directives, don't execute
+& "C:\CIC_MEDIA_LIBRARY\CIC\scripts\reconciliation-loop.ps1" `
+  -Domain documentary `
+  -DryRun $true
+
+# Full iteration: gaps → crawl → graph → report
+& "C:\CIC_MEDIA_LIBRARY\CIC\scripts\reconciliation-loop.ps1" `
+  -Domain documentary `
+  -GenerateReport $true `
+  -IngestNewResults $true `
+  -UpdateGaps $true `
+  -FeedGapsToArchives $true
+```
+
+**Output Files:**
+- `archive_crawl_queue.json` — persistent queue (survives restarts, allows manual editing)
+- `archive_crawl_log.md` — per-execution log of crawled queries and result counts
+- `reconciliation_log.md` — long-running log of all iterations (gap trends, closure rates)
+
+**Verification (2026-06-07 Run):**
+```
+✓ Parsed 5 gaps from report
+✓ Generated 4 interview prompts
+✓ Created 3 archive directives
+✓ Queued: Sorensen Denmark 1881 1904 [genealogy]
+✓ Queued: Willow Run B-24 Ford [documentary]
+✓ Queued: Charles Sorensen Ford 1944 [documentary]
+✓ Regenerated report (updated gaps)
+```
+
+---
+
+### **Phase 55C — Interview Audio/Video Ingestion (PENDING)**
+
+**Purpose:** Capture responses to interview prompts, transcribe, and extract facts.
+
+**Pipeline:**
+- Ingest audio/video files
+- Call Whisper API (or local `whisper.cpp`) for transcription
+- Segment by interview prompt ID (match speaker response to question)
+- Extract named entities (persons, dates, places) via Claude
+- Auto-generate `interview_extract.json` with facts, dates, names
+- Append to entity sidecars for graph re-ingest
+
+**Script:** `interview-ingest.ps1` (stub exists, full implementation pending)
+
+---
+
+### **Phase 55D — Interview → Research Log (PENDING)**
+
+**Purpose:** Convert transcribed interviews into structured evidence entries.
+
+**Pipeline:**
+- Parse interview extracts
+- Map to interview prompt ID (which gap did this answer?)
+- Generate Evidence Explained citations where applicable
+- Create research log entries with: source (interview), date, subject, facts extracted
+- Track gap closure: mark which gaps were partially/fully answered
+
+**Output:** `research_log_interviews.md` — interview-sourced entries integrated into final report evidence section.
+
+---
+
+### **Gap-Driven Loop Integration**
+
+**Full cycle:**
+```
+Phase 54 Report (gaps)
+        ↓
+Phase 55A: Convert gaps → interview prompts + archive directives
+        ↓ (parallel)
+        ├→ Interviewer uses prompts_latest.md
+        │   ├→ Records audio/video
+        │   ├→ Phase 55C: Ingest, transcribe, extract
+        │   ├→ Phase 55D: Convert to research log
+        │   └→ Feeds back to entity graph
+        │
+        └→ Phase 55B: Reconciliation loop
+            ├→ Enqueue directives in crawl_queue.json
+            ├→ Execute crawls via Phase 53
+            ├→ Ingest results → entity sidecars
+            ├→ Phase 52: Rebuild graph
+            └→ Phase 54: Regenerate report (fresh gaps)
+```
+
+**Termination condition:**  Gap count stabilizes (≥ 3 iterations with 0 new gaps closed) OR project timeline/budget constraints.
+
+**Outcome:** A self-reinforcing research engine where gaps → interviews → archive discoveries → updated graph → refined gaps. Each iteration increases research depth and narrative completeness.
 
 ---
 
