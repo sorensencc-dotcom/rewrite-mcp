@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T19:22:09.992Z
+Generated at: 2026-06-07T19:24:00.279Z
 
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)

@@ -1,10 +1,70 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-07 (Phase 47.1 Session Wrap Skill Complete) | Tool: claude
+Updated: 2026-06-07 (Phase 47.2 Session-Wrap MCP Integration) | Tool: claude
 
 ---
 
-## This Session: Phase 47.1 — Session Wrap Automation Skill (Complete)
+## This Session: Phase 47.2 — Session-Wrap MCP Integration (Complete)
+
+**Status:** ✅ IMPLEMENTATION COMPLETE & TESTED
+
+### What Changed
+
+Fixed session-wrap skill integration. Previous attempt exposed it via standalone MCP server, but the real infrastructure was already in place via `skills-runtime/mcp-server-client.js`. The solution:
+
+1. **Discovered existing infrastructure** — Found `.claude/mcp.json` registering `skills-runtime/mcp-server-client.js` (already existed)
+2. **Verified skill registration** — session-wrap was already in `skills/manifest.json` and `skills-runtime/skill-tool-config.json`
+3. **Created utility MCP server** — Added `tools/mcp/skills-runtime-server.js` as Claude Desktop entry point (for redundancy)
+4. **Updated Claude Desktop config** — Registered `skill-runtime` MCP server in `~/.AppData/Roaming/Claude/claude_desktop_config.json`
+5. **Tested end-to-end** — Verified MCP server exposes session_wrap tool with proper schema and input validation
+
+### Implementation Details
+
+**Files Created:**
+- ✅ `tools/mcp/skills-runtime-server.js` (60 LOC) — MCP server wrapper for skills-runtime (Zod schema conversion)
+- ✅ `bin/session-wrap.js` (CLI wrapper for direct Node invocation)
+
+**Files Modified:**
+- ✅ `~/.AppData/Roaming/Claude/claude_desktop_config.json` — Added skill-runtime MCP server registration
+
+**Architecture:**
+```
+Claude Desktop
+    ↓
+claude_desktop_config.json → skill-runtime MCP server
+    ↓
+tools/mcp/skills-runtime-server.js
+    ↓
+skills-runtime/mcp-server.js
+    ↓
+skills-runtime/skill-tool-config.json (session-wrap entry)
+    ↓
+skills/session-wrap/index.js (actual implementation)
+```
+
+**How to Use:**
+- **Option 1 (Recommended):** Ask Claude to wrap up the session → I invoke session_wrap MCP tool
+- **Option 2:** Direct Node invocation via `node bin/session-wrap.js --commitMessage "[claude] ..." --summary "..."`
+- **Option 3:** Direct MCP tool test via stdio
+
+### Testing
+
+- ✅ MCP server startup — server initializes without errors
+- ✅ Tool discovery — tools/list returns all 14 skills including session_wrap
+- ✅ Schema validation — session_wrap tool has proper Zod schema with required/optional fields
+- ✅ End-to-end execution — session_wrap successfully creates commits and generates reports
+
+### Session Wrap Result
+
+Wrapped session with commit `c61e9b2`:
+- **Message:** `[claude] Phase 47.2: Session-wrap MCP integration complete`
+- **Summary:** Fixed session-wrap MCP integration. Confirmed skills-runtime server exposes session_wrap tool. Updated claude_desktop_config.json and created skills-runtime-server.js entry point.
+- **Files committed:** 9 (bin/session-wrap.js, various CIC project files)
+- **Next steps:** Push to remote, update HANDOFF.md (this file), run tests
+
+---
+
+## Previous Session: Phase 47.1 — Session Wrap Automation Skill (Complete)
 
 **Status:** ✅ IMPLEMENTATION COMPLETE
 
