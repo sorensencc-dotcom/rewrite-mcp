@@ -23,6 +23,11 @@ subsystem of the Cast Iron Charlie documentary intelligence engine. CIC operates
 within the Runtime Contract and receives ingestion jobs from RTK, executes them
 deterministically, and emits governance deltas to git-ai.
 
+CIC also publishes its contract and runtime state into the Claude memory sync
+baseline before any Claude-driven proposal or analysis. This sync path is
+anchored by the `Memory Diff Tool`, `Memory Injection Block`, `Rewrite Labs State
+Tracker`, and `docs/cic/CIC_SYSTEM.md`.
+
 ---
 
 ## 2. Core Components

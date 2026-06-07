@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.30.1] - 2026-06-06
+
+### Changed
+- **Documentation**: Clarified the Claude memory sync path in `docs/rewrite/governance/DOC_POLICY.md`, `docs/rewrite/skills/doc-update.md`, `docs/cic/CIC_SYSTEM.md`, `docs/cic/CIC_AI_RUNTIME_CONTRACT.md`, and `docs/cic/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md`.
+
 ## [2.30.0] - 2026-06-05
 
 ### Added

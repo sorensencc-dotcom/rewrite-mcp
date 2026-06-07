@@ -90,3 +90,18 @@ All AI models in this workspace (Claude, Gemini, and others) must:
 2. Execute `../skills/doc-update.md` after every successful build or phase completion.
 3. Never declare a phase "done" without updating both the changelog and roadmap.
 4. Surface any new ideas immediately to the Suggestion Log — do not silently carry them in conversation.
+
+## 6. Claude + Copilot Roles
+
+- Claude is the deep architecture and reasoning engine.
+- Claude receives the `Memory Diff Tool`, `Memory Injection Block`, `Rewrite Labs State Tracker`, and `docs/cic/CIC_SYSTEM.md` to establish a synchronized Claude memory baseline before any reasoning or proposal generation.
+- This memory sync path is the authoritative state injection mechanism for Claude and must be refreshed whenever CIC state, contract, or system documentation changes.
+- Claude may generate proposals, but it must preserve deterministic document authority behavior and respect locked system contracts.
+- Copilot is the living-document manager. It owns versioning and update flow:
+  - `FIND` — locate authoritative source documents
+  - `READ` — understand current content and versioning
+  - `DETERMINE VERSION BUMP` — choose the correct semantic increment
+  - `GENERATE` — produce updated content, changelog, and roadmap entries
+  - `UPLOAD` — write changes into the workspace
+  - `ARCHIVE IN PLACE` — keep document history and preserve prior versions
+  - `CONFIRM` — verify the new content, version bump, and documentation state are correct

@@ -1,7 +1,8 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T02:39:04.650Z
+Generated at: 2026-06-07T03:28:29.512Z
 
+- [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
 - [GAP-007_Narrative_Gap_Report.md](docs/GAP-007_Narrative_Gap_Report.md)
@@ -11,6 +12,8 @@ Generated at: 2026-06-07T02:39:04.650Z
 - [GAP-003_Narrative_Gap_Report.md](docs/GAP-003_Narrative_Gap_Report.md)
 - [GAP-002_Narrative_Gap_Report.md](docs/GAP-002_Narrative_Gap_Report.md)
 - [APPROVAL_INFRASTRUCTURE.md](docs/APPROVAL_INFRASTRUCTURE.md)
+- [reverse-image-search.md](docs/skills/reverse-image-search.md)
+- [evidence-schema-v1.md](docs/skills/evidence-schema-v1.md)
 - [REWRITE_LABS_ROADMAP.md](docs/rewrite-labs/REWRITE_LABS_ROADMAP.md)
 - [REWRITE_LABS_SYSTEM.md](docs/rewrite/REWRITE_LABS_SYSTEM.md)
 - [REWRITE_LABS_STATE.md](docs/rewrite/REWRITE_LABS_STATE.md)
@@ -82,6 +85,8 @@ Generated at: 2026-06-07T02:39:04.650Z
 - [mas-introspection.md](docs/rewrite/architecture/mas-introspection.md)
 - [control-plane-design.md](docs/rewrite/architecture/control-plane-design.md)
 - [agents.md](docs/rewrite/architecture/agents.md)
+- [rewrite_labs_overview.md](docs/internal/rewrite_labs_overview.md)
+- [cic_overview.md](docs/internal/cic_overview.md)
 - [HELM_ROADMAP.md](docs/helm/HELM_ROADMAP.md)
 - [VISUAL_INDEX_TEMPLATE.md](docs/cic/VISUAL_INDEX_TEMPLATE.md)
 - [SKILLOPT_VALIDATOR_SPEC.md](docs/cic/SKILLOPT_VALIDATOR_SPEC.md)
@@ -523,6 +528,7 @@ Generated at: 2026-06-07T02:39:04.650Z
 - [CIC_AI_RUNTIME_v1.0.0_RELEASE_NOTES.md](projects/cic/docs/CIC_AI_RUNTIME_v1.0.0_RELEASE_NOTES.md)
 - [CIC_AI_RUNTIME_DIAGRAM.md](projects/cic/docs/CIC_AI_RUNTIME_DIAGRAM.md)
 - [CIC_AI_RUNTIME_CONTRACT.md](projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md)
+- [antigravity_doctrine.md](projects/cic/docs/antigravity_doctrine.md)
 - [antigravity_coherence_contract_template_v1.0.0.md](projects/cic/docs/antigravity_coherence_contract_template_v1.0.0.md)
 - [amb_strategic_planning.md](projects/cic/docs/amb_strategic_planning.md)
 - [AGENT_REGISTRATION.md](projects/cic/docs/AGENT_REGISTRATION.md)

@@ -46,6 +46,8 @@ CIC is the **authoritative system** responsible for:
 
 CIC is the **source of truth** for all intelligence operations.
 
+- **Claude memory sync path**: CIC publishes its current contract, system state, and document deltas to the shared Claude memory baseline. This includes the `Memory Diff Tool`, `Memory Injection Block`, `Rewrite Labs State Tracker`, and `docs/cic/CIC_SYSTEM.md` as the authoritative sync inputs before Claude makes runtime proposals.
+
 ---
 
 ### **2.2 RTK — Rewrite Runtime Toolkit**

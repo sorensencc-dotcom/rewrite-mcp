@@ -346,10 +346,17 @@ Claude and Antigravity share a memory model:
 
 ### 6.4 Sync Protocol
 
+Claude and Antigravity synchronize via the shared Claude memory baseline using the following authoritative tools:
+
+- `Memory Diff Tool`
+- `Memory Injection Block`
+- `Rewrite Labs State Tracker`
+- `docs/cic/CIC_SYSTEM.md`
+
 ```
 Every 30 seconds:
   1. Antigravity writes telemetry snapshot to shared memory
-  2. Claude reads snapshot
+  2. Claude reads snapshot and the current sync baseline
   3. Claude updates analysis artifacts
   4. Claude flags drift or anomalies
   5. Antigravity reads Claude's flags (async)
