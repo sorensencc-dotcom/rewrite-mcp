@@ -1,0 +1,1597 @@
+skills-runtime/README.md
+  s_ef85f8b92a3bc3::t_f98e5d6ab5e0f5 1-290
+projects/cic/ingestion/src/reasoning/arl/contracts/ARLv2Spec.ts
+  s_cc99cc2cdc31cd::t_3fb8bdc76328bd 1-50
+projects/cic-operator-console/index.html
+  s_e06868f0ac3104::t_052764f090bd04 1-13
+tools/git-policy-agent/PolicyValidator.js
+  s_fedd75f531f5b1::t_aa3a31a20dd313 1-252
+tests/render/runRenderTests.ts
+  s_7eb04519120919::t_31a5ce336dabe4 1-85
+workflows/phase-summary-roadmap/index.test.js
+  s_ef85f8b92a3bc3::t_d54c00e2b116af 1-17,19-21,23-26,28-30,32-35,37-38,40-43,45-47,49-73,75-76,79-157
+  s_ef85f8b92a3bc3::t_65c2a3293da94b 18,22,27,31,36,39,44,48
+  s_ef85f8b92a3bc3::t_d0ebf7729722d6 74,77-78
+projects/cic/tests/array-parameter-fix.test.ts
+  s_52000cc5a7d028::t_e2d3ecb4bc29cf 1-5,7-178
+  s_52000cc5a7d028::t_87362457ad0217 6
+apps/skill-gateway/package.json
+  s_ef85f8b92a3bc3::t_8202c0d4b4ebda 1-20
+projects/cic-operator-console/kubernetes.yaml
+  s_e06868f0ac3104::t_920ff233ac02ed 1-60
+skills/index.test.js
+  s_ef85f8b92a3bc3::t_7db8f889fec5f5 1-625
+projects/cic/src/wil/security-validator.ts
+  s_a5732a92a4d604::t_074dbcf73fbb8d 81
+  s_a5732a92a4d604::t_ce8c06a1e3a6be 75-78
+  s_a5732a92a4d604::t_2c0cc55697e063 175-182
+  s_da4a457c4334be::t_a086e616a7c5b1 1-74,79-80,82-174,183-248,250-269
+  s_a5732a92a4d604::t_41cf028e480762 249
+projects/cic/ingestion/tests/reasoning/arl/engine/ThresholdModel.test.ts
+  s_098041771ceb78::t_389505afdf8604 1
+  s_098041771ceb78::t_70869ff608742c 2-271
+.claude/mcp.json
+  s_8337ea0f3217d7::t_2008aa441f7762 1-13
+benchmarks/costs/README.md
+  s_7eb04519120919::t_bd8bd24425f27e 1-123
+tools/helm/helm-commands.ts
+  s_7eb04519120919::t_b5da628f09e7f7 1-341
+skills-runtime/loader.js
+  s_ef85f8b92a3bc3::t_9b625e5df67f60 1-5,7-37,40-64
+  s_8337ea0f3217d7::t_dbea05abc703fb 6
+  s_8337ea0f3217d7::t_56d57c64848b4a 38-39
+projects/cic/src/mee/self-refactor/static-analysis.ts
+  s_814b4d3d2ba6eb::t_b1956510fcfd65 1-312
+projects/cic/ingestion/src/reasoning/arl/contracts/IntrospectionTrace.ts
+  s_cc99cc2cdc31cd::t_b52df86e97fcc1 1-34
+skills-runtime/mcp-server.test.js
+  s_ef85f8b92a3bc3::t_bcb8d14c4fa8b8 1-141
+benchmarks/routing/interceptor.ts
+  s_7eb04519120919::t_546f9016d14dc6 8
+  s_7eb04519120919::t_83b72c857e7f02 2-7,9-108,113,153-206
+  s_7eb04519120919::t_e0233e2f0393e6 109-112,114-152
+projects/cic/tsconfig.json
+  s_e06868f0ac3104::t_c57de216016d8c 15
+  s_fedd75f531f5b1::t_9443262f929efd 32
+  s_c9539c0433d162::t_7129713adbdd84 17-22
+  s_e06868f0ac3104::t_1581889ee2dd79 29-30
+  s_e06868f0ac3104::t_ff6abd96499f87 23-28,31
+docs/rewrite/skills/approvals-audit.md
+  s_7eb04519120919::t_719da959524e67 26
+PHASE_F_COMPONENT_IMPLEMENTATION_GUIDE.md
+  s_c9539c0433d162::t_a96086e658ca38 1-698
+projects/cic/ingestion/tests/reasoning/arl/aggregator/MultiRunAggregator.test.ts
+  s_098041771ceb78::t_5f77fc684a3bf3 1-115,119-122,124-197,199-231
+  s_098041771ceb78::t_9423d27778b7ef 198
+  s_098041771ceb78::t_aebff62d2274a6 116-118,123
+projects/cic/ingestion/src/reasoning/arl/tests/AdversarialResistanceEngine.test.ts
+  s_cc99cc2cdc31cd::t_6d1946cfb87b44 1-179
+projects/cic-operator-console/postcss.config.js
+  s_e06868f0ac3104::t_38c0e09a1acfbc 1-6
+skills/cic-roadmap-updater/index.test.js
+  s_ef85f8b92a3bc3::t_4965adc9f99251 23-24
+  s_ef85f8b92a3bc3::t_da7d4454a50b4d 5
+  s_ef85f8b92a3bc3::t_d33c53ff1ef959 9-10
+  s_ef85f8b92a3bc3::t_24fddd331cb0ba 1-4,6-8,11-22,25-36,39-48
+  s_ef85f8b92a3bc3::t_d4b3ad8dabf672 37-38
+.claude/autonomous-approval-integration.js
+  s_cc99cc2cdc31cd::t_3f25059879b813 1-103
+skills/session-wrap/index.js
+  s_da4a457c4334be::t_b4c02fd56243a7 8-9,130
+  s_da4a457c4334be::t_d459b2da0591bb 1,3-4
+  s_da4a457c4334be::t_7544d57d522ad9 2,5-7,10-129
+SESSION_COMPLETION_SUMMARY.md
+  s_2db26e86454bcc::t_3e346e8032a816 1-287
+benchmarks/routing/README.md
+  s_7eb04519120919::t_4995ae640dcdc4 1-284
+skills/performance-profiler/index.js
+  s_ef85f8b92a3bc3::t_080d2fea2306d7 62-66
+  s_ef85f8b92a3bc3::t_7dfc7ae8a7594f 1,12-61,67-74
+  s_ef85f8b92a3bc3::t_5e685a1d5dffa6 2-11
+CLAUDE.md
+  s_da4a457c4334be::t_45b21f3fd602be 66
+  s_8337ea0f3217d7::t_04ead03da282a5 52
+  s_8337ea0f3217d7::t_cd4c6bdf27d2de 2
+  s_8337ea0f3217d7::t_39b1e209cb66cb 47-51,53-65,67-73
+tools/mcp/session-wrap-server.js
+  s_da4a457c4334be::t_82ca8052413c33 1-85
+docs/rewrite/governance/DOC_POLICY.md
+  s_bd29c1c18ef69c::t_c2a554f9aed4b7 93-96,99-107
+  s_bd29c1c18ef69c::t_849b88953fc5ce 97-98
+projects/cic/ingestion/src/reasoning/arl/contracts/DistributedReasoning.ts
+  s_cc99cc2cdc31cd::t_8c85201ccc0855 1-34
+PHASE_E_WEEK_1_IMPLEMENTATION_PLAN.md
+  s_c9539c0433d162::t_d811a22734f7c4 1-390
+benchmarks/business/rl-pipeline.json
+  s_098041771ceb78::t_d96231365e7afe 1-43
+skills-runtime/dependency-graph.js
+  s_ef85f8b92a3bc3::t_8bebc43f73a450 1-123
+projects/cic/docs/PHASE_E_WEEK1_INTEGRATION.md
+  s_fedd75f531f5b1::t_536e41d553a3f6 1-278
+apps/skill-gateway/DEPLOYMENT_GUIDE.md
+  s_ef85f8b92a3bc3::t_7b557684c09457 1-448
+apps/skill-gateway/index.js
+  s_ef85f8b92a3bc3::t_dbd1f7f0a67b05 1-348
+skills/cic-benchmark-runner/schema.json
+  s_da4a457c4334be::t_80e945adb274ea 1-46
+projects/cic-operator-console/src/hooks/useCIC.ts
+  s_e06868f0ac3104::t_6e9a648c70531d 1-43
+tools/policy-agent/exception-manager.js
+  s_ef85f8b92a3bc3::t_2f3b0de68f5731 1-147
+projects/cic/ingestion/src/reasoning/arl/engine/VerdictSynthesizer.ts
+  s_098041771ceb78::t_4e04be8f181e07 2-59
+ROADMAP.md
+  s_c9539c0433d162::t_a659ed23ada2b5 1-470
+docs/index.md
+  s_cc99cc2cdc31cd::t_bc03e77d036fa9 4
+  s_cc99cc2cdc31cd::t_ae25bad1eba496 35-42
+skills/multi-endpoint-orchestrator/index.js
+  s_ef85f8b92a3bc3::t_c16cb08ee599a5 115-124
+  s_ef85f8b92a3bc3::t_a3521e68fbd714 2-9
+  s_ef85f8b92a3bc3::t_0c88f8d5063310 1,10-114,125-130
+skills/rewrite-labs-orchestrator/index.js
+  s_ef85f8b92a3bc3::t_63aeca06ace11d 7
+  s_ef85f8b92a3bc3::t_6625b749015625 2-4,9-33
+  s_ef85f8b92a3bc3::t_061f76265407f3 1,5-6,8
+PHASE_D_ZERO_RUN_BASELINE.md
+  s_c9539c0433d162::t_8c64ecef89d466 1-78
+skills/dependency-analyzer/index.test.js
+  s_ef85f8b92a3bc3::t_a27e3d288e93fc 1-20
+skills/environment-validator/schema.json
+  s_8337ea0f3217d7::t_c2ca1f478e826a 1-14
+skills/shared/errors.js
+  s_ef85f8b92a3bc3::t_769089a554173e 1-42
+benchmarks/costs/system.ts
+  s_7eb04519120919::t_dae93c179b51ad 1-154
+projects/cic/ingestion/src/reasoning/arl/contracts/RunSummary.ts
+  s_cc99cc2cdc31cd::t_c02064e8888a8f 1-7
+Makefile
+  s_109dab5d02dd8c::t_18a28fd25f9ccb 1
+  s_7eb04519120919::t_c38777bc4d0c1e 52-79
+  s_7eb04519120919::t_1b248d417dece2 2-3,5,7-11,29-51,80-83,88-89
+  s_109dab5d02dd8c::t_753bc252ffdb33 13-16
+  s_109dab5d02dd8c::t_5b1027b01d05bb 84-87
+  s_7eb04519120919::t_66c0f0d13dd1c1 4,6,12,17-28
+CONSOLE_CONSOLIDATION_PLAN.md
+  s_e06868f0ac3104::t_e5b67a653bbc39 1-272
+tools/policy-agent/index.test.js
+  s_ef85f8b92a3bc3::t_09934f6353f710 1-609
+projects/cic/src/tool-layer/HttpTool.ts
+  s_8376f04a7d76bf::t_3ee64f3c78b53d 1-110
+skills/cost-optimizer/index.test.js
+  s_ef85f8b92a3bc3::t_6d6b1e483241be 1-19
+AUTONOMOUS_EXECUTION_RULES.md
+  s_cc99cc2cdc31cd::t_eb2817471c03b3 2,4,9,11-13
+  s_cc99cc2cdc31cd::t_f181974621ffe1 1,3,5-8,10,14
+PHASE_44.1_COMPLETION.md
+  s_ef85f8b92a3bc3::t_e18ff69b7a552d 1-287
+skills/security-scanner/index.test.js
+  s_ef85f8b92a3bc3::t_ed05d4a84c84bb 1-18
+.claude/settings.json
+  s_cc99cc2cdc31cd::t_c2292fdd0e1798 3,9-10
+  s_cc99cc2cdc31cd::t_31054fd9dfe02d 14-19,21-28
+  s_cc99cc2cdc31cd::t_b1eb300c5fb29c 32
+  s_cc99cc2cdc31cd::t_01af0c37ce2c96 2,4-6,11-12
+  s_cc99cc2cdc31cd::t_6d1cd3b1967915 20
+  s_cc99cc2cdc31cd::t_836a562b4811d4 7-8
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/FeedbackFixtures.ts
+  s_cc99cc2cdc31cd::t_0fe0c8a10d61f6 1-69
+skills-runtime/approval-handler.js
+  s_098041771ceb78::t_e4745089b8e06a 1-399
+projects/cic/tests/ruflo-orchestration/agent-cache.test.ts
+  s_bd7c4e786c1792::t_dccf04b7ba80f8 1-167
+mkdocs.yml
+  s_7eb04519120919::t_95c32c7252adf9 70
+DELIVERY_SUMMARY.txt
+  s_ef85f8b92a3bc3::t_911fc8585e991a 1-399
+skills-runtime/scheduler.js
+  s_ef85f8b92a3bc3::t_3e7bfd49deeabe 1-156
+benchmarks/input/plumber_us.context.json
+  s_7eb04519120919::t_7b2757d167b74e 1
+skills/security-scanner/schema.json
+  s_ef85f8b92a3bc3::t_a52cb4c9af1f2e 1-10
+benchmarks/input/auto_fl.context.json
+  s_7eb04519120919::t_7416cdb857fa9f 1-7
+.github/workflows/nightly-bench.yml
+  s_7eb04519120919::t_58339f9d4b5148 1-84
+tools/git-policy-agent/validate-commit.js
+  s_fedd75f531f5b1::t_e9070b5f67037b 1-12,14-62
+  s_fedd75f531f5b1::t_eaca8dc62782e2 13
+projects/cic-operator-console/src/pages/CRGHealth.tsx
+  s_e06868f0ac3104::t_3d65fca9e6c588 1-32
+projects/cic/ingestion/src/reasoning/arl/tests/ModelIntrospectionEngine.test.ts
+  s_cc99cc2cdc31cd::t_a30e956f8ac467 1-134
+docs/cic/PHASE_7_13_GOVERNANCE_HOOKS.md
+  s_098041771ceb78::t_1663e94af48f1d 1-315
+projects/cic/context-api/CONTRACT.md
+  s_e06868f0ac3104::t_6e9c014c79a380 1-310
+benchmarks/input/roofing_fl.context.json
+  s_7eb04519120919::t_5aee1d56e8726e 1
+CHANGELOG.md
+  s_bd29c1c18ef69c::t_35a7ca472671ad 8
+  s_ef85f8b92a3bc3::t_ad9c40af2a2209 1-4,10-67
+  s_bd29c1c18ef69c::t_849b88953fc5ce 5-7,9
+projects/cic/cic-stability.service
+  s_9907fc29218a5e::t_3638e22096e89c 1-50
+benchmarks/input/plumber_fl.context.json
+  s_7eb04519120919::t_9d60fc9fd15eae 1-9
+docs/cic/FAMILY_HISTORY_BUSINESS_PLAN.md
+  s_a5732a92a4d604::t_b70566449c40a8 1-401
+apps/operator-console/dashboard.js
+  s_ef85f8b92a3bc3::t_d89298283674b9 1-184
+projects/cic/ecosystem.config.cjs
+  s_9907fc29218a5e::t_ee84a402ef7099 8-9
+  s_9907fc29218a5e::t_4ac45b52cf3e1e 41-42
+projects/cic/cic_foreman.agent.json
+  s_da4a457c4334be::t_8345b8512912e4 1-225
+projects/cic/ingestion/src/reasoning/arl/contracts/ARLv2Implementation.ts
+  s_cc99cc2cdc31cd::t_3a2cdff7099e56 1-36
+tools/clients/ideaSchemas.ts
+  s_098041771ceb78::t_3728607445f2a4 1-63
+projects/cic/skills-runtime/approvals-manifest.json
+  s_9907fc29218a5e::t_4bdedc548f3970 1-89
+PHASE_44.3_EVALUATION.md
+  s_ef85f8b92a3bc3::t_8ef6bc835510fe 1-209
+skills-runtime/permission-manager.js
+  s_098041771ceb78::t_ffaea60cde51db 34-45
+  s_098041771ceb78::t_e40a41d7890b53 1-33,46-119,122-123,147-189,191-192,204-209,213-375,408-475
+  s_cc99cc2cdc31cd::t_784920a059b9b2 190,193-203
+  s_098041771ceb78::t_708680bd15d0fe 210-212
+  s_cc99cc2cdc31cd::t_72aea6b6b1704d 376-407
+  s_cc99cc2cdc31cd::t_20dcfed767ed24 120-121,124-146
+PHASE_44.4_SPEC.md
+  s_ef85f8b92a3bc3::t_c0da51a5c6321b 3
+  s_ef85f8b92a3bc3::t_43e5e6650f5d56 1-2,4-334
+projects/cic/ingestion/src/reasoning/arl/contracts/MultiRunAggregate.ts
+  s_cc99cc2cdc31cd::t_92ab8ed2a1ccd8 1-8
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/MemoryFixtures.ts
+  s_cc99cc2cdc31cd::t_5770feced8b6bd 1-113
+benchmarks/routing/agent.ts
+  s_7eb04519120919::t_cbcc73066ad556 1-170
+benchmarks/routing/example.ts
+  s_7eb04519120919::t_ea56bf5273aa14 1-210
+docs/cic/CIC_SYSTEM.md
+  s_bd29c1c18ef69c::t_35a7ca472671ad 26-30
+skills/session-boundary-manager/schema.json
+  s_ef85f8b92a3bc3::t_c4b1a9abcfe7a7 1-18
+skills/helm-daily-brief/index.js
+  s_da4a457c4334be::t_e39cccbd9f1fad 156,158
+  s_da4a457c4334be::t_6856635f36597e 203,205
+  s_da4a457c4334be::t_6ad036d2e07566 226,229-254,271-272
+  s_da4a457c4334be::t_1ef7c16f37b4f0 132,135-153,157,173
+  s_da4a457c4334be::t_e99061c83e939b 179,182-200,204,219-220
+  s_da4a457c4334be::t_247d66add0cff7 35-55
+  s_da4a457c4334be::t_d4c3f50e8470e7 1-34,56-131,133-134,154-155,159-172,174-178,180-181,201-202,206-218,221-225,227-228,255-270,273-375
+projects/cic/ingestion/src/reasoning/arl/contracts/AdversarialAnalysisResult.ts
+  s_cc99cc2cdc31cd::t_fdd12bc25ffc72 1-8
+PHASE_E_PR_SCAFFOLDING.md
+  s_c9539c0433d162::t_71851181b3085f 1-449
+skills/session-boundary-manager/index.test.js
+  s_ef85f8b92a3bc3::t_d63e0096c8c256 1-4,6-8,10-13,15-18,21-29,32-39
+  s_ef85f8b92a3bc3::t_b5c4a40ea8b4b9 30-31
+  s_ef85f8b92a3bc3::t_3fe220c66a7c4f 19-20
+  s_ef85f8b92a3bc3::t_3029faba48808f 9,14
+  s_ef85f8b92a3bc3::t_4273d24fd6bd85 5
+tests/stc/runStcTests.ts
+  s_7eb04519120919::t_eff6c025f8812e 1-76
+projects/cic/scripts/test-first-flow.ts
+  s_fedd75f531f5b1::t_867821afc41665 113
+  s_c9539c0433d162::t_3df35aa66f3f9f 6-8
+  s_e06868f0ac3104::t_79454946749669 1-5,9-64,66-71,73-112,114-141,143-164
+  s_c9539c0433d162::t_16f70bb8c37ac9 65
+  s_fedd75f531f5b1::t_7bcc5bc20e111a 72
+  s_fedd75f531f5b1::t_363813664ad0a8 142
+skills-runtime/git-approval-guard.ts
+  s_cc99cc2cdc31cd::t_90add3a4fe498e 1-30
+projects/cic/ingestion/src/reasoning/arl/contracts/HealthMetrics.ts
+  s_109dab5d02dd8c::t_b3d24da5713b21 1-32
+SUGGESTION_LOG.md
+  s_ef85f8b92a3bc3::t_60ef04f1d8db0b 185-235,250
+  s_ef85f8b92a3bc3::t_60b8b3e230d05a 1-184,236-249,252-289
+projects/cic/src/ruflo-orchestration/MemoryAgentCache.ts
+  s_bd7c4e786c1792::t_f8767d26d2f7e3 12,22
+  s_bd7c4e786c1792::t_21df0dd56ba145 125
+  s_bd7c4e786c1792::t_135dd1d26b299c 1-11,13-21,23-28,30-36,38-43,45-79,81-101,103-110,112-124,126-129,133-139,147-148
+  s_bd7c4e786c1792::t_bd6870c7c39409 140-146
+  s_bd7c4e786c1792::t_bc48c8158913ad 80
+  s_bd7c4e786c1792::t_05cd5660ce8040 130-132
+  s_bd7c4e786c1792::t_ebd929ec3ab744 44
+  s_bd7c4e786c1792::t_7b84ae739a877a 29,37
+  s_bd7c4e786c1792::t_7f6ff0871765b4 102,111
+workflows/environment-check-procedure/index.js
+  s_ef85f8b92a3bc3::t_526021c471c521 1-179
+benchmarks/input/restaurant_fl.context.json
+  s_7eb04519120919::t_67dff36a46387a 1
+workflows/pipeline-orchestration-dashboard/index.js
+  s_ef85f8b92a3bc3::t_203a4c2966ba20 1-256
+projects/cic-operator-console/src/App.tsx
+  s_e06868f0ac3104::t_7bac451b314ab8 1-49
+skills/context-memory-manager/index.test.js
+  s_ef85f8b92a3bc3::t_dc0d30d793b11c 1-89
+projects/cic/ingestion/src/reasoning/arl/aggregator/contracts/RunSummary.ts
+  s_098041771ceb78::t_54c80be22a31e1 1-10
+PHASE_44.4_AND_45_DEFINITION.md
+  s_ef85f8b92a3bc3::t_6b25452c8ce7f9 1-538
+docs/cic/GH_ACTIONS_COMPLIANCE_GUIDE.md
+  s_814b4d3d2ba6eb::t_387587553d29e5 1-241
+projects/cic/ingestion/src/reasoning/arl/contracts/AutonomousMode.ts
+  s_cc99cc2cdc31cd::t_3694d5ef3584a5 1-47
+skills/multi-endpoint-orchestrator/index.test.js
+  s_ef85f8b92a3bc3::t_d7ce56e9ab4c96 1-54
+projects/cic/src/tool-layer/index.ts
+  s_8376f04a7d76bf::t_16e01651b97170 1-24
+projects/cic/scripts/phase-d-zero-run.ts
+  s_c9539c0433d162::t_0314ee2336764a 1-12,16-111,113-251
+  s_c9539c0433d162::t_112e82b753b439 13-15
+  s_c9539c0433d162::t_7924a6eabbcd9b 112
+projects/cic/src/ruflo-orchestration/FlowLoader.ts
+  s_e06868f0ac3104::t_9eda8fcc1ea6f2 1-7,9-61
+  s_c9539c0433d162::t_d866ffb9f34ab9 8
+.gitignore
+  s_7eb04519120919::t_4c4f4ba40ecd1b 79-84
+docs/APPROVAL_INFRASTRUCTURE.md
+  s_fedd75f531f5b1::t_24a454c9505558 1-156
+projects/cic/ingestion/src/reasoning/arl/engine/GovernanceSignalGenerator.ts
+  s_098041771ceb78::t_837e5ab8e16b0e 1-134
+tools/mcp/idea-inbox.smoke-test.js
+  s_e06868f0ac3104::t_4f657a384a0760 1-3,5,7,9-11,13-14,16-17,19-20,23,26-27,50,52,102-107,119,141,158,194,221,237,379,383,400,402,406,410-412,414,419
+  s_e06868f0ac3104::t_e04d0cf4b9f547 4,6,8,12
+  s_e06868f0ac3104::t_4e4397fb84736f 15,18,21-22,24-25,28-49,51,53-101
+  s_e06868f0ac3104::t_dba0bc4f517f57 108-118,120-140,142-157,159-193,195-220,222-236,238-378,380-382,384-386,393-399,401,403-405,407-409,413,415-418,420-426
+  s_e06868f0ac3104::t_7c752ccbca9df4 387-392
+projects/cic/src/ruflo-orchestration/FileExecutionStore.ts
+  s_fedd75f531f5b1::t_0745d05703a8c4 1-228
+projects/cic/tests/approval-manifest.test.ts
+  s_8376f04a7d76bf::t_e4b984ca90e96c 1-407
+skills/environment-diagnostics/index.js
+  s_ef85f8b92a3bc3::t_cc13f8a5bc8bf7 1,8-9,11
+  s_ef85f8b92a3bc3::t_0964f52677570f 2-7,12-48
+  s_ef85f8b92a3bc3::t_a1e949422174e4 10
+skills/session-wrap/index.test.js
+  s_da4a457c4334be::t_fbacd09f0c8d11 1-66
+benchmarks/input/landscaping_fl.context.json
+  s_7eb04519120919::t_437f5649541be3 1
+projects/cic/ingestion/src/reasoning/arl/engine/ThresholdModel.ts
+  s_109dab5d02dd8c::t_c9a15028734d85 1-92
+benchmarks/routing/router.ts
+  s_7eb04519120919::t_a3da85c717c6d0 1-199
+projects/cic/src/tool-layer/FileTool.ts
+  s_8376f04a7d76bf::t_9b3c9da20e82a7 1-220
+skills/environment-validator/index.js
+  s_8337ea0f3217d7::t_160800001997b9 1,3-4,7-8,10-12,14-16,18-19,22,24-25,27-28,32-35,37-45,47-76,78,82-83,88-90,92-93,95-106,128-130,133-138,140-144,146-155,158-159,184-198,200-205
+  s_8337ea0f3217d7::t_f7c9cf7be4d81c 2,5-6,9,13,17,20-21,23,26,29-31,36,46,77,79-81,84-87,91,94,107-127,131-132,139,145,156-157,160-183,199
+benchmarks/out/dashboard.html
+  s_7eb04519120919::t_daef655592643a 1-235
+skills/dependency-analyzer/index.js
+  s_ef85f8b92a3bc3::t_5fb8f279f700ea 60-62
+  s_ef85f8b92a3bc3::t_c9e08a3ed3b448 2-11
+  s_ef85f8b92a3bc3::t_7c0f703e9363b3 1,12-59,63-64
+skills/context-memory-manager/index.js
+  s_ef85f8b92a3bc3::t_2f3248f5fc49a3 1-3,16-36,40-121
+  s_ef85f8b92a3bc3::t_aedb5ad8551800 4-15
+  s_ef85f8b92a3bc3::t_500b10887499cc 37-39
+SKILLS_SUMMARY.md
+  s_ef85f8b92a3bc3::t_9a479dfacaaa8e 1-273
+tools/mcp/test-helm-phase-3.js
+  s_098041771ceb78::t_252ddc24385bc7 1-142
+skills-runtime/docs-approval-guard.ts
+  s_cc99cc2cdc31cd::t_1d6bc11503aa08 1-43
+.claude/batch-test-aab.js
+  s_cc99cc2cdc31cd::t_9d0e8043dde747 1-175
+projects/cic/ingestion/tests/reasoning/arl/memory/MemoryConsistencyValidator.test.ts
+  s_098041771ceb78::t_bb7aa526ad58e1 1-550
+SKILLS_EXCEPTIONS.md
+  s_ef85f8b92a3bc3::t_714c7c4875432d 1-158
+projects/cic/ingestion/src/reasoning/arl/engine/AutonomousModeEngine.ts
+  s_cc99cc2cdc31cd::t_da10b4923d326a 1-121
+skills/operator-grade-procedures/index.test.js
+  s_ef85f8b92a3bc3::t_fd6847a9ddbd9d 19-20
+  s_ef85f8b92a3bc3::t_171c0fd4783d31 1-4,6-8,11-18,21-27,30-36
+  s_ef85f8b92a3bc3::t_2b7f522cbab51c 5
+  s_ef85f8b92a3bc3::t_d61e1a57a51ab7 28-29
+  s_ef85f8b92a3bc3::t_30db7e50f794a3 9-10
+skills-runtime/telemetry.js
+  s_ef85f8b92a3bc3::t_aec9f10d113779 1-119
+projects/cic-operator-console/src/pages/Dashboard.tsx
+  s_e06868f0ac3104::t_f04f87c91a660e 1-50
+workflows/pipeline-orchestration-dashboard.spec.md
+  s_ef85f8b92a3bc3::t_2b167aa115f0ab 1-1000
+projects/cic/docs/PHASE_C_REAL_AGENTS.md
+  s_fedd75f531f5b1::t_3e5562b777d7d0 1-207
+projects/cic/src/tool-layer/ModelTool.ts
+  s_8376f04a7d76bf::t_05969e368ec686 1-125
+skills/mee-phase-executor/schema.json
+  s_da4a457c4334be::t_ee88984c7c42a8 1-48
+skills/performance-profiler/index.test.js
+  s_ef85f8b92a3bc3::t_107adf7b9511ba 1-18
+docs/rewrite/releases/CHANGELOG.md
+  s_bd29c1c18ef69c::t_dcf710fd22a12c 3-7
+ANTIGRAVITY_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_f44edc3121bb75 1-346
+SKILLS_POLICY_AGENT.md
+  s_ef85f8b92a3bc3::t_47dbc7198b8e19 1-402
+projects/cic/ingestion/src/reasoning/arl/contracts/AdversarialSignal.ts
+  s_cc99cc2cdc31cd::t_455587b6736b9d 1-5
+workflows/environment-check-procedure/schema.json
+  s_ef85f8b92a3bc3::t_eae3ac3320747d 1-46
+benchmarks/input/fitness_us.context.json
+  s_7eb04519120919::t_5a93cb97eefca1 1-5
+PORTFOLIO_MCP_STATUS.md
+  s_cc99cc2cdc31cd::t_bb09f18bfd52a5 1-181
+projects/cic/src/wil/adapters.ts
+  s_da4a457c4334be::t_4f5f8002aa10b1 1-247
+whitelist-commands.js
+  s_8337ea0f3217d7::t_307daa8ffdc74d 1-34
+skills/cost-optimizer/README.md
+  s_ef85f8b92a3bc3::t_7a70466e82c2ba 1-25
+.claude/verify-permissions.js
+  s_098041771ceb78::t_6fdf5b358cb8da 1-270
+skills/mee-phase-executor/README.md
+  s_da4a457c4334be::t_6e74769fa81419 1-233
+tools/mcp/test-helm-intelligence-fabric.js
+  s_098041771ceb78::t_50c52180e24e13 1-134
+skills/environment-validator/README.md
+  s_8337ea0f3217d7::t_a93275a75e583f 1-88
+docs/cic/IDEOGRAM_4_0_SCORING_SHEET.md
+  s_f36b6e1ae36294::t_967164a674b6ec 1-276
+skills-runtime/trigger-engine.js
+  s_ef85f8b92a3bc3::t_22285099d6eaeb 1-162
+projects/cic/src/wil/branding.ts
+  s_da4a457c4334be::t_8225b01310c4b0 1-197
+projects/cic/src/tool-layer/types.ts
+  s_8376f04a7d76bf::t_883a86930fb0ca 1-101
+skills-runtime/validation-approval-guard.ts
+  s_cc99cc2cdc31cd::t_cba54713f7f806 1-44
+skills-runtime/MCP_DEPLOYMENT_GUIDE.md
+  s_ef85f8b92a3bc3::t_18bdee7ab14567 1-394
+SKILLS_API_REFERENCE.md
+  s_ef85f8b92a3bc3::t_b7dc9fb9a53112 1-541
+package.json
+  s_109dab5d02dd8c::t_1c618a9c4463c3 63-66
+  s_7eb04519120919::t_e88a4ca2ced27e 58-59
+  s_ef85f8b92a3bc3::t_1f15cfc3d689c8 41-44
+  s_814b4d3d2ba6eb::t_f97f402c54959e 30-32
+  s_7eb04519120919::t_15f5f2ee0cc395 45-57,67
+  s_814b4d3d2ba6eb::t_79bbe6e5e26f08 28-29
+  s_cc99cc2cdc31cd::t_a6cb416d783771 75-83
+  s_814b4d3d2ba6eb::t_37330dc6e5635a 27
+skills/cic-section-summarizer/index.js
+  s_ef85f8b92a3bc3::t_0d46c121cfd5f3 2-4,9-28
+  s_ef85f8b92a3bc3::t_e6ebb1ab22acb6 7
+  s_ef85f8b92a3bc3::t_e967fd875cef97 1,5-6,8
+.claude/QUICK_START.md
+  s_098041771ceb78::t_0e129aaf3b69cf 1-3,6-177
+  s_098041771ceb78::t_2eec55b7344568 4-5
+projects/cic/ingestion/src/reasoning/arl/aggregator/contracts/MultiRunAggregate.ts
+  s_098041771ceb78::t_c82595b1a2b9f3 1-13
+projects/cic/ingestion/src/reasoning/arl/contracts/StabilityPlane.ts
+  s_cc99cc2cdc31cd::t_c8b1671677bf07 1-44
+projects/cic/context-service/ContextServer.ts
+  s_e06868f0ac3104::t_882817ec3d5fba 26-27,33-34,37-38,40-42,47
+  s_e06868f0ac3104::t_f288060e2a90f5 1-9,14-25,28-32,43-46,48-94,96-98,100-128,130-132,134-182,300-315,324-340
+  s_fedd75f531f5b1::t_76ed0a5184ea89 35-36,39
+  s_e06868f0ac3104::t_43b9b72f5a3619 95,99
+  s_e06868f0ac3104::t_109b84513ff7b3 205,209
+  s_fedd75f531f5b1::t_540f023909031f 13
+  s_fedd75f531f5b1::t_f8567ca06db932 10-12
+  s_e06868f0ac3104::t_8e56549fc8c751 129,133
+  s_e06868f0ac3104::t_6dce1215ca2a2a 183-204,206-208,210-276,278-280,282-299
+  s_e06868f0ac3104::t_8f6ec518081410 277,281
+  s_e06868f0ac3104::t_67d38659c8d419 316-323
+tools/policy-agent/config.json
+  s_ef85f8b92a3bc3::t_1b4634b9bd8f2d 1-55
+projects/cic/src/agents/RealAgentClients.ts
+  s_fedd75f531f5b1::t_dcbba2a6cd0e8f 1-5,7-488,490-825
+  s_fedd75f531f5b1::t_28f494eaf3a22c 6
+  s_fedd75f531f5b1::t_fdb2aa35a4b7c4 489
+projects/cic/src/mee/safety/safety-engine.ts
+  s_814b4d3d2ba6eb::t_e4d225c3cdba5b 1-72
+PHASE_H_GUARDRAILS_AND_CONSTRAINTS.md
+  s_c9539c0433d162::t_41c24a2867285a 1-533
+projects/cic/tests/wil/branding.test.ts
+  s_da4a457c4334be::t_b6f9c5406332a3 1-207
+PHASE_F_TRACE_EXPLORER_DATA_MODEL.md
+  s_c9539c0433d162::t_54aad5feb9d03c 1-350
+projects/cic/ingestion/src/reasoning/arl/tests/AutonomousModeEngine.test.ts
+  s_cc99cc2cdc31cd::t_f67b07c5860443 1-34,36-85
+  s_cc99cc2cdc31cd::t_dcf0bdd126d912 35
+workflows/pipeline-orchestration-dashboard/schema.json
+  s_ef85f8b92a3bc3::t_97d049be65a3b1 1-75
+benchmarks/README.md
+  s_7eb04519120919::t_48d97b9808bb41 1-105
+skills/shared/validate.js
+  s_ef85f8b92a3bc3::t_3b3d05987f50f0 1-50
+PHASE_E_COMPLETION_SUMMARY.md
+  s_c9539c0433d162::t_528cc2524e6bd7 1-242
+scripts/audit-abm-block.ps1
+  s_e06868f0ac3104::t_c825ff31ac90e6 1-198
+skills/audit-logger/README.md
+  s_ef85f8b92a3bc3::t_952394bb62127a 1-29
+skills/performance-profiler/schema.json
+  s_ef85f8b92a3bc3::t_80050e85c09ba8 1-11
+tools/mcp/IMPLEMENTATION-SUMMARY.md
+  s_f1da5cbfcc7905::t_41699a7e28d376 1-125,127-142,166-306
+  s_f1da5cbfcc7905::t_409af42e7542b9 126,143-165
+  s_f1da5cbfcc7905::t_db38dd3f16ffbe 307-309
+projects/cic/src/mee/safety/rollback-engine.ts
+  s_814b4d3d2ba6eb::t_e4d225c3cdba5b 1-39
+skills/approvals-audit.md
+  s_098041771ceb78::t_0e232305d388c8 7-8,19-36,43-80
+  s_098041771ceb78::t_fcb28cc90c4b28 16,18
+  s_098041771ceb78::t_e4f225eb90812a 37-42
+  s_098041771ceb78::t_da74b004f09263 1
+  s_098041771ceb78::t_05a48e368800bc 3-6,9-15,17
+tools/helm/status-line.ts
+  s_7eb04519120919::t_b0026b624c334c 1-255
+workflows/environment-check-procedure.spec.md
+  s_ef85f8b92a3bc3::t_4ad8ce5c0f6d9f 1-700
+tools/mcp/test-helm-server.js
+  s_589686640e3b65::t_ae7d64a157e0cb 1-130
+skills/cic-section-summarizer/index.test.js
+  s_ef85f8b92a3bc3::t_cb299e9f093e84 9-10
+  s_ef85f8b92a3bc3::t_298bf9efdf1e5f 1-4,6-8,11-18,21-26
+  s_ef85f8b92a3bc3::t_7c51346e4566b6 5
+  s_ef85f8b92a3bc3::t_2d51daa16ea8e7 19-20
+docs/cic/IDEOGRAM_4_0_DECISION_MATRIX.md
+  s_f36b6e1ae36294::t_1286de6ddc0f97 1-149
+projects/cic/ingestion/src/reasoning/arl/contracts/index.ts
+  s_cc99cc2cdc31cd::t_36c0c4c70a473e 58-60
+  s_cc99cc2cdc31cd::t_e0aaec55b04fff 40-53
+  s_cc99cc2cdc31cd::t_f6c6e349f453ac 54-57
+PHASE_D_HARDENING_LOOP_PLAN.md
+  s_c9539c0433d162::t_99e902c39bdbe9 1-180
+skills-runtime/approval-capture.js
+  s_098041771ceb78::t_cd6da1dca5df74 1-361
+skills/environment-diagnostics/index.test.js
+  s_ef85f8b92a3bc3::t_846405e8705f93 1-4,6-8,11-17,20-26,29-34
+  s_ef85f8b92a3bc3::t_2c96723eb8adb7 27-28
+  s_ef85f8b92a3bc3::t_81af7ca595abd0 5
+  s_ef85f8b92a3bc3::t_3c16f66bb351df 18-19
+  s_ef85f8b92a3bc3::t_4feced2f1eb61c 9-10
+PHASE_E_WEEK_2_PLAN.md
+  s_c9539c0433d162::t_4fd27603190111 1-411
+skills-runtime/mcp-server.js
+  s_8337ea0f3217d7::t_05bed476e5e3a0 6-11
+  s_ef85f8b92a3bc3::t_5718051e1b5b54 1-5,12-187
+skills-runtime/orchestrator.test.js
+  s_ef85f8b92a3bc3::t_c409dbdf37c3f3 1-517
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/MemoryConsistencyResult.ts
+  s_098041771ceb78::t_592ec8bd270de7 1-42
+skills-runtime/CLAUDE_CODE_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_16e0a3fc8b2654 1-347
+projects/cic-operator-console/package.json
+  s_e06868f0ac3104::t_66b03616b0370f 1-30
+ARL_7.12_7.25_EXECUTION_PLAN.md
+  s_109dab5d02dd8c::t_7b53a1b25d63a1 1-376
+skills/mee-phase-executor/index.js
+  s_da4a457c4334be::t_0f3d0cad4a3888 242-243,245-255,257,260,262-263,268,273-292
+  s_da4a457c4334be::t_e0dd3593500de7 258-259,261
+  s_da4a457c4334be::t_dcb13716f89398 206
+  s_da4a457c4334be::t_c282f5156d3e7a 1-4,6-8,11-26,41-205,207-241,244,256,264-267,269-272,293-343
+  s_da4a457c4334be::t_b030f84ea17de6 5,9-10,27-39
+skills-runtime/npm-approval-guard.ts
+  s_cc99cc2cdc31cd::t_b75fa19a3e42c4 1-34
+skills/session-wrap/README.md
+  s_da4a457c4334be::t_ff9228859a7999 1-184
+DEPLOYMENT_SUMMARY.md
+  s_e06868f0ac3104::t_0fc192e3b20042 1-238,256-257,261-281
+  s_e06868f0ac3104::t_7bdc03cd9c6921 239-255,258-260
+benchmarks/tools/extractMetadata.ts
+  s_7eb04519120919::t_d59df5811f0dd1 1-159
+projects/cic/ingestion/src/reasoning/arl/tests/MemoryConsistencyValidator.test.ts
+  s_cc99cc2cdc31cd::t_1d4c1f3bdfb5b3 1-179
+projects/cic/AGENTS.md
+  s_e06868f0ac3104::t_7316c28f8fb4a7 1-67
+skills-runtime/decision-engine.js
+  s_ef85f8b92a3bc3::t_077b672cde6223 1-109
+skills-runtime/autonomous-approval-error.ts
+  s_cc99cc2cdc31cd::t_05796e62aa19bf 1-76
+skills/agent-drift-detector/index.test.js
+  s_ef85f8b92a3bc3::t_ec8110eb165f9a 29-30
+  s_ef85f8b92a3bc3::t_d16199ea14f1db 9-10
+  s_ef85f8b92a3bc3::t_2bdfa09cd9c527 19-20
+  s_ef85f8b92a3bc3::t_b141cc251e4c97 1-4,6-8,11-18,21-28,31-38
+  s_ef85f8b92a3bc3::t_2b7243fd9c2509 5
+skills-runtime/index.js
+  s_ef85f8b92a3bc3::t_e05fd096559527 108-110
+  s_ef85f8b92a3bc3::t_68f5dd3095b743 1-107
+tools/helm/dashboard.html
+  s_7eb04519120919::t_2be24e0a7c339d 1-450
+tools/mcp/test-idea-inbox.js
+  s_f1da5cbfcc7905::t_ae31e1c6c146e6 1-277
+README_SKILLS_LIBRARY.md
+  s_ef85f8b92a3bc3::t_51b4ff7f8d6a85 1-363
+benchmarks/input/dentist_fl.context.json
+  s_7eb04519120919::t_d6c40e6564ba43 1
+skills-runtime/permission-config.json
+  s_098041771ceb78::t_3f38b66789817c 141-145
+  s_cc99cc2cdc31cd::t_c0334acfb5edc8 126-140
+  s_cc99cc2cdc31cd::t_10ab25e413da24 81-125
+  s_098041771ceb78::t_66dc7a2c1d7b89 1-65,146-169
+benchmarks/AUTONOMOUS_WORKFLOW.md
+  s_109dab5d02dd8c::t_e6ed28287299e1 1-182
+PHASE_D_EXECUTION_CHECKLIST.md
+  s_c9539c0433d162::t_5ef4069570901b 1-68
+skills-runtime/policy-approval-guard.ts
+  s_cc99cc2cdc31cd::t_5cf3b0ad0c73d9 1-36
+SKILLS_POLICY_AGENT_SPEC.md
+  s_ef85f8b92a3bc3::t_cdf3949ad1f872 3
+  s_ef85f8b92a3bc3::t_621ce3afaf43a6 1-2,4-544
+scripts/bench-autonomous.ps1
+  s_109dab5d02dd8c::t_d80b939f9c37ff 23-26,42,45,48,50-51,62,65,68,70-71,82-83,88,91,94,97,111,125,128,144-153
+  s_109dab5d02dd8c::t_2112c71eea79bb 1-22,27-41,43-44,46-47,49,52-61,63-64,66-67,69,72-81,84-87,89-90,92-93,95-96,98-110,112-124,126-127,129-143,154-156
+projects/cic/ingestion/src/reasoning/arl/contracts/GovernanceSignal.ts
+  s_109dab5d02dd8c::t_2693f3798138e5 1-49
+projects/cic/ingestion/src/reasoning/arl/tests/DistributedReasoningEngine.test.ts
+  s_cc99cc2cdc31cd::t_1f798ae0c2fa09 1-62
+skills-runtime/telemetry-extended.js
+  s_ef85f8b92a3bc3::t_ed46acead75ad8 1-186
+tools/policy-agent/criterion-evaluator.js
+  s_ef85f8b92a3bc3::t_a1f5877c19ea9b 1-347
+tests/utils/generateStatus.ts
+  s_7eb04519120919::t_e1e5a880e8b545 1-49
+projects/cic/ingestion/src/reasoning/arl/tests/RuntimeOptimizationEngine.test.ts
+  s_cc99cc2cdc31cd::t_78fe8e3dcdaddf 1-120
+projects/cic/src/tool-layer/ShellTool.ts
+  s_8376f04a7d76bf::t_af5a957529a0a9 1-128
+docs/cic/CIC_AI_RUNTIME_CONTRACT.md
+  s_bd29c1c18ef69c::t_f8d5e4fa29419f 49-50
+projects/cic/ingestion/src/reasoning/arl/contracts/RuntimeOptimization.ts
+  s_cc99cc2cdc31cd::t_797a866031a09f 1-40
+scripts/deploy-local.ps1
+  s_e06868f0ac3104::t_6cbf781eec7b55 1-52
+skills-runtime/approvals-weekly-report.js
+  s_8337ea0f3217d7::t_31a476ae181675 1-329
+benchmarks/costs/models.ts
+  s_7eb04519120919::t_f4f45a150e8a0b 1-72
+workflows/environment-check-procedure/index.test.js
+  s_ef85f8b92a3bc3::t_174e0a1451abb8 22,26,31,35,40,44,49,53,58,61
+  s_ef85f8b92a3bc3::t_8756d117198878 1-21,23-25,27-30,32-34,36-39,41-43,45-48,50-52,54-57,59-60,62-168
+projects/cic/ingestion/src/stability/integration-guide.md
+  s_9907fc29218a5e::t_b765cc85bc7caf 1-393
+benchmarks/input/salon_us.context.json
+  s_7eb04519120919::t_9c6ee6725b7baa 1
+skills-runtime/context.js
+  s_ef85f8b92a3bc3::t_dcee4e7defb29d 1-86
+apps/skill-gateway/index.test.js
+  s_ef85f8b92a3bc3::t_c59e0e4fd9ecc7 1-127
+skills/performance-profiler/README.md
+  s_ef85f8b92a3bc3::t_1a477b60a9f164 1-27
+CIC_DEPLOYMENT_CHECKLIST.md
+  s_e06868f0ac3104::t_e140c851bf9ccb 1-297
+docs/rewrite/REWRITE_LABS_SYSTEM.md
+  s_bd29c1c18ef69c::t_dcf710fd22a12c 5-36
+projects/cic/context-service/index.ts
+  s_e06868f0ac3104::t_681678ea55590b 1-6,9-77
+  s_fedd75f531f5b1::t_fab0749eac97b4 7-8
+tests/README.md
+  s_7eb04519120919::t_8ac0decd8c4657 1-113
+skills/session-wrap/schema.json
+  s_da4a457c4334be::t_6a36bb27a92a14 1-33
+projects/cic/ingestion/src/reasoning/arl/tests/Batch1.test.ts
+  s_109dab5d02dd8c::t_f6cc596a495264 90-91
+  s_109dab5d02dd8c::t_328046e76651ce 204-207,213
+  s_109dab5d02dd8c::t_a81a42820f884d 1-89,92-203,208-212,214-278
+skills-runtime/session-wrap.js
+  s_da4a457c4334be::t_75ffe4548aa18c 1-251
+projects/cic/DEPLOYMENT.md
+  s_e06868f0ac3104::t_8fd69767401c1f 1-442
+projects/cic/ingestion/src/reasoning/arl/engine/SelfDiagnosticsEngine.ts
+  s_109dab5d02dd8c::t_5dbc04364bcb4e 1-14,18-22,24-102,107-166,185-209
+  s_109dab5d02dd8c::t_8cd8fe68434e45 103-106
+  s_109dab5d02dd8c::t_7b2064538723c0 167-184
+  s_109dab5d02dd8c::t_9e5df5da66e3e6 15-17,23
+tools/policy-agent/cli-validator.js
+  s_ef85f8b92a3bc3::t_a7aa01abdf78a7 1-145
+projects/cic-operator-console/.gitignore
+  s_e06868f0ac3104::t_da346de0dba5fe 1-9
+projects/cic/README.md
+  s_e06868f0ac3104::t_183b22980d958d 333-339,341-360,362-367,369-377
+  s_e06868f0ac3104::t_a5f8f23d63b73d 340,361,368
+  s_e06868f0ac3104::t_260377423e900c 1-332,378-401
+tools/mcp/idea-inbox-server.js
+  s_f1da5cbfcc7905::t_ec8c12a3361cb4 1-6,8-9,13-16,18-56,61-867
+  s_e06868f0ac3104::t_db15cc05e9d04c 57-60
+  s_f1da5cbfcc7905::t_4d28addfd4410b 7,10-12,17
+skills-runtime/autonomous-approval-system.test.ts
+  s_cc99cc2cdc31cd::t_cdef0afe37ea89 1-415
+projects/cic/ingestion/src/reasoning/arl/contracts/FeedbackAdjustment.ts
+  s_cc99cc2cdc31cd::t_71a375f7e1b867 1-10
+tests/utils/diff.ts
+  s_7eb04519120919::t_53bc7ce0c472ea 1-23
+skills/operator-grade-procedures/schema.json
+  s_ef85f8b92a3bc3::t_d519f686bff951 1-20
+docs/cic/PHASE_7_16_MULTI_RUN_AGGREGATOR.md
+  s_098041771ceb78::t_9a153bc513346d 1-223
+projects/cic/scripts/restart-stability-soak.ps1
+  s_9907fc29218a5e::t_d6dce655f87fff 16
+  s_9907fc29218a5e::t_108b14120ab63d 66
+  s_9907fc29218a5e::t_f7df9db37ea464 95
+  s_9907fc29218a5e::t_6a4ede724ec166 1-15,17-65,67-94,96-124
+projects/cic/src/config/mcp.ts
+  s_2db26e86454bcc::t_2b6dc41ee0c2cd 1-168
+tools/helm/server.ts
+  s_7eb04519120919::t_359c0f18d9c038 1-116
+GOVERNANCE_APPROVAL_AUDIT.md
+  s_2db26e86454bcc::t_596bbac1aea0b0 1-254
+benchmarks/costs/subscriptions.ts
+  s_7eb04519120919::t_6de5a8ccbb5cdc 1-37
+PHASE_G_ARCHITECTURE_BLUEPRINT.md
+  s_c9539c0433d162::t_c6b5ef6894d0c7 1-397
+projects/cic/ingestion/package.json
+  s_9907fc29218a5e::t_6a11d30b957f0e 15-19
+PHASE_E_WEEK_3_PLAN.md
+  s_c9539c0433d162::t_11b210836b5ec1 1-471
+skills/manifest.json
+  s_da4a457c4334be::t_0da02454561b50 118-120,123-124
+  s_da4a457c4334be::t_d4440480826938 122
+  s_da4a457c4334be::t_798b492e8e4a9a 121
+  s_ef85f8b92a3bc3::t_55c70b3e61cc7c 1-89,125-127
+  s_da4a457c4334be::t_7e2c645ec45363 90-96
+  s_da4a457c4334be::t_5bb4038d8f51b3 111-117
+  s_da4a457c4334be::t_faf64850622b34 97-110
+benchmarks/tools/screenshotToCodeHarness.ts
+  s_7eb04519120919::t_4f1d61e4b2da86 1-79
+projects/cic/STABILITY_SOAK_QUICKREF.md
+  s_9907fc29218a5e::t_7f7ec9958a37b1 1-99
+tools/helm-service.ts
+  s_098041771ceb78::t_bbd75a35766bf8 1-69
+projects/cic-operator-console/tsconfig.node.json
+  s_e06868f0ac3104::t_a9944986f550c3 1-10
+skills/helm-daily-brief/index.test.js
+  s_da4a457c4334be::t_dc59e653bbf789 161-162
+  s_da4a457c4334be::t_350f291521fe24 163
+  s_da4a457c4334be::t_dc53e665785cfe 173-174
+  s_da4a457c4334be::t_118636f5da7ceb 167-169,172
+  s_da4a457c4334be::t_c29345bf072c0f 1-160,164-166,170-171,175-197
+skills/shared/logger.js
+  s_ef85f8b92a3bc3::t_1ca8ed9d970409 1-42
+projects/cic-operator-console/src/index.css
+  s_e06868f0ac3104::t_a756ace9ee8894 1-10
+projects/cic/ingestion/src/reasoning/arl/contracts/MemoryConsistencyResult.ts
+  s_cc99cc2cdc31cd::t_6b17242e53a476 1-11
+projects/cic/src/approval-system/types.ts
+  s_8376f04a7d76bf::t_ccf378eb044fdc 1-80
+skills/rewrite-labs-orchestrator/schema.json
+  s_ef85f8b92a3bc3::t_321e415021ec81 1-23
+projects/cic/DEPLOYMENT_READY_2026-06-07.md
+  s_9907fc29218a5e::t_5cd321b121ea97 1-238
+projects/cic/docs/AGENT_REGISTRATION.md
+  s_e06868f0ac3104::t_9519e33764e655 1-362
+projects/cic/ingestion/tests/reasoning/arl/engine/GovernanceSignalGenerator.test.ts
+  s_098041771ceb78::t_31f8d18dce5be2 1
+  s_098041771ceb78::t_34cfd73dc083d0 187,193
+  s_098041771ceb78::t_f80468e380d567 242
+  s_098041771ceb78::t_04e734db071211 2-186,188-192,194-241,243-285
+skills/environment-validator/index.test.js
+  s_8337ea0f3217d7::t_1bb69ef944e5bb 4,21,40-42,44-45
+  s_8337ea0f3217d7::t_281c6909460f6c 1-3,5-20,22-39,43,46
+benchmarks/input/auto_us.context.json
+  s_7eb04519120919::t_7099514b86e61c 1-22
+benchmarks/PIPELINE_STATUS.md
+  s_109dab5d02dd8c::t_369029c8cc5866 1-261
+projects/cic-operator-console/src/pages/Metrics.tsx
+  s_e06868f0ac3104::t_6c579ab9a77650 1-49
+tools/mcp/QUICK-EXAMPLES.md
+  s_f1da5cbfcc7905::t_b48eeb9efe5010 1-420
+tools/package.json
+  s_814b4d3d2ba6eb::t_0115cd42691d7f 1-34
+benchmarks/input/legal_us.context.json
+  s_7eb04519120919::t_82936c4ded51e4 1
+projects/cic/tests/context-service.test.ts
+  s_e06868f0ac3104::t_da64d5b2cde22c 23,25
+  s_e06868f0ac3104::t_edbe1e1d6f496e 26
+  s_e06868f0ac3104::t_6a174053a2a597 52
+  s_e06868f0ac3104::t_49a62b4e69f062 1-10,12,14-22,24,27-51,53-74,76-93
+  s_e06868f0ac3104::t_a0211a656043d6 11,13
+  s_e06868f0ac3104::t_c2cfde2d4c535e 75
+projects/cic/ingestion/src/stability/orchestrator.js
+  s_9907fc29218a5e::t_f083e49f368b35 1-83
+PHASE_G_OPTIMIZATION_CODE_SKELETONS.ts
+  s_c9539c0433d162::t_d834587eeddde2 1-434
+skills/cic-roadmap-updater/index.js
+  s_ef85f8b92a3bc3::t_fa3f19391007e9 10
+  s_ef85f8b92a3bc3::t_a2067d667dff07 2-7,12-45
+  s_ef85f8b92a3bc3::t_1ba3998527145d 1,8-9,11
+tests/rewrite/runRewriteTests.ts
+  s_7eb04519120919::t_a5f5543956264d 1-103
+skills/audit-logger/schema.json
+  s_ef85f8b92a3bc3::t_fc6781ac704385 1-12
+benchmarks/input/landscaping_us.context.json
+  s_7eb04519120919::t_428fee4cf070cf 1
+projects/cic-operator-console/vite.config.ts
+  s_e06868f0ac3104::t_dad8a41f59bdeb 1-20
+skills-runtime/orchestrator.js
+  s_ef85f8b92a3bc3::t_40efc3a39c8e4e 1-187
+tools/mcp/helm-server.ts
+  s_7eb04519120919::t_e9f7cbe2a1c401 1-469
+projects/cic/ingestion/src/reasoning/arl/tests/ARLv2SpecEngine.test.ts
+  s_cc99cc2cdc31cd::t_57497742901525 1-194
+skills-runtime/autonomous-decision-engine.ts
+  s_cc99cc2cdc31cd::t_abfd6b94c62d06 1-275
+skills/session-wrap.md
+  s_da4a457c4334be::t_74804d40945a4c 1-70
+docs/rewrite/skills/doc-update.md
+  s_bd29c1c18ef69c::t_c2a554f9aed4b7 9-15,17-28
+  s_bd29c1c18ef69c::t_799e1865fe11bb 16
+skills/shared/index.js
+  s_ef85f8b92a3bc3::t_94fa51df8fa903 1-5
+projects/cic/src/mee/mee-synthesizer.ts
+  s_814b4d3d2ba6eb::t_b1956510fcfd65 3-21
+docs/cic/PHASE_7_15_MEMORY_CONSISTENCY.md
+  s_098041771ceb78::t_c2d3e26d8eac1d 1-338
+projects/cic/src/approval-system/ApprovalManifest.ts
+  s_8376f04a7d76bf::t_06baeb94a8abba 331
+  s_8376f04a7d76bf::t_e4a665b3a1ac6a 250,274,287,301
+  s_8376f04a7d76bf::t_83e3464d2ef798 358,360,362
+  s_8376f04a7d76bf::t_2267a88364daed 1-249,251-273,275-286,288-300,302-330,332-357,359,361,363-450
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/EntityTimeline.ts
+  s_098041771ceb78::t_580ad725f0193d 1-31
+projects/cic/src/mee/self-refactor/self-refactor-engine.ts
+  s_814b4d3d2ba6eb::t_b1956510fcfd65 1-81
+projects/cic/tests/tool-layer.test.ts
+  s_8376f04a7d76bf::t_13dcd53fb63974 47,50
+  s_8376f04a7d76bf::t_17fc51dcc068ab 78,83,86,94,101-113
+  s_8376f04a7d76bf::t_b82c21fb1e2b6b 1-46,48-49,51-77,79-82,84-85,87-93,95-100,114-141,143-146,149-225
+  s_8376f04a7d76bf::t_dff6e1a9ff5e64 142,147-148
+benchmarks/tools/opusSonnetBenchmark.ts
+  s_7eb04519120919::t_76912aab26542a 79-81,86-88
+  s_7eb04519120919::t_0cb6f5e62f24e2 118,121
+  s_7eb04519120919::t_322eb601be780d 14-16,129
+  s_7eb04519120919::t_f96de6b6e5dd57 102-104,126-128,132-143,147
+  s_7eb04519120919::t_0c9738b564d7f8 156-163
+  s_7eb04519120919::t_3df5e63b12f91d 23-47
+  s_7eb04519120919::t_03cfdd9bf7f7af 1-13,17-22,48-78,82-85,89-101,105-117,119-120,122-125,130-131,144-146,148-155,164-169
+skills/context-memory-manager/schema.json
+  s_ef85f8b92a3bc3::t_95e4405eded8ab 1-33
+projects/cic/ingestion/src/reasoning/arl/engine/ARLv2SpecEngine.ts
+  s_cc99cc2cdc31cd::t_cb600dd0570b2d 1-3,6,8,10-124
+  s_cc99cc2cdc31cd::t_72ad6677f57b26 4-5,7,9
+DEPLOYMENT_STATUS.md
+  s_e06868f0ac3104::t_1269f39e8051e5 1-251
+projects/cic/ingestion/src/reasoning/arl/engine/StabilityPlaneEngine.ts
+  s_cc99cc2cdc31cd::t_a68b8890812b90 1-106
+history/history.jsonl
+  s_da4a457c4334be::t_6cd7c114f7262c 198
+  s_a5732a92a4d604::t_220098bf5076ca 176-177
+projects/cic/ingestion/src/reasoning/arl/diagnostics/ArlSelfDiagnostics.ts
+  s_098041771ceb78::t_fbde3edaf5b808 1-515
+projects/cic/ingestion/src/reasoning/arl/contracts/ExpansionContext.ts
+  s_cc99cc2cdc31cd::t_a454d3d6df37c8 1-22
+apps/operator-console/index.js
+  s_ef85f8b92a3bc3::t_c92ec286fce336 1-238
+benchmarks/sites.json
+  s_109dab5d02dd8c::t_cad06d344059ff 22
+  s_109dab5d02dd8c::t_27edc91ebe3833 4
+  s_7eb04519120919::t_1e275213e588e8 1-3,5-21,23-33,35-57,59-64,66-82,84-100,102-123
+  s_109dab5d02dd8c::t_bd87bd11f48b87 58
+  s_109dab5d02dd8c::t_20aa3ea4df2926 65
+  s_109dab5d02dd8c::t_3706035b565bac 34
+  s_109dab5d02dd8c::t_c759ad9519155c 83
+  s_109dab5d02dd8c::t_591a1ab917e150 101
+skills-runtime/recovery-manager.js
+  s_ef85f8b92a3bc3::t_dc31038d621b22 1-136
+tools/helm/SETUP.md
+  s_7eb04519120919::t_175b7127846f5d 1-332
+benchmarks/finance/credit-score.json
+  s_098041771ceb78::t_637adb79705696 1-12
+skills/helm-daily-brief/README.md
+  s_da4a457c4334be::t_d39b2af4ed037a 1-239
+tools/mcp/helm-server.js
+  s_589686640e3b65::t_f2036693fa7cd5 1131-1149
+  s_7eb04519120919::t_db2238c1459a8b 320-458
+  s_098041771ceb78::t_028dbf8dc301b2 1150-1199
+  s_7eb04519120919::t_d106c28bc4a8f9 1069-1130
+  s_589686640e3b65::t_000bb61190cc49 1386-1389,1391-1395,1397-1402,1404,1412
+  s_098041771ceb78::t_176fae31d60c6e 1355-1356,1362
+  s_7eb04519120919::t_ba476f2fc50812 105-152
+  s_7eb04519120919::t_f267f191855a01 1-12,15-18,20,70-104,153-167,170-253,255-265,267-271,317-319,459-460,462-463,469-470,472-475,490-497,499-501,503-505,507-509,511-519,555-557,975-1019,1225-1227,1229-1230,1371-1373,1410
+  s_589686640e3b65::t_527a03866f2220 254,266,272-316
+  s_098041771ceb78::t_d98c3b173c721a 1285-1292
+  s_589686640e3b65::t_d90ffa2607088c 1326-1328
+  s_7eb04519120919::t_291311e5a244a6 1228,1231-1272,1276-1284,1293-1295,1297-1302,1309-1310,1312-1313,1350-1354,1357-1361,1363-1370,1374-1384,1390,1396,1403,1405-1409,1411,1413-1414
+  s_098041771ceb78::t_69b1c58bb4a4bc 559-813
+  s_098041771ceb78::t_bc110fbc72e0f6 1329-1343
+  s_098041771ceb78::t_65a622e6ef5e6c 814-974
+  s_098041771ceb78::t_71a7c1404054fa 14
+  s_589686640e3b65::t_e21de51200ae5f 1304-1307
+  s_7eb04519120919::t_db88621c19bb17 23-24,26-28,32-33
+  s_7eb04519120919::t_b47ebb39eb1b90 1385
+  s_7eb04519120919::t_466e59326836d0 1273-1275
+  s_098041771ceb78::t_65cb28b5878fbf 1344-1349
+  s_7eb04519120919::t_1b90eec305a997 168-169
+  s_7eb04519120919::t_c829df02fefe2c 1020-1068
+  s_098041771ceb78::t_7339c2e1f30a40 1200-1224
+  s_589686640e3b65::t_56dc0b89404ab4 524-554
+  s_589686640e3b65::t_b3e0352f61fdbe 19,21-22,25,29-31,36-69
+  s_7eb04519120919::t_b2c81205f79245 13
+  s_7eb04519120919::t_782885ec35e7b3 1296,1303,1308,1311
+  s_7eb04519120919::t_d0621ef5d3f54e 1314-1325
+  s_7eb04519120919::t_f1c8df39a2c188 461,464-468,471,476-489,498,502,506,510,520
+apps/operator-console/index.html
+  s_ef85f8b92a3bc3::t_9c1c7206a9d487 1-137
+PHASE_H_AUTONOMOUS_EXECUTION_MODEL.md
+  s_c9539c0433d162::t_1f6d865d87455c 1-685
+skills/skill-loader.js
+  s_ef85f8b92a3bc3::t_f9f9c700b67deb 1-63
+projects/cic/.husky/pre-commit
+  s_e06868f0ac3104::t_0d9a7158c32079 1-14
+projects/cic/STABILITY_SOAK_RUNBOOK.md
+  s_9907fc29218a5e::t_81ca01f05fd611 1-472
+.claude/AAB_ACTIVATION.md
+  s_cc99cc2cdc31cd::t_fa775ad9154402 1-232
+skills/cic-benchmark-runner/index.test.js
+  s_da4a457c4334be::t_762bc42bf16f08 1-155
+workflows/phase-summary-roadmap/index.js
+  s_ef85f8b92a3bc3::t_0c1d05e2cca226 1-203
+projects/cic-operator-console/src/pages/Settings.tsx
+  s_e06868f0ac3104::t_5078c7a0b71368 1-59
+skills-runtime/approval-guard-base.ts
+  s_cc99cc2cdc31cd::t_6a3fd87d341fb6 1-93
+projects/cic/ingestion/src/reasoning/arl/engine/ARLv2ImplementationEngine.ts
+  s_cc99cc2cdc31cd::t_1b2bcee141189a 1-115
+PHASE_45_SPEC.md
+  s_ef85f8b92a3bc3::t_533e6e3f14811b 3
+  s_ef85f8b92a3bc3::t_0adb5352a72c0a 1-2,4-541
+skills/environment-diagnostics/schema.json
+  s_ef85f8b92a3bc3::t_d5335a00c76830 1-16
+projects/cic/observability/MetricsMiddleware.ts
+  s_e06868f0ac3104::t_fb2d33680dc02e 1-123
+NEXT_STEPS_PHASE_D.md
+  s_2db26e86454bcc::t_47324db967fef3 1-379
+projects/cic-operator-console/src/pages/ContextInspector.tsx
+  s_e06868f0ac3104::t_394be2ab86c426 1-67
+PHASE_G_PR_SEQUENCE.md
+  s_c9539c0433d162::t_abb17527b91449 1-448
+benchmarks/input/dentist_us.context.json
+  s_7eb04519120919::t_1b8535b7bcf620 1
+projects/cic-operator-console/.env.example
+  s_e06868f0ac3104::t_474493040738f5 1
+benchmarks/cic/phase-status.json
+  s_098041771ceb78::t_da1549e3fd3ae2 1-2,4-11,15-16,18-19,23,25
+  s_098041771ceb78::t_649d1b53d59732 3,12-14,17,20-22,24
+tools/mcp/test-helm-phase-6-7.js
+  s_589686640e3b65::t_00ab83b068e6e0 1-182
+skills/cic-section-summarizer/schema.json
+  s_ef85f8b92a3bc3::t_8d9d46113fad25 1-16
+projects/cic/src/ruflo-orchestration/FlowRegistry.ts
+  s_2db26e86454bcc::t_4eb67815467ed8 8,90-92
+  s_fedd75f531f5b1::t_e2fb96882a8bb7 231-241
+  s_fedd75f531f5b1::t_59ee8d342a6338 247-254
+  s_fedd75f531f5b1::t_b749d564f27675 78-89
+  s_fedd75f531f5b1::t_46154c4a6305ea 93-152
+  s_fedd75f531f5b1::t_8c4d9095a44c80 184-217
+  s_fedd75f531f5b1::t_25a581fe256248 4-7
+.claude/permissions.js
+  s_d44e2c08a9aae0::t_b9cd18b2df9cee 106,108
+  s_098041771ceb78::t_edbafadaaee466 94-102
+  s_098041771ceb78::t_8212437088258b 1-36,42-93,103-105,107,109-116
+  s_098041771ceb78::t_d4d8f0831542da 37-41
+projects/cic/src/mee/mee-schema.ts
+  s_814b4d3d2ba6eb::t_b1956510fcfd65 42-79
+  s_814b4d3d2ba6eb::t_e4d225c3cdba5b 80-81,129-142
+  s_814b4d3d2ba6eb::t_62f3fd942015ea 97-127,143-144
+projects/cic/src/mee/safety/sandbox-engine.ts
+  s_814b4d3d2ba6eb::t_e4d225c3cdba5b 1-135
+projects/cic/ingestion/tests/reasoning/arl/governance/ArlGovernanceHooks.test.ts
+  s_098041771ceb78::t_6dbfbaa68f5c3e 1-475
+BLOCKED_PHASES_SUMMARY.md
+  s_ef85f8b92a3bc3::t_9458ec46c7e1ad 4-6
+  s_ef85f8b92a3bc3::t_baa2d0e054e287 1-3,7-285
+tools/policy-agent/policy-report-generator.js
+  s_ef85f8b92a3bc3::t_70ca2ea1a9c214 1-136
+workflows/phase-summary-roadmap.spec.md
+  s_ef85f8b92a3bc3::t_18d2f273e6bac5 1-660
+skills/cic-roadmap-updater/schema.json
+  s_ef85f8b92a3bc3::t_6629764e40bce5 1-23
+projects/cic/src/agents/MockAgentClients.ts
+  s_e06868f0ac3104::t_da6dfffd33d296 1-6,8-295
+  s_fedd75f531f5b1::t_4ccdf662279ff6 7
+PHASE_H_ARCHITECTURE_BLUEPRINT.md
+  s_c9539c0433d162::t_0aa21cd78d4826 1-584
+benchmarks/routing/policy.ts
+  s_7eb04519120919::t_c2674bbdad9f08 1-78
+PHASE_D_REGRESSION_TEST_PLAN.md
+  s_c9539c0433d162::t_569e48cca274ce 1-244
+benchmarks/tools/renderBenchmark.ts
+  s_7eb04519120919::t_d470683d4bc1f0 1-113
+projects/cic/tests/mcp-param-serialization.test.ts
+  s_2db26e86454bcc::t_5ec1d25129305b 7-8
+  s_2db26e86454bcc::t_75b06c0fffa0c3 6
+  s_2db26e86454bcc::t_ab27124f6837a3 1-5,9-163
+benchmarks/input/hvac_us.context.json
+  s_7eb04519120919::t_b18b1b563cd4cf 1
+projects/cic/ingestion/src/reasoning/arl/engine/GovernanceHookExecutor.ts
+  s_109dab5d02dd8c::t_aca7c654e56254 1-90
+tools/clients/ideaClientValidated.ts
+  s_098041771ceb78::t_62d1d8c39f1b67 1-84
+phase-45-pre-approvals.js
+  s_8337ea0f3217d7::t_cab34b274f406c 1-382
+projects/cic/src/mee/mee-autonomous-worker.ts
+  s_814b4d3d2ba6eb::t_a0b1bb49427c22 2-119
+projects/cic/ingestion/tests/reasoning/arl/diagnostics/ArlSelfDiagnostics.test.ts
+  s_098041771ceb78::t_190e5523f7bf29 1-322
+scripts/generate-helm.js
+  s_7eb04519120919::t_79b2654ce780bf 3-7
+  s_7eb04519120919::t_f7f28f51ceac9e 1-2,8-75
+SUGGESTED_SKILLS.md
+  s_ef85f8b92a3bc3::t_352647ff47cf44 1-536
+projects/cic/ingestion/src/reasoning/arl/engine/MemoryConsistencyValidator.ts
+  s_cc99cc2cdc31cd::t_0dc4c7e77a437b 1-41,43,46-142
+  s_cc99cc2cdc31cd::t_a3358b17ec541b 42,44-45
+tests/runAll.ts
+  s_7eb04519120919::t_4ecb7882ae63f7 5-6
+skills-runtime/mcp-server-client.js
+  s_ef85f8b92a3bc3::t_f62c8dab0bf0f6 1-67
+projects/cic/src/ruflo-orchestration/IAgentCache.ts
+  s_bd7c4e786c1792::t_0165601df59986 1-61
+skills-runtime/PHASE_44.1_QUICKSTART.md
+  s_ef85f8b92a3bc3::t_8f7dc17b7912ef 1-101
+projects/cic/crg-adapter/CRGAdapter.ts
+  s_e06868f0ac3104::t_0268ef89c1dbe2 1-5,10-11,14-53,122-124,126-151,153-168,170-182,184-195,197-215,217-249,251,253-256,337-340
+  s_e06868f0ac3104::t_6ea3571fd3fe3e 6-9,12
+  s_e06868f0ac3104::t_e316f187d54db6 152
+  s_e06868f0ac3104::t_04408aa5bed52c 169
+  s_e06868f0ac3104::t_eed598b490ddc9 54-121,125
+  s_e06868f0ac3104::t_b45efb54f89ff9 183,196
+  s_e06868f0ac3104::t_1f992de257c582 216,250,252,257-336
+skills/index.js
+  s_ef85f8b92a3bc3::t_4eaa102c5971b7 1-31
+docs/cic/GH_ACTIONS_COMPLIANCE_STATUS.md
+  s_814b4d3d2ba6eb::t_bf8b1a1639d488 1-347
+skills/rewrite-labs-orchestrator/index.test.js
+  s_ef85f8b92a3bc3::t_2529b6fbf5d05f 1-4,6-8,11-23,26-37
+  s_ef85f8b92a3bc3::t_95bf16fb5b7b41 24-25
+  s_ef85f8b92a3bc3::t_4554eab4e6ee54 9-10
+  s_ef85f8b92a3bc3::t_d69b8589398f25 5
+tools/policy-agent/package.json
+  s_ef85f8b92a3bc3::t_563052ca4207fa 1-5
+.claude/PERMISSIONS_SETUP.md
+  s_098041771ceb78::t_e62841d2e782e9 3-5
+  s_098041771ceb78::t_04b9d916b5f6da 1-2,6-208
+projects/cic-operator-console/src/App.css
+  s_e06868f0ac3104::t_ead6e19b0888cc 1-19
+AUTONOMOUS_APPROVAL_BUFFERING.md
+  s_cc99cc2cdc31cd::t_36f4fad9b1538f 1-362
+PHASE_44.3_COMPLETION.md
+  s_ef85f8b92a3bc3::t_4be4bf798532d7 1-353
+projects/cic-operator-console/Dockerfile
+  s_e06868f0ac3104::t_4dc170682d9543 1-22
+projects/cic/tests/wil/integration.test.ts
+  s_da4a457c4334be::t_0404e0c2d98cdd 1-345
+tools/github-app-compliance-bot.ts
+  s_814b4d3d2ba6eb::t_0115cd42691d7f 1-296
+tools/helm/README.md
+  s_7eb04519120919::t_4f630639e46c35 1-513
+projects/cic-operator-console/tailwind.config.js
+  s_e06868f0ac3104::t_bce5ddba55073d 1-23
+projects/cic/src/ruflo-orchestration/CachedAgentClient.ts
+  s_bd7c4e786c1792::t_9f53d2ba673a89 1-75
+projects/cic/provisioning/dashboards/cic-stability-alerts.json
+  s_9907fc29218a5e::t_88836b62a00832 1-395
+projects/cic/src/ruflo-orchestration/FlowOrchestrator.ts
+  s_c9539c0433d162::t_9072efa28a65d8 372-373
+  s_bd7c4e786c1792::t_ab3eba05fdf297 22-23
+  s_52000cc5a7d028::t_855a8cee2cff8d 374-426
+  s_fedd75f531f5b1::t_0884c3340b0da2 129-190
+  s_fedd75f531f5b1::t_6cb5b436efa266 263
+  s_fedd75f531f5b1::t_0a75e5a08efc76 73-77
+  s_2db26e86454bcc::t_448a7f9a6f2c92 296-371
+  s_fedd75f531f5b1::t_85a676a5528846 250-260,280-288
+  s_c9539c0433d162::t_ab808a05e119d3 7-9
+  s_bd7c4e786c1792::t_5c5365dba83168 41-55
+  s_fedd75f531f5b1::t_88a07b1eac11b5 69
+projects/cic/tests/wil/security-validator.test.ts
+  s_a5732a92a4d604::t_2865f58f1bc884 14
+  s_a5732a92a4d604::t_c98bb9aad920f4 103
+  s_a5732a92a4d604::t_61e8f91bcbb0d3 114
+  s_a5732a92a4d604::t_c54d60f02bbc98 57
+  s_a5732a92a4d604::t_395b6afe728862 78
+  s_a5732a92a4d604::t_a46c74fb0185bc 44
+  s_da4a457c4334be::t_552cee8db226a9 1-13,15-43,45-56,58-77,79-102,104-113,115-181
+workflows/phase-summary-roadmap/schema.json
+  s_ef85f8b92a3bc3::t_ff7ec24d37b609 1-34
+projects/cic/ingestion/src/reasoning/arl/contracts/MemorySnapshot.ts
+  s_cc99cc2cdc31cd::t_afe57134ffefd9 1-14
+projects/cic/src/approval-system/index.ts
+  s_8376f04a7d76bf::t_1b815da76011f2 1-13
+benchmarks/input/legal_fl.context.json
+  s_7eb04519120919::t_a9440ac85d2e5f 1
+workflows/pipeline-orchestration-dashboard/index.test.js
+  s_ef85f8b92a3bc3::t_a367e0418ec61a 27,31,36,40,45,49,54,58,63,67,72,76
+  s_ef85f8b92a3bc3::t_ee94a5892f5200 1-26,28-30,32-35,37-39,41-44,46-48,50-53,55-57,59-62,64-66,68-71,73-75,77-230
+skills-runtime/autonomous-context.ts
+  s_cc99cc2cdc31cd::t_7131c21e4c298f 1-210
+projects/cic/ingestion/src/reasoning/arl/governance/ArlGovernanceHooks.ts
+  s_098041771ceb78::t_0f2355e21811d5 1-288
+skills/mee-phase-executor/index.test.js
+  s_da4a457c4334be::t_248200025f74c4 1,6-13
+  s_da4a457c4334be::t_96d198028398e0 110-111
+  s_da4a457c4334be::t_6a02e2844132d4 2-5,14-92,94-97,100-109,114-119,121-123,126-193
+  s_da4a457c4334be::t_773621cdd51d89 112-113
+  s_da4a457c4334be::t_7e78d7c5032265 120,124-125
+  s_da4a457c4334be::t_7d988d0fedaba3 93,98-99
+projects/cic/ingestion/src/reasoning/arl/engine/AdversarialResistanceEngine.ts
+  s_cc99cc2cdc31cd::t_67caf806df2df3 1-124
+SKILLS_LIBRARY.md
+  s_ef85f8b92a3bc3::t_7e4b62ff57418c 1-523
+projects/cic/src/mee/mee-autonomous-store.ts
+  s_814b4d3d2ba6eb::t_634ca1f8f2fa4b 2-50
+skills/security-scanner/index.js
+  s_ef85f8b92a3bc3::t_b3edc11c6fd080 2-7
+  s_ef85f8b92a3bc3::t_525498a35eb058 53-56
+  s_ef85f8b92a3bc3::t_e05a18a5048af6 1,8-52
+tests/utils/snapshot.ts
+  s_7eb04519120919::t_4bb1923c424486 1-16
+skills/agent-drift-detector/index.js
+  s_ef85f8b92a3bc3::t_ca13f093e01681 2-10,15-33
+  s_ef85f8b92a3bc3::t_c4226d9c530106 13
+  s_ef85f8b92a3bc3::t_88b487b8c168e4 1,11-12,14
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/IntrospectionFixtures.ts
+  s_cc99cc2cdc31cd::t_099dd980fa9b0e 1-25
+SESSION_COMPLETION_SUMMARY_2026_06_06.md
+  s_fedd75f531f5b1::t_6abd99074135aa 1-185
+projects/cic/src/cic/control-plane/mee-routes.ts
+  s_814b4d3d2ba6eb::t_b1956510fcfd65 19-1137
+skills/audit-logger/index.test.js
+  s_ef85f8b92a3bc3::t_362bebdb97e90d 1-4,26
+  s_ef85f8b92a3bc3::t_faade87d2169d3 5-25
+skills/mee-phase-executor/index.integration.test.js
+  s_da4a457c4334be::t_961ebd927d4554 27,31,34,36
+  s_da4a457c4334be::t_b66166518da46d 78-84
+  s_da4a457c4334be::t_1b6e3c87651565 141
+  s_da4a457c4334be::t_844e7bb92bcb2d 62,64-67
+  s_da4a457c4334be::t_6a8f69debfe9dd 1-26,28-30,32-33,35,37-61,63,68-77,85-140,142-159
+skills-runtime/skill-tool-config.json
+  s_ef85f8b92a3bc3::t_fb5de9c5b5ec0d 1-223,254-256
+  s_da4a457c4334be::t_1d0b1713285094 224-253
+PHASE_D_ZERO_RUN_EXECUTION_LOG.md
+  s_c9539c0433d162::t_b46791c1cf911b 1-148
+projects/cic-operator-console/tsconfig.json
+  s_e06868f0ac3104::t_299e5af70c3b17 9-30
+skills/dependency-analyzer/schema.json
+  s_ef85f8b92a3bc3::t_3cdfa8122a0c28 1-10
+projects/cic/config/ContextConfig.ts
+  s_e06868f0ac3104::t_f365c414c4920d 1-157
+docs/SKILL_SESSION_WRAP.md
+  s_da4a457c4334be::t_a256b6013ef1b0 1-188
+projects/cic-operator-console/src/pages/AgentPerformance.tsx
+  s_e06868f0ac3104::t_f6ba29342db27a 1-51
+skills-runtime/sandbox.js
+  s_ef85f8b92a3bc3::t_b60a5b485167b4 1-76
+SKILLS_INDEX.md
+  s_ef85f8b92a3bc3::t_7701301bde11c0 1-258
+skills-runtime/validator.js
+  s_ef85f8b92a3bc3::t_53217068a48adb 1-82
+skills-runtime/test-permission-manager.js
+  s_098041771ceb78::t_63fc0ac1f9641a 1-307
+tests/metadata/runMetadataTests.ts
+  s_7eb04519120919::t_55e72083afe57d 1-59
+skills/cic-benchmark-runner/README.md
+  s_da4a457c4334be::t_c0838fb03f8614 1-201
+docs/cic/GITHUB_APP_SETUP.md
+  s_814b4d3d2ba6eb::t_51f5d66a1e5874 1-265
+benchmarks/input/hvac_fl.context.json
+  s_7eb04519120919::t_df051256b33ae3 1
+scripts/cleanup-legacy-consoles.ps1
+  s_e06868f0ac3104::t_b295fea5908c4e 66
+  s_e06868f0ac3104::t_b72a9f357a3f9f 3,5-7,10,13-14,17-19,24-27,29-31,33,39,43-45,47-49,54,58-60,62-63,65,68-69,77-79,81-82,85,88,90,95
+  s_e06868f0ac3104::t_7f7d9f5e338a33 1-2,4,8-9,11-12,15-16,20-23,28,32,34-38,40-42,46,50-53,55-57,61,64,67,70-76,80,83-84,86-87,89,91-94
+projects/cic/ingestion/src/reasoning/arl/memory/engine/MemoryConsistencyValidator.ts
+  s_098041771ceb78::t_c4100003738e24 1-182,185-186,188,198-228,231-240,266-270,272-274,289-348,353-401
+  s_098041771ceb78::t_425fccee4fcc7e 229-230,241-262
+  s_098041771ceb78::t_803acc9336ca15 349-352
+  s_098041771ceb78::t_42c4aed3db2a49 271,275-288
+  s_098041771ceb78::t_46221e5b9559d8 187,189-197
+  s_098041771ceb78::t_1d9c839c80283e 183-184
+docs/cic/PHASE_46_DETAILED_ARCHITECTURE.md
+  s_8376f04a7d76bf::t_3502b8b2246061 1-969
+docs/cic/PHASE_7_12_THRESHOLD_MODEL.md
+  s_098041771ceb78::t_dbf753a8e36b4c 1-275
+docs/cic/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md
+  s_bd29c1c18ef69c::t_f8d5e4fa29419f 349-359
+APPROVAL_FRICTION_ANALYSIS.md
+  s_098041771ceb78::t_abb0363fd90db4 1-180
+benchmarks/input/salon_fl.context.json
+  s_7eb04519120919::t_13971b6e7d0774 1
+.husky/prepare-commit-msg
+  s_fedd75f531f5b1::t_f0f073915c360e 1-40
+projects/cic/src/tool-layer/ToolLayer.ts
+  s_8376f04a7d76bf::t_06a3cd955c7909 1-45
+skills/audit-logger/index.js
+  s_ef85f8b92a3bc3::t_842490d22f7c45 4-46
+  s_ef85f8b92a3bc3::t_54b35eaffd2289 1-3,47-107
+CROSS_PLATFORM_AVAILABILITY.md
+  s_ef85f8b92a3bc3::t_437acc8439e58e 1-392
+HANDOFF.md
+  s_109dab5d02dd8c::t_4babdf0f00fdfa 732
+  s_e06868f0ac3104::t_bd2b1ba28d48b4 681-683,685-690,692-693,696
+  s_da4a457c4334be::t_4484804850fabd 9-86
+  s_fedd75f531f5b1::t_05cb0325b88157 475
+  s_e06868f0ac3104::t_a7075239314c48 494-496,621-680,695,697-702
+  s_e06868f0ac3104::t_dffb37401cb579 583
+  s_109dab5d02dd8c::t_8e541fc7f3c8b8 720
+  s_fedd75f531f5b1::t_0928477bb68dc2 308-329,331
+  s_e06868f0ac3104::t_cfe505da2fb082 684,691
+  s_8337ea0f3217d7::t_e20a59977ffc8a 4-6,201-202,208-209,216-218,225-226,240-241
+  s_e06868f0ac3104::t_7ad8e686fff614 694
+  s_fedd75f531f5b1::t_28cd1465fedf84 330,332-363,456-457,459-460,462,464-466
+  s_8337ea0f3217d7::t_6204f449629290 151,153-155,157-158,164-165,173-174,182-183,189-190,192-195
+  s_da4a457c4334be::t_09f378dffba774 152,156,159-163,166-172,175-181,184-188,191
+  s_bd7c4e786c1792::t_ceb2095f395664 364-373,375-379,381-385,387-390,392,394-400,402-404,406-420,422-435,437-440,442-445,447-450,452-455,461,463,467-469
+  s_bd7c4e786c1792::t_ae8b4a0037bdbf 393,401
+  s_109dab5d02dd8c::t_45aac7801f1283 708
+  s_109dab5d02dd8c::t_d1e8f0caf77c61 703-707,710-719,722-726,729-731,734,736-742,744-749,752-753
+  s_da4a457c4334be::t_196f5c4b332d14 87-150
+  s_e06868f0ac3104::t_78d9d75c48dc35 497-503,505-512,514-518,520-525,527-536,538-541,543-558,560-582,584-620
+  s_e06868f0ac3104::t_2b85599abc000b 504
+  s_8337ea0f3217d7::t_196e14f0c08082 196-200,203-207,210-215,219-224,227-239,242-247,251
+  s_e06868f0ac3104::t_c70a1d0c6a6873 513,519,526,537,542
+  s_e06868f0ac3104::t_4711d03bc0d3ef 559
+  s_109dab5d02dd8c::t_d332bbfc11cb5a 709,721,728,733,735,743,751
+  s_109dab5d02dd8c::t_76514c977bf947 727
+  s_109dab5d02dd8c::t_7836aee14167bf 750
+  s_da4a457c4334be::t_18b3208baa34a7 3,7-8
+  s_fedd75f531f5b1::t_cd869e603b301a 248-250,252-307,470-474,476-493
+  s_bd7c4e786c1792::t_c5fd86622f997b 374,380,386,391
+  s_bd7c4e786c1792::t_aba89cd2d3675b 405,421,436,441,446,451,458
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/ExpansionFixtures.ts
+  s_cc99cc2cdc31cd::t_29921f262e5179 1-98
+projects/cic/ingestion/src/stability/health-endpoint.js
+  s_9907fc29218a5e::t_cd6f05b991ac75 1-176
+BLOCKING_BUG_FIX_SUMMARY.md
+  s_2db26e86454bcc::t_b952a189dc0627 1-177
+GOVERNANCE_GAPS.md
+  s_2db26e86454bcc::t_ee17e84b616a60 112-137
+  s_2db26e86454bcc::t_72366d3611a757 80,82,84,86-89,91,93-97,99-108
+  s_2db26e86454bcc::t_a0f3cba9ded3ba 141,143,145-149,151-155,157,159
+  s_2db26e86454bcc::t_d64e026640b4e2 25-46,49
+  s_2db26e86454bcc::t_d376fa527b1340 2,5,7-24,47-48,50-52,54,56,58,65,67,77-79,81,83,85,90,92,98,109-111,138-140,142,144,150,156,158,160-162,164,167-168,175-176,178,183,185,187-323
+  s_2db26e86454bcc::t_3367397c3cb244 1,3-4,6
+  s_2db26e86454bcc::t_f109534dccf675 53,55,57,59-64,66,68-76
+  s_2db26e86454bcc::t_500b2f42aa0de0 163,165-166,169-174,177,179-182,184,186
+tools/policy-agent/evaluate-skill.js
+  s_ef85f8b92a3bc3::t_d9c969e82931a9 1-248
+SKILLS_PLATFORM_NOTES.md
+  s_ef85f8b92a3bc3::t_099f63d4ae1838 1-319
+skills/dependency-analyzer/README.md
+  s_ef85f8b92a3bc3::t_f49ff0b5a7265e 1-23
+projects/cic/tests/integration.test.ts
+  s_e06868f0ac3104::t_3130eb2558b7e1 1-6,11-303,305-323
+  s_2db26e86454bcc::t_3af3fbf2b264f4 7-10
+  s_e06868f0ac3104::t_cce7ea3e7c8a93 304
+ARTIFACT_WHITELIST.md
+  s_2db26e86454bcc::t_2847b1fe71225a 1-235
+skills/context-memory-manager/README.md
+  s_ef85f8b92a3bc3::t_9360e2df0170e2 1-30
+skills-runtime/mcp-approval-guard.ts
+  s_cc99cc2cdc31cd::t_e50df704c9ba57 1-47
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_d159ef43ea4d2b 1065-1077,1300-1308,1310-1312
+  s_098041771ceb78::t_3fcaf16734a993 1421,1429-1430
+  s_098041771ceb78::t_7f432800972b8b 1394-1420,1422,1424-1428,1431-1434
+  s_8376f04a7d76bf::t_c164e8d7a6f1ec 1573-1577,1579-1587,1589-1595
+  s_a5732a92a4d604::t_2644457dde4d63 1633,2111-2128
+  s_8376f04a7d76bf::t_99843a66a53c69 1668-1674,1676-1681
+  s_8376f04a7d76bf::t_a8ef621156cb43 1675
+  s_f36b6e1ae36294::t_22e75224f70649 1874-1887,1890-1898,1915-1922
+  s_f36b6e1ae36294::t_901d1220555c49 1888-1889,1899-1914
+  s_098041771ceb78::t_63603ea83ef563 1378
+  s_f36b6e1ae36294::t_62741c12946d4f 1974-1983
+  s_098041771ceb78::t_06106a074b07f6 1423
+  s_8376f04a7d76bf::t_c52e9c81e86b2a 1578,1588
+  s_814b4d3d2ba6eb::t_e55d0461eb2790 906-1027,1181-1267
+  s_8376f04a7d76bf::t_0f3ac93d7161d1 1526-1537
+  s_8376f04a7d76bf::t_0a10b0408e23af 1615-1632,1634-1656
+  s_a5732a92a4d604::t_d6492368046216 2097-2099
+  s_098041771ceb78::t_b353dada4d21ae 197-203
+  s_098041771ceb78::t_881d300e12b55d 137-143
+  s_098041771ceb78::t_bbc1be86440e32 180-190
+  s_098041771ceb78::t_9de9404756fa81 164-173
+  s_098041771ceb78::t_2771326412f9e2 1079-1101,1314-1336
+  s_098041771ceb78::t_edc7486a29870a 1117,1352
+  s_098041771ceb78::t_fb731b50e90a8c 1270-1272,1274-1282,1284-1291,1293-1299,1313,1337,1339-1345,1347-1351,1353-1356
+  s_ef85f8b92a3bc3::t_f1fd543b369a25 1357-1377,1379-1393,1435-1506,1686-1748
+  s_098041771ceb78::t_122662bd08ac57 150-157
+  s_098041771ceb78::t_f4ea0f031db75b 1268-1269,1273,1283,1292,1309,1338,1346
+skills/helm-daily-brief/schema.json
+  s_da4a457c4334be::t_40ea7e1b89f62f 1-48
+skills/cost-optimizer/schema.json
+  s_ef85f8b92a3bc3::t_ebada27415beee 1-11
+benchmarks/input/roofing_us.context.json
+  s_7eb04519120919::t_ad5886d8c43a1f 1
+skills/cost-optimizer/index.js
+  s_ef85f8b92a3bc3::t_534913a1ac753b 42-44
+  s_ef85f8b92a3bc3::t_bcb0c540f9077a 1,8-41,45-57
+  s_ef85f8b92a3bc3::t_a3f4157cfe8b83 2-7
+projects/cic/ingestion/src/reasoning/arl/tests/OperatorFeedbackLoop.test.ts
+  s_cc99cc2cdc31cd::t_65c79830724cab 1-198
+tools/helm/ARCHITECTURE.md
+  s_7eb04519120919::t_f7bf03462749c7 1-560
+projects/cic/tests/ruflo-orchestration/agent-cache-load-test.ts
+  s_bd7c4e786c1792::t_6e9eb03cc15ab9 1-133
+skills/cic-benchmark-runner/index.js
+  s_da4a457c4334be::t_5b584afe4b119f 1-282
+skills/operator-grade-procedures/index.js
+  s_ef85f8b92a3bc3::t_86cafad36dd9cd 2-7,12-52
+  s_ef85f8b92a3bc3::t_a4a6e634c58ea2 10
+  s_ef85f8b92a3bc3::t_7e274f758fa552 1,8-9,11
+projects/cic-operator-console/README.md
+  s_e06868f0ac3104::t_1919438074bfca 1-135
+projects/cic/ingestion/src/reasoning/arl/tests/MultiRunAggregator.test.ts
+  s_cc99cc2cdc31cd::t_f231d59c432975 1-106,108-114,116-214
+  s_cc99cc2cdc31cd::t_8a3f0984156970 107,115
+.husky/pre-commit
+  s_ef85f8b92a3bc3::t_5d5aaac12bc5f6 26-46
+  s_fedd75f531f5b1::t_0c00034a97bd4b 22-24
+skills/multi-endpoint-orchestrator/README.md
+  s_ef85f8b92a3bc3::t_3d8b7e9a161f43 1-35
+projects/cic/ingestion/src/reasoning/arl/contracts/OperatorFeedback.ts
+  s_cc99cc2cdc31cd::t_9412bf8fae432f 1-7
+tools/helm/IMPLEMENTATION_STATUS.md
+  s_7eb04519120919::t_57a1b241bdf7f1 1-367
+benchmarks/input/restaurant_us.context.json
+  s_7eb04519120919::t_13e1c0015a60b6 1-9
+projects/cic/tests/flow-parameter-serialization.test.ts
+  s_2db26e86454bcc::t_bdf088c380df91 1-138
+projects/cic/ingestion/src/reasoning/arl/engine/MultiRunAggregator.ts
+  s_cc99cc2cdc31cd::t_7fe326a6cbe311 79-80
+  s_cc99cc2cdc31cd::t_7eb57ea8e0c8ac 1-78,81-105
+projects/cic/ingestion/src/reasoning/arl/engine/ModelIntrospectionEngine.ts
+  s_cc99cc2cdc31cd::t_843f912f1f8778 1-122
+tools/mcp/test-portfolio-mcp.js
+  s_cc99cc2cdc31cd::t_0376dfe3033bf8 1-82
+projects/cic/src/ruflo-orchestration/IExecutionStore.ts
+  s_fedd75f531f5b1::t_e71de8533e9b98 1-106
+projects/cic/observability/TraceMiddleware.ts
+  s_e06868f0ac3104::t_e34c3c47c1e9e8 1-90
+skills-runtime/unified-status.js
+  s_ef85f8b92a3bc3::t_8b344b99f4b1c9 1-163
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/RunSummaryFixtures.ts
+  s_cc99cc2cdc31cd::t_bf42186eee568d 1-110
+skills-runtime/approvals-auto-whitelist.js
+  s_8337ea0f3217d7::t_d6c95d5b955133 1-176
+projects/cic/.env.example
+  s_e06868f0ac3104::t_4a76006e7a533d 1-45
+projects/cic/context-service/ContextService.ts
+  s_e06868f0ac3104::t_cc3212f5374413 81-84,88-93,96-103,111-112,114,117-130,142-143,145,148-185,189,191-196,199,202-227,229-234,243,246-250,252-254,265-267,270-291
+  s_e06868f0ac3104::t_c2c8ccd0713d5c 73
+  s_e06868f0ac3104::t_ef6ecb13dddbe9 1-6,8-72,74-80,85-87,94-95,104-110,113,115-116,131-141,144,146-147,186-188,190,197-198,200-201,228,235-242,244-245,251,255-264,268-269,293-295
+  s_e06868f0ac3104::t_8030cf097f3b91 7
+skills/multi-endpoint-orchestrator/schema.json
+  s_ef85f8b92a3bc3::t_eaa33914c1ab7b 1-35
+docs/cic/PHASE_7_14_SELF_DIAGNOSTICS.md
+  s_098041771ceb78::t_80ec8a88184fbe 1-337
+benchmarks/input/fitness_fl.context.json
+  s_7eb04519120919::t_3f44e9eec9d0dd 1
+projects/cic-operator-console/src/main.tsx
+  s_e06868f0ac3104::t_08c2b9f27d256b 1-10
+.claude/INTEGRATION_EXAMPLES.md
+  s_098041771ceb78::t_5fb05087f4c1d8 1-267
+docs/cic/CIC_DOCS_INDEX.md
+  s_814b4d3d2ba6eb::t_54b0c49737a01f 28-37
+projects/cic/ingestion/src/reasoning/arl/aggregator/engine/MultiRunAggregator.ts
+  s_098041771ceb78::t_0c3a3fa21ca883 1-99
+docs/rewrite-labs/REWRITE_LABS_ROADMAP.md
+  s_7eb04519120919::t_200d6b360fd184 23,28-34,39-63,119
+  s_7eb04519120919::t_e2329e5717ee3c 1-21,120-121,123-124,127-141,143-170,172-198,200-255
+  s_7eb04519120919::t_66f8bcbcbc50fb 24-27,35-38
+  s_7eb04519120919::t_7880025a9672c6 122,125-126
+  s_ef85f8b92a3bc3::t_3ee1fc37aea402 64-118
+  s_7eb04519120919::t_1540cc6cdd2aac 199
+  s_7eb04519120919::t_629e81f3b30b7f 171
+  s_7eb04519120919::t_e0941994ba3e97 142
+tools/mcp/skills-runtime-server.js
+  s_da4a457c4334be::t_de211d561182c9 1-4,6-15,41-43,46-50,52-83
+  s_da4a457c4334be::t_1392bf4101bb78 5,16-40,44-45,51
+projects/cic/ingestion/src/reasoning/arl/engine/OperatorFeedbackLoop.ts
+  s_cc99cc2cdc31cd::t_b7217caa5233fe 1-12,19-33,37-40,44-46,49-50,52-138
+  s_cc99cc2cdc31cd::t_1452c755c44583 13-18,34-36,41-43,47-48,51
+PHASE_F_UI_CODE_SKELETONS.ts
+  s_c9539c0433d162::t_17e91016c3ffe4 1-490
+skills/CLAUDE_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_159f0050867ff9 1-199
+benchmarks/routing/INTEGRATION.md
+  s_7eb04519120919::t_95ce15bc4abaac 1-296
+projects/cic-operator-console/src/pages/FlowExplorer.tsx
+  s_e06868f0ac3104::t_df681875249c01 1-84
+CIC_QUICK_START.md
+  s_e06868f0ac3104::t_143aefa60b84ad 1-180
+projects/cic/ingestion/src/reasoning/arl/tests/StabilityPlaneEngine.test.ts
+  s_cc99cc2cdc31cd::t_e253c0286dc8d9 1-150,152-153,158-163,165-187
+  s_cc99cc2cdc31cd::t_502849094ed715 151,154-157,164
+projects/cic/ingestion/src/reasoning/arl/engine/RuntimeOptimizationEngine.ts
+  s_cc99cc2cdc31cd::t_e8e6d823540f67 1-57
+skills-runtime/approvals-manifest.json
+  s_098041771ceb78::t_e36d0fb6c84e1f 1-65,410-422,424,426,430
+  s_da4a457c4334be::t_9d054cc36b637f 186-409
+  s_da4a457c4334be::t_3b7e0ee6a66835 423,425,427-429
+projects/cic/ingestion/src/reasoning/arl/memory/contracts/MemorySnapshot.ts
+  s_098041771ceb78::t_f04ae25fdef9ba 1-63
+skills-runtime/predictive-approvals.js
+  s_8337ea0f3217d7::t_b14853568ce761 1-335
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d3f54d08f6a605c8424a58e85f11dcd3bd49b311",
+  "prompts": {},
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_109dab5d02dd8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2f01f33-d8de-4699-aa50-72505eb2239f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_2db26e86454bcc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a04a36e7-7dec-478b-b35a-a896f932fde7",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_52000cc5a7d028": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bdef8050-39a2-4df2-8823-18a541b646a3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_589686640e3b65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "545821fc-452f-427c-bd0f-059587fe5f6b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_814b4d3d2ba6eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77c0d2ea-12e8-4ed7-a8d5-e0c790a4c339",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_9907fc29218a5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f043a510-6910-4123-a078-4f25c9540d74",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a5732a92a4d604": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70c2ba25-27a8-4049-880c-0fbb3c107492",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bd29c1c18ef69c": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "24e26489-9dd7-4793-a275-f6a883f69bdc",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bd7c4e786c1792": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a0d6932-a65a-4ad4-8497-d893b76ec8a6",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c9539c0433d162": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "727b7be1-b1af-420f-b5b7-172a22cf20d5",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d44e2c08a9aae0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cb517df0-69ba-4543-9d62-fd195e16fa2a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f1da5cbfcc7905": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "67935109-94fb-406c-97da-eb6a60d1c0a8",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f36b6e1ae36294": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2ff7043c-1c21-4644-9f42-75f993360537",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
