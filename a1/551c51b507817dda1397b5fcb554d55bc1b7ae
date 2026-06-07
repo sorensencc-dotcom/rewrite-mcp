@@ -1,0 +1,34 @@
+src/memory/memory-synthesizer.ts
+  s_447479cb166a8d::t_9c01f77b536386 236
+  s_447479cb166a8d::t_ad434879d34bbe 195
+  s_447479cb166a8d::t_a835ba66753d5c 148
+tests/memory/memory-substrate.test.ts
+  s_447479cb166a8d::t_a26f9636497360 1-146
+PHASE_23_COMPLETION_SUMMARY.md
+  s_447479cb166a8d::t_05b89a7223b145 1-317
+src/memory/memory-substrate.ts
+  s_447479cb166a8d::t_45b0f5dcddc295 6-8
+  s_447479cb166a8d::t_6dbcc41af1617a 76-78
+tests/memory/memory-synthesizer.test.ts
+  s_447479cb166a8d::t_2ab8e1e43d42e9 1-190
+docs/cic/SOCIAL_MEDIA_ORCHESTRATOR_INTEGRATION.md
+  s_447479cb166a8d::t_cca1b8c0fe3c63 1-1103
+tests/memory/memory-harvester.test.ts
+  s_447479cb166a8d::t_d92855e909bad2 1-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "a1551c51b507817dda1397b5fcb554d55bc1b7ae",
+  "prompts": {},
+  "sessions": {
+    "s_447479cb166a8d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80a4074f-aa58-4ca1-a930-4beeb6f0691c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
