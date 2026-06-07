@@ -206,4 +206,62 @@ describe('CIC Foreman — Wayland Integration (46.3 & 46.4)', () => {
       expect(statsRes.data.total_duration_ms).toBe(150);
     });
   });
+
+  describe('artifact integration (46.5)', () => {
+    it('should write artifact', async () => {
+      const createRes = await axios.post(`${baseURL}/task`, { phase: '46' });
+      const taskId = createRes.data.id;
+
+      const artifactRes = await axios.post(`${baseURL}/task/${taskId}/artifact`, 'Test artifact content', {
+        headers: {
+          'x-artifact-metadata': JSON.stringify({ name: 'test.txt', mime_type: 'text/plain' })
+        }
+      });
+
+      expect(artifactRes.status).toBe(201);
+      expect(artifactRes.data.id).toBeDefined();
+      expect(artifactRes.data.name).toBe('test.txt');
+      expect(artifactRes.data.size_bytes).toBeGreaterThan(0);
+    });
+
+    it('should reject oversized artifacts', async () => {
+      const createRes = await axios.post(`${baseURL}/task`, { phase: '46' });
+      const taskId = createRes.data.id;
+
+      const largeContent = Buffer.alloc(26 * 1024 * 1024);
+
+      try {
+        await axios.post(`${baseURL}/task/${taskId}/artifact`, largeContent, {
+          headers: {
+            'x-artifact-metadata': JSON.stringify({ name: 'large.bin' })
+          }
+        });
+        expect.fail('Should have thrown');
+      } catch (e: any) {
+        expect(e.response?.status).toBe(413);
+      }
+    });
+
+    it('should list task artifacts', async () => {
+      const createRes = await axios.post(`${baseURL}/task`, { phase: '46' });
+      const taskId = createRes.data.id;
+
+      await axios.post(`${baseURL}/task/${taskId}/artifact`, 'Content 1', {
+        headers: {
+          'x-artifact-metadata': JSON.stringify({ name: 'file1.txt' })
+        }
+      });
+
+      await axios.post(`${baseURL}/task/${taskId}/artifact`, 'Content 2', {
+        headers: {
+          'x-artifact-metadata': JSON.stringify({ name: 'file2.txt' })
+        }
+      });
+
+      const listRes = await axios.get(`${baseURL}/task/${taskId}/artifacts`);
+      expect(listRes.status).toBe(200);
+      expect(listRes.data.artifacts).toHaveLength(2);
+      expect(listRes.data.stats.artifact_count).toBe(2);
+    });
+  });
 });

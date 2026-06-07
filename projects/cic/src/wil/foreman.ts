@@ -14,6 +14,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import SessionMapper from './session-mapper';
+import ArtifactManager from './artifact-manager';
 
 export interface Task {
   id: string;
@@ -37,6 +38,7 @@ export class CICForeman {
   private heartbeatInterval?: NodeJS.Timeout;
   private heartbeatIntervalMs = 30000;
   private sessionMapper = new SessionMapper();
+  private artifactManager = new ArtifactManager();
   private eventListeners: Map<string, Set<(data: unknown) => void>> = new Map();
 
   start(): Promise<void> {
@@ -222,6 +224,12 @@ export class CICForeman {
         this.handleGetSessionStats(res, parts[2] || '', correlationId, startTime);
       } else if (req.method === 'GET' && url.pathname === '/events') {
         this.handleEventsStream(req, res, correlationId);
+      } else if (req.method === 'POST' && url.pathname.startsWith('/task/') && url.pathname.endsWith('/artifact')) {
+        const parts = url.pathname.split('/');
+        this.handleWriteArtifact(req, res, parts[2] || '', correlationId, startTime);
+      } else if (req.method === 'GET' && url.pathname.startsWith('/task/') && url.pathname.includes('/artifacts')) {
+        const parts = url.pathname.split('/');
+        this.handleListArtifacts(res, parts[2] || '', correlationId, startTime);
       } else {
         res.writeHead(404);
         res.end(JSON.stringify({ error: 'Not found' }));
@@ -313,9 +321,9 @@ export class CICForeman {
       return;
     }
 
-    const artifact = task.artifacts.find((a) => a.id === artifactId);
+    const metadata = this.artifactManager.getArtifact(taskId, artifactId);
 
-    if (!artifact) {
+    if (!metadata) {
       res.writeHead(404);
       res.end(JSON.stringify({ error: 'Artifact not found' }));
       return;
@@ -327,13 +335,78 @@ export class CICForeman {
       correlationId,
       taskId,
       artifactId,
-      size: artifact.size,
+      size_mb: metadata.size_mb,
       elapsedMs: Date.now() - startTime,
       event: 'artifact_retrieved'
     }));
 
     res.writeHead(200);
-    res.end(JSON.stringify(artifact));
+    res.end(JSON.stringify(metadata));
+  }
+
+  private handleWriteArtifact(req: http.IncomingMessage, res: http.ServerResponse, taskId: string, correlationId: string, startTime: number): void {
+    const task = this.tasks.get(taskId);
+
+    if (!task) {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: 'Task not found' }));
+      return;
+    }
+
+    let body = Buffer.alloc(0);
+    req.on('data', (chunk) => { body = Buffer.concat([body, chunk]); });
+    req.on('end', async () => {
+      try {
+        const metadata = req.headers['x-artifact-metadata'] ? JSON.parse(req.headers['x-artifact-metadata'] as string) : {};
+        const artifactMetadata = await this.artifactManager.writeArtifact(
+          taskId,
+          metadata.name || 'artifact',
+          body,
+          metadata.mime_type || 'application/octet-stream',
+          metadata.tags
+        );
+
+        if (!artifactMetadata) {
+          res.writeHead(413);
+          res.end(JSON.stringify({ error: 'Artifact too large (max 25 MB)' }));
+          return;
+        }
+
+        task.artifacts.push({ id: artifactMetadata.id, path: artifactMetadata.path, size: artifactMetadata.size_bytes });
+
+        console.log(JSON.stringify({
+          level: 'info',
+          timestamp: new Date().toISOString(),
+          correlationId,
+          taskId,
+          artifactId: artifactMetadata.id,
+          size_mb: artifactMetadata.size_mb,
+          event: 'artifact_written'
+        }));
+
+        res.writeHead(201);
+        res.end(JSON.stringify(artifactMetadata));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Failed to write artifact' }));
+      }
+    });
+  }
+
+  private handleListArtifacts(res: http.ServerResponse, taskId: string, correlationId: string, startTime: number): void {
+    const task = this.tasks.get(taskId);
+
+    if (!task) {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: 'Task not found' }));
+      return;
+    }
+
+    const artifacts = this.artifactManager.listArtifacts(taskId);
+    const stats = this.artifactManager.getTaskStats(taskId);
+
+    res.writeHead(200);
+    res.end(JSON.stringify({ artifacts, stats }));
   }
 
   private handleHealth(res: http.ServerResponse, correlationId: string, startTime: number): void {
