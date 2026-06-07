@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.29.4] - 2026-06-06
+### Added
+- **Rewrite Labs System Summary** (`docs/rewrite/REWRITE_LABS_SYSTEM.md`): Documented the current dual-system state for CIC and Rewrite Labs, the multi-AI workflow roles, coding and ops standards, and living document update rules.
+    - **REWRITE_LABS_SYSTEM.md**: Added a canonical project snapshot section with exact root paths, pipeline definitions, and ownership details.
+
 ## [2.29.3] - 2026-06-04
 ### Added
 - **CIC Policy-Driven Optimization Layer** (`projects/cic/ingestion/`): Built a declarative policy engine for Headroom control, dynamic condition evaluations, and a styled glassmorphic dark-theme monitoring dashboard.

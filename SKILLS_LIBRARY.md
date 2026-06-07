@@ -25,6 +25,20 @@ This library defines both **new skills** (for cross-platform deployment) and **e
 | **docs-sync-release** | Release Management | ✅ Existing (Deployed) | Claude, Gemini |
 | **approvals-audit** | Governance | ✅ Existing (Deployed) | Claude |
 
+| **evidence-schema-v1** | Governance | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **reverse-image-search** | Extraction | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **harvester-image-analyzer** | Pipeline | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **pms-template-awareness** | Documentation | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **multi-agent-governance** | Governance (AMB) | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **cic-audit-process** | Audit | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **claude-memory-diff** | Tooling | ✅ New (Ready) | Claude |
+| **rewrite-labs-state-tracker** | Pipeline | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **operator-grade-coding-standards** | Standards | ✅ New (Ready) | Claude, Copilot, Gemini |
+| **wsl2-ubuntu-22.04-env** | Environment | ✅ New (Ready) | All platforms |
+| **node-20-runtime** | Runtime | ✅ New (Ready) | All platforms |
+| **castironforge-mcp-backend** | Backend | ✅ New (Ready) | All platforms |
+| **html-vanilla-js-frontend** | Frontend | ✅ New (Ready) | All platforms |
+
 ---
 
 ## New Skills (Ready for Cross-Platform Deployment)

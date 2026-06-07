@@ -2,6 +2,38 @@
 
 The Rewrite Labs ecosystem is an operator-grade architecture designed for high-precision LLM orchestration, now fully migrated to the **Antigravity 2.0** standard.
 
+## Current Project Snapshot
+
+- **CIC (Cast Iron Charlie)** — A multi-agent Documentary Research Engine at `C:\dev\rewrite-mcp\castironforge\cic-ingestion\`.
+  - Pipeline: `INGEST → ENRICH → ORCHESTRATE → SYNTHESIZE → AUDIT`
+  - Subsystems: `Image Analyzer`, `Document Analyzer`, `Evidence Normalizer`, `Evidence Schema v1.0`
+  - Completed: Queue + DLQ, `ReverseImageSearchExtractor`, full test suite passing.
+  - Observability Dashboard: `apps/operator-ui/dashboard/index.html` — single-file dark theme polling 6 agents every 10s.
+
+- **Rewrite Labs** — AI-powered website redesign company, separate from CIC.
+  - Pipeline: `Discovery → Harvester → Redesign → Outreach → Delivery`
+  - 20-site SMB benchmark corpus: 18/20 captured; Opus/Sonnet A/B tests pending API credits.
+  - Owners: `Chris + Balraj`
+
+- **Multi-AI Workflow**
+  - `Copilot` is the orchestrator for documentation, summaries, Microsoft 365 integration, and workflow structuring.
+  - `Claude` is the deep systems engine for architecture, code reasoning, and complex synthesis.
+  - `Wispr` is input acceleration from voice into structured text.
+
+- **Coding & Ops Standards**
+  - Deterministic operator-grade code, ESM with explicit `.js`, structured JSON logs, explicit errors, isolated subsystems.
+  - Node.js 20+, WSL2 Ubuntu 22.04+, WebSocket + HTTP, Castironforge MCP backend, HTML + vanilla JS frontend.
+
+- **Living Document Rules**
+  - `FIND → READ → DETERMINE VERSION BUMP → GENERATE → UPLOAD → ARCHIVE IN PLACE → CONFIRM`
+  - Never overwrite older versions; preserve history in place.
+
+- **Personal Preferences**
+  - Highly technical, deterministic, multi-step execution plans.
+  - Exact file paths, commands, diffs, and verification steps.
+  - Avoid orphan dashboards or duplicated consoles.
+  - Prefer isolated dependencies and reproducible setups.
+
 ## Core Components
 
 ### Antigravity Runtime
