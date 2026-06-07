@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T22:25:15.726Z
+Generated at: 2026-06-07T22:33:31.017Z
 
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
@@ -12,6 +12,7 @@ Generated at: 2026-06-07T22:25:15.726Z
 - [GAP-004_Narrative_Gap_Report.md](docs/GAP-004_Narrative_Gap_Report.md)
 - [GAP-003_Narrative_Gap_Report.md](docs/GAP-003_Narrative_Gap_Report.md)
 - [GAP-002_Narrative_Gap_Report.md](docs/GAP-002_Narrative_Gap_Report.md)
+- [CYBERSECURITY_SKILLS_FILE_TREE_SPEC.md](docs/CYBERSECURITY_SKILLS_FILE_TREE_SPEC.md)
 - [APPROVAL_INFRASTRUCTURE.md](docs/APPROVAL_INFRASTRUCTURE.md)
 - [reverse-image-search.md](docs/skills/reverse-image-search.md)
 - [evidence-schema-v1.md](docs/skills/evidence-schema-v1.md)
@@ -103,6 +104,7 @@ Generated at: 2026-06-07T22:25:15.726Z
 - [PHASE_46_DETAILED_ARCHITECTURE.md](docs/cic/PHASE_46_DETAILED_ARCHITECTURE.md)
 - [PHASE_23_PROGRESS.md](docs/cic/PHASE_23_PROGRESS.md)
 - [PHASE_23_KICKOFF_PLAN.md](docs/cic/PHASE_23_KICKOFF_PLAN.md)
+- [PHASE_23_IMPLEMENTATION_COMPLETE.md](docs/cic/PHASE_23_IMPLEMENTATION_COMPLETE.md)
 - [PHASE_23_DAYS_8_9_PIPELINE_INTEGRATION.md](docs/cic/PHASE_23_DAYS_8_9_PIPELINE_INTEGRATION.md)
 - [PHASE_23_DAYS_6_7_ARPS_INTEGRATION.md](docs/cic/PHASE_23_DAYS_6_7_ARPS_INTEGRATION.md)
 - [PHASE_23_DAYS_1_5_SUMMARY.md](docs/cic/PHASE_23_DAYS_1_5_SUMMARY.md)

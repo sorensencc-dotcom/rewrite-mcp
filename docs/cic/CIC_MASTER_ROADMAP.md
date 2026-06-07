@@ -513,7 +513,7 @@ See detailed roadmap below.
 <!-- ARPS:PHASE_23:BEGIN -->
 ## Phase 23 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)
 
-**Status:** 🔄 IN PROGRESS (Days 1-7 complete, 58% done, on track for Jun 18)
+**Status:** ✅ 23.1–23.3 COMPLETE (2026-06-07) | 🔄 23.4–23.7 IN PROGRESS
 
 ### Goal
 Give CIC a durable, queryable memory substrate enabling long-horizon reasoning, pattern detection, drift trend analysis, and autonomous roadmap proposals.
