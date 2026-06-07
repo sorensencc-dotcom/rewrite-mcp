@@ -1,0 +1,22 @@
+[
+  { "goal_id": "goal-f1", "type": "ingest_target", "target": "file://badphoto1.jpg", "target_type": "image" },
+  { "goal_id": "goal-f2", "type": "ingest_target", "target": "file://badphoto2.jpg", "target_type": "image" },
+  { "goal_id": "goal-f3", "type": "ingest_target", "target": "file://badphoto3.jpg", "target_type": "image" },
+  { "goal_id": "goal-f4", "type": "ingest_target", "target": "file://badphoto4.jpg", "target_type": "image" },
+  { "goal_id": "goal-f5", "type": "ingest_target", "target": "file://badphoto5.jpg", "target_type": "image" },
+  { "goal_id": "goal-f6", "type": "ingest_target", "target": "file://badphoto6.jpg", "target_type": "image" },
+  { "goal_id": "goal-f7", "type": "ingest_target", "target": "file://badphoto7.jpg", "target_type": "image" },
+  { "goal_id": "goal-f8", "type": "ingest_target", "target": "file://badphoto8.jpg", "target_type": "image" },
+  { "goal_id": "goal-f9", "type": "ingest_target", "target": "file://badphoto9.jpg", "target_type": "image" },
+  { "goal_id": "goal-f10", "type": "ingest_target", "target": "file://badphoto10.jpg", "target_type": "image" },
+  { "goal_id": "goal-f11", "type": "ingest_target", "target": "file://badphoto11.jpg", "target_type": "image" },
+  { "goal_id": "goal-f12", "type": "ingest_target", "target": "file://badphoto12.jpg", "target_type": "image" },
+  { "goal_id": "goal-f13", "type": "ingest_target", "target": "file://badphoto13.jpg", "target_type": "image" },
+  { "goal_id": "goal-f14", "type": "ingest_target", "target": "file://badphoto14.jpg", "target_type": "image" },
+  { "goal_id": "goal-f15", "type": "ingest_target", "target": "file://badphoto15.jpg", "target_type": "image" },
+  { "goal_id": "goal-f16", "type": "ingest_target", "target": "Some failure text 1...", "target_type": "text" },
+  { "goal_id": "goal-f17", "type": "ingest_target", "target": "Some failure text 2...", "target_type": "text" },
+  { "goal_id": "goal-f18", "type": "ingest_target", "target": "Some failure text 3...", "target_type": "text" },
+  { "goal_id": "goal-f19", "type": "ingest_target", "target": "Some failure text 4...", "target_type": "text" },
+  { "goal_id": "goal-f20", "type": "ingest_target", "target": "Some failure text 5...", "target_type": "text" }
+]

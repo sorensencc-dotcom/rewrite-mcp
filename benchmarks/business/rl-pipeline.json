@@ -1,0 +1,43 @@
+{
+  "activeDeals": [
+    {
+      "id": "deal-001",
+      "company": "TechCorp Inc",
+      "stage": "proposal",
+      "value": 25000,
+      "closeDate": "2026-06-30",
+      "lastUpdated": "2026-06-05T09:44:17.949Z"
+    },
+    {
+      "id": "deal-002",
+      "company": "InnovateLabs",
+      "stage": "negotiation",
+      "value": 45000,
+      "closeDate": "2026-07-15",
+      "lastUpdated": "2026-06-05T09:44:17.962Z"
+    },
+    {
+      "id": "deal-003",
+      "company": "DataSystems Ltd",
+      "stage": "qualified",
+      "value": 18000,
+      "closeDate": "2026-08-01",
+      "lastUpdated": "2026-06-05T09:44:17.962Z"
+    }
+  ],
+  "outreachQueue": [
+    {
+      "id": "prospect-001",
+      "company": "Digital Ventures",
+      "status": "first-touch",
+      "daysWaiting": 3
+    },
+    {
+      "id": "prospect-002",
+      "company": "Cloud Native Co",
+      "status": "follow-up",
+      "daysWaiting": 7
+    }
+  ],
+  "generatedAt": "2026-06-05T09:44:17.949Z"
+}

@@ -1,0 +1,26 @@
+# cic.skill.v1
+name: extract_ris_metadata
+version: 1.2.0
+type: extractor            # extractor | transform | validator | orchestrator
+
+io:
+  input_schema: ris_document_v1
+  output_schema: ris_metadata_v1
+
+determinism:
+  is_pure: true
+  uses_network: false
+  uses_llm: false
+
+performance:
+  expected_latency_ms: 80
+  cost_tier: low          # low | medium | high
+
+safety:
+  requires_guard: false
+  allowed_regions: [us-east-1, eu-central-1]
+  sensitivity_level: normal   # normal | elevated | critical
+
+routing:
+  tags: [ris, metadata, documentary]
+  preferred_models: []        # for LLM skills

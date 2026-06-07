@@ -1,0 +1,24 @@
+{
+  "intent": "Establish verified timeline and context of the Sorensen-Knudsen conflict and its impact on Ford management (1918–1920)",
+  "scope": [
+    "WWI production transition (Eagle Boats, Liberty Engines)",
+    "Managerial hierarchy and power dynamics at Highland Park/Rouge",
+    "Sorensen vs. Knudsen operational friction",
+    "Knudsen's departure from Ford Motor Company",
+    "Consolidation of Sorensen's influence over Ford production"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified timeline of WWI to post-war transition",
+    "documented managerial disputes via internal memos",
+    "verified date and context of Knudsen's resignation",
+    "cross-validated archival correspondence"
+  ]
+}

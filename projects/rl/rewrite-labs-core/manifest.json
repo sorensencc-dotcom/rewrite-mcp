@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "pack": {
+    "id": "rewrite-labs-core",
+    "name": "Rewrite Labs Core Pack",
+    "version": "1.0.0",
+    "description": "Discovery → Extraction → Redesign → Outreach pipeline for Rewrite Labs.",
+    "author": "Rewrite Labs",
+    "created_at": "2026-05-24T00:00:00Z"
+  },
+
+  "compatibility": {
+    "cic_min_version": "2.2.0",
+    "evolution_layer": ">=2.0.0"
+  },
+
+  "agents": [
+    {
+      "logical_name": "rewrite.discovery",
+      "entrypoint": "agents/discovery.js",
+      "version": "1.0.0",
+      "evolvable": true,
+      "tests": "tests/discovery.test.js",
+      "spec": "specs/discovery.md"
+    },
+    {
+      "logical_name": "rewrite.extractor",
+      "entrypoint": "agents/extractor.js",
+      "version": "1.0.0",
+      "evolvable": true,
+      "tests": "tests/extractor.test.js",
+      "spec": "specs/extractor.md"
+    },
+    {
+      "logical_name": "rewrite.redesign",
+      "entrypoint": "agents/redesign.js",
+      "version": "1.0.0",
+      "evolvable": true,
+      "tests": "tests/redesign.test.js",
+      "spec": "specs/redesign.md"
+    },
+    {
+      "logical_name": "rewrite.outreach",
+      "entrypoint": "agents/outreach.js",
+      "version": "1.0.0",
+      "evolvable": false,
+      "tests": "tests/outreach.test.js",
+      "spec": "specs/outreach.md"
+    }
+  ],
+
+  "templates": {
+    "prompts": [
+      { "id": "rewrite_redesign_prompt", "path": "templates/redesign_prompt.txt" }
+    ]
+  },
+
+  "permissions": {
+    "network": false,
+    "filesystem": false,
+    "sandbox_required": true
+  },
+
+  "metadata": {
+    "tags": ["rewrite", "web", "automation"],
+    "notes": "Rewrite Labs v1.0 Skill Pack"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "intent": "Establish verified timeline and context of the Ford Sociological Department and Sorensen's role in its management and eventual rollback (1914–1925)",
+  "scope": [
+    "Five-Dollar Day social contract mechanisms",
+    "Home inspections and moral policing records",
+    "Labor compliance and eligibility logs",
+    "Sorensen's resistance to non-production oversight",
+    "Transition to the Ford Service Department and department rollback"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified timeline of Sociological Department milestones",
+    "documented home inspection procedures and logs",
+    "verified Sorensen policy statements regarding department authority",
+    "cross-validated archival labor records"
+  ]
+}

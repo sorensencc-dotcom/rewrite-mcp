@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CIC Skill Graph",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "skill",
+              "agent",
+              "tool",
+              "lane",
+              "phase",
+              "doc",
+              "external_system"
+            ]
+          },
+          "name": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "meta": { "type": "object" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "type"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "depends_on",
+              "implements",
+              "observes",
+              "controls",
+              "documents",
+              "mirrors"
+            ]
+          },
+          "meta": { "type": "object" }
+        }
+      }
+    }
+  }
+}

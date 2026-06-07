@@ -1,0 +1,75 @@
+{
+  "title": "Pipeline Orchestration and Dashboard Workflow",
+  "type": "object",
+  "properties": {
+    "pipelineState": {
+      "type": "object",
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Pipeline stages"
+        },
+        "current": {
+          "type": "string",
+          "description": "Current stage"
+        },
+        "status": {
+          "type": "string",
+          "description": "Pipeline status"
+        }
+      },
+      "required": ["stages", "current"]
+    },
+    "repoActivity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string" },
+          "event": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "description": "Repository activity events"
+    },
+    "agentActivity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string" },
+          "agentName": { "type": "string" },
+          "action": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      },
+      "description": "Agent activity events"
+    },
+    "ideaInbox": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "idea": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      },
+      "description": "Ideas to harvest"
+    },
+    "roadmap": {
+      "type": "object",
+      "description": "Current roadmap (optional)"
+    },
+    "generateProcedure": {
+      "type": "boolean",
+      "description": "Generate blocker procedures (default: true)"
+    },
+    "harvestIdeas": {
+      "type": "boolean",
+      "description": "Process idea inbox (default: true)"
+    }
+  },
+  "required": ["pipelineState", "repoActivity", "agentActivity", "ideaInbox"]
+}

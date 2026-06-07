@@ -1,0 +1,18 @@
+{
+  "title": "Session Boundary Manager",
+  "type": "object",
+  "properties": {
+    "transcript": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string" },
+          "tokens": { "type": "number" }
+        }
+      },
+      "description": "Array of messages in current session"
+    }
+  },
+  "required": ["transcript"]
+}

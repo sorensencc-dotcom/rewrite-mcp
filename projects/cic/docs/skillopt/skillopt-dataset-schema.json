@@ -1,0 +1,202 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RewriteLabs Redesign SkillOpt Item v1.0.0",
+  "description": "Training item schema for SkillOpt Redesign skill",
+  "type": "object",
+  "required": ["item_id", "timestamp", "input", "target", "metadata", "split"],
+  "additionalProperties": false,
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "description": "Unique UUID-v4 identifier for this training item",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp when item was created"
+    },
+    "input": {
+      "type": "object",
+      "description": "CIC audit outputs and extracted content",
+      "required": ["dom", "content_blocks", "heuristics", "audit_deltas"],
+      "additionalProperties": false,
+      "properties": {
+        "dom": {
+          "type": "string",
+          "description": "Full HTML/DOM snapshot of the website (may be large)"
+        },
+        "content_blocks": {
+          "type": "array",
+          "description": "Extracted semantic content blocks",
+          "items": {
+            "type": "object",
+            "required": ["type", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["heading", "paragraph", "list", "image", "link", "button", "form", "table", "quote", "code"],
+                "description": "Content block type"
+              },
+              "text": {
+                "type": "string",
+                "description": "Normalized text content"
+              },
+              "level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6,
+                "description": "Heading level (if type=heading)"
+              },
+              "href": {
+                "type": "string",
+                "description": "Link destination (if type=link or button)"
+              },
+              "alt": {
+                "type": "string",
+                "description": "Alt text (if type=image)"
+              }
+            }
+          }
+        },
+        "heuristics": {
+          "type": "object",
+          "description": "CIC heuristic evaluation results",
+          "additionalProperties": false,
+          "properties": {
+            "wcag_violations": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Count of detected WCAG violations"
+            },
+            "layout_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Visual layout quality (0=poor, 1=excellent)"
+            },
+            "readability_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Content readability (0=poor, 1=excellent)"
+            },
+            "mobile_friendly": {
+              "type": "boolean",
+              "description": "Is the site mobile-responsive?"
+            },
+            "overall_quality_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Composite quality score"
+            }
+          }
+        },
+        "audit_deltas": {
+          "type": "object",
+          "description": "Accessibility and performance gaps identified by CIC audit",
+          "additionalProperties": false,
+          "properties": {
+            "accessibility": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "current_level": {
+                  "type": "string",
+                  "enum": ["WCAG 2.1 Level A", "WCAG 2.1 Level AA", "WCAG 2.1 Level AAA"],
+                  "description": "Estimated current WCAG conformance level"
+                },
+                "gaps": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["color-contrast", "alt-text", "keyboard-nav", "screen-reader", "focus-visible", "heading-hierarchy", "form-labels"]
+                  },
+                  "description": "Specific accessibility gaps to address"
+                }
+              }
+            },
+            "performance": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lcp_ms": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Largest Contentful Paint in milliseconds"
+                },
+                "fid_ms": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "First Input Delay in milliseconds"
+                },
+                "cls": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Cumulative Layout Shift (unitless)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "description": "Ideal output: the redesign plan the skill should learn to generate",
+      "required": ["redesign_plan"],
+      "additionalProperties": false,
+      "properties": {
+        "redesign_plan": {
+          "type": "string",
+          "description": "Full redesign plan (JSON or Markdown structure as string)"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Lineage and context for this training item",
+      "required": ["region", "extractor_version", "agent_version", "exporter_version", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "region": {
+          "type": "string",
+          "enum": ["us-east", "us-west", "eu-west", "apac", "global"],
+          "description": "Geographic region where site was processed"
+        },
+        "extractor_version": {
+          "type": "string",
+          "description": "Version of extractor used (e.g., 'ImageAnalyzerV2/2.0.0')"
+        },
+        "agent_version": {
+          "type": "string",
+          "description": "Version of CIC agent that processed this item (e.g., 'CIC/3.0.0')"
+        },
+        "exporter_version": {
+          "type": "string",
+          "description": "Version of SkillOptExporter that created this item (e.g., 'SkillOptExporter/1.0.0')"
+        },
+        "site_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the website analyzed"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain extracted from site_url"
+        },
+        "industry": {
+          "type": "string",
+          "description": "Industry classification (optional, for analysis)"
+        }
+      }
+    },
+    "split": {
+      "type": "string",
+      "enum": ["train", "val", "test"],
+      "description": "Dataset split assignment (deterministic based on item_id hash)"
+    }
+  }
+}

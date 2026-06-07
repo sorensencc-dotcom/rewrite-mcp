@@ -1,0 +1,123 @@
+[
+  {
+    "id": "plumber_fl",
+    "url": "https://www.benfranklinplumbingbradenton.com",
+    "htmlPath": "benchmarks/input/plumber_fl.html",
+    "contextPath": "benchmarks/input/plumber_fl.context.json"
+  },
+  {
+    "id": "hvac_fl",
+    "url": "https://www.airnowtoday.com/",
+    "htmlPath": "benchmarks/input/hvac_fl.html",
+    "contextPath": "benchmarks/input/hvac_fl.context.json"
+  },
+  {
+    "id": "dentist_fl",
+    "url": "https://www.bayviewdental.com/",
+    "htmlPath": "benchmarks/input/dentist_fl.html",
+    "contextPath": "benchmarks/input/dentist_fl.context.json"
+  },
+  {
+    "id": "restaurant_fl",
+    "url": "https://www.madfishstpete.com",
+    "htmlPath": "benchmarks/input/restaurant_fl.html",
+    "contextPath": "benchmarks/input/restaurant_fl.context.json"
+  },
+  {
+    "id": "roofing_fl",
+    "url": "https://romanroofing.com/",
+    "htmlPath": "benchmarks/input/roofing_fl.html",
+    "contextPath": "benchmarks/input/roofing_fl.context.json"
+  },
+  {
+    "id": "auto_fl",
+    "url": "https://www.tuffybradenton.com",
+    "htmlPath": "benchmarks/input/auto_fl.html",
+    "contextPath": "benchmarks/input/auto_fl.context.json"
+  },
+  {
+    "id": "landscaping_fl",
+    "url": "https://tropicalgardenslandscape.com/",
+    "htmlPath": "benchmarks/input/landscaping_fl.html",
+    "contextPath": "benchmarks/input/landscaping_fl.context.json"
+  },
+  {
+    "id": "salon_fl",
+    "url": "https://www.spaevangeline.com/",
+    "htmlPath": "benchmarks/input/salon_fl.html",
+    "contextPath": "benchmarks/input/salon_fl.context.json"
+  },
+  {
+    "id": "legal_fl",
+    "url": "https://www.lawfran.com/",
+    "htmlPath": "benchmarks/input/legal_fl.html",
+    "contextPath": "benchmarks/input/legal_fl.context.json"
+  },
+  {
+    "id": "fitness_fl",
+    "url": "https://www.crossfit9.com",
+    "htmlPath": "benchmarks/input/fitness_fl.html",
+    "contextPath": "benchmarks/input/fitness_fl.context.json"
+  },
+
+  {
+    "id": "plumber_us",
+    "url": "https://www.mrrooter.com",
+    "htmlPath": "benchmarks/input/plumber_us.html",
+    "contextPath": "benchmarks/input/plumber_us.context.json"
+  },
+  {
+    "id": "hvac_us",
+    "url": "https://www.cooltoday.com/",
+    "htmlPath": "benchmarks/input/hvac_us.html",
+    "contextPath": "benchmarks/input/hvac_us.context.json"
+  },
+  {
+    "id": "dentist_us",
+    "url": "https://www.smileculture.com/",
+    "htmlPath": "benchmarks/input/dentist_us.html",
+    "contextPath": "benchmarks/input/dentist_us.context.json"
+  },
+  {
+    "id": "restaurant_us",
+    "url": "https://www.littleitaly-usa.com",
+    "htmlPath": "benchmarks/input/restaurant_us.html",
+    "contextPath": "benchmarks/input/restaurant_us.context.json"
+  },
+  {
+    "id": "roofing_us",
+    "url": "https://www.roofmasters.com/",
+    "htmlPath": "benchmarks/input/roofing_us.html",
+    "contextPath": "benchmarks/input/roofing_us.context.json"
+  },
+  {
+    "id": "auto_us",
+    "url": "https://www.honest1autocare.com/",
+    "htmlPath": "benchmarks/input/auto_us.html",
+    "contextPath": "benchmarks/input/auto_us.context.json"
+  },
+  {
+    "id": "landscaping_us",
+    "url": "https://www.trugreen.com",
+    "htmlPath": "benchmarks/input/landscaping_us.html",
+    "contextPath": "benchmarks/input/landscaping_us.context.json"
+  },
+  {
+    "id": "salon_us",
+    "url": "https://urbanbetty.com/",
+    "htmlPath": "benchmarks/input/salon_us.html",
+    "contextPath": "benchmarks/input/salon_us.context.json"
+  },
+  {
+    "id": "legal_us",
+    "url": "https://thenieveslawfirm.com/",
+    "htmlPath": "benchmarks/input/legal_us.html",
+    "contextPath": "benchmarks/input/legal_us.context.json"
+  },
+  {
+    "id": "fitness_us",
+    "url": "https://thedogpound.com/",
+    "htmlPath": "benchmarks/input/fitness_us.html",
+    "contextPath": "benchmarks/input/fitness_us.context.json"
+  }
+]

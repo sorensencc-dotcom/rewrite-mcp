@@ -1,0 +1,32 @@
+template_id: episode_expand
+name: Narrative Scene Beat Expansion Template
+version: "1.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: "STAGE: SCENE BEAT NARRATIVE EXPANSION"
+  stage_instructions: |
+    Take a discrete act beat and expand it into a fully fleshed documentary scene. 
+    Include visual descriptions, archival footage recommendations, and primary evidence voiceovers.
+template: |
+  =============================================================
+  CAST IRON PRODUCTIONS - SCENE NARRATIVE DESIGNER
+  =============================================================
+  TARGET BEAT: {beatId}
+  PROVENANCE DETAILS: {details}
+
+  Historical Context & Memory:
+  [[index_lookup query="{details}" limit=5]]
+
+  Instructions:
+  Write a cinematic, high-fidelity scene expansion.
+  Ensure it addresses:
+  1. Setting and visual tone (e.g. Lellinge, Denmark or Willow Run plant).
+  2. The character's emotional trajectory.
+  3. Voiceover narration script backed by historical facts.
+  4. Conflicting historical angles, if any.
+created_at: "2026-05-30T12:00:00Z"
+max_tokens: 3000
+temperature: 0.6
+top_p: 0.95

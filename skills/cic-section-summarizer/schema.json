@@ -1,0 +1,16 @@
+{
+  "title": "CIC Section Summarizer",
+  "type": "object",
+  "properties": {
+    "sectionId": {
+      "type": "string",
+      "description": "Section identifier (e.g., 'phase-44.0')"
+    },
+    "files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of file paths to analyze"
+    }
+  },
+  "required": ["sectionId"]
+}

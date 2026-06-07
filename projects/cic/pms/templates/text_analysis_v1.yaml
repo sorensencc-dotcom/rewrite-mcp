@@ -1,0 +1,12 @@
+template_id: text_analysis_v1
+name: Text analysis prompt
+version: 1.0.0
+extractor_type: custom
+content_type: text
+template: |
+  Analyze this text of length {length} characters.
+created_at: 2026-05-29T00:00:00Z
+max_tokens: 1024
+temperature: 0.3
+top_p: 0.9
+deprecated: false

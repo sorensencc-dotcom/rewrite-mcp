@@ -1,0 +1,24 @@
+{
+  "intent": "Establish verified timeline and operational context of the River Rouge expansion and Sorensen's role in macro-scale systems engineering (1920–1927)",
+  "scope": [
+    "Vertical integration (ore-to-finished-vehicle flow)",
+    "River Rouge plant design and blueprinting",
+    "Blast furnace and foundry operationalization",
+    "Production throughput and telemetry (1920-1927)",
+    "Sorensen as systems integrator and industrial strategist"
+  ],
+  "constraints": {
+    "cost_cap": 2.00,
+    "rights": "strict",
+    "audit": {
+      "confidence_threshold": 0.92
+    },
+    "anomaly_tolerance": 0
+  },
+  "success_criteria": [
+    "verified timeline of Rouge facility ignition",
+    "verified throughput data for ore/steel processing",
+    "documented systems engineering decisions led by Sorensen",
+    "cross-validated blueprints and site plans"
+  ]
+}

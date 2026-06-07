@@ -1,0 +1,8 @@
+[
+  {
+    "goal_id": "canary-smoke-2",
+    "type": "ingest_target",
+    "target": "Production memo, Willow Run Bomber Plant, October 14, 1943. Signed: C. E. Sorensen. Subject: Scaling casting throughput for the B-24 Liberator landing gear housings. Foundry output has been throttled by cooling anomalies in the sand molds, causing micro-fracturing under stress tests. Sorensen ordered a conversion to a modified Cast Iron Charlie mold gating system, which improved directional solidification and dropped the structural reject rate from 18% to under 0.5% within 48 hours. This event marks a successful transfer of automotive mass production principles to strategic aviation metallurgy.",
+    "target_type": "text"
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "name": "gh-actions-compliance-bot",
+  "version": "1.0.0",
+  "description": "GitHub App that automatically opens PRs to fix non-compliant GitHub Actions workflows",
+  "main": "github-app-compliance-bot.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --watch github-app-compliance-bot.ts",
+    "start": "probot run ./github-app-compliance-bot.ts",
+    "test": "vitest"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "probot": "^12.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "nock": "^13.4.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  },
+  "keywords": [
+    "probot",
+    "github",
+    "actions",
+    "compliance",
+    "automation"
+  ],
+  "author": "Rewrite Labs",
+  "license": "MIT"
+}

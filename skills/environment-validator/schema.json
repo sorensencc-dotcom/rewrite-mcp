@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "title": "Environment Validator Input",
+  "description": "No input required - performs automatic environment checks",
+  "properties": {
+    "skipChecks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional checks to skip (e.g., ['docker', 'git'])",
+      "default": []
+    }
+  },
+  "required": []
+}

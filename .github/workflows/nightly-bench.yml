@@ -1,0 +1,84 @@
+name: Nightly Rewrite Labs Benchmarks
+
+on:
+  schedule:
+    - cron: "0 7 * * *"   # 3 AM EDT (07:00 UTC)
+  workflow_dispatch:
+
+jobs:
+  nightly-benchmarks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Capture live SMB sites
+        run: npm run bench:capture
+        timeout-minutes: 30
+
+      - name: Extract metadata
+        run: npm run bench:metadata
+        timeout-minutes: 10
+
+      - name: Run Opus/Sonnet rewrite benchmarks
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run bench:opus-sonnet
+        timeout-minutes: 60
+
+      - name: Run metadata extraction tests
+        run: npm run test:metadata
+        timeout-minutes: 10
+
+      - name: Generate dashboard status
+        run: npm run bench:status
+
+      - name: Upload benchmark artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-benchmarks
+          path: benchmarks/out/
+          retention-days: 30
+
+      - name: Notify on regression
+        if: failure()
+        run: |
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -X POST -H "Content-Type: application/json" \
+              -d "{\"text\": \"⚠️ Rewrite Labs nightly benchmark regression detected. Check run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+              "${{ secrets.SLACK_WEBHOOK_URL }}" || true
+          fi
+
+  publish-dashboard:
+    needs: nightly-benchmarks
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: nightly-benchmarks
+          path: benchmarks/out/
+
+      - name: Deploy dashboard to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: benchmarks/out
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: "chore: update benchmark dashboard"

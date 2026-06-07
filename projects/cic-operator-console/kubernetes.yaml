@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cic-operator-console
+  labels:
+    app: cic-operator-console
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cic-operator-console
+  template:
+    metadata:
+      labels:
+        app: cic-operator-console
+    spec:
+      containers:
+      - name: console
+        image: cic-operator-console:1.0.0
+        ports:
+        - containerPort: 5173
+        env:
+        - name: VITE_CIC_API_URL
+          value: "http://cic-context-service:8080"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cic-operator-console
+  labels:
+    app: cic-operator-console
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 5173
+    protocol: TCP
+    name: http
+  selector:
+    app: cic-operator-console

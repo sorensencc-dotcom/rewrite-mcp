@@ -1,0 +1,492 @@
+{
+  "version": "BOB_MONOREPO_v2.29.0",
+  "phase": 40,
+  "last_updated": "2026-05-30",
+  "components": {
+    "apps": {
+      "cic-pms": {
+        "root": "apps/cic-pms",
+        "files": [
+          "apps/cic-pms/package.json",
+          "apps/cic-pms/src/index.js",
+          "apps/cic-pms/src/assembler/assemblePrompt.js",
+          "apps/cic-pms/src/loader/loadPromptPack.js",
+          "apps/cic-pms/src/drift/detectDrift.js",
+          "apps/cic-pms/src/logger.js",
+          "apps/cic-pms/src/telemetryClient.js",
+          "apps/cic-pms/src/modelFallback.js",
+          "apps/cic-pms/packs/orchestrator_planning_v1.json",
+          "apps/cic-pms/packs/orchestrator_agent_v1.json",
+          "apps/cic-pms/packs/orchestrator_synthesis_v1.json"
+        ]
+      },
+      "control-plane": {
+        "root": "apps/control-plane",
+        "files": [
+          "apps/control-plane/package.json",
+          "apps/control-plane/index.js",
+          "apps/control-plane/middleware/auth.js",
+          "apps/control-plane/routes/pipelines.js",
+          "apps/control-plane/routes/agents.js",
+          "apps/control-plane/routes/runs.js",
+          "apps/control-plane/routes/metrics.js",
+          "apps/control-plane/routes/cic.js",
+          "apps/control-plane/routes/telemetry.js",
+          "apps/control-plane/tokens.json"
+        ]
+      },
+      "operator-ui": {
+        "root": "apps/operator-ui",
+        "files": [
+          "apps/operator-ui/control-room.html",
+          "apps/operator-ui/css/control-room.css",
+          "apps/operator-ui/js/control-plane-api.js",
+          "apps/operator-ui/js/pipelines-panel.js",
+          "apps/operator-ui/js/agents-panel.js",
+          "apps/operator-ui/js/runs-panel.js",
+          "apps/operator-ui/js/metrics-panel.js",
+          "apps/operator-ui/js/telemetry-panel.js",
+          "apps/operator-ui/dashboard/index.html"
+        ]
+      }
+    },
+    "projects": {
+      "cic": {
+        "root": "projects/cic",
+        "ingestion": "projects/cic/ingestion",
+        "orchestrator": "projects/cic/orchestrator",
+        "files": [
+          "projects/cic/ingestion/src/llm/index.js",
+          "projects/cic/ingestion/src/llm/controller.js",
+          "projects/cic/ingestion/src/llm/config.js",
+          "projects/cic/ingestion/src/llm/contextCache.js",
+          "projects/cic/ingestion/src/llm/promptCompiler.js",
+          "projects/cic/ingestion/src/llm/synergyAnalyzer.js",
+          "projects/cic/ingestion/src/llm/tokenMeter.js",
+          "projects/cic/ingestion/src/clients/modelClient.js",
+          "projects/cic/ingestion/src/clients/embeddingClient.js",
+          "projects/cic/ingestion/src/clients/llamaClient.js",
+          "projects/cic/ingestion/src/context/contextStore.js",
+          "projects/cic/ingestion/src/logging/logger.js",
+          "projects/cic/ingestion/src/pipeline/run-pipeline.js",
+          "projects/cic/ingestion/src/server/intelligence-server.js",
+          "projects/cic/ingestion/src/sources/driveSource.js",
+          "projects/cic/ingestion/src/harvester/pmsClient.js",
+          "projects/cic/ingestion/src/harvester/models/geminiClient.js",
+          "projects/cic/orchestrator/src/pmsClient.js",
+          "projects/cic/orchestrator/src/taskInterpreter.js",
+          "projects/cic/orchestrator/src/pipelineSelector.js",
+          "projects/cic/orchestrator/src/agentPlanner.js",
+          "projects/cic/orchestrator/src/agentExecutor.js",
+          "projects/cic/orchestrator/src/synthesizer.js",
+          "projects/cic/orchestrator/src/models/geminiClient.js",
+          "projects/cic/orchestrator/src/orchestrator.js",
+          "projects/cic/orchestrator/tests/golden_path_orchestrator.test.js",
+          "projects/cic/ingestion/tests/playwright/dashboard.spec.ts"
+        ]
+      },
+      "rl": {
+        "root": "projects/rl"
+      }
+    },
+    "integrations": {
+      "postiz": {
+        "root": "integrations/postiz",
+        "files": [
+          "integrations/postiz/index.js",
+          "integrations/postiz/post.sh",
+          "integrations/postiz/campaign.sh",
+          "integrations/postiz/analytics.sh"
+        ]
+      }
+    },
+    "tools": {
+      "prompt-telemetry": {
+        "root": "tools/prompt-telemetry",
+        "files": [
+          "tools/prompt-telemetry/package.json",
+          "tools/prompt-telemetry/server.js",
+          "tools/prompt-telemetry/dashboard.html",
+          "tools/prompt-telemetry/README.md"
+        ]
+      },
+      "concurrency-harness": {
+        "root": "tools/concurrency-harness",
+        "files": [
+          "tools/concurrency-harness/package.json",
+          "tools/concurrency-harness/index.js",
+          "tools/concurrency-harness/driver.js",
+          "tools/concurrency-harness/scenarios.js",
+          "tools/concurrency-harness/fault-injector.js",
+          "tools/concurrency-harness/verdict.js"
+        ]
+      }
+    },
+    "scripts": [
+      "scripts/provision-qdrant.js",
+      "scripts/bootstrap-docs.sh"
+    ]
+  },
+  "phase_18": {
+    "description": "CIC Intelligence online — auth, context memory, monorepo-integrated apps",
+    "status": "delivered",
+    "date": "2026-05-17",
+    "new_artifacts": [
+      "projects/cic/ingestion/src/logging/logger.js",
+      "projects/cic/ingestion/src/pipeline/run-pipeline.js",
+      "projects/cic/ingestion/src/server/intelligence-server.js",
+      "projects/cic/ingestion/src/sources/driveSource.js",
+      "projects/cic/ingestion/src/clients/llamaClient.js",
+      "apps/control-plane/middleware/auth.js",
+      "apps/control-plane/routes/cic.js",
+      "apps/control-plane/package.json",
+      "integrations/postiz/index.js",
+      "scripts/provision-qdrant.js",
+      ".env.example"
+    ],
+    "patched_artifacts": [
+      "apps/control-plane/index.js",
+      "apps/operator-ui/js/control-plane-api.js",
+      "apps/operator-ui/js/pipelines-panel.js",
+      "apps/operator-ui/js/metrics-panel.js",
+      "projects/cic/ingestion/src/llm/index.js"
+    ],
+    "qdrant": {
+      "collection": "cic_context",
+      "vector_size": 1536,
+      "distance": "Cosine",
+      "provision_script": "scripts/provision-qdrant.js"
+    },
+    "auth": {
+      "provider": "Google Auth Platform",
+      "middleware": "apps/control-plane/middleware/auth.js",
+      "env_key": "GOOGLE_CLIENT_ID"
+    },
+    "intelligence_server": {
+      "port": 4000,
+      "routes": ["/health", "/ask", "/ingest", "/pipeline"]
+    },
+    "control_plane": {
+      "port": 3000,
+      "cic_routes": "/pipelines/cic/*"
+    }
+  },
+  "phase_19": {
+    "description": "Orchestrator Upgrade — Prompt Pack Trio, Deterministic Planning, PMS Drift Telemetry",
+    "status": "delivered",
+    "date": "2026-05-18",
+    "new_artifacts": [
+      "apps/cic-pms/packs/orchestrator_planning_v1.json",
+      "apps/cic-pms/packs/orchestrator_agent_v1.json",
+      "apps/cic-pms/packs/orchestrator_synthesis_v1.json",
+      "projects/cic/orchestrator/src/pmsClient.js",
+      "projects/cic/orchestrator/src/taskInterpreter.js",
+      "projects/cic/orchestrator/src/pipelineSelector.js",
+      "projects/cic/orchestrator/src/agentPlanner.js",
+      "projects/cic/orchestrator/src/agentExecutor.js",
+      "projects/cic/orchestrator/src/synthesizer.js",
+      "projects/cic/orchestrator/src/models/geminiClient.js",
+      "projects/cic/orchestrator/tests/golden_path_orchestrator.test.js"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json"
+    ]
+  },
+  "phase_24": {
+    "description": "Observability & Automation — Real-time Dashboard, Playwright E2E, Hardened Control Room",
+    "status": "delivered",
+    "date": "2026-05-20",
+    "new_artifacts": [
+      "apps/operator-ui/dashboard/index.html",
+      "projects/cic/ingestion/tests/playwright/dashboard.spec.ts",
+      ".github/workflows/cic-dashboard-e2e.yml"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "docs/CHANGELOG.md",
+      "docs/architecture/telemetry.md",
+      "docs/state/rewrite-labs-state.md"
+    ]
+  },
+  "phase_25": {
+    "description": "Antigravity Migration — Gemini 3.5 Flash, ANTIGRAVITY.md, Multi-Agent Orchestration",
+    "status": "in-progress",
+    "date": "2026-05-20",
+    "new_artifacts": [
+      "ANTIGRAVITY.md",
+      "docs/migrations/antigravity.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "docs/state/rewrite-labs-state.md",
+      "projects/cic/ingestion/src/harvester/models/geminiClient.js",
+      "projects/cic/orchestrator/src/models/geminiClient.js"
+    ]
+  },
+  "phase_26": {
+    "description": "Runtime Hardening — Concurrency Stress, Fallback Logic, Trace Visualization",
+    "status": "delivered",
+    "date": "2026-05-21",
+    "new_artifacts": [
+      "docs/readiness/phase-26.md",
+      "docs/readiness/phase-26-mandate.md",
+      "tools/runtime-stress/harness.js",
+      "tools/concurrency-harness/index.js",
+      "apps/cic-pms/src/modelFallback.js",
+      "apps/operator-ui/js/waterfallRenderer.js",
+      "apps/operator-ui/js/stress-panel.js"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "apps/operator-ui/dashboard/index.html",
+      "apps/operator-ui/control-room.html",
+      "projects/cic/ingestion/src/llm/tokenMeter.js",
+      "tools/prompt-telemetry/server.js",
+      "apps/control-plane/routes/telemetry.js"
+    ]
+  },
+  "phase_27": {
+    "description": "MAS Phase 1 — Synergy Analyzer Operationalization",
+    "status": "delivered",
+    "date": "2026-05-20",
+    "new_artifacts": [
+      "projects/cic/orchestrator/src/mas/synergyAnalyzer.js"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json"
+    ]
+  },
+  "phase_28": {
+    "description": "MAS Phase 2 — Shared Blackboard Memory Plane",
+    "status": "delivered",
+    "date": "2026-05-20",
+    "new_artifacts": [
+      "projects/cic/orchestrator/src/mas/blackboard.js"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json"
+    ]
+  },
+  "phase_29": {
+    "description": "Intelligence Plane Operationalization — Ingestion, Extraction, AIR, Synthesis & RL Skill Pack",
+    "status": "delivered",
+    "date": "2026-05-24",
+    "new_artifacts": [
+      "projects/cic/ingestion/src/normalizer/model.js",
+      "projects/cic/ingestion/src/normalizer/index.js",
+      "projects/cic/ingestion/src/normalizer/metadata/index.js",
+      "projects/cic/ingestion/src/normalizer/metadata/core.js",
+      "projects/cic/ingestion/src/normalizer/metadata/region.js",
+      "projects/cic/ingestion/src/normalizer/content/index.js",
+      "projects/cic/ingestion/src/normalizer/content/url.js",
+      "projects/cic/ingestion/src/normalizer/content/html.js",
+      "projects/cic/ingestion/src/normalizer/content/pdf.js",
+      "projects/cic/ingestion/src/normalizer/content/image.js",
+      "projects/cic/ingestion/src/normalizer/content/audio.js",
+      "projects/cic/ingestion/src/normalizer/content/video.js",
+      "projects/cic/ingestion/src/normalizer/content/file.js",
+      "projects/cic/ingestion/src/extractors/base/types.js",
+      "projects/cic/ingestion/src/extractors/registry.js",
+      "projects/cic/ingestion/src/extractors/imageAnalyzer.js",
+      "projects/cic/ingestion/src/extractors/audioTranscriber.js",
+      "projects/cic/orchestrator/src/air/model.js",
+      "projects/cic/orchestrator/src/air/merger.js",
+      "projects/cic/orchestrator/src/assetOrchestrator.js",
+      "projects/cic/orchestrator/src/synthesis/index.js",
+      "projects/cic/orchestrator/src/synthesis/types.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/technical.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/historical.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/historicalTimeline.js",
+      "projects/cic/orchestrator/src/synthesis/lenses/narrative.js",
+      "projects/cic/orchestrator/src/synthesis/formatters/markdown.js",
+      "projects/cic/orchestrator/src/synthesis/formatters/json.js",
+      "projects/rl/rewrite-labs-core/manifest.json",
+      "projects/rl/rewrite-labs-core/agents/discovery.js",
+      "projects/rl/rewrite-labs-core/agents/extractor.js",
+      "projects/rl/rewrite-labs-core/agents/redesign.js",
+      "projects/rl/rewrite-labs-core/agents/outreach.js",
+      "projects/rl/rewrite-labs-core/specs/discovery.md",
+      "projects/rl/rewrite-labs-core/templates/redesign_prompt.txt"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md"
+    ]
+  },
+  "phase_33": {
+    "description": "Multi-Agent AI-OS Governance & Evolution Stack",
+    "status": "delivered",
+    "date": "2026-05-24",
+    "new_artifacts": [
+      "apps/ai-os/merge.ts",
+      "apps/ai-os/validate.ts",
+      "apps/ai-os/diff.ts",
+      "ai-os/SYSTEM/execution_model.md",
+      "ai-os/SYSTEM/operator_control_plane.md",
+      "ai-os/SYSTEM/operator_doctrine.md",
+      "ai-os/SYSTEM/policies.md",
+      "ai-os/SYSTEM/meta_operator_layer.md",
+      "ai-os/SYSTEM/meta_audit_engine.md",
+      "ai-os/SYSTEM/meta_evolution_engine.md",
+      "ai-os/SYSTEM/meta_evolution_log.md",
+      "ai-os/SYSTEM/meta_evolution_simulator.md",
+      "ai-os/SYSTEM/meta_evolution_ranker.md",
+      "ai-os/EXPORT/memory_sync_pack/copilot_memory.txt",
+      "ai-os/EXPORT/memory_sync_pack/gemini_memory.md",
+      "ai-os/EXPORT/memory_sync_pack/claude_memory.md",
+      "ai-os/EXPORT/memory_sync_pack/operator_doctrine.md",
+      "ai-os/EXPORT/memory_sync_pack/memory_sync_manifest.json",
+      "ai-os/EXPORT/memory_sync_pack/memory_sync_deltas.json",
+      "ai-os/EXPORT/memory_sync_pack_v2.21.0.tar.gz",
+      "ai-os/EXPORT/memory_sync_pack_v2.22.0.tar.gz",
+      ".github/workflows/memory-sync-pack.yml"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "apps/ai-os/tsconfig.json"
+    ]
+  },
+  "phase_34": {
+    "description": "CIC AI Runtime Governance & Danish Origins (GAP-002)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "src/runtime/contract-loader.ts",
+      "src/cic/control-plane/contract-ack.ts",
+      "AuditConfig_GAP-002.json",
+      "data/GAP-002_Research_Block.json",
+      "docs/GAP-002_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js",
+      "src/rtk/index.ts",
+      "src/rrk/index.ts",
+      "src/gita/governance.ts",
+      "src/cic/index.ts"
+    ]
+  },
+  "phase_35": {
+    "description": "Early American Integration (GAP-003)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-003_Goal_Manifest.json",
+      "MissionPack_GAP-003.json",
+      "AuditConfig_GAP-003.json",
+      "data/GAP-003_Research_Block.json",
+      "docs/GAP-003_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_36": {
+    "description": "Ford Integration (GAP-004)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-004_Goal_Manifest.json",
+      "MissionPack_GAP-004.json",
+      "AuditConfig_GAP-004.json",
+      "data/GAP-004_Research_Block.json",
+      "docs/GAP-004_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_37": {
+    "description": "The Model T Revolution (GAP-005)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-005_Goal_Manifest.json",
+      "MissionPack_GAP-005.json",
+      "AuditConfig_GAP-005.json",
+      "data/GAP-005_Research_Block.json",
+      "docs/GAP-005_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_38": {
+    "description": "The Ford–Knudsen Conflict (GAP-006)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-006_Goal_Manifest.json",
+      "MissionPack_GAP-006.json",
+      "AuditConfig_GAP-006.json",
+      "data/GAP-006_Research_Block.json",
+      "docs/GAP-006_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  },
+  "phase_39": {
+    "description": "The River Rouge Expansion (GAP-007)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-007_Goal_Manifest.json",
+      "MissionPack_GAP-007.json",
+      "AuditConfig_GAP-007.json",
+      "data/GAP-007_Research_Block.json",
+      "docs/GAP-007_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  }
+}
+ "phase_40": {
+    "description": "The Sociological Department Conflict (GAP-008)",
+    "status": "delivered",
+    "date": "2026-05-30",
+    "new_artifacts": [
+      "GAP-008_Goal_Manifest.json",
+      "MissionPack_GAP-008.json",
+      "AuditConfig_GAP-008.json",
+      "data/GAP-008_Research_Block.json",
+      "docs/GAP-008_Narrative_Gap_Report.md"
+    ],
+    "patched_artifacts": [
+      "BOB_MANIFEST.json",
+      "package.json",
+      "docs/rewrite/releases/CHANGELOG.md",
+      "docs/rewrite/REWRITE_LABS_DEV_ROADMAP.md",
+      "scripts/mission-control.js"
+    ]
+  }
+}

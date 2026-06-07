@@ -1,0 +1,37 @@
+{
+  "goal_id": "cic.harvester_v2.GAP-008",
+  "domain": "ford_sociological_department_1914_1925",
+  "audit": {
+    "confidence_min": 0.92,
+    "max_anomalies": 0,
+    "allow_medium_anomalies": false,
+    "allow_high_anomalies": false
+  },
+  "weights": {
+    "primary_bias_factor": 1.25,
+    "secondary_bias_factor": 1.00,
+    "tertiary_bias_factor": 0.80,
+    "contradiction_penalty": 1.25,
+    "temporal_alignment_strict": true
+  },
+  "coverage_requirements": {
+    "min_primary_sources": 3,
+    "min_secondary_sources": 2,
+    "required_claims": [
+      "compliance_mechanisms_verified",
+      "sorensen_operational_resistance_documented",
+      "home_inspection_procedure_validated",
+      "department_rollback_timeline_established"
+    ]
+  },
+  "retry_policy": {
+    "max_retries": 3,
+    "retryable_anomalies": [
+      "STRUCTURAL_ANOMALY",
+      "COVERAGE_GAP"
+    ],
+    "backoff_strategy": "EXPONENTIAL_WITH_JITTER",
+    "base_delay_ms": 1500,
+    "jitter_fraction": 0.20
+  }
+}

@@ -1,0 +1,18 @@
+
+> rewrite-mcp-monorepo@2.29.0 gh-actions:check-manifest
+> tsx ../scripts/gh-actions-check.ts --json
+
+✔ rewrite-mcp
+✔ cic
+
+📊 JSON Report:
+[
+  {
+    "name": "rewrite-mcp",
+    "issues": []
+  },
+  {
+    "name": "cic",
+    "issues": []
+  }
+]

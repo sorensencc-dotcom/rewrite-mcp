@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIC Command Center</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/colors_and_type.css">
+  <script src="js/global-nav.js" defer></script>
+  <style>
+    :root {
+      --panel-gap: 20px;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--black);
+      color: var(--bone);
+      font-family: var(--font-body);
+    }
+
+    /* Film grain */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    header {
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--iron);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      margin: 0.5rem 0 0 0;
+      font-family: var(--font-ui);
+      font-size: var(--text-label);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+
+    main {
+      flex: 1;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--panel-gap);
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .system-card {
+      background: var(--forge);
+      border: 1px solid var(--iron);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color var(--duration-base);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .system-card:hover {
+      border-color: var(--ember);
+    }
+
+    .system-card h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .system-card p {
+      font-size: var(--text-body-sm);
+      line-height: var(--leading-body);
+      color: var(--ash);
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+
+    .system-card .meta {
+      font-family: var(--font-ui);
+      font-size: var(--text-label-sm);
+      letter-spacing: var(--tracking-med);
+      text-transform: uppercase;
+      color: var(--brass);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .system-card .meta::after {
+      content: '→';
+      font-size: 1.2rem;
+    }
+
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--iron);
+      font-family: var(--font-ui);
+      font-size: var(--text-ui-xs);
+      color: var(--ash);
+      display: flex;
+      justify-content: space-between;
+      letter-spacing: var(--tracking-ui);
+    }
+  </style>
+</head>
+<body class="cic-shell">
+  <header class="header">
+    <div class="brand">
+      <h1>COMMAND CENTER</h1>
+      <p>Cast Iron Charlie — Multi-Agent Subsystem</p>
+    </div>
+    <div class="status">
+      <span class="tag tag-high">System Live</span>
+    </div>
+  </header>
+
+  <main class="body">
+    <div class="cic-grid cic-grid-md">
+      <!-- OPERATOR UI -->
+      <a href="control-room.html" class="cic-panel elevated">
+        <div>
+          <h2>Control Room</h2>
+          <p>Operational interface for pipeline management, agent deployment, and real-time task execution. Trigger and monitor active runs.</p>
+        </div>
+        <div class="meta">Operations Portal</div>
+      </a>
+
+      <!-- OBSERVABILITY -->
+      <a href="dashboard/index.html" class="cic-panel elevated">
+        <div>
+          <h2>Observability</h2>
+          <p>Analytical dashboard for MAS efficacy, SLO monitoring, and predictive stability metrics. Deep introspection into agent cognitive traces.</p>
+        </div>
+        <div class="meta">Analytics Plane</div>
+      </a>
+
+      <!-- TELEMETRY -->
+      <a href="../../tools/prompt-telemetry/dashboard.html" class="cic-panel elevated">
+        <div>
+          <h2>Prompt Telemetry</h2>
+          <p>Technical waterfall traces for model interactions. Monitor latency, token usage, and backoff efficacy across the provider mesh.</p>
+        </div>
+        <div class="meta">Technical Plane</div>
+      </a>
+
+      <!-- DOCUMENTATION -->
+      <a href="../../site/index.html" class="cic-panel elevated">
+        <div>
+          <h2>Documentation</h2>
+          <p>Master manuals, architecture specifications, and project roadmaps. The living archive of the Rewrite Labs ecosystem.</p>
+        </div>
+        <div class="meta">Knowledge Base</div>
+      </a>
+
+      <!-- MEMOS -->
+      <a href="http://localhost:5230" target="_blank" class="cic-panel elevated">
+        <div>
+          <h2>Memos Portal</h2>
+          <p>Intelligence capture and micro-blogging engine. The source of raw signal, tasks, and ideas for the ingestion pipeline.</p>
+        </div>
+        <div class="meta">Intelligence Portal</div>
+      </a>
+
+      <!-- DEEP RESEARCH -->
+      <a href="http://localhost:8501" target="_blank" class="cic-panel elevated">
+        <div>
+          <h2>Research Lab</h2>
+          <p>External deep research engine for permanent source archiving and industrial archaeology. (Streamlit Service)</p>
+        </div>
+        <div class="meta">Research Plane</div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div>CIC v2.15.0</div>
+    <div>REWRITE LABS — ARSENAL OF DEMOCRACY</div>
+  </footer>
+</body>
+</html>

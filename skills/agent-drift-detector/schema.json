@@ -1,0 +1,19 @@
+{
+  "title": "Agent Drift Detector",
+  "type": "object",
+  "properties": {
+    "agentName": {
+      "type": "string",
+      "description": "Name of the agent to check"
+    },
+    "expectedSchema": {
+      "type": "object",
+      "description": "Expected schema definition"
+    },
+    "actualSchema": {
+      "type": "object",
+      "description": "Actual observed schema"
+    }
+  },
+  "required": ["agentName", "expectedSchema", "actualSchema"]
+}

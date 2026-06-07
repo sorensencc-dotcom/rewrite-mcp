@@ -1,0 +1,4 @@
+[
+  { "goal_id": "goal-t1", "type": "ingest_target", "target": "file://missing-template.jpg", "target_type": "image" },
+  { "goal_id": "goal-t2", "type": "ingest_target", "target": "file://missing-template-2.jpg", "target_type": "image" }
+]

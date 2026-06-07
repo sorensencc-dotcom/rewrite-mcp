@@ -1,0 +1,228 @@
+{
+  "version": "1.0.0",
+  "approvals": {
+    "deploy:npm:deploy": {
+      "operation": "deploy",
+      "tool": "npm:deploy",
+      "approved": true,
+      "reason": "manual",
+      "approvedAt": "2026-06-06T00:10:04.901Z"
+    },
+    "call:helm:ideas-summary": {
+      "operation": "call",
+      "tool": "helm:ideas-summary",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T01:55:09.689Z"
+    },
+    "call:helm:pri-search": {
+      "operation": "call",
+      "tool": "helm:pri-search",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.931Z"
+    },
+    "call:idea:capture": {
+      "operation": "call",
+      "tool": "idea:capture",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.943Z"
+    },
+    "call:npm:build": {
+      "operation": "call",
+      "tool": "npm:build",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.951Z"
+    },
+    "call:npm:test": {
+      "operation": "call",
+      "tool": "npm:test",
+      "approved": true,
+      "reason": "whitelisted",
+      "approvedAt": "2026-06-06T00:10:04.961Z"
+    },
+    "query:helm:ideas-summary": {
+      "operation": "query",
+      "tool": "helm:ideas-summary",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.823Z"
+    },
+    "search:helm:pri-search": {
+      "operation": "search",
+      "tool": "helm:pri-search",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.824Z"
+    },
+    "query:helm:rl-pipeline": {
+      "operation": "query",
+      "tool": "helm:rl-pipeline",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.828Z"
+    },
+    "query:helm:cic-status": {
+      "operation": "query",
+      "tool": "helm:cic-status",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.804Z"
+    },
+    "query:helm:credit-score": {
+      "operation": "query",
+      "tool": "helm:credit-score",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.832Z"
+    },
+    "query:helm:outreach-queue": {
+      "operation": "query",
+      "tool": "helm:outreach-queue",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.806Z"
+    },
+    "query:helm:revenue-pipeline": {
+      "operation": "query",
+      "tool": "helm:revenue-pipeline",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.806Z"
+    },
+    "capture:idea:capture": {
+      "operation": "capture",
+      "tool": "idea:capture",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.833Z"
+    },
+    "list:idea:list-inbox": {
+      "operation": "list",
+      "tool": "idea:list-inbox",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.808Z"
+    },
+    "status:git:status": {
+      "operation": "status",
+      "tool": "git:status",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.825Z"
+    },
+    "log:git:log": {
+      "operation": "log",
+      "tool": "git:log",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.813Z"
+    },
+    "diff:git:diff": {
+      "operation": "diff",
+      "tool": "git:diff",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.830Z"
+    },
+    "show:git:show": {
+      "operation": "show",
+      "tool": "git:show",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.811Z"
+    },
+    "list:npm:list": {
+      "operation": "list",
+      "tool": "npm:list",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.826Z"
+    },
+    "test:npm:test": {
+      "operation": "test",
+      "tool": "npm:test",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.831Z"
+    },
+    "build:npm:build": {
+      "operation": "build",
+      "tool": "npm:build",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.819Z"
+    },
+    "audit:npm:audit": {
+      "operation": "audit",
+      "tool": "npm:audit",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.817Z"
+    },
+    "info:npm:info": {
+      "operation": "info",
+      "tool": "npm:info",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.817Z"
+    },
+    "run:lint": {
+      "operation": "run",
+      "tool": "lint",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.827Z"
+    },
+    "run:type-check": {
+      "operation": "run",
+      "tool": "type-check",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.831Z"
+    },
+    "run:validate": {
+      "operation": "run",
+      "tool": "validate",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.836Z"
+    },
+    "search:helm:cic-status": {
+      "operation": "search",
+      "tool": "helm:cic-status",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.828Z"
+    },
+    "capture:idea:list-inbox": {
+      "operation": "capture",
+      "tool": "idea:list-inbox",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.829Z"
+    },
+    "status:git:log": {
+      "operation": "status",
+      "tool": "git:log",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.834Z"
+    },
+    "list:npm:audit": {
+      "operation": "list",
+      "tool": "npm:audit",
+      "approved": true,
+      "reason": "autonomous:auto-approved",
+      "approvedAt": "2026-06-06T01:37:05.835Z"
+    }
+  },
+  "stats": {
+    "totalRequests": 392,
+    "autoApproved": 67,
+    "cachedApprovals": 0,
+    "manualApprovals": 2
+  }
+}

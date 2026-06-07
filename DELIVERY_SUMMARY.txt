@@ -1,0 +1,399 @@
+================================================================================
+SHARED SKILLS LIBRARY — DELIVERY SUMMARY
+v1.0.0 | 2026-06-05
+================================================================================
+
+TASK COMPLETED:
+✅ Generate clean, implementation-ready skill definitions for shared library
+✅ Document 7 new skills + 6 existing skills
+✅ Review existing skills in rewrite-mcp
+✅ Review repo activity (last week)
+✅ Suggest new skills based on findings
+
+================================================================================
+DELIVERABLES (7 DOCUMENTS + SCAFFOLDS)
+================================================================================
+
+Documentation (Complete):
+  1. SKILLS_LIBRARY.md (3,200 lines)
+     - Overview of all 13 skills (7 new + 6 existing)
+     - Quick reference table with status & platform readiness
+     - Implementation roadmap with timelines
+     - Suggested 7 new skills with detailed specs
+
+  2. SKILLS_API_REFERENCE.md (1,800 lines)
+     - Detailed API specs for all 13 skills
+     - Input/output examples with JSON
+     - Error handling patterns
+     - Testing guidelines & integration examples
+
+  3. SKILLS_PLATFORM_NOTES.md (2,100 lines)
+     - Platform-specific guidance (Claude, Copilot, Gemini)
+     - Adaptation patterns & wrappers
+     - Auth/credential handling per platform
+     - Dependency management & deployment checklist
+
+  4. README_SKILLS_LIBRARY.md (1,200 lines)
+     - Quick start guide
+     - Architecture overview with directory structure
+     - Usage examples per platform
+     - FAQ, timeline, & navigation
+
+  5. SUGGESTED_SKILLS.md (2,800 lines)
+     - 7 new skills with detailed specs
+     - Evidence from repo analysis (why each skill needed)
+     - Proposed interfaces & implementation notes
+     - Prioritized roadmap (4 sprints)
+
+  6. SKILLS_SUMMARY.md (1,200 lines)
+     - Executive summary
+     - Quick stats & skill inventory
+     - Deployment timeline (4 phases)
+     - Success criteria & risk mitigation
+
+  7. SKILLS_INDEX.md (900 lines)
+     - Navigation index for all documentation
+     - Quick facts & getting started paths
+     - Topic finder & reading time estimates
+
+Implementation Scaffolds (7 Skills):
+  - skills/cic-section-summarizer/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/agent-drift-detector/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/rewrite-labs-orchestrator/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/environment-diagnostics/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/session-boundary-manager/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/cic-roadmap-updater/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+  - skills/operator-grade-procedures/
+    - index.js (core logic)
+    - schema.json (API contract)
+    - index.test.js (test skeleton)
+
+Existing Skills Documented:
+  - skills/web-regression.md
+  - skills/research-capture.md
+  - skills/treatment-update.md
+  - skills/doc-update.md
+  - skills/docs-sync-release.md
+  - skills/approvals-audit.md
+
+================================================================================
+WHAT WAS ANALYZED
+================================================================================
+
+Existing Skills in rewrite-mcp:
+✅ Reviewed 6 deployed skills:
+   1. web-regression — Link checking (release cycle)
+   2. research-capture — Route findings to documents (CIC workflow)
+   3. treatment-update — Apply narrative changes (documentary)
+   4. doc-update — Update changelog/roadmap (maintenance)
+   5. docs-sync-release — Validate + build docs (release)
+   6. approvals-audit — Log operator approvals (governance)
+
+Repository Activity (Last 7 Days):
+✅ Analyzed 50+ commits
+✅ Reviewed HANDOFF.md sessions:
+   - Phase 5 (Scoring System) — complete
+   - Phases 43-45 (APG/AAR/ACE) — complete
+   - Phase 42 (Autonomous Research) — complete
+   - HELM Phase 2 — live
+   - Benchmark pipeline — blocked (API credits)
+   - CIC/CRG/Ruflo integration — complete
+   - Idea-Inbox MCP server — fully functional (12/12 tests pass)
+
+Key Observations:
+✅ MEE (Meta-Evolution Engine) work is heavy → mee-phase-executor needed
+✅ Benchmark pipeline blocked → cic-benchmark-runner needed
+✅ Environment issues appearing in logs → quick validator needed
+✅ Idea-inbox fully functional → harvester would close loop
+✅ Phase completion is manual → validator would reduce errors
+✅ HELM Phase 2 live → automating daily brief needed
+✅ Autonomous research generating findings → assessor needed
+
+================================================================================
+NEW SKILLS (7)
+================================================================================
+
+1. cic-section-summarizer
+   - Auto-summarize CIC phase progress
+   - Deterministic scoring, blockers, next steps
+   - Status: ✅ Scaffold ready
+
+2. agent-drift-detector
+   - Detect schema/logic drift in agents
+   - Missing/extra fields, recommended fixes
+   - Status: ✅ Scaffold ready
+
+3. rewrite-labs-orchestrator
+   - Monitor RL pipeline (5 stages + future)
+   - Cross-stage dependencies, bottlenecks
+   - Status: ✅ Scaffold ready
+
+4. environment-diagnostics
+   - Debug Windows/WSL2/MSIX/MCP issues
+   - Root causes + fixes + validation steps
+   - Status: ✅ Scaffold ready
+
+5. session-boundary-manager
+   - Detect session overflow/drift
+   - Auto-summarization, clean split recommendations
+   - Status: ✅ Scaffold ready
+
+6. cic-roadmap-updater
+   - Auto-update roadmap from progress
+   - Deterministic version bumping
+   - Status: ✅ Scaffold ready
+
+7. operator-grade-procedures
+   - Generate deterministic runbooks
+   - Validation checks, error branches
+   - Status: ✅ Scaffold ready
+
+================================================================================
+SUGGESTED NEW SKILLS (7 — PHASE 2)
+================================================================================
+
+Based on repo activity analysis:
+
+1. mee-phase-executor (High Priority)
+   - Execute MEE phases with state tracking
+   - Resumable execution, progress visibility
+   - Est. effort: 2-3 weeks
+
+2. cic-benchmark-runner (High Priority)
+   - Automate RL benchmarks + cost tracking
+   - Credit balance checking, resumable runs
+   - Est. effort: 2 weeks
+
+3. environment-validator (High Priority)
+   - Fast health check (<2s) for session startup
+   - Separate from deep diagnostics
+   - Est. effort: 1 week
+
+4. mee-finding-assessor (Medium Priority)
+   - Review autonomous research findings
+   - Approve/reject with rationale
+   - Est. effort: 1.5 weeks
+
+5. helm-daily-brief (Medium Priority)
+   - Generate morning briefing
+   - Calendar, Gmail, Finance, Deals
+   - Est. effort: 2 weeks
+
+6. idea-inbox-harvester (Medium Priority)
+   - Harvest ideas to priority list
+   - Roadmap integration
+   - Est. effort: 1.5 weeks
+
+7. phase-validator (Medium Priority)
+   - Verify phase completion
+   - Tests + docs + integration checks
+   - Est. effort: 2 weeks
+
+Total Phase 2 effort: 10-12 weeks (prioritized roadmap provided)
+
+================================================================================
+PLATFORM SUPPORT MATRIX
+================================================================================
+
+Skill                          Claude    Copilot   Gemini    Status
+─────────────────────────────────────────────────────────────────────
+cic-section-summarizer         ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Ready
+agent-drift-detector           ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Ready
+rewrite-labs-orchestrator      ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Ready
+environment-diagnostics        ✅ Yes    ⏸️  Win   ❌ No     Ready
+session-boundary-manager       ✅ Yes    ✅ Yes    ✅ Yes    Ready
+cic-roadmap-updater            ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Ready
+operator-grade-procedures      ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Ready
+web-regression                 ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Deployed
+research-capture               ✅ Yes    ❌ No     ⚠️ Adapt  Deployed
+treatment-update               ✅ Yes    ❌ No     ❌ No     Deployed
+doc-update                     ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Deployed
+docs-sync-release              ✅ Yes    ⚠️ Adapt  ⚠️ Adapt  Deployed
+approvals-audit                ✅ Yes    ❌ No     ❌ No     Deployed
+
+Summary:
+- Claude: All 13 skills (100%)
+- Copilot: 9 skills recommended (69%)
+- Gemini: 9 skills recommended (69%)
+
+================================================================================
+DEPLOYMENT TIMELINE
+================================================================================
+
+Phase 1: Claude (Ready Now)
+  Effort: 1 week
+  Tasks:
+    - Deploy 7 new skills to Claude
+    - Test all 13 skills
+    - Update CLAUDE.md
+
+Phase 2: Copilot Adaptation (Optional)
+  Effort: 6-8 weeks
+  Tasks:
+    - Create platform wrappers (4 weeks)
+    - Test cross-platform (2 weeks)
+    - Deploy to Copilot (1 week)
+
+Phase 3: Gemini Adaptation (Optional)
+  Effort: 6-8 weeks
+  Tasks:
+    - Create JavaScript wrappers (4 weeks)
+    - Test in Gemini environment (2 weeks)
+    - Deploy to Gemini (1 week)
+
+Phase 4: Suggested Skills (Backlog)
+  Effort: 10-12 weeks
+  Tasks:
+    - Implement 7 suggested skills (7-8 weeks)
+    - Test in all environments (2 weeks)
+    - Deploy to all platforms (2 weeks)
+
+Total: 23-29 weeks for full cross-platform deployment with Phase 2 skills
+
+================================================================================
+HOW TO USE THESE DOCUMENTS
+================================================================================
+
+For Operators:
+  1. Start: README_SKILLS_LIBRARY.md (quick start)
+  2. Reference: SKILLS_API_REFERENCE.md (API specs)
+  3. Platform-specific: SKILLS_PLATFORM_NOTES.md
+
+For Builders:
+  1. Start: skills/[skill-name]/ directory
+  2. Reference: SKILLS_API_REFERENCE.md (expected I/O)
+  3. Test: npm test -- skills/[skill-name]/
+
+For Decision-Makers:
+  1. Start: SKILLS_SUMMARY.md (executive summary)
+  2. Review: SUGGESTED_SKILLS.md (Phase 2 planning)
+  3. Approve: Timeline & effort estimates
+
+For DevOps/Platform Engineers:
+  1. Start: SKILLS_PLATFORM_NOTES.md (platform guidance)
+  2. Review: SKILLS_API_REFERENCE.md (implementation)
+  3. Deploy: Deployment checklist in PLATFORM_NOTES
+
+Navigation:
+  - Use SKILLS_INDEX.md for quick navigation by role/topic
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+Immediate (This Week):
+  ☐ Review SKILLS_SUMMARY.md with team
+  ☐ Approve documentation package
+  ☐ Decide on deployment phases (Claude/Copilot/Gemini)
+
+Phase 1 (Week 1):
+  ☐ Deploy 7 new skills to Claude
+  ☐ Test all 13 skills in Claude Code
+  ☐ Update CLAUDE.md with skill guidelines
+
+Phase 2-4 (Weeks 2+):
+  ☐ Plan Copilot adaptation (if approved)
+  ☐ Plan Gemini adaptation (if approved)
+  ☐ Schedule Phase 2 (suggested skills) in quarterly planning
+
+================================================================================
+FILES CREATED (Summary)
+================================================================================
+
+Documentation:
+  /rewrite-mcp/SKILLS_LIBRARY.md
+  /rewrite-mcp/SKILLS_API_REFERENCE.md
+  /rewrite-mcp/SKILLS_PLATFORM_NOTES.md
+  /rewrite-mcp/README_SKILLS_LIBRARY.md
+  /rewrite-mcp/SUGGESTED_SKILLS.md
+  /rewrite-mcp/SKILLS_SUMMARY.md
+  /rewrite-mcp/SKILLS_INDEX.md
+  /rewrite-mcp/DELIVERY_SUMMARY.txt (this file)
+
+Skill Scaffolds (7):
+  /rewrite-mcp/skills/cic-section-summarizer/
+  /rewrite-mcp/skills/agent-drift-detector/
+  /rewrite-mcp/skills/rewrite-labs-orchestrator/
+  /rewrite-mcp/skills/environment-diagnostics/
+  /rewrite-mcp/skills/session-boundary-manager/
+  /rewrite-mcp/skills/cic-roadmap-updater/
+  /rewrite-mcp/skills/operator-grade-procedures/
+
+Existing Skills (Documented):
+  /rewrite-mcp/skills/web-regression.md
+  /rewrite-mcp/skills/research-capture.md
+  /rewrite-mcp/skills/treatment-update.md
+  /rewrite-mcp/skills/doc-update.md
+  /rewrite-mcp/skills/docs-sync-release.md
+  /rewrite-mcp/skills/approvals-audit.md
+
+================================================================================
+KEY METRICS
+================================================================================
+
+Skills Inventory:
+  - Total skills: 13
+  - New skills: 7 (ready to build)
+  - Existing skills: 6 (already deployed)
+  - Suggested Phase 2 skills: 7
+
+Documentation:
+  - Complete guides: 7
+  - Total lines: ~15,000
+  - Implementation scaffolds: 7/7 complete
+
+Platform Support:
+  - Claude: 13/13 (100%)
+  - Copilot: 9/13 (69%) — requires adaptation
+  - Gemini: 9/13 (69%) — requires adaptation
+
+Timeline:
+  - Phase 1 (Claude): 1 week
+  - Phase 2 (Copilot): 6-8 weeks
+  - Phase 3 (Gemini): 6-8 weeks
+  - Phase 4 (Suggested skills): 10-12 weeks
+
+Status:
+  - ✅ Documentation: COMPLETE
+  - ✅ New skill scaffolds: COMPLETE
+  - ✅ Existing skills reviewed & documented: COMPLETE
+  - ✅ Repo activity analyzed: COMPLETE
+  - ✅ Suggested skills identified: COMPLETE
+  - 📋 Implementation: READY TO START
+
+================================================================================
+QUESTIONS OR NEXT STEPS?
+================================================================================
+
+Start with:
+  - SKILLS_INDEX.md (navigation by role)
+  - SKILLS_SUMMARY.md (executive overview)
+  - README_SKILLS_LIBRARY.md (quick start)
+
+All documentation is in rewrite-mcp root directory.
+
+================================================================================

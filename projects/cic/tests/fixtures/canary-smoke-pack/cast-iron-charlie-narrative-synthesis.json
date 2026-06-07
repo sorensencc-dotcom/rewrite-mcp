@@ -1,0 +1,8 @@
+[
+  {
+    "goal_id": "canary-smoke-3",
+    "type": "ingest_target",
+    "target": "Documentary Outline - Episode 3: The Foundry Braid. This episode explores the intersection of Sorensen's Danish origins with his industrial triumph at the Ford Motor Company. Using high-resolution archives of his early emigration logs (Copenhagen 1905) and B-24 engineering diaries (Willow Run 1943), we trace how modular casting concepts traveled across hemispheres. The narrative centers on a resolved metallurgical thread: a single Danish emigrant's foundry gating principles scaling American wartime airpower, cementing Charles Emil Sorensen as the core of industrial modernism.",
+    "target_type": "text"
+  }
+]

@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<!--
+  apps/operator-ui/canary-dashboard.html
+  @version 1.4.0
+  @date 2026-05-30
+
+  CIC Operator Cockpit — Observability & Creative Studio Cockpit.
+  Layout: Premium glassmorphism dark theme with active amber glowing alerts, high-density telemetry gauges,
+          real-time SSE metrics synchronization, multi-tenant scoping, and integrated RAG & Episode Builder Studio.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIC Operator Cockpit v1.4.0</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/colors_and_type.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-canary-amber: #ff9f1c;
+      --color-canary-glow: rgba(255, 159, 28, 0.15);
+      --color-canary-border: rgba(255, 159, 28, 0.3);
+      --color-glass-bg: rgba(18, 18, 18, 0.8);
+      --color-glass-border: rgba(255, 255, 255, 0.08);
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-sans: 'Inter', sans-serif;
+      --font-title: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: #0c0c0e;
+      color: #e4e4e7;
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .canary-shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── HEADER ────────────────────────────────────────────────── */
+    .canary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: var(--color-glass-bg);
+      border: 1px solid var(--color-canary-border);
+      border-radius: 12px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px var(--color-canary-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .canary-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--color-canary-amber), transparent);
+      animation: sweep 4s infinite linear;
+    }
+
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .header-left h1 {
+      font-family: var(--font-title);
+      font-size: 26px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-left p {
+      font-size: 13px;
+      color: #a1a1aa;
+      margin: 6px 0 0 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tenant-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--color-canary-border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .tenant-select:hover {
+      border-color: var(--color-canary-amber);
+      background: rgba(255, 159, 28, 0.05);
+    }
+
+    .canary-badge {
+      font-family: var(--font-title);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 159, 28, 0.12);
+      border: 1px solid var(--color-canary-amber);
+      color: var(--color-canary-amber);
+      text-transform: uppercase;
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; box-shadow: 0 0 5px rgba(255, 159, 28, 0.2); }
+      50% { opacity: 1; box-shadow: 0 0 15px rgba(255, 159, 28, 0.4); }
+    }
+
+    .sse-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(90, 158, 111, 0.15);
+      border: 1px solid #5a9e6f;
+      color: #8ce2a3;
+    }
+
+    .sse-badge.polling {
+      background: rgba(255, 159, 28, 0.1);
+      border-color: var(--color-canary-amber);
+      color: var(--color-canary-amber);
+    }
+
+    /* ── SLO WARNING BANNER ────────────────────────────────────── */
+    .slo-warning-banner {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #f87171;
+      font-weight: 500;
+      font-size: 13px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+      animation: flashWarning 3s infinite alternate;
+    }
+
+    @keyframes flashWarning {
+      0% { border-color: rgba(239, 68, 68, 0.4); }
+      100% { border-color: rgba(239, 68, 68, 0.8); }
+    }
+
+    /* ── DASHBOARD GRID ────────────────────────────────────────── */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+    }
+
+    .canary-card {
+      background: var(--color-glass-bg);
+      border: 1px solid var(--color-glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .canary-card:hover {
+      border-color: rgba(255, 159, 28, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      margin: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .tag-green { background: rgba(90, 158, 111, 0.15); border: 1px solid #5a9e6f; color: #8ce2a3; }
+    .tag-amber { background: rgba(255, 159, 28, 0.15); border: 1px solid var(--color-canary-amber); color: var(--color-canary-amber); }
+    .tag-red { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #f87171; }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Progress bar layout */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--color-canary-amber);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-bar-fill.green { background: #5a9e6f; }
+    .progress-bar-fill.red { background: #ef4444; }
+
+    /* Snapshots & Safeguards Logs */
+    .scrollable-list {
+      max-height: 120px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .list-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      padding-bottom: 4px;
+    }
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Buttons */
+    .btn-canary {
+      background: rgba(255, 159, 28, 0.08);
+      border: 1px solid var(--color-canary-border);
+      color: var(--color-canary-amber);
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-canary:hover:not(:disabled) {
+      background: var(--color-canary-amber);
+      color: #0c0c0e;
+      box-shadow: 0 0 10px var(--color-canary-glow);
+    }
+
+    .btn-canary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ── CONSOLE & INTERACTIVE SECTION ────────────────────────── */
+    .console-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .console-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .terminal-container {
+      background: #08080a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+
+    .terminal-title {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.75px;
+      text-transform: uppercase;
+      color: var(--color-canary-amber);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .terminal-body {
+      background: #020203;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      color: #38bdf8;
+      max-height: 280px;
+      min-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .console-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .console-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+
+    .console-input:focus {
+      outline: none;
+      border-color: var(--color-canary-amber);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .loader {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 159, 28, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--color-canary-amber);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── TABS FOR CONSOLE ── */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 8px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: 12px;
+      padding: 6px 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    .tab-btn.active {
+      color: var(--color-canary-amber);
+      background: rgba(255, 159, 28, 0.08);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── RAG VISUALIZER TIMELINE ── */
+    .rag-timeline {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 8px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .rag-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 9px;
+      color: #a1a1aa;
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .rag-step::after {
+      content: '→';
+      position: absolute;
+      right: -6px;
+      top: 10px;
+      color: rgba(255,255,255,0.15);
+      font-size: 12px;
+    }
+
+    .rag-step:last-child::after {
+      content: '';
+    }
+
+    .rag-step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #71717a;
+      margin-bottom: 4px;
+      transition: all 0.3s;
+    }
+
+    .rag-step.active .rag-step-dot {
+      background: var(--color-canary-amber);
+      box-shadow: 0 0 8px var(--color-canary-amber);
+    }
+
+    .rag-step.completed .rag-step-dot {
+      background: #5a9e6f;
+      box-shadow: 0 0 8px #5a9e6f;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 11px;
+      color: #71717a;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(10, 10, 12, 0.9);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="canary-shell">
+    
+    <!-- ── HEADER ── -->
+    <header class="canary-header">
+      <div class="header-left">
+        <h1>CIC Operator Cockpit</h1>
+        <p>Cast Iron Charlie Intelligence Network Telemetry Surface (v1.4.0)</p>
+      </div>
+      <div class="header-right">
+        <!-- Tenant Selector Extension -->
+        <select id="tenant-selector" class="tenant-select" onchange="changeTenant()">
+          <option value="default">Tenant: Default</option>
+          <option value="charlie_core">Tenant: Charlie Core</option>
+          <option value="kroll_archive">Tenant: Kroll Archive</option>
+          <option value="rewritelabs_dev">Tenant: Rewrite Labs</option>
+        </select>
+        <div class="sse-badge" id="conn-badge">SSE Connected</div>
+        <div class="canary-badge" id="automation-badge">Dry-Run Mode</div>
+      </div>
+    </header>
+
+    <!-- SLO Warning Alert Banner -->
+    <div id="slo-warning-banner" class="slo-warning-banner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span>⚠️</span>
+        <span style="font-weight: bold; text-transform: uppercase;">SLO Breach Alert:</span>
+        <span id="slo-warning-text">One or more service level objectives are violating constraints!</span>
+      </div>
+      <span style="font-size: 10px; font-weight: bold; text-transform: uppercase; opacity: 0.8;">Action Required</span>
+    </div>
+
+    <!-- ── DASHBOARD GRID ── -->
+    <div class="dashboard-grid">
+      
+      <!-- Panel 1: Ingestion & Extractor Health -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          Ingestion & Extractors
+          <span class="tag tag-green" id="ingest-status">Active</span>
+        </h2>
+        
+        <div class="metric-row">
+          <span class="metric-label">Ingestion Rate</span>
+          <span class="metric-value"><span id="val-docs-min">0</span> docs/min</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Error Rate</span>
+          <span class="metric-value value-ok" id="val-err-min-txt"><span id="val-err-min">0</span> errors/min</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Total Processed</span>
+          <span class="metric-value" id="val-total-docs">0</span>
+        </div>
+
+        <div style="margin-top: 6px;">
+          <div class="metric-row">
+            <span class="metric-label" style="font-size: 10px;">Semantic Extraction</span>
+            <span class="metric-value" style="font-size: 11px;"><span id="lat-semantic">0</span> ms</span>
+          </div>
+          <div class="progress-bar-container"><div class="progress-bar-fill" id="bar-semantic"></div></div>
+          
+          <div class="metric-row">
+            <span class="metric-label" style="font-size: 10px;">Relationship Extraction</span>
+            <span class="metric-value" style="font-size: 11px;"><span id="lat-relationship">0</span> ms</span>
+          </div>
+          <div class="progress-bar-container"><div class="progress-bar-fill" id="bar-relationship"></div></div>
+
+          <div class="metric-row">
+            <span class="metric-label" style="font-size: 10px;">Topic Extraction</span>
+            <span class="metric-value" style="font-size: 11px;"><span id="lat-topic">0</span> ms</span>
+          </div>
+          <div class="progress-bar-container"><div class="progress-bar-fill" id="bar-topic"></div></div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Vector Index (Qdrant) -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          Qdrant Vector Index
+          <span class="tag tag-green" id="vector-status">Online</span>
+        </h2>
+        
+        <div class="metric-row">
+          <span class="metric-label">Search Rate</span>
+          <span class="metric-value"><span id="val-query-min">0</span> queries/min</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Total Points Upserted</span>
+          <span class="metric-value" id="val-total-upserts">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Collection Name</span>
+          <span class="metric-value" id="val-collection-name">cic_semantic</span>
+        </div>
+
+        <div style="margin-top: 10px; padding: 10px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+          <span class="metric-label" style="font-size: 10px; display: block; margin-bottom: 6px;">Query Latency Percentiles</span>
+          <div class="metric-row" style="font-size: 11px;">
+            <span>p50 (Median)</span>
+            <span class="metric-value" id="val-p50">0 ms</span>
+          </div>
+          <div class="metric-row" style="font-size: 11px;">
+            <span>p95 (95th %ile)</span>
+            <span class="metric-value" id="val-p95">0 ms</span>
+          </div>
+          <div class="metric-row" style="font-size: 11px;">
+            <span>p99 (99th %ile)</span>
+            <span class="metric-value" id="val-p99">0 ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Persistent Graph Store -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          Persistent Graph
+          <span class="tag tag-green">Stable</span>
+        </h2>
+        
+        <div class="metric-row">
+          <span class="metric-label">Startup Load Time</span>
+          <span class="metric-value" id="val-graph-load">0 ms</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Resolved Nodes</span>
+          <span class="metric-value"><span id="val-graph-nodes">0</span></span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Semantic Edges</span>
+          <span class="metric-value"><span id="val-graph-edges">0</span></span>
+        </div>
+
+        <!-- Graph Slicing Slider Explorer -->
+        <div style="margin-top: 6px; padding: 8px; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
+          <span class="metric-label" style="font-size: 9px; display: flex; justify-content: space-between;">
+            <span>Graph Slicing Playback</span>
+            <span id="slider-val" style="font-family: var(--font-mono); color: var(--color-canary-amber);">Live</span>
+          </span>
+          <input type="range" id="timeline-slider" min="1900" max="2026" value="2026" style="width: 100%; cursor: pointer;" oninput="slideTimeline()">
+        </div>
+      </div>
+
+      <!-- Panel 4: RAG Reasoning Engine -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          RAG Reasoning Loop
+          <span class="tag tag-amber" id="rag-status">Ready</span>
+        </h2>
+        
+        <div class="metric-row">
+          <span class="metric-label">Requests Count</span>
+          <span class="metric-value" id="val-rag-requests">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Avg Stages/Query</span>
+          <span class="metric-value" id="val-avg-stages">0.0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Avg Evidence/Query</span>
+          <span class="metric-value" id="val-avg-evidence">0.0</span>
+        </div>
+
+        <div style="margin-top: 8px;">
+          <div class="metric-row">
+            <span class="metric-label">Contradiction Rate</span>
+            <span class="metric-value"><span id="val-contradiction-rate">0</span>%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill red" id="bar-contradiction" style="width: 0%;"></div>
+          </div>
+          <div class="metric-row" style="font-size: 10px; color: #a1a1aa;">
+            <span>Detected Contradictions</span>
+            <span id="val-total-contradictions">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 5: RTK Automation Posture -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          RTK Automation & Safeguards
+          <span class="tag tag-amber" id="rtk-status-pill">Active</span>
+        </h2>
+        
+        <div class="metric-row">
+          <span class="metric-label">Active Posture</span>
+          <span class="metric-value" id="val-rtk-mode">DRY-RUN</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Interventions</span>
+          <span class="metric-value" id="val-total-safeguards">0</span>
+        </div>
+
+        <span class="metric-label" style="font-size: 10px; margin-top: 4px;">Safeguard Alert Log</span>
+        <div class="scrollable-list" id="safeguard-triggers-list">
+          <div style="color: #71717a; text-align: center;">No triggers logged yet</div>
+        </div>
+      </div>
+
+      <!-- Panel 6: SLO Compliance Ledger (v1.3.4 Upgrade) -->
+      <div class="canary-card">
+        <h2 class="card-title">
+          SLO Compliance Ledger
+          <span class="tag tag-green" id="val-slo-status">Passing</span>
+        </h2>
+        
+        <span class="metric-label" style="font-size: 10px;">Subsystem SLO Metrics Tracker</span>
+        <div class="scrollable-list" id="slo-ledger-list" style="max-height: 155px; height: 155px;">
+          <div style="color: #71717a; text-align: center;">No SLO data evaluated yet</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── CONSOLE & INTERACTIVE SECTION ── -->
+    <div class="console-section">
+      
+      <!-- Interactive Studio Controllers & Workspace -->
+      <div class="terminal-container">
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('tab-ingest')">Ingestion Simulator</button>
+          <button class="tab-btn" onclick="switchTab('tab-episode')">Episode Builder Studio</button>
+          <button class="tab-btn" onclick="switchTab('tab-snapshots')">Archival Snapshots</button>
+        </div>
+        
+        <!-- TAB 1: INGESTION -->
+        <div id="tab-ingest" class="tab-content active">
+          <p style="font-size: 12px; color: #a1a1aa; margin: 0;">
+            Simulate document ingestion pipeline transactions. Run extractor chains, resolve naming variants, partition neighborhoods, and synchronously commit points.
+          </p>
+          <div class="console-input-row" style="flex-direction: column; gap: 8px; margin-top: 8px;">
+            <button class="btn-canary" id="btn-smoke-1" onclick="triggerSmokeTest('emigration')">
+              1. Run Emigration Ingest (1905)
+            </button>
+            <button class="btn-canary" id="btn-smoke-2" onclick="triggerSmokeTest('willow-run')">
+              2. Run Willow Run Memo (1943)
+            </button>
+            <button class="btn-canary" id="btn-smoke-3" onclick="triggerSmokeTest('synth')">
+              3. Run Narrative Outline Ingest (1950)
+            </button>
+            <button class="btn-canary" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.3); color: #ef4444;" id="btn-smoke-err" onclick="triggerMockError()">
+              4. Inject Mock Processing Error
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 2: EPISODE BUILDER STUDIO -->
+        <div id="tab-episode" class="tab-content">
+          <p style="font-size: 12px; color: #a1a1aa; margin: 0;">
+            Autonomous creative documentary script writer. Compiles multi-act narrative timelines, arcs, and character biographies.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <div class="console-input-row">
+              <input type="text" class="console-input" id="episode-title" placeholder="Documentary Episode Title (e.g. Ford & Sorensen)" value="Sorensen: The Iron Alliance">
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 4px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+              <span class="metric-label" style="font-size: 9px; display: block; margin-bottom: 2px;">Target Characters & Archives</span>
+              <div style="display: flex; gap: 12px; font-size: 11px;">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <input type="checkbox" id="ent-charles" value="ent_cb37e8badbacd399" checked> Charles Emil Sorensen
+                </label>
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <input type="checkbox" id="ent-lellinge" value="ent_lellinge" checked> Lellinge (Denmark)
+                </label>
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <input type="checkbox" id="ent-willow" value="ent_willowrun" checked> Willow Run Memo
+                </label>
+              </div>
+            </div>
+
+            <div class="console-input-row" style="gap: 8px;">
+              <button class="btn-canary" style="flex: 1;" onclick="buildEpisodeOutline()">1. Build Act Outline</button>
+              <button class="btn-canary" style="flex: 1;" onclick="expandNarrativeBeat()">2. Expand Scene Beat</button>
+              <button class="btn-canary" style="flex: 1;" onclick="summarizeEvolution()">3. Cinematic Synthesis</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: SNAPSHOTS & RECOVERY -->
+        <div id="tab-snapshots" class="tab-content">
+          <p style="font-size: 12px; color: #a1a1aa; margin: 0;">
+            Manually trigger persistent graph checkpoints or list saved historical archives.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+            <button class="btn-canary" onclick="triggerManualSnapshot()">Trigger Persistent Snapshot Checkpoint</button>
+            <span class="metric-label" style="font-size: 10px; margin-top: 4px;">Archival Snapshot Registry</span>
+            <div class="scrollable-list" id="snapshot-events-list" style="max-height: 100px; height: 100px;">
+              <div style="color: #71717a; text-align: center;">No snapshots logged yet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RAG Prompt Planner Query Console -->
+      <div class="terminal-container">
+        <div class="terminal-title">
+          <span>Multi-Hop RAG & Creative Terminal</span>
+          <button class="btn-canary" style="padding: 4px 10px; font-size: 10px;" onclick="resetMetrics()">Reset Telemetry</button>
+        </div>
+        
+        <div class="console-input-row">
+          <input type="text" class="console-input" id="rag-query-input" placeholder="Ask Cast Iron Charlie (e.g. Where was Sorensen born?)" value="Where was Sorensen born?">
+          <button class="btn-canary" id="btn-rag-submit" onclick="submitRAGQuery()">Execute RAG</button>
+        </div>
+
+        <!-- RAG TIMELINE VISUALIZER -->
+        <div class="rag-timeline">
+          <div class="rag-step" id="step-plan">
+            <div class="rag-step-dot"></div>
+            <span>1. Planning</span>
+          </div>
+          <div class="rag-step" id="step-collect">
+            <div class="rag-step-dot"></div>
+            <span>2. Collection</span>
+          </div>
+          <div class="rag-step" id="step-contradiction">
+            <div class="rag-step-dot"></div>
+            <span>3. Polar Check</span>
+          </div>
+          <div class="rag-step" id="step-reason">
+            <div class="rag-step-dot"></div>
+            <span>4. LLM Synthesis</span>
+          </div>
+        </div>
+
+        <div class="terminal-body" id="console-stream">// RAG trace audit logs will output here in real-time…</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div>Cast Iron Charlie v1.4.0 Cockpit Interface</div>
+    <div style="margin-top: 4px; color: #52525b;">REWRITE LABS © 2026 — SECURE CONTROL PLANE SURFACE</div>
+  </footer>
+
+  <!-- ── TELEMETRY STREAM LOGIC ── -->
+  <script>
+    const LOG_ELEMENT = document.getElementById('console-stream');
+    const CONN_BADGE = document.getElementById('conn-badge');
+    let currentTenant = 'default';
+
+    function logToConsole(text, isError = false) {
+      const prefix = isError ? `<span style="color: #ef4444;">[ERROR]</span>` : `<span style="color: #38bdf8;">[Cockpit]</span>`;
+      LOG_ELEMENT.innerHTML += `${prefix} ${text}\n`;
+      LOG_ELEMENT.scrollTop = LOG_ELEMENT.scrollHeight;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Tenant Switch Action
+    function changeTenant() {
+      const select = document.getElementById('tenant-selector');
+      currentTenant = select.value;
+      
+      document.getElementById('val-collection-name').textContent = currentTenant === 'default' ? 'cic_semantic' : `cic_semantic_${currentTenant}`;
+      
+      logToConsole(`Switched active tenant focus to: "${currentTenant}"`);
+      
+      // Update graph neighborhood summary details dynamically
+      pollGraphSummary();
+    }
+
+    // Helper to formulate scoping headers
+    function getHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      if (currentTenant !== 'default') {
+        headers['X-Tenant-ID'] = currentTenant;
+      }
+      return headers;
+    }
+
+    // Connect to real-time telemetry SSE
+    let eventSource;
+    function connectSSE() {
+      logToConsole("Initializing real-time SSE telemetry connection...");
+      eventSource = new EventSource('/metrics/stream');
+
+      eventSource.onopen = () => {
+        CONN_BADGE.textContent = "SSE Connected";
+        CONN_BADGE.className = "sse-badge";
+        logToConsole("Telemetry Stream established successfully.");
+      };
+
+      eventSource.onmessage = (event) => {
+        try {
+          const snapshot = JSON.parse(event.data);
+          updateDashboard(snapshot);
+        } catch (err) {
+          console.error("SSE parse error", err);
+        }
+      };
+
+      eventSource.onerror = (err) => {
+        console.warn("SSE disconnected. Falling back to HTTP Polling...", err);
+        CONN_BADGE.textContent = "Polling Telemetry";
+        CONN_BADGE.className = "sse-badge polling";
+        eventSource.close();
+        
+        // Start Polling Fallback
+        startPolling();
+      };
+    }
+
+    let pollInterval;
+    function startPolling() {
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch('/metrics/snapshot', { headers: getHeaders() });
+          if (res.ok) {
+            const data = await res.json();
+            updateDashboard(data);
+          }
+        } catch (err) {
+          console.error("Polling error", err);
+        }
+      }, 2000);
+    }
+
+    // Map Telemetry JSON values into the UI Elements
+    function updateDashboard(s) {
+      if (!s) return;
+
+      // Ingestion
+      document.getElementById('val-docs-min').textContent = s.ingestion.docsPerMin;
+      document.getElementById('val-err-min').textContent = s.ingestion.errorsPerMin;
+      document.getElementById('val-total-docs').textContent = s.ingestion.totalDocsIngested;
+
+      const errBadge = document.getElementById('val-err-min-txt');
+      if (s.ingestion.errorsPerMin > 0) {
+        errBadge.style.color = '#ef4444';
+      } else {
+        errBadge.style.color = '';
+      }
+
+      // Latencies
+      const ext = s.ingestion.extractorLatencies;
+      document.getElementById('lat-semantic').textContent = ext.semantic;
+      document.getElementById('bar-semantic').style.width = `${Math.min(ext.semantic / 10, 100)}%`;
+      document.getElementById('bar-semantic').className = `progress-bar-fill ${ext.semantic > 350 ? 'red' : 'green'}`;
+
+      document.getElementById('lat-relationship').textContent = ext.relationship;
+      document.getElementById('bar-relationship').style.width = `${Math.min(ext.relationship / 10, 100)}%`;
+      document.getElementById('bar-relationship').className = `progress-bar-fill ${ext.relationship > 350 ? 'red' : 'green'}`;
+
+      document.getElementById('lat-topic').textContent = ext.topic;
+      document.getElementById('bar-topic').style.width = `${Math.min(ext.topic / 10, 100)}%`;
+      document.getElementById('bar-topic').className = `progress-bar-fill ${ext.topic > 350 ? 'red' : 'green'}`;
+
+      // Vector Index
+      const vi = s.vectorIndex;
+      document.getElementById('val-query-min').textContent = vi.queryRatePerMin;
+      document.getElementById('val-total-upserts').textContent = vi.totalUpserts;
+
+      const lh = vi.latencyHistogram;
+      document.getElementById('val-p50').textContent = `${lh.p50} ms`;
+      document.getElementById('val-p95').textContent = `${lh.p95} ms`;
+      document.getElementById('val-p99').textContent = `${lh.p99} ms`;
+
+      // Persistent Graph
+      const pg = s.persistentGraph;
+      document.getElementById('val-graph-load').textContent = `${pg.startupLoadTimeMs} ms`;
+      
+      // Fetch graph summary size
+      pollGraphSummary();
+
+      // Render Snapshots list
+      const snapList = document.getElementById('snapshot-events-list');
+      if (pg.snapshots && pg.snapshots.length > 0) {
+        snapList.innerHTML = pg.snapshots.map(sn => `
+          <div class="list-item">
+            <span style="color: var(--color-canary-amber);">${sn.tag.toUpperCase()}</span>: 
+            ${(sn.sizeBytes/1024).toFixed(1)}KB | ${sn.durationMs}ms
+            <div style="font-size: 8px; color: #71717a;">${new Date(sn.timestamp).toLocaleTimeString()}</div>
+          </div>
+        `).join('');
+      } else {
+        snapList.innerHTML = `<div style="color: #71717a; text-align: center;">No snapshots logged yet</div>`;
+      }
+
+      // RAG Reasoning
+      const rag = s.ragReasoning;
+      document.getElementById('val-rag-requests').textContent = rag.totalRequests;
+      document.getElementById('val-avg-stages').textContent = rag.avgStagesPerQuery;
+      document.getElementById('val-avg-evidence').textContent = rag.avgEvidenceCountPerQuery;
+      
+      const contrRate = Math.round(rag.contradictionRate * 100);
+      document.getElementById('val-contradiction-rate').textContent = contrRate;
+      document.getElementById('bar-contradiction').style.width = `${contrRate}%`;
+      document.getElementById('val-total-contradictions').textContent = rag.totalContradictions;
+
+      // RTK Automation
+      const rtk = s.rtkAutomation;
+      document.getElementById('automation-badge').textContent = `${rtk.mode.toUpperCase()} MODE`;
+      document.getElementById('val-rtk-mode').textContent = rtk.mode.toUpperCase();
+      document.getElementById('val-total-safeguards').textContent = rtk.totalSafeguardTriggers;
+
+      const triggersList = document.getElementById('safeguard-triggers-list');
+      if (rtk.safeguardTriggers && rtk.safeguardTriggers.length > 0) {
+        triggersList.innerHTML = rtk.safeguardTriggers.map(tr => `
+          <div class="list-item" style="border-left: 2px solid #ef4444; padding-left: 6px;">
+            <span style="color: #ef4444; font-weight: bold;">${tr.triggerType}</span>: 
+            ${tr.reason}
+            <div style="font-size: 8px; color: #71717a;">${new Date(tr.timestamp).toLocaleTimeString()}</div>
+          </div>
+        `).join('');
+      } else {
+        triggersList.innerHTML = `<div style="color: #71717a; text-align: center;">No triggers logged yet</div>`;
+      }
+
+      // v1.3.4 SLO LEDGER INTEGRATION
+      if (s.sloEvaluation) {
+        const slo = s.sloEvaluation;
+        const statusPill = document.getElementById('val-slo-status');
+        const alertBanner = document.getElementById('slo-warning-banner');
+        const alertText = document.getElementById('slo-warning-text');
+
+        statusPill.textContent = slo.status.toUpperCase();
+        statusPill.className = `tag ${slo.status === 'pass' ? 'tag-green' : 'tag-red'}`;
+
+        if (slo.status === 'fail') {
+          alertBanner.style.display = 'flex';
+          const failed = slo.evaluations.filter(e => e.status === 'fail').map(e => e.metric).join(', ');
+          alertText.textContent = `Breached SLO targets: ${failed}`;
+        } else {
+          alertBanner.style.display = 'none';
+        }
+
+        const ledgerList = document.getElementById('slo-ledger-list');
+        ledgerList.innerHTML = slo.evaluations.map(e => `
+          <div class="list-item" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
+            <div>
+              <div style="font-weight: 500; color: #fff;">${e.metric}</div>
+              <div style="font-size: 8px; color: #71717a;">Target: ${e.target} | Actual: ${e.actual}</div>
+            </div>
+            <span class="tag ${e.status === 'pass' ? 'tag-green' : 'tag-red'}" style="font-size: 8px;">${e.status.toUpperCase()}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Additional helper to poll graph node counts
+    async function pollGraphSummary() {
+      try {
+        const res = await fetch('/graph/summary', { headers: getHeaders() });
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('val-graph-nodes').textContent = data.nodes?.total || 0;
+          document.getElementById('val-graph-edges').textContent = data.edges?.total || 0;
+        }
+      } catch (err) {
+        // ignore
+      }
+    }
+
+    // Timeline range slider
+    async function slideTimeline() {
+      const slider = document.getElementById('timeline-slider');
+      const valLabel = document.getElementById('slider-val');
+      
+      const year = slider.value;
+      if (year == "2026") {
+        valLabel.textContent = "Live";
+        pollGraphSummary();
+        return;
+      }
+      
+      valLabel.textContent = `${year} Slicing`;
+      logToConsole(`Slicing persistent graph temporal state at boundary: "${year}-06-01"`);
+
+      try {
+        const res = await fetch('/graph/query', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            query: {
+              type: 'slice',
+              filter: { timestamp: `${year}-06-01T00:00:00Z` }
+            }
+          })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          const countNodes = (result.slice.documents?.length || 0) + (result.slice.entities?.length || 0);
+          const countEdges = (result.slice.relationships?.length || 0) + (result.slice.crossDocLinks?.length || 0);
+          
+          document.getElementById('val-graph-nodes').textContent = countNodes;
+          document.getElementById('val-graph-edges').textContent = countEdges;
+          logToConsole(`Graph sliced. Reconstructed state at ${year}: ${countNodes} nodes, ${countEdges} edges.`);
+        }
+      } catch (err) {
+        logToConsole(`Timeline slice failed: ${err.message}`, true);
+      }
+    }
+
+    // RAG Visualizer state triggers
+    function setVisualizerStep(step, status) {
+      const el = document.getElementById(`step-${step}`);
+      if (!el) return;
+      el.className = `rag-step ${status}`;
+    }
+
+    function resetVisualizer() {
+      ['plan', 'collect', 'contradiction', 'reason'].forEach(s => {
+        const el = document.getElementById(`step-${s}`);
+        el.className = 'rag-step';
+      });
+    }
+
+    // Execute Multi-Hop RAG query and inspect traces
+    async function submitRAGQuery() {
+      const qInput = document.getElementById('rag-query-input');
+      const query = qInput.value.trim();
+      if (!query) return;
+
+      const btn = document.getElementById('btn-rag-submit');
+      btn.disabled = true;
+      btn.innerHTML = `Querying <span class="loader"></span>`;
+
+      resetVisualizer();
+      logToConsole(`Dispatching Multi-Hop RAG Query: "${query}"`);
+
+      // 1. Planning Step
+      setVisualizerStep('plan', 'active');
+      logToConsole("PMS v2 orchestrator planning traversal and token budgets...");
+
+      try {
+        const res = await fetch('/reason/query', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ query })
+        });
+        
+        // Simulating visual progression
+        setVisualizerStep('plan', 'completed');
+        setVisualizerStep('collect', 'active');
+        logToConsole("Query Plan locked. Collecting ranked vector evidence & neighborhoods...");
+
+        const trace = await res.json();
+        
+        setVisualizerStep('collect', 'completed');
+        setVisualizerStep('contradiction', 'active');
+        logToConsole(`Retrieved ${trace.evidenceEvaluated.length} document/entity nodes.`);
+        logToConsole("Running polar claim contradiction checks...");
+
+        setVisualizerStep('contradiction', 'completed');
+        setVisualizerStep('reason', 'active');
+
+        if (trace.contradictionsDetected && trace.contradictionsDetected.length > 0) {
+          logToConsole(`<span style="color: #ef4444; font-weight: bold;">[CONTRADICTION] Polar conflicts triggered!</span>`);
+          trace.contradictionsDetected.forEach(c => {
+            logToConsole(`  Claim A: "${c.claimA}"`);
+            logToConsole(`  Claim B: "${c.claimB}"`);
+          });
+        } else {
+          logToConsole("No conflicting historical evidence detected. Compiling synthesis...");
+        }
+
+        setVisualizerStep('reason', 'completed');
+
+        logToConsole(`Answer Compiled: "${trace.finalAnswer}"`);
+        logToConsole(`Confidence Match: <span style="font-weight: bold; color: ${trace.confidence === 'low' ? '#ef4444' : '#8ce2a3'}">${trace.confidence.toUpperCase()}</span>`);
+        logToConsole(`Evidence evaluated: ${trace.evidenceEvaluated.length} node neighborhood clusters.`);
+        logToConsole(`System Execution timing: ${Object.entries(trace.stageLatenciesMs).map(([k,v]) => `${k}=${v}ms`).join(', ')}`);
+
+      } catch (err) {
+        logToConsole(`RAG Compilation failed: ${err.message}`, true);
+        ['plan', 'collect', 'contradiction', 'reason'].forEach(s => setVisualizerStep(s, 'completed'));
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Execute RAG";
+      }
+    }
+
+    // TAB 2: AUTONOMOUS EPISODE BUILDER STUDIO
+    async function buildEpisodeOutline() {
+      const title = document.getElementById('episode-title').value.trim();
+      logToConsole(`Building documentary Act Outline for episode: "${title}"`);
+      logToConsole("Traversing temporal graph and compiling theme prompts...");
+      
+      try {
+        const res = await fetch('/v1/episode/build', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            title,
+            coreEntityIds: ["ent_cb37e8badbacd399", "ent_lellinge"]
+          })
+        });
+        
+        if (res.ok) {
+          const result = await res.json();
+          logToConsole(`<span style="color: #5a9e6f; font-weight: bold;">[EPISODE BUILD COMPLETE]</span>`);
+          logToConsole(`Successfully compiled act outline for "${result.title}"`);
+          logToConsole(JSON.stringify(result.acts, null, 2));
+        } else {
+          logToConsole("Failed to compile outline: Server returned error status.", true);
+        }
+      } catch (err) {
+        logToConsole(`Episode Builder failed: ${err.message}`, true);
+      }
+    }
+
+    async function expandNarrativeBeat() {
+      logToConsole("Expanding secondary timeline narratives for Denmark Emigration beat...");
+      try {
+        const res = await fetch('/v1/episode/expand', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            beatId: "beat_emigration_1905",
+            details: "Charles Emil Sorensen leaves Lellinge, Denmark to join American automotive factories."
+          })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          logToConsole(`<span style="color: #5a9e6f; font-weight: bold;">[BEAT EXPAND COMPLETE]</span>`);
+          logToConsole(result.expandedNarrative);
+        }
+      } catch (err) {
+        logToConsole(`Expansion failed: ${err.message}`, true);
+      }
+    }
+
+    async function summarizeEvolution() {
+      logToConsole("Generating cinematic fact synthesis for Sorenson's biography...");
+      try {
+        const res = await fetch('/v1/episode/summarize', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            topic: "Charles Emil Sorensen"
+          })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          logToConsole(`<span style="color: #5a9e6f; font-weight: bold;">[CINEMATIC SYNTHESIS COMPLETE]</span>`);
+          logToConsole(result.cinematicSummary);
+        }
+      } catch (err) {
+        logToConsole(`Synthesis failed: ${err.message}`, true);
+      }
+    }
+
+    // Simulate Document Ingestions using Smoke test triggers
+    async function triggerSmokeTest(type) {
+      const btnId = type === 'emigration' ? 'btn-smoke-1' : type === 'willow-run' ? 'btn-smoke-2' : 'btn-smoke-3';
+      const btn = document.getElementById(btnId);
+      const origText = btn.textContent;
+      
+      btn.disabled = true;
+      btn.innerHTML = `Ingesting <span class="loader"></span>`;
+      logToConsole(`Simulating document ingest for type: ${type}`);
+
+      let payloadText = "";
+      let docId = "";
+      if (type === 'emigration') {
+        payloadText = "Charles Emil Sorensen emigrated from Lellinge, Denmark in 1905 on the SS Hellig Olav.";
+        docId = "doc_emigration_1905";
+      } else if (type === 'willow-run') {
+        payloadText = "Charles Emil Sorensen was born in Denmark, but later worked as general manager at the Willow Run bomber production facility in Michigan.";
+        docId = "doc_willow_run_1943";
+      } else {
+        payloadText = "Archival outline details: Charles Sorensen was born in Chicago, America. This is an official outline record.";
+        docId = "doc_outline_synth";
+      }
+
+      try {
+        const res = await fetch('/pms/resolve', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({
+            templateId: 'semantic_seed',
+            vars: { source: payloadText }
+          })
+        });
+
+        // Sleep to simulate network work
+        setTimeout(async () => {
+          logToConsole(`Ingestion pipeline complete. Upserted docId: ${docId}`);
+          
+          // Poll graph nodes instantly
+          pollGraphSummary();
+          
+          btn.disabled = false;
+          btn.textContent = origText;
+        }, 1200);
+
+      } catch (err) {
+        logToConsole(`Ingestion failed: ${err.message}`, true);
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    }
+
+    // Simulate safeguard trigger warnings
+    async function triggerMockError() {
+      logToConsole("Manual override: Triggering mock safeguard error event.", true);
+      try {
+        await fetch('/pms/resolve', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ templateId: 'NON_EXISTENT_TEMPLATE_FAIL' })
+        });
+      } catch {
+        // expected
+      }
+    }
+
+    // Trigger manual persistence graph snapshot
+    async function triggerManualSnapshot() {
+      logToConsole("Manually triggering persistent graph archive checkpoint...");
+      try {
+        const res = await fetch('/graph/snapshot', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ tag: "manual_checkpoint" })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          logToConsole(`Archive snapshot saved successfully: ${result.snapshotPath}`);
+          updateDashboard(await (await fetch('/metrics/snapshot', { headers: getHeaders() })).json());
+        }
+      } catch (err) {
+        logToConsole("Snapshot trigger failed: " + err.message, true);
+      }
+    }
+
+    // Reset collector
+    async function resetMetrics() {
+      if (!confirm("Are you sure you want to clear active telemetry metrics?")) return;
+      try {
+        const res = await fetch('/metrics/reset', { method: 'POST', headers: getHeaders() });
+        if (res.ok) {
+          logToConsole("Telemetry aggregates cleared cleanly.");
+          updateDashboard(await (await fetch('/metrics/snapshot', { headers: getHeaders() })).json());
+        }
+      } catch (err) {
+        logToConsole("Reset failed: " + err.message, true);
+      }
+    }
+
+    // Start
+    window.addEventListener('DOMContentLoaded', () => {
+      connectSSE();
+    });
+  </script>
+</body>
+</html>

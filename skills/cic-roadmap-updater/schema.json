@@ -1,0 +1,23 @@
+{
+  "title": "CIC Roadmap Updater",
+  "type": "object",
+  "properties": {
+    "roadmap": {
+      "type": "object",
+      "description": "Current roadmap object with version and phases",
+      "properties": {
+        "version": { "type": "string" },
+        "phases": { "type": "array" }
+      }
+    },
+    "progress": {
+      "type": "object",
+      "description": "Progress data with completed and new items",
+      "properties": {
+        "completedPhases": { "type": "array" },
+        "newItems": { "type": "array" }
+      }
+    }
+  },
+  "required": ["roadmap", "progress"]
+}

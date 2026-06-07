@@ -1,0 +1,31 @@
+{
+  "name": "cic-control-plane",
+  "version": "1.0.0",
+  "description": "CIC Control Plane — orchestration server",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs",
+    "test": "node --test 'src/**/*.test.mjs'"
+  },
+  "keywords": [
+    "cic",
+    "control-plane",
+    "orchestrator"
+  ],
+  "dependencies": {
+    "express": "^4.18.2",
+    "@cic/orchestrator": "*",
+    "@cic/agents": "*",
+    "@cic/shared": "*"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^25.9.1",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

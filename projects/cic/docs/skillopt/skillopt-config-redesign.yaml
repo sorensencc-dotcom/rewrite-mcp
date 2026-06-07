@@ -1,0 +1,57 @@
+---
+name: skillopt-config-redesign
+description: SkillOpt configuration for Redesign skill (Redesign v1.0.0)
+version: 1.0.0
+created: 2026-05-30
+meta_bob_form: v1.0
+---
+
+version: 1.0.0
+skill: redesign
+skill_version: 1.0.0
+objective: "Generate deterministic, Iron & Ember–aligned redesign plans from CIC audit + extracted content."
+
+data:
+  train_dir: "./data/train"
+  val_dir: "./data/val"
+  test_dir: "./data/test"
+  schema: "./schema.json"
+  expected_item_count: 0  # bootstrap: 0 until exporter populates
+
+rollouts:
+  max_epochs: 50
+  batch_size: 4
+  learning_rate: 0.001
+  slow_update_interval: 5  # every 5 epochs
+  fast_update_interval: 1  # every epoch
+  max_tokens: 4096
+  timeout_seconds: 300
+
+validation:
+  script: "./validation.py"
+  metrics:
+    - structural_completeness
+    - heuristic_alignment
+    - accessibility_uplift
+    - performance_uplift
+    - brand_voice_similarity
+    - determinism_score
+  run_every_epoch: true
+
+convergence:
+  min_val_score: 0.87
+  stable_epochs: 3
+  allow_regressions: false
+  max_val_score_variance: 0.02
+
+output:
+  best_skill_path: "./best_skill.md"
+  metrics_dir: "./metrics"
+  checkpoints_dir: "./checkpoints"
+  logs_dir: "./logs"
+
+runtime:
+  device: "cpu"  # or "cuda" if available
+  dtype: "float32"
+  seed: 42
+  deterministic: true

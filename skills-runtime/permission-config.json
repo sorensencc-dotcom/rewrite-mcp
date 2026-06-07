@@ -1,0 +1,170 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-05T00:00:00Z",
+  "description": "Permission whitelist for reducing approval friction on trusted operations",
+  "config": {
+    "requireApproval": true,
+    "batchApprovals": true,
+    "cacheApprovals": true,
+    "cacheExpiry": 3600000
+  },
+  "whitelisted": [
+    {
+      "tool": "helm:ideas-summary",
+      "reason": "Safe aggregation query — read-only",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:pri-search",
+      "reason": "Read-only search with relevance ranking",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:rl-pipeline",
+      "reason": "Business intel read query",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:cic-status",
+      "reason": "Phase status read query",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:credit-score",
+      "reason": "Financial data read query",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:outreach-queue",
+      "reason": "Sales pipeline read query",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "helm:revenue-pipeline",
+      "reason": "Revenue forecasting read query",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "git:status",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "git:log",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "npm:list",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "npm:test",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "idea:capture",
+      "reason": "High-frequency tool (15+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "idea:list-inbox",
+      "reason": "High-frequency tool (15+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "npm:build",
+      "reason": "High-frequency tool (10+ approvals/day) — auto-whitelisted",
+      "addedAt": "2026-06-06T00:07:57.397Z"
+    },
+    {
+      "tool": "git:diff",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "git:show",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "npm:info",
+      "reason": "Safe read operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "npm:audit",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "lint",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "type-check",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "validate",
+      "reason": "Safe verification operation",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "helm:*",
+      "reason": "All helm tools are read-only queries",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "idea:*",
+      "reason": "All idea tools are read/capture operations",
+      "addedAt": "2026-06-06T01:20:00Z"
+    },
+    {
+      "tool": "git:add",
+      "reason": "Safe staging operation",
+      "addedAt": "2026-06-06T01:40:00Z"
+    },
+    {
+      "tool": "git:commit",
+      "reason": "Safe commit operation",
+      "addedAt": "2026-06-06T01:40:00Z"
+    },
+    {
+      "tool": ".claude",
+      "reason": "Safe directory access for configuration",
+      "addedAt": "2026-06-06T01:40:00Z"
+    },
+    {
+      "tool": "git:*",
+      "reason": "All safe git operations (blacklist prevents force-push)",
+      "addedAt": "2026-06-06T01:55:00Z"
+    }
+  ],
+  "blacklisted": [
+    {
+      "tool": "rm:rf",
+      "reason": "Destructive operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "git:push:force",
+      "reason": "Dangerous git operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    },
+    {
+      "tool": "db:drop",
+      "reason": "Destructive database operation",
+      "addedAt": "2026-06-05T00:00:00Z"
+    }
+  ],
+  "notes": {
+    "cacheExpiry": "Cached approvals expire after 1 hour (3600000ms)",
+    "whitelist": "Add tools that are safe, read-only, or frequently used",
+    "recommendations": "Run analyzeBottlenecks() to find tools to whitelist based on usage"
+  }
+}

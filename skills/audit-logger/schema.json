@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "action": { "type": "string", "enum": ["log", "query", "export", "retention"] },
+    "event": { "type": "string", "enum": ["skill-invoked", "workflow-executed", "config-changed", "access-granted"] },
+    "actor": { "type": "string", "description": "User or system actor" },
+    "resource": { "type": "string", "description": "Resource being acted upon" },
+    "changes": { "type": "object", "description": "What changed" },
+    "timeRange": { "type": "string", "description": "Query time range" }
+  },
+  "required": ["action"]
+}

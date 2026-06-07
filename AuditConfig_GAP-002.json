@@ -1,0 +1,37 @@
+{
+  "goal_id": "cic.harvester_v2.GAP-002",
+  "domain": "biographical_origins",
+  "audit": {
+    "confidence_min": 0.92,
+    "max_anomalies": 0,
+    "allow_medium_anomalies": false,
+    "allow_high_anomalies": false
+  },
+  "weights": {
+    "primary_bias_factor": 1.20,
+    "secondary_bias_factor": 1.00,
+    "tertiary_bias_factor": 0.80,
+    "contradiction_penalty": 1.00,
+    "temporal_alignment_strict": true
+  },
+  "coverage_requirements": {
+    "min_primary_sources": 2,
+    "min_secondary_sources": 1,
+    "required_claims": [
+      "birthplace_verified",
+      "birth_year_verified",
+      "parental_lineage_verified",
+      "migration_context_established"
+    ]
+  },
+  "retry_policy": {
+    "max_retries": 3,
+    "retryable_anomalies": [
+      "STRUCTURAL_ANOMALY",
+      "COVERAGE_GAP"
+    ],
+    "backoff_strategy": "EXPONENTIAL_WITH_JITTER",
+    "base_delay_ms": 1500,
+    "jitter_fraction": 0.20
+  }
+}

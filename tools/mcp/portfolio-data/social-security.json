@@ -1,0 +1,11 @@
+{
+  "monthlyBenefit": 3200,
+  "fullRetirementAge": 67,
+  "earlyRetiringAge": 62,
+  "delayedRetiringAge": 70,
+  "earlyBenefit": 2240,
+  "delayedBenefit": 3840,
+  "projectYears": 25,
+  "presentValue": 509000,
+  "lastUpdated": "2024-06-01"
+}

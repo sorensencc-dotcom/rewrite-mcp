@@ -1,0 +1,52 @@
+name: CIC Dashboard E2E Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        
+    - name: Install Control Plane dependencies
+      run: |
+        cd apps/control-plane
+        npm install
+        
+    - name: Install Ingestion & Playwright dependencies
+      run: |
+        cd projects/cic/ingestion
+        npm install
+        npx playwright install --with-deps
+        
+    - name: Start Control Plane (Mock Mode)
+      env:
+        PORT: 8080
+        AUTH_DISABLED: "true"
+        GOOGLE_CLIENT_ID: "mock-id"
+      run: |
+        cd apps/control-plane
+        node index.js &
+        echo "Waiting for control plane to start..."
+        npx wait-on http://localhost:8080/health
+        
+    - name: Run Playwright tests
+      run: |
+        cd projects/cic/ingestion
+        npm run test:e2e
+        
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: projects/cic/ingestion/playwright-report/
+        retention-days: 30

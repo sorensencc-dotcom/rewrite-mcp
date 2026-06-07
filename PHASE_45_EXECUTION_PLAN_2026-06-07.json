@@ -1,0 +1,71 @@
+{
+  "phase": "45",
+  "title": "Suggested New Skills (Phase 2 Backlog)",
+  "goal": "Build 7 additional skills identified from repo activity analysis",
+  "totalEffort": "10-12 weeks",
+  "executionOrder": [
+    "45.3 environment-validator (1 week)",
+    "45.2 cic-benchmark-runner (2 weeks)",
+    "45.1 mee-phase-executor (2-3 weeks)",
+    "45.4 mee-finding-assessor (1.5 weeks)",
+    "45.5 helm-daily-brief (2 weeks)",
+    "45.6 idea-inbox-harvester (1.5 weeks)",
+    "45.7 phase-validator (2 weeks)"
+  ],
+  "skills": [
+    {
+      "name": "45.1 - mee-phase-executor",
+      "description": "Execute MEE phases with state tracking, resumable execution",
+      "priority": "high",
+      "effort": "2-3 weeks",
+      "commandCount": 5
+    },
+    {
+      "name": "45.2 - cic-benchmark-runner",
+      "description": "Automate RL benchmark pipeline with cost tracking",
+      "priority": "high",
+      "effort": "2 weeks",
+      "commandCount": 5
+    },
+    {
+      "name": "45.3 - environment-validator",
+      "description": "Fast health check for session startup",
+      "priority": "high",
+      "effort": "1 week",
+      "commandCount": 4
+    },
+    {
+      "name": "45.4 - mee-finding-assessor",
+      "description": "Review autonomous research findings",
+      "priority": "medium",
+      "effort": "1.5 weeks",
+      "commandCount": 4
+    },
+    {
+      "name": "45.5 - helm-daily-brief",
+      "description": "Generate morning briefing from Calendar, Gmail, Finance",
+      "priority": "medium",
+      "effort": "2 weeks",
+      "commandCount": 4
+    },
+    {
+      "name": "45.6 - idea-inbox-harvester",
+      "description": "Harvest ideas to priority list",
+      "priority": "medium",
+      "effort": "1.5 weeks",
+      "commandCount": 3
+    },
+    {
+      "name": "45.7 - phase-validator",
+      "description": "Verify phase completion",
+      "priority": "medium",
+      "effort": "2 weeks",
+      "commandCount": 5
+    }
+  ],
+  "preApprovals": {
+    "status": "READY",
+    "message": "All Phase 45 commands pre-approved and whitelisted for execution",
+    "timestamp": "2026-06-07T00:52:01.757Z"
+  }
+}

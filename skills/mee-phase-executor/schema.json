@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "title": "MEE Phase Executor Input",
+  "description": "Execute MEE phases with state tracking and resumable execution",
+  "properties": {
+    "phaseList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of phase numbers to execute (e.g., ['43', '44', '45'])",
+      "examples": [["43", "44", "45"], ["45"]]
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["sequential", "parallel"],
+      "description": "Execution mode: sequential (one at a time) or parallel (concurrent)",
+      "default": "sequential"
+    },
+    "resumeFromStep": {
+      "type": "string",
+      "description": "Resume from checkpoint (e.g., 'phase-45-step-12'). Omit to start fresh.",
+      "examples": ["phase-45-step-12", null]
+    },
+    "costBudget": {
+      "type": "number",
+      "description": "Maximum execution cost in USD",
+      "minimum": 10,
+      "default": 5000
+    },
+    "timeout": {
+      "type": "number",
+      "description": "Maximum execution time in milliseconds",
+      "minimum": 60000,
+      "default": 3600000
+    },
+    "checkpointInterval": {
+      "type": "number",
+      "description": "Checkpoint frequency in milliseconds (save progress)",
+      "minimum": 30000,
+      "default": 300000
+    },
+    "rollbackOnError": {
+      "type": "boolean",
+      "description": "Automatically rollback to last checkpoint on error",
+      "default": true
+    }
+  },
+  "required": ["phaseList"]
+}

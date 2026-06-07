@@ -1,0 +1,32 @@
+{
+  "name": "bob-operator",
+  "displayName": "BOB Operator Console",
+  "description": "Control BOB/CIC workflows from VS Code.",
+  "version": "0.0.1",
+  "publisher": "castiron",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "activationEvents": [
+    "onCommand:bob.runCicTests",
+    "onCommand:bob.openDashboard",
+    "onCommand:bob.triggerIngestion"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "bob.runCicTests",
+        "title": "BOB: Run CIC Tests"
+      },
+      {
+        "command": "bob.openDashboard",
+        "title": "BOB: Open CIC Dashboard"
+      },
+      {
+        "command": "bob.triggerIngestion",
+        "title": "BOB: Trigger Ingestion Job"
+      }
+    ]
+  },
+  "main": "./out/extension.js"
+}

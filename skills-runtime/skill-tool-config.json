@@ -1,0 +1,256 @@
+{
+  "version": "1.0.0",
+  "description": "Skill-to-MCP-Tool mapping for Claude Code integration",
+  "toolMappings": [
+    {
+      "skillName": "cic-section-summarizer",
+      "toolName": "summarize_cic_phase",
+      "description": "Summarize CIC phase progress with completion %, status, blockers, and next steps",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "sectionId": {
+            "type": "string",
+            "description": "Phase ID (e.g., 'phase-44.0')"
+          },
+          "files": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "File paths to summarize"
+          }
+        },
+        "required": ["sectionId"]
+      }
+    },
+    {
+      "skillName": "agent-drift-detector",
+      "toolName": "detect_agent_drift",
+      "description": "Detect schema drift between expected and actual agent schemas",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "agentName": {
+            "type": "string",
+            "description": "Agent identifier"
+          },
+          "expectedSchema": {
+            "type": "object",
+            "description": "Expected schema definition"
+          },
+          "actualSchema": {
+            "type": "object",
+            "description": "Actual schema from deployed agent"
+          }
+        },
+        "required": ["agentName", "expectedSchema", "actualSchema"]
+      }
+    },
+    {
+      "skillName": "rewrite-labs-orchestrator",
+      "toolName": "orchestrate_rl_pipeline",
+      "description": "Monitor and orchestrate Rewrite Labs pipeline stages",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "pipelineState": {
+            "type": "object",
+            "description": "Current pipeline state object"
+          }
+        },
+        "required": ["pipelineState"]
+      }
+    },
+    {
+      "skillName": "environment-diagnostics",
+      "toolName": "diagnose_environment",
+      "description": "Debug Windows/WSL2/MCP/Node environment issues from logs",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "logs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Log lines to analyze"
+          },
+          "systemInfo": {
+            "type": "object",
+            "description": "System information (OS, Node version, etc.)"
+          }
+        },
+        "required": ["logs"]
+      }
+    },
+    {
+      "skillName": "session-boundary-manager",
+      "toolName": "manage_session_boundary",
+      "description": "Detect session context overflow and context drift",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            },
+            "description": "Chat transcript to analyze"
+          }
+        },
+        "required": ["transcript"]
+      }
+    },
+    {
+      "skillName": "cic-roadmap-updater",
+      "toolName": "update_cic_roadmap",
+      "description": "Auto-update CIC roadmap and suggest version bumps based on progress",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "roadmap": {
+            "type": "object",
+            "description": "Current roadmap object"
+          },
+          "progress": {
+            "type": "object",
+            "properties": {
+              "completed": { "type": "number" },
+              "total": { "type": "number" }
+            },
+            "description": "Progress metrics"
+          }
+        },
+        "required": ["roadmap", "progress"]
+      }
+    },
+    {
+      "skillName": "operator-grade-procedures",
+      "toolName": "generate_procedure",
+      "description": "Generate deterministic step-by-step procedures with error branches",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "Task to generate procedure for"
+          },
+          "environment": {
+            "type": "string",
+            "description": "Target environment (local, ci, prod)"
+          }
+        },
+        "required": ["task"]
+      }
+    },
+    {
+      "skillName": "web-regression",
+      "toolName": "detect_web_regression",
+      "description": "Detect regressions in web UI across versions",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "screenshotA": { "type": "string" },
+          "screenshotB": { "type": "string" }
+        },
+        "required": ["screenshotA", "screenshotB"]
+      }
+    },
+    {
+      "skillName": "research-capture",
+      "toolName": "capture_research",
+      "description": "Capture and structure autonomous research findings",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "findings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["findings"]
+      }
+    },
+    {
+      "skillName": "treatment-update",
+      "toolName": "update_treatment",
+      "description": "Update treatment configuration with validation",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "treatmentId": { "type": "string" },
+          "config": { "type": "object" }
+        },
+        "required": ["treatmentId"]
+      }
+    },
+    {
+      "skillName": "doc-update",
+      "toolName": "update_documentation",
+      "description": "Update project documentation with validation",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "docPath": { "type": "string" },
+          "content": { "type": "string" }
+        },
+        "required": ["docPath"]
+      }
+    },
+    {
+      "skillName": "docs-sync-release",
+      "toolName": "sync_docs_release",
+      "description": "Synchronize and release documentation updates",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "string" }
+        },
+        "required": ["version"]
+      }
+    },
+    {
+      "skillName": "approvals-audit",
+      "toolName": "audit_approvals",
+      "description": "Audit approval workflows and compliance",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "auditScope": { "type": "string" }
+        },
+        "required": ["auditScope"]
+      }
+    },
+    {
+      "skillName": "session-wrap",
+      "toolName": "session_wrap",
+      "description": "Wrap up session: update docs, commit changes, provide summary and next steps",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "docUpdates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            },
+            "description": "Documentation files to update"
+          },
+          "commitMessage": {
+            "type": "string",
+            "description": "Git commit message (e.g., '[claude] Phase X: Feature')"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Session summary"
+          }
+        },
+        "required": ["commitMessage"]
+      }
+    }
+  ]
+}

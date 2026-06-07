@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helm Dashboard — Phase 47/48 Cost Intelligence</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      color: #8b949e;
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: #58a6ff;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      margin-bottom: 15px;
+    }
+
+    .metric {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #58a6ff;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #8b949e;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #30363d;
+      border-radius: 4px;
+      margin: 15px 0 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #28a745, #ffc107);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    .progress-fill.warning {
+      background: linear-gradient(90deg, #ffc107, #fd7e14);
+    }
+
+    .progress-fill.critical {
+      background: linear-gradient(90deg, #fd7e14, #dc3545);
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .status.ok {
+      background: rgba(40, 167, 69, 0.2);
+      color: #3fb950;
+    }
+
+    .status.warning {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+
+    .status.critical {
+      background: rgba(220, 53, 69, 0.2);
+      color: #f85149;
+    }
+
+    .provider-list {
+      list-style: none;
+      margin-top: 15px;
+    }
+
+    .provider-item {
+      padding: 10px;
+      background: #0d1117;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .provider-name {
+      font-weight: 500;
+    }
+
+    .provider-cost {
+      color: #58a6ff;
+      font-weight: 600;
+    }
+
+    .chart {
+      margin-top: 20px;
+      padding: 15px 0;
+      border-top: 1px solid #30363d;
+    }
+
+    .chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b949e;
+      margin-bottom: 15px;
+    }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 150px;
+    }
+
+    .bar {
+      flex: 1;
+      background: #58a6ff;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #0d1117;
+    }
+
+    .bar.low {
+      background: #3fb950;
+    }
+
+    .bar.medium {
+      background: #ffc107;
+    }
+
+    .bar.high {
+      background: #f85149;
+    }
+
+    .command-palette {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    .command-palette-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #8b949e;
+      margin-bottom: 15px;
+    }
+
+    .command-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .command-button {
+      padding: 8px 12px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      color: #58a6ff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .command-button:hover {
+      background: #58a6ff;
+      color: #0d1117;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #30363d;
+      text-align: center;
+      color: #8b949e;
+      font-size: 12px;
+    }
+
+    .update-time {
+      color: #8b949e;
+      font-size: 11px;
+      margin-top: 15px;
+    }
+
+    .no-data {
+      padding: 40px;
+      text-align: center;
+      color: #8b949e;
+    }
+
+    .alert {
+      padding: 12px 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border-left: 4px solid;
+    }
+
+    .alert.info {
+      background: rgba(88, 166, 255, 0.1);
+      border-color: #58a6ff;
+      color: #58a6ff;
+    }
+
+    .alert.warning {
+      background: rgba(255, 193, 7, 0.1);
+      border-color: #ffc107;
+      color: #ffc107;
+    }
+
+    .alert.critical {
+      background: rgba(248, 81, 73, 0.1);
+      border-color: #f85149;
+      color: #f85149;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>💰 Helm Dashboard</h1>
+      <p class="subtitle">Phase 47/48 Cost Intelligence — Real-time LLM spend tracking and routing</p>
+    </header>
+
+    <div id="content">
+      <div class="no-data">Loading data...</div>
+    </div>
+
+    <div class="command-palette">
+      <div class="command-palette-title">Quick Commands</div>
+      <div class="command-grid">
+        <button class="command-button" onclick="executeCommand('costs')">📊 /costs</button>
+        <button class="command-button" onclick="executeCommand('routing')">🔄 /routing</button>
+        <button class="command-button" onclick="executeCommand('budget')">💵 /budget</button>
+        <button class="command-button" onclick="executeCommand('trends')">📈 /trends</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Helm Dashboard v1.0 | Phase 47/48 Cost Intelligence</p>
+      <p style="margin-top: 10px;">Data updates every 30 seconds</p>
+    </footer>
+  </div>
+
+  <script>
+    // In a real implementation, this would fetch data from the Helm server
+    // For now, we'll use placeholder data
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch('/api/helm/today');
+        const data = await response.json();
+        renderDashboard(data);
+      } catch (err) {
+        // Fallback to mock data for demo
+        renderDashboard(getMockData());
+      }
+    }
+
+    function getMockData() {
+      return {
+        timestamp: new Date().toISOString(),
+        spend: {
+          real: { usd: 2.34, formatted: '$2.34' },
+          implied: { usd: 8.75, formatted: '$8.75' },
+        },
+        budget: {
+          daily: { usd: 10.0, formatted: '$10.00' },
+          remaining: { usd: 7.66, formatted: '$7.66' },
+          percentUsed: 23.4,
+          percentRemaining: 76.6,
+          level: 'ok',
+        },
+        byProvider: [
+          {
+            provider: 'anthropic',
+            real: { usd: 2.34, formatted: '$2.34' },
+            implied: { usd: 8.75, formatted: '$8.75' },
+          },
+          {
+            provider: 'google',
+            real: { usd: 0, formatted: '$0.00' },
+            implied: { usd: 0, formatted: '$0.00' },
+          },
+        ],
+      };
+    }
+
+    function renderDashboard(data) {
+      const statusClass = data.budget.level === 'critical' ? 'critical' : data.budget.level === 'warning' ? 'warning' : 'ok';
+
+      let html = '';
+
+      // Budget alert
+      if (data.budget.level === 'warning' || data.budget.level === 'critical') {
+        html += `
+          <div class="alert ${statusClass}">
+            ${data.budget.level === 'critical'
+              ? '🚨 Over budget! Consider switching to cheaper models or local inference.'
+              : '⚠️ Budget running low. Consider switching to cheaper models.'}
+          </div>
+        `;
+      }
+
+      // Grid cards
+      html += '<div class="grid">';
+
+      // Cost card
+      html += `
+        <div class="card">
+          <div class="card-title">Today's Spend</div>
+          <div class="metric">${data.spend.real.formatted}</div>
+          <div class="metric-label">Real cost</div>
+          <div style="margin-top: 15px; color: #8b949e; font-size: 12px;">
+            Implied: ${data.spend.implied.formatted}
+          </div>
+        </div>
+      `;
+
+      // Budget card
+      const percentUsed = Math.round(data.budget.percentUsed);
+      html += `
+        <div class="card">
+          <div class="card-title">Budget Status</div>
+          <div class="metric">${percentUsed}%</div>
+          <div class="metric-label">of daily budget</div>
+          <div class="progress-bar">
+            <div class="progress-fill ${statusClass}" style="width: ${percentUsed}%"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #8b949e;">
+            <span>Used: ${data.spend.real.formatted}</span>
+            <span>Left: ${data.budget.remaining.formatted}</span>
+          </div>
+          <div class="status ${statusClass}">
+            ${statusClass === 'ok' ? '✓ Healthy' : statusClass === 'warning' ? '⚠️ Warning' : '🚨 Critical'}
+          </div>
+        </div>
+      `;
+
+      // Provider breakdown card
+      html += `
+        <div class="card">
+          <div class="card-title">By Provider</div>
+          <ul class="provider-list">
+      `;
+
+      for (const provider of data.byProvider) {
+        if (provider.real.usd > 0 || provider.implied.usd > 0) {
+          html += `
+            <li class="provider-item">
+              <span class="provider-name">${provider.provider}</span>
+              <span class="provider-cost">${provider.real.formatted}</span>
+            </li>
+          `;
+        }
+      }
+
+      html += `
+          </ul>
+        </div>
+      `;
+
+      html += '</div>'; // Close grid
+
+      // Additional sections would go here (trends, routing, etc.)
+
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function executeCommand(cmd) {
+      alert(`Execute: /${cmd}\n\n(In real implementation, this would run the command.)`);
+    }
+
+    // Load on page load
+    window.addEventListener('DOMContentLoaded', loadDashboard);
+
+    // Auto-refresh every 30 seconds
+    setInterval(loadDashboard, 30000);
+  </script>
+</body>
+</html>

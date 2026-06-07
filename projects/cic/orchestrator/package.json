@@ -1,0 +1,14 @@
+{
+  "name": "cic-orchestrator",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.6"
+  }
+}

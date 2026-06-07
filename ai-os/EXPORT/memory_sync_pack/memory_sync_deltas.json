@@ -1,0 +1,22 @@
+{
+  "previous_pack_version": "2026.05.25.04",
+  "current_pack_version": "2026.05.25.05",
+  "files_changed": [
+    {
+      "file": "copilot_memory.txt",
+      "changed": false
+    },
+    {
+      "file": "gemini_memory.md",
+      "changed": false
+    },
+    {
+      "file": "claude_memory.md",
+      "changed": false
+    },
+    {
+      "file": "operator_doctrine.md",
+      "changed": false
+    }
+  ]
+}

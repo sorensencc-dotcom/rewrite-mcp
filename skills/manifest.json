@@ -1,0 +1,127 @@
+{
+  "version": "1.0.0",
+  "name": "Shared Skills Library",
+  "description": "Cross-platform skills for Claude, Copilot, and Gemini",
+  "skills": {
+    "cic-section-summarizer": {
+      "version": "1.0.0",
+      "entry": "./cic-section-summarizer/index.js",
+      "schema": "./cic-section-summarizer/schema.json",
+      "description": "Auto-summarize CIC phase progress",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "agent-drift-detector": {
+      "version": "1.0.0",
+      "entry": "./agent-drift-detector/index.js",
+      "schema": "./agent-drift-detector/schema.json",
+      "description": "Detect agent/extractor schema drift",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "rewrite-labs-orchestrator": {
+      "version": "1.0.0",
+      "entry": "./rewrite-labs-orchestrator/index.js",
+      "schema": "./rewrite-labs-orchestrator/schema.json",
+      "description": "Monitor RL pipeline continuously",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "environment-diagnostics": {
+      "version": "1.0.0",
+      "entry": "./environment-diagnostics/index.js",
+      "schema": "./environment-diagnostics/schema.json",
+      "description": "Debug Windows/WSL2/MSIX issues",
+      "platforms": ["claude"]
+    },
+    "session-boundary-manager": {
+      "version": "1.0.0",
+      "entry": "./session-boundary-manager/index.js",
+      "schema": "./session-boundary-manager/schema.json",
+      "description": "Detect session overflow/drift",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "cic-roadmap-updater": {
+      "version": "1.0.0",
+      "entry": "./cic-roadmap-updater/index.js",
+      "schema": "./cic-roadmap-updater/schema.json",
+      "description": "Auto-update roadmap from progress",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "operator-grade-procedures": {
+      "version": "1.0.0",
+      "entry": "./operator-grade-procedures/index.js",
+      "schema": "./operator-grade-procedures/schema.json",
+      "description": "Generate deterministic runbooks",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "web-regression": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Verify doc links (rewrite-mcp release cycle)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "research-capture": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Route findings to documents (CIC workflow)",
+      "platforms": ["claude", "gemini"]
+    },
+    "treatment-update": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Apply narrative changes (documentary)",
+      "platforms": ["claude"]
+    },
+    "doc-update": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Update changelog/roadmap (maintenance)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "docs-sync-release": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Validate + build docs (release)",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "approvals-audit": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Log operator approvals (governance)",
+      "platforms": ["claude"]
+    },
+    "cic-benchmark-runner": {
+      "version": "1.0.0",
+      "entry": "./cic-benchmark-runner/index.js",
+      "schema": "./cic-benchmark-runner/schema.json",
+      "description": "Automate RL benchmark pipeline with cost tracking and resumable runs",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "mee-phase-executor": {
+      "version": "1.0.0",
+      "entry": "./mee-phase-executor/index.js",
+      "schema": "./mee-phase-executor/schema.json",
+      "description": "Execute MEE phases with state tracking and resumable execution",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "helm-daily-brief": {
+      "version": "1.0.0",
+      "entry": "./helm-daily-brief/index.js",
+      "schema": "./helm-daily-brief/schema.json",
+      "description": "Generate morning briefing from Calendar, Gmail, Finance via MCP",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "mee-finding-assessor": {
+      "version": "1.0.0",
+      "entry": "./mee-finding-assessor/index.js",
+      "schema": "./mee-finding-assessor/schema.json",
+      "description": "Assess and score MEE findings with weighted confidence model",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "session-wrap": {
+      "version": "1.0.0",
+      "entry": "./session-wrap/index.js",
+      "schema": "./session-wrap/schema.json",
+      "description": "Wrap up session: update docs, commit changes, provide summary and next steps",
+      "platforms": ["claude"]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Phase Validator Input Schema",
+  "description": "Input validation for comprehensive phase artifact validation",
+  "type": "object",
+  "properties": {
+    "phaseId": {
+      "type": "string",
+      "description": "Phase identifier (e.g., '45', '45.1', '45.7')"
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "Artifacts to validate",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["schema", "implementation", "test", "documentation", "benchmark", "assessment"],
+            "description": "Artifact type"
+          },
+          "path": {
+            "type": "string",
+            "description": "File path to artifact"
+          },
+          "content": {
+            "type": "string",
+            "description": "Artifact content for validation"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata",
+            "additionalProperties": true
+          }
+        },
+        "required": ["type", "path"]
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "validationMode": {
+      "type": "string",
+      "enum": ["basic", "strict", "comprehensive"],
+      "default": "strict",
+      "description": "Validation strictness level"
+    },
+    "checkSchema": {
+      "type": "boolean",
+      "default": true,
+      "description": "Validate JSON schemas"
+    },
+    "checkTests": {
+      "type": "boolean",
+      "default": true,
+      "description": "Validate test coverage"
+    },
+    "checkPolicy": {
+      "type": "boolean",
+      "default": true,
+      "description": "Check policy compliance"
+    },
+    "checkDocumentation": {
+      "type": "boolean",
+      "default": true,
+      "description": "Validate documentation completeness"
+    },
+    "minTestCoverage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 80,
+      "description": "Minimum test coverage percentage"
+    },
+    "minPolicyScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.75,
+      "description": "Minimum policy compliance score"
+    },
+    "reportFormat": {
+      "type": "string",
+      "enum": ["json", "text", "detailed"],
+      "default": "detailed",
+      "description": "Report output format"
+    }
+  },
+  "required": ["phaseId", "artifacts"],
+  "additionalProperties": false
+}

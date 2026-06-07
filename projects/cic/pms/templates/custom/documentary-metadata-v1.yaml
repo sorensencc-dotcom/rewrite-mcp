@@ -1,0 +1,47 @@
+template_id: documentary-metadata-v1
+name: Documentary Metadata Extraction
+version: "1.0.0"
+extractor_type: custom
+content_type: documentary_metadata
+template: |
+  Extract historical metadata from the following source material for Cast Iron Charlie documentary:
+
+  Source Material: {source_material}
+  Source Type: {source_type}
+  Archive Collection: {collection_name}
+
+  Extract and structure:
+
+  **PEOPLE**
+  - Name (last, first)
+  - Role/Title (engineer, executive, designer, worker)
+  - Dates (birth/death if available, or activity period)
+  - Context (relationship to Charles Emil Sorensen, connection to Ford/manufacturing)
+
+  **PLACES**
+  - Location name
+  - Address/Region
+  - Significance (factory, office, residence, landmark)
+  - Time period active/relevant
+
+  **EVENTS**
+  - Event name/description
+  - Date (or date range)
+  - Location
+  - Participants (people involved)
+  - Documentary relevance (why this matters to the story)
+
+  **ARTIFACTS**
+  - Object type (vehicle, tool, document, equipment, photo)
+  - Description
+  - Manufacturing date (estimated if needed)
+  - Materials/Condition
+  - Manufacturer/Designer
+  - Historical significance
+
+  Return structured JSON-compatible format with null for missing fields.
+created_at: "2026-05-29T00:00:00Z"
+max_tokens: 3000
+temperature: 0.4
+top_p: 0.85
+deprecated: false

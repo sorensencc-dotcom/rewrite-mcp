@@ -1,0 +1,16 @@
+# cic.rule.v1
+name: no_nondeterministic_in_evidence_pack
+version: 1.0.0
+
+target:
+  pipeline: documentary_ingest
+  stage: evidence_pack
+
+constraint_type: routing        # schema | safety | routing | cost
+
+expression: >
+  all(skills, s, s.determinism.is_pure == true
+                 && s.determinism.uses_llm == false
+                 && s.determinism.uses_network == false)
+
+enforcement: hard               # hard | soft

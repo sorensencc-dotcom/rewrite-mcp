@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "skillName": { "type": "string", "description": "Skill to profile" },
+    "sampleSize": { "type": "number", "description": "Number of samples", "default": 100 },
+    "profiling": { "type": "string", "enum": ["execution-time", "memory", "cpu", "all"] },
+    "compareBaseline": { "type": "boolean", "default": true },
+    "generateReport": { "type": "boolean", "default": true }
+  },
+  "required": ["skillName"]
+}

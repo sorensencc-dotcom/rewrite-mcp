@@ -1,0 +1,54 @@
+# Bitbucket Pipelines configuration for BOB & CIC validation
+
+image: node:20
+
+options:
+  max-time: 30
+
+pipelines:
+  default:
+    - step:
+        name: Install & Test
+        caches:
+          - node
+        script:
+          - npm ci
+          - npm run lint || echo "No lint script"
+          - npm test
+
+  branches:
+    main:
+      - step:
+          name: Build & Test
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm run build
+            - npm test
+      - step:
+          name: Package Artifacts
+          script:
+            - npm run build
+          artifacts:
+            - dist/**
+
+    develop:
+      - step:
+          name: Fast CI
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm test
+
+  pull-requests:
+    '**':
+      - step:
+          name: PR Validation
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm run build
+            - npm test

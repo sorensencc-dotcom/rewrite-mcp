@@ -1,0 +1,18 @@
+# cic.hook.v1
+name: enforce_schema_before_commit
+version: 1.0.0
+
+phase: before_pipeline_commit   # on_request_received | before_skill_invoke | after_skill_invoke | before_pipeline_commit
+
+scope:
+  pipeline: documentary_ingest
+
+behavior:
+  action: validate_schema
+  params:
+    target_stage: evidence_pack
+    schema: evidence_pack_v2
+
+failure_policy: fail_pipeline   # fail_pipeline | log_only | fallback
+idempotent: true
+priority: 100

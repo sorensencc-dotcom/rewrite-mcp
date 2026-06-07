@@ -1,0 +1,21 @@
+template_id: semantic_summary
+name: Semantic Summary Generation Stage
+version: "2.0.0"
+extractor_type: custom
+content_type: semantic
+parent: base_semantic
+blocks:
+  stage_header: |
+    STAGE 3: Contextual Summary & Topic Synthesis
+  stage_instructions: |
+    Synthesize all extracted entities and relationships:
+    Entities: {seed_output}
+    Relationships: {refine_output}
+
+    Provide a concise historical summary of this documentary flow and derive high-level topics.
+template: ""
+created_at: "2026-05-30T00:00:00Z"
+max_tokens: 3000
+temperature: 0.1
+top_p: 0.95
+deprecated: false

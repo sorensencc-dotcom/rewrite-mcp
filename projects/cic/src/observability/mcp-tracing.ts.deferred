@@ -1,0 +1,195 @@
+/**
+ * filename: mcp-tracing.ts
+ * location: src/observability/mcp-tracing.ts
+ * created: 2026-06-06
+ *
+ * MCP Observability and Tracing
+ * Automatic span recording, metrics collection, and trace event subscription
+ *
+ * Provides:
+ * - Automatic span creation and recording
+ * - Metrics collection (call count, latency, errors)
+ * - Trace event subscription and retrieval
+ * - Correlation ID and trace ID propagation
+ */
+
+import { randomUUID } from "node:crypto";
+import type { MCPSpan, MCPMethod } from "../lib/mcp-client.js";
+
+export interface ObservabilityContext {
+  traceId: string;
+  spanId: string;
+  correlationId: string;
+  parentSpanId?: string;
+}
+
+export interface SpanMetadata {
+  method: MCPMethod;
+  correlationId: string;
+  startTime: number;
+  endTime?: number;
+  durationMs?: number;
+  status: "pending" | "running" | "completed" | "failed";
+  error?: string;
+}
+
+export interface MethodStats {
+  method: MCPMethod;
+  callCount: number;
+  successCount: number;
+  failureCount: number;
+  totalLatencyMs: number;
+  avgLatencyMs: number;
+  maxLatencyMs: number;
+  minLatencyMs: number;
+  lastCallTime?: number;
+}
+
+export class MCPMetricsCollector {
+  private stats: Map<MCPMethod, MethodStats> = new Map();
+
+  recordCall(method: MCPMethod, durationMs: number, success: boolean): void {
+    const existing = this.stats.get(method) || {
+      method,
+      callCount: 0,
+      successCount: 0,
+      failureCount: 0,
+      totalLatencyMs: 0,
+      avgLatencyMs: 0,
+      maxLatencyMs: 0,
+      minLatencyMs: Infinity,
+    };
+
+    existing.callCount++;
+    if (success) {
+      existing.successCount++;
+    } else {
+      existing.failureCount++;
+    }
+    existing.totalLatencyMs += durationMs;
+    existing.avgLatencyMs = existing.totalLatencyMs / existing.callCount;
+    existing.maxLatencyMs = Math.max(existing.maxLatencyMs, durationMs);
+    existing.minLatencyMs = Math.min(existing.minLatencyMs, durationMs);
+    existing.lastCallTime = Date.now();
+
+    this.stats.set(method, existing);
+  }
+
+  getStats(method: MCPMethod): MethodStats | undefined {
+    return this.stats.get(method);
+  }
+
+  getAllStats(): MethodStats[] {
+    return Array.from(this.stats.values());
+  }
+
+  reset(): void {
+    this.stats.clear();
+  }
+}
+
+export class MCPTraceRecorder {
+  private traceEvents: Map<string, MCPSpan[]> = new Map();
+
+  recordSpan(span: MCPSpan): void {
+    const traceId = span.correlationId; // Use correlationId as trace key
+    if (!this.traceEvents.has(traceId)) {
+      this.traceEvents.set(traceId, []);
+    }
+    this.traceEvents.get(traceId)!.push(span);
+  }
+
+  getTraceEvents(traceId: string): MCPSpan[] {
+    return this.traceEvents.get(traceId) || [];
+  }
+
+  getAllTraces(): Map<string, MCPSpan[]> {
+    return new Map(this.traceEvents);
+  }
+
+  reset(): void {
+    this.traceEvents.clear();
+  }
+}
+
+export class MCPObservabilityManager {
+  private metrics: MCPMetricsCollector = new MCPMetricsCollector();
+  private recorder: MCPTraceRecorder = new MCPTraceRecorder();
+  private spanStack: Map<string, { spanId: string; startTime: number }> =
+    new Map();
+
+  startSpan(
+    method: MCPMethod,
+    context: ObservabilityContext
+  ): {
+    spanId: string;
+    recordSpan: (span: MCPSpan | Partial<MCPSpan>, error?: Error) => void;
+  } {
+    const spanId = context.spanId || randomUUID();
+
+    this.spanStack.set(spanId, {
+      spanId,
+      startTime: Date.now(),
+    });
+
+    const recordSpan = (
+      span: MCPSpan | Partial<MCPSpan>,
+      error?: Error
+    ) => {
+      const fullSpan: MCPSpan = {
+        method,
+        correlationId: context.correlationId,
+        startTime: span.startTime || Date.now(),
+        status: span.status || "completed",
+        error: error?.message || span.error,
+        ...span,
+      };
+
+      this.recorder.recordSpan(fullSpan);
+
+      if (fullSpan.status === "success") {
+        this.metrics.recordCall(method, fullSpan.durationMs || 0, true);
+      } else if (fullSpan.status === "failed") {
+        this.metrics.recordCall(method, fullSpan.durationMs || 0, false);
+      }
+
+      this.spanStack.delete(spanId);
+    };
+
+    return { spanId, recordSpan };
+  }
+
+  getStats(method?: MCPMethod): MethodStats | MethodStats[] | undefined {
+    if (method) {
+      return this.metrics.getStats(method);
+    }
+    return this.metrics.getAllStats();
+  }
+
+  getRecentMetrics(): MethodStats[] {
+    return this.metrics.getAllStats();
+  }
+
+  getTraceEvents(traceId: string): MCPSpan[] {
+    return this.recorder.getTraceEvents(traceId);
+  }
+
+  getAllTraces(): Map<string, MCPSpan[]> {
+    return this.recorder.getAllTraces();
+  }
+
+  reset(): void {
+    this.metrics.reset();
+    this.recorder.reset();
+    this.spanStack.clear();
+  }
+}
+
+let observabilityManager: MCPObservabilityManager | null = null;
+
+export function getMCPObservabilityManager(): MCPObservabilityManager {
+  if (!observabilityManager) {
+    observabilityManager = new MCPObservabilityManager();
+  }
+  return observabilityManager;
+}

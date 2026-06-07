@@ -1,0 +1,9 @@
+{
+  "dailyBudget": 20,
+  "alertThresholds": {
+    "warning": 70,
+    "critical": 90
+  },
+  "alertsEnabled": true,
+  "lastUpdated": "2026-06-04T23:38:56.207Z"
+}

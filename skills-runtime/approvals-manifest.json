@@ -1,0 +1,431 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-05T00:00:00Z",
+  "description": "Proactive approval manifest with threshold-based auto-promotion",
+  "config": {
+    "autoPromoteThreshold": 2,
+    "trackingEnabled": true
+  },
+  "preApproved": [
+    {
+      "command": "npm run build-docs",
+      "reason": "Build MkDocs documentation site",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T10:00:00Z",
+      "autoPromotedAt": "2026-06-04T12:00:00Z"
+    },
+    {
+      "command": "npm run cic-ui:sentinel",
+      "reason": "Verify UI layer status",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T10:30:00Z",
+      "autoPromotedAt": "2026-06-04T12:30:00Z"
+    },
+    {
+      "command": "npm run cic-ui:validate",
+      "reason": "Run UI integrity checks",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T11:00:00Z",
+      "autoPromotedAt": "2026-06-04T13:00:00Z"
+    },
+    {
+      "command": "npm run cic-ui:smoke",
+      "reason": "Run UI smoke tests",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T11:30:00Z",
+      "autoPromotedAt": "2026-06-04T13:30:00Z"
+    },
+    {
+      "command": "npm run cic-ui:snapshot -- verify",
+      "reason": "Verify UI golden master snapshot",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T12:00:00Z",
+      "autoPromotedAt": "2026-06-04T14:00:00Z"
+    },
+    {
+      "command": "npx tsx benchmarks/routing/learning/test_trainer.ts",
+      "reason": "Test trainer script with tsx support",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T13:00:00Z",
+      "autoPromotedAt": "2026-06-04T15:00:00Z"
+    },
+    {
+      "command": "npm start",
+      "context": "projects/cic/ingestion",
+      "reason": "Launch backend intelligence server",
+      "status": "auto-promoted",
+      "occurrences": 2,
+      "firstSeen": "2026-06-04T14:00:00Z",
+      "autoPromotedAt": "2026-06-04T16:00:00Z"
+    },
+    {
+      "command": "npm run policy:check",
+      "reason": "Check policy compliance",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.530Z",
+      "approvedAt": "2026-06-07T00:44:27.531Z"
+    },
+    {
+      "command": "npm run policy:report",
+      "reason": "Generate policy report",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.541Z",
+      "approvedAt": "2026-06-07T00:44:27.541Z"
+    },
+    {
+      "command": "npm run release:full",
+      "reason": "Full release pipeline",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.543Z",
+      "approvedAt": "2026-06-07T00:44:27.543Z"
+    },
+    {
+      "command": "npm run doc:drift",
+      "reason": "Check documentation drift",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.544Z",
+      "approvedAt": "2026-06-07T00:44:27.544Z"
+    },
+    {
+      "command": "npm run gh-actions:check",
+      "reason": "Check GitHub Actions compliance",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.546Z",
+      "approvedAt": "2026-06-07T00:44:27.546Z"
+    },
+    {
+      "command": "npx vitest run",
+      "reason": "[Phase 45] 45.1 - mee-phase-executor: Unit test new mee-phase-executor skill",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.729Z",
+      "approvedAt": "2026-06-07T00:52:01.731Z"
+    },
+    {
+      "command": "npm run test:rewrite-labs",
+      "reason": "[Phase 45] 45.1 - mee-phase-executor: Integration tests for phase executor",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.743Z",
+      "approvedAt": "2026-06-07T00:52:01.743Z"
+    },
+    {
+      "command": "npm run bench:capture",
+      "reason": "[Phase 45] 45.2 - cic-benchmark-runner: Capture benchmark data",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.744Z",
+      "approvedAt": "2026-06-07T00:52:01.744Z"
+    },
+    {
+      "command": "npm run bench:metadata",
+      "reason": "[Phase 45] 45.2 - cic-benchmark-runner: Extract metadata from benchmarks",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.746Z",
+      "approvedAt": "2026-06-07T00:52:01.746Z"
+    },
+    {
+      "command": "npm run bench:opus-sonnet",
+      "reason": "[Phase 45] 45.2 - cic-benchmark-runner: Run opus/sonnet benchmark comparison",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.747Z",
+      "approvedAt": "2026-06-07T00:52:01.747Z"
+    },
+    {
+      "command": "npm run cost:reports",
+      "reason": "[Phase 45] 45.2 - cic-benchmark-runner: Generate cost analysis reports",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.749Z",
+      "approvedAt": "2026-06-07T00:52:01.749Z"
+    },
+    {
+      "command": "npm run cic:evolution-loop",
+      "reason": "[Phase 45] 45.4 - mee-finding-assessor: Run evolution loop to generate findings",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.751Z",
+      "approvedAt": "2026-06-07T00:52:01.751Z"
+    },
+    {
+      "command": "npm run cost:helm",
+      "reason": "[Phase 45] 45.5 - helm-daily-brief: Generate HELM cost dashboard",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.752Z",
+      "approvedAt": "2026-06-07T00:52:01.752Z"
+    },
+    {
+      "command": "npm test",
+      "reason": "[Phase 45] 45.7 - phase-validator: Run full test suite for phase validation",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.754Z",
+      "approvedAt": "2026-06-07T00:52:01.754Z"
+    },
+    {
+      "command": "npm run policy:audit",
+      "reason": "[Phase 45] 45.7 - phase-validator: Audit policies for phase compliance",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:52:01.755Z",
+      "approvedAt": "2026-06-07T00:52:01.755Z"
+    },
+    {
+      "command": "npm run phase:45:exec",
+      "reason": "[Phase 45.1] Execute MEE phases with state tracking",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:00.000Z",
+      "approvedAt": "2026-06-07T02:00:00.000Z"
+    },
+    {
+      "command": "npm run phase:45:checkpoint",
+      "reason": "[Phase 45.1] Save/restore phase execution checkpoint",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:01.000Z",
+      "approvedAt": "2026-06-07T02:00:01.000Z"
+    },
+    {
+      "command": "npm run phase:45:resume",
+      "reason": "[Phase 45.1] Resume phase execution from checkpoint",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:02.000Z",
+      "approvedAt": "2026-06-07T02:00:02.000Z"
+    },
+    {
+      "command": "npm run phase:45:status",
+      "reason": "[Phase 45.1] Get MEE phase execution status",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:03.000Z",
+      "approvedAt": "2026-06-07T02:00:03.000Z"
+    },
+    {
+      "command": "npm run bench:credit-check",
+      "reason": "[Phase 45.2] Check available API credits before benchmark",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:04.000Z",
+      "approvedAt": "2026-06-07T02:00:04.000Z"
+    },
+    {
+      "command": "npm run bench:start",
+      "reason": "[Phase 45.2] Start benchmark run with cost tracking",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:05.000Z",
+      "approvedAt": "2026-06-07T02:00:05.000Z"
+    },
+    {
+      "command": "npm run bench:parallel",
+      "reason": "[Phase 45.2] Run benchmarks with parallel execution",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:06.000Z",
+      "approvedAt": "2026-06-07T02:00:06.000Z"
+    },
+    {
+      "command": "npm run bench:results",
+      "reason": "[Phase 45.2] Retrieve and analyze benchmark results",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:07.000Z",
+      "approvedAt": "2026-06-07T02:00:07.000Z"
+    },
+    {
+      "command": "npm run bench:summary",
+      "reason": "[Phase 45.2] Generate benchmark summary report",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:08.000Z",
+      "approvedAt": "2026-06-07T02:00:08.000Z"
+    },
+    {
+      "command": "npm run assess:findings",
+      "reason": "[Phase 45.4] Review and assess MEE findings",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:09.000Z",
+      "approvedAt": "2026-06-07T02:00:09.000Z"
+    },
+    {
+      "command": "npm run assess:approve",
+      "reason": "[Phase 45.4] Approve findings for integration",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:10.000Z",
+      "approvedAt": "2026-06-07T02:00:10.000Z"
+    },
+    {
+      "command": "npm run assess:reject",
+      "reason": "[Phase 45.4] Reject findings with reasoning",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:11.000Z",
+      "approvedAt": "2026-06-07T02:00:11.000Z"
+    },
+    {
+      "command": "npm run assess:batch",
+      "reason": "[Phase 45.4] Batch process findings assessment",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:12.000Z",
+      "approvedAt": "2026-06-07T02:00:12.000Z"
+    },
+    {
+      "command": "npm run helm:brief",
+      "reason": "[Phase 45.5] Generate daily morning briefing",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:13.000Z",
+      "approvedAt": "2026-06-07T02:00:13.000Z"
+    },
+    {
+      "command": "npm run helm:calendar",
+      "reason": "[Phase 45.5] Fetch calendar events via MCP",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:14.000Z",
+      "approvedAt": "2026-06-07T02:00:14.000Z"
+    },
+    {
+      "command": "npm run helm:gmail",
+      "reason": "[Phase 45.5] Fetch Gmail summary via MCP",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:15.000Z",
+      "approvedAt": "2026-06-07T02:00:15.000Z"
+    },
+    {
+      "command": "npm run helm:finance",
+      "reason": "[Phase 45.5] Fetch financial summary via Era Context MCP",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:16.000Z",
+      "approvedAt": "2026-06-07T02:00:16.000Z"
+    },
+    {
+      "command": "npm run helm:cache",
+      "reason": "[Phase 45.5] Cache briefing data with TTL",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:17.000Z",
+      "approvedAt": "2026-06-07T02:00:17.000Z"
+    },
+    {
+      "command": "npm run harvest:ideas",
+      "reason": "[Phase 45.6] Harvest ideas from inbox and CKG",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:18.000Z",
+      "approvedAt": "2026-06-07T02:00:18.000Z"
+    },
+    {
+      "command": "npm run harvest:ckg",
+      "reason": "[Phase 45.6] Query CKG for ideas",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:19.000Z",
+      "approvedAt": "2026-06-07T02:00:19.000Z"
+    },
+    {
+      "command": "npm run harvest:priority",
+      "reason": "[Phase 45.6] Score and prioritize harvested ideas",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:20.000Z",
+      "approvedAt": "2026-06-07T02:00:20.000Z"
+    },
+    {
+      "command": "npm run harvest:dedup",
+      "reason": "[Phase 45.6] De-duplicate ideas using similarity",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:21.000Z",
+      "approvedAt": "2026-06-07T02:00:21.000Z"
+    },
+    {
+      "command": "npm run harvest:roadmap",
+      "reason": "[Phase 45.6] Update roadmap with harvested ideas",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:22.000Z",
+      "approvedAt": "2026-06-07T02:00:22.000Z"
+    },
+    {
+      "command": "npm run validate:schema",
+      "reason": "[Phase 45.7] Validate phase deliverable schema",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:23.000Z",
+      "approvedAt": "2026-06-07T02:00:23.000Z"
+    },
+    {
+      "command": "npm run validate:artifacts",
+      "reason": "[Phase 45.7] Check phase artifact completeness",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:24.000Z",
+      "approvedAt": "2026-06-07T02:00:24.000Z"
+    },
+    {
+      "command": "npm run validate:coverage",
+      "reason": "[Phase 45.7] Verify test coverage thresholds",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:25.000Z",
+      "approvedAt": "2026-06-07T02:00:25.000Z"
+    },
+    {
+      "command": "npm run validate:drift",
+      "reason": "[Phase 45.7] Detect schema drift vs baseline",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:26.000Z",
+      "approvedAt": "2026-06-07T02:00:26.000Z"
+    },
+    {
+      "command": "npm run validate:report",
+      "reason": "[Phase 45.7] Generate phase validation report",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T02:00:27.000Z",
+      "approvedAt": "2026-06-07T02:00:27.000Z"
+    }
+  ],
+  "pending": [
+    {
+      "command": "python .venv/bin/mkdocs --version",
+      "reason": "Check mkdocs version",
+      "status": "pending",
+      "occurrences": 1,
+      "firstSeen": "2026-06-04T09:00:00Z",
+      "failureReason": "WSL-only venv, not available on Windows"
+    }
+  ],
+  "tracking": {
+    "totalRequests": 58,
+    "autoPromoted": 7,
+    "manuallyApproved": 50,
+    "rejected": 1,
+    "autoPromotionRate": "12.1%",
+    "phase45Commands": 30,
+    "lastUpdated": "2026-06-07T02:00:27.000Z"
+  }
+}

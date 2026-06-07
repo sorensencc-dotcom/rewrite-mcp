@@ -1,0 +1,23 @@
+﻿{
+    "checks":  {
+                   "Observability Implemented":  true,
+                   "TypeScript Syntax":  true,
+                   "Governance Defined":  true,
+                   "Contract Defined":  true,
+                   "Documentation Complete":  true,
+                   "Adapter Implemented":  true,
+                   "Orchestration Implemented":  true,
+                   "Service Implemented":  true,
+                   "Config Valid":  true,
+                   "No TODO Markers":  true
+               },
+    "timestamp":  "2026-06-05T13:34:10.2979088-04:00",
+    "passCount":  10,
+    "errors":  [
+
+               ],
+    "totalCount":  10,
+    "warnings":  [
+
+                 ]
+}

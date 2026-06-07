@@ -1,0 +1,14 @@
+{
+  "name": "rewrite_v1",
+  "version": "1.0.0",
+  "model": "gemini",
+  "sections": {
+    "system": "You perform rewriting tasks. Some modes require freeform text, others require strict JSON. Always obey the mode.",
+    "instructions": "Use context.mode to select behavior.\n\nMODES:\n\n1. summary → Output freeform text summarizing the input. No JSON required.\n\n2. entity_extraction → Return STRICT JSON:\n{\n  \"people\": [\"string\"],\n  \"orgs\": [\"string\"],\n  \"locations\": [\"string\"],\n  \"dates\": [\"string\"],\n  \"misc\": [\"string\"]\n}\n\nRULES:\n- For summary: concise, factual, no hallucination.\n- For entity_extraction: strict JSON only.\n- Never mix summary text with JSON.",
+    "examples": [
+      "Example (summary): \"This document describes the operational workflow for...\"",
+      "Example (entity_extraction): {\"people\":[],\"orgs\":[],\"locations\":[],\"dates\":[],\"misc\":[]}"
+    ],
+    "constraints": "Mode determines output type. Summary = freeform. Entity extraction = strict JSON."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "title": "Session Wrap",
+  "type": "object",
+  "properties": {
+    "commitMessage": {
+      "type": "string",
+      "description": "Git commit message with [tool] prefix (e.g., '[claude] Phase X: Description')"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Optional session summary text"
+    },
+    "docUpdates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "File path to update"
+          },
+          "content": {
+            "type": "string",
+            "description": "File content"
+          }
+        },
+        "required": ["path", "content"]
+      },
+      "description": "Optional documentation files to update"
+    }
+  },
+  "required": ["commitMessage"]
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Environment Check and Procedure Generation Workflow",
+  "type": "object",
+  "properties": {
+    "envConfig": {
+      "type": "object",
+      "properties": {
+        "os": {
+          "type": "string",
+          "description": "Operating system (win32, linux, darwin)"
+        },
+        "nodeVersion": {
+          "type": "string",
+          "description": "Node.js version"
+        },
+        "wslVersion": {
+          "type": "string",
+          "description": "WSL version (WSL1 or WSL2)"
+        },
+        "pythonVersion": {
+          "type": "string",
+          "description": "Python version"
+        },
+        "mcpStatus": {
+          "type": "string",
+          "description": "MCP server status"
+        }
+      },
+      "required": ["os", "nodeVersion"]
+    },
+    "logs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Log lines to analyze"
+    },
+    "generateProcedure": {
+      "type": "boolean",
+      "description": "Generate fix procedures (default: true)"
+    },
+    "generateRuntimeEstimate": {
+      "type": "boolean",
+      "description": "Generate runtime estimate (default: true)"
+    }
+  },
+  "required": ["envConfig", "logs"]
+}

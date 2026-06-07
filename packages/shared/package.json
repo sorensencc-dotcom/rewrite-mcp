@@ -1,0 +1,25 @@
+{
+  "name": "@cic/shared",
+  "version": "1.0.0",
+  "description": "CIC shared utilities — logging, config, types",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./logging": "./src/logging/index.mjs",
+    "./config": "./src/config/index.mjs",
+    "./types": "./src/types/index.mjs"
+  },
+  "files": [
+    "src",
+    "index.mjs"
+  ],
+  "keywords": [
+    "cic",
+    "shared",
+    "logging"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
