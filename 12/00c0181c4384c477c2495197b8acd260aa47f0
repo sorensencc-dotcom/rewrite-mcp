@@ -1,0 +1,21 @@
+projects/cic/tests/wil/security-validator.test.ts
+  s_da4a457c4334be::t_552cee8db226a9 1-181
+projects/cic/src/wil/security-validator.ts
+  s_da4a457c4334be::t_a086e616a7c5b1 1-265
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "1200c0181c4384c477c2495197b8acd260aa47f0",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
