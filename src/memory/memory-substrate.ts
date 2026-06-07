@@ -3,9 +3,9 @@
  * Append-only event store with schema validation, retention policy, and immutability guarantees
  */
 
-import fs from "fs";
-import path from "path";
-import crypto from "crypto";
+import * as fs from "fs";
+import * as path from "path";
+import * as crypto from "crypto";
 
 export type EventType =
   | "ARPS_DELTA"
@@ -73,8 +73,9 @@ export class MemorySubstrate {
     }
   }
 
-  private computeChecksum(event: Omit<MemoryEvent, "checksum">): string {
-    const payload = JSON.stringify(event);
+  private computeChecksum(event: Omit<MemoryEvent, "checksum"> & { checksum?: string }): string {
+    const { checksum, ...rest } = event as any;
+    const payload = JSON.stringify(rest);
     return "sha256:" + crypto.createHash("sha256").update(payload).digest("hex");
   }
 

@@ -145,7 +145,7 @@ export class MemorySynthesizer {
       0
     );
     const successRate = this.calculateSuccessRate(platformExtractions);
-    const platformCoverage = [...new Set(platformExtractions.map((e: any) => e.payload.platform))];
+    const platformCoverage = Array.from(new Set(platformExtractions.map((e: any) => e.payload.platform)));
     const mostActivePlatform = this.findMostActivePlatform(platformExtractions);
 
     // Sorensen narratives
@@ -192,7 +192,7 @@ export class MemorySynthesizer {
     const totalDuration = events.reduce((sum, e: any) => sum + (e.payload.duration_ms || 0), 0);
     const successCount = events.filter((e: any) => e.payload.status === "success").length;
     const avgConfidence = events.reduce((sum, e: any) => sum + (e.payload.confidence_score || 0), 0) / events.length;
-    const platforms = [...new Set(events.map((e: any) => e.payload.platform))];
+    const platforms = Array.from(new Set(events.map((e: any) => e.payload.platform)));
     const errorRate = 1 - successCount / events.length;
 
     return {
@@ -233,7 +233,7 @@ export class MemorySynthesizer {
       allKeywords.push(...keywords);
     }
 
-    const uniqueKeywords = [...new Set(allKeywords)];
+    const uniqueKeywords = Array.from(new Set(allKeywords));
 
     return {
       harvests_executed: sorensenEvents.length,
