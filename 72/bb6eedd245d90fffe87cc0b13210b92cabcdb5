@@ -1,0 +1,21 @@
+skills-runtime/approvals-auto-whitelist.js
+  s_8337ea0f3217d7::t_d6c95d5b955133 1-176
+skills-runtime/approvals-weekly-report.js
+  s_8337ea0f3217d7::t_31a476ae181675 1-329
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "72bb6eedd245d90fffe87cc0b13210b92cabcdb5",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
