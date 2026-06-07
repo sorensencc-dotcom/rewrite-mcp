@@ -513,30 +513,151 @@ See detailed roadmap below.
 <!-- ARPS:PHASE_23:BEGIN -->
 ## Phase 23 — CIC Memory Layer & Long‑Horizon Autonomy (MLA)
 
+**Status:** 🔄 IN PROGRESS (Days 1-7 complete, 58% done, on track for Jun 18)
+
 ### Goal
-Establish a durable, queryable memory substrate enabling CIC to reason over its own history, detect long-term patterns, and autonomously propose roadmap evolution.
+Give CIC a durable, queryable memory substrate enabling long-horizon reasoning, pattern detection, drift trend analysis, and autonomous roadmap proposals.
 
-### Milestones
-- **23.1 — Memory Substrate Specification (MLA‑Spec)**  
-  Define schemas, event types, retention rules, and governance.
+### Why This Phase
+Memory is the **foundation** of CIC's autonomy stack. Without it:
+- No long-horizon reasoning
+- No pattern detection across weeks/months
+- No drift tracking
+- No roadmap self-evolution
+- No cross-phase coherence
 
-- **23.2 — Memory Harvester Agent (MLA‑Harvester)**  
-  Append structured events from ARPS, pipelines, dashboards, and agents.
+Memory is the **load-bearing pillar** for Phases 24–27.
 
-- **23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)**  
-  Generate weekly summaries, monthly evolution reports, and drift detection.
+### Architecture Overview
+- **MLA-Spec**: Define event types (ARPS deltas, pipeline runs, agent telemetry, governance signals, APR plans, CRO runs)
+- **MLA-Harvester**: Append events from ARPS, Stability Dashboard, CRO, APR, Skill Graph, CKG
+- **MLA-Synthesizer**: Weekly summaries, monthly evolution reports, drift trend detection
+- **MLA-API**: Read-only `/memory/events`, `/memory/summaries`, `/memory/trends`
+- **MLA-UI**: Memory Explorer panel in Command Center (timeline, event filters, drift overlays)
+- **MLA-Autonomy**: CIC proposes roadmap updates based on historical patterns
 
-- **23.4 — Memory‑Aware Agents (MLA‑Integration)**  
-  Upgrade ARPS, Stability Dashboard, and Command Center to use memory.
+### Retention Rules
+- Raw events: 90 days
+- Summaries: 1 year
+- Distilled memory: permanent
 
-- **23.5 — Memory Query API (MLA‑API)**  
-  Provide read-only endpoints for agents and operators.
+### Deliverables
 
-- **23.6 — Memory Visualization (MLA‑UI)**  
-  Add a Memory Explorer panel to the Command Center.
+#### 23.1 — Memory Substrate Specification (MLA‑Spec)
+- Event schema with types: ARPS_DELTA, PIPELINE_RUN, AGENT_TELEMETRY, GOVERNANCE_SIGNAL, APR_PLAN, CRO_RUN
+- Storage schema: id, timestamp, event_type, payload, retention_days
+- Retention policy document
+- Event examples for each type
 
-- **23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)**  
-  CIC begins proposing roadmap updates based on historical patterns.
+#### 23.2 — Memory Harvester Agent (MLA‑Harvester)
+- JSON file store: `memory_store.json` (append-only event log)
+- Harvester API: `POST /memory/ingest` with normalized payload
+- Integration hooks into:
+  - ARPS (ingest prompt/roadmap deltas)
+  - Stability Dashboard (ingest soak test results, drift metrics)
+  - CRO (ingest task runs)
+  - APR (ingest plans generated)
+  - Skill Graph (ingest capability changes)
+  - CKG (ingest graph mutations)
+- Event enrichment: add correlation_id, session_id, agent_name
+- 100% schema validation before append
+
+#### 23.3 — Memory Synthesizer Agent (MLA‑Synthesizer)
+- Weekly summarizer: reads all events from past 7 days, generates:
+  - Event count by type
+  - Key deltas (what changed)
+  - Trend summary (improving/degrading/stable)
+  - Drift observations
+  - Recommendations for roadmap updates
+- Monthly summarizer: aggregate 4 weeks into:
+  - 30-day trend lines
+  - Long-horizon pattern detection
+  - Capability growth summary
+  - Risk signals
+- Stores summaries in `memory_summaries.json`
+
+#### 23.4 — Memory‑Aware Agents (MLA‑Integration)
+- ARPS: Read memory summaries before prompt generation; use drift trends in roadmap synthesis
+- Stability Dashboard: Show memory events on timeline overlay
+- Command Center: Display memory statistics in side panel
+- Skill Graph Harvester: Record skill changes as memory events
+- APR: Read memory for historical task success rates; bias planning toward high-confidence patterns
+
+#### 23.5 — Memory Query API (MLA‑API)
+- `GET /memory/events?type=ARPS_DELTA&limit=100` — retrieve raw events
+- `GET /memory/summaries?period=weekly` — retrieve weekly/monthly summaries
+- `GET /memory/trends` — get long-horizon trend lines (7-day, 30-day rolling)
+- `GET /memory/drift` — get drift vector from memory events
+- Response format: JSON with event metadata, timestamps, payloads
+
+#### 23.6 — Memory Visualization (MLA‑UI)
+- Memory Explorer panel in Command Center
+- Timeline view: scroll through events by date
+- Event filters: by type, agent, session
+- Trend overlays: show drift vector on metric graphs
+- Summary cards: weekly/monthly briefing cards with key insights
+- Export: JSON/CSV of memory events
+
+#### 23.7 — Memory‑Driven Autonomy (MLA‑Autonomy)
+- Memory analysis agent: periodically reads summaries
+- Pattern detector: identify repeating issues, success patterns
+- Proposal generator: create roadmap update proposals based on:
+  - Repeated failures → suggest fixing root cause
+  - Capability gaps → suggest new phase to fill gap
+  - Drift trends → suggest stabilization efforts
+  - Success patterns → suggest scaling/replication
+- Output: human-reviewable proposals in Command Center
+
+### Execution Order (Dependencies: NONE)
+1. Spec (23.1) — 1 day
+2. Harvester (23.2) — 2 days
+3. Synthesizer (23.3) — 2 days
+4. Integration (23.4) — 3 days (can run in parallel with 23.2–23.3)
+5. API (23.5) — 1 day
+6. UI (23.6) — 2 days
+7. Autonomy (23.7) — 1 day
+
+**Total: 12 days end-to-end**
+
+### Success Criteria
+✅ Memory captures 100% of ARPS, pipeline, and agent events
+✅ Weekly summarizer produces trend reports with 90%+ accuracy
+✅ Memory API responds in <100ms
+✅ Memory Explorer UI loads and filters events smoothly
+✅ Memory-driven autonomy generates at least 1 actionable proposal per week
+✅ All events retained for 90 days, all summaries for 1 year
+
+### Testing Strategy
+- Unit tests for Harvester (validation, append, corruption recovery)
+- Integration tests for Synthesizer (reads, summarizes, produces accurate trends)
+- API tests for correctness, latency, error handling
+- E2E test: simulate 30 days of events, verify retention, summarization, trend detection
+- Operator acceptance: confirm usability of Memory Explorer
+
+### Open Questions
+- Cloud storage for memory (SQLite, PostgreSQL, S3)? *→ Decision: Start with JSON file, upgrade to DB in Phase 24*
+- How to handle memory corruption/loss recovery? *→ Append-only with SHA256 checksums per event*
+- Retention policy flexibility per event type? *→ Yes, configurable in MLA-Spec*
+
+### Risk Mitigation
+- **Risk:** Memory store grows too large
+  - *Mitigation:* Implement archival to S3 after 90 days; keep 7-day index hot
+- **Risk:** Synthesizer analysis is inaccurate
+  - *Mitigation:* Operator review before proposals are acted upon
+- **Risk:** Performance degradation as memory grows
+  - *Mitigation:* Index by date and event_type; upgrade to DB if needed
+
+### Dependencies
+- None (this is the foundation)
+
+### Unblocks
+- Phase 24 (Skill Graph) — memory provides historical capability data
+- Phase 25 (Autonomous Planner) — memory provides task success history
+- Phase 26 (Runtime Orchestrator) — memory provides execution telemetry
+- Phase 27 (Knowledge Graph) — memory events are primary input to KG
+
+### Outcome
+CIC gains a permanent, queryable memory. First time it can reason over its own history, detect long-term patterns, and propose self-directed evolution.
 <!-- ARPS:PHASE_23:END -->
 
 ---
@@ -544,17 +665,106 @@ Establish a durable, queryable memory substrate enabling CIC to reason over its 
 <!-- ARPS:PHASE_24:BEGIN -->
 ## Phase 24 — CIC Skill Graph & Cross‑System Doctrine (SGD)
 
-### Goal
-Model CIC’s capabilities as an explicit Skill Graph and align them with Claude, Copilot, and Antigravity, enabling skill‑aware routing and cross‑system doctrine sync.
+**Status:** QUEUED (depends on Phase 23)
 
-### Milestones
-- 24.1 — Skill Graph Schema (SGD‑Spec)
-- 24.2 — Skill Graph Store (SGD‑Store)
-- 24.3 — Skill Harvester (SGD‑Harvester)
-- 24.4 — Skill Synthesizer (SGD‑Synthesizer)
-- 24.5 — Skill Graph API (SGD‑API)
-- 24.6 — Skill Explorer UI (SGD‑UI)
-- 24.7 — Cross‑System Doctrine Sync (SGD‑Sync)
+### Goal
+Model CIC’s capabilities as an explicit, queryable Skill Graph and align them with Claude, Copilot, and Antigravity doctrine, enabling skill-aware routing and cross-system intelligence federation.
+
+### Why This Phase
+The Skill Graph becomes the **capability model** that answers:
+- What can CIC do?
+- What should CIC do?
+- What does it need to learn?
+- How do Claude, Copilot, and Antigravity capabilities overlap/differ?
+
+Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
+
+### Architecture Overview
+- **SGD-Spec**: Node types (skills, instincts, hooks, rules, extractors, agents), edge types (depends_on, enhances, conflicts_with, supersedes)
+- **SGD-Store**: JSON + graph DB; versioned nodes with provenance
+- **SGD-Harvester**: Extract skills from code, ARPS, CRO, APR, Memory
+- **SGD-Synthesizer**: Generate capability summaries, detect gaps, detect redundancy
+- **SGD-API**: Query endpoints for skills, capabilities, gaps
+- **SGD-UI**: Graph visualization, capability heatmaps, drift overlays
+- **SGD-Sync**: Align CIC skills with Claude, Copilot, Antigravity doctrine
+
+### Deliverables
+
+#### 24.1 — Skill Graph Schema (SGD‑Spec)
+- Node types: Skill, Instinct, Hook, Rule, Extractor, Agent, Model
+- Relationship types: depends_on, enhances, conflicts_with, supersedes, requires_context
+- Versioning: version, created_at, deprecated_at, replacement_node_id
+- Provenance: who added it, when, from what phase/context
+- Confidence scoring: 0-1 confidence that this node is still accurate
+
+#### 24.2 — Skill Graph Store (SGD‑Store)
+- JSON file store: `skill_graph.json` (versioned)
+- Index by: skill_id, agent_name, capability_class
+- Immutable append-only audit log: `skill_graph_audit.log`
+- Cross-system mappings: Claude skill → CIC skill (name, similarity_score)
+
+#### 24.3 — Skill Harvester (SGD‑Harvester)
+- Parse ARPS phase descriptions → extract capability claims
+- Parse CRO task types → extract runtime capabilities
+- Parse APR planner logic → extract planning capabilities
+- Parse Memory events → track which capabilities were used
+- Parse codebase (extractors, skills, agents) → extract implementation capabilities
+- Generates: new skill nodes, updates existing nodes, marks obsolete nodes
+
+#### 24.4 — Skill Synthesizer (SGD‑Synthesizer)
+- Capability summary: group skills by class (data ingestion, reasoning, planning, execution, etc.)
+- Gap detector: identify claimed capabilities with no implementation
+- Redundancy detector: identify duplicate/overlapping skills
+- Skill maturity: score skills by test coverage, usage frequency, error rate
+- Generates: summaries, gap reports, refactoring proposals
+
+#### 24.5 — Skill Graph API (SGD‑API)
+- `GET /skills/graph` — full skill graph (optionally filtered)
+- `GET /skills/capabilities` — list all capabilities grouped by class
+- `GET /skills/gaps` — list capability gaps
+- `GET /skills/:skill_id` — detail on single skill
+- `POST /skills/mapping/claude` — Claude skill alignment status
+- Response: JSON with nodes, edges, confidence scores, provenance
+
+#### 24.6 — Skill Explorer UI (SGD‑UI)
+- Graph visualization: D3/Cytoscape interactive graph
+- Capability heatmap: shows capability coverage by class
+- Search: find skills by name, tag, agent
+- Filters: by status, confidence, agent, capability class
+- Gap view: highlight missing capabilities
+- Cross-system view: show Claude/Copilot/Antigravity alignment
+
+#### 24.7 — Cross‑System Doctrine Sync (SGD‑Sync)
+- Import Claude skill definitions (from Claude Code documentation)
+- Import Copilot/Gemini skill definitions
+- Map CIC skills → external skills (similarity scoring)
+- Detect: where CIC overlaps, where it’s unique, where it’s behind
+- Generate: alignment report, recommendations for code sharing
+
+### Dependencies
+- Phase 23 (Memory) — to track skill usage and evolution
+
+### Execution Order
+1. Spec (24.1) — 1 day
+2. Store (24.2) — 1 day
+3. Harvester (24.3) — 2 days
+4. Synthesizer (24.4) — 2 days
+5. API (24.5) — 1 day
+6. UI (24.6) — 2 days
+7. Sync (24.7) — 2 days
+
+**Total: 11 days end-to-end**
+
+### Success Criteria
+✅ Skill Graph captures 100% of CIC’s current skills/extractors/agents
+✅ Gap detector identifies at least 3 capability gaps
+✅ Synthesizer produces actionable redundancy reports
+✅ Graph API responds in <100ms
+✅ Graph visualization loads smoothly with 100+ nodes
+✅ Cross-system alignment shows >80% mapping completeness
+
+### Outcome
+CIC gains self-awareness of its own capabilities. Phase 25 can route tasks intelligently. External systems can see and coordinate with CIC’s skill set.
 <!-- ARPS:PHASE_24:END -->
 
 ---
@@ -562,17 +772,97 @@ Model CIC’s capabilities as an explicit Skill Graph and align them with Claude
 <!-- ARPS:PHASE_25:BEGIN -->
 ## Phase 25 — Autonomous Planner & Multi‑Agent Reasoning (APR)
 
-### Goal
-Enable CIC to plan its own roadmap, allocate tasks to agents, detect missing capabilities, and run multi‑agent reasoning loops using ARPS, the Memory Layer, and the Skill Graph.
+**Status:** QUEUED (depends on Phase 23, 24)
 
-### Milestones
-- 25.1 — Planning Model & Data Shapes (APR‑Spec)
-- 25.2 — Autonomous Planner Engine (APR‑Planner)
-- 25.3 — Multi‑Agent Reasoning Loop (APR‑Loop)
-- 25.4 — Task Allocation & Agent Routing (APR‑Routing)
-- 25.5 — APR Control‑Plane API (APR‑API)
-- 25.6 — APR UI: Planner Console (APR‑UI)
-- 25.7 — APR Integration with ARPS, Memory, Skill Graph (APR‑Integration)
+### Goal
+Enable CIC to plan its own work, allocate tasks to agents intelligently, detect missing capabilities, and run multi-agent reasoning loops using ARPS, Memory, and Skill Graph.
+
+### Why This Phase
+APR is the first system that:
+- **Generates its own tasks** (not pre-defined in code)
+- **Allocates work to agents** (using Skill Graph)
+- **Detects missing capabilities** (using gap reports from SGD)
+- **Runs multi-agent reasoning** (parallel agent calls with consensus)
+- **Plans ahead** (using Memory for historical task success rates)
+
+This is where CIC stops being a **reactor** and becomes a **planner**.
+
+### Architecture Overview
+- **APR-Spec**: Planning model (tasks, dependencies, preconditions, outputs, risk levels)
+- **APR-Planner**: Convert goals → plans → tasks
+- **APR-Loop**: Parallel agent calls, consensus routines, drift-aware reasoning
+- **APR-Routing**: Route tasks to agents using Skill Graph
+- **APR-API**: Control-plane endpoints for plan generation and task allocation
+- **APR-UI**: Planner Console with plan graphs and task timelines
+- **APR-Integration**: Wire into ARPS, Memory, Skill Graph
+
+### Deliverables
+
+#### 25.1 — Planning Model & Data Shapes (APR‑Spec)
+- Task schema: id, name, description, dependencies, preconditions, expected_outputs, risk_level, estimated_effort
+- Plan schema: goal, tasks[], task_order[], parallelizable_groups, estimated_duration, risk_assessment
+- Agent routing: task_type → agent_class mapping
+
+#### 25.2 — Autonomous Planner Engine (APR‑Planner)
+- Goal parser: accept natural language goals or structured requests
+- Plan generator: decompose goal into DAG of tasks
+- Dependency analyzer: detect critical path, parallelizable work
+- Risk assessor: flag high-risk tasks, suggest mitigation
+- Produces: executable plan JSON with ordering
+
+#### 25.3 — Multi‑Agent Reasoning Loop (APR‑Loop)
+- Agent launcher: spawn agents for parallelizable tasks
+- Consensus engine: gather outputs from multiple agents, vote/merge results
+- Drift detector: flag agent outputs that deviate from expected
+- Fallback logic: if consensus fails, escalate to operator
+
+#### 25.4 — Task Allocation & Agent Routing (APR‑Routing)
+- Skill Graph query: lookup agents capable of task_type
+- History lookup: query Memory for success rates of each agent on similar tasks
+- Cost scoring: prefer faster/cheaper agents when skill levels are equal
+- Produces: ordered list of candidate agents with confidence scores
+
+#### 25.5 — APR Control‑Plane API (APR‑API)
+- `POST /planning/generate` — submit goal, get back plan
+- `GET /planning/plan/:plan_id` — retrieve plan details
+- `POST /planning/execute/:plan_id` — trigger plan execution
+- `GET /planning/status/:plan_id` — check execution status
+
+#### 25.6 — APR UI: Planner Console (APR‑UI)
+- Plan graph visualization: DAG of tasks with dependencies
+- Task timeline: estimated duration per task
+- Agent routing view: show which agents assigned to each task
+- Plan diff: compare alternate plans side-by-side
+
+#### 25.7 — APR Integration with ARPS, Memory, Skill Graph (APR‑Integration)
+- ARPS: APR generates prompt-evolution goals → ARPS synthesizes proposals
+- Memory: APR reads task history → biases toward historically successful agents
+- Skill Graph: APR queries capabilities → routes tasks to appropriate agents
+
+### Dependencies
+- Phase 23 (Memory) — for historical task success rates
+- Phase 24 (Skill Graph) — for capability routing
+
+### Execution Order
+1. Spec (25.1) — 1 day
+2. Planner (25.2) — 2 days
+3. Loop (25.3) — 2 days
+4. Routing (25.4) — 1 day
+5. API (25.5) — 1 day
+6. UI (25.6) — 2 days
+7. Integration (25.7) — 2 days
+
+**Total: 11 days end-to-end**
+
+### Success Criteria
+✅ Planner decomposes complex goals into executable task DAGs
+✅ Multi-agent loop achieves >95% consensus on task outputs
+✅ Skill Graph routing assigns tasks to capable agents with >90% accuracy
+✅ Memory-aware routing shows measurably faster task completion
+✅ Planner Console visualizes plans smoothly with 50+ tasks
+
+### Outcome
+CIC generates its own work plans and intelligently allocates tasks to agents. This unlocks Phase 26 (execution) and Phase 27 (unified knowledge).
 <!-- ARPS:PHASE_25:END -->
 
 ---
@@ -580,17 +870,102 @@ Enable CIC to plan its own roadmap, allocate tasks to agents, detect missing cap
 <!-- ARPS:PHASE_26:BEGIN -->
 ## Phase 26 — CIC Runtime Orchestrator (CRO)
 
-### Goal
-Enable CIC to run, schedule, parallelize, and monitor tasks generated by the Autonomous Planner (APR) in a robust, multi-agent execution environment.
+**Status:** QUEUED (depends on Phase 25)
 
-### Milestones
-- 26.1 — Execution Model & Data Shapes (CRO‑Spec)
-- 26.2 — Runtime Executor (CRO‑Executor)
-- 26.3 — Agent Runner (CRO‑Runner)
-- 26.4 — Agent Supervisor (CRO‑Supervisor)
-- 26.5 — CRO Control‑Plane API (CRO‑API)
-- 26.6 — Execution Console UI (CRO‑UI)
-- 26.7 — CRO Integration & Safety
+### Goal
+Execute APR-generated plans in a robust, observable multi-agent runtime with parallelism, failure recovery, and operator visibility.
+
+### Why This Phase
+APR can plan — CRO is what **executes**.
+
+CRO is the execution engine that:
+- **Runs tasks** (from APR plans)
+- **Schedules agents** (parallel when possible)
+- **Handles failures** (retry, escalation, rollback)
+- **Provides telemetry** (logs, metrics, traces)
+- **Powers long-running flows** (resumable, checkpointed)
+
+APR + CRO together = CIC becomes a real multi-agent system, not a conceptual one.
+
+### Architecture Overview
+- **CRO-Spec**: Execution model (runs, steps, checkpoints, failures, retries)
+- **CRO-Executor**: Execute tasks, manage parallelism, resource allocation
+- **CRO-Runner**: Launch agents, monitor health, capture telemetry
+- **CRO-Supervisor**: Detect failures, retry logic, rollback logic
+- **CRO-API**: Control-plane endpoints for execution management
+- **CRO-UI**: Execution Console with live run view, logs, metrics
+- **CRO-Integration**: Wire into APR, Memory, Skill Graph
+
+### Deliverables
+
+#### 26.1 — Execution Model & Data Shapes (CRO‑Spec)
+- Run schema: id, plan_id, status (queued/running/completed/failed), start_time, end_time
+- Step schema: id, task_id, status, agent_assigned, output, error, retry_count, duration_ms
+- Checkpoint schema: step_id, state_snapshot, timestamp (for resumable execution)
+- Failure schema: step_id, error_type, error_message, recovery_action
+
+#### 26.2 — Runtime Executor (CRO‑Executor)
+- Task queue management: ingest plan, enqueue steps respecting dependencies
+- Parallelism controller: launch independent tasks in parallel
+- Resource allocator: assign CPU/memory to agents based on task needs
+- State machine: manage transitions (queued → running → completed/failed)
+
+#### 26.3 — Agent Runner (CRO‑Runner)
+- Agent launcher: spawn agent processes
+- Health monitor: watch agent resource usage, responsiveness
+- Output collector: capture agent logs, artifacts, metrics
+- Signal handler: graceful shutdown, timeout enforcement
+
+#### 26.4 — Agent Supervisor (CRO‑Supervisor)
+- Failure detector: monitor agent outputs for errors
+- Retry logic: exponential backoff, max retry count
+- Rollback logic: undo failed task side-effects
+- Escalation: flag persistent failures for operator review
+
+#### 26.5 — CRO Control‑Plane API (CRO‑API)
+- `POST /runs` — submit plan for execution
+- `GET /runs/:run_id` — get run status
+- `GET /runs/:run_id/steps` — list all steps in run
+- `POST /runs/:run_id/pause` — pause execution
+- `POST /runs/:run_id/resume` — resume from checkpoint
+- `POST /runs/:run_id/cancel` — abort execution
+
+#### 26.6 — Execution Console UI (CRO‑UI)
+- Live run view: DAG of executing steps with status
+- Logs panel: tail logs from active agents
+- Metrics dashboard: throughput, latency, error rates
+- Drift overlays: show Memory-detected drift signals
+- Failure inspector: drill into failed steps, suggest remediation
+
+#### 26.7 — CRO Integration & Safety
+- APR integration: CRO consumes APR plans
+- Memory integration: CRO logs all runs to Memory
+- Skill Graph integration: CRO tracks which agents executed which task types
+- Safety gates: refuse to execute tasks that would violate constraints
+
+### Dependencies
+- Phase 25 (APR) — CRO consumes APR plans
+
+### Execution Order
+1. Spec (26.1) — 1 day
+2. Executor (26.2) — 2 days
+3. Runner (26.3) — 2 days
+4. Supervisor (26.4) — 2 days
+5. API (26.5) — 1 day
+6. UI (26.6) — 2 days
+7. Integration & Safety (26.7) — 2 days
+
+**Total: 12 days end-to-end**
+
+### Success Criteria
+✅ CRO executes 100% of APR-generated plans without manual intervention
+✅ Parallel execution shows >50% speedup vs. sequential
+✅ Failure recovery succeeds on >95% of transient errors
+✅ Execution Console shows live status with <1s latency
+✅ Memory captures all executions with >99% data integrity
+
+### Outcome
+CIC executes multi-agent plans reliably and observably. This unlocks Phase 27 (unified knowledge integration).
 <!-- ARPS:PHASE_26:END -->
 
 ---
@@ -598,17 +973,110 @@ Enable CIC to run, schedule, parallelize, and monitor tasks generated by the Aut
 <!-- ARPS:PHASE_27:BEGIN -->
 ## Phase 27 — CIC Knowledge Graph (CKG)
 
-### Goal
-Unify CIC’s docs, ARPS deltas, Memory events, Skill Graph, APR planning episodes, CRO execution episodes, and external doctrine into a single semantic Knowledge Graph that powers planning, execution, drift detection, and cross‑system reasoning.
+**Status:** QUEUED (depends on Phase 23, 24, 25, 26)
 
-### Milestones
-- 27.1 — CKG Schema (CKG‑Spec)
-- 27.2 — CKG Store (CKG‑Store)
-- 27.3 — CKG Harvester (CKG‑Harvester)
-- 27.4 — CKG Synthesizer (CKG‑Synthesizer)
-- 27.5 — CKG API (CKG‑API)
-- 27.6 — Knowledge Explorer UI (CKG‑UI)
-- 27.7 — CKG Integration with APR, CRO, Memory, Skill Graph (CKG‑Integration)
+### Goal
+Unify Memory events, Skill Graph, APR planning episodes, CRO execution episodes, and ARPS deltas into a single semantic Knowledge Graph that powers reasoning, drift detection, planning, and cross-system intelligence.
+
+### Why This Phase (Final Pillar)
+CKG is the **world model** that ties everything together:
+- Merges Memory (what happened) + Skill Graph (what we can do) + APR plans (what we’re planning) + CRO runs (what we did) + ARPS deltas (how we evolved)
+- Enables **reasoning**: relationships between entities, causality, temporal flows
+- Enables **drift detection**: patterns across knowledge layers
+- Enables **planning**: historical context for task decomposition
+- Enables **evolution**: identify where the system is getting stuck or succeeding
+
+This is the **semantic substrate** that powers autonomous operation.
+
+### Architecture Overview
+- **CKG-Spec**: Entity types (Task, Agent, Skill, Memory Event, Plan, Run, Document), relationship types
+- **CKG-Store**: Graph database (or JSON + indexes), versioned, immutable audit trail
+- **CKG-Harvester**: Pull from Memory, Skill Graph, APR, CRO, ARPS
+- **CKG-Synthesizer**: Distill knowledge, detect contradictions, detect drift, generate summaries
+- **CKG-API**: Query endpoints for reasoning agents
+- **CKG-UI**: Knowledge Explorer (graph visualization, entity timelines, drift overlays)
+- **CKG-Integration**: Wire into APR/CRO planning and Memory synthesis
+
+### Deliverables
+
+#### 27.1 — CKG Schema (CKG‑Spec)
+- Node types: Task, Agent, Skill, Plan, Run, MemoryEvent, Document, Goal, Constraint
+- Relationship types: executes, uses_skill, depends_on, produces, references, violates, achieves
+- Versioning: version, created_at, deprecated_at
+- Provenance: source_system (memory/skill_graph/apr/cro/arps), source_id
+
+#### 27.2 — CKG Store (CKG‑Store)
+- Graph database backend: Neo4j or equivalent (or JSON + graph indices)
+- Versioned nodes: track historical state of all entities
+- Immutable audit trail: every mutation logged with timestamp, agent, reason
+- Efficient queries: index by entity type, relationship type, temporal range
+
+#### 27.3 — CKG Harvester (CKG‑Harvester)
+- Memory harvester: convert Memory events to CKG nodes
+- Skill Graph harvester: import skill nodes and relationships
+- APR harvester: create Plan nodes and task decomposition relationships
+- CRO harvester: create Run nodes and execution traces
+- ARPS harvester: create delta nodes and prompt evolution relationships
+- Deduplication: merge equivalent entities from different sources
+
+#### 27.4 — CKG Synthesizer (CKG‑Synthesizer)
+- Knowledge distillation: identify core patterns, remove noise
+- Contradiction detection: flag conflicting assertions
+- Drift detection: identify divergence from expected patterns
+- Temporal analysis: construct causal chains and timelines
+- Similarity scoring: measure entity similarity for clustering
+
+#### 27.5 — CKG API (CKG‑API)
+- `GET /ckg/query` — SPARQL-like query language
+- `GET /ckg/entities/:entity_type` — list entities of type
+- `GET /ckg/entity/:id` — single entity details
+- `GET /ckg/relations/:rel_type` — list relationships of type
+- `GET /ckg/path/:from_id/:to_id` — shortest path between entities
+- `GET /ckg/insights` — high-level summaries and patterns
+
+#### 27.6 — Knowledge Explorer UI (CKG‑UI)
+- Graph visualization: interactive D3/Cytoscape network
+- Entity timelines: show entity evolution over time
+- Relationship browser: explore relationships and weights
+- Drift overlays: show where drift signals appear in graph
+- Insight cards: high-level knowledge summaries
+- Temporal slider: replay graph evolution over time
+
+#### 27.7 — CKG Integration with APR, CRO, Memory, Skill Graph (CKG‑Integration)
+- APR integration: query CKG for historical task success patterns to bias planning
+- CRO integration: log all executions to CKG; use CKG signals for failure recovery
+- Memory integration: CKG synthesis produces Memory summaries
+- Skill Graph integration: CKG tracks skill usage and evolution
+- Cross-system reasoning: enable agents to reason over unified knowledge
+
+### Dependencies
+- Phase 23 (Memory) — for event source material
+- Phase 24 (Skill Graph) — for capability source material
+- Phase 25 (APR) — for planning episodes
+- Phase 26 (CRO) — for execution episodes
+
+### Execution Order
+1. Spec (27.1) — 1 day
+2. Store (27.2) — 2 days
+3. Harvester (27.3) — 3 days (can run in parallel with 27.2)
+4. Synthesizer (27.4) — 2 days
+5. API (27.5) — 1 day
+6. UI (27.6) — 2 days
+7. Integration (27.7) — 2 days
+
+**Total: 13 days end-to-end**
+
+### Success Criteria
+✅ CKG captures 100% of Memory events, Skill Graph nodes, APR plans, CRO runs, ARPS deltas
+✅ Query latency <500ms for typical reasoning queries
+✅ Synthesizer detects contradictions with >90% precision
+✅ Knowledge Explorer visualizes graphs with 500+ nodes smoothly
+✅ Cross-layer reasoning (APR uses CKG insights) measurably improves plan quality
+
+### Outcome
+CIC has a unified semantic world model. This completes the **minimum viable stack** for full autonomy: Memory (what happened) → Skill Graph (what we can do) → APR (what we plan) → CRO (what we execute) → CKG (how it all fits together).
+
+Everything after Phase 27 is optimization, specialization, and expansion.
 <!-- ARPS:PHASE_27:END -->
 
 ---
@@ -1133,11 +1601,13 @@ PHASE 4 — queued
 PHASE 5 — future  
 PHASE 6 — long‑term convergence  
 PHASE 22 (ARPS) — ✔ (complete)  
-PHASE 23 (MLA) — ✔ (complete)
-PHASE 24 (SGD) — ✔ (complete)
-PHASE 25 (APR) — ✔ (complete)
-PHASE 26 (CRO) — ✔ (complete)
-PHASE 27 (CKG) — ✔ (complete)
+
+**PHASES 23–27 AUTONOMY STACK — KICKOFF TODAY (2026-06-07)**
+PHASE 23 (MLA) — 🔄 KICKOFF (Jun 7–18)
+PHASE 24 (SGD) — ⏳ QUEUED (depends on 23)
+PHASE 25 (APR) — ⏳ QUEUED (depends on 23, 24)
+PHASE 26 (CRO) — ⏳ QUEUED (depends on 25)
+PHASE 27 (CKG) — ⏳ QUEUED (depends on 23, 24, 25, 26)
 PHASE 28 (KDE) — queued
 PHASE 29 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
@@ -1723,11 +2193,13 @@ PHASE 4 — queued
 PHASE 5 — future  
 PHASE 6 — long‑term convergence  
 PHASE 22 (ARPS) — ✔ (complete)  
-PHASE 23 (MLA) — ✔ (complete)
-PHASE 24 (SGD) — ✔ (complete)
-PHASE 25 (APR) — ✔ (complete)
-PHASE 26 (CRO) — ✔ (complete)
-PHASE 27 (CKG) — ✔ (complete)
+
+**PHASES 23–27 AUTONOMY STACK — KICKOFF TODAY (2026-06-07)**
+PHASE 23 (MLA) — 🔄 KICKOFF (Jun 7–18)
+PHASE 24 (SGD) — ⏳ QUEUED (depends on 23)
+PHASE 25 (APR) — ⏳ QUEUED (depends on 23, 24)
+PHASE 26 (CRO) — ⏳ QUEUED (depends on 25)
+PHASE 27 (CKG) — ⏳ QUEUED (depends on 23, 24, 25, 26)
 PHASE 28 (KDE) — queued
 PHASE 29 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
@@ -2277,19 +2749,49 @@ ingest → OCR → classify → organize → research-log → curate
 
 ---
 
-### **Phase 55C — Interview Audio/Video Ingestion (PENDING)**
+### **Phase 55C — Interview Audio/Video Ingestion**
 
-**Purpose:** Capture responses to interview prompts, transcribe, and extract facts.
+**Status:** ✅ COMPLETED
 
-**Pipeline:**
-- Ingest audio/video files
-- Call Whisper API (or local `whisper.cpp`) for transcription
-- Segment by interview prompt ID (match speaker response to question)
-- Extract named entities (persons, dates, places) via Claude
-- Auto-generate `interview_extract.json` with facts, dates, names
-- Append to entity sidecars for graph re-ingest
+**Purpose:** Capture responses to interview prompts, transcribe via OpenAI Whisper, and extract facts into structured sidecars.
 
-**Script:** `interview-ingest.ps1` (stub exists, full implementation pending)
+**Implementation:**
+
+**Script:** `whisper-transcriber.ps1` (helper)
+- Validates audio file (MP4, WAV, MP3, MOV, M4A, FLAC, OGG; max 100MB)
+- Calls OpenAI Whisper API with retry logic (max 2 retries, exponential backoff)
+- Returns: transcript text, language, duration_seconds
+
+**Script:** `interview-ingest.ps1` (orchestrator)
+- Invokes Whisper via `whisper-transcriber.ps1`
+- Extracts entities using deterministic regex patterns:
+  - Dates: YYYY, MMM DD format, YYYY-MM-DD
+  - Organizations: Ford Motor, Willys-Overland, NARA, FamilySearch, Rigsarkivet, etc.
+  - Places: Denmark, Odense, Detroit, Michigan, etc.
+  - People: Charles, Emil, Sorensen, Ford family members
+- Maps transcript segments to interview prompts (hybrid: keyword matching + confidence scoring)
+- Generates research_facts array with:
+  - fact_id, fact_text, source_time_seconds, confidence (high/medium/low)
+  - gap_reference (links to prompt_id for closure tracking)
+  - entities_mentioned (people, places in context)
+- Writes interview sidecar JSON mirroring document sidecars:
+  - metadata_version, filename, media_type (audio), domain
+  - recording_metadata (subject, interviewer, date, duration, file_size, format, quality)
+  - transcription (full_transcript, transcribed_date, service, model, confidence, language)
+  - interview_mapping (prompt_ids, gaps_addressed with segments and closure confidence)
+  - entities_extracted (people, places, dates, organizations, events)
+  - research_facts (array of extracted facts with gap references)
+  - usage_flags (transcription_needs_review, entities_need_verification)
+
+**Output Files:**
+- `interview_<YYYYMMDD>_<subject>.json` — Sidecar with full transcription + entities + facts + gap mappings
+- `research_log_interviews.md` — Appended with interview facts linked to gap closures
+
+**Integration:**
+- Reads from: `interview_prompts_latest.json` (Phase 55A output)
+- Inputs audio from: `C:\CIC_MEDIA_LIBRARY\CIC\media\_Inbox\interviews\`
+- Links gaps via prompt_id references
+- Confidence levels (high/medium/low) track closure certainty for gap reconciliation
 
 ---
 

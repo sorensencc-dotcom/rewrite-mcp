@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T20:02:03.912Z
+Generated at: 2026-06-07T22:25:15.726Z
 
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
@@ -91,6 +91,7 @@ Generated at: 2026-06-07T20:02:03.912Z
 - [cic_overview.md](docs/internal/cic_overview.md)
 - [HELM_ROADMAP.md](docs/helm/HELM_ROADMAP.md)
 - [VISUAL_INDEX_TEMPLATE.md](docs/cic/VISUAL_INDEX_TEMPLATE.md)
+- [SOCIAL_MEDIA_ORCHESTRATOR_INTEGRATION.md](docs/cic/SOCIAL_MEDIA_ORCHESTRATOR_INTEGRATION.md)
 - [SKILLOPT_VALIDATOR_SPEC.md](docs/cic/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite-labs-roadmap.md](docs/cic/rewrite-labs-roadmap.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](docs/cic/PMS_INTEGRATION_SPECIFICATION.md)
@@ -100,9 +101,16 @@ Generated at: 2026-06-07T20:02:03.912Z
 - [PHASE_7_13_GOVERNANCE_HOOKS.md](docs/cic/PHASE_7_13_GOVERNANCE_HOOKS.md)
 - [PHASE_7_12_THRESHOLD_MODEL.md](docs/cic/PHASE_7_12_THRESHOLD_MODEL.md)
 - [PHASE_46_DETAILED_ARCHITECTURE.md](docs/cic/PHASE_46_DETAILED_ARCHITECTURE.md)
+- [PHASE_23_PROGRESS.md](docs/cic/PHASE_23_PROGRESS.md)
+- [PHASE_23_KICKOFF_PLAN.md](docs/cic/PHASE_23_KICKOFF_PLAN.md)
+- [PHASE_23_DAYS_8_9_PIPELINE_INTEGRATION.md](docs/cic/PHASE_23_DAYS_8_9_PIPELINE_INTEGRATION.md)
+- [PHASE_23_DAYS_6_7_ARPS_INTEGRATION.md](docs/cic/PHASE_23_DAYS_6_7_ARPS_INTEGRATION.md)
+- [PHASE_23_DAYS_1_5_SUMMARY.md](docs/cic/PHASE_23_DAYS_1_5_SUMMARY.md)
 - [MLA_UI_SPEC.md](docs/cic/MLA_UI_SPEC.md)
 - [MLA_ROADMAP.md](docs/cic/MLA_ROADMAP.md)
+- [mla-spec.md](docs/cic/mla-spec.md)
 - [MIGRATION_V1.1_CHECKLIST.md](docs/cic/MIGRATION_V1.1_CHECKLIST.md)
+- [MEMORY_INTEGRATION_GUIDE.md](docs/cic/MEMORY_INTEGRATION_GUIDE.md)
 - [implementation_plan_phase_32.md](docs/cic/implementation_plan_phase_32.md)
 - [implementation_plan_phase_31.md](docs/cic/implementation_plan_phase_31.md)
 - [implementation_plan_phase_30.md](docs/cic/implementation_plan_phase_30.md)
@@ -264,6 +272,7 @@ Generated at: 2026-06-07T20:02:03.912Z
 - [WEIGHTING_INTEGRATION.md](projects/cic/ingestion/src/reasoning/arl/WEIGHTING_INTEGRATION.md)
 - [ROADMAP_7.12_TO_7.25.md](projects/cic/ingestion/src/reasoning/arl/ROADMAP_7.12_TO_7.25.md)
 - [INTEGRATION_GUIDE.md](projects/cic/ingestion/src/pipeline/INTEGRATION_GUIDE.md)
+- [reverseImageSearch.status.md](projects/cic/ingestion/src/extractors/reverseImageSearch.status.md)
 - [ARL_INTEGRATION.md](projects/cic/ingestion/src/dashboard/ARL_INTEGRATION.md)
 - [cic-token-economy-validator.md](projects/cic/ingestion/skills/cic-token-economy-validator.md)
 - [best_skill.md](projects/cic/ingestion/skills/rewritelabs/redesign/best_skill.md)
