@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "title": "CIC Benchmark Runner Input",
+  "description": "Automate RL benchmark pipeline with cost tracking and resumable runs",
+  "properties": {
+    "benchmarkSuite": {
+      "type": "string",
+      "description": "Benchmark suite identifier (e.g., 'rewrite-labs-v2.3')",
+      "examples": ["rewrite-labs-v2.3", "full-pipeline", "smoke-test"]
+    },
+    "model": {
+      "type": "string",
+      "description": "Model to benchmark (claude-opus-4, claude-sonnet-4, etc.)",
+      "examples": ["claude-opus-4", "claude-sonnet-4"]
+    },
+    "datasetSize": {
+      "type": "string",
+      "enum": ["full", "sample", "smoke"],
+      "description": "Dataset size: full=all, sample=10%, smoke=minimal"
+    },
+    "parallelCount": {
+      "type": "number",
+      "description": "Number of concurrent benchmark runs (1-10)",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 2
+    },
+    "creditLimit": {
+      "type": "number",
+      "description": "Maximum API credits to spend (USD)",
+      "minimum": 10,
+      "default": 5000
+    },
+    "resumeFromStep": {
+      "type": "string",
+      "description": "Resume from checkpoint (e.g., 'phase-3-run-5'). Omit to start fresh.",
+      "examples": ["phase-3-run-5", null]
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Path to write benchmark results (JSON, CSV)",
+      "examples": ["/benchmarks/results/2026-06-07"]
+    }
+  },
+  "required": ["benchmarkSuite", "model", "datasetSize", "outputPath"]
+}

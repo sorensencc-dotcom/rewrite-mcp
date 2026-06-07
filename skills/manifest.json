@@ -87,6 +87,13 @@
       "deployed": true,
       "description": "Log operator approvals (governance)",
       "platforms": ["claude"]
+    },
+    "cic-benchmark-runner": {
+      "version": "1.0.0",
+      "entry": "./cic-benchmark-runner/index.js",
+      "schema": "./cic-benchmark-runner/schema.json",
+      "description": "Automate RL benchmark pipeline with cost tracking and resumable runs",
+      "platforms": ["claude", "copilot", "gemini"]
     }
   }
 }
