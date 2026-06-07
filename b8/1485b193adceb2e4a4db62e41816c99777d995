@@ -1,0 +1,19 @@
+skills/manifest.json
+  s_da4a457c4334be::t_5bb4038d8f51b3 111-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b81485b193adceb2e4a4db62e41816c99777d995",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
