@@ -1568,6 +1568,65 @@ Verify phase completion (tests + docs + integration).
 
 ---
 
+<!-- ARPS:PHASE_47:BEGIN -->
+## Phase 47 — Approval UX Overhaul (AUX)
+
+**Goal:** Eliminate repetitive approval prompts while maintaining safety. Solve the 50+ approvals-per-session friction that blocks productivity.
+
+### Architecture
+
+- **Approval manifest** — persistent JSON store tracking command approvals, frequencies, tier assignments, trust scores
+- **Four-tier approval system** — Tier 1 (safe, no prompt) → Tier 4 (risky, always prompt)
+- **Auto-promotion** — commands reaching N approvals automatically promote to higher tier
+- **Session-scoped whitelist** — within a session, once approved, don't re-prompt for 1 hour
+- **Denylist pattern detector** — only prompt for novel/suspicious patterns
+
+### Milestones
+
+- **47.1 — Approval Manifest Schema (AUX-Manifest)**  
+  Persistent JSON store: command approval history, tier assignments, auto-promotion timestamps, trust scores.
+  Load/save with atomic writes. Integration with existing approvals-audit skill v2.0.0.
+
+- **47.2 — Four-Tier Classification (AUX-Tiers)**  
+  Tier 1 (safe: npm, git, known urls) → Tier 4 (risky: destructive, new hosts).
+  Heuristic classifier + explicit tier assignment API. Default: classify all known commands on startup.
+
+- **47.3 — Auto-Promotion Logic (AUX-AutoPromote)**  
+  After N consecutive approvals in a tier, auto-promote to next tier (capped at tier 4).
+  Track promotion timestamps and audit trail.
+
+- **47.4 — Session-Scoped Whitelist (AUX-SessionWhitelist)**  
+  Ephemeral whitelist (1-hour TTL) per session. Once user approves, skip prompt for remainder of session.
+  Cleaned on load; expired entries removed automatically.
+
+- **47.5 — Denylist Pattern Detector (AUX-Denylist)**  
+  Regex-based denylist with severity levels (low/medium/high). Low severity = log only. 
+  Medium/high = block and require manual override or add to session whitelist.
+
+- **47.6 — Approval Dashboard (AUX-Dashboard)**  
+  Real-time visibility: tier distribution, auto-promotion rate, rejected commands, session whitelist status.
+  Bulk operations: reassign tier, reset auto-promotion, remove from whitelist.
+
+- **47.7 — Integration Tests (AUX-Tests)**  
+  28+ tests covering: load/save, approval recording, rejection tracking, auto-promotion chain,
+  tier-based decisions, session whitelist TTL, denylist matching, command normalization.
+
+### Dependencies
+
+- Approval manifest storage (local filesystem or cloud-backed)
+- Existing approvals-audit skill foundation
+- CLI integration point for approval prompts
+
+### Expected Outcome
+
+80% reduction in approval prompts per session (from 50+ to ~10). Commands auto-promoted to appropriate tiers based on usage patterns. Novel/suspicious commands caught by denylist. Session whitelist eliminates repeated approval for same command within 1 hour.
+
+**Status:** Phase 47.1 COMPLETE (Approval Manifest Schema + tests)  
+**Outcome:** Four-tier approval system with persistent history and session-scoped whitelist.
+<!-- ARPS:PHASE_47:END -->
+
+---
+
 ## **44.2 — Copilot Adaptation (Phase 2, Optional)**
 
 **Dependencies:** Claude deployment complete, platform wrappers designed
