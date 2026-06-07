@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "title": "HELM Daily Brief Input",
+  "description": "Generate morning briefing from Calendar, Gmail, Finance, and Deals data",
+  "properties": {
+    "includeEvents": {
+      "type": "boolean",
+      "description": "Include calendar events in briefing",
+      "default": true
+    },
+    "includeEmails": {
+      "type": "boolean",
+      "description": "Include email summary in briefing",
+      "default": true
+    },
+    "includeFinance": {
+      "type": "boolean",
+      "description": "Include financial summary in briefing",
+      "default": true
+    },
+    "maxEventsPerDay": {
+      "type": "number",
+      "description": "Maximum calendar events to include (most important first)",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 10
+    },
+    "maxEmailCount": {
+      "type": "number",
+      "description": "Maximum high-priority emails to summarize",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 5
+    },
+    "format": {
+      "type": "string",
+      "enum": ["text", "json"],
+      "description": "Output format: plain text or JSON",
+      "default": "text"
+    },
+    "forceRefresh": {
+      "type": "boolean",
+      "description": "Skip cache and fetch fresh data from MCP servers",
+      "default": false
+    }
+  },
+  "required": []
+}

@@ -94,6 +94,20 @@
       "schema": "./cic-benchmark-runner/schema.json",
       "description": "Automate RL benchmark pipeline with cost tracking and resumable runs",
       "platforms": ["claude", "copilot", "gemini"]
+    },
+    "mee-phase-executor": {
+      "version": "1.0.0",
+      "entry": "./mee-phase-executor/index.js",
+      "schema": "./mee-phase-executor/schema.json",
+      "description": "Execute MEE phases with state tracking and resumable execution",
+      "platforms": ["claude", "copilot", "gemini"]
+    },
+    "helm-daily-brief": {
+      "version": "1.0.0",
+      "entry": "./helm-daily-brief/index.js",
+      "schema": "./helm-daily-brief/schema.json",
+      "description": "Generate morning briefing from Calendar, Gmail, Finance via MCP",
+      "platforms": ["claude", "copilot", "gemini"]
     }
   }
 }
