@@ -1,0 +1,46 @@
+skills/mee-finding-assessor/index.test.js
+  s_da4a457c4334be::t_03bf10cb2f794d 1-281
+skills/phase-validator/schema.json
+  s_da4a457c4334be::t_ac8e9fcb588ad4 1-90
+skills/idea-inbox-harvester/schema.json
+  s_da4a457c4334be::t_cc4c9a342ac1b9 1-79
+skills/mee-finding-assessor/index.js
+  s_da4a457c4334be::t_9b9cb940294e89 1-335
+skills/idea-inbox-harvester/index.test.js
+  s_da4a457c4334be::t_0a51c359db157f 228-231,236-237
+  s_da4a457c4334be::t_66dfd201fbd230 1-54,58-61,64-188,192-194,196-227,232-235,238-322
+  s_da4a457c4334be::t_da1a903c1d0516 189-191,195
+  s_da4a457c4334be::t_2ce34a3d1ff8dd 55-57,62-63
+skills/idea-inbox-harvester/index.js
+  s_da4a457c4334be::t_36881ffb9d0ae3 1-299
+skills/phase-validator/index.js
+  s_da4a457c4334be::t_f27304e69e1ae6 161-163,168-174
+  s_da4a457c4334be::t_a209541e2c001f 1-160,164-167,175-435
+skills/mee-finding-assessor/README.md
+  s_da4a457c4334be::t_9cf247fac0f7cf 1-224
+skills/phase-validator/index.test.js
+  s_da4a457c4334be::t_2dc3646ae1ce2d 196-199
+  s_da4a457c4334be::t_6045641b31f782 226-229
+  s_da4a457c4334be::t_1c63cf20440fff 362-372
+  s_da4a457c4334be::t_58b0e2567a9e4f 55-69
+  s_da4a457c4334be::t_a5a7e722673112 1-54,70-195,200-210,215-225,230-361,373-390
+  s_da4a457c4334be::t_a81ec72013ee9f 211-214
+skills/mee-finding-assessor/schema.json
+  s_da4a457c4334be::t_ee583988e17d82 1-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "76feb9d29f2c754cb550fef2eac2282b19ee5646",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
