@@ -1,0 +1,32 @@
+docs/cic/CIC_AI_RUNTIME_CONTRACT.md
+  s_bd29c1c18ef69c::t_f8d5e4fa29419f 49-50
+CHANGELOG.md
+  s_bd29c1c18ef69c::t_849b88953fc5ce 5-7,9
+  s_bd29c1c18ef69c::t_35a7ca472671ad 8
+docs/cic/CIC_SYSTEM.md
+  s_bd29c1c18ef69c::t_35a7ca472671ad 26-30
+docs/rewrite/skills/doc-update.md
+  s_bd29c1c18ef69c::t_c2a554f9aed4b7 9-15,17-28
+  s_bd29c1c18ef69c::t_799e1865fe11bb 16
+docs/cic/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md
+  s_bd29c1c18ef69c::t_f8d5e4fa29419f 349-355,359
+docs/rewrite/governance/DOC_POLICY.md
+  s_bd29c1c18ef69c::t_c2a554f9aed4b7 93-96,99-107
+  s_bd29c1c18ef69c::t_849b88953fc5ce 97-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "61228166fc5b8e828e29c8771863d3481b3bde90",
+  "prompts": {},
+  "sessions": {
+    "s_bd29c1c18ef69c": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "24e26489-9dd7-4793-a275-f6a883f69bdc",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
