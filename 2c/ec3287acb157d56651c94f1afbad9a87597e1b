@@ -1,0 +1,23 @@
+projects/cic/src/tool-layer/index.ts
+  s_8376f04a7d76bf::t_16e01651b97170 1-24
+projects/cic/src/tool-layer/FileTool.ts
+  s_8376f04a7d76bf::t_9b3c9da20e82a7 1-220
+projects/cic/src/tool-layer/HttpTool.ts
+  s_8376f04a7d76bf::t_3ee64f3c78b53d 1-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "2cec3287acb157d56651c94f1afbad9a87597e1b",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
