@@ -3,6 +3,7 @@
  */
 
 export { ApprovalManifestManager, approvalManifest } from "./ApprovalManifest";
+export { TierClassifier } from "./TierClassifier";
 export type {
   ApprovalManifest,
   ApprovalRecord,

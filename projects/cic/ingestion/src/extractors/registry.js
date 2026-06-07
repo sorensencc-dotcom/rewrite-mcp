@@ -6,7 +6,12 @@
  * Central Extractor Registry
  */
 
+import { ReverseImageSearchExtractor } from './reverseImageSearch.js';
+
 const extractors = new Set();
+
+// Initialize registry with built-in extractors
+registerExtractor(ReverseImageSearchExtractor);
 
 /**
  * Registers an extractor instance.
