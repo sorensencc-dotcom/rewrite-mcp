@@ -1,0 +1,21 @@
+docs/rewrite/releases/CHANGELOG.md
+  s_bd29c1c18ef69c::t_dcf710fd22a12c 3-7
+docs/rewrite/REWRITE_LABS_SYSTEM.md
+  s_bd29c1c18ef69c::t_dcf710fd22a12c 5-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "84a1c99b1084d04fe8e0592d008a3a49af5facb8",
+  "prompts": {},
+  "sessions": {
+    "s_bd29c1c18ef69c": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "24e26489-9dd7-4793-a275-f6a883f69bdc",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
