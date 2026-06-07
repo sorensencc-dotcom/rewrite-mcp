@@ -31,8 +31,8 @@ export class TierClassifier {
     this.addRule(/^type\s+/, 1, "check type");
     this.addRule(/^node\s+-v/, 1, "check node version");
     this.addRule(/^npm\s+-v/, 1, "check npm version");
-    this.addRule(/^curl\s+-I/, 1, "HEAD request");
-    this.addRule(/^curl\s+.*-s.*http/, 1, "silent GET request");
+    this.addRule(/^curl\s+(-i|--head)/, 1, "HEAD request");
+    this.addRule(/^curl\s+(-s|--silent)\s+(https?:\/\/)/, 1, "silent GET request");
 
     // Tier 2 — Moderate (brief review)
     this.addRule(/^npm\s+(install|add|update|upgrade|remove)/, 2, "npm package management");
@@ -65,7 +65,7 @@ export class TierClassifier {
 
     // Tier 4 — Critical (always prompt)
     this.addRule(/^rm\s+-rf/, 4, "recursive force delete");
-    this.addRule(/^git\s+push\s+--force.*master|main/, 4, "force push to main branch");
+    this.addRule(/^git\s+push\s+--force.*(master|main)/, 4, "force push to main branch");
     this.addRule(/^git\s+reset\s+--hard/, 4, "hard reset");
     this.addRule(/^docker\s+system\s+prune/, 4, "docker system cleanup");
     this.addRule(/^sudo\s+rm/, 4, "sudo delete");

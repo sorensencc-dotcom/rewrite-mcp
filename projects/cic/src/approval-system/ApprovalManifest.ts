@@ -94,6 +94,10 @@ export class ApprovalManifestManager {
     this.manifest.stats.lastUpdated = now;
     this.updateStats();
 
+    // Ensure directory exists
+    const dir = path.dirname(this.manifestPath);
+    await fs.mkdir(dir, { recursive: true });
+
     // Atomic write: write to .tmp, then rename
     const content = JSON.stringify(this.manifest, null, 2);
     await fs.writeFile(tmpPath, content, "utf-8");

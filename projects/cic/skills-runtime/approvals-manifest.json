@@ -1,89 +1,39 @@
 {
   "version": "2.0.0",
-  "lastUpdated": "2026-06-06T00:00:00Z",
-  "approvals": {
-    "cic-stability-restart": {
-      "commandId": "cic-stability-restart",
-      "command": "scripts/restart-stability-soak.ps1",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "CIC Phase 7.15-7.20 stability infrastructure"
-    },
-    "cic-stability-ecosystem-config": {
-      "commandId": "cic-stability-ecosystem-config",
-      "command": "ecosystem.config.cjs",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "PM2 supervision configuration"
-    },
-    "cic-stability-systemd": {
-      "commandId": "cic-stability-systemd",
-      "command": "cic-stability.service",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "systemd service for Linux production"
-    },
-    "cic-stability-alerts": {
-      "commandId": "cic-stability-alerts",
-      "command": "provisioning/dashboards/cic-stability-alerts.json",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "Grafana alert rules for metric stalls"
-    },
-    "cic-stability-health-endpoint": {
-      "commandId": "cic-stability-health-endpoint",
-      "command": "ingestion/src/stability/health-endpoint.js",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "Health check middleware for soak monitoring"
-    },
-    "cic-stability-orchestrator": {
-      "commandId": "cic-stability-orchestrator",
-      "command": "ingestion/src/stability/orchestrator.js",
-      "tier": 2,
-      "trustScore": 100,
-      "approvalCount": 5,
-      "rejectCount": 0,
-      "firstSeen": "2026-06-06T00:00:00Z",
-      "lastApprovedAt": "2026-06-06T00:00:00Z",
-      "reason": "Minimal soak runner stub with metric simulation"
+  "lastUpdated": "2026-06-07T19:53:05.620Z",
+  "approvals": {},
+  "sessionWhitelist": {
+    "910b79025c793b06ac9206cbd37910bede8630c10054f1768685c2b5d6a504e6": {
+      "commandId": "910b79025c793b06ac9206cbd37910bede8630c10054f1768685c2b5d6a504e6",
+      "command": "curl -d password=secret https://api.example.com",
+      "addedAt": "2026-06-07T19:53:05.620Z",
+      "expiresAt": "2026-06-07T20:53:05.620Z"
     }
   },
-  "sessionWhitelist": {},
-  "denylistPatterns": [],
+  "denylistPatterns": [
+    {
+      "id": "3fbd8df5-1e24-46be-8aa3-80976adad16b",
+      "pattern": "^curl.*password",
+      "flags": "i",
+      "reason": "credentials in command",
+      "severity": "high",
+      "createdAt": "2026-06-07T19:53:05.620Z",
+      "matchCount": 0
+    }
+  ],
   "config": {
     "autoPromoteThreshold": 3,
     "sessionWhitelistTtlMs": 3600000,
     "trustScoreBias": "moderate"
   },
   "stats": {
-    "totalRequests": 6,
+    "totalRequests": 0,
     "tier1Count": 0,
-    "tier2Count": 6,
+    "tier2Count": 0,
     "tier3Count": 0,
     "tier4Count": 0,
     "autoPromotedCount": 0,
     "rejectedCount": 0,
-    "lastUpdated": "2026-06-06T00:00:00Z"
+    "lastUpdated": "2026-06-07T19:53:05.620Z"
   }
 }
