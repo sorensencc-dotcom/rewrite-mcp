@@ -63,6 +63,7 @@ See `AGENTS.md` at repo root and `projects/cic/ingestion/AGENTS.md` for path-lev
 | `update_documentation` | doc-update | Update project docs |
 | `sync_docs_release` | docs-sync-release | Release docs updates |
 | `audit_approvals` | approvals-audit | Audit workflows |
+| `session_wrap` | session-wrap | Wrap up session: update docs, commit, summarize |
 
 **Usage:** Ask Claude in Claude Code to invoke tools by name (e.g., "Use the summarize_cic_phase tool to...").
 

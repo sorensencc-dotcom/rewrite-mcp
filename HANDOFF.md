@@ -1,10 +1,89 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-07 (Phase 45.1 & 45.5 Scaffolded) | Tool: claude
+Updated: 2026-06-07 (Phase 47.1 Session Wrap Skill Complete) | Tool: claude
 
 ---
 
-## This Session: Phase 45.1 & 45.5 — Scaffolding (Complete)
+## This Session: Phase 47.1 — Session Wrap Automation Skill (Complete)
+
+**Status:** ✅ IMPLEMENTATION COMPLETE
+
+### What Changed
+
+Created `session-wrap` skill to automate session wrap-up workflows. Performs 4 tasks in sequence:
+1. **Update Documentation** — Batch write changes to doc files
+2. **Stage Changes** — Auto-detect and stage modified files via git
+3. **Commit Changes** — Create atomic commit with `[tool]` attribution
+4. **Generate Report** — Provide summary, checklist, and next steps
+
+### Implementation Details
+
+**Files Created:**
+- ✅ `skills-runtime/session-wrap.js` (185 LOC) — Skill implementation with 4 execution stages
+- ✅ `docs/SKILL_SESSION_WRAP.md` (300+ LOC) — Complete skill documentation with examples
+
+**Files Modified:**
+- ✅ `skills-runtime/skill-tool-config.json` — Registered skill with MCP schema
+- ✅ `skills/manifest.json` — Added session-wrap metadata
+- ✅ `CLAUDE.md` — Updated skill reference table
+
+**Schema:**
+```json
+{
+  "commitMessage": "[tool] Description",  // Required: [claude|copilot|gemini|human]
+  "summary": "What you accomplished",     // Optional: session summary
+  "docUpdates": [                         // Optional: docs to update
+    {"path": "file.md", "content": "..."}
+  ]
+}
+```
+
+**Output:**
+- Commit hash and message
+- Doc update results (success/failed count)
+- Staged files list
+- Auto-generated next steps
+- Completion checklist
+
+### Workflow Example
+
+```bash
+# Call during session wrap
+/session_wrap
+  commitMessage: "[claude] Phase 47.1: Session wrap automation"
+  summary: "Approval audit complete, created session-wrap skill"
+  docUpdates: [
+    {path: "HANDOFF.md", content: "..."}
+  ]
+```
+
+### Usage
+
+Available as `session_wrap` tool in Claude Code MCP. Handles:
+- ✅ Atomic git commits with tool attribution
+- ✅ Batch documentation updates
+- ✅ Graceful error handling (partial updates don't block commit)
+- ✅ Auto-generated next steps based on outcome
+- ✅ Verification checklist
+
+### Integration
+
+Registered in `skill-tool-config.json` and `manifest.json`. MCP server automatically exposes as `session_wrap` tool. Can be invoked via:
+- Claude Code skill command `/session_wrap`
+- Programmatically via `runtime.invokeSkill('session-wrap', {...})`
+- REST API via MCP tool endpoint
+
+### Next Steps for Phase 47
+
+1. Test session-wrap with real workflows
+2. Add HANDOFF.md auto-update capability
+3. Add branch push option
+4. Add test runner integration
+5. Consider Phase 47.2 requirements
+
+---
+
+## Previous Session: Phase 45.1 & 45.5 — Scaffolding (Complete)
 
 **Status:** ✅ SCAFFOLDING COMPLETE (Both skills policy-approved)
 

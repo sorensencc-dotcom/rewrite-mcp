@@ -1,0 +1,225 @@
+{
+  "components": [
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.8: Branding Pack (Optional, Post-Launch)",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.7: Integration Test Suite",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[human] BOB complete sync - all generated and tool-layer files",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[human] BOB sync - final",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[human] BOB final auto-update - all generated files",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[human] BOB auto-update - generated files (2)",
+      "source": "git"
+    },
+    {
+      "name": "Git: snapshot:",
+      "status": "COMPLETE",
+      "details": "[copilot] snapshot: import working tree from backup/el-capitan-feat-runtime-install-v1",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.5: Artifact Integration with Size Limits",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.4: Pipeline ↔ Wayland Session Mapping",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.3: Agent Manifest & Wayland Registry Integration",
+      "source": "git"
+    },
+    {
+      "name": "Git: Add",
+      "status": "COMPLETE",
+      "details": "[claude] Add Phase 47 — Approval UX Overhaul to CIC_MASTER_ROADMAP",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.1 & 46.2: CIC Foreman HTTP Service and Wayland Tool Adapters",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 46.2 + cleanup: Tool adapters (ModelTool, FileTool, HttpTool) + move idea-inbox-harvester to cli-local-skills",
+      "source": "git"
+    },
+    {
+      "name": "Git: Implement",
+      "status": "COMPLETE",
+      "details": "[claude] Implement Phase 45.6 & 45.7: idea-inbox-harvester, phase-validator",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 45.4, 45.6, 45.7: Complete Phase 45 skill implementation",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[copilot] BOB auto-update",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[copilot] BOB auto-update",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[copilot] BOB auto-update",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[copilot] BOB auto-update",
+      "source": "git"
+    },
+    {
+      "name": "Git: BOB",
+      "status": "COMPLETE",
+      "details": "[copilot] BOB auto-update",
+      "source": "git"
+    },
+    {
+      "name": "Git: chore(docs):",
+      "status": "COMPLETE",
+      "details": "[copilot] chore(docs): add doc snapshots and generated test fixtures",
+      "source": "git"
+    },
+    {
+      "name": "Git: docs:",
+      "status": "COMPLETE",
+      "details": "[claude] docs: clarify Claude memory sync path across CIC and Rewrite Labs documentation",
+      "source": "git"
+    },
+    {
+      "name": "Git: Add",
+      "status": "COMPLETE",
+      "details": "[claude] Add Phase 46 detailed architecture specification",
+      "source": "git"
+    },
+    {
+      "name": "Git: Add",
+      "status": "COMPLETE",
+      "details": "[claude] Add Phase 46 — CIC ↔ Wayland Integration Layer (WIL) to CIC_MASTER_ROADMAP.md",
+      "source": "git"
+    },
+    {
+      "name": "Git: Update",
+      "status": "IN_PROGRESS",
+      "details": "[claude] Update HANDOFF.md: Phase 45.1 & 45.5 scaffolding complete",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 45.1 & 45.5: Scaffold mee-phase-executor and helm-daily-brief",
+      "source": "git"
+    },
+    {
+      "name": "Git: Add",
+      "status": "COMPLETE",
+      "details": "[claude] Add all Phase 45 commands to approval whitelist",
+      "source": "git"
+    },
+    {
+      "name": "Git: Update",
+      "status": "COMPLETE",
+      "details": "[claude] Update HANDOFF.md: Phase 45.2 complete, next is 45.1",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 45.2: Implement cic-benchmark-runner skill",
+      "source": "git"
+    },
+    {
+      "name": "Git: Phase",
+      "status": "COMPLETE",
+      "details": "[claude] Phase 45.3: Update HANDOFF with completion summary",
+      "source": "git"
+    },
+    {
+      "name": "Implement Phase 22: Autonomous",
+      "status": "PENDING",
+      "details": "Implement Phase 22: Autonomous Roadmap & Prompt Sandbox (ARPS)",
+      "source": "tasks"
+    }
+  ],
+  "completions": [
+    "Git: Phase",
+    "Git: Phase",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: snapshot:",
+    "Git: Phase",
+    "Git: Phase",
+    "Git: Phase",
+    "Git: Add",
+    "Git: Phase",
+    "Git: Phase",
+    "Git: Implement",
+    "Git: Phase",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: BOB",
+    "Git: chore(docs):",
+    "Git: docs:",
+    "Git: Add",
+    "Git: Add",
+    "Git: Phase",
+    "Git: Add",
+    "Git: Update",
+    "Git: Phase",
+    "Git: Phase"
+  ],
+  "gaps": [
+    "Implement Phase 22: Autonomous Roadmap & Prompt Sandbox (ARPS)"
+  ],
+  "timestamp": "2026-06-07T08:45:09.037Z"
+}

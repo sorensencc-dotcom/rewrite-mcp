@@ -1,8 +1,9 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T08:37:56.375Z
+Generated at: 2026-06-07T08:48:55.643Z
 
 - [versioning.md](docs/versioning.md)
+- [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
 - [GAP-007_Narrative_Gap_Report.md](docs/GAP-007_Narrative_Gap_Report.md)

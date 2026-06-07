@@ -72,9 +72,13 @@ export class SecurityValidator {
     const violations: string[] = [];
     const resolved = path.resolve(filePath);
     const normalized = path.normalize(resolved);
+    // Normalize to forward-slash and strip Windows drive letter (C:) for cross-platform comparison
+    const toUnix = (p: string) => p.replace(/\\/g, '/').replace(/^[A-Za-z]:/, '');
+    const normalizedUnix = toUnix(normalized);
+    const workspaceUnix = toUnix(WORKSPACE_ROOT);
 
     // Must be within workspace
-    if (!normalized.startsWith(WORKSPACE_ROOT)) {
+    if (!normalizedUnix.startsWith(workspaceUnix)) {
       violations.push(`Path outside workspace: ${filePath} (workspace: ${WORKSPACE_ROOT})`);
     }
 
@@ -168,14 +172,14 @@ export class SecurityValidator {
       violations.push('Credential pattern detected in prompt');
     }
 
-    // Check for requests to output credentials
-    const suspiciousPhrases = ['password', 'api key', 'secret key', 'token', 'credential'];
-    for (const phrase of suspiciousPhrases) {
-      if (prompt.toLowerCase().includes(`output ${phrase}`) ||
-          prompt.toLowerCase().includes(`return ${phrase}`) ||
-          prompt.toLowerCase().includes(`show ${phrase}`)) {
-        violations.push(`Suspicious phrase detected: "${phrase}"`);
-      }
+    // Check for requests to output credentials — allow articles ("the") between verb and noun
+    const actionVerbs = ['output', 'return', 'show', 'print', 'display', 'give', 'provide', 'send'];
+    const credWords = ['password', 'api key', 'api_key', 'secret key', 'secret', 'token', 'credential'];
+    const lowerPrompt = prompt.toLowerCase();
+    const hasAction = actionVerbs.some(v => lowerPrompt.includes(v));
+    const hasCred = credWords.some(c => lowerPrompt.includes(c));
+    if (hasAction && hasCred) {
+      violations.push('Credential phrase detected in prompt');
     }
 
     return {
@@ -242,7 +246,7 @@ export class SecurityValidator {
 
       // Check key name
       if (this.isSuspiciousKey(key)) {
-        violations.push(`Suspicious config key: ${currentPath}`);
+        violations.push(`Credential pattern in config key: ${currentPath}`);
       }
 
       // Check value

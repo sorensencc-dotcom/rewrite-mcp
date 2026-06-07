@@ -221,6 +221,36 @@
         },
         "required": ["auditScope"]
       }
+    },
+    {
+      "skillName": "session-wrap",
+      "toolName": "session_wrap",
+      "description": "Wrap up session: update docs, commit changes, provide summary and next steps",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "docUpdates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            },
+            "description": "Documentation files to update"
+          },
+          "commitMessage": {
+            "type": "string",
+            "description": "Git commit message (e.g., '[claude] Phase X: Feature')"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Session summary"
+          }
+        },
+        "required": ["commitMessage"]
+      }
     }
   ]
 }

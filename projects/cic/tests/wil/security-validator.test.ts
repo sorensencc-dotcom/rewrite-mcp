@@ -11,7 +11,7 @@ describe('SecurityValidator (46.6)', () => {
     it('should reject interactive flag -i', () => {
       const result = SecurityValidator.validateShellCommand('bash -i');
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('Interactive flag'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('Interactive flag')]));
     });
 
     it('should reject interactive flag --interactive', () => {
@@ -41,7 +41,7 @@ describe('SecurityValidator (46.6)', () => {
       process.env.CIC_WORKSPACE = '/cic_workspace';
       const result = SecurityValidator.validateFilePath('/etc/passwd');
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('outside workspace'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('outside workspace')]));
     });
 
     it('should reject path traversal attempts', () => {
@@ -54,7 +54,7 @@ describe('SecurityValidator (46.6)', () => {
       process.env.CIC_WORKSPACE = '/cic_workspace';
       const result = SecurityValidator.validateFilePath('/cic_workspace/.env');
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('Forbidden file'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('Forbidden file')]));
     });
 
     it('should reject credentials.json', () => {
@@ -75,7 +75,7 @@ describe('SecurityValidator (46.6)', () => {
       const config = { api_key: 'secret123', app: 'cic' };
       const result = SecurityValidator.validateConfig(config);
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('Credential pattern'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('Credential pattern')]));
     });
 
     it('should reject nested credentials', () => {
@@ -100,7 +100,7 @@ describe('SecurityValidator (46.6)', () => {
     it('should reject URLs with API key parameter', () => {
       const result = SecurityValidator.validateHttpUrl('https://api.example.com?key=secret123');
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('Credential in URL'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('Credential in URL')]));
     });
 
     it('should reject URLs with token parameter', () => {
@@ -111,7 +111,7 @@ describe('SecurityValidator (46.6)', () => {
     it('should reject URLs with basic auth', () => {
       const result = SecurityValidator.validateHttpUrl('https://user:password@api.example.com');
       expect(result.valid).toBe(false);
-      expect(result.violations).toContain(expect.stringContaining('Basic auth'));
+      expect(result.violations).toEqual(expect.arrayContaining([expect.stringContaining('Basic auth')]));
     });
 
     it('should reject invalid URLs', () => {

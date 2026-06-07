@@ -115,6 +115,12 @@
       "schema": "./mee-finding-assessor/schema.json",
       "description": "Assess and score MEE findings with weighted confidence model",
       "platforms": ["claude", "copilot", "gemini"]
+    },
+    "session-wrap": {
+      "version": "1.0.0",
+      "deployed": true,
+      "description": "Wrap up session: update docs, commit changes, provide summary and next steps",
+      "platforms": ["claude"]
     }
   }
 }

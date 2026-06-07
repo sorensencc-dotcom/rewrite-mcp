@@ -7,12 +7,12 @@ module.exports = {
       name: 'cic-stability-orchestrate',
       cwd: './ingestion',
       script: 'npm',
-      args: 'run orchestrate:stability -- --hours=12',
+      args: 'run orchestrate:stability',
       interpreter: 'none',
 
       // Auto-restart
       instances: 1,
-      exec_mode: 'cluster',
+      exec_mode: 'fork',
       max_memory_restart: '2G',
       watch: false,
 
@@ -21,11 +21,10 @@ module.exports = {
       autorestart: true,
       max_restarts: 5,
       min_uptime: '10m',
-      listen_timeout: 10000,
 
       // Logging
-      output: './logs/stability-soak.out.log',
-      error: './logs/stability-soak.err.log',
+      output: '../logs/stability-soak.out.log',
+      error: '../logs/stability-soak.err.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
 
       // Environment
@@ -37,15 +36,13 @@ module.exports = {
 
       // Graceful shutdown
       kill_timeout: 30000,
-      wait_ready: true,
-      listen_timeout: 10000,
     },
 
     {
       name: 'cic-stability-test',
       cwd: './ingestion',
       script: 'npm',
-      args: 'run test:stability -- --duration=12h',
+      args: 'run test:stability',
       interpreter: 'none',
 
       // Only start this if explicitly enabled
@@ -53,14 +50,15 @@ module.exports = {
 
       // Auto-restart
       instances: 1,
+      exec_mode: 'fork',
       max_memory_restart: '2G',
       autorestart: true,
       max_restarts: 3,
       min_uptime: '10m',
 
       // Logging
-      output: './logs/stability-test.out.log',
-      error: './logs/stability-test.err.log',
+      output: '../logs/stability-test.out.log',
+      error: '../logs/stability-test.err.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
 
       // Environment
@@ -78,7 +76,4 @@ module.exports = {
   // Monitoring & Health
   monitor_interval: 5000,
   autorestart_delay: 4000,
-
-  // Cluster-mode communication
-  cluster_mode: true,
 };

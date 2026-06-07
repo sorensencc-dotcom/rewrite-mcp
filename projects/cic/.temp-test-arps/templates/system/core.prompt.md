@@ -1,0 +1,1 @@
+This is the core system prompt configuration file for the Cast Iron Charlie feature documentary. It establishes the primary source records, archive integrations, and RAG retrieval pipelines for analyzing the life, patents, and engineering legacy of Charles Emil Sorensen at the River Rouge and Willow Run plants.
