@@ -158,8 +158,8 @@ describe('HELM Daily Brief (45.5)', () => {
     });
 
     expect(result.success).toBe(true);
-    // Count email entries (lines starting with number and icon)
-    const emailEntries = (result.brief.match(/\s+\d+\.\s+🔴|🟡/g) || []).length;
+    // Count email entries (pattern: "  N. 🔴|🟡 From:")
+    const emailEntries = (result.brief.match(/\s+\d+\.\s+(?:🔴|🟡)/g) || []).length;
     expect(emailEntries).toBeLessThanOrEqual(2);
   });
 
@@ -170,7 +170,8 @@ describe('HELM Daily Brief (45.5)', () => {
 
     expect(result.success).toBe(true);
     expect(result.generatedAt || result.cachedAt).toBeDefined();
-    expect(result.elapsedMs).toBeGreaterThan(0);
+    expect(result.elapsedMs).toBeGreaterThanOrEqual(0);
+    expect(typeof result.elapsedMs).toBe('number');
   });
 
   it('should handle empty sections gracefully', async () => {

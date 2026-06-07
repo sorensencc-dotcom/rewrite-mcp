@@ -1979,7 +1979,9 @@ ingest → OCR → classify → organize → research-log → curate
 - ✔ Normalized result schema: `result_id`, `source_archive`, `title`, `date`, `url`, `thumbnail`, `format`, `rights`, `relevance_score`, `evidence`
 - ✔ Credential management: `metadata/archive_credentials.json` template with setup instructions per connector
 - ✔ Outputs: `metadata/archive_results_{timestamp}.json` + `metadata/archive_results_latest.json` + `metadata/archive_results_latest.md`
-- ✔ Validated: LOC (5 results), ChronAmerica (5 results), BensonFord (1 research link) — 11 results for "Charles Sorensen Ford Motor" 1930–1960
+- ✔ **InternetArchive** (`InternetArchive-Connector.ps1`) — archive.org Solr API, free, no auth, 28M+ items; confirmed Ford newsreels: "Tour of Willow Run / XB-24 Liberator" (1942), "Breaking Ground For Willow Run Plant" (1943)
+- ✔ **NARA** (`NARA-Connector.ps1`) — National Archives; API retired (now React SPA); generates targeted catalog search links + priority record group list (RG 179 War Production Board, RG 18 Army Air Forces, RG 342 USAF, RG 169 Foreign Economic Admin)
+- ✔ Validated: LOC (5), ChronAmerica (5), InternetArchive (5), NARA (5 links), BensonFord (1 link) — 21 total results for "Charles Sorensen Ford Motor" 1930–1960
 
 ### Credential setup
 

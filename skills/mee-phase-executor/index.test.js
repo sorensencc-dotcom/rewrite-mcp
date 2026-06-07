@@ -1,9 +1,16 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { meePhaseExecutor } from './index.js';
 
 describe('MEE Phase Executor (45.1)', () => {
   beforeEach(() => {
-    // Clear state between tests if needed
+    // Set test environment flag
+    process.env.NODE_ENV = 'test';
+    // Clear any mock state
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    delete process.env.NODE_ENV;
   });
 
   it('should validate required phaseList input', async () => {

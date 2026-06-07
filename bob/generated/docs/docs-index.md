@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T02:25:21.425Z
+Generated at: 2026-06-07T02:39:04.650Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -92,6 +92,7 @@ Generated at: 2026-06-07T02:25:21.425Z
 - [PHASE_7_14_SELF_DIAGNOSTICS.md](docs/cic/PHASE_7_14_SELF_DIAGNOSTICS.md)
 - [PHASE_7_13_GOVERNANCE_HOOKS.md](docs/cic/PHASE_7_13_GOVERNANCE_HOOKS.md)
 - [PHASE_7_12_THRESHOLD_MODEL.md](docs/cic/PHASE_7_12_THRESHOLD_MODEL.md)
+- [PHASE_46_DETAILED_ARCHITECTURE.md](docs/cic/PHASE_46_DETAILED_ARCHITECTURE.md)
 - [MLA_UI_SPEC.md](docs/cic/MLA_UI_SPEC.md)
 - [MLA_ROADMAP.md](docs/cic/MLA_ROADMAP.md)
 - [MIGRATION_V1.1_CHECKLIST.md](docs/cic/MIGRATION_V1.1_CHECKLIST.md)

@@ -129,14 +129,32 @@ function validateInput(params) {
 
 /**
  * Fetch calendar events from MCP server
+ * Attempts real integration first, falls back to mock
  */
 async function fetchCalendarEvents(maxEvents) {
-  // Simulate MCP Calendar fetch
+  try {
+    // Attempt real MCP Google Calendar integration
+    if (typeof global.mcpCalendar !== 'undefined' && global.mcpCalendar) {
+      const result = await global.mcpCalendar.listEvents({
+        timeMax: new Date(Date.now() + 86400000).toISOString(),
+        maxResults: maxEvents
+      });
+      return {
+        success: true,
+        events: result.items || [],
+        totalCount: (result.items || []).length,
+        source: 'google-calendar-real'
+      };
+    }
+  } catch (e) {
+    // Fall through to mock
+  }
+
+  // Fallback: mock implementation
   const events = [];
   const now = new Date();
-
-  // Generate mock events for today (respect maxEvents limit)
   const count = Math.min(Math.max(Math.floor(Math.random() * 5) + 1, 1), maxEvents);
+
   for (let i = 0; i < count; i++) {
     events.push({
       id: `evt-${i}`,
@@ -152,20 +170,38 @@ async function fetchCalendarEvents(maxEvents) {
     success: true,
     events,
     totalCount: events.length,
-    source: 'google-calendar'
+    source: 'google-calendar-mock'
   };
 }
 
 /**
  * Fetch email summary from MCP server
+ * Attempts real integration first, falls back to mock
  */
 async function fetchEmailSummary(maxEmails) {
-  // Simulate MCP Gmail fetch
+  try {
+    // Attempt real MCP Gmail integration
+    if (typeof global.mcpGmail !== 'undefined' && global.mcpGmail) {
+      const result = await global.mcpGmail.listMessages({
+        q: 'is:unread',
+        maxResults: maxEmails
+      });
+      return {
+        success: true,
+        emails: result.messages || [],
+        unreadCount: (result.messages || []).length,
+        source: 'gmail-real'
+      };
+    }
+  } catch (e) {
+    // Fall through to mock
+  }
+
+  // Fallback: mock implementation
   const emails = [];
   const senders = ['boss@company.com', 'team@company.com', 'client@client.com'];
-
-  // Generate mock emails (respect maxEmails limit)
   const count = Math.min(Math.max(Math.floor(Math.random() * 3) + 1, 1), maxEmails);
+
   for (let i = 0; i < count; i++) {
     emails.push({
       id: `email-${i}`,
@@ -180,16 +216,42 @@ async function fetchEmailSummary(maxEmails) {
   return {
     success: true,
     emails,
-    unreadCount: Math.floor(Math.random() * 10) + 1,
-    source: 'gmail'
+    unreadCount: emails.length,
+    source: 'gmail-mock'
   };
 }
 
 /**
  * Fetch financial summary from Era Context MCP
+ * Attempts real integration first, falls back to mock
  */
 async function fetchFinancialSummary() {
-  // Simulate Era Context fetch
+  try {
+    // Attempt real Era Context MCP integration
+    if (typeof global.mcpEraContext !== 'undefined' && global.mcpEraContext) {
+      const [accountBalance, dailySummary] = await Promise.all([
+        global.mcpEraContext.getAccountBalance ? global.mcpEraContext.getAccountBalance() : null,
+        global.mcpEraContext.getDailyFinancialSummary ? global.mcpEraContext.getDailyFinancialSummary() : null
+      ]);
+
+      if (accountBalance && dailySummary) {
+        return {
+          success: true,
+          accounts: accountBalance.accounts || {},
+          totalNetWorth: accountBalance.totalNetWorth || 0,
+          dailySpending: dailySummary.dailySpending || 0,
+          dailyBudget: dailySummary.dailyBudget || 0,
+          budgetRemaining: (dailySummary.dailyBudget || 0) - (dailySummary.dailySpending || 0),
+          spendingTrend: dailySummary.trend || 'stable',
+          source: 'era-context-real'
+        };
+      }
+    }
+  } catch (e) {
+    // Fall through to mock
+  }
+
+  // Fallback: mock implementation
   return {
     success: true,
     accounts: {
@@ -206,8 +268,8 @@ async function fetchFinancialSummary() {
     dailySpending: 234.50,
     dailyBudget: 500,
     budgetRemaining: 265.50,
-    spendingTrend: 'up', // up, down, stable
-    source: 'era-context'
+    spendingTrend: 'up',
+    source: 'era-context-mock'
   };
 }
 
