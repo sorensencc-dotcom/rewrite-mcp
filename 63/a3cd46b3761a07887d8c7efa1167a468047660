@@ -1,0 +1,29 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_a5732a92a4d604::t_062bba344c2f52 1996,2001-2002,2004-2013
+skills/manifest.json
+  s_da4a457c4334be::t_bc8fd3f00459e2 118-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "63a3cd46b3761a07887d8c7efa1167a468047660",
+  "prompts": {},
+  "sessions": {
+    "s_a5732a92a4d604": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70c2ba25-27a8-4049-880c-0fbb3c107492",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": null
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    }
+  }
+}
