@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import CICForeman, { Task } from '../../src/wil/foreman';
 import axios from 'axios';
 
-describe('CIC Foreman (46.1)', () => {
+describe('CIC Foreman (46.1 & 46.3)', () => {
   let foreman: CICForeman;
   const baseURL = 'http://127.0.0.1:3035';
 
@@ -81,5 +81,63 @@ describe('CIC Foreman (46.1)', () => {
     const count2 = h2.data.tasks.total;
 
     expect(count2).toBe(count1 + 1);
+  });
+});
+
+describe('CIC Foreman — Wayland Integration (46.3)', () => {
+  let foreman: CICForeman;
+  const baseURL = 'http://127.0.0.1:3035';
+
+  beforeEach(async () => {
+    // Set registry URL to non-existent endpoint (will fail gracefully in test)
+    process.env.WAYLAND_REGISTRY_URL = 'http://127.0.0.1:9999';
+    foreman = new CICForeman();
+    await foreman.start();
+    await new Promise(resolve => setTimeout(resolve, 100));
+  });
+
+  afterEach(async () => {
+    await foreman.stop();
+    delete process.env.WAYLAND_REGISTRY_URL;
+  });
+
+  it('should load agent manifest', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const manifestPath = path.join(__dirname, '../../cic_foreman.agent.json');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+
+    expect(manifest.agent_id).toBe('cic-foreman-wil-v1');
+    expect(manifest.capabilities).toBeDefined();
+    expect(manifest.security).toBeDefined();
+    expect(manifest.observability).toBeDefined();
+  });
+
+  it('should have sandbox configuration', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const manifestPath = path.join(__dirname, '../../cic_foreman.agent.json');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+
+    expect(manifest.security.sandbox.enabled).toBe(true);
+    expect(manifest.security.sandbox.root_path).toBe('/cic_workspace');
+  });
+
+  it('should have tool adapters configured', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const manifestPath = path.join(__dirname, '../../cic_foreman.agent.json');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+
+    expect(manifest.capabilities.tools).toHaveProperty('shell');
+    expect(manifest.capabilities.tools).toHaveProperty('file');
+    expect(manifest.capabilities.tools).toHaveProperty('model');
+    expect(manifest.capabilities.tools).toHaveProperty('http');
+  });
+
+  it('should handle registry failures gracefully', async () => {
+    const response = await axios.get(`${baseURL}/health`);
+    expect(response.status).toBe(200);
+    expect(response.data.status).toBe('healthy');
   });
 });

@@ -1,12 +1,17 @@
 /**
  * CIC Foreman HTTP Service (Phase 46.1)
+ * with Wayland Registry Integration (Phase 46.3)
  *
  * Local HTTP server exposing CIC task interface to Wayland.
  * Endpoints: POST /task, GET /status/:id, GET /artifact/:id/:artifact_id, GET /health
  * Binds to 127.0.0.1:3035
+ *
+ * Registers with Wayland agent registry on startup.
  */
 
 import * as http from 'http';
+import * as fs from 'fs';
+import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface Task {
@@ -25,19 +30,135 @@ export class CICForeman {
   private server?: http.Server;
   private port = 3035;
   private host = '127.0.0.1';
+  private registryUrl = process.env.WAYLAND_REGISTRY_URL || 'http://127.0.0.1:4000';
+  private agentId = 'cic-foreman-wil-v1';
+  private registrationId?: string;
+  private heartbeatInterval?: NodeJS.Timeout;
+  private heartbeatIntervalMs = 30000;
 
   start(): Promise<void> {
     return new Promise((resolve) => {
       this.server = http.createServer((req, res) => this.handleRequest(req, res));
-      this.server.listen(this.port, this.host, () => {
+      this.server.listen(this.port, this.host, async () => {
         console.log(`CIC Foreman listening on ${this.host}:${this.port}`);
+        await this.registerWithWaylandRegistry();
+        this.startHeartbeat();
         resolve();
       });
     });
   }
 
+  private async registerWithWaylandRegistry(): Promise<void> {
+    try {
+      const manifestPath = path.join(__dirname, '../../cic_foreman.agent.json');
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+      manifest.endpoints.http = `http://${this.host}:${this.port}`;
+
+      const response = await this.makeHttpRequest('POST', `${this.registryUrl}/agents/register`, manifest);
+      this.registrationId = response.registration_id;
+
+      console.log(JSON.stringify({
+        level: 'info',
+        timestamp: new Date().toISOString(),
+        event: 'wayland_registry_registered',
+        agentId: this.agentId,
+        registrationId: this.registrationId,
+        registryUrl: this.registryUrl
+      }));
+    } catch (error) {
+      console.log(JSON.stringify({
+        level: 'warn',
+        timestamp: new Date().toISOString(),
+        event: 'wayland_registry_registration_failed',
+        error: error instanceof Error ? error.message : String(error)
+      }));
+    }
+  }
+
+  private startHeartbeat(): void {
+    this.heartbeatInterval = setInterval(() => {
+      this.sendHeartbeat().catch((error) => {
+        console.log(JSON.stringify({
+          level: 'warn',
+          timestamp: new Date().toISOString(),
+          event: 'wayland_registry_heartbeat_failed',
+          error: error instanceof Error ? error.message : String(error)
+        }));
+      });
+    }, this.heartbeatIntervalMs);
+  }
+
+  private async sendHeartbeat(): Promise<void> {
+    if (!this.registrationId) return;
+    try {
+      await this.makeHttpRequest('POST', `${this.registryUrl}/agents/${this.registrationId}/heartbeat`, {
+        timestamp: new Date().toISOString(),
+        status: 'healthy',
+        taskCount: this.tasks.size
+      });
+    } catch (error) {
+      // Silent fail on heartbeat
+    }
+  }
+
+  private makeHttpRequest(method: string, url: string, body?: unknown): Promise<any> {
+    return new Promise((resolve, reject) => {
+      try {
+        const requestUrl = new URL(url);
+        const options: http.RequestOptions = {
+          method,
+          hostname: requestUrl.hostname,
+          port: requestUrl.port,
+          path: requestUrl.pathname + requestUrl.search,
+          headers: { 'Content-Type': 'application/json' }
+        };
+
+        const req = http.request(options, (res) => {
+          let data = '';
+          res.on('data', (chunk) => { data += chunk; });
+          res.on('end', () => {
+            if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+              resolve(JSON.parse(data || '{}'));
+            } else {
+              reject(new Error(`HTTP ${res.statusCode}`));
+            }
+          });
+        });
+
+        req.on('error', reject);
+        if (body) req.write(JSON.stringify(body));
+        req.end();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   stop(): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
+      if (this.heartbeatInterval) {
+        clearInterval(this.heartbeatInterval);
+      }
+
+      if (this.registrationId) {
+        try {
+          await this.makeHttpRequest('POST', `${this.registryUrl}/agents/${this.registrationId}/deregister`, {});
+          console.log(JSON.stringify({
+            level: 'info',
+            timestamp: new Date().toISOString(),
+            event: 'wayland_registry_deregistered',
+            registrationId: this.registrationId
+          }));
+        } catch (error) {
+          console.log(JSON.stringify({
+            level: 'warn',
+            timestamp: new Date().toISOString(),
+            event: 'wayland_registry_deregistration_failed',
+            error: error instanceof Error ? error.message : String(error)
+          }));
+        }
+      }
+
       if (this.server) {
         this.server.close(() => resolve());
       } else {
