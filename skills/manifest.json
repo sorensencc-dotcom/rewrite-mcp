@@ -108,6 +108,13 @@
       "schema": "./helm-daily-brief/schema.json",
       "description": "Generate morning briefing from Calendar, Gmail, Finance via MCP",
       "platforms": ["claude", "copilot", "gemini"]
+    },
+    "mee-finding-assessor": {
+      "version": "1.0.0",
+      "entry": "./mee-finding-assessor/index.js",
+      "schema": "./mee-finding-assessor/schema.json",
+      "description": "Assess and score MEE findings with weighted confidence model",
+      "platforms": ["claude", "copilot", "gemini"]
     }
   }
 }

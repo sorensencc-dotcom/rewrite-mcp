@@ -36,6 +36,7 @@
     "release:tag": "node tools/release-tag.mjs",
     "release:bundle": "node tools/release-bundle.mjs",
     "release:full": "npm run doc:drift && npm run build-docs && npm run release:notes && npm run release:diff && npm run release:timeline && npm run release:tag && npm run release:bundle",
+    "doc:version": "node scripts/docVersion.js",
     "doc:drift": "node tools/doc-drift-check.js",
     "policy:check": "node tools/policy-agent/evaluate-skill.js check",
     "policy:report": "node tools/policy-agent/evaluate-skill.js report",

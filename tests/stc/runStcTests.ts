@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { loadSnapshot, saveSnapshot } from "../utils/snapshot";
-import { hasDiff } from "../utils/diff";
+import { loadSnapshot, saveSnapshot } from "../utils/snapshot.ts";
+import { hasDiff } from "../utils/diff.ts";
 
 interface Site {
   id: string;

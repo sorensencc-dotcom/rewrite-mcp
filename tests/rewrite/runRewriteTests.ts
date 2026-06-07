@@ -1,8 +1,14 @@
 import fs from "node:fs";
+
+// Skip tests if Anthropic API key is not set
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.log('⚠ Skipping rewrite tests: ANTHROPIC_API_KEY not set');
+  process.exit(0);
+}
 import path from "node:path";
 import { Anthropic } from "@anthropic-ai/sdk";
-import { loadSnapshot, saveSnapshot } from "../utils/snapshot";
-import { diffStrings, hasDiff } from "../utils/diff";
+import { loadSnapshot, saveSnapshot } from "../utils/snapshot.ts";
+import { diffStrings, hasDiff } from "../utils/diff.ts";
 
 interface Site {
   id: string;
