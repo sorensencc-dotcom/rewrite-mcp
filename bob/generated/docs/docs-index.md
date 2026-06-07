@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T08:01:48.802Z
+Generated at: 2026-06-07T08:02:54.341Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
@@ -165,6 +165,7 @@ Generated at: 2026-06-07T08:01:48.802Z
 - [README.md](projects/cic-operator-console/node_modules/esbuild/README.md)
 - [LICENSE.md](projects/cic-operator-console/node_modules/esbuild/LICENSE.md)
 - [README.md](projects/cic-operator-console/node_modules/@esbuild/win32-x64/README.md)
+- [WHITELIST_MANIFEST_2026-06-06.md](projects/cic/WHITELIST_MANIFEST_2026-06-06.md)
 - [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)
