@@ -1,0 +1,19 @@
+tools/mcp/session-wrap-server.js
+  s_da4a457c4334be::t_82ca8052413c33 1-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "944af2a16c808ba68d20f3d05bfc1fd28ac39294",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
