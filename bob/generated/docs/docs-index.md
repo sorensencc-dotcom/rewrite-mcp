@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T03:46:12.521Z
+Generated at: 2026-06-07T04:02:44.204Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
@@ -158,13 +158,6 @@ Generated at: 2026-06-07T03:46:12.521Z
 - [daily_digest.md](docs/cic/manuals/daily_digest.md)
 - [discovery.md](projects/rl/rewrite-labs-core/specs/discovery.md)
 - [README.md](projects/cic-operator-console/README.md)
-- [README.md](projects/cic-operator-console/node_modules/vite/README.md)
-- [LICENSE.md](projects/cic-operator-console/node_modules/vite/LICENSE.md)
-- [README.md](projects/cic-operator-console/node_modules/rollup/README.md)
-- [LICENSE.md](projects/cic-operator-console/node_modules/rollup/LICENSE.md)
-- [README.md](projects/cic-operator-console/node_modules/esbuild/README.md)
-- [LICENSE.md](projects/cic-operator-console/node_modules/esbuild/LICENSE.md)
-- [README.md](projects/cic-operator-console/node_modules/@esbuild/win32-x64/README.md)
 - [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)

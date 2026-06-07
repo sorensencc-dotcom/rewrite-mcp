@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MEE Finding Assessor Input Schema",
+  "description": "Input validation for MEE finding assessment and confidence scoring",
+  "type": "object",
+  "properties": {
+    "findings": {
+      "type": "array",
+      "description": "Array of findings to assess",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique finding identifier"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["optimization", "refactor", "bug", "feature", "performance"],
+            "description": "Category of finding"
+          },
+          "title": {
+            "type": "string",
+            "description": "Finding title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Initial confidence score (0-1)"
+          },
+          "impact": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Expected impact if implemented (0-1)"
+          },
+          "effort": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Estimated effort in hours"
+          },
+          "benchmarkData": {
+            "type": "object",
+            "description": "Supporting benchmark/test data",
+            "additionalProperties": true
+          }
+        },
+        "required": ["id", "type", "title", "description", "confidence", "impact"]
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "assessmentContext": {
+      "type": "object",
+      "description": "Context for assessment decision-making",
+      "properties": {
+        "executionId": {
+          "type": "string",
+          "description": "Related MEE phase execution ID"
+        },
+        "phaseId": {
+          "type": "string",
+          "description": "Phase identifier"
+        },
+        "budgetRemaining": {
+          "type": "number",
+          "description": "Remaining execution budget"
+        },
+        "timeRemaining": {
+          "type": "number",
+          "description": "Remaining time in milliseconds"
+        },
+        "priorityLevel": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Priority tier for assessment"
+        }
+      }
+    },
+    "scoringWeights": {
+      "type": "object",
+      "description": "Custom weights for confidence scoring",
+      "properties": {
+        "confidenceWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.3,
+          "description": "Weight for initial confidence (0-1)"
+        },
+        "impactWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.4,
+          "description": "Weight for impact score (0-1)"
+        },
+        "effortWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.3,
+          "description": "Weight for effort efficiency (inverse)"
+        }
+      }
+    },
+    "batchMode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Process findings in batch mode"
+    },
+    "returnTopN": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50,
+      "default": 10,
+      "description": "Return only top N findings by score"
+    }
+  },
+  "required": ["findings"],
+  "additionalProperties": false
+}

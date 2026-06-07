@@ -358,6 +358,11 @@ const server = http.createServer(async (req, res) => {
     return send(res, 401, { error: 'Unauthorized' });
   }
 
+  // Security headers – apply to every response
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('X-Frame-Options', 'DENY');
 
   const handler = ROUTES[key];
   if (!handler) {
