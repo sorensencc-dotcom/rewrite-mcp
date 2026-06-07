@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-06T22:27:10.317Z
+Generated at: 2026-06-07T00:41:52.949Z
 
 - [index.md](docs/index.md)
 - [GAP-008_Narrative_Gap_Report.md](docs/GAP-008_Narrative_Gap_Report.md)
@@ -110,6 +110,7 @@ Generated at: 2026-06-06T22:27:10.317Z
 - [GITHUB_APP_SETUP.md](docs/cic/GITHUB_APP_SETUP.md)
 - [GH_ACTIONS_COMPLIANCE_STATUS.md](docs/cic/GH_ACTIONS_COMPLIANCE_STATUS.md)
 - [GH_ACTIONS_COMPLIANCE_GUIDE.md](docs/cic/GH_ACTIONS_COMPLIANCE_GUIDE.md)
+- [FAMILY_HISTORY_BUSINESS_PLAN.md](docs/cic/FAMILY_HISTORY_BUSINESS_PLAN.md)
 - [DESIGN_REVIEW_V1.1.md](docs/cic/DESIGN_REVIEW_V1.1.md)
 - [claude_coherence_contract_implementation_v1.0.0.md](docs/cic/claude_coherence_contract_implementation_v1.0.0.md)
 - [CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md](docs/cic/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md)

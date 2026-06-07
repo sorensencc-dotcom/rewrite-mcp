@@ -3,7 +3,7 @@
 
 import { readFileSync } from "fs";
 import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -35,7 +35,8 @@ export async function loadSkill(skillName) {
   }
 
   const entryPath = resolve(__dirname, `../skills/${skillDef.entry}`);
-  const module = await import(entryPath);
+  const entryUrl = pathToFileURL(entryPath).href;
+  const module = await import(entryUrl);
 
   const skillFunc = module.default || Object.values(module)[0];
   if (!skillFunc) {
