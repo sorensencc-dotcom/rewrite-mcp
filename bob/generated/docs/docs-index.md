@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T14:51:11.738Z
+Generated at: 2026-06-07T16:12:52.411Z
 
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
@@ -169,6 +169,7 @@ Generated at: 2026-06-07T14:51:11.738Z
 - [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)
+- [DEPLOYMENT_READY_2026-06-07.md](projects/cic/DEPLOYMENT_READY_2026-06-07.md)
 - [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
