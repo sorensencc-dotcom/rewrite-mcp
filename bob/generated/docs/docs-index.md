@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T08:34:10.133Z
+Generated at: 2026-06-07T08:35:04.161Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
