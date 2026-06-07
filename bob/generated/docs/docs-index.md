@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T08:28:06.042Z
+Generated at: 2026-06-07T08:28:46.807Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
@@ -165,13 +165,10 @@ Generated at: 2026-06-07T08:28:06.042Z
 - [README.md](projects/cic-operator-console/node_modules/esbuild/README.md)
 - [LICENSE.md](projects/cic-operator-console/node_modules/esbuild/LICENSE.md)
 - [README.md](projects/cic-operator-console/node_modules/@esbuild/win32-x64/README.md)
-- [WHITELIST_MANIFEST_2026-06-06.md](projects/cic/WHITELIST_MANIFEST_2026-06-06.md)
 - [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
-- [SESSION_SUMMARY_2026-06-06.md](projects/cic/SESSION_SUMMARY_2026-06-06.md)
 - [README.md](projects/cic/README.md)
 - [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
-- [APPROVAL_AUDIT_2026-06-06.md](projects/cic/APPROVAL_AUDIT_2026-06-06.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
 - [README.md](projects/cic/orchestrator/node_modules/why-is-node-running/README.md)
@@ -514,7 +511,6 @@ Generated at: 2026-06-07T08:28:06.042Z
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/src/_shims/README.md)
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/undici-types/README.md)
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/@types/node/README.md)
-- [README.md](projects/cic/ingestion/gmail-mcp/README.md)
 - [README.md](projects/cic/ingestion/gmail-mcp/node_modules/zod/README.md)
 - [readme.md](projects/cic/ingestion/gmail-mcp/node_modules/wrap-ansi-cjs/readme.md)
 - [readme.md](projects/cic/ingestion/gmail-mcp/node_modules/wrap-ansi-cjs/node_modules/strip-ansi/readme.md)
@@ -674,7 +670,3 @@ Generated at: 2026-06-07T08:28:06.042Z
 - [proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md](projects/cic/docs/mee/proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md)
 - [proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md](projects/cic/docs/mee/proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md)
 - [CONTRACT.md](projects/cic/context-api/CONTRACT.md)
-- [stability-soak-2026-06-06-results.md](projects/cic/archive/stability-soak-2026-06-06-results.md)
-- [production-deployment-config.md](projects/cic/archive/production-deployment-config.md)
-- [phase-7-7-confidence-tuning.md](projects/cic/archive/phase-7-7-confidence-tuning.md)
-- [phase-7-19-20-stress-plan.md](projects/cic/archive/phase-7-19-20-stress-plan.md)

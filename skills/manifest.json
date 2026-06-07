@@ -115,20 +115,6 @@
       "schema": "./mee-finding-assessor/schema.json",
       "description": "Assess and score MEE findings with weighted confidence model",
       "platforms": ["claude", "copilot", "gemini"]
-    },
-    "idea-inbox-harvester": {
-      "version": "1.0.0",
-      "entry": "./idea-inbox-harvester/index.js",
-      "schema": "./idea-inbox-harvester/schema.json",
-      "description": "Harvest findings into idea store with deduplication and CKG integration",
-      "platforms": ["claude", "copilot", "gemini"]
-    },
-    "phase-validator": {
-      "version": "1.0.0",
-      "entry": "./phase-validator/index.js",
-      "schema": "./phase-validator/schema.json",
-      "description": "Comprehensive artifact validation for phase deliverables",
-      "platforms": ["claude", "copilot", "gemini"]
     }
   }
 }

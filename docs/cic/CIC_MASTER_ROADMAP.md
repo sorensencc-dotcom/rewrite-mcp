@@ -1568,54 +1568,6 @@ Verify phase completion (tests + docs + integration).
 
 ---
 
-<!-- ARPS:PHASE_47:BEGIN -->
-## Phase 47 — Approval UX Overhaul (AUX)
-
-**Goal:** Eliminate repetitive approval prompts while maintaining safety. Solve the 50+ approvals-per-session friction that blocks productivity.
-
-### Architecture
-
-- **Approval manifest** — persistent JSON store tracking command approvals, frequencies, tier assignments
-- **Four-tier approval system** — Tier 1 (safe, no prompt) → Tier 4 (risky, always prompt)
-- **Auto-promotion** — commands reaching N approvals automatically promote to higher tier
-- **Session-scoped whitelist** — within a session, once approved, don't re-prompt for 1 hour
-- **Trusted registry** — denylist approach: only prompt for novel/suspicious patterns
-
-### Milestones
-
-- **47.1 — Approval Manifest Schema (AUX-Manifest)**
-  Persistent JSON store: command approval history, tier assignments, auto-promotion timestamps, trust scores. Version 2.0 of existing approvals-audit skill foundation.
-
-- **47.2 — Four-Tier Classification Engine (AUX-Tiers)**
-  Tier 1 (safe: npm, git, curl known domains) → Tier 4 (risky: destructive, new hosts).
-  Heuristic classifier + explicit tier assignment API. Default: classify all known commands on startup.
-
-- **47.3 — Auto-Promotion Logic (AUX-Promotion)**
-  After N approvals (configurable, default 2), auto-promote to next tier. Track frequency, decay over time. Operator override to skip tiers.
-
-- **47.4 — Session-Scoped Whitelist (AUX-Session)**
-  Within session: once approved, whitelist for 1 hour. Survives shell restarts; resets daily for safety.
-
-- **47.5 — Denylist Pattern Detector (AUX-Denylist)**
-  Detects novel: new tools, new domains, new paths, regex patterns (symlinks, escapes, etc.). Flag only suspicious patterns; everything else auto-approved.
-
-- **47.6 — Approval Dashboard (AUX-Dashboard)**
-  Real-time view: approval counts by command, tier distribution, auto-promotion rate, session whitelist status. Operator can bulk-promote/demote.
-
-- **47.7 — Integration Tests (AUX-Tests)**
-  Test tier classification, auto-promotion, session whitelist, denylist detection, manifest persistence.
-
-### Dependencies
-- Existing `approvals-audit` skill v2.0.0 (already completed in Phase 44.0.1)
-- `.claude/settings.json` for permission hooks
-- Session tracking (already available)
-
-**Status:** PENDING  
-**Outcome:** Approval friction drops 80%+ while safety policy remains enforced.
-<!-- ARPS:PHASE_47:END -->
-
----
-
 ## **44.2 — Copilot Adaptation (Phase 2, Optional)**
 
 **Dependencies:** Claude deployment complete, platform wrappers designed
@@ -2041,24 +1993,23 @@ ingest → OCR → classify → organize → research-log → curate
 
 ## **PHASE 54 — Narrative Research Report Generator (NRG)**
 
-**Status:** ✅ COMPLETE (2026-06-07)
+**Status:** PENDING
 
 **Dual-use:** CIC needs the Treatment document rendered as press kit, grant application bundle, and festival submission. Family research business needs the same narrative engine for client deliverables ($2,500–$8,500 reports).
 
 ### Deliverables
-- `generate-report.ps1` — main orchestrator, consumes entity graph + sidecars + archive results + research log
-- `report-templates/report.css` — Crimson Pro/Source Sans 3, professional print-ready stylesheet
+- Report generator that consumes `maintain-research-log.ps1` output
 - Output formats:
-  - **HTML → PDF** — `report_full_latest.html` (open in browser → Ctrl+P → Save as PDF)
-  - **Executive summary** — `report_executive_latest.md` (2-page overview)
-  - **Timeline** — `report_timeline_latest.md` (chronological event chart)
-  - **Evidence register** — Evidence Explained citation format, auto-populated from sidecars + archive results
-  - **Gap analysis** — `report_gaps_latest.md` (unresolved questions + recommended next steps)
-- Archive integration: `-RunArchiveQuery` flag runs live `query-archives.ps1` search and folds results into the report
-- Template system: `CIC_Documentary` / `Family_Standard` / `Family_Premium` (auto-selected from `-Domain`)
-- Output: `C:\CIC_MEDIA_LIBRARY\CIC\reports\`
+  - **PDF narrative report** — branded, cited, structured (the client deliverable)
+  - **Timeline visualization** — chronological ancestor/event chart
+  - **Executive summary** — 2-page overview for quick client review
+  - **Evidence register** — source citation appendix (Evidence Explained format)
+  - **Gap analysis brief** — what remains unresolved and recommended next steps
+- CIC use: renders Treatment sections + archival narrative as grant/press bundle
+- Genealogy use: renders family research findings as client deliverable
+- Template system: `report-templates/` directory (CIC_Documentary, Family_Standard, Family_Premium)
 
-**Outcome:** The same engine that generates CIC grant applications generates client research reports. **Revenue trigger unlocked — first paying client possible at $2,500.**
+**Outcome:** The same engine that generates CIC grant applications generates client research reports. No separate tool needed.
 
 ---
 

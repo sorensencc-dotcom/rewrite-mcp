@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Idea Inbox Harvester Input Schema",
+  "description": "Input validation for harvesting and storing ideas from MEE findings",
+  "type": "object",
+  "properties": {
+    "findings": {
+      "type": "array",
+      "description": "Assessed findings to harvest into idea store",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "assessment": {
+            "type": "object",
+            "properties": {
+              "finalScore": { "type": "number" },
+              "recommendation": { "type": "string" }
+            }
+          }
+        },
+        "required": ["id", "title", "assessment"]
+      },
+      "minItems": 0,
+      "maxItems": 100
+    },
+    "context": {
+      "type": "object",
+      "description": "Metadata context for ideas",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Source phase or component"
+        },
+        "executionId": {
+          "type": "string",
+          "description": "Related execution ID"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Harvest timestamp"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Custom tags for organization"
+        }
+      }
+    },
+    "deduplicateMode": {
+      "type": "string",
+      "enum": ["off", "exact", "semantic"],
+      "default": "semantic",
+      "description": "Deduplication strategy"
+    },
+    "priorityThreshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.6,
+      "description": "Minimum score to inbox (vs archive)"
+    },
+    "storeInCKG": {
+      "type": "boolean",
+      "default": true,
+      "description": "Store in Contextual Knowledge Graph"
+    },
+    "generateDashboard": {
+      "type": "boolean",
+      "default": false,
+      "description": "Generate idea dashboard report"
+    }
+  },
+  "required": ["findings"],
+  "additionalProperties": false
+}
