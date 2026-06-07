@@ -1,0 +1,37 @@
+projects/cic/cic_foreman.agent.json
+  s_da4a457c4334be::t_328b3b386de6e2 1-201
+projects/cic/src/wil/foreman.ts
+  s_da4a457c4334be::t_b1010150fae76a 33-37
+  s_da4a457c4334be::t_365fa36cb71a53 138-161
+  s_da4a457c4334be::t_f236b6c8d2cfaf 3,8-9,13-14
+  s_da4a457c4334be::t_d8ffca057041b7 42,44-45,51-133
+projects/cic/SESSION_SUMMARY_2026-06-06.md
+  s_9907fc29218a5e::t_eef55bbcf3cf03 1-209
+projects/cic/tests/wil/foreman.test.ts
+  s_da4a457c4334be::t_cf5321579ddc02 86-143
+  s_da4a457c4334be::t_16c1f276963c8e 1,5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "1a7e6410e0d6903e576091f79c2f2a7feb724b31",
+  "prompts": {},
+  "sessions": {
+    "s_9907fc29218a5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f043a510-6910-4123-a078-4f25c9540d74",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
