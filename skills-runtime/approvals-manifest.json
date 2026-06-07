@@ -63,6 +63,46 @@
       "occurrences": 2,
       "firstSeen": "2026-06-04T14:00:00Z",
       "autoPromotedAt": "2026-06-04T16:00:00Z"
+    },
+    {
+      "command": "npm run policy:check",
+      "reason": "Check policy compliance",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.530Z",
+      "approvedAt": "2026-06-07T00:44:27.531Z"
+    },
+    {
+      "command": "npm run policy:report",
+      "reason": "Generate policy report",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.541Z",
+      "approvedAt": "2026-06-07T00:44:27.541Z"
+    },
+    {
+      "command": "npm run release:full",
+      "reason": "Full release pipeline",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.543Z",
+      "approvedAt": "2026-06-07T00:44:27.543Z"
+    },
+    {
+      "command": "npm run doc:drift",
+      "reason": "Check documentation drift",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.544Z",
+      "approvedAt": "2026-06-07T00:44:27.544Z"
+    },
+    {
+      "command": "npm run gh-actions:check",
+      "reason": "Check GitHub Actions compliance",
+      "status": "manually-approved",
+      "occurrences": 1,
+      "firstSeen": "2026-06-07T00:44:27.546Z",
+      "approvedAt": "2026-06-07T00:44:27.546Z"
     }
   ],
   "pending": [
@@ -76,9 +116,9 @@
     }
   ],
   "tracking": {
-    "totalRequests": 13,
+    "totalRequests": 18,
     "autoPromoted": 7,
-    "manuallyApproved": 5,
+    "manuallyApproved": 10,
     "rejected": 1,
     "autoPromotionRate": "53.8%"
   }
