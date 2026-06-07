@@ -13,6 +13,7 @@ import * as http from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import SessionMapper from './session-mapper';
 
 export interface Task {
   id: string;
@@ -35,6 +36,8 @@ export class CICForeman {
   private registrationId?: string;
   private heartbeatInterval?: NodeJS.Timeout;
   private heartbeatIntervalMs = 30000;
+  private sessionMapper = new SessionMapper();
+  private eventListeners: Map<string, Set<(data: unknown) => void>> = new Map();
 
   start(): Promise<void> {
     return new Promise((resolve) => {
@@ -206,6 +209,19 @@ export class CICForeman {
         this.handleGetArtifact(res, parts[2] || '', parts[3] || '', correlationId, startTime);
       } else if (req.method === 'GET' && url.pathname === '/health') {
         this.handleHealth(res, correlationId, startTime);
+      } else if (req.method === 'POST' && url.pathname === '/session') {
+        this.handleCreateSession(req, res, correlationId, startTime);
+      } else if (req.method === 'GET' && url.pathname.startsWith('/session/')) {
+        const parts = url.pathname.split('/');
+        this.handleGetSession(res, parts[2] || '', correlationId, startTime);
+      } else if (req.method === 'POST' && url.pathname.startsWith('/session/') && url.pathname.endsWith('/event')) {
+        const parts = url.pathname.split('/');
+        this.handleSessionEvent(req, res, parts[2] || '', correlationId, startTime);
+      } else if (req.method === 'GET' && url.pathname.startsWith('/session/') && url.pathname.endsWith('/stats')) {
+        const parts = url.pathname.split('/');
+        this.handleGetSessionStats(res, parts[2] || '', correlationId, startTime);
+      } else if (req.method === 'GET' && url.pathname === '/events') {
+        this.handleEventsStream(req, res, correlationId);
       } else {
         res.writeHead(404);
         res.end(JSON.stringify({ error: 'Not found' }));
@@ -346,6 +362,112 @@ export class CICForeman {
 
     res.writeHead(200);
     res.end(JSON.stringify(health));
+  }
+
+  private handleCreateSession(req: http.IncomingMessage, res: http.ServerResponse, correlationId: string, startTime: number): void {
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const session = this.sessionMapper.createSession(payload.pipeline_id || 'default');
+
+        console.log(JSON.stringify({
+          level: 'info',
+          timestamp: new Date().toISOString(),
+          correlationId,
+          sessionId: session.session_id,
+          pipelineId: session.pipeline_id,
+          event: 'session_created'
+        }));
+
+        res.writeHead(201);
+        res.end(JSON.stringify(session));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Invalid payload' }));
+      }
+    });
+  }
+
+  private handleGetSession(res: http.ServerResponse, sessionId: string, correlationId: string, startTime: number): void {
+    const session = this.sessionMapper.getSession(sessionId);
+
+    if (!session) {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: 'Session not found' }));
+      return;
+    }
+
+    res.writeHead(200);
+    res.end(JSON.stringify(session));
+  }
+
+  private handleSessionEvent(req: http.IncomingMessage, res: http.ServerResponse, sessionId: string, correlationId: string, startTime: number): void {
+    const session = this.sessionMapper.getSession(sessionId);
+    if (!session) {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: 'Session not found' }));
+      return;
+    }
+
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const event = JSON.parse(body);
+
+        if (event.event_type === 'step.start') {
+          this.sessionMapper.emitStepStart(sessionId, event.step_name, event.step_index);
+        } else if (event.event_type === 'step.end') {
+          this.sessionMapper.emitStepEnd(sessionId, event.step_name, event.duration_ms, event.status);
+        } else if (event.event_type === 'step.error') {
+          this.sessionMapper.emitStepError(sessionId, event.step_name, event.error);
+        } else if (event.event_type === 'governance.decision') {
+          this.sessionMapper.emitGovernanceDecision(sessionId, event.decision);
+        } else if (event.event_type === 'tool.call') {
+          this.sessionMapper.emitToolCall(sessionId, event.tool_call);
+        }
+
+        res.writeHead(200);
+        res.end(JSON.stringify({ status: 'accepted' }));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Invalid event' }));
+      }
+    });
+  }
+
+  private handleGetSessionStats(res: http.ServerResponse, sessionId: string, correlationId: string, startTime: number): void {
+    const stats = this.sessionMapper.getSessionStats(sessionId);
+
+    if (!stats || Object.keys(stats).length === 0) {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: 'Session not found' }));
+      return;
+    }
+
+    res.writeHead(200);
+    res.end(JSON.stringify(stats));
+  }
+
+  private handleEventsStream(req: http.IncomingMessage, res: http.ServerResponse, correlationId: string): void {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive'
+    });
+
+    const eventHandler = (event: any) => {
+      res.write(`data: ${JSON.stringify(event)}\n\n`);
+    };
+
+    this.sessionMapper.on('event', eventHandler);
+
+    req.on('close', () => {
+      this.sessionMapper.removeListener('event', eventHandler);
+      res.end();
+    });
   }
 }
 

@@ -84,7 +84,7 @@ describe('CIC Foreman (46.1 & 46.3)', () => {
   });
 });
 
-describe('CIC Foreman — Wayland Integration (46.3)', () => {
+describe('CIC Foreman — Wayland Integration (46.3 & 46.4)', () => {
   let foreman: CICForeman;
   const baseURL = 'http://127.0.0.1:3035';
 
@@ -139,5 +139,71 @@ describe('CIC Foreman — Wayland Integration (46.3)', () => {
     const response = await axios.get(`${baseURL}/health`);
     expect(response.status).toBe(200);
     expect(response.data.status).toBe('healthy');
+  });
+
+  describe('session mapping (46.4)', () => {
+    it('should create session', async () => {
+      const response = await axios.post(`${baseURL}/session`, { pipeline_id: 'test-pipeline-1' });
+      expect(response.status).toBe(201);
+      expect(response.data.session_id).toBeDefined();
+      expect(response.data.pipeline_id).toBe('test-pipeline-1');
+    });
+
+    it('should retrieve session', async () => {
+      const createRes = await axios.post(`${baseURL}/session`, { pipeline_id: 'test-pipeline-2' });
+      const sessionId = createRes.data.session_id;
+
+      const getRes = await axios.get(`${baseURL}/session/${sessionId}`);
+      expect(getRes.status).toBe(200);
+      expect(getRes.data.session_id).toBe(sessionId);
+    });
+
+    it('should return 404 for missing session', async () => {
+      try {
+        await axios.get(`${baseURL}/session/nonexistent`);
+        expect.fail('Should have thrown');
+      } catch (e: any) {
+        expect(e.response?.status).toBe(404);
+      }
+    });
+
+    it('should emit session events', async () => {
+      const createRes = await axios.post(`${baseURL}/session`, { pipeline_id: 'test-pipeline-3' });
+      const sessionId = createRes.data.session_id;
+
+      const eventRes = await axios.post(`${baseURL}/session/${sessionId}/event`, {
+        event_type: 'step.start',
+        step_name: 'validation',
+        step_index: 1
+      });
+
+      expect(eventRes.status).toBe(200);
+      expect(eventRes.data.status).toBe('accepted');
+    });
+
+    it('should return session stats', async () => {
+      const createRes = await axios.post(`${baseURL}/session`, { pipeline_id: 'test-pipeline-4' });
+      const sessionId = createRes.data.session_id;
+
+      await axios.post(`${baseURL}/session/${sessionId}/event`, {
+        event_type: 'step.start',
+        step_name: 'step1',
+        step_index: 1
+      });
+
+      await axios.post(`${baseURL}/session/${sessionId}/event`, {
+        event_type: 'step.end',
+        step_name: 'step1',
+        duration_ms: 150,
+        status: 'success'
+      });
+
+      const statsRes = await axios.get(`${baseURL}/session/${sessionId}/stats`);
+      expect(statsRes.status).toBe(200);
+      expect(statsRes.data.event_count).toBe(2);
+      expect(statsRes.data.step_starts).toBe(1);
+      expect(statsRes.data.step_ends).toBe(1);
+      expect(statsRes.data.total_duration_ms).toBe(150);
+    });
   });
 });
