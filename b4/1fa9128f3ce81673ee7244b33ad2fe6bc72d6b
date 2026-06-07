@@ -1,0 +1,25 @@
+projects/cic/src/wil/foreman.ts
+  s_da4a457c4334be::t_7dd7aa636c9603 1-241
+projects/cic/tests/wil/adapters.test.ts
+  s_da4a457c4334be::t_43fa428b5e34f9 1-147
+projects/cic/src/wil/adapters.ts
+  s_da4a457c4334be::t_cb947c41d2885c 1-210
+projects/cic/tests/wil/foreman.test.ts
+  s_da4a457c4334be::t_736de8f3222c7e 1-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b41fa9128f3ce81673ee7244b33ad2fe6bc72d6b",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
