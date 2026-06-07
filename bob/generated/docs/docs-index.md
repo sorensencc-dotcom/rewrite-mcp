@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T03:46:12.521Z
+Generated at: 2026-06-07T07:58:29.438Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
@@ -511,6 +511,7 @@ Generated at: 2026-06-07T03:46:12.521Z
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/src/_shims/README.md)
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/undici-types/README.md)
 - [README.md](projects/cic/ingestion/node_modules/@anthropic-ai/sdk/node_modules/@types/node/README.md)
+- [README.md](projects/cic/ingestion/gmail-mcp/README.md)
 - [SKILLOPT_VALIDATOR_SPEC.md](projects/cic/docs/SKILLOPT_VALIDATOR_SPEC.md)
 - [rewrite_labs_cic_fusion_layer.md](projects/cic/docs/rewrite_labs_cic_fusion_layer.md)
 - [PMS_INTEGRATION_SPECIFICATION.md](projects/cic/docs/PMS_INTEGRATION_SPECIFICATION.md)
@@ -540,3 +541,4 @@ Generated at: 2026-06-07T03:46:12.521Z
 - [proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md](projects/cic/docs/mee/proposal-task-4c0780f9-f7eb-4563-ad6e-c02d39a3543a.md)
 - [proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md](projects/cic/docs/mee/proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md)
 - [CONTRACT.md](projects/cic/context-api/CONTRACT.md)
+- [stability-soak-2026-06-06-results.md](projects/cic/archive/stability-soak-2026-06-06-results.md)
