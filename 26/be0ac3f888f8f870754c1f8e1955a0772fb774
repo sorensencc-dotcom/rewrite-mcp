@@ -1,0 +1,32 @@
+tools/mcp/skills-runtime-server.js
+  s_da4a457c4334be::t_1392bf4101bb78 5,16-40,44-45,51
+  s_da4a457c4334be::t_de211d561182c9 1-4,6-15,41-43,46-50,52-83
+history/history.jsonl
+  s_da4a457c4334be::t_6cd7c114f7262c 198
+projects/cic/DEPLOYMENT_READY_2026-06-07.md
+  s_9907fc29218a5e::t_5cd321b121ea97 1-238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "26be0ac3f888f8f870754c1f8e1955a0772fb774",
+  "prompts": {},
+  "sessions": {
+    "s_9907fc29218a5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f043a510-6910-4123-a078-4f25c9540d74",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
