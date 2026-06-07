@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T07:58:29.438Z
+Generated at: 2026-06-07T08:01:48.802Z
 
 - [versioning.md](docs/versioning.md)
 - [index.md](docs/index.md)
@@ -169,6 +169,7 @@ Generated at: 2026-06-07T07:58:29.438Z
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)
 - [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
+- [APPROVAL_AUDIT_2026-06-06.md](projects/cic/APPROVAL_AUDIT_2026-06-06.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
 - [README.md](projects/cic/orchestrator/node_modules/why-is-node-running/README.md)
@@ -542,3 +543,6 @@ Generated at: 2026-06-07T07:58:29.438Z
 - [proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md](projects/cic/docs/mee/proposal-task-0fde6b9d-bf3b-41dd-9986-1751070d11fb.md)
 - [CONTRACT.md](projects/cic/context-api/CONTRACT.md)
 - [stability-soak-2026-06-06-results.md](projects/cic/archive/stability-soak-2026-06-06-results.md)
+- [production-deployment-config.md](projects/cic/archive/production-deployment-config.md)
+- [phase-7-7-confidence-tuning.md](projects/cic/archive/phase-7-7-confidence-tuning.md)
+- [phase-7-19-20-stress-plan.md](projects/cic/archive/phase-7-19-20-stress-plan.md)

@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MEE Finding Assessor Input Schema",
+  "description": "Input validation for MEE finding assessment and confidence scoring",
+  "type": "object",
+  "properties": {
+    "findings": {
+      "type": "array",
+      "description": "Array of findings to assess",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["optimization", "refactor", "bug", "feature", "performance"] },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "impact": { "type": "number", "minimum": 0, "maximum": 1 },
+          "effort": { "type": "number", "minimum": 0, "maximum": 100 },
+          "benchmarkData": { "type": "object" }
+        },
+        "required": ["id", "type", "title", "description", "confidence", "impact"]
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "scoringWeights": {
+      "type": "object",
+      "properties": {
+        "confidenceWeight": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.3 },
+        "impactWeight": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.4 },
+        "effortWeight": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.3 }
+      }
+    },
+    "returnTopN": { "type": "integer", "minimum": 1, "maximum": 50, "default": 10 }
+  },
+  "required": ["findings"]
+}

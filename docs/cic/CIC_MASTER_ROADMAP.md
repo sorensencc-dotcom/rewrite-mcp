@@ -1993,23 +1993,24 @@ ingest → OCR → classify → organize → research-log → curate
 
 ## **PHASE 54 — Narrative Research Report Generator (NRG)**
 
-**Status:** PENDING
+**Status:** ✅ COMPLETE (2026-06-07)
 
 **Dual-use:** CIC needs the Treatment document rendered as press kit, grant application bundle, and festival submission. Family research business needs the same narrative engine for client deliverables ($2,500–$8,500 reports).
 
 ### Deliverables
-- Report generator that consumes `maintain-research-log.ps1` output
+- `generate-report.ps1` — main orchestrator, consumes entity graph + sidecars + archive results + research log
+- `report-templates/report.css` — Crimson Pro/Source Sans 3, professional print-ready stylesheet
 - Output formats:
-  - **PDF narrative report** — branded, cited, structured (the client deliverable)
-  - **Timeline visualization** — chronological ancestor/event chart
-  - **Executive summary** — 2-page overview for quick client review
-  - **Evidence register** — source citation appendix (Evidence Explained format)
-  - **Gap analysis brief** — what remains unresolved and recommended next steps
-- CIC use: renders Treatment sections + archival narrative as grant/press bundle
-- Genealogy use: renders family research findings as client deliverable
-- Template system: `report-templates/` directory (CIC_Documentary, Family_Standard, Family_Premium)
+  - **HTML → PDF** — `report_full_latest.html` (open in browser → Ctrl+P → Save as PDF)
+  - **Executive summary** — `report_executive_latest.md` (2-page overview)
+  - **Timeline** — `report_timeline_latest.md` (chronological event chart)
+  - **Evidence register** — Evidence Explained citation format, auto-populated from sidecars + archive results
+  - **Gap analysis** — `report_gaps_latest.md` (unresolved questions + recommended next steps)
+- Archive integration: `-RunArchiveQuery` flag runs live `query-archives.ps1` search and folds results into the report
+- Template system: `CIC_Documentary` / `Family_Standard` / `Family_Premium` (auto-selected from `-Domain`)
+- Output: `C:\CIC_MEDIA_LIBRARY\CIC\reports\`
 
-**Outcome:** The same engine that generates CIC grant applications generates client research reports. No separate tool needed.
+**Outcome:** The same engine that generates CIC grant applications generates client research reports. **Revenue trigger unlocked — first paying client possible at $2,500.**
 
 ---
 
