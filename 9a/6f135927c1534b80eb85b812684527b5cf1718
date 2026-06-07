@@ -1,0 +1,52 @@
+projects/cic/tests/approval-handler.test.ts
+  s_8376f04a7d76bf::t_fee3c55bbe861b 313-314,317,327-328,338-339
+  s_8376f04a7d76bf::t_fab6e721a8b75f 231-232
+  s_8376f04a7d76bf::t_cd938b648e1516 408
+  s_8376f04a7d76bf::t_efac3aabb1410d 1-54,56-69,71-189,192-200,202-213,215-230,233-242,244-257,259-272,275-312,315-316,318-326,329-337,340-366,368-400,402-407,409-417
+  s_8376f04a7d76bf::t_71c06d504a9ac4 214
+  s_8376f04a7d76bf::t_d8c673d32af607 201
+  s_8376f04a7d76bf::t_8897c6ce309016 367
+  s_8376f04a7d76bf::t_4cbd902a68f576 243
+  s_8376f04a7d76bf::t_031d3cfd1beffa 401
+  s_8376f04a7d76bf::t_7da0adc50af82a 70
+  s_8376f04a7d76bf::t_e1f4f8c82c048c 258
+  s_8376f04a7d76bf::t_aff77e448fff93 55
+  s_8376f04a7d76bf::t_6a4ba5bfb12c53 190-191
+  s_8376f04a7d76bf::t_999f69b7f994f9 273-274
+projects/cic/src/approval-system/ApprovalHandler.ts
+  s_8376f04a7d76bf::t_136f63ecfa6a68 110,114-115
+  s_8376f04a7d76bf::t_7f7766e89c3dc9 169,173,176-177,179-182,184-185
+  s_8376f04a7d76bf::t_5543d8b7c8844c 223-224,226-231
+  s_8376f04a7d76bf::t_d7f745e40f864c 139
+  s_8376f04a7d76bf::t_1c8968f12d605d 244-245
+  s_8376f04a7d76bf::t_9da913a14b1ebb 1-48,50-66,68-70,75-76,80-83,86-88,93-109,111-113,116-131,133-138,140-145,147,149-151,153,155,158-160,163-168,170-172,174-175,178,183,186-222,225,232-243,246-270
+  s_8376f04a7d76bf::t_6d56fd1f703775 67,74,89-92
+  s_8376f04a7d76bf::t_f2cccc8ad26a94 146,148,152,154
+  s_8376f04a7d76bf::t_e4b614446ef148 132
+  s_8376f04a7d76bf::t_dfd988e29d15d8 49,71-73,77-79,84-85
+  s_8376f04a7d76bf::t_357fc9d5be09ab 156-157,161-162
+projects/cic/src/approval-system/ApprovalManifest.ts
+  s_8376f04a7d76bf::t_94ce1258430b8f 97-100
+projects/cic/src/approval-system/TierClassifier.ts
+  s_8376f04a7d76bf::t_0ebaa713f953c1 34
+  s_8376f04a7d76bf::t_48b50ffd7584fc 35
+  s_8376f04a7d76bf::t_f12efa1859b7a2 68
+projects/cic/src/approval-system/index.ts
+  s_8376f04a7d76bf::t_e85392442e8f8b 7,16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "9a6f135927c1534b80eb85b812684527b5cf1718",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
