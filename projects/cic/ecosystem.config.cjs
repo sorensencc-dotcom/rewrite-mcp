@@ -5,10 +5,8 @@ module.exports = {
   apps: [
     {
       name: 'cic-stability-orchestrate',
-      cwd: './ingestion',
-      script: 'npm',
-      args: 'run orchestrate:stability',
-      interpreter: 'none',
+      script: './ingestion/src/stability/orchestrator.js',
+      interpreter: 'node',
 
       // Auto-restart
       instances: 1,
@@ -40,9 +38,8 @@ module.exports = {
 
     {
       name: 'cic-stability-test',
-      cwd: './ingestion',
-      script: 'npm',
-      args: 'run test:stability',
+      script: 'vitest',
+      args: 'run --reporter=verbose',
       interpreter: 'none',
 
       // Only start this if explicitly enabled
