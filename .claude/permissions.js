@@ -103,9 +103,9 @@ function logWhitelistStatus() {
 }
 
 /**
- * Initialize on module load
+ * Initialize on module load (silent to avoid interfering with JSON-RPC)
  */
-initializePermissions();
+initializePermissions(true);
 
 export {
   getPermissionManager,

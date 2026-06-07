@@ -1146,6 +1146,17 @@ PHASE 32 (MAPE) — ✔ (complete)
 PHASE 33 (Runs) — ✔ (complete)
 PHASE 34 (Safety Gates) — ✔ (complete)
 PHASE 35 (ABM Loops) — ✔ (complete)
+PHASE 36 (Self-Healing) — ✔ (complete)
+PHASE 37 (Multi-Agent) — ✔ (complete)
+PHASE 38 (Consensus & Negotiation) — ✔ (complete)
+PHASE 39 (KG & Semantic Memory) — ✔ (complete)
+PHASE 40 (Autonomous Scheduling) — ✔ (complete)
+PHASE 41 (Meta-Learning Engine) — next  
+PHASE 42 (Autonomous Research Mode) — ✔ (complete)  
+PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)  
+PHASE 44 (Shared Skills Library) — ✔ (documentation complete; deployment next)
+PHASE 45 (Suggested Skills Phase 2) — PENDING (7 new skills, 10-12 weeks)
+PHASE 46 (WIL — Wayland Integration) — PENDING
 - Register GitHub App on GitHub.com
 - Configure webhook URL and secret
 - Deploy Probot server (Heroku/AWS/GCP)
@@ -1493,6 +1504,70 @@ Verify phase completion (tests + docs + integration).
 
 ---
 
+<!-- ARPS:PHASE_46:BEGIN -->
+## Phase 46 — CIC ↔ Wayland Integration Layer (WIL)
+
+**Goal:** Register CIC as a first-class agent inside Wayland. Wayland becomes CIC's syscall layer for shells, files, model calls, and keys. CIC becomes a sandboxed, observable, Wayland-mediated super-agent.
+
+### Architecture
+
+- CIC exposes a single HTTP service (`cic_foreman`) — Wayland sees one agent
+- All CIC tool calls (shell/model/file/http) route through Wayland adapters
+- CIC pipelines map to Wayland UI sessions; logs and artifacts surface natively
+- Keys and OS access are fully Wayland-managed; CIC holds no raw credentials
+
+### Milestones
+
+- **46.1 — CIC Foreman HTTP Service (WIL-Foreman)**  
+  Local HTTP server: `POST /task`, `GET /status/:task_id`, `GET /artifact/:task_id/:artifact_id`, `GET /health`.
+  Binds to `127.0.0.1:3035`. Emits structured JSON logs with correlation IDs.
+  Fix bug in TypeScript stub: `tasks.set(id)` → `tasks.set(id, task)`.
+
+- **46.2 — Wayland Tool Adapter Layer (WIL-Adapters)**  
+  Implement `ShellTool`, `ModelTool`, `FileTool`, `HttpTool` adapters routing to Wayland's
+  tool endpoint. Enforce workspace root scoping (`/cic_workspace`). Remove all direct OS
+  access from CIC agents.
+
+- **46.3 — Agent Manifest & Registration (WIL-Manifest)**  
+  Finalize `cic_foreman.agent.json` with capabilities, routes, tooling, security, and
+  observability config. Register with Wayland agent registry.
+
+- **46.4 — Pipeline ↔ Wayland Session Mapping (WIL-Sessions)**  
+  Map CIC pipeline runs to Wayland UI sessions. Emit pipeline step logs, governance
+  decisions, and tool call events as Wayland-visible structured events.
+
+- **46.5 — Artifact Integration (WIL-Artifacts)**  
+  Write CIC artifacts to Wayland-visible paths. Expose artifact metadata via
+  `/artifact/:task_id/:artifact_id`. Enforce 25 MB artifact size limit.
+
+- **46.6 — Security Hardening (WIL-Security)**  
+  Remove all API keys from CIC config (delegate to Wayland key management).
+  Enforce file sandbox (`/cic_workspace` only). Ensure all shell commands are
+  non-interactive. Validate workspace root scoping in FileTool adapter.
+
+- **46.7 — Integration Test Suite (WIL-Tests)**  
+  8 test categories: health/registration, task lifecycle, ShellTool, ModelTool,
+  FileTool, HttpTool, error handling, end-to-end pipeline. Implement in Jest (TS).
+
+- **46.8 — Branding Pack (WIL-Branding)** *(optional, post-launch)*  
+  Add `branding` block to `cic_foreman.agent.json` (icon_16/32/64/128, logo_horizontal,
+  logo_stack, primary_color `#0B1B2B`, accent_color `#35C2FF`). Add `brand: "CIC"` field
+  to structured log events. Add `accent_color` to artifact metadata. Add `session_brand`/
+  `session_icon`/`session_color` to pipeline session payloads. Add optional agent graph
+  node/edge payload for Wayland graph visualizer. Asset target: `branding/cic/`.
+
+### Dependencies
+
+- Wayland agent registry must be running and accessible
+- CIC Foreman service (46.1) must be running before 46.2–46.7
+- Workspace root (`/cic_workspace`) must exist and be Wayland-permissioned
+
+**Status:** PENDING  
+**Outcome:** CIC operates as a sandboxed, Wayland-mediated, first-class agent.
+<!-- ARPS:PHASE_46:END -->
+
+---
+
 ## **44.2 — Copilot Adaptation (Phase 2, Optional)**
 
 **Dependencies:** Claude deployment complete, platform wrappers designed
@@ -1556,6 +1631,7 @@ PHASE 42 (Autonomous Research Mode) — ✔ (complete)
 PHASE 43 (HELM) — ✔ (1-2, 6-7 complete; 3-5 next)  
 PHASE 44 (Shared Skills Library) — ✔ (documentation complete; deployment next)
 PHASE 45 (Suggested Skills Phase 2) — PENDING (7 new skills, 10-12 weeks)
+PHASE 46 (WIL — Wayland Integration) — PENDING
 ```
 
 ---
@@ -1790,3 +1866,214 @@ These depend on Evolution Loop + Similarity + Temporal Intelligence.
 10. **Rewrite Labs Productionization** (Control Plane, Redesign, Outreach)
 11. **CIC Design System v2.0 + GSE**
 12. **Downstream Autonomous Evolution (Phases 12–20)**
+
+---
+
+# 🏛️ **PHASE 50+ — FAMILY HISTORY RESEARCH BUSINESS (FHRB)**
+### *Dual-use infrastructure: built for CIC, commercialized for personalized family research.*
+
+**Strategic Context:**
+The CIC documentary research pipeline is 85% of the infrastructure required to operate a premium personalized family history research business. The documentary's success becomes the proof of concept and marketing narrative. Each phase below serves CIC Phase 1 archival needs AND lays the product foundation. Build once, serve both.
+
+**Market position:** Deep, expert-driven, privacy-first research reports. Target: $2,500–$8,500/project. Differentiator: AI-assisted gap detection + narrative report generator built on real documentary infrastructure.
+
+---
+
+## **PHASE 50 — Document Digitization & OCR Pipeline (DDP)**
+
+**Status:** ✅ COMPLETED (2026-06-06)
+
+**Dual-use:** CIC needs OCR for Benson Ford memos, newspaper clippings, handwritten Ford correspondence. Family history business needs it for census records, birth/death certificates, handwritten diaries, immigration manifests.
+
+### Deliverables
+- ✔ `ocr-cic-documents.ps1` — Production OCR pipeline with Tesseract + WinRT fallback
+- ✔ Domain mode flag (`-Domain documentary | genealogy`) — single script, two pipelines
+- ✔ Structured field extraction: dates, names, places, organizations
+- ✔ Document type detection (5 documentary types + 10 genealogy types)
+- ✔ OCR confidence scoring with manual review flagging
+- ✔ Sidecar JSON integration — writes back to existing classify pipeline
+- ✔ Entity merging — preserves manually entered entities while adding OCR-extracted ones
+
+### Integration
+Runs between `ingest-cic-archival.ps1` and `classify-cic-media.ps1` in the pipeline:
+```
+ingest → OCR → classify → organize → research-log → curate
+```
+
+**Outcome:** Every document in the archive has machine-readable text, detected entities, and document type — enabling full-text search, AI summarization, and automated gap detection.
+
+---
+
+## **PHASE 51 — Genealogy Classification Taxonomy Extension**
+
+**Status:** ✅ COMPLETED (2026-06-06)
+
+**Dual-use:** Extended `classify-cic-media.ps1` with full genealogy domain support — same script, two pipelines.
+
+### Deliverables
+- ✔ `-Domain documentary|genealogy` parameter — full backward compatibility; documentary mode unchanged
+- ✔ `-ConfigFile` parameter — client family config JSON drives surname routing and narrative sections
+- ✔ 13-type genealogy taxonomy: Birth/Death/Marriage/Census/Land Deed/Probate/Military/Immigration/Church/Naturalization/Obituary/Photograph/Correspondence
+- ✔ 5-tier genealogy significance: Vital records (High) → Military/Immigration (High) → Probate/Census (Medium) → Photograph (Low)
+- ✔ OCR-aware classification: Phase 50 `detected_document_type` used as primary signal; filename keywords as fallback
+- ✔ OCR date integration: Phase 50 `detected_dates` used for `historical_date` with `confidence: "ocr"`
+- ✔ Genealogy narrative cross-refs: configurable sections (Immigration Journey, Military Service, Vital Records, etc.)
+- ✔ `genealogy_config.json` template auto-generated at first run — client fills in surnames and family lines
+- ✔ Entity merging: OCR-extracted entities preserved; classification adds filename-detected entities without overwriting
+
+### Config template location
+`C:\CIC_MEDIA_LIBRARY\CIC\metadata\genealogy_config.json`
+
+**Outcome:** The same classification script handles CIC documentary assets and client family archives with zero code duplication. OCR output from Phase 50 flows directly into Phase 51 classification with no manual handoff.
+
+---
+
+## **PHASE 52 — Person & Entity Relationship Graph (ERG)**
+
+**Status:** ✅ COMPLETED — 2026-06-06
+
+**Dual-use:** CIC needs a relationship graph for the Sorensen network (Sorensen ↔ Ford ↔ Bennett ↔ Willow Run ↔ Denmark). Family history business needs it for ancestor trees.
+
+### Deliverables
+
+- ✔ `C:\CIC_MEDIA_LIBRARY\CIC\scripts\build-entity-graph.ps1` — CLI graph builder, `-Domain documentary|genealogy`
+- ✔ Node types: Person, Place, Organization, Event, Document — schema-flexible
+- ✔ Relationship types: family (parent_of/spouse_of), organizational (employed_by/reported_to/founded/adversarial_with), geographic (born_in/lived_in/located_in/operates), associative (associated_with/mentions/corresponded_with)
+- ✔ 14 seeded Sorensen network facts with confidence scores (1905–1968 span)
+- ✔ Vital record parser: birth cert → parent_of + spouse_of edges; marriage cert → spouse_of edges
+- ✔ Noise filter: 20 reject patterns; type-override heuristics for orgs/places mis-labeled as people by OCR
+- ✔ Alias resolution: 14 name variants → canonical (Cast Iron Charlie → Charles Emil Sorensen, etc.)
+- ✔ Co-occurrence edges: entities sharing a document → associated_with (confidence-weighted)
+- ✔ Evidence merging: multiple documents confirming same edge → confidence boost
+- ✔ Outputs: `entity_graph.json` (D3/Cytoscape compatible), `entity_graph_summary.md`, `entity_graph.ged` (genealogy)
+- ✔ GEDCOM 5.5.1 export: INDI/FAM records with BIRT/DEAT/MARR events
+- ✔ Validated: 25 clean nodes / 135 edges from 3 test sidecars + seed layer
+
+### Output locations
+
+- Graph JSON: `C:\CIC_MEDIA_LIBRARY\CIC\metadata\entity_graph.json`
+- Summary: `C:\CIC_MEDIA_LIBRARY\CIC\metadata\entity_graph_summary.md`
+- GEDCOM: `C:\CIC_MEDIA_LIBRARY\CIC\metadata\entity_graph.ged` (genealogy mode only)
+
+**Outcome:** CIC maps Sorensen's 40-year network. Family research clients get an interactive relationship graph as part of their deliverable.
+
+---
+
+## **PHASE 53 — Archive API Integration Layer (AAIL)**
+
+**Status:** ✅ COMPLETED — 2026-06-06
+
+**Dual-use:** CIC hits Benson Ford, NASM, Library of Congress, AFHRA. Business hits Ancestry, FamilySearch, Fold3, Newspapers.com, FindMyPast.
+
+### Deliverables
+
+- ✔ `C:\CIC_MEDIA_LIBRARY\CIC\scripts\query-archives.ps1` — orchestrator: `-Query`, `-Domain`, `-Connectors`, `-DateFrom`, `-DateTo`, `-State`, `-MaxResults`
+- ✔ `archive-connectors/` directory — dot-source plugin architecture; each file self-registers into `$ConnectorRegistry`
+- ✔ **LOC** (`LOC-Connector.ps1`) — Library of Congress open API, no auth, live results validated
+- ✔ **ChronAmerica** (`ChronAmerica-Connector.ps1`) — LOC Collections API for Chronicling America (20M+ newspaper pages 1770–1963); endpoint migrated from deprecated `chroniclingamerica.loc.gov` to `loc.gov/collections/chronicling-america`
+- ✔ **Smithsonian** (`Smithsonian-Connector.ps1`) — Smithsonian Open Access (incl. NASM, Air & Space); DEMO_KEY included, prod key at api.data.gov
+- ✔ **FamilySearch** (`FamilySearch-Connector.ps1`) — OAuth2 client credentials flow; register free at familysearch.org/developers; skeleton ready, skip-on-no-creds
+- ✔ **Ancestry** (`Ancestry-Connector.ps1`) — Partner API scaffold; apply at ancestry.com/corporate/brands/ancestry/genealogy-api; skip-on-no-creds
+- ✔ **BensonFord** (`BensonFord-Connector.ps1`) — No public API; generates digital collections search URL + contact info (`research@thehenryford.org`) + priority collection list (Acc.1 Sorensen Papers, Acc.285 Ford Records)
+- ✔ Per-connector rate limiting (500ms–5000ms) and retry logic (configurable retry count)
+- ✔ Normalized result schema: `result_id`, `source_archive`, `title`, `date`, `url`, `thumbnail`, `format`, `rights`, `relevance_score`, `evidence`
+- ✔ Credential management: `metadata/archive_credentials.json` template with setup instructions per connector
+- ✔ Outputs: `metadata/archive_results_{timestamp}.json` + `metadata/archive_results_latest.json` + `metadata/archive_results_latest.md`
+- ✔ Validated: LOC (5 results), ChronAmerica (5 results), BensonFord (1 research link) — 11 results for "Charles Sorensen Ford Motor" 1930–1960
+
+### Credential setup
+
+`C:\CIC_MEDIA_LIBRARY\CIC\metadata\archive_credentials.json` — fill in FamilySearch and Ancestry keys when obtained
+
+**Outcome:** One query hits all connected archives simultaneously. Results land in the media library with proper attribution and rights status.
+
+---
+
+## **PHASE 54 — Narrative Research Report Generator (NRG)**
+
+**Status:** PENDING
+
+**Dual-use:** CIC needs the Treatment document rendered as press kit, grant application bundle, and festival submission. Family research business needs the same narrative engine for client deliverables ($2,500–$8,500 reports).
+
+### Deliverables
+- Report generator that consumes `maintain-research-log.ps1` output
+- Output formats:
+  - **PDF narrative report** — branded, cited, structured (the client deliverable)
+  - **Timeline visualization** — chronological ancestor/event chart
+  - **Executive summary** — 2-page overview for quick client review
+  - **Evidence register** — source citation appendix (Evidence Explained format)
+  - **Gap analysis brief** — what remains unresolved and recommended next steps
+- CIC use: renders Treatment sections + archival narrative as grant/press bundle
+- Genealogy use: renders family research findings as client deliverable
+- Template system: `report-templates/` directory (CIC_Documentary, Family_Standard, Family_Premium)
+
+**Outcome:** The same engine that generates CIC grant applications generates client research reports. No separate tool needed.
+
+---
+
+## **PHASE 55 — Interview & Oral History Pipeline (IOHP)**
+
+**Status:** PENDING
+
+**Dual-use:** CIC begins historian interviews in Phase 2. Family research business uses the same pipeline for family interviews — the premium differentiator that separates deep research from self-service.
+
+### Deliverables
+- Audio/video ingest → Whisper transcription (via `whisper.cpp` or OpenAI Whisper API)
+- Segment extraction: automatically identifies key statements by topic
+- Speaker diarization: labels speakers when multiple participants
+- Research log integration: extracts facts, dates, names from transcript and appends to research log format
+- Interview session schema: `interview_session.json` (subject, date, interviewer, topics covered, media ID)
+- Export: clean transcript PDF + structured JSON for AI summarization
+
+**Outcome:** Every interview — historian for CIC, grandmother for a client — is automatically transcribed, indexed, and searchable within 10 minutes of recording.
+
+---
+
+## **PHASE 56 — Client Delivery Portal (CDP)**
+
+**Status:** PENDING
+
+**Dual-use:** CIC needs secure distribution of grant applications, press kits, and treatment documents to funders and festival programmers. Family history business needs an E2EE client portal — the privacy gap no competitor fills.
+
+### Deliverables
+- Lightweight portal layer on `operator-ui` base
+- Client account scoping: each client sees only their project files
+- Expiring access links: time-limited download URLs (7/30/90 day options)
+- Audit trail: log every file access with timestamp and IP
+- Delivery packages: zip archive of report PDF + evidence register + timeline + gap analysis
+- Rights/consent tracking: per-document client consent status
+- Optional E2EE: files encrypted at rest with client-held key
+- CIC use: distributor/funder receives scoped portal view for grant review
+
+**Outcome:** Clients receive a private, professional portal. CIC funders receive a scoped grant review environment. Same codebase, different personas.
+
+---
+
+## **🗺️ FHRB Dependency Order & Sequencing**
+
+```
+Phase 50 (OCR)           ← COMPLETE — unblocks everything below
+Phase 51 (Taxonomy)      ← Low effort; do alongside Phase 52
+Phase 52 (Entity Graph)  ← Medium; needed before Phase 54 report generator
+Phase 53 (Archive APIs)  ← Medium; can run in parallel with Phase 52
+Phase 54 (Report Gen)    ← Depends on 50+52; this IS the product deliverable
+Phase 55 (Interviews)    ← Start when CIC Phase 2 historian outreach begins
+Phase 56 (Portal)        ← Start when first client engagement confirmed
+```
+
+**The MVP:** Phases 50 + 51 + 54 = a complete research-to-report pipeline. Everything else is an enhancement.
+
+**Revenue trigger:** Phase 54 complete → first paying client possible at $2,500 basic package.
+
+---
+
+## **📊 FHRB Service Tiers**
+
+| Package | Scope | Price | Phases Required |
+|---|---|---|---|
+| **Discovery** | 25 hrs research, 10-page narrative report, timeline | $2,500 | 50, 51, 54 |
+| **Standard** | 50 hrs research, full report, entity graph, gap analysis | $5,000 | 50–54 |
+| **Premium** | 100 hrs research, all above + interviews, portal access | $8,500 | 50–56 |
+| **Archive Digitization** | Client ships documents; OCR, classify, return organized archive | $1,500 flat | 50, 51 |
+
+**See:** `FAMILY_HISTORY_BUSINESS_PLAN.md` for full commercial model, marketing strategy, and go-to-market plan.
