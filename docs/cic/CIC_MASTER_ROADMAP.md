@@ -1568,6 +1568,54 @@ Verify phase completion (tests + docs + integration).
 
 ---
 
+<!-- ARPS:PHASE_47:BEGIN -->
+## Phase 47 — Approval UX Overhaul (AUX)
+
+**Goal:** Eliminate repetitive approval prompts while maintaining safety. Solve the 50+ approvals-per-session friction that blocks productivity.
+
+### Architecture
+
+- **Approval manifest** — persistent JSON store tracking command approvals, frequencies, tier assignments
+- **Four-tier approval system** — Tier 1 (safe, no prompt) → Tier 4 (risky, always prompt)
+- **Auto-promotion** — commands reaching N approvals automatically promote to higher tier
+- **Session-scoped whitelist** — within a session, once approved, don't re-prompt for 1 hour
+- **Trusted registry** — denylist approach: only prompt for novel/suspicious patterns
+
+### Milestones
+
+- **47.1 — Approval Manifest Schema (AUX-Manifest)**
+  Persistent JSON store: command approval history, tier assignments, auto-promotion timestamps, trust scores. Version 2.0 of existing approvals-audit skill foundation.
+
+- **47.2 — Four-Tier Classification Engine (AUX-Tiers)**
+  Tier 1 (safe: npm, git, curl known domains) → Tier 4 (risky: destructive, new hosts).
+  Heuristic classifier + explicit tier assignment API. Default: classify all known commands on startup.
+
+- **47.3 — Auto-Promotion Logic (AUX-Promotion)**
+  After N approvals (configurable, default 2), auto-promote to next tier. Track frequency, decay over time. Operator override to skip tiers.
+
+- **47.4 — Session-Scoped Whitelist (AUX-Session)**
+  Within session: once approved, whitelist for 1 hour. Survives shell restarts; resets daily for safety.
+
+- **47.5 — Denylist Pattern Detector (AUX-Denylist)**
+  Detects novel: new tools, new domains, new paths, regex patterns (symlinks, escapes, etc.). Flag only suspicious patterns; everything else auto-approved.
+
+- **47.6 — Approval Dashboard (AUX-Dashboard)**
+  Real-time view: approval counts by command, tier distribution, auto-promotion rate, session whitelist status. Operator can bulk-promote/demote.
+
+- **47.7 — Integration Tests (AUX-Tests)**
+  Test tier classification, auto-promotion, session whitelist, denylist detection, manifest persistence.
+
+### Dependencies
+- Existing `approvals-audit` skill v2.0.0 (already completed in Phase 44.0.1)
+- `.claude/settings.json` for permission hooks
+- Session tracking (already available)
+
+**Status:** PENDING  
+**Outcome:** Approval friction drops 80%+ while safety policy remains enforced.
+<!-- ARPS:PHASE_47:END -->
+
+---
+
 ## **44.2 — Copilot Adaptation (Phase 2, Optional)**
 
 **Dependencies:** Claude deployment complete, platform wrappers designed
