@@ -1,5 +1,0 @@
-prompts:
-  - id: cic.system.core
-    path: templates/system/core.prompt.md
-    owner: CIC-SYSTEM
-    min_similarity: 0.90

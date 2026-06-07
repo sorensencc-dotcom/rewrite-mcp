@@ -118,7 +118,8 @@
     },
     "session-wrap": {
       "version": "1.0.0",
-      "deployed": true,
+      "entry": "./session-wrap/index.js",
+      "schema": "./session-wrap/schema.json",
       "description": "Wrap up session: update docs, commit changes, provide summary and next steps",
       "platforms": ["claude"]
     }
