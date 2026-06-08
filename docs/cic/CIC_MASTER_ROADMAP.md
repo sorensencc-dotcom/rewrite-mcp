@@ -95,6 +95,53 @@ Deliverables: Distribution agreements, marketing materials, release plan
 
 ---
 
+# **CIC OS — INFRASTRUCTURE LAYER**
+
+## **PHASE 0.9 — TheFoundry (Deterministic Build Environment)**
+
+**Category:** Infrastructure substrate  
+**Purpose:** Create a sealed, reproducible, Docker-based build system for all Node.js subsystems.
+
+**Outputs:**
+- Multi-stage Node build container with test/lint/build stages
+- Minimal Node runtime container
+- Standardized directory layout (`/thefoundry/images`, `/projects`, `/ci`)
+- CI templates (GitHub Actions, Azure Pipelines)
+- Build reproducibility guarantees (bit-for-bit determinism)
+- Zero-prompt dev environment (all npm inside Docker)
+- Developer onboarding guide and troubleshooting docs
+
+**Scope (Locked):**
+- Multi-stage Dockerfile patterns (base → test → lint → build → final)
+- npm ci (lock-file-first dependency management)
+- Volume mounts for source code only
+- Docker build/run conventions
+- CI pipeline patterns for all platforms
+
+**Open for Refinement:**
+- devcontainer integration (v1.1)
+- Multi-arch support / ARM (v1.1)
+- Python / Rust / Golang sidecar images (v1.1+)
+- Buildkit optimizations (v1.1)
+
+**Dependencies:** None  
+**Enables:** Phase 24 (Autonomous Governance), Phase 4.3/4.4 (Operator Console)  
+**Execution:** Parallel, immediate — start now, deploy within 2 weeks  
+**Timeline:** 2026-06-08 through 2026-06-22
+
+**Milestones:**
+1. Core images validated locally (Week 1)
+2. Phase 24 integration complete (Week 2)
+3. CI pipeline runs all tests inside TheFoundry (Week 3)
+4. Developer onboarding doc + training (Week 4)
+
+**Status:** ✅ LOCKED — Ready for immediate parallel execution  
+**Outcome:** All Node builds run sealed, reproducible, CI-ready; zero host friction; foundation for deterministic governance.
+
+**Reference:** See `/docs/cic/phase-0-9-thefoundry.md` for full specification.
+
+---
+
 # **CIC OS — CORE PHASES**
 
 ## **PHASE 7 — Advanced Reasoning Layer (ARL)**
@@ -973,12 +1020,206 @@ Without SGD, Phase 26 (APR) cannot route tasks to the right agents.
 
 ### Outcome
 CIC gains self-awareness of its own capabilities. Phase 25 can route tasks intelligently. External systems can see and coordinate with CIC’s skill set.
-<!-- ARPS:PHASE_24:END -->
+<!-- ARPS:PHASE_25:END -->
 
 ---
 
 <!-- ARPS:PHASE_26:BEGIN -->
-## Phase 26 — Autonomous Planner & Multi‑Agent Reasoning (APR)
+## Phase 26 — TorqueQuery: Ingestion & Search Engine (TQ)
+
+**Status:** QUEUED (parallel to Phases 23–25, enables Phase 27+)
+
+**Execution: 2026-06-15 through 2026-06-29 (15 days, parallel track)**
+
+### Goal
+
+Build a **clean-room, open-source ingestion and search engine** that serves as CIC and Rewrite Labs’ world-ingestion backbone. TorqueQuery handles crawling, scraping, parsing, indexing, and hybrid search via HTTP/GRPC APIs.
+
+### Why This Phase
+
+TorqueQuery is **foundational infrastructure**, not a governance/memory/planning concern:
+- CIC needs deterministic world ingestion (crawl/scrape/parse/index)
+- Rewrite Labs needs SMB site capture for benchmark corpus
+- Both systems need hybrid search (vector + keyword)
+- TorqueQuery must be public (no AGPL, clean-room design) for long-term open-sourcing
+- Runs **parallel** to Memory/Governance/Skill Graph — doesn’t block them
+
+### Architecture Overview
+
+**Eight core subsystems:**
+1. Crawler — domain crawling, sitemap parsing, robots.txt compliance
+2. Scraper — Playwright JS rendering, anti-bot, screenshots
+3. Mapper — URL graph, section classification, crawl planning
+4. Parser — HTML/PDF/DOCX → Markdown + structured JSON
+5. Proxy Layer — rotation, geo-targeting, stealth headers
+6. Indexer — chunking, embeddings, pluggable backends (pgvector, Qdrant, Weaviate)
+7. Search Engine — hybrid (vector + BM25), filtering, reranking
+8. Actor Runtime — crawl jobs, batch scrape, periodic refresh
+
+**API Surface:**
+- HTTP: `/crawl`, `/scrape`, `/batch/scrape`, `/parse`, `/index`, `/search`
+- GRPC: `TorqueCrawlerService`, `TorqueSearchService`, `TorqueIndexService`
+
+**Integration Model:**
+- CIC uses TorqueQuery via HTTP/GRPC (adapter in `packages/adapters/cic/`)
+- Rewrite Labs uses TorqueQuery via HTTP/GRPC (adapter in `packages/adapters/rewritelabs/`)
+- TorqueQuery remains public; CIC/Rewrite Labs remain private
+
+### Deliverables
+
+#### 26.1 — TorqueQuery Architecture Spec (TQ‑Spec)
+- Eight subsystems documented with input/output contracts
+- Repository layout: core/, api/, adapters/, infra/, examples/
+- API specification (HTTP + GRPC)
+- Design principles: clean-room, pluggable, deterministic, search-centric
+- Output: `docs/architecture.md`
+
+#### 26.2 — API & Integration Specs (TQ‑API)
+- Complete HTTP API specification with request/response schemas
+- GRPC service definitions
+- CIC integration guide (adapter responsibilities, no leakage)
+- Rewrite Labs integration guide (corpus building, site capture)
+- Output: `docs/api.md`, `docs/cic-integration.md`, `docs/rewritelabs-integration.md`
+
+#### 26.3 — Crawler, Scraper, Mapper Implementation (TQ‑Core1)
+- Crawl domain → URL list with metadata
+- Scrape URLs with Playwright + anti-bot
+- Build URL graph + section map
+- Test suite: 15+ tests for crawling, robots.txt, dedup, mapping
+- Output: `packages/core/src/{crawler,scraper,mapper}`
+
+#### 26.4 — Parser & Proxy Implementation (TQ‑Core2)
+- HTML/PDF/DOCX → Markdown + structured JSON
+- Proxy rotation, geo-targeting, stealth headers
+- Content extraction quality: 95%+ markdown fidelity
+- Test suite: 10+ tests for parsing, proxy rotation
+- Output: `packages/core/src/{parser,proxy}`
+
+#### 26.5 — Indexer & Search Implementation (TQ‑Core3)
+- Chunking strategies (semantic, fixed-size, header-aware)
+- Embedding generation (OpenAI/local)
+- Multiple backend support (pgvector, Qdrant, Weaviate)
+- Hybrid search: vector similarity + BM25 + reranking
+- Test suite: 20+ tests for indexing, search, reranking
+- Output: `packages/core/src/{indexer,search}`
+
+#### 26.6 — Actor Runtime & HTTP/GRPC API (TQ‑API-Impl)
+- Actor model: job queue, task execution, checkpoints
+- HTTP API implementation (`packages/api/src/http/`)
+- GRPC API implementation (`packages/api/src/grpc/`)
+- Job status tracking, logging, observability
+- Test suite: 15+ tests for APIs, job lifecycle
+- Output: `packages/api/src`, `packages/core/src/actors/`
+
+#### 26.7 — CIC & Rewrite Labs Adapters (TQ‑Adapters)
+- CIC adapter: wraps `/search` + `/index` for CIC internal API
+- Rewrite Labs adapter: corpus building, site capture, benchmark search
+- Integration tests: verify both adapters work end-to-end
+- Output: `packages/adapters/cic/`, `packages/adapters/rewritelabs/`
+
+#### 26.8 — Infra, Examples, Docs (TQ‑Infra)
+- Docker Compose for local development
+- Kubernetes manifests for deployment
+- Example projects: basic crawl, CIC agent search, Rewrite Labs ingest
+- README with overview and quick-start
+- CONTRIBUTING guide for open-source adoption
+- Output: `infra/`, `examples/`, `README.md`, `CONTRIBUTING.md`
+
+### Execution Order (Parallelizable)
+
+1. **26.1 — Architecture Spec** (2 days)
+   - Design all 8 subsystems, API surface, integration model
+   - Output: `docs/architecture.md`
+
+2. **26.2 — API & Integration Specs** (1 day)
+   - Full API spec + integration guides
+   - Can run **in parallel with 26.1** once architecture drafted
+   - Output: `docs/api.md`, `docs/*-integration.md`
+
+3. **26.3–26.5 — Core Implementation** (6 days)
+   - Subsystems 1–7 (Crawler → Search)
+   - Can run **in parallel**: 26.3 (C/S/M), 26.4 (P/Proxy), 26.5 (I/S)
+   - Output: all core subsystems with tests
+
+4. **26.6 — Actor Runtime & APIs** (3 days)
+   - Job orchestration, HTTP/GRPC endpoints
+   - Depends on 26.3–26.5 (core ready)
+   - Output: API layer, actor runtime
+
+5. **26.7 — Adapters** (2 days)
+   - CIC + Rewrite Labs integration
+   - Depends on 26.6 (APIs ready)
+   - Output: adapter packages
+
+6. **26.8 — Infra & Docs** (2 days)
+   - Docker, Kubernetes, examples, README
+   - Can run **in parallel with 26.7**
+   - Output: deployment + open-source materials
+
+**Total: 15 days end-to-end** (sequential: 26.1 → 26.2 → 26.3–26.5 → 26.6 → 26.7 + 26.8)
+
+### Success Criteria
+
+✅ All 8 subsystems implemented and tested  
+✅ HTTP API handles `/crawl`, `/scrape`, `/batch/scrape`, `/parse`, `/index`, `/search`  
+✅ GRPC services available and callable  
+✅ Parser achieves 95%+ markdown extraction fidelity  
+✅ Indexer supports 3+ vector backends (pgvector, Qdrant, Weaviate)  
+✅ Search returns results in <500ms for 100K+ docs  
+✅ CIC adapter enables CIC agents to search world knowledge deterministically  
+✅ Rewrite Labs adapter can ingest 18/20 SMB benchmark repos without error  
+✅ Example projects run end-to-end without manual intervention  
+✅ Open-source repo is well-documented and community-ready  
+
+### Testing Strategy
+
+- **Unit tests**: Subsystem isolation (crawler, scraper, parser, indexer, search)
+- **Integration tests**: Full pipeline (crawl → scrape → parse → index → search)
+- **Adapter tests**: CIC adapter + Rewrite Labs adapter end-to-end
+- **API tests**: HTTP and GRPC endpoints with realistic payloads
+- **Benchmark tests**: latency/throughput for search over 100K docs
+
+### Dependencies
+
+- None (TorqueQuery is self-contained, parallel track)
+
+### Unblocks
+
+- Phase 27 (Autonomous Planner) — can now use hybrid search for planning context
+- Phase 28 (Runtime Orchestrator) — can now delegate scraping/indexing work
+- Phase 29 (Knowledge Graph) — can now ingest structured world knowledge
+- CIC agents — can search world knowledge deterministically
+- Rewrite Labs — can ingest and analyze SMB codebases at scale
+
+### Risk Mitigation
+
+- **Risk:** Scraping gets blocked (anti-bot detection)
+  - *Mitigation:* Proxy rotation, stealth headers, session isolation
+- **Risk:** Parser loses semantic meaning in HTML→Markdown conversion
+  - *Mitigation:* Structured JSON output + Markdown; use DOM traversal for semantic preservation
+- **Risk:** Search latency unacceptable for real-time use
+  - *Mitigation:* Caching layer, query optimization, async indexing
+- **Risk:** Integrations with CIC/Rewrite Labs are tightly coupled
+  - *Mitigation:* Adapters are thin wrappers; TorqueQuery has no knowledge of CIC/RL internals
+
+### Open Questions
+
+- Which vector backend for production? *→ Decision: Start with Qdrant; support pgvector/Weaviate as pluggable alternatives*
+- How to handle scaling beyond single machine? *→ Decision: Actor model enables distributed job queues; upgrade to Kubernetes scaling in Phase 28*
+- Open-source license? *→ Decision: MIT (permissive, no GPL bleed)*
+
+### Outcome
+
+TorqueQuery becomes the **long-term world-ingestion backbone** for CIC and Rewrite Labs. Runs in parallel to Memory/Governance/Skill Graph phases; unblocks Phase 27+ for agent-driven expansion and autonomous redesign discovery.
+
+**Unique property:** TorqueQuery is **the only public, open-source component** of CIC’s ecosystem. This enables future community contributions, cleanroom licensing, and standalone adoption.
+
+<!-- ARPS:PHASE_26:END -->
+
+---
+
+<!-- ARPS:PHASE_27:BEGIN -->
+## Phase 27 — Autonomous Planner & Multi‑Agent Reasoning (APR)
 
 **Status:** QUEUED (depends on Phase 24, 25)
 
