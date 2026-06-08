@@ -123,7 +123,7 @@ export class RepoAnalysisBridge {
     const paths = rep.files.map((f) => f.path).join("\n");
 
     if (/[a-z]+[A-Z][a-zA-Z]*/m.test(paths)) naming.push("camelCase");
-    if /_[a-z]+_/m.test(paths)) naming.push("snake_case");
+    if (/_[a-z]+_/m.test(paths)) naming.push("snake_case");
     if (/[A-Z][a-zA-Z]*[A-Z]/m.test(paths)) naming.push("PascalCase");
 
     return naming;
