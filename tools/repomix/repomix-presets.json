@@ -1,0 +1,39 @@
+{
+  "version": "0.1.0",
+  "metadata": {
+    "description": "Operator-grade Repomix presets for deterministic repo ingestion.",
+    "lastUpdated": "2026-06-07"
+  },
+  "presets": {
+    "json-default": {
+      "description": "JSON output with token tree for standard ingestion.",
+      "args": ["--style", "json", "--token-count-tree"],
+      "use_case": "Rewrite Labs Harvester — standard repo analysis"
+    },
+    "json-compressed": {
+      "description": "Compressed JSON using Tree-sitter structural extraction.",
+      "args": ["--compress", "--style", "json"],
+      "use_case": "Large repos (>500K tokens) — reduce payload size by 30-50%"
+    },
+    "remote-json": {
+      "description": "Remote GitHub repo ingestion with JSON + token tree.",
+      "args": ["--style", "json", "--token-count-tree", "--remote"],
+      "use_case": "Ingest repos from GitHub without cloning"
+    },
+    "markdown-human": {
+      "description": "Human-readable Markdown pack for operator inspection.",
+      "args": ["--style", "md"],
+      "use_case": "Manual operator review of repo structure"
+    },
+    "json-secretlint": {
+      "description": "JSON output with secret detection enabled.",
+      "args": ["--style", "json", "--token-count-tree", "--secretlint"],
+      "use_case": "Security-first ingestion with credential detection"
+    },
+    "cic-analysis": {
+      "description": "JSON output optimized for CIC Knowledge Graph ingestion.",
+      "args": ["--style", "json", "--compress", "--token-count-tree"],
+      "use_case": "CIC external repo analysis and pattern extraction"
+    }
+  }
+}
