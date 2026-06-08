@@ -83,6 +83,12 @@ benchmarks/costs/reports/
 benchmarks/routing/.agent-prefs.json
 
 # -------------------------
+# BOB BUILD ARTIFACTS & LOGS
+# -------------------------
+bob/generated/docs/docs-index.md
+history/history.jsonl
+
+# -------------------------
 # MISC
 # -------------------------
 *.log
