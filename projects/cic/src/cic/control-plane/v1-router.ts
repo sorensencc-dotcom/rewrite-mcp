@@ -19,6 +19,8 @@ import { patchLoader } from "./patch-loader.js";
 import { PatchStatus } from "./patch-model.js";
 import { RoadmapPipeline } from "../../agents/roadmapping/pipeline.js";
 import { registerMemoryRoutes } from "./memory-routes.js";
+import { registerMemoryQueryRoutes } from "./memory-query-routes.js";
+import { registerDashboardRoutes } from "./dashboard-routes.js";
 import { registerSkillsRoutes } from "./skills-routes.js";
 import { registerAprRoutes } from "./apr-routes.js";
 import { registerCroRoutes } from "./cro-routes.js";
@@ -526,6 +528,8 @@ v1Router.post("/arps/run", async (req: any, res: Response) => {
 });
 
 registerMemoryRoutes(v1Router);
+registerMemoryQueryRoutes(v1Router);
+registerDashboardRoutes(v1Router);
 registerSkillsRoutes(v1Router);
 registerAprRoutes(v1Router);
 registerCroRoutes(v1Router);

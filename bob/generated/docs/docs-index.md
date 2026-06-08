@@ -1,6 +1,6 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-06-07T22:40:07.428Z
+Generated at: 2026-06-08T02:52:06.177Z
 
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
@@ -182,9 +182,11 @@ Generated at: 2026-06-07T22:40:07.428Z
 - [STABILITY_SOAK_RUNBOOK.md](projects/cic/STABILITY_SOAK_RUNBOOK.md)
 - [STABILITY_SOAK_QUICKREF.md](projects/cic/STABILITY_SOAK_QUICKREF.md)
 - [README.md](projects/cic/README.md)
+- [DEPLOYMENT_SUMMARY.md](projects/cic/DEPLOYMENT_SUMMARY.md)
 - [DEPLOYMENT_READY_2026-06-07.md](projects/cic/DEPLOYMENT_READY_2026-06-07.md)
 - [DEPLOYMENT.md](projects/cic/DEPLOYMENT.md)
 - [AGENTS.md](projects/cic/AGENTS.md)
+- [ABB_IMPLEMENTATION_MANIFEST.md](projects/cic/ABB_IMPLEMENTATION_MANIFEST.md)
 - [secrets.md](projects/cic/orchestrator/secrets.md)
 - [README.md](projects/cic/orchestrator/node_modules/why-is-node-running/README.md)
 - [README.md](projects/cic/orchestrator/node_modules/vitest/README.md)
@@ -264,6 +266,13 @@ Generated at: 2026-06-07T22:40:07.428Z
 - [README.md](projects/cic/node_modules/@types/serve-static/README.md)
 - [README.md](projects/cic/node_modules/@types/express-serve-static-core/README.md)
 - [README.md](projects/cic/node_modules/@types/express/README.md)
+- [README.md](projects/cic/memory/README.md)
+- [PHASES_23.2_23.5_COMPLETE.md](projects/cic/memory/PHASES_23.2_23.5_COMPLETE.md)
+- [PHASES_23.2_23.4_COMPLETE.md](projects/cic/memory/PHASES_23.2_23.4_COMPLETE.md)
+- [PHASES_23.2_23.3_COMPLETE.md](projects/cic/memory/PHASES_23.2_23.3_COMPLETE.md)
+- [MEMORY_RETENTION.md](projects/cic/memory/retention/MEMORY_RETENTION.md)
+- [MEMORY_QUERY.md](projects/cic/memory/query/MEMORY_QUERY.md)
+- [HARVESTER.md](projects/cic/memory/harvester/HARVESTER.md)
 - [secrets.md](projects/cic/ingestion/secrets.md)
 - [PR_TOKEN_ECONOMY_HARDENING.md](projects/cic/ingestion/PR_TOKEN_ECONOMY_HARDENING.md)
 - [PHASE_5_SUMMARY.md](projects/cic/ingestion/PHASE_5_SUMMARY.md)
@@ -664,6 +673,7 @@ Generated at: 2026-06-07T22:40:07.428Z
 - [PHASE_C_REAL_AGENTS.md](projects/cic/docs/PHASE_C_REAL_AGENTS.md)
 - [meta_evolution_logic_loop.md](projects/cic/docs/meta_evolution_logic_loop.md)
 - [knowledge_distillation_engine.md](projects/cic/docs/knowledge_distillation_engine.md)
+- [FEEDBACK_LOOP_GUIDE.md](projects/cic/docs/FEEDBACK_LOOP_GUIDE.md)
 - [claude_coherence_contract_implementation_v1.0.0.md](projects/cic/docs/claude_coherence_contract_implementation_v1.0.0.md)
 - [CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md](projects/cic/docs/CLAUDE_ANTIGRAVITY_FEDERATION_PROTOCOL.md)
 - [CIC_SYSTEM.md](projects/cic/docs/CIC_SYSTEM.md)

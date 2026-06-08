@@ -1295,6 +1295,51 @@ Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesi
 
 ---
 
+## **4.3 CodeBurn ↔ TokenEconomyAgent Integration (Cost Optimization)**
+**Goal:** Unify real-time token governance with historical observability via CodeBurn integration.
+
+**Status:** PLANNED (2026-06-07)
+
+### Deliverables
+- Telemetry schema for CIC + Rewrite Labs (YAML specs)
+- Telemetry emitters in TokenEconomyAgent routing layer
+- CodeBurn provider plugin for CIC telemetry ingestion
+- Routing rule updater consuming CodeBurn cost/yield exports
+- CLI entrypoint for batch integration runs (cic-cli run-abb)
+
+### Why This Phase
+Real-time token governance (TokenEconomyAgent) requires **historical observability** to:
+- Detect which models/agents are cost-inefficient
+- Identify retry hotspots and high-failure stages
+- Update routing rules based on actual spend patterns
+- Achieve >=40% token cost reduction per successful redesign
+
+CodeBurn provides the historical view; TokenEconomyAgent provides the real-time enforcement.
+
+### Dependencies
+- TokenEconomyAgent v2
+- CIC Telemetry Bus
+- CodeBurn >= 0.3.x
+
+### Success Metrics
+- ✅ All CIC pipelines emit telemetry to CodeBurn
+- ✅ CodeBurn dashboards show per-model, per-agent cost breakdowns
+- ✅ Routing rules auto-update based on CodeBurn insights
+- ✅ >=40% reduction in average token cost per successful redesign
+- ✅ Retry rate reduced by >=25% on Harvester + Redesign agents
+
+### Execution Timeline
+- 2026-06-07: Spec finalization (telemetry schemas)
+- 2026-06-08: Emitter implementation
+- 2026-06-09: CodeBurn provider plugin
+- 2026-06-10: Feedback loop + CLI wiring
+- 2026-06-11: Testing + validation
+- 2026-06-14: Production rollout
+
+**Outcome:** CIC achieves full cost visibility and automatic cost optimization across all regions.
+
+---
+
 # **PHASE 5 — Autonomous Optimization (Future)**  
 **Goal:** CIC optimizes itself continuously with operator‑visible guardrails.
 

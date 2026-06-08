@@ -1,10 +1,65 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-07 (Phase 47.2 Session-Wrap MCP Integration) | Tool: claude
+Updated: 2026-06-07 (Phase 23 Memory Layer + Integration) | Tool: claude
 
 ---
 
-## This Session: Phase 47.2 — Session-Wrap MCP Integration (Complete)
+## Current Session: Phase 23.4 — Integration Hooks Wired (Complete)
+
+**Status:** ✅ 23.1–23.3 LOCKED | ✅ 23.4 WIRED & REGISTERED | 📋 23.5–23.7 QUEUED (6 days)
+
+### Phase 23.4 Wiring Complete
+
+**ARPS Integration:**
+- ✅ Scheduler switched to `ArpsMemoryPipeline` (uses memory-informed hints)
+- ✅ `ArpsMemoryIntegration.buildArpsHints()` injected into roadmap synthesis
+- ✅ ARPS_DELTA events emitted to memory substrate after each run
+
+**Dashboard Integration:**
+- ✅ New file: `dashboard-routes.ts` (4 REST endpoints)
+- ✅ Routes wired to `v1-router` (auto-registered)
+- ✅ Endpoints: `/dashboard/timeline`, `/dashboard/trends/:metric`, `/dashboard/summary-cards`, `/dashboard/full`
+- ✅ Integration: Queries memory, synthesizes metrics, populates UI data
+
+**Memory Query API (NEW):**
+- ✅ New file: `memory-query-routes.ts` (5 REST endpoints)
+- ✅ Routes wired to `v1-router` (auto-registered)
+- ✅ Endpoints: `/memory/events`, `/memory/trends`, `/memory/summaries`, `/memory/search`, `/memory/health`
+- ✅ Used by: Dashboard UI, APR planner, analysis tools
+
+**APR Integration:**
+- ✅ New file: `apr-memory-integration.ts` (historical context extraction)
+- ✅ Modified: `apr-routes.ts` — `/apr/plan` endpoint now async, injects memory context
+- ✅ Methods: Historical success rates, failure patterns, skill recommendations
+
+**Main Router Registration:**
+- ✅ Modified: `v1-router.ts` — Registered all new routes
+- ✅ Full API surface available for testing
+
+### Key Files Delivered
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `memory-query-routes.ts` | 128 | 5 endpoints for memory queries |
+| `dashboard-routes.ts` | 95 | 4 endpoints for dashboard data |
+| `apr-memory-integration.ts` | 140 | Historical planning context |
+| `scheduler.ts` (modified) | — | Uses ArpsMemoryPipeline + hints |
+| `apr-routes.ts` (modified) | — | Memory-informed planning |
+| `v1-router.ts` (modified) | — | Route registration |
+
+**Total New Code:** 360+ LOC (routes + integrations)
+
+### Next Steps (Phase 23.5–23.7)
+
+1. **23.5** — API Enhancement: Pagination, caching, aggregations (2 days)
+2. **23.6** — Memory Explorer UI: Timeline, charts, search (2 days)
+3. **23.7** — Autonomy Loop: Pattern detection, auto-proposals (2 days)
+
+**Critical Path:** 6 days (2026-06-14 target)
+
+---
+
+## Previous Session: Phase 47.2 — Session-Wrap MCP Integration (Complete)
 
 **Status:** ✅ IMPLEMENTATION COMPLETE & TESTED
 

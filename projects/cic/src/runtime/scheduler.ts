@@ -3,10 +3,11 @@
  * E2E background task execution scheduler for active jobs.
  */
 
-import { RoadmapPipeline } from "../agents/roadmapping/pipeline.js";
+import { ArpsMemoryPipeline } from "../agents/roadmapping/arps-memory-pipeline.js";
 import path from "node:path";
 import { MemorySubstrate } from "../memory/memory-substrate.js";
 import { MemorySynthesizer } from "../memory/memory-synthesizer.js";
+import { ArpsMemoryIntegration } from "../agents/roadmapping/arps-memory-integration.js";
 
 export interface ScheduledJob {
   id: string;
@@ -61,17 +62,29 @@ export class RuntimeScheduler {
 
 export const scheduler = new RuntimeScheduler();
 
-// 1. Define ARPS roadmap refresh task
+// 1. Define ARPS roadmap refresh task (with Memory Integration)
 async function runArpsJob() {
-  const pipeline = new RoadmapPipeline(
+  const memoryLedgerPath = path.resolve(process.cwd(), ".artifacts/memory/ledger.jsonl");
+  const substrate = new MemorySubstrate(memoryLedgerPath);
+  const arpsIntegration = new ArpsMemoryIntegration(substrate);
+
+  const pipeline = new ArpsMemoryPipeline(
     process.cwd(),
     path.resolve(process.cwd(), "docs"),
     path.resolve(process.cwd(), "projects/cic/pms/registry.yaml")
   );
 
+  // Get memory-informed hints to influence roadmap synthesis
+  const hints = arpsIntegration.buildArpsHints();
+
+  if (hints.repeatedFailures > 0 || hints.stalePhases > 0) {
+    console.log(`[ARPS Job] Memory context: ${hints.repeatedFailures} failures, ${hints.stalePhases} stale phases detected`);
+  }
+
   await pipeline.run({
     dryRun: true,
-    verbose: false
+    verbose: false,
+    sessionId: `arps-${Date.now()}`
   });
 }
 

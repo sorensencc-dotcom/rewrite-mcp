@@ -4,20 +4,40 @@ import { AutonomousPlanner } from "../../apr/autonomous-planner.js";
 import { MultiAgentCoordinator } from "../../apr/multi-agent-coordinator.js";
 import { TaskAllocator } from "../../apr/task-allocator.js";
 import { SkillGraphStore } from "../../skills/skill-graph-store.js";
-import path from "node:path";
+import { MemorySubstrate } from "../../../memory/memory-substrate";
+import { AprMemoryIntegration } from "./apr-memory-integration.js";
+import * as path from "path";
 
 export function registerAprRoutes(router: any) {
   const workspaceRoot = process.cwd();
   const graphPath = path.resolve(workspaceRoot, "projects/cic/skill-graph/graph.json");
+  const memoryLedgerPath = path.resolve(workspaceRoot, ".artifacts/memory/ledger.jsonl");
   const skillStore = new SkillGraphStore(graphPath);
+  const substrate = new MemorySubstrate({
+    store_path: memoryLedgerPath
+  });
+  const memoryIntegration = new AprMemoryIntegration(substrate);
   const planner = new AutonomousPlanner(workspaceRoot);
   const coordinator = new MultiAgentCoordinator(workspaceRoot);
   const allocator = new TaskAllocator(skillStore);
 
-  router.post("/apr/plan", (req: any, res: any) => {
+  router.post("/apr/plan", async (req: any, res: any) => {
     try {
       const dryRun = req.body.dryRun !== false; // defaults to true
       const inputs = planner.loadInputs();
+
+      // Inject memory-based context into planning
+      const historyContext = await memoryIntegration.getHistoricalContext();
+      const skillRecs = await memoryIntegration.getSkillRecommendations();
+      const failurePatterns = await memoryIntegration.getFailurePatterns();
+
+      inputs.memoryTrends = {
+        ...inputs.memoryTrends,
+        historicalSuccessRate: historyContext.successRate,
+        riskFactors: historyContext.riskFactors,
+        recommendedApproaches: historyContext.recommendedApproaches
+      };
+
       const plan = planner.plan(inputs);
       
       // Allocate tasks using Skill Graph
