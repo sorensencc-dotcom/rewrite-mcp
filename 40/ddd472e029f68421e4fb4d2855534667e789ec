@@ -1,0 +1,40 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_23364b39b23e42::t_a5080f48d71b71 98-144
+  s_ea92f5dcac47c2::t_c4dce95117ad37 1023,1028-1222
+thefoundry/images/node-runtime/Dockerfile
+  s_76f06cd99c5cd7::t_57ba8f516e3f8d 8
+  s_76f06cd99c5cd7::t_d8a2756a408900 9
+  s_23364b39b23e42::t_f37cab802fd46f 1-7,10-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "40ddd472e029f68421e4fb4d2855534667e789ec",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    },
+    "s_76f06cd99c5cd7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "efa3372d-efa2-4893-a598-3a947fb99e89",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    },
+    "s_ea92f5dcac47c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "353d5b12-b4f7-4d10-b9ae-c094bbfd11b5",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
