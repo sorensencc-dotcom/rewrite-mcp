@@ -1340,6 +1340,98 @@ CodeBurn provides the historical view; TokenEconomyAgent provides the real-time 
 
 ---
 
+## **4.4 Repomix Integration for Repo Ingestion (Operator-Grade Tooling)**
+**Goal:** Establish deterministic, token-aware repository ingestion for Rewrite Labs Harvester and CIC external repo analysis.
+
+**Status:** PLANNED (2026-06-07 through 2026-06-14)
+
+### Rationale
+Rewrite Labs Harvester requires structured, compressed repository data (JSON) to:
+- Ingest SMB codebases for redesign analysis
+- Extract repository structure and complexity metrics
+- Account for token cost across large repos
+- Enable deterministic, reproducible redesign proposals
+
+Repomix provides:
+- **JSON output** → native integration with Harvester pipeline
+- **Compression via Tree-sitter** → structural extraction (functions, classes, interfaces)
+- **Token accounting** → predictable LLM cost modeling
+- **Deterministic ordering** → reproducible redesign decisions
+- **Secret detection** → compliance guardrails
+
+### Deliverables
+
+#### 4.4.1 — Repomix Installation & CLI Presets
+- Install Repomix as NPM dependency in rewrite-mcp
+- Define operator-grade command presets:
+  ```bash
+  repomix --remote user/repo --json --compress --token-count --secretlint
+  repomix --local ./repo-path --json --compress --token-count --secretlint --verbose
+  repomix --remote user/repo --json --compress --token-count --secretlint --output ./output.json
+  ```
+- Configure `.repomixignore` for filtering (node_modules, build artifacts, etc.)
+
+#### 4.4.2 — Rewrite Labs Harvester Integration
+- Wire Repomix JSON output → Harvester Discovery phase
+- Implement `RepositoryIngestion` module that:
+  - Accepts remote or local repo paths
+  - Invokes Repomix with deterministic flags
+  - Parses JSON output (structure, tokens, secrets)
+  - Feeds structured data into Redesign phase
+- Token accounting: store per-file metrics for cost prediction
+
+#### 4.4.3 — CIC Bridge for Third-Party Repo Analysis
+- Design `RepoAnalysisBridge` that converts Repomix JSON → CIC data structures
+- Enable CIC extractors to ingest non-CIC repositories:
+  - Extract repo archetypes (framework, language, architecture)
+  - Feed into Knowledge Graph for pattern recognition
+  - Support CIC's autonomous expansion verdicts on external code
+- Implement `/cic/repos/analyze` REST endpoint accepting remote/local repos
+
+#### 4.4.4 — Token & Cost Telemetry
+- Integrate Repomix token counts into CodeBurn telemetry pipeline
+- Track repo ingestion cost per tenant (Rewrite Labs)
+- Feed cost signals into TokenEconomyAgent for routing optimization
+
+#### 4.4.5 — Security & Compliance
+- Secretlint integration: flag leaked credentials before ingestion
+- Audit trail: log all remote repo accesses with timestamps and operators
+- Sandbox: run Repomix in isolated container to prevent execution escape
+
+#### 4.4.6 — Testing & Validation
+- Unit tests: Repomix output parsing, token validation, secret detection
+- E2E tests: ingest 5 test repos (varying sizes/frameworks), verify structure extraction
+- Benchmark: compare token cost vs. raw file concatenation (expect 30–50% reduction via compression)
+- Validation: confirm deterministic output across 10 runs of same repo
+
+### Dependencies
+- Repomix (npm package)
+- Phase 4.3 (CodeBurn integration for telemetry)
+- Rewrite Labs Harvester codebase
+
+### Success Metrics
+- ✅ Repomix JSON ingestion works for 18/20 SMB benchmark repos
+- ✅ Token savings: 30–50% reduction vs. raw concatenation
+- ✅ Deterministic output: identical JSON across multiple runs
+- ✅ Secret detection: 100% on standard test corpus
+- ✅ CIC bridge: successfully ingest 3 external repos into Knowledge Graph
+- ✅ Cost telemetry: per-repo ingestion cost visible in CodeBurn dashboards
+- ✅ Compliance: zero credential leaks in audited logs
+
+### Execution Timeline
+- **2026-06-07:** Install, presets, `.repomixignore` configuration
+- **2026-06-08:** Rewrite Labs Harvester integration (RepositoryIngestion module)
+- **2026-06-09:** CIC bridge design + `/cic/repos/analyze` endpoint
+- **2026-06-10:** Token telemetry + CodeBurn wiring
+- **2026-06-11:** Security integration (Secretlint, audit trails)
+- **2026-06-12–13:** Testing, validation, benchmarking
+- **2026-06-14:** Production rollout, operator handoff
+
+### Outcome
+Rewrite Labs can ingest any repository deterministically and cost-predictably. CIC gains the ability to analyze external codebases for knowledge graph enrichment.
+
+---
+
 # **PHASE 5 — Autonomous Optimization (Future)**  
 **Goal:** CIC optimizes itself continuously with operator‑visible guardrails.
 
