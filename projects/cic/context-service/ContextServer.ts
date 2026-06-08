@@ -8,10 +8,13 @@ import { ContextService, ContextServiceConfig } from "./ContextService";
 import { TraceMiddleware } from "../observability/TraceMiddleware";
 import { MetricsMiddleware } from "../observability/MetricsMiddleware";
 import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
+import { FileExecutionStore } from "../src/ruflo-orchestration/FileExecutionStore";
 import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
 import { FlowLoader } from "../src/ruflo-orchestration/FlowLoader";
 import { createRealAgents } from "../src/agents/RealAgentClients";
 import { v4 as uuidv4 } from "uuid";
+import * as path from "path";
+import * as os from "os";
 
 export interface ServerConfig extends ContextServiceConfig {
   port: number;
@@ -30,7 +33,17 @@ export class ContextServer {
     this.config = config;
     this.app = express();
     this.service = new ContextService(config);
-    this.flowRegistry = new FlowRegistry();
+
+    // Phase E.0a: Wire FileExecutionStore for persistent execution state
+    const executionStorePath = process.env.EXECUTION_STORE_PATH ||
+      path.join(os.homedir(), '.cic', 'execution-state');
+    const executionStore = new FileExecutionStore({
+      basePath: executionStorePath,
+      retentionDays: 30,
+    });
+
+    // Initialize FlowRegistry with persistent execution store
+    this.flowRegistry = new FlowRegistry(executionStore);
 
     // Initialize orchestrator with real agents (Phase C)
     const realAgents = createRealAgents();

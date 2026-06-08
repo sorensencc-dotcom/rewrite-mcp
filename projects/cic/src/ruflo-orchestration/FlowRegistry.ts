@@ -219,10 +219,44 @@ export class FlowRegistry {
   }
 
   /**
-   * Get execution state
+   * Get execution state (in-memory cache)
    */
   getExecution(executionId: string): FlowExecution | null {
     return this.executions.get(executionId) || null;
+  }
+
+  /**
+   * Get or load execution from store (supports multi-instance scenarios)
+   * Loads from persistent store if not in memory
+   */
+  async getOrLoadExecution(executionId: string): Promise<FlowExecution | null> {
+    // Check in-memory cache first
+    const cached = this.executions.get(executionId);
+    if (cached) return cached;
+
+    // Try to load from persistent store
+    const stored = await this.store.get(executionId);
+    if (stored) {
+      // Load into memory for this instance
+      const execution: FlowExecution = {
+        id: stored.id,
+        template_id: stored.template_id,
+        status: stored.status as "queued" | "running" | "completed" | "failed",
+        input: stored.input,
+        output: stored.output,
+        created_at: stored.created_at,
+        started_at: stored.started_at,
+        completed_at: stored.completed_at,
+        stage_index: 0,
+        stage_status: stored.stage_status,
+        trace_id: stored.trace_id,
+        spans: stored.spans || [],
+      };
+      this.executions.set(executionId, execution);
+      return execution;
+    }
+
+    return null;
   }
 
   /**
@@ -242,10 +276,14 @@ export class FlowRegistry {
   }
 
   /**
-   * Record a span for observability
+   * Record a span for observability (supports multi-instance)
    */
   async recordSpan(executionId: string, span: FlowSpan): Promise<void> {
-    const execution = this.getExecution(executionId);
+    let execution = this.getExecution(executionId);
+    if (!execution) {
+      // Try to load from store (multi-instance scenario)
+      execution = await this.getOrLoadExecution(executionId);
+    }
     if (!execution) {
       throw new Error(`Execution ${executionId} not found`);
     }

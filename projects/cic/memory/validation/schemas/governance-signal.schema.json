@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["signal_type", "entity_type", "entity_id", "decision", "reason", "approval_count", "approval_threshold", "metadata"],
+  "properties": {
+    "signal_type": {
+      "type": "string",
+      "enum": ["approval", "rejection", "escalation", "zone_violation", "threshold_crossed", "constraint_violation"]
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": ["skill", "extraction", "phase_write", "cli_command"]
+    },
+    "entity_id": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "rejected", "escalated"]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "operator": {
+      "type": "string"
+    },
+    "approval_count": {
+      "type": "number",
+      "minimum": 0
+    },
+    "approval_threshold": {
+      "type": "number",
+      "minimum": 0
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

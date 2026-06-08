@@ -1,0 +1,113 @@
+---
+version: 1
+name: rewrite_labs_telemetry
+description: Telemetry for Rewrite Labs SMB redesign pipeline
+
+event_types:
+  - name: redesign_session
+    description: End-to-end redesign session metrics.
+    fields:
+      - name: session_id
+        type: string
+        description: Unique session identifier
+      - name: project
+        type: string
+        description: Project identifier
+      - name: smb_site_id
+        type: string
+        description: SMB site identifier being redesigned
+      - name: total_input_tokens
+        type: integer
+        description: Total input tokens across all stages
+      - name: total_output_tokens
+        type: integer
+        description: Total output tokens across all stages
+      - name: total_cost_usd
+        type: number
+        description: Total cost in USD for the session
+      - name: successful
+        type: boolean
+        description: Whether the session completed successfully
+      - name: reverted
+        type: boolean
+        description: Whether the session was reverted
+      - name: abandoned
+        type: boolean
+        description: Whether the session was abandoned
+      - name: start_time
+        type: string
+        format: date-time
+        description: Session start time
+      - name: end_time
+        type: string
+        format: date-time
+        description: Session end time
+      - name: duration_seconds
+        type: integer
+        description: Total session duration in seconds
+
+  - name: stage_event
+    description: Per-stage metrics within a redesign session.
+    fields:
+      - name: session_id
+        type: string
+        description: Parent session identifier
+      - name: stage
+        type: string
+        enum: [ANALYSIS, REDESIGN, VALIDATION, DEPLOYMENT]
+        description: Pipeline stage
+      - name: input_tokens
+        type: integer
+        description: Input tokens for this stage
+      - name: output_tokens
+        type: integer
+        description: Output tokens for this stage
+      - name: cost_usd
+        type: number
+        description: Cost in USD for this stage
+      - name: model
+        type: string
+        description: Model used in this stage
+      - name: provider
+        type: string
+        description: LLM provider used
+      - name: timestamp
+        type: string
+        format: date-time
+        description: Event timestamp
+      - name: retry_count
+        type: integer
+        description: Number of retries in this stage
+      - name: duration_seconds
+        type: integer
+        description: Stage duration in seconds
+
+  - name: conversion_event
+    description: Conversion tracking for outreach pipeline.
+    fields:
+      - name: timestamp
+        type: string
+        format: date-time
+        description: Conversion event timestamp
+      - name: session_id
+        type: string
+        description: Related redesign session ID
+      - name: prospect_id
+        type: string
+        description: Prospect identifier
+      - name: stage
+        type: string
+        enum: [LEAD, QUALIFIED, CONTACTED, PROPOSAL_SENT, SIGNED, REJECTED, ABANDONED]
+        description: Conversion stage
+      - name: outcome
+        type: string
+        enum: [INITIATED, PROGRESSED, CONVERTED, LOST]
+        description: Conversion outcome
+      - name: value_usd
+        type: number
+        description: Estimated deal value
+
+storage:
+  format: jsonl
+  retention_days: 90
+  location: ~/.rewrite-labs/logs/telemetry

@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["agent_name", "agent_class", "status", "uptime_seconds", "task_count", "task_success_rate", "performance"],
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "agent_class": {
+      "type": "string",
+      "enum": ["ingestion", "processing", "reasoning", "planning", "execution"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["healthy", "degraded", "failed"]
+    },
+    "uptime_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "task_count": {
+      "type": "number",
+      "minimum": 0
+    },
+    "task_success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "last_error": {
+      "type": "string"
+    },
+    "last_error_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "performance": {
+      "type": "object",
+      "required": ["avg_task_duration_ms", "p95_task_duration_ms", "cpu_usage_percent", "memory_usage_mb", "error_rate_percent"],
+      "properties": {
+        "avg_task_duration_ms": {
+          "type": "number"
+        },
+        "p95_task_duration_ms": {
+          "type": "number"
+        },
+        "cpu_usage_percent": {
+          "type": "number"
+        },
+        "memory_usage_mb": {
+          "type": "number"
+        },
+        "error_rate_percent": {
+          "type": "number"
+        }
+      }
+    },
+    "degradation_reason": {
+      "type": "string"
+    }
+  }
+}

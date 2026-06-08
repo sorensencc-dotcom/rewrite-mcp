@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "registry_format": "CIC ABB Registry",
+  "description": "Registry of all Automated Batch Blocks available for execution",
+  "last_updated": "2026-06-07",
+  "abbs": [
+    {
+      "abb_id": "ABB-CODEBURN-INTEGRATION",
+      "title": "CodeBurn ↔ TokenEconomyAgent Integration",
+      "handler": "src/cli/abb/codeburn_integration.ts",
+      "version": "1.0.0",
+      "phase": "Phase-4",
+      "milestone": "M4",
+      "status": "planned",
+      "commands": [
+        "cic-cli run-abb plan --id ABB-CODEBURN-INTEGRATION",
+        "cic-cli run-abb execute --id ABB-CODEBURN-INTEGRATION"
+      ],
+      "definition_file": "abb/definitions/ABB-CODEBURN-INTEGRATION.json"
+    }
+  ]
+}

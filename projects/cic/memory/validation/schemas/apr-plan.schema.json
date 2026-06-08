@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["plan_id", "goal", "plan_type", "status", "task_count", "task_graph", "critical_path_hours", "risk_level", "risk_factors", "agent_consensus_score", "agents_involved"],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "plan_type": {
+      "type": "string",
+      "enum": ["feature_development", "bug_fix", "optimization", "governance"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["generated", "in_progress", "completed", "failed"]
+    },
+    "task_count": {
+      "type": "number",
+      "minimum": 0
+    },
+    "task_graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "depends_on", "estimated_effort_hours"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "estimated_effort_hours": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "critical_path_hours": {
+      "type": "number"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "risk_factors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "agent_consensus_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "agents_involved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

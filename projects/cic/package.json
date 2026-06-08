@@ -13,6 +13,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run test/integration",
+    "test:feedback-loop": "vitest run test/integration/token-economy-feedback-loop.test.ts",
+    "test:scheduler": "vitest run test/integration/scheduler.test.ts",
     "test:first-flow": "node --loader ts-node/esm scripts/test-first-flow.ts",
     "test:mcp-integration": "node --loader ts-node/esm tests/integration.test.ts",
     "phase-d:zero-run": "node --loader ts-node/esm scripts/phase-d-zero-run.ts"
@@ -25,8 +28,10 @@
   },
   "dependencies": {
     "@types/express": "^5.0.6",
+    "@types/node-cron": "^3.0.9",
     "@types/uuid": "^10.0.0",
     "express": "^5.2.1",
+    "node-cron": "^3.0.3",
     "uuid": "^14.0.0",
     "yaml": "^2.9.0"
   }

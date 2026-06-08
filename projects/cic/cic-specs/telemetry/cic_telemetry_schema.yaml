@@ -1,0 +1,118 @@
+---
+version: 1
+name: cic_telemetry
+description: Telemetry events emitted by CIC routing and agents
+
+event_types:
+  - name: llm_call
+    description: Single LLM invocation routed by CIC.
+    fields:
+      - name: timestamp
+        type: string
+        format: date-time
+        description: ISO 8601 timestamp of the call
+      - name: agent
+        type: string
+        description: Name of the agent making the call
+      - name: model
+        type: string
+        description: Model identifier (e.g., claude-3.7-sonnet)
+      - name: provider
+        type: string
+        description: LLM provider (e.g., anthropic)
+      - name: input_tokens
+        type: integer
+        description: Number of input tokens
+      - name: output_tokens
+        type: integer
+        description: Number of output tokens
+      - name: cache_read_tokens
+        type: integer
+        description: Number of tokens read from cache
+      - name: cache_write_tokens
+        type: integer
+        description: Number of tokens written to cache
+      - name: latency_ms
+        type: integer
+        description: Total latency in milliseconds
+      - name: retry_count
+        type: integer
+        description: Number of retries before success
+      - name: task_type
+        type: string
+        description: Type of task (e.g., harvester, redesign, outreach)
+      - name: pipeline_stage
+        type: string
+        description: Stage in the pipeline (e.g., INGEST, REDESIGN, OUTREACH)
+      - name: project
+        type: string
+        description: Project identifier
+      - name: session_id
+        type: string
+        description: Session identifier for correlation
+      - name: correlation_id
+        type: string
+        description: Correlation ID for distributed tracing
+
+  - name: routing_decision
+    description: Decision made by TokenEconomyAgent for a call.
+    fields:
+      - name: timestamp
+        type: string
+        format: date-time
+        description: ISO 8601 timestamp of the decision
+      - name: agent
+        type: string
+        description: Agent requesting routing decision
+      - name: requested_model
+        type: string
+        description: Model originally requested by agent
+      - name: selected_model
+        type: string
+        description: Model selected by TokenEconomyAgent
+      - name: reason
+        type: string
+        description: Reason for routing decision (e.g., cost_optimization, quality_required)
+      - name: budget_class
+        type: string
+        description: Budget class applied (e.g., standard, premium, economy)
+      - name: max_tokens
+        type: integer
+        description: Max tokens allowed for this call
+      - name: correlation_id
+        type: string
+        description: Correlation ID for this routing decision
+
+  - name: cost_event
+    description: Cost aggregation event for billing and optimization.
+    fields:
+      - name: timestamp
+        type: string
+        format: date-time
+      - name: model
+        type: string
+      - name: provider
+        type: string
+      - name: input_tokens
+        type: integer
+      - name: output_tokens
+        type: integer
+      - name: cache_read_tokens
+        type: integer
+      - name: cache_write_tokens
+        type: integer
+      - name: total_cost_usd
+        type: number
+      - name: pipeline_stage
+        type: string
+      - name: project
+        type: string
+      - name: agent
+        type: string
+      - name: session_id
+        type: string
+
+storage:
+  format: jsonl
+  retention_days: 90
+  location: ~/.cic/logs/telemetry

@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["pipeline_name", "pipeline_id", "status", "start_time", "end_time", "duration_ms", "items_processed", "items_successful", "items_failed", "metrics"],
+  "properties": {
+    "pipeline_name": {
+      "type": "string"
+    },
+    "pipeline_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "failed"]
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "items_processed": {
+      "type": "number",
+      "minimum": 0
+    },
+    "items_successful": {
+      "type": "number",
+      "minimum": 0
+    },
+    "items_failed": {
+      "type": "number",
+      "minimum": 0
+    },
+    "error_summary": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["throughput_items_per_second", "error_rate_percent", "resource_usage_mb"],
+      "properties": {
+        "throughput_items_per_second": {
+          "type": "number"
+        },
+        "error_rate_percent": {
+          "type": "number"
+        },
+        "resource_usage_mb": {
+          "type": "number"
+        }
+      }
+    },
+    "failed_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item_id", "error", "severity"],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          }
+        }
+      }
+    }
+  }
+}

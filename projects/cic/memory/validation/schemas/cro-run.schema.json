@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["run_id", "plan_id", "status", "start_time", "end_time", "duration_ms", "step_count", "step_results"],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "running", "completed", "failed", "rolled_back"]
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "step_count": {
+      "type": "number",
+      "minimum": 0
+    },
+    "step_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step_id", "task_id", "agent_name", "status", "start_time", "end_time", "duration_ms", "output_size_bytes"],
+        "properties": {
+          "step_id": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          },
+          "agent_name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success", "failed"]
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration_ms": {
+            "type": "number"
+          },
+          "output_size_bytes": {
+            "type": "number"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "failure_info": {
+      "type": "object"
+    },
+    "recovery_action": {
+      "type": "string"
+    }
+  }
+}

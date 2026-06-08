@@ -1,0 +1,106 @@
+{
+  "version": "1.0.0",
+  "description": "TokenEconomyAgent routing rules — updated by CodeBurn feedback loop",
+  "updated_at": "2026-06-07T19:30:00Z",
+  "defaults": {
+    "provider": "anthropic",
+    "model": "claude-3.7-sonnet",
+    "max_tokens": 4096
+  },
+  "rules": [
+    {
+      "id": "harvester-ingest-standard",
+      "description": "Harvester runs at INGEST stage — balanced cost/quality",
+      "match": {
+        "pipeline_stage": "INGEST",
+        "agent": ".*harvester.*"
+      },
+      "action": {
+        "model": "claude-3.7-sonnet",
+        "max_tokens": 8192,
+        "budget_class": "standard",
+        "priority": "normal"
+      },
+      "created_at": "2026-06-07",
+      "updated_at": "2026-06-07",
+      "source": "codeburn-integration"
+    },
+    {
+      "id": "redesign-quality-critical",
+      "description": "Redesign stage requires high quality — use Opus",
+      "match": {
+        "pipeline_stage": "REDESIGN",
+        "agent": ".*redesign.*"
+      },
+      "action": {
+        "model": "claude-3.7-opus",
+        "max_tokens": 16384,
+        "budget_class": "premium",
+        "priority": "high"
+      },
+      "created_at": "2026-06-07",
+      "updated_at": "2026-06-07",
+      "source": "codeburn-integration"
+    },
+    {
+      "id": "outreach-economy",
+      "description": "Outreach uses Haiku — cost optimized for high volume",
+      "match": {
+        "pipeline_stage": "OUTREACH",
+        "agent": ".*outreach.*"
+      },
+      "action": {
+        "model": "claude-3.7-haiku",
+        "max_tokens": 2048,
+        "budget_class": "economy",
+        "priority": "low"
+      },
+      "created_at": "2026-06-07",
+      "updated_at": "2026-06-07",
+      "source": "codeburn-integration"
+    },
+    {
+      "id": "analysis-balanced",
+      "description": "Analysis stage — balanced cost/quality",
+      "match": {
+        "pipeline_stage": "ANALYSIS"
+      },
+      "action": {
+        "model": "claude-3.7-sonnet",
+        "max_tokens": 12288,
+        "budget_class": "standard",
+        "priority": "normal"
+      },
+      "created_at": "2026-06-07",
+      "updated_at": "2026-06-07",
+      "source": "codeburn-integration"
+    },
+    {
+      "id": "fallback-default",
+      "description": "Fallback rule — all other requests",
+      "match": {},
+      "action": {
+        "model": "claude-3.7-sonnet",
+        "max_tokens": 4096,
+        "budget_class": "standard",
+        "priority": "normal"
+      },
+      "created_at": "2026-06-07",
+      "updated_at": "2026-06-07",
+      "source": "codeburn-integration"
+    }
+  ],
+  "constraints": {
+    "max_daily_tokens": 10000000,
+    "max_daily_cost_usd": 500,
+    "max_request_tokens": 32000,
+    "min_success_rate_threshold": 0.95,
+    "max_retry_rate_threshold": 0.25
+  },
+  "feedback_loop": {
+    "codeburn_export_path": "~/.codeburn/exports/cic_telemetry.json",
+    "update_interval_minutes": 60,
+    "confidence_threshold": 0.85,
+    "enabled": true
+  }
+}

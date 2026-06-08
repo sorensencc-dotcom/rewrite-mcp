@@ -1,0 +1,179 @@
+{
+  "abb_id": "ABB-CODEBURN-INTEGRATION",
+  "title": "CodeBurn ↔ TokenEconomyAgent Integration",
+  "version": "1.0.0",
+  "inputs": {
+    "idea_id": "codeburn-token-economy-integration",
+    "idea_title": "Integrate CodeBurn with TokenEconomyAgent for CIC + Rewrite Labs",
+    "idea_summary": "Tie real-time token governance to historical observability via CodeBurn, with telemetry schema and feedback loop. Enables per-model, per-agent, per-pipeline cost/yield analysis with automatic routing rule updates.",
+    "context": {
+      "systems": ["CIC", "RewriteLabs", "TokenEconomyAgent", "CodeBurn"],
+      "constraints": ["local-first", "no external secrets", "operator-grade observability"],
+      "priority": "P1",
+      "target_milestone": "Phase-4-M4"
+    }
+  },
+
+  "roadmap_spec": {
+    "id": "codeburn-token-economy-integration",
+    "title": "CodeBurn ↔ TokenEconomyAgent Integration",
+    "owner": "CIC-Governance",
+    "phase": "Phase-4",
+    "milestone": "M4",
+    "status": "planned",
+    "goals": [
+      "Unify real-time token governance with historical observability.",
+      "Enable per-model, per-agent, per-pipeline cost/yield analysis.",
+      "Close the optimization loop via CodeBurn insights."
+    ],
+    "deliverables": [
+      "Telemetry schema for CIC + Rewrite Labs.",
+      "CodeBurn provider plugin for CIC telemetry.",
+      "Routing rule updater consuming CodeBurn exports.",
+      "CLI entrypoint for batch integration runs."
+    ],
+    "dependencies": [
+      "TokenEconomyAgent v2",
+      "CIC Telemetry Bus",
+      "CodeBurn >= 0.3.x"
+    ],
+    "risk_level": "medium",
+    "success_metrics": [
+      ">= 40% reduction in average token cost per successful redesign.",
+      "Retry rate reduced by >= 25% on Harvester + Redesign agents.",
+      "All CIC pipelines visible in CodeBurn dashboards."
+    ]
+  },
+
+  "roadmap_tracking_insert": {
+    "tracking_id": "RT-2026-06-CODEBURN-INTEGRATION",
+    "spec_ref": "codeburn-token-economy-integration",
+    "status": "planned",
+    "created_at": "2026-06-07T19:30:00",
+    "tags": [
+      "observability",
+      "cost-optimization",
+      "multi-agent",
+      "rewrite-labs"
+    ],
+    "owner": "Chris",
+    "next_review": "2026-06-14",
+    "linked_blocks": [
+      "implementation_block.steps",
+      "implementation_block.cli_entrypoints"
+    ]
+  },
+
+  "implementation_block": {
+    "batch_id": "ABB-CODEBURN-INTEGRATION",
+    "description": "End-to-end integration of CodeBurn with TokenEconomyAgent and CIC telemetry.",
+    "preconditions": [
+      "CodeBurn installed.",
+      "CIC telemetry directory writable.",
+      "TokenEconomyAgent routing layer accessible."
+    ],
+    "steps": [
+      {
+        "id": "step-01-telemetry-schema",
+        "type": "spec",
+        "description": "Create CIC + Rewrite Labs telemetry schema.",
+        "artifacts": [
+          "cic-specs/telemetry/cic_telemetry_schema.yaml",
+          "cic-specs/telemetry/rewrite_labs_schema.yaml"
+        ]
+      },
+      {
+        "id": "step-02-emitter-implementation",
+        "type": "code",
+        "description": "Implement telemetry emitters in TokenEconomyAgent routing layer.",
+        "artifacts": [
+          "src/cic/telemetry/emitter.ts",
+          "src/rewrite-labs/telemetry/emitter.ts"
+        ]
+      },
+      {
+        "id": "step-03-codeburn-provider",
+        "type": "code",
+        "description": "Add CodeBurn provider plugin for CIC telemetry.",
+        "artifacts": [
+          "codeburn/providers/cic-provider.ts",
+          "codeburn/config/cic-provider.json"
+        ]
+      },
+      {
+        "id": "step-04-feedback-loop",
+        "type": "code",
+        "description": "Implement routing rule updater consuming CodeBurn exports.",
+        "artifacts": [
+          "src/token-economy/feedback_loop.ts",
+          "config/token-economy/routing_rules.yaml"
+        ]
+      },
+      {
+        "id": "step-05-cli-wireup",
+        "type": "ops",
+        "description": "Wire ABB into CLI for batch execution.",
+        "artifacts": [
+          "src/cli/abb/codeburn_integration.ts",
+          "config/abb_registry.json"
+        ]
+      }
+    ],
+    "cli_entrypoints": [
+      {
+        "name": "cic-cli run-abb plan --id ABB-CODEBURN-INTEGRATION",
+        "description": "Generate roadmap spec + tracking insert only."
+      },
+      {
+        "name": "cic-cli run-abb execute --id ABB-CODEBURN-INTEGRATION",
+        "description": "Execute full implementation batch."
+      }
+    ]
+  },
+
+  "skill_definition": {
+    "skill_id": "GenerateRoadmapAndABB",
+    "description": "Given an idea, produce roadmap_spec, roadmap_tracking_insert, and implementation_block.",
+    "input_schema_ref": "schemas/abb_idea_input.json",
+    "output_schema_ref": "schemas/abb_full_output.json",
+    "backing_agent": "AutomatedBatchBlockAgent",
+    "default_batch_id": "ABB-GENERIC-ROADMAP"
+  },
+
+  "cli_registration": {
+    "registry_file": "config/abb_registry.json",
+    "entry": {
+      "abb_id": "ABB-CODEBURN-INTEGRATION",
+      "handler": "src/cli/abb/codeburn_integration.ts",
+      "commands": [
+        "cic-cli run-abb plan --id ABB-CODEBURN-INTEGRATION",
+        "cic-cli run-abb execute --id ABB-CODEBURN-INTEGRATION"
+      ]
+    }
+  },
+
+  "directory_layout": {
+    "spec": [
+      "cic-specs/telemetry/cic_telemetry_schema.yaml",
+      "cic-specs/telemetry/rewrite_labs_schema.yaml"
+    ],
+    "src": [
+      "src/cic/telemetry/emitter.ts",
+      "src/rewrite-labs/telemetry/emitter.ts",
+      "src/token-economy/feedback_loop.ts",
+      "src/cli/abb/codeburn_integration.ts"
+    ],
+    "codeburn": [
+      "codeburn/providers/cic-provider.ts",
+      "codeburn/config/cic-provider.json"
+    ],
+    "config": [
+      "config/abb_registry.json",
+      "config/token-economy/routing_rules.yaml"
+    ],
+    "schemas": [
+      "schemas/abb_idea_input.json",
+      "schemas/abb_full_output.json"
+    ]
+  }
+}
