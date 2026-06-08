@@ -651,10 +651,11 @@ Memory is the **load-bearing pillar** for Phases 24–27.
 - None (this is the foundation)
 
 ### Unblocks
-- Phase 24 (Skill Graph) — memory provides historical capability data
-- Phase 25 (Autonomous Planner) — memory provides task success history
-- Phase 26 (Runtime Orchestrator) — memory provides execution telemetry
-- Phase 27 (Knowledge Graph) — memory events are primary input to KG
+- Phase 24 (Autonomous Governance) — memory provides governance event substrate
+- Phase 25 (Skill Graph) — memory provides historical capability data
+- Phase 26 (Autonomous Planner) — memory provides task success history
+- Phase 27 (Runtime Orchestrator) — memory provides execution telemetry
+- Phase 28 (Knowledge Graph) — memory events are primary input to KG
 
 ### Outcome
 CIC gains a permanent, queryable memory. First time it can reason over its own history, detect long-term patterns, and propose self-directed evolution.
@@ -663,9 +664,215 @@ CIC gains a permanent, queryable memory. First time it can reason over its own h
 ---
 
 <!-- ARPS:PHASE_24:BEGIN -->
-## Phase 24 — CIC Skill Graph & Cross‑System Doctrine (SGD)
+## Phase 24 — CIC Autonomous Governance (AG)
 
-**Status:** QUEUED (depends on Phase 23)
+**Status:** QUEUED (depends on Phase 23; enables full autonomy for Phases 25+)
+
+**Execution: 2026-06-15 through 2026-06-29 (15 days)**
+
+### Goal
+
+Transform CIC from **supervised executor** to **governed autonomous agent** by building the governance model, decision gates, council adjudication, and evidence vault that enable:
+
+- Full autonomous RPI loops (Research → Plan → Implement → Validate → Record → Evolve)
+- Operator-grade policy enforcement with explicit pass/fail verdicts
+- Multi-model council consensus on high-impact decisions
+- Complete audit trail for every action and decision
+- Decay/pruning logic to prevent corpus rot
+
+### Why This Phase
+
+**CIC can only be fully autonomous if it's fully governed.**
+
+Without Phase 24:
+- Autonomous decisions lack legibility (no audit trail)
+- Gates are advisory, not enforceable (no verdicts)
+- Councils can't block unsafe actions (no veto power)
+- Evolution compounds errors without pruning (corpus bloat)
+- No way to explain why CIC chose action Y (black box)
+
+With Phase 24:
+- Every action produces a packet with evidence
+- Every packet is queryable and auditable
+- Gates enforce policy (hard safety rails take precedence)
+- Councils vote unanimously-block/majority-permit
+- Evolution is traceable and reversible
+- CIC can explain every decision end-to-end
+
+### Architecture Overview
+
+#### Governance Model
+- **Policy Rails**: Hard safety > domain > phase > soft; most restrictive rule wins
+- **Council Voting**: Unanimous block veto, majority permit, else require revision
+- **Decay Logic**: Hybrid (autonomous heuristic + operator override)
+- **Override Semantics**: Humans change policy, not every step
+
+#### Evidence Vault (Tier 2 MemoryStore)
+- **Packet Types**: RPI (research, plan, implement, validate, record), gates, councils, evolution, drift, rollback
+- **Collections**: packets, rails, snapshots, decay_queue
+- **Indexes**: by packet_type, run_id, phase, policy_context
+- **Query Patterns**: trace decision, explain action, by phase, by rail
+
+#### Phase APIs
+- **Discovery/Harvester**: Query context, produce research_packet
+- **Orchestrate**: Generate plan_packet, run premortem/vibe gates
+- **Execution**: Apply plan, produce implement_packet
+- **Synthesize/Audit**: Run scenario/policy gates, invoke councils, finalize validate_packet
+- **Evolution**: Write record_packet, evolution_step_packet, detect drift, rollback if needed
+
+### Deliverables
+
+#### 24.1 — Governance Model Specification (AG‑Model)
+- Council voting rules (unanimous block, majority permit, require revision)
+- Rail precedence (hard safety > domain > phase > soft)
+- Decay/pruning heuristics (age, usage, contradiction, drift, quality)
+- Override semantics (system-level, packet-level)
+- Success Criteria: 3 load-bearing decisions formally documented
+
+#### 24.2 — Evidence Vault Schema (AG‑Schema)
+- Packet envelope: packet_id, packet_type, run_id, agent_id, phase, timestamp, parent_packet_ids, policy_context, content
+- RPI packets: research, plan, implement, validate, record
+- Gate packets: premortem, vibe, scenario, policy
+- Council packets: council_id, votes[], verdict, conditions
+- Evolution packets: evolution_step, drift, rollback
+- Success Criteria: JSON schema validates 100% of expected packets
+
+#### 24.3 — MemoryStore Tier 2 Integration (AG‑Tier2)
+- Collections: packets, rails, snapshots, decay_queue
+- Indexes: packet_type, run_id, phase, policy_context.*, content.final_verdict, content.drift_type
+- Decay process: scan candidates, write decay_queue, apply decay with evolution_step_packet
+- Rollback: snapshot restore with invalidation
+- Success Criteria: All queries <100ms; decay runs without data loss
+
+#### 24.4 — CIC Internal API Contracts (AG‑APIs)
+- **RunContext** envelope: run_id, goal, domain, policy_context
+- **Phase contracts**: Input/output shapes for Discovery → Harvester → Orchestrate → Execution → Synthesize/Audit → Evolution
+- **Gate invocation**: gate_id, run_id, phase, inputs, outputs (gate_packet)
+- **Council invocation**: council_id, run_id, inputs (RPI + gate packets), outputs (council_packet)
+- **Safety envelope**: drift detection, rollback logic, canary modes, ground truth anchoring
+- Success Criteria: All phases can write packets; gate/council APIs are callable
+
+#### 24.5 — Full RPI→CIC Execution Trace (AG‑Trace)
+- Concrete end-to-end example: Rewrite Labs latency optimization goal
+- Trace packets: P1 (research) → P2 (plan) → G1/G2 (gates) → P3 (implement) → P4 (validate) → G3/G4 (gates) → C1 (council) → P5 (record) → R1 (rollback)
+- Demonstrates: decision explanation, failure recovery, audit trail, council veto
+- Success Criteria: Trace is human-readable and implementable
+
+#### 24.6 — Governance API Specification (AG‑API)
+- Council invocation API
+- Gate invocation API
+- Policy rail API
+- Override API (system-level, packet-level)
+- Success Criteria: All 4 APIs documented; mock implementations pass contract tests
+
+#### 24.7 — Safety Envelope Specification (AG‑Safety)
+- **Drift detection**: behavioral, policy, data, corpus drift types; detection methods
+- **Drift response**: alerts, drift_packets, corrective actions
+- **Rollback logic**: snapshot restore, packet invalidation, re-run logic
+- **Canarying**: shadow mode, limited-scope mode, gradual rollout
+- **Ground truth anchoring**: periodic evaluation runs, discrepancy analysis, correction loops
+- Success Criteria: 3+ drift types detectable; rollback is reversible
+
+### Execution Order (Parallelizable)
+
+1. **24.1 — Governance Model** (2 days)
+   - Council voting, rail precedence, decay logic, override semantics
+   - Output: 3-page spec document
+
+2. **24.2 — Evidence Vault Schema** (2 days)
+   - Packet envelope, RPI/gate/council/evolution/drift/rollback schemas
+   - Output: JSON schema files + TypeScript types
+
+3. **24.3 — MemoryStore Tier 2** (3 days)
+   - Collections, indexes, decay process, rollback
+   - Can run **in parallel with 24.2** once schema is drafted
+   - Output: MemoryStore integration code + tests
+
+4. **24.4 — Phase API Contracts** (2 days)
+   - RunContext, phase contracts, gate/council invocation
+   - Output: Interface definitions + mock implementations
+
+5. **24.5 — Full RPI Trace** (1 day)
+   - End-to-end example walk-through
+   - Can run **in parallel with 24.4**
+   - Output: Annotated JSON trace
+
+6. **24.6 — Governance API** (2 days)
+   - Council, gate, rail, override APIs
+   - Can run **in parallel with 24.4–24.5**
+   - Output: API endpoint specs + request/response shapes
+
+7. **24.7 — Safety Envelope** (2 days)
+   - Drift detection, rollback, canarying, ground truth
+   - Can run **in parallel with 24.6**
+   - Output: Safety logic spec + algorithms
+
+**Total: 15 days end-to-end** (sequential path: 24.1 → 24.2 → 24.3; parallelize 24.4–24.7)
+
+### Success Criteria
+
+✅ All 3 load-bearing governance decisions (council voting, rail precedence, decay logic) formally documented and justified  
+✅ Evidence Vault schema captures 100% of RPI/gate/council/evolution/drift/rollback packets  
+✅ MemoryStore Tier 2 indexes support all core query patterns (<100ms)  
+✅ Phase API contracts are callable; all phases can write packets  
+✅ Full RPI trace is implementable (all referenced packets exist in schema)  
+✅ Governance APIs are specified with clear request/response contracts  
+✅ Safety envelope includes 4+ drift types with detection methods  
+✅ Rollback logic is reversible and tested with snapshots  
+
+### Testing Strategy
+
+- **Unit tests**: Packet schema validation, indexing, decay logic, conflict resolution
+- **Integration tests**: Phase contracts (each phase can call gates/councils), packet inheritance (parent_packet_ids work)
+- **API tests**: Gate/council invocation, policy rail enforcement, decay queue operations
+- **E2E test**: Full RPI trace (research → plan → implement → validate → record) with all packet types
+- **Safety tests**: Drift detection on synthetic drift signals, rollback snapshot restore, canary mode isolation
+
+### Dependencies
+
+- Phase 23 (Memory) — Tier 2 extends Phase 23.5 MemoryStore; governance events feed Phase 23.4 synthesizer
+- None else (governance model is self-contained)
+
+### Unblocks
+
+- Phase 25 (Skill Graph) — Can now use policy rails for capability constraints
+- Phase 26 (Autonomous Planner) — Can now query governance context for planning decisions
+- Phase 27 (Runtime Orchestrator) — Can now invoke gates/councils for execution safety
+- Phase 28 (Knowledge Graph) — Can now ingest governance packets as knowledge entities
+- **All downstream phases**: Phases 25+ now operate within governed autonomy framework
+
+### Risk Mitigation
+
+- **Risk:** Governance model is too strict (gates block everything)
+  - *Mitigation:* Operator overrides always available; rail precedence allows flexibility
+- **Risk:** Councils create deadlock (voting loops)
+  - *Mitigation:* Unanimous block + majority permit prevents ties; require revision escalates to operator
+- **Risk:** Corpus bloat from packets (infinite growth)
+  - *Mitigation:* Hybrid decay with operator override; regular archival
+- **Risk:** Rollback is slow/lossy
+  - *Mitigation:* Snapshots are immutable; rollback is O(1); validation before restore
+
+### Open Questions
+
+- Should councils be per-domain, or global? *→ Decision: Start with global; per-domain as Phase 25+ refinement*
+- What's the default decay age threshold? *→ Decision: 30 days, tunable per domain*
+- How many council members for a vote? *→ Decision: 3–5; configurable in rail spec*
+
+### Outcome
+
+CIC becomes a **fully governed autonomous agent**. Every action is explicable, every decision is auditable, every execution is reversible. This is the foundation for Phases 25–28 and beyond.
+
+**North Star Achieved:**
+> "CIC becomes trustworthy by making its reasoning legible and its evolution auditable."
+
+<!-- ARPS:PHASE_24:END -->
+
+---
+
+<!-- ARPS:PHASE_25:BEGIN -->
+## Phase 25 — CIC Skill Graph & Cross‑System Doctrine (SGD)
+
+**Status:** QUEUED (depends on Phase 24)
 
 ### Goal
 Model CIC’s capabilities as an explicit, queryable Skill Graph and align them with Claude, Copilot, and Antigravity doctrine, enabling skill-aware routing and cross-system intelligence federation.
@@ -677,7 +884,7 @@ The Skill Graph becomes the **capability model** that answers:
 - What does it need to learn?
 - How do Claude, Copilot, and Antigravity capabilities overlap/differ?
 
-Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
+Without SGD, Phase 26 (APR) cannot route tasks to the right agents.
 
 ### Architecture Overview
 - **SGD-Spec**: Node types (skills, instincts, hooks, rules, extractors, agents), edge types (depends_on, enhances, conflicts_with, supersedes)
@@ -690,20 +897,20 @@ Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
 
 ### Deliverables
 
-#### 24.1 — Skill Graph Schema (SGD‑Spec)
+#### 25.1 — Skill Graph Schema (SGD‑Spec)
 - Node types: Skill, Instinct, Hook, Rule, Extractor, Agent, Model
 - Relationship types: depends_on, enhances, conflicts_with, supersedes, requires_context
 - Versioning: version, created_at, deprecated_at, replacement_node_id
 - Provenance: who added it, when, from what phase/context
 - Confidence scoring: 0-1 confidence that this node is still accurate
 
-#### 24.2 — Skill Graph Store (SGD‑Store)
+#### 25.2 — Skill Graph Store (SGD‑Store)
 - JSON file store: `skill_graph.json` (versioned)
 - Index by: skill_id, agent_name, capability_class
 - Immutable append-only audit log: `skill_graph_audit.log`
 - Cross-system mappings: Claude skill → CIC skill (name, similarity_score)
 
-#### 24.3 — Skill Harvester (SGD‑Harvester)
+#### 25.3 — Skill Harvester (SGD‑Harvester)
 - Parse ARPS phase descriptions → extract capability claims
 - Parse CRO task types → extract runtime capabilities
 - Parse APR planner logic → extract planning capabilities
@@ -711,14 +918,14 @@ Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
 - Parse codebase (extractors, skills, agents) → extract implementation capabilities
 - Generates: new skill nodes, updates existing nodes, marks obsolete nodes
 
-#### 24.4 — Skill Synthesizer (SGD‑Synthesizer)
+#### 25.4 — Skill Synthesizer (SGD‑Synthesizer)
 - Capability summary: group skills by class (data ingestion, reasoning, planning, execution, etc.)
 - Gap detector: identify claimed capabilities with no implementation
 - Redundancy detector: identify duplicate/overlapping skills
 - Skill maturity: score skills by test coverage, usage frequency, error rate
 - Generates: summaries, gap reports, refactoring proposals
 
-#### 24.5 — Skill Graph API (SGD‑API)
+#### 25.5 — Skill Graph API (SGD‑API)
 - `GET /skills/graph` — full skill graph (optionally filtered)
 - `GET /skills/capabilities` — list all capabilities grouped by class
 - `GET /skills/gaps` — list capability gaps
@@ -726,7 +933,7 @@ Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
 - `POST /skills/mapping/claude` — Claude skill alignment status
 - Response: JSON with nodes, edges, confidence scores, provenance
 
-#### 24.6 — Skill Explorer UI (SGD‑UI)
+#### 25.6 — Skill Explorer UI (SGD‑UI)
 - Graph visualization: D3/Cytoscape interactive graph
 - Capability heatmap: shows capability coverage by class
 - Search: find skills by name, tag, agent
@@ -734,7 +941,7 @@ Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
 - Gap view: highlight missing capabilities
 - Cross-system view: show Claude/Copilot/Antigravity alignment
 
-#### 24.7 — Cross‑System Doctrine Sync (SGD‑Sync)
+#### 25.7 — Cross‑System Doctrine Sync (SGD‑Sync)
 - Import Claude skill definitions (from Claude Code documentation)
 - Import Copilot/Gemini skill definitions
 - Map CIC skills → external skills (similarity scoring)
@@ -743,15 +950,16 @@ Without SGD, Phase 25 (APR) cannot route tasks to the right agents.
 
 ### Dependencies
 - Phase 23 (Memory) — to track skill usage and evolution
+- Phase 24 (Autonomous Governance) — skills operate within governed autonomy framework
 
 ### Execution Order
-1. Spec (24.1) — 1 day
-2. Store (24.2) — 1 day
-3. Harvester (24.3) — 2 days
-4. Synthesizer (24.4) — 2 days
-5. API (24.5) — 1 day
-6. UI (24.6) — 2 days
-7. Sync (24.7) — 2 days
+1. Spec (25.1) — 1 day
+2. Store (25.2) — 1 day
+3. Harvester (25.3) — 2 days
+4. Synthesizer (25.4) — 2 days
+5. API (25.5) — 1 day
+6. UI (25.6) — 2 days
+7. Sync (25.7) — 2 days
 
 **Total: 11 days end-to-end**
 
@@ -769,10 +977,10 @@ CIC gains self-awareness of its own capabilities. Phase 25 can route tasks intel
 
 ---
 
-<!-- ARPS:PHASE_25:BEGIN -->
-## Phase 25 — Autonomous Planner & Multi‑Agent Reasoning (APR)
+<!-- ARPS:PHASE_26:BEGIN -->
+## Phase 26 — Autonomous Planner & Multi‑Agent Reasoning (APR)
 
-**Status:** QUEUED (depends on Phase 23, 24)
+**Status:** QUEUED (depends on Phase 24, 25)
 
 ### Goal
 Enable CIC to plan its own work, allocate tasks to agents intelligently, detect missing capabilities, and run multi-agent reasoning loops using ARPS, Memory, and Skill Graph.
@@ -798,59 +1006,60 @@ This is where CIC stops being a **reactor** and becomes a **planner**.
 
 ### Deliverables
 
-#### 25.1 — Planning Model & Data Shapes (APR‑Spec)
+#### 26.1 — Planning Model & Data Shapes (APR‑Spec)
 - Task schema: id, name, description, dependencies, preconditions, expected_outputs, risk_level, estimated_effort
 - Plan schema: goal, tasks[], task_order[], parallelizable_groups, estimated_duration, risk_assessment
 - Agent routing: task_type → agent_class mapping
 
-#### 25.2 — Autonomous Planner Engine (APR‑Planner)
+#### 26.2 — Autonomous Planner Engine (APR‑Planner)
 - Goal parser: accept natural language goals or structured requests
 - Plan generator: decompose goal into DAG of tasks
 - Dependency analyzer: detect critical path, parallelizable work
 - Risk assessor: flag high-risk tasks, suggest mitigation
 - Produces: executable plan JSON with ordering
 
-#### 25.3 — Multi‑Agent Reasoning Loop (APR‑Loop)
+#### 26.3 — Multi‑Agent Reasoning Loop (APR‑Loop)
 - Agent launcher: spawn agents for parallelizable tasks
 - Consensus engine: gather outputs from multiple agents, vote/merge results
 - Drift detector: flag agent outputs that deviate from expected
 - Fallback logic: if consensus fails, escalate to operator
 
-#### 25.4 — Task Allocation & Agent Routing (APR‑Routing)
+#### 26.4 — Task Allocation & Agent Routing (APR‑Routing)
 - Skill Graph query: lookup agents capable of task_type
 - History lookup: query Memory for success rates of each agent on similar tasks
 - Cost scoring: prefer faster/cheaper agents when skill levels are equal
 - Produces: ordered list of candidate agents with confidence scores
 
-#### 25.5 — APR Control‑Plane API (APR‑API)
+#### 26.5 — APR Control‑Plane API (APR‑API)
 - `POST /planning/generate` — submit goal, get back plan
 - `GET /planning/plan/:plan_id` — retrieve plan details
 - `POST /planning/execute/:plan_id` — trigger plan execution
 - `GET /planning/status/:plan_id` — check execution status
 
-#### 25.6 — APR UI: Planner Console (APR‑UI)
+#### 26.6 — APR UI: Planner Console (APR‑UI)
 - Plan graph visualization: DAG of tasks with dependencies
 - Task timeline: estimated duration per task
 - Agent routing view: show which agents assigned to each task
 - Plan diff: compare alternate plans side-by-side
 
-#### 25.7 — APR Integration with ARPS, Memory, Skill Graph (APR‑Integration)
+#### 26.7 — APR Integration with ARPS, Memory, Skill Graph (APR‑Integration)
 - ARPS: APR generates prompt-evolution goals → ARPS synthesizes proposals
 - Memory: APR reads task history → biases toward historically successful agents
 - Skill Graph: APR queries capabilities → routes tasks to appropriate agents
 
 ### Dependencies
 - Phase 23 (Memory) — for historical task success rates
-- Phase 24 (Skill Graph) — for capability routing
+- Phase 24 (Autonomous Governance) — for governed planning decisions
+- Phase 25 (Skill Graph) — for capability routing
 
 ### Execution Order
-1. Spec (25.1) — 1 day
-2. Planner (25.2) — 2 days
-3. Loop (25.3) — 2 days
-4. Routing (25.4) — 1 day
-5. API (25.5) — 1 day
-6. UI (25.6) — 2 days
-7. Integration (25.7) — 2 days
+1. Spec (26.1) — 1 day
+2. Planner (26.2) — 2 days
+3. Loop (26.3) — 2 days
+4. Routing (26.4) — 1 day
+5. API (26.5) — 1 day
+6. UI (26.6) — 2 days
+7. Integration (26.7) — 2 days
 
 **Total: 11 days end-to-end**
 
@@ -867,10 +1076,10 @@ CIC generates its own work plans and intelligently allocates tasks to agents. Th
 
 ---
 
-<!-- ARPS:PHASE_26:BEGIN -->
-## Phase 26 — CIC Runtime Orchestrator (CRO)
+<!-- ARPS:PHASE_27:BEGIN -->
+## Phase 27 — CIC Runtime Orchestrator (CRO)
 
-**Status:** QUEUED (depends on Phase 25)
+**Status:** QUEUED (depends on Phase 26)
 
 ### Goal
 Execute APR-generated plans in a robust, observable multi-agent runtime with parallelism, failure recovery, and operator visibility.
@@ -898,31 +1107,31 @@ APR + CRO together = CIC becomes a real multi-agent system, not a conceptual one
 
 ### Deliverables
 
-#### 26.1 — Execution Model & Data Shapes (CRO‑Spec)
+#### 27.1 — Execution Model & Data Shapes (CRO‑Spec)
 - Run schema: id, plan_id, status (queued/running/completed/failed), start_time, end_time
 - Step schema: id, task_id, status, agent_assigned, output, error, retry_count, duration_ms
 - Checkpoint schema: step_id, state_snapshot, timestamp (for resumable execution)
 - Failure schema: step_id, error_type, error_message, recovery_action
 
-#### 26.2 — Runtime Executor (CRO‑Executor)
+#### 27.2 — Runtime Executor (CRO‑Executor)
 - Task queue management: ingest plan, enqueue steps respecting dependencies
 - Parallelism controller: launch independent tasks in parallel
 - Resource allocator: assign CPU/memory to agents based on task needs
 - State machine: manage transitions (queued → running → completed/failed)
 
-#### 26.3 — Agent Runner (CRO‑Runner)
+#### 27.3 — Agent Runner (CRO‑Runner)
 - Agent launcher: spawn agent processes
 - Health monitor: watch agent resource usage, responsiveness
 - Output collector: capture agent logs, artifacts, metrics
 - Signal handler: graceful shutdown, timeout enforcement
 
-#### 26.4 — Agent Supervisor (CRO‑Supervisor)
+#### 27.4 — Agent Supervisor (CRO‑Supervisor)
 - Failure detector: monitor agent outputs for errors
 - Retry logic: exponential backoff, max retry count
 - Rollback logic: undo failed task side-effects
 - Escalation: flag persistent failures for operator review
 
-#### 26.5 — CRO Control‑Plane API (CRO‑API)
+#### 27.5 — CRO Control‑Plane API (CRO‑API)
 - `POST /runs` — submit plan for execution
 - `GET /runs/:run_id` — get run status
 - `GET /runs/:run_id/steps` — list all steps in run
@@ -930,30 +1139,31 @@ APR + CRO together = CIC becomes a real multi-agent system, not a conceptual one
 - `POST /runs/:run_id/resume` — resume from checkpoint
 - `POST /runs/:run_id/cancel` — abort execution
 
-#### 26.6 — Execution Console UI (CRO‑UI)
+#### 27.6 — Execution Console UI (CRO‑UI)
 - Live run view: DAG of executing steps with status
 - Logs panel: tail logs from active agents
 - Metrics dashboard: throughput, latency, error rates
 - Drift overlays: show Memory-detected drift signals
 - Failure inspector: drill into failed steps, suggest remediation
 
-#### 26.7 — CRO Integration & Safety
+#### 27.7 — CRO Integration & Safety
 - APR integration: CRO consumes APR plans
 - Memory integration: CRO logs all runs to Memory
 - Skill Graph integration: CRO tracks which agents executed which task types
 - Safety gates: refuse to execute tasks that would violate constraints
 
 ### Dependencies
-- Phase 25 (APR) — CRO consumes APR plans
+- Phase 24 (Autonomous Governance) — for execution safety gates
+- Phase 26 (APR) — CRO consumes APR plans
 
 ### Execution Order
-1. Spec (26.1) — 1 day
-2. Executor (26.2) — 2 days
-3. Runner (26.3) — 2 days
-4. Supervisor (26.4) — 2 days
-5. API (26.5) — 1 day
-6. UI (26.6) — 2 days
-7. Integration & Safety (26.7) — 2 days
+1. Spec (27.1) — 1 day
+2. Executor (27.2) — 2 days
+3. Runner (27.3) — 2 days
+4. Supervisor (27.4) — 2 days
+5. API (27.5) — 1 day
+6. UI (27.6) — 2 days
+7. Integration & Safety (27.7) — 2 days
 
 **Total: 12 days end-to-end**
 
@@ -970,10 +1180,10 @@ CIC executes multi-agent plans reliably and observably. This unlocks Phase 27 (u
 
 ---
 
-<!-- ARPS:PHASE_27:BEGIN -->
-## Phase 27 — CIC Knowledge Graph (CKG)
+<!-- ARPS:PHASE_28:BEGIN -->
+## Phase 28 — CIC Knowledge Graph (CKG)
 
-**Status:** QUEUED (depends on Phase 23, 24, 25, 26)
+**Status:** QUEUED (depends on Phase 23, 24, 25, 26, 27)
 
 ### Goal
 Unify Memory events, Skill Graph, APR planning episodes, CRO execution episodes, and ARPS deltas into a single semantic Knowledge Graph that powers reasoning, drift detection, planning, and cross-system intelligence.
@@ -999,19 +1209,19 @@ This is the **semantic substrate** that powers autonomous operation.
 
 ### Deliverables
 
-#### 27.1 — CKG Schema (CKG‑Spec)
+#### 28.1 — CKG Schema (CKG‑Spec)
 - Node types: Task, Agent, Skill, Plan, Run, MemoryEvent, Document, Goal, Constraint
 - Relationship types: executes, uses_skill, depends_on, produces, references, violates, achieves
 - Versioning: version, created_at, deprecated_at
 - Provenance: source_system (memory/skill_graph/apr/cro/arps), source_id
 
-#### 27.2 — CKG Store (CKG‑Store)
+#### 28.2 — CKG Store (CKG‑Store)
 - Graph database backend: Neo4j or equivalent (or JSON + graph indices)
 - Versioned nodes: track historical state of all entities
 - Immutable audit trail: every mutation logged with timestamp, agent, reason
 - Efficient queries: index by entity type, relationship type, temporal range
 
-#### 27.3 — CKG Harvester (CKG‑Harvester)
+#### 28.3 — CKG Harvester (CKG‑Harvester)
 - Memory harvester: convert Memory events to CKG nodes
 - Skill Graph harvester: import skill nodes and relationships
 - APR harvester: create Plan nodes and task decomposition relationships
@@ -1019,14 +1229,14 @@ This is the **semantic substrate** that powers autonomous operation.
 - ARPS harvester: create delta nodes and prompt evolution relationships
 - Deduplication: merge equivalent entities from different sources
 
-#### 27.4 — CKG Synthesizer (CKG‑Synthesizer)
+#### 28.4 — CKG Synthesizer (CKG‑Synthesizer)
 - Knowledge distillation: identify core patterns, remove noise
 - Contradiction detection: flag conflicting assertions
 - Drift detection: identify divergence from expected patterns
 - Temporal analysis: construct causal chains and timelines
 - Similarity scoring: measure entity similarity for clustering
 
-#### 27.5 — CKG API (CKG‑API)
+#### 28.5 — CKG API (CKG‑API)
 - `GET /ckg/query` — SPARQL-like query language
 - `GET /ckg/entities/:entity_type` — list entities of type
 - `GET /ckg/entity/:id` — single entity details
@@ -1034,7 +1244,7 @@ This is the **semantic substrate** that powers autonomous operation.
 - `GET /ckg/path/:from_id/:to_id` — shortest path between entities
 - `GET /ckg/insights` — high-level summaries and patterns
 
-#### 27.6 — Knowledge Explorer UI (CKG‑UI)
+#### 28.6 — Knowledge Explorer UI (CKG‑UI)
 - Graph visualization: interactive D3/Cytoscape network
 - Entity timelines: show entity evolution over time
 - Relationship browser: explore relationships and weights
@@ -1042,7 +1252,7 @@ This is the **semantic substrate** that powers autonomous operation.
 - Insight cards: high-level knowledge summaries
 - Temporal slider: replay graph evolution over time
 
-#### 27.7 — CKG Integration with APR, CRO, Memory, Skill Graph (CKG‑Integration)
+#### 28.7 — CKG Integration with APR, CRO, Memory, Skill Graph (CKG‑Integration)
 - APR integration: query CKG for historical task success patterns to bias planning
 - CRO integration: log all executions to CKG; use CKG signals for failure recovery
 - Memory integration: CKG synthesis produces Memory summaries
@@ -1051,18 +1261,19 @@ This is the **semantic substrate** that powers autonomous operation.
 
 ### Dependencies
 - Phase 23 (Memory) — for event source material
-- Phase 24 (Skill Graph) — for capability source material
-- Phase 25 (APR) — for planning episodes
-- Phase 26 (CRO) — for execution episodes
+- Phase 24 (Autonomous Governance) — for governance packet source material
+- Phase 25 (Skill Graph) — for capability source material
+- Phase 26 (APR) — for planning episodes
+- Phase 27 (CRO) — for execution episodes
 
 ### Execution Order
-1. Spec (27.1) — 1 day
-2. Store (27.2) — 2 days
-3. Harvester (27.3) — 3 days (can run in parallel with 27.2)
-4. Synthesizer (27.4) — 2 days
-5. API (27.5) — 1 day
-6. UI (27.6) — 2 days
-7. Integration (27.7) — 2 days
+1. Spec (28.1) — 1 day
+2. Store (28.2) — 2 days
+3. Harvester (28.3) — 3 days (can run in parallel with 28.2)
+4. Synthesizer (28.4) — 2 days
+5. API (28.5) — 1 day
+6. UI (28.6) — 2 days
+7. Integration (28.7) — 2 days
 
 **Total: 13 days end-to-end**
 
@@ -1081,53 +1292,53 @@ Everything after Phase 27 is optimization, specialization, and expansion.
 
 ---
 
-<!-- ARPS:PHASE_28:BEGIN -->
-## Phase 28 — Knowledge Distillation Engine (KDE)
+<!-- ARPS:PHASE_29:BEGIN -->
+## Phase 29 — Knowledge Distillation Engine (KDE)
 
 ### Goal
 Compress, summarize, and restructure CIC’s Knowledge Graph (CKG) into higher‑order abstractions to prevent graph bloat, remove stale nodes, and produce distilled knowledge artifacts.
 
 ### Milestones
-- 28.1 — KDE Schema (KDE‑Spec)
-- 28.2 — KDE Store (KDE‑Store)
-- 28.3 — KDE Harvester (KDE‑Harvester)
-- 28.4 — KDE Synthesizer (KDE‑Synthesizer)
-- 28.5 — KDE API (KDE‑API)
-- 28.6 — Distillation Console UI (KDE‑UI)
-- 28.7 — KDE Integration with APR, CRO, CKG (KDE‑Integration)
-<!-- ARPS:PHASE_28:END -->
-
----
-
-<!-- ARPS:PHASE_29:BEGIN -->
-## Phase 29 — Rewrite Labs ↔ CIC Fusion Layer (RLF)
-
-### Goal
-Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesign pipeline, enabling automated redesign target discovery, outreach, and conversion tracking.
-
-### Milestones
-- 29.1 — Fusion Schema (RLF‑Spec)
-- 29.2 — Fusion Harvester (RLF‑Harvester)
-- 29.3 — Redesign Planner (RLF‑Planner)
-- 29.4 — Redesign Executor (RLF‑Executor)
-- 29.5 — Fusion API (RLF‑API)
-- 29.6 — Fusion Console UI (RLF‑UI)
-- 29.7 — Fusion Integration (RLF‑Integration)
+- 29.1 — KDE Schema (KDE‑Spec)
+- 29.2 — KDE Store (KDE‑Store)
+- 29.3 — KDE Harvester (KDE‑Harvester)
+- 29.4 — KDE Synthesizer (KDE‑Synthesizer)
+- 29.5 — KDE API (KDE‑API)
+- 29.6 — Distillation Console UI (KDE‑UI)
+- 29.7 — KDE Integration with APR, CRO, CKG (KDE‑Integration)
 <!-- ARPS:PHASE_29:END -->
 
 ---
 
 <!-- ARPS:PHASE_30:BEGIN -->
-## Phase 30 — Meta‑Evolution Engine (MEE)
-- 30.1 — MEE Schema
-- 30.2 — MEE Trigger Engine
-- 30.3 — MEE Phase Generator
-- 30.4 — MEE Patch Synthesizer
-- 30.5 — MEE Validator
-- 30.6 — MEE API
-- 30.7 — MEE UI
-- 30.8 — MEE Integration
+## Phase 30 — Rewrite Labs ↔ CIC Fusion Layer (RLF)
+
+### Goal
+Integrate CIC’s autonomous planning and execution with the Rewrite Labs redesign pipeline, enabling automated redesign target discovery, outreach, and conversion tracking.
+
+### Milestones
+- 30.1 — Fusion Schema (RLF‑Spec)
+- 30.2 — Fusion Harvester (RLF‑Harvester)
+- 30.3 — Redesign Planner (RLF‑Planner)
+- 30.4 — Redesign Executor (RLF‑Executor)
+- 30.5 — Fusion API (RLF‑API)
+- 30.6 — Fusion Console UI (RLF‑UI)
+- 30.7 — Fusion Integration (RLF‑Integration)
 <!-- ARPS:PHASE_30:END -->
+
+---
+
+<!-- ARPS:PHASE_31:BEGIN -->
+## Phase 31 — Meta‑Evolution Engine (MEE)
+- 31.1 — MEE Schema
+- 31.2 — MEE Trigger Engine
+- 31.3 — MEE Phase Generator
+- 31.4 — MEE Patch Synthesizer
+- 31.5 — MEE Validator
+- 31.6 — MEE API
+- 31.7 — MEE UI
+- 31.8 — MEE Integration
+<!-- ARPS:PHASE_31:END -->
 
 ---
 
@@ -1461,16 +1672,16 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 31 — Self-Refactoring Engine (SRE) (Complete)**
+# **PHASE 32 — Self-Refactoring Engine (SRE) (Complete)**
 **Goal:** Enable CIC to statically analyze and self-refactor its codebase.
 
-### **31.0 SRE Core**
+### **32.0 SRE Core**
 - ✔ AST parsing (TypeScript compiler API)
 - ✔ Heuristic complexity scoring
 - ✔ Dead code detection
 - ✔ Import boundary violation (architectural drift)
 
-### **31.1 SRE Routing & UI**
+### **32.1 SRE Routing & UI**
 - ✔ `/mee/refactor/scan` mode-aware endpoint
 - ✔ `/mee/refactor/propose` for saving proposals
 - ✔ `/mee/refactor/plan/:id` for retrieval
@@ -1480,10 +1691,10 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 32 — Multi-Agent Planning Engine (MAPE) (Complete)**
+# **PHASE 33 — Multi-Agent Planning Engine (MAPE) (Complete)**
 **Goal:** Decompose instructions into topologically ordered plans.
 
-### **32.0 MAPE Core**
+### **33.0 MAPE Core**
 - ✔ TaskExtractor rule-based parser
 - ✔ DependencyDetector topological sorter
 - ✔ PlanToProposal planned proposal mapper
@@ -1494,10 +1705,10 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 33 — Long-Horizon Execution & Checkpointing (In Progress)**
+# **PHASE 34 — Long-Horizon Execution & Checkpointing (In Progress)**
 **Goal:** Track, save, and resume long-running execution flows.
 
-### **33.0 Core Execution Engine**
+### **34.0 Core Execution Engine**
 - 🚧 MeeRun & MeeCheckpoint schema definitions
 - 🚧 FileMeeRunStore JSON file storage
 - 🚧 MeeRunEngine flow controller
@@ -1508,10 +1719,10 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 34 — GitHub Actions Node.js 24 Compliance System (Complete)**
+# **PHASE 35 — GitHub Actions Node.js 24 Compliance System (Complete)**
 **Goal:** Enforce Node.js 24 and latest GitHub Actions across the fleet.
 
-### **34.0 Compliance Framework (Complete)**
+### **35.0 Compliance Framework (Complete)**
 - ✔ Fleet manifest-based scanning (gh-actions-fleet.json)
 - ✔ Multi-layer enforcement: CLI, Dashboard, GitHub App, Pre-commit hooks
 - ✔ Compliance detection: node-version: 20, @v4 actions, missing FORCE_JAVASCRIPT_ACTIONS_TO_NODE24
@@ -1524,7 +1735,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 35 — GitHub App Production Deployment (Next)**
+# **PHASE 36 — GitHub App Production Deployment (Next)**
 **Goal:** Register and deploy the GitHub App to production.
 
 - Register GitHub App on GitHub.com
@@ -1539,7 +1750,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 36 — Slack Webhook & Alert Integration (Next)**
+# **PHASE 37 — Slack Webhook & Alert Integration (Next)**
 **Goal:** Route compliance reports to team Slack channels.
 
 - Configure SLACK_WEBHOOK_URL environment variable
@@ -1553,7 +1764,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 37 — CI/CD Compliance Workflow (Next)**
+# **PHASE 38 — CI/CD Compliance Workflow (Next)**
 **Goal:** Add compliance checks to GitHub Actions CI pipeline.
 
 - Pre-merge compliance gate: `npm run gh-actions:check-manifest`
@@ -1567,7 +1778,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 38 — Multi-Agent Negotiation & Consensus (Complete)**
+# **PHASE 39 — Multi-Agent Negotiation & Consensus (Complete)**
 **Goal:** Coordinate multiple specialized agents to negotiate and form consensus on proposed modifications and dependency order.
 
 - Bounded multi-agent proposal generation and critique scoring
@@ -1580,7 +1791,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 39 — Knowledge Graph & Semantic Memory (Complete)**
+# **PHASE 40 — Knowledge Graph & Semantic Memory (Complete)**
 **Goal:** Form a durable Knowledge Graph and semantic Memory Store tracking system state, dependencies, critiques, and failures.
 
 - Append-only schema-validated event memory store (`FileMeeMemoryStore`)
@@ -1593,7 +1804,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 40 — Autonomous Multi-Job Scheduling (Complete)**
+# **PHASE 41 — Autonomous Multi-Job Scheduling (Complete)**
 **Goal:** Run, queue, priority-schedule, and preempt concurrent autonomous build loop steps.
 
 - Multi-job tick execution loop with concurrency gates
@@ -1606,7 +1817,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 41 — Meta-Learning Engine (MLE) (Pending)**
+# **PHASE 42 — Meta-Learning Engine (MLE) (Pending)**
 **Goal:** Enable CIC to learn from past runs, critiques, consensus patterns, failures, and KG evolution to improve planning and execution.
 
 - **Meta-Learning Loop**: Analyze historical critiques, consensus, failures, and KG patterns to extract heuristics saved as `MeeMetaRule`.
@@ -1621,7 +1832,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-# **PHASE 42 — Autonomous Research Mode (ARM) (Complete)**
+# **PHASE 43 — Autonomous Research Mode (ARM) (Complete)**
 **Goal:** Enable CIC to autonomously research code improvements, explore new patterns, and propose new evolutionary phases.
 
 - **Research Agent**: A specialized `"research"` agent that parses the code, KG, and memory logs to generate improvement findings.
@@ -1635,7 +1846,7 @@ Rewrite Labs can ingest any repository deterministically and cost-predictably. C
 
 ---
 
-## **PHASE 43 — HELM: Daily Operator OS (Complete)**
+## **PHASE 44 — HELM: Daily Operator OS (Complete)**
 
 **Goal:** Unified command center dashboard integrating all operator intelligence streams (calendar, finances, business pipeline, research).
 
