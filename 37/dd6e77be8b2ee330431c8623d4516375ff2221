@@ -1,0 +1,76 @@
+PHASE_23_4_INTEGRATION_SUMMARY.md
+  s_4bcef5248e030f::t_3a7085e0e18183 1-195
+projects/cic/src/cic/control-plane/apr-memory-integration.ts
+  s_4bcef5248e030f::t_56ada271355e07 89-90
+  s_4bcef5248e030f::t_981b39499a338b 118-120
+  s_4bcef5248e030f::t_6ce77eb6ea7292 24-25
+  s_4bcef5248e030f::t_008dd8ece70cc1 7
+  s_4bcef5248e030f::t_f040bc79ec5a64 1-6,8-23,26-88,91-117,121-141
+projects/cic/src/cic/control-plane/apr-routes.ts
+  s_4bcef5248e030f::t_b86ffcdd194df7 16-18
+  s_4bcef5248e030f::t_5c300b96a9a789 14,19,28-29,33-40
+  s_4bcef5248e030f::t_c8369da717b777 7,9
+  s_4bcef5248e030f::t_a1d482da21aced 24,30-32
+  s_4bcef5248e030f::t_0b84638b4deda6 8
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_f180bb4926eb72::t_08fb3d625174c3 1298-1342
+src/memory/memory-apr-integration.ts
+  s_447479cb166a8d::t_44c24dc95fbe42 1-222
+projects/cic/src/cic/control-plane/v1-router.ts
+  s_4bcef5248e030f::t_15f906dd1d8cb9 23
+  s_4bcef5248e030f::t_31eb294ddaeb7e 531
+  s_4bcef5248e030f::t_17bee2d674e8e7 22
+  s_4bcef5248e030f::t_7ee864e1d6c74b 532
+src/memory/memory-dashboard-integration.ts
+  s_447479cb166a8d::t_f2e6703cd69982 1-205
+projects/cic/src/runtime/scheduler.ts
+  s_4bcef5248e030f::t_df57bd1f53667f 6,10,83
+  s_4bcef5248e030f::t_2e46874ac60a5f 65,67-71,77-82,86-87
+projects/cic/src/cic/control-plane/dashboard-routes.ts
+  s_4bcef5248e030f::t_d28b9fd1270e35 1-7,12-14,18-96
+  s_4bcef5248e030f::t_ed77fba7fb1048 8-11,15-17
+HANDOFF.md
+  s_4bcef5248e030f::t_7e7a8072140627 7-58
+  s_447479cb166a8d::t_82ed869cbd7966 3,59-62
+src/memory/memory-arps-integration.ts
+  s_447479cb166a8d::t_e9dc503feb901a 1-170
+projects/cic/src/cic/control-plane/memory-query-routes.ts
+  s_4bcef5248e030f::t_95af88898e0edf 89
+  s_4bcef5248e030f::t_345b0a10d43bf9 122,124-126,132
+  s_4bcef5248e030f::t_54e5a1b290e43c 97,104
+  s_4bcef5248e030f::t_548743d09ea600 1-7,11-13,17-19,22,24-26,28-29,34-88,90-96,98-103,105-121,123,127-131,133-143
+  s_4bcef5248e030f::t_fdc6051598795a 20-21,23,27,30-33
+  s_4bcef5248e030f::t_d1fc5eec4dd729 8-10,14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "37dd6e77be8b2ee330431c8623d4516375ff2221",
+  "prompts": {},
+  "sessions": {
+    "s_447479cb166a8d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80a4074f-aa58-4ca1-a930-4beeb6f0691c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4bcef5248e030f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e238d41-ac0e-40b0-aa0a-c65378ba749b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f180bb4926eb72": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "97db7b51-5717-4c34-b846-0d838354490e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
