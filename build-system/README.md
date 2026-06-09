@@ -6,6 +6,8 @@ Deterministic, multi-agent build orchestration for CIC ingestion, Rewrite Labs p
 
 ### 1. Build All Agents
 
+**Manual builds:**
+
 ```bash
 # Build CIC agents (parallel)
 docker build -f docker/cic/Dockerfile.ingestion -t cic/ingestion:0.7.0 .
@@ -17,15 +19,21 @@ docker build -f docker/labs/Dockerfile.extractor -t labs/extractor:0.7.0 .
 docker build -f docker/labs/Dockerfile.redesign.gpu -t labs/redesign-gpu:0.7.0 .
 docker build -f docker/labs/Dockerfile.outreach -t labs/outreach:0.7.0 .
 
-# Build Nemotron inference agent
-docker build -f docker/inference/Dockerfile.nemotron-nano-30b -t nemotron/nano-30b:0.7.0 .
+# Build Nemotron inference agent (requires NVIDIA CUDA)
+docker build -f docker/inference/Dockerfile.nemotron-nano-30b -t inference/nemotron:0.7.0 .
 ```
 
-Or use the automation script:
+**Automated:**
 
 ```bash
 bash examples/build-all-agents.sh
 ```
+
+All 7 agents will be built with:
+- Deterministic multi-stage builds
+- SBOM + provenance generation
+- Policy validation (OPA)
+- Lineage packet metadata
 
 ### 2. Validate Policies
 

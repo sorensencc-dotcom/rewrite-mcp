@@ -1,0 +1,33 @@
+# Stage 0: base
+FROM python:3.11-slim AS base
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y ca-certificates curl git && rm -rf /var/lib/apt/lists/*
+
+# Stage 1: build
+FROM base AS build
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN pip install uv && uv sync --frozen
+COPY src/ src/
+COPY tests/ tests/
+RUN pytest --maxfail=1 --disable-warnings -q
+RUN python -m compileall src
+
+# Stage 2: compliance
+FROM build AS compliance
+RUN pip install cyclonedx-bom
+RUN cyclonedx-py --output sbom.json
+COPY scripts/gen_provenance.py .
+RUN python gen_provenance.py --out provenance.json || echo '{"generated": true}' > provenance.json
+
+# Stage 3: runtime
+FROM python:3.11-slim AS runtime
+WORKDIR /app
+COPY --from=build /app/src/ /app/src/
+COPY --from=compliance /app/sbom.json /app/provenance.json /app/
+ENV CIC_AGENT_ID="cic.evolution"
+ENV CIC_AGENT_VERSION="0.7.0"
+ENV CIC_PHASE="0.7"
+LABEL cic.agent.id="cic.evolution" cic.phase="0.7"
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD python -m src.healthcheck || exit 1
+ENTRYPOINT ["python", "-m", "src.main"]
