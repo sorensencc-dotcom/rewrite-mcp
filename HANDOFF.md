@@ -1,10 +1,64 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-07 (Phase 23 Memory Layer + Integration) | Tool: claude
+Updated: 2026-06-08 (Phase 26 TorqueQuery Roadmap Locked) | Tool: claude
 
 ---
 
-## Current Session: Phase 23.4 — Integration Hooks Wired (Complete)
+## Current Session: Phase 26 — TorqueQuery Ingestion & Search Engine (Locked)
+
+**Status:** ✅ SPECIFICATION COMPLETE | Execution: 2026-06-15 through 2026-06-29 (15 days, parallel track)
+
+### What Changed
+
+**Phase 26 locked in master roadmap** (`docs/cic/CIC_MASTER_ROADMAP.md`):
+- ✅ Clean-room, open-source ingestion & search backbone
+- ✅ 8 core subsystems: Crawler, Scraper, Mapper, Parser, Proxy, Indexer, Search, Actor Runtime
+- ✅ HTTP/GRPC APIs for crawl, scrape, parse, index, search
+- ✅ CIC & Rewrite Labs integration via thin adapters (no internal leakage)
+- ✅ Runs **in parallel** to Memory/Governance/Skill Graph phases (23–25)
+- ✅ Unblocks Phase 27+ (APR, CRO, CKG) for autonomous planning & world search
+
+**Documentation Complete:**
+- `docs/architecture.md` — 8 subsystems, API surface, design principles
+- `docs/api.md` — HTTP/GRPC API specification
+- `docs/cic-integration.md` — CIC adapter responsibilities
+- `docs/rewritelabs-integration.md` — Rewrite Labs corpus building
+
+**Memory Locked:**
+- `phase-26-torquequery.md` — Architecture, decisions, deliverables, dependencies
+- `MEMORY.md` — Index updated with Phase 26 entry
+
+**Commits:**
+- `7392c2b` — Add Phase 26 to roadmap (243 lines, all policy checks passed)
+
+### Key Decisions
+
+1. **Public from Day One** — MIT license, no AGPL, clean-room design enables future open-sourcing
+2. **Parallel, Not Blocking** — Doesn't delay Memory/Governance/Skill Graph; independent execution track
+3. **Adapter-Based Integration** — CIC & Rewrite Labs never see TorqueQuery internals; TorqueQuery never knows about CIC/RL internals
+
+### Deliverables (8 parts)
+
+| Part | Timeline |
+|------|----------|
+| 26.1 — Architecture Spec | 2 days |
+| 26.2 — API & Integration Specs | 1 day |
+| 26.3–26.5 — Core Implementation (8 subsystems) | 6 days |
+| 26.6 — Actor Runtime & APIs | 3 days |
+| 26.7 — CIC & Rewrite Labs Adapters | 2 days |
+| 26.8 — Infra, Examples, Docs | 2 days |
+| **Total** | **15 days** |
+
+### Next Steps (Phase 26.1 kickoff: 2026-06-15)
+
+1. Create torquequery/ repo structure
+2. Implement 26.1 (Architecture Spec, design all 8 subsystems)
+3. Implement 26.2–26.8 in parallel where possible
+4. CIC agents gain world-search capability by Phase 27 (APR)
+
+---
+
+## Previous Session: Phase 23.4 — Integration Hooks Wired (Complete)
 
 **Status:** ✅ 23.1–23.3 LOCKED | ✅ 23.4 WIRED & REGISTERED | 📋 23.5–23.7 QUEUED (6 days)
 
