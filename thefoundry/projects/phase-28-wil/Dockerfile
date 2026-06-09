@@ -1,25 +1,24 @@
-# Phase 28 WIL (CIC ↔ Wayland Integration Layer) build container
-# Multi-stage: base → test → build → final
+# Phase 28 WIL (CIC ↔ Wayland Integration Layer)
+# Multi-stage: base → builder → test → final
 
 FROM node:20-slim AS base
-WORKDIR /app
-COPY package.json package-lock.json ./
+WORKDIR /workspace
+COPY package*.json ./
+COPY projects/cic/package*.json projects/cic/
 RUN npm install --ignore-scripts
 
-# Test stage
-FROM base AS test
-COPY . .
-RUN npm run test 2>&1 | head -100
-
-# Build stage
+# Full monorepo build
 FROM base AS builder
 COPY . .
-RUN npm run build
+RUN npm run build -w cic
+
+# Test stage
+FROM builder AS test
+RUN npm run test -w cic 2>&1 | head -100
 
 # Final runtime
 FROM node:20-slim AS final
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
-COPY --from=builder /app/src ./src
-ENTRYPOINT ["/bin/bash", "-c", "if [ ! -d src ]; then echo 'Build failed: src/ not found' && exit 1; fi && echo 'Phase 28 WIL build complete: $(ls -la src/runtime/foreman.js)'"]
+COPY --from=builder /workspace/projects/cic/src ./src
+COPY --from=builder /workspace/projects/cic/wil ./wil
+ENTRYPOINT ["/bin/bash", "-c", "if [ -d src ] && [ -d wil ]; then echo 'Phase 28 WIL build complete' && ls -la wil/; else echo 'Build failed: src/ or wil/ not found' && exit 1; fi"]
