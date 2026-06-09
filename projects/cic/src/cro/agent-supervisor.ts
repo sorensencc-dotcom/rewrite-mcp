@@ -15,11 +15,13 @@ export class AgentSupervisor {
   ): Promise<TaskExecution> {
     task.status = "running";
     task.startTime = new Date().toISOString();
+    task.retryCount = task.retryCount ?? 0;
+    task.owner = task.owner ?? "Unknown";
     onLog(`[Supervisor] Launching execution for task ${task.taskId} owned by ${task.owner}...`);
 
     while (task.retryCount <= this.maxRetries) {
       try {
-        if (task.owner.includes("Unknown")) {
+        if (task.owner!.includes("Unknown")) {
           throw new Error(`Failed to resolve agent runner implementation for '${task.owner}'.`);
         }
 

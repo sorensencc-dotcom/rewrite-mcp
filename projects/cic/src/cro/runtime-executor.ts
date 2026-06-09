@@ -5,21 +5,37 @@ import path from "node:path";
 import { TaskExecution, ExecutionEpisode, ExecutionStats } from "./types.js";
 import { AgentSupervisor } from "./agent-supervisor.js";
 import { CoreAgentRunner } from "./agent-runner.js";
+import { WaylandAdapterRunner, AdapterSet } from "./wayland-adapter-runner.js";
+import { SecurityConfig } from "../../wil/src/security/SecurityPolicy.js";
+import { MemoryStore } from "../../wil/src/memory/MemoryStore.js";
 
 export class RuntimeExecutor {
   private logPath: string;
   private maxWorkers: number;
   private maxQueueLength = 100;
   private supervisor: AgentSupervisor;
+  private memory?: MemoryStore;
 
-  constructor(private workspaceRoot: string) {
+  constructor(
+    private workspaceRoot: string,
+    adapters?: AdapterSet,
+    securityConfig?: SecurityConfig,
+    memory?: MemoryStore
+  ) {
     this.logPath = path.resolve(this.workspaceRoot, "projects/cic/.cro/executions.jsonl");
-    
+
     // Configurable max workers (default 2, limit range 1-4)
     const envWorkers = process.env.CIC_CRO_MAX_WORKERS;
     this.maxWorkers = envWorkers ? Math.min(4, Math.max(1, parseInt(envWorkers, 10))) : 2;
 
-    this.supervisor = new AgentSupervisor(new CoreAgentRunner());
+    this.memory = memory;
+
+    // Use WaylandAdapterRunner if adapters provided, otherwise CoreAgentRunner
+    const runner = adapters
+      ? new WaylandAdapterRunner(adapters, securityConfig, memory)
+      : new CoreAgentRunner();
+
+    this.supervisor = new AgentSupervisor(runner);
   }
 
   public async runBatch(tasks: TaskExecution[], isDryRun = true): Promise<ExecutionEpisode> {
@@ -125,5 +141,12 @@ export class RuntimeExecutor {
     const content = fs.readFileSync(this.logPath, "utf8");
     const lines = content.split("\n").filter(l => l.trim() !== "");
     return lines.map(l => JSON.parse(l));
+  }
+
+  public getMemoryEvents(): any[] {
+    if (!this.memory) {
+      return [];
+    }
+    return this.memory.getEvents();
   }
 }
