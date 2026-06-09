@@ -1,0 +1,61 @@
+projects/cic/src/cro/agent-supervisor.ts
+  s_23364b39b23e42::t_f9bf50666d4a6e 18-19,24
+projects/cic/src/phases/phase-25-memory-consolidation.ts
+  s_23364b39b23e42::t_543eb57f31aaf2 1-270
+projects/cic/src/foreman/loader.ts
+  s_23364b39b23e42::t_53afd6a63b69b2 1-2,4-30,32-77
+  s_23364b39b23e42::t_61e9f6bfcfd3e2 3
+  s_23364b39b23e42::t_88906e3ee04eed 31
+projects/cic/src/apr/task-to-operations.ts
+  s_23364b39b23e42::t_41ee18f1f2fe38 1-123
+projects/cic/src/cro/governance-gating.ts
+  s_23364b39b23e42::t_df43f9dbc36d59 1-171
+projects/cic/src/apr/planner-executor-bridge.ts
+  s_23364b39b23e42::t_6c710375ac2e1e 89
+  s_23364b39b23e42::t_344ee9cc045d45 1-88,90-95
+projects/cic/src/cro/runtime-executor.ts
+  s_23364b39b23e42::t_af5751b6d70bfa 145-151
+  s_23364b39b23e42::t_15195973a4bfd3 8,17-24,26,31-38
+  s_23364b39b23e42::t_7eac9c05b2b4d8 9-10
+projects/cic/src/foreman/types.ts
+  s_23364b39b23e42::t_d7df42089e3227 1-66
+projects/cic/src/phases/phase-25-to-26-adapter.ts
+  s_23364b39b23e42::t_08551c97cbfb96 1-32,34-92
+  s_23364b39b23e42::t_0065da62ac3a6d 33
+projects/cic/src/wayland/wayland-security-policy.ts
+  s_23364b39b23e42::t_4d53a0f37792f4 106
+  s_23364b39b23e42::t_7f64b79139c5f0 1-105,107-156
+projects/cic/src/wayland/wayland-adapter-registry.ts
+  s_23364b39b23e42::t_591586cad6d8ca 1-124
+projects/cic/src/foreman/index.ts
+  s_23364b39b23e42::t_2505fb4e75c308 1-10
+projects/cic/src/foreman/foreman.ts
+  s_23364b39b23e42::t_d8c4dbec0b74fa 1-131
+projects/cic/src/phases/phase-26-torquequery-schema.ts
+  s_23364b39b23e42::t_566c3f85a8c3bf 1-82
+projects/cic/src/cro/types.ts
+  s_23364b39b23e42::t_b4a954425f37d4 13-16,21,24-30
+  s_23364b39b23e42::t_dd44aa14f69569 3-8,22-23
+projects/cic/src/cro/wayland-adapter-runner.ts
+  s_23364b39b23e42::t_fc92f0672a4d03 5-10
+  s_23364b39b23e42::t_046ae89e29ecb9 1-4,11-53,55,59-60,62-88,90,92-100
+  s_23364b39b23e42::t_362c329930e57f 54,56
+  s_23364b39b23e42::t_eba4b9dab77869 89,91
+  s_23364b39b23e42::t_ccd0da2b6c7d3d 57-58,61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "184df03184a9c3c62c0bbc9191a060d2600b1a55",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
