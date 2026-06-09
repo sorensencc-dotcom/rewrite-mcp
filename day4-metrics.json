@@ -1,6 +1,6 @@
 {
   "summary": {
-    "date": "2026-06-09T10:54:39.913Z",
+    "date": "2026-06-09T12:57:04.951Z",
     "totalRepos": 5,
     "totalTokens": 211000,
     "totalCompressed": 137150,
@@ -16,7 +16,7 @@
       "compressedTokens": 29250,
       "reduction": 35,
       "status": "success",
-      "timestamp": "2026-06-09T10:54:38.228Z"
+      "timestamp": "2026-06-09T12:57:02.943Z"
     },
     {
       "event": "HARVESTER_INGESTION",
@@ -27,7 +27,7 @@
       "compressedTokens": 33800,
       "reduction": 35,
       "status": "success",
-      "timestamp": "2026-06-09T10:54:38.551Z"
+      "timestamp": "2026-06-09T12:57:03.344Z"
     },
     {
       "event": "HARVESTER_INGESTION",
@@ -38,7 +38,7 @@
       "compressedTokens": 24700,
       "reduction": 35,
       "status": "success",
-      "timestamp": "2026-06-09T10:54:38.860Z"
+      "timestamp": "2026-06-09T12:57:03.659Z"
     },
     {
       "event": "HARVESTER_INGESTION",
@@ -49,7 +49,7 @@
       "compressedTokens": 26650,
       "reduction": 35,
       "status": "success",
-      "timestamp": "2026-06-09T10:54:39.164Z"
+      "timestamp": "2026-06-09T12:57:03.976Z"
     },
     {
       "event": "HARVESTER_INGESTION",
@@ -60,7 +60,7 @@
       "compressedTokens": 22750,
       "reduction": 35,
       "status": "success",
-      "timestamp": "2026-06-09T10:54:39.478Z"
+      "timestamp": "2026-06-09T12:57:04.287Z"
     }
   ],
   "byTenant": {
