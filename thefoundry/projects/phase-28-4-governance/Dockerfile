@@ -26,7 +26,7 @@ RUN echo "✓ Phase 28.4 validation passed: Governance council gating complete"
 FROM node:20-slim AS final
 WORKDIR /cic
 COPY package*.json ./
-RUN npm install --ignore-scripts --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /cic/dist ./dist
 COPY --from=builder /cic/wil ./wil
 ENTRYPOINT ["/bin/bash", "-c", "test -f dist/src/cro/governance-gating.js && echo 'Phase 28.4 ✓ Governance council gating ready' || (echo 'Build failed' && exit 1)"]

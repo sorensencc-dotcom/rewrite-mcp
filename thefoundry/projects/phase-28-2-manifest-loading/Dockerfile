@@ -28,7 +28,7 @@ RUN echo "✓ Phase 28.2 validation passed: Foreman manifest loading complete"
 FROM node:20-slim AS final
 WORKDIR /cic
 COPY package*.json ./
-RUN npm install --ignore-scripts --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /cic/dist ./dist
 COPY --from=builder /cic/wil ./wil
 COPY --from=builder /cic/cic_foreman.agent.yaml ./

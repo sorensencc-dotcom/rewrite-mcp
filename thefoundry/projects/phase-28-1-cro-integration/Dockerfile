@@ -26,7 +26,7 @@ RUN echo "✓ Phase 28.1 validation passed: CRO adapter integration complete"
 FROM node:20-slim AS final
 WORKDIR /cic
 COPY package*.json ./
-RUN npm install --ignore-scripts --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /cic/dist ./dist
 COPY --from=builder /cic/wil ./wil
 ENTRYPOINT ["/bin/bash", "-c", "test -f dist/src/cro/wayland-adapter-runner.js && echo 'Phase 28.1 ✓ CRO↔WIL adapter integration ready' || (echo 'Build failed' && exit 1)"]

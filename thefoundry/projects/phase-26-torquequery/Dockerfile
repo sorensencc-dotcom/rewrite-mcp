@@ -27,7 +27,7 @@ RUN echo "✓ Phase 26 validation passed: TorqueQuery engine ready"
 FROM node:20-slim AS final
 WORKDIR /cic
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /cic/dist ./dist
 COPY --from=builder /cic/wil ./wil
 ENTRYPOINT ["/bin/bash", "-c", "test -f dist/src/phases/phase-26-torquequery-schema.js && echo 'Phase 26 ✓ TorqueQuery engine ready' || (echo 'Build failed' && exit 1)"]

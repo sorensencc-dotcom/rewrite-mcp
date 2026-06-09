@@ -20,6 +20,6 @@ RUN npm run build
 FROM node:20-slim AS final
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install --ignore-scripts --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /app/src ./src
 ENTRYPOINT ["/bin/bash", "-c", "if [ ! -d src ]; then echo 'Build failed: src/ not found' && exit 1; fi && echo 'Phase 28 WIL build complete: $(ls -la src/runtime/foreman.js)'"]

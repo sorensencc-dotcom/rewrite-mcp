@@ -27,7 +27,7 @@ RUN echo "✓ Phase 25 validation passed: Memory consolidation layer complete"
 FROM node:20-slim AS final
 WORKDIR /cic
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN PUPPETEER_SKIP_DOWNLOAD=true npm install --ignore-scripts --omit=dev
 COPY --from=builder /cic/dist ./dist
 COPY --from=builder /cic/wil ./wil
 ENTRYPOINT ["/bin/bash", "-c", "test -f dist/src/phases/phase-25-memory-consolidation.js && echo 'Phase 25 ✓ Memory consolidation ready' || (echo 'Build failed' && exit 1)"]

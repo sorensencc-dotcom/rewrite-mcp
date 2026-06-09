@@ -1,0 +1,15 @@
+node_modules
+.venv
+.env
+.git
+.gitignore
+coverage
+dist
+build
+*.log
+.DS_Store
+.idea
+.vscode
+ingestion
+**/.next
+**/node_modules
