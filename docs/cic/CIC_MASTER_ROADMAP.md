@@ -97,6 +97,50 @@ Deliverables: Distribution agreements, marketing materials, release plan
 
 # **CIC OS — INFRASTRUCTURE LAYER**
 
+## **PHASE 0.7 — Unified CIC + Rewrite Labs Build System (Build Orchestration)**
+
+**Category:** Build infrastructure substrate  
+**Purpose:** Unify CIC ingestion, Rewrite Labs (discovery → extractor → redesign → outreach), and Nemotron/NIM inference into a deterministic, multi-agent build graph with lineage tracking, policy enforcement, and CIC observability integration.
+
+**Scope:**
+- **Build Graph (DAG):** 7 agents (CIC ingestion, CIC evolution, Labs discovery, Labs extractor, Labs redesign GPU, Labs outreach, Nemotron/NIM inference) executing in parallel with dependency ordering
+- **Multi-stage Docker:** All agents use deterministic base → build → compliance → runtime patterns
+- **Lineage Schema:** Artifact lineage tracking with provenance, SBOM, drift signatures, parent build references
+- **Policy Enforcement:** OPA/Conftest validation for Docker, agent, and governance policies
+- **CIC Observability:** All build metrics, logs, lineage packets flow to CIC observability layer (Prometheus, Grafana, Loki)
+- **Artifact Registry:** Unified registry with CIC lineage integration; SLSA-style provenance signing
+- **Routing Maps:** Logical and YAML routing definitions for agent communication and telemetry sinks
+
+**Deliverables:**
+1. **Build Graph Spec** (0.7.1): DAG definition (JSON), logical routing, execution model
+2. **Dockerfile Templates** (0.7.2): Multi-stage patterns for CIC agents, Labs agents, GPU-aware Nemotron runtime
+3. **Lineage Schema** (0.7.3): JSON schema for artifact packets, provenance, SBOM references
+4. **Policy Pack** (0.7.4): OPA/Conftest rules for Docker, agent, governance validation
+5. **Routing Maps** (0.7.5): YAML routing, channel definitions, telemetry sink wiring
+6. **Agent Registration Spec** (0.7.6): Payload schema for agent self-registration with CIC
+7. **Build System CI/CD** (0.7.7): GitHub Actions/Earthly/Dagger templates for automated builds
+8. **Documentation** (0.7.8): Architecture guide, operator runbook, integration examples
+
+**Dependencies:** None  
+**Enables:** Phase 0.9 (TheFoundry refinement for Node), Phase 24 (Autonomous Governance packet integration)  
+**Execution:** Parallel, immediate — start now, deploy within 3 weeks  
+**Timeline:** 2026-06-09 through 2026-06-29
+
+**Milestones:**
+1. Build graph + lineage schema locked (Days 1–3)
+2. Dockerfile templates validated locally (Days 4–8)
+3. Policy pack integrated and tested (Days 9–12)
+4. Routing maps + agent registration wired (Days 13–15)
+5. CI/CD pipelines automated (Days 16–18)
+6. Documentation + operator training (Days 19–21)
+
+**Status:** QUEUED — Awaiting approval and prioritization vs. Phase 24/25/26 concurrent tracks  
+**Outcome:** CIC + Rewrite Labs + Nemotron/NIM become a unified, deterministic, policy-governed multi-agent build organism. All artifacts are traceable, reproducible, and observable via CIC lineage.
+
+**Reference:** See `/docs/cic/phase-0-7-unified-build.md` for full specification.
+
+---
+
 ## **PHASE 0.9 — TheFoundry (Deterministic Build Environment)**
 
 **Category:** Infrastructure substrate  

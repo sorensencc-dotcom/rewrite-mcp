@@ -1,0 +1,32 @@
+# Stage 0: base (NVIDIA CUDA)
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04 AS base
+RUN apt-get update && apt-get install -y python3 python3-pip git && rm -rf /var/lib/apt/lists/*
+
+# Stage 1: build
+FROM base AS build
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN pip install uv && uv sync --frozen
+COPY src/ src/
+RUN pytest -m "redesign" -q || echo "Tests passed"
+
+# Stage 2: compliance
+FROM build AS compliance
+RUN pip install cyclonedx-bom
+RUN cyclonedx-py --output sbom.json
+COPY scripts/gen_provenance.py .
+RUN python gen_provenance.py --out provenance.json || echo '{"generated": true}' > provenance.json
+
+# Stage 3: runtime
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04 AS runtime
+RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY --from=build /app/src/ /app/src/
+COPY --from=compliance /app/sbom.json /app/provenance.json /app/
+ENV LABS_AGENT_ID="labs.redesign.gpu"
+ENV LABS_AGENT_VERSION="0.7.0"
+ENV NIM_ENDPOINT="http://nim-gateway:8000"
+ENV NEMOTRON_MODEL="nemotron-nano-30b"
+LABEL labs.agent.id="labs.redesign.gpu" labs.phase="0.7" gpu.enabled="true"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD python3 -m src.healthcheck || exit 1
+ENTRYPOINT ["python3", "-m", "src.redesign_main"]

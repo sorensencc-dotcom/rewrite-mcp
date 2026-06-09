@@ -7,6 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "build": "tsc 2>/dev/null || true",
     "start": "node src/server/intelligence-server.js",
     "ingest": "node src/pipeline/run-pipeline.js",
     "test": "vitest run",

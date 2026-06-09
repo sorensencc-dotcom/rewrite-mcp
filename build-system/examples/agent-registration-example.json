@@ -1,0 +1,37 @@
+{
+  "agent_id": "labs.redesign.gpu",
+  "version": "0.7.0",
+  "kind": "container",
+  "image": "registry.example.com/labs/redesign-gpu:0.7.0",
+  "phase": "0.7",
+  "health_endpoint": "http://labs-redesign-gpu:8080/health",
+  "telemetry_endpoint": "http://labs-redesign-gpu:8080/telemetry",
+  "capabilities": [
+    "site-redesign",
+    "nemotron-inference",
+    "design-generation"
+  ],
+  "dependencies": [
+    "labs.extractor",
+    "inference.nemotron"
+  ],
+  "policies": [
+    "cic.docker",
+    "cic.agent"
+  ],
+  "lineage_schema": "https://cic.example.com/schema/lineage/0.7.0",
+  "startup_timeout_seconds": 120,
+  "readiness_probe": {
+    "path": "/health/ready",
+    "interval_seconds": 10,
+    "timeout_seconds": 5,
+    "initial_delay_seconds": 20
+  },
+  "gpu_required": true,
+  "metadata": {
+    "build_id": "build-20260609-134500",
+    "git_sha": "abc123def456",
+    "built_at": "2026-06-09T13:45:00Z",
+    "builder": "cic.build-system.earthly"
+  }
+}

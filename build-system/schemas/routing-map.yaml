@@ -1,0 +1,114 @@
+version: "0.7.0"
+description: "Phase 0.7 Unified Build System Routing Map"
+timestamp: "2026-06-09T00:00:00Z"
+
+routes:
+  # CIC → Labs handoff
+  - name: "cic-ingestion-to-evolution"
+    from: "cic.ingestion"
+    to: "cic.evolution"
+    channel: "cic.events"
+    message_type: "ingestion_complete"
+    retry_policy: "exponential_backoff_3"
+    timeout_seconds: 3600
+
+  - name: "cic-evolution-to-labs-discovery"
+    from: "cic.evolution"
+    to: "labs.discovery"
+    channel: "labs.discovery.requests"
+    message_type: "discovery_task"
+    retry_policy: "exponential_backoff_3"
+    timeout_seconds: 3600
+
+  # Labs pipeline
+  - name: "labs-discovery-to-extractor"
+    from: "labs.discovery"
+    to: "labs.extractor"
+    channel: "labs.extractor.requests"
+    message_type: "extraction_task"
+    retry_policy: "exponential_backoff_3"
+    timeout_seconds: 3600
+
+  - name: "labs-extractor-to-redesign"
+    from: "labs.extractor"
+    to: "labs.redesign.gpu"
+    channel: "labs.redesign.requests"
+    message_type: "redesign_task"
+    retry_policy: "exponential_backoff_3"
+    timeout_seconds: 5400
+
+  - name: "labs-redesign-to-outreach"
+    from: "labs.redesign.gpu"
+    to: "labs.outreach"
+    channel: "labs.outreach.requests"
+    message_type: "outreach_task"
+    retry_policy: "exponential_backoff_3"
+    timeout_seconds: 1800
+
+  # Inference integration
+  - name: "labs-redesign-to-nemotron"
+    from: "labs.redesign.gpu"
+    to: "inference.nemotron"
+    channel: "inference.requests"
+    message_type: "inference_request"
+    retry_policy: "exponential_backoff_5"
+    timeout_seconds: 7200
+
+  # Observability: all agents → CIC telemetry
+  - name: "all-agents-to-observability"
+    from: "*"
+    to: "cic.observability"
+    channel: "cic.telemetry"
+    message_type: "telemetry"
+    async: true
+    batch_size: 100
+    flush_interval_seconds: 30
+
+channels:
+  cic.events:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 30
+
+  labs.discovery.requests:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 30
+
+  labs.extractor.requests:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 30
+
+  labs.redesign.requests:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 30
+
+  labs.outreach.requests:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 30
+
+  inference.requests:
+    type: "message_queue"
+    backend: "rabbitmq"
+    durable: true
+    retention_days: 7
+
+  cic.telemetry:
+    type: "log_stream"
+    backend: "loki"
+    retention_days: 90
+
+observability:
+  prometheus_endpoint: "http://prometheus:9090"
+  grafana_endpoint: "http://grafana:3000"
+  loki_endpoint: "http://loki:3100"
+  distributed_tracing: true
+  trace_sampling_rate: 0.1

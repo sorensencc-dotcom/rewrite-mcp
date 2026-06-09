@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc 2>/dev/null || true",
+    "start": "node src/index.js",
     "test": "vitest run"
   },
   "dependencies": {

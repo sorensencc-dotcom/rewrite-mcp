@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cic.example.com/schema/agent-registration/0.7.0",
+  "type": "object",
+  "title": "CIC Phase 0.7 Agent Registration",
+  "description": "Agent self-registration payload for Phase 0.7",
+  "required": ["agent_id", "version", "kind", "image", "phase"],
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Unique agent identifier",
+      "enum": [
+        "cic.ingestion",
+        "cic.evolution",
+        "labs.discovery",
+        "labs.extractor",
+        "labs.redesign.gpu",
+        "labs.outreach",
+        "inference.nemotron"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "kind": {
+      "type": "string",
+      "description": "Agent kind",
+      "enum": ["container", "inference", "service"]
+    },
+    "image": {
+      "type": "string",
+      "description": "Container image URI"
+    },
+    "phase": {
+      "type": "string",
+      "enum": ["0.7"],
+      "description": "Phase identifier"
+    },
+    "health_endpoint": {
+      "type": "string",
+      "description": "Health check endpoint (HTTP)",
+      "format": "uri"
+    },
+    "telemetry_endpoint": {
+      "type": "string",
+      "description": "Telemetry/metrics endpoint",
+      "format": "uri"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Declared capabilities",
+      "examples": ["ingestion", "redesign", "nemotron-inference"]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Upstream agent dependencies",
+      "default": []
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "OPA policy packages this agent enforces",
+      "examples": ["cic.docker", "cic.agent", "governance"]
+    },
+    "lineage_schema": {
+      "type": "string",
+      "description": "Reference to lineage schema",
+      "format": "uri"
+    },
+    "startup_timeout_seconds": {
+      "type": "integer",
+      "description": "Startup timeout in seconds",
+      "default": 60
+    },
+    "readiness_probe": {
+      "type": "object",
+      "description": "Readiness probe configuration",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Health check endpoint path"
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "default": 10
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "default": 5
+        },
+        "initial_delay_seconds": {
+          "type": "integer",
+          "default": 15
+        }
+      }
+    },
+    "gpu_required": {
+      "type": "boolean",
+      "description": "GPU required for execution",
+      "default": false
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "additionalProperties": true
+    }
+  }
+}
