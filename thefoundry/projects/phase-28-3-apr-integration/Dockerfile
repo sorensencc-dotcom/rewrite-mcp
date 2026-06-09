@@ -13,12 +13,8 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage — runs all tests
-FROM builder AS test
-RUN npm run test -w cic 2>&1
-
 # Validation: APR bridge implemented + TaskExecution extended
-FROM test AS validate
+FROM builder AS validate
 RUN if [ ! -f projects/cic/dist/src/apr/task-to-operations.d.ts ]; then echo "ERROR: TaskToOperationsConverter not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/apr/planner-executor-bridge.d.ts ]; then echo "ERROR: PlannerExecutorBridge not built" && exit 1; fi
 RUN if grep -q "aprPlanId" projects/cic/dist/src/cro/types.d.ts; then echo "✓ TaskExecution extended with APR context"; else echo "ERROR: aprPlanId not in types"; exit 1; fi

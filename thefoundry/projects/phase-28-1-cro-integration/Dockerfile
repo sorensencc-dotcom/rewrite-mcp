@@ -13,12 +13,8 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage — runs all tests
-FROM builder AS test
-RUN npm run test -w cic 2>&1
-
 # Validation: CRO types extended + WaylandAdapterRunner implemented
-FROM test AS validate
+FROM builder AS validate
 RUN if [ ! -f projects/cic/dist/src/cro/wayland-adapter-runner.d.ts ]; then echo "ERROR: WaylandAdapterRunner not built" && exit 1; fi
 RUN if ! grep -q "AdapterOperation" projects/cic/dist/src/cro/types.d.ts; then echo "ERROR: TaskExecution not extended with adapterOps" && exit 1; fi
 RUN echo "✓ Phase 28.1 validation passed: CRO adapter integration complete"

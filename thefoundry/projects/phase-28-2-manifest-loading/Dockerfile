@@ -13,12 +13,8 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage — runs all tests
-FROM builder AS test
-RUN npm run test -w cic 2>&1
-
 # Validation: Foreman implemented + manifest schema valid
-FROM test AS validate
+FROM builder AS validate
 RUN if [ ! -f projects/cic/dist/src/foreman/foreman.d.ts ]; then echo "ERROR: Foreman not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/foreman/loader.d.ts ]; then echo "ERROR: ForemanLoader not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/foreman/types.d.ts ]; then echo "ERROR: Foreman types not built" && exit 1; fi

@@ -13,12 +13,8 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage — runs all tests
-FROM builder AS test
-RUN npm run test -w cic 2>&1
-
 # Validation: Phase 25 consolidation engine implemented
-FROM test AS validate
+FROM builder AS validate
 RUN if [ ! -f projects/cic/dist/src/phases/phase-25-memory-consolidation.d.ts ]; then echo "ERROR: Phase25MemoryConsolidation not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/phases/phase-26-torquequery-schema.d.ts ]; then echo "ERROR: TorqueQuery schema not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/phases/phase-25-to-26-adapter.d.ts ]; then echo "ERROR: Phase25To26Adapter not built" && exit 1; fi

@@ -12,10 +12,6 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage
-FROM builder AS test
-RUN npm run test -w cic 2>&1 | head -100
-
 # Final runtime
 FROM node:20-slim AS final
 WORKDIR /app

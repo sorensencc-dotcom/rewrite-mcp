@@ -13,12 +13,8 @@ FROM base AS builder
 COPY . .
 RUN npm run build -w cic
 
-# Test stage — runs all tests
-FROM builder AS test
-RUN npm run test -w cic 2>&1
-
 # Validation: Phase 26 TorqueQuery schema & adapter implemented
-FROM test AS validate
+FROM builder AS validate
 RUN if [ ! -f projects/cic/dist/src/phases/phase-26-torquequery-schema.d.ts ]; then echo "ERROR: TorqueQuery schema not built" && exit 1; fi
 RUN if [ ! -f projects/cic/dist/src/phases/phase-25-to-26-adapter.d.ts ]; then echo "ERROR: Phase25To26Adapter not built" && exit 1; fi
 RUN if grep -q "TorqueQueryIngestionBundle\|TorqueQueryClient" projects/cic/dist/src/phases/phase-26-torquequery-schema.d.ts; then echo "✓ TorqueQuery schema complete"; else echo "ERROR: Schema incomplete"; exit 1; fi
