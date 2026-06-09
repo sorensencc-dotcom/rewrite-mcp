@@ -1,0 +1,21 @@
+projects/cic/package.json
+  s_23364b39b23e42::t_06f07bb12a341b 30-31,34
+projects/cic/tsconfig.json
+  s_23364b39b23e42::t_a736276bf2a986 6-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "238ec4d15e9139d9c19ac3b05c9729118dbd2f8d",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
