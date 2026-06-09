@@ -64,11 +64,18 @@
     "arl:build:7.13": "npx tsc projects/cic/ingestion/src/reasoning/arl/engine/GovernanceHookExecutor.ts --skipLibCheck",
     "arl:build:7.14": "npx tsc projects/cic/ingestion/src/reasoning/arl/engine/SelfDiagnosticsEngine.ts --skipLibCheck",
     "test:arl": "vitest run projects/cic/ingestion/src/reasoning/arl/tests/",
+    "test:phase4.4": "jest projects/rewrite-labs/harvester/repository/RepositoryIngestion.test.ts --forceExit",
+    "test:repomix:determinism": "node tools/repomix/tests/crc32-determinism.test.ts",
+    "bench:repomix:compression": "npx ts-node tools/repomix/bench/compression.ts",
     "ci": "npm run bench:metadata && npm run test:rewrite-labs"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.9.1",
-    "husky": "^9.0.11"
+    "husky": "^9.0.11",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

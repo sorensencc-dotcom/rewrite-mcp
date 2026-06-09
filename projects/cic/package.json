@@ -23,14 +23,12 @@
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.6",
     "ts-node": "^10.9.0",
-    "typescript": "^5.3.0",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.6"
   },
   "dependencies": {
-    "@types/express": "^5.0.6",
     "@types/node-cron": "^3.0.9",
     "@types/uuid": "^10.0.0",
-    "express": "^5.2.1",
     "node-cron": "^3.0.3",
     "uuid": "^14.0.0",
     "yaml": "^2.9.0"
