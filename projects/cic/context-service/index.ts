@@ -3,10 +3,10 @@
  * Starts the context service with all subsystems wired
  */
 
-import { ContextServer } from "./ContextServer";
-import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry";
-import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator";
-import { loadConfig, validateConfig } from "../config/ContextConfig";
+import { ContextServer } from "./ContextServer.js";
+import { FlowRegistry } from "../src/ruflo-orchestration/FlowRegistry.js";
+import { FlowOrchestrator } from "../src/ruflo-orchestration/FlowOrchestrator.js";
+import { loadConfig, validateConfig } from "../config/ContextConfig.js";
 
 /**
  * Start the context service

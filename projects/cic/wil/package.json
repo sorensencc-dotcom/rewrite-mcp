@@ -1,0 +1,20 @@
+{
+  "name": "cic-wil",
+  "version": "1.0.0",
+  "description": "CIC ↔ Wayland Integration Layer — Foreman + adapters + session mapping",
+  "main": "dist/runtime/foreman.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/tests/foreman_integration.test.js dist/tests/security_policy.test.js dist/tests/manifest.test.js dist/tests/trace_example.test.js dist/tests/wil_security_policy.test.js dist/tests/wil_manifest_validator.test.js dist/tests/wil_wayland_session_e2e.test.js",
+    "lint": "echo 'Linting would run here'",
+    "start": "node dist/runtime/foreman.js"
+  },
+  "keywords": ["wayland", "cic", "foreman", "integration"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.0.0"
+  },
+  "dependencies": {}
+}

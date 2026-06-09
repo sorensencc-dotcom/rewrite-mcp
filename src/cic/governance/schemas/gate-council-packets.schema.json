@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cic.internal/schemas/gate-council-packets.json",
+  "title": "CIC Gate and Council Packet Schemas",
+  "description": "Schemas for gate and council verdict packets",
+  "definitions": {
+    "gate_packet": {
+      "type": "object",
+      "description": "Gate packet: safety gate results (premortem, vibe, scenario, policy)",
+      "required": ["gate_id", "run_id", "result", "checks"],
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "enum": ["premortem", "vibe", "scenario", "policy"],
+          "description": "Type of safety gate"
+        },
+        "run_id": {
+          "type": "string",
+          "description": "Run ID for this gate invocation",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["orchestrate", "audit"],
+          "description": "Phase in which gate was invoked"
+        },
+        "result": {
+          "type": "string",
+          "enum": ["pass", "fail", "warn"],
+          "description": "Overall gate result"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "check_id": { "type": "string" },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "fail", "warn"]
+              },
+              "details": { "type": "string" }
+            },
+            "required": ["check_id", "status"]
+          },
+          "description": "Individual check results"
+        },
+        "violations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Policy rail IDs violated (if any)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When gate was evaluated"
+        }
+      }
+    },
+    "council_packet": {
+      "type": "object",
+      "description": "Council packet: multi-agent voting verdict",
+      "required": ["council_id", "run_id", "votes", "verdict"],
+      "properties": {
+        "council_id": {
+          "type": "string",
+          "description": "Identifier for this council (e.g., 'safety_council', 'performance_council')"
+        },
+        "run_id": {
+          "type": "string",
+          "description": "Run ID for this council invocation",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+        },
+        "votes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "member_id": { "type": "string" },
+              "vote": {
+                "type": "string",
+                "enum": ["permit", "block", "revise"]
+              },
+              "rationale": { "type": "string" },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": ["member_id", "vote", "rationale"]
+          },
+          "description": "Votes from each council member"
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["permit", "block", "revise"],
+          "description": "Final council verdict (unanimous block > majority permit > revise)"
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Conditions attached to verdict (if any)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When council voted"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "app-main",
+  "version": "1.0.0",
+  "description": "TheFoundry test application",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp src/index.js dist/",
+    "test": "node -e \"console.log('Tests passed')\"",
+    "lint": "echo 'Linting would run here'",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

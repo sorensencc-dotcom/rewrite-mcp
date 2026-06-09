@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "date": "2026-06-09T10:54:39.913Z",
+    "totalRepos": 5,
+    "totalTokens": 211000,
+    "totalCompressed": 137150,
+    "reduction": "35.0%"
+  },
+  "events": [
+    {
+      "event": "HARVESTER_INGESTION",
+      "tenantId": "acme-corp",
+      "repoId": "repo-react-acme-1",
+      "framework": "react",
+      "totalTokens": 45000,
+      "compressedTokens": 29250,
+      "reduction": 35,
+      "status": "success",
+      "timestamp": "2026-06-09T10:54:38.228Z"
+    },
+    {
+      "event": "HARVESTER_INGESTION",
+      "tenantId": "acme-corp",
+      "repoId": "repo-react-acme-2",
+      "framework": "react",
+      "totalTokens": 52000,
+      "compressedTokens": 33800,
+      "reduction": 35,
+      "status": "success",
+      "timestamp": "2026-06-09T10:54:38.551Z"
+    },
+    {
+      "event": "HARVESTER_INGESTION",
+      "tenantId": "techflow",
+      "repoId": "repo-django-tech",
+      "framework": "django",
+      "totalTokens": 38000,
+      "compressedTokens": 24700,
+      "reduction": 35,
+      "status": "success",
+      "timestamp": "2026-06-09T10:54:38.860Z"
+    },
+    {
+      "event": "HARVESTER_INGESTION",
+      "tenantId": "techflow",
+      "repoId": "repo-rails-tech",
+      "framework": "rails",
+      "totalTokens": 41000,
+      "compressedTokens": 26650,
+      "reduction": 35,
+      "status": "success",
+      "timestamp": "2026-06-09T10:54:39.164Z"
+    },
+    {
+      "event": "HARVESTER_INGESTION",
+      "tenantId": "startup-xyz",
+      "repoId": "repo-vue-startup",
+      "framework": "vue",
+      "totalTokens": 35000,
+      "compressedTokens": 22750,
+      "reduction": 35,
+      "status": "success",
+      "timestamp": "2026-06-09T10:54:39.478Z"
+    }
+  ],
+  "byTenant": {
+    "acme-corp": {
+      "repos": 2,
+      "tokens": 97000,
+      "compressed": 63050,
+      "frameworks": {}
+    },
+    "techflow": {
+      "repos": 2,
+      "tokens": 79000,
+      "compressed": 51350,
+      "frameworks": {}
+    },
+    "startup-xyz": {
+      "repos": 1,
+      "tokens": 35000,
+      "compressed": 22750,
+      "frameworks": {}
+    }
+  },
+  "byFramework": {
+    "react": {
+      "repos": 2,
+      "tokens": 97000
+    },
+    "django": {
+      "repos": 1,
+      "tokens": 38000
+    },
+    "rails": {
+      "repos": 1,
+      "tokens": 41000
+    },
+    "vue": {
+      "repos": 1,
+      "tokens": 35000
+    }
+  }
+}

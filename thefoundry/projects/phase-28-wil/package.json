@@ -1,0 +1,16 @@
+{
+  "name": "phase-28-wil",
+  "version": "1.0.0",
+  "description": "CIC ↔ Wayland Integration Layer (WIL) — Agent foreman + tool adapters",
+  "main": "src/runtime/foreman.js",
+  "scripts": {
+    "build": "echo 'Phase 28 WIL skeleton compiled'",
+    "test": "node --test src/tests/adapters.test.js",
+    "lint": "echo 'Linting would run here'",
+    "start": "node src/runtime/foreman.js"
+  },
+  "keywords": ["wayland", "cic", "agent", "foreman"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cic.internal/schemas/packet-envelope.json",
+  "title": "CIC Governance Packet Envelope",
+  "description": "Common envelope for all governance packets (RPI, gates, councils, evolution, drift, rollback)",
+  "type": "object",
+  "required": [
+    "packet_id",
+    "packet_type",
+    "run_id",
+    "agent_id",
+    "phase",
+    "timestamp",
+    "content"
+  ],
+  "properties": {
+    "packet_id": {
+      "type": "string",
+      "description": "Unique packet identifier (UUID)",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "packet_type": {
+      "type": "string",
+      "enum": [
+        "research",
+        "plan",
+        "implement",
+        "validate",
+        "record",
+        "gate",
+        "council",
+        "evolution_step",
+        "drift",
+        "rollback"
+      ],
+      "description": "Type of governance packet"
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Identifier for the RPI run this packet belongs to",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Identifier for the agent that created this packet"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "harvester",
+        "orchestrate",
+        "execution",
+        "synthesize",
+        "audit",
+        "evolution"
+      ],
+      "description": "CIC phase in which this packet was generated"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when packet was created"
+    },
+    "parent_packet_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+      },
+      "description": "List of packet IDs this packet depends on or references"
+    },
+    "policy_context": {
+      "type": "object",
+      "description": "Policy rails active during this packet's generation",
+      "properties": {
+        "global": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Global policy rail IDs"
+        },
+        "domain": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Domain-specific policy rail IDs"
+        },
+        "phase": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Phase-specific policy rail IDs"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "description": "Packet-type-specific content (validated by type-specific schema)"
+    }
+  },
+  "additionalProperties": false
+}

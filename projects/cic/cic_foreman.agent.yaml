@@ -1,0 +1,181 @@
+version: '1.0.0'
+name: CIC Autonomous Agent Manifest
+description: Runtime configuration for CIC agents, skills, and adapters
+createdAt: '2026-06-09'
+
+agents:
+  - id: agent:cro-executor
+    name: CRO Executor
+    type: executor
+    description: Runtime executor for autonomous tasks via adapters
+    enabled: true
+    config:
+      timeout: 30000
+      maxRetries: 3
+
+  - id: agent:planner
+    name: Autonomous Planner
+    type: planner
+    description: APR planning agent for goal generation
+    enabled: true
+    config:
+      checkInterval: 300000
+
+  - id: agent:coordinator
+    name: Multi-Agent Coordinator
+    type: coordinator
+    description: Coordinates task allocation across agents
+    enabled: true
+    config:
+      maxParallel: 5
+
+  - id: agent:validator
+    name: Governance Validator
+    type: validator
+    description: Validates operations against governance policies
+    enabled: true
+    config:
+      requireApproval: true
+
+adapters:
+  - id: adapter:shell
+    name: Shell Adapter
+    type: shell
+    enabled: true
+    config:
+      timeout: 10000
+      allowedCommands:
+        - echo
+        - ls
+        - pwd
+        - cat
+        - grep
+
+  - id: adapter:file
+    name: File Adapter
+    type: file
+    enabled: true
+    config:
+      timeout: 5000
+      readonlyPaths:
+        - /sys
+        - /proc
+        - /etc/shadow
+
+  - id: adapter:http
+    name: HTTP Adapter
+    type: http
+    enabled: true
+    config:
+      timeout: 15000
+      allowedDomains:
+        - api.example.com
+        - localhost
+        - 127.0.0.1
+
+  - id: adapter:model
+    name: Model Adapter
+    type: model
+    enabled: true
+    config:
+      timeout: 30000
+      maxTokens: 4000
+
+skills:
+  - id: skill:list-files
+    name: List Files
+    agent: agent:cro-executor
+    operationType: file
+    enabled: true
+    permissions:
+      - file:read
+
+  - id: skill:execute-command
+    name: Execute Shell Command
+    agent: agent:cro-executor
+    operationType: shell
+    enabled: true
+    permissions:
+      - shell:execute
+
+  - id: skill:invoke-model
+    name: Invoke Language Model
+    agent: agent:cro-executor
+    operationType: model
+    enabled: true
+    permissions:
+      - model:invoke
+
+taskTemplates:
+  - id: template:audit-log
+    name: Audit Log Analysis
+    description: Read and analyze system audit logs
+    operations:
+      - type: file
+        operation: read
+        args:
+          path: /var/log/audit.log
+      - type: model
+        operation: invoke
+        args:
+          modelName: claude-opus
+          prompt: Analyze this audit log for security issues
+
+  - id: template:health-check
+    name: System Health Check
+    description: Run diagnostics and report system status
+    operations:
+      - type: shell
+        operation: execute
+        args:
+          command: uname
+          argv: ['-a']
+      - type: shell
+        operation: execute
+        args:
+          command: df
+          argv: ['-h']
+
+securityPolicies:
+  - id: policy:default
+    name: Default Security Policy
+    rules:
+      - adapter: adapter:shell
+        action: allow
+        constraint: allowedCommands only
+        reason: Prevent arbitrary command execution
+
+      - adapter: adapter:file
+        action: allow
+        constraint: skip readonlyPaths
+        reason: Protect sensitive system files
+
+      - adapter: adapter:http
+        action: allow
+        constraint: allowedDomains only
+        reason: Restrict outbound HTTP requests
+
+      - adapter: adapter:model
+        action: require-approval
+        constraint: tokens <= maxTokens
+        reason: High-risk operation, needs governance approval
+
+  - id: policy:high-risk
+    name: High-Risk Operations Policy
+    rules:
+      - adapter: adapter:shell
+        action: deny
+        reason: Shell disabled for high-risk execution
+
+      - adapter: adapter:file
+        action: require-approval
+        constraint: write operations
+        reason: File modifications require explicit approval
+
+metadata:
+  environment: production
+  owner: CIC Operations Team
+  tags:
+    - autonomous
+    - governance
+    - wayland-integrated

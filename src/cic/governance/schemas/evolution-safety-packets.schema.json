@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cic.internal/schemas/evolution-safety-packets.json",
+  "title": "CIC Evolution and Safety Packet Schemas",
+  "description": "Schemas for evolution_step, drift, and rollback packets",
+  "definitions": {
+    "evolution_step_packet": {
+      "type": "object",
+      "description": "Evolution step: corpus and policy updates from this RPI loop",
+      "required": [],
+      "properties": {
+        "corpus_changes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Updates to corpus or knowledge base"
+        },
+        "policy_updates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Updates to policy rails"
+        },
+        "decayed_packets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packet IDs that were decayed in this step"
+        },
+        "new_learnings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packet IDs capturing new learnings"
+        }
+      }
+    },
+    "drift_packet": {
+      "type": "object",
+      "description": "Drift detection: behavioral, policy, data, or corpus drift",
+      "required": ["drift_type", "severity"],
+      "properties": {
+        "drift_type": {
+          "type": "string",
+          "enum": ["behavioral", "policy", "data", "corpus"],
+          "description": "Type of drift detected"
+        },
+        "detection_method": {
+          "type": "string",
+          "enum": ["statistical", "heuristic", "council", "ground_truth"],
+          "description": "How drift was detected"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "Severity of drift"
+        },
+        "impacted_areas": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "System areas impacted by drift"
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packet IDs or data points supporting drift detection"
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["alert", "investigate", "rollback", "escalate"],
+          "description": "Recommended response to drift"
+        }
+      }
+    },
+    "rollback_packet": {
+      "type": "object",
+      "description": "Rollback: undo and recovery from a failed RPI loop",
+      "required": ["reason"],
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "description": "Snapshot ID to restore to"
+        },
+        "invalidated_packets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packet IDs that are invalidated by this rollback"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for rollback (e.g., 'council block', 'drift detected', 'operator override')"
+        },
+        "operator_override": {
+          "type": "boolean",
+          "description": "Whether this rollback was operator-triggered"
+        },
+        "rerun_instructions": {
+          "type": "object",
+          "description": "Instructions for re-attempting after rollback",
+          "properties": {
+            "adjusted_parameters": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "stricter_rails": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

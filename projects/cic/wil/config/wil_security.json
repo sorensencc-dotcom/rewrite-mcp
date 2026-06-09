@@ -1,0 +1,60 @@
+{
+  "shell": {
+    "allowedCommands": [
+      "ls", "ls -la", "ls -lR",
+      "cat", "grep", "find",
+      "git status", "git log", "git diff",
+      "echo", "pwd", "whoami",
+      "head", "tail", "wc", "sort", "uniq"
+    ],
+    "deniedPatterns": [
+      "^rm\\s+(-r|-f|--recursive|--force)",
+      "^dd\\s+",
+      "^mkfs",
+      "^(reboot|shutdown|halt|poweroff)",
+      "^chmod\\s+777",
+      "^sudo\\s+",
+      "^chown\\s+"
+    ]
+  },
+  "file": {
+    "allowedRoots": [
+      "./docs",
+      "./logs",
+      "./data",
+      "./cache",
+      "./tmp"
+    ],
+    "readOnlyRoots": [
+      "./vendor",
+      "./node_modules",
+      "./config/production"
+    ]
+  },
+  "http": {
+    "allowedDomains": [
+      "localhost",
+      "127.0.0.1",
+      "internal",
+      "github.com",
+      "api.github.com",
+      "archives.gov",
+      "archive.org"
+    ]
+  },
+  "model": {
+    "maxTokens": 100000,
+    "temperatureMax": 1.0,
+    "topPMin": 0.0,
+    "topPMax": 1.0
+  },
+  "browser": {
+    "deniedPatterns": [
+      "^exec",
+      "^system",
+      "^bash",
+      "^powershell",
+      "^cmd"
+    ]
+  }
+}

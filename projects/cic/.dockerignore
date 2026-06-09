@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+dist
+.git
+.env
+.venv
+.vscode
+coverage
+**/.DS_Store
+**/node_modules/.bin
+ingestion
+memory

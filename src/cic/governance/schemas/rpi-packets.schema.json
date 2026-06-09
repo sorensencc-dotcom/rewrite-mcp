@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cic.internal/schemas/rpi-packets.json",
+  "title": "CIC RPI Packet Schemas",
+  "description": "Schemas for Research, Plan, Implement, Validate, Record packets",
+  "definitions": {
+    "research_packet": {
+      "type": "object",
+      "description": "Research packet: exploration and context gathering",
+      "required": ["goal", "constraints"],
+      "properties": {
+        "goal": {
+          "type": "string",
+          "description": "Research goal or objective"
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Constraints on the research (time, scope, resources)"
+        },
+        "queries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Queries executed during research"
+        },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Document or knowledge base IDs consulted"
+        },
+        "selected_context": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific context items selected for the plan"
+        },
+        "telemetry_summary": {
+          "type": "object",
+          "description": "Summary of telemetry reviewed",
+          "properties": {
+            "recent_runs": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Recent run IDs reviewed"
+            },
+            "anomalies": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Anomalies or patterns detected"
+            }
+          }
+        }
+      }
+    },
+    "plan_packet": {
+      "type": "object",
+      "description": "Plan packet: proposed steps and acceptance criteria",
+      "required": ["steps", "acceptance_criteria"],
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Sequential steps to execute"
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Success criteria for plan completion"
+        },
+        "first_failing_test": {
+          "type": "string",
+          "description": "First test expected to fail if plan succeeds"
+        },
+        "risk_assessment": {
+          "type": "object",
+          "description": "Risk analysis",
+          "properties": {
+            "risks": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Identified risks"
+            },
+            "mitigations": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Mitigation strategies"
+            }
+          }
+        },
+        "premortem_summary": {
+          "type": "string",
+          "description": "Summary of premortem analysis"
+        }
+      }
+    },
+    "implement_packet": {
+      "type": "object",
+      "description": "Implement packet: actual changes applied",
+      "required": ["diffs", "commands"],
+      "properties": {
+        "diffs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Code diffs or changes applied"
+        },
+        "commands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Commands executed"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Generated artifacts (config versions, builds, etc.)"
+        },
+        "affected_resources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Resources affected by implementation"
+        }
+      }
+    },
+    "validate_packet": {
+      "type": "object",
+      "description": "Validate packet: test results and verdicts",
+      "required": ["test_results", "final_verdict"],
+      "properties": {
+        "test_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "test_id": { "type": "string" },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "fail", "skip", "error"]
+              },
+              "details": { "type": "string" }
+            },
+            "required": ["test_id", "status"]
+          },
+          "description": "Individual test results"
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Performance metrics",
+          "properties": {
+            "latency_ms": { "type": "number" },
+            "error_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+            "resource_usage": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "gate_packets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Gate packet IDs evaluated during validation"
+        },
+        "council_packets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Council verdict packet IDs"
+        },
+        "final_verdict": {
+          "type": "string",
+          "enum": ["permit", "block", "revise"],
+          "description": "Final verdict from gates and councils"
+        }
+      }
+    },
+    "record_packet": {
+      "type": "object",
+      "description": "Record packet: learnings and decisions from this RPI loop",
+      "required": ["decisions"],
+      "properties": {
+        "learnings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Key learnings from this run"
+        },
+        "decisions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Decisions made and their rationales"
+        },
+        "citations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packet IDs referenced in this record"
+        },
+        "impact": {
+          "type": "object",
+          "description": "Impact assessment",
+          "properties": {
+            "corpus_updates": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Updates to corpus or knowledge base"
+            },
+            "policy_implications": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Implications for policy rails"
+            }
+          }
+        }
+      }
+    }
+  }
+}

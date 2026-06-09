@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  phase4.4-telemetry:
+    build:
+      context: .
+      dockerfile: Dockerfile.phase4.4
+    container_name: phase4.4-telemetry
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      CODEBURN_ENDPOINT: http://codeburn-mock:3000/metrics
+      OPERATOR_ID: docker-day4-operator
+      LOG_LEVEL: debug
+    depends_on:
+      codeburn-mock:
+        condition: service_healthy
+    networks:
+      - phase4.4-network
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  codeburn-mock:
+    image: node:24-alpine
+    container_name: codeburn-mock
+    working_dir: /app
+    command: node /app/codeburn-mock.cjs
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+    networks:
+      - phase4.4-network
+    volumes:
+      - ./codeburn-mock.cjs:/app/codeburn-mock.cjs
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  phase4.4-network:
+    driver: bridge

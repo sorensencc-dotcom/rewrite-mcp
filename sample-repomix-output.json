@@ -1,0 +1,59 @@
+{
+  "files": [
+    {
+      "path": "package.json",
+      "language": "json",
+      "tokens": 245,
+      "content": "{\"name\":\"acme-platform\",\"version\":\"2.0.0\",\"dependencies\":{\"react\":\"^18.2.0\",\"axios\":\"^1.4.0\",\"lodash\":\"^4.17.0\",\"date-fns\":\"^2.30.0\"}}"
+    },
+    {
+      "path": "src/App.tsx",
+      "language": "typescript",
+      "tokens": 520,
+      "content": "import React, { useState, useEffect } from 'react';\nimport { fetchData } from './api/client';\n\nexport const App: React.FC = () => {\n  const [data, setData] = useState<any>(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    const loadData = async () => {\n      try {\n        const result = await fetchData();\n        setData(result);\n      } catch (error) {\n        console.error('Error loading data:', error);\n      } finally {\n        setLoading(false);\n      }\n    };\n    loadData();\n  }, []);\n\n  if (loading) return <div>Loading...</div>;\n  return <div>{data?.title}</div>;\n};"
+    },
+    {
+      "path": "src/api/client.ts",
+      "language": "typescript",
+      "tokens": 380,
+      "content": "import axios from 'axios';\n\nconst client = axios.create({\n  baseURL: process.env.REACT_APP_API_URL,\n  timeout: 5000,\n});\n\nexport async function fetchData() {\n  try {\n    const response = await client.get('/api/data');\n    return response.data;\n  } catch (error) {\n    throw new Error(`API Error: ${error}`);\n  }\n}\n\nexport async function postData(payload: unknown) {\n  const response = await client.post('/api/data', payload);\n  return response.data;\n}"
+    },
+    {
+      "path": "src/components/Header.tsx",
+      "language": "typescript",
+      "tokens": 290,
+      "content": "import React from 'react';\n\ninterface HeaderProps {\n  title: string;\n  onNavigate?: (path: string) => void;\n}\n\n/**\n * Header component for page navigation\n */\nexport const Header: React.FC<HeaderProps> = ({ title, onNavigate }) => {\n  return (\n    <header className=\"header\">\n      <h1>{title}</h1>\n      <nav>\n        <button onClick={() => onNavigate?.('/')}>Home</button>\n        <button onClick={() => onNavigate?.('/about')}>About</button>\n      </nav>\n    </header>\n  );\n};"
+    },
+    {
+      "path": "src/utils/validation.test.ts",
+      "language": "typescript",
+      "tokens": 410,
+      "content": "import { describe, it, expect } from '@jest/globals';\nimport { validate, sanitize } from './validation';\n\ndescribe('validation', () => {\n  it('should validate email addresses', () => {\n    expect(validate.email('test@example.com')).toBe(true);\n    expect(validate.email('invalid')).toBe(false);\n  });\n\n  it('should sanitize user input', () => {\n    expect(sanitize('<script>alert(1)</script>')).toBe('');\n    expect(sanitize('normal text')).toBe('normal text');\n  });\n});"
+    },
+    {
+      "path": "src/modules/auth/AuthService.ts",
+      "language": "typescript",
+      "tokens": 450,
+      "content": "export class AuthService {\n  async login(username: string, password: string) {\n    try {\n      const response = await fetch('/api/auth/login', {\n        method: 'POST',\n        body: JSON.stringify({ username, password }),\n      });\n      return response.json();\n    } catch (error) {\n      console.error('Login failed:', error);\n      throw error;\n    }\n  }\n\n  async logout() {\n    return fetch('/api/auth/logout', { method: 'POST' });\n  }\n}"
+    },
+    {
+      "path": "src/modules/payments/PaymentService.ts",
+      "language": "typescript",
+      "tokens": 380,
+      "content": "export class PaymentService {\n  async processPayment(amount: number, cardToken: string) {\n    try {\n      const response = await fetch('/api/payments/process', {\n        method: 'POST',\n        body: JSON.stringify({ amount, cardToken }),\n      });\n      if (!response.ok) throw new Error('Payment failed');\n      return response.json();\n    } catch (error) {\n      throw new Error(`Payment error: ${error}`);\n    }\n  }\n}"
+    },
+    {
+      "path": ".eslintrc.json",
+      "language": "json",
+      "tokens": 150,
+      "content": "{\"extends\":[\"eslint:recommended\"],\"rules\":{\"no-unused-vars\":\"warn\"}}"
+    },
+    {
+      "path": "tsconfig.json",
+      "language": "json",
+      "tokens": 200,
+      "content": "{\"compilerOptions\":{\"target\":\"ES2020\",\"module\":\"ESNext\",\"moduleResolution\":\"node\",\"jsx\":\"react\"}}"
+    }
+  ],
+  "totalTokens": 3025
+}

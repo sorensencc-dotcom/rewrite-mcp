@@ -1,0 +1,35 @@
+name: TheFoundry Build & Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build & Test (TheFoundry)
+        run: |
+          docker build \
+            -t thefoundry-node-build:${{ github.sha }} \
+            -f thefoundry/images/node-build/Dockerfile \
+            --target builder \
+            .
+
+      - name: Build Runtime Image
+        run: |
+          docker build \
+            -t thefoundry-node-runtime:${{ github.sha }} \
+            -f thefoundry/images/node-runtime/Dockerfile \
+            thefoundry/projects/app-main
+
+      - name: Push to Registry (optional)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker tag thefoundry-node-runtime:${{ github.sha }} \
+            registry.example.com/thefoundry-runtime:latest
+          docker push registry.example.com/thefoundry-runtime:latest || true
