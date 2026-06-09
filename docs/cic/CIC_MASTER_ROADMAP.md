@@ -3475,3 +3475,51 @@ Phase 56 (Portal)        ← Start when first client engagement confirmed
 | **Archive Digitization** | Client ships documents; OCR, classify, return organized archive | $1,500 flat | 50, 51 |
 
 **See:** `FAMILY_HISTORY_BUSINESS_PLAN.md` for full commercial model, marketing strategy, and go-to-market plan.
+
+---
+
+# **KNOWN ISSUES & BUGS**
+
+## **Wayland W1-W3 Deployment (2026-06-09)**
+
+**Status:** STAGING — Known issues identified, deploying as-is for validation
+
+### Critical Issues (Fix Before Production)
+
+| ID | Component | Issue | Impact | Priority |
+|---|---|---|---|---|
+| WIL-001 | MCP Server | Stack traces expose internals in JSON logs | Sensitive information leak | HIGH |
+| WIL-002 | MCP Server | No request size limit; unbounded `body += chunk` can OOM | DoS/crash risk | HIGH |
+| WIL-003 | Workflows | Notification template variables fragile; if Wayland doesn't populate {{var}}, stale/empty data sent to Slack | Alert noise, missed actual failures | HIGH |
+| WIL-004 | Config.ron | Missing env vars at startup fail silently (empty webhook URLs) | Notifications won't send, no startup error | HIGH |
+
+### Medium Issues (Fix Before Wider Rollout)
+
+| ID | Component | Issue | Impact | Priority |
+|---|---|---|---|---|
+| WIL-005 | MCP Server | No rate limiting; unbounded POST requests allow DoS | Potential availability impact | MEDIUM |
+| WIL-006 | Workflows | No exponential backoff; retries immediate | Fast retry storm on transient failures | MEDIUM |
+| WIL-007 | Workflows | Log URLs hardcoded (https://cic-logs/...) but endpoint not defined | 404 links in Slack alerts | MEDIUM |
+| WIL-008 | validate-workflows.js | Regex-based RON parsing; brittle, breaks on format changes | Maintenance debt | MEDIUM |
+
+### Low Issues (Nice-to-Have)
+
+| ID | Component | Issue | Impact | Priority |
+|---|---|---|---|---|
+| WIL-009 | validate-workflows.js | No async checks; only verifies script existence, not executable perms or validity | Edge case coverage | LOW |
+| WIL-010 | validate-workflows.js | Skill stages (improvement-analysis) not validated | Incomplete validation coverage | LOW |
+| WIL-011 | .env.example | Placeholder values not realistic; webhook URLs are long, example length confusing | Onboarding friction | LOW |
+| WIL-012 | config.ron | No fallback if Slack unavailable; workflows hang silently | Resilience improvement | LOW |
+
+### Fix Timeline
+
+**Before Staging Validation (2026-06-09):** WIL-001, WIL-004 (log scrubbing, env var validation)
+**Before Production Release (2026-06-22):** WIL-001 through WIL-007
+**V1.1 Enhancement:** WIL-008 through WIL-012
+
+### Workarounds for Staging
+
+- Monitor logs for template var mismatches (WIL-003)
+- Set SLACK_WEBHOOK_* before startup (WIL-004)
+- Validate on deploy: `node scripts/validate-workflows.js`
+- Rate-limit at reverse proxy layer (WIL-005)
