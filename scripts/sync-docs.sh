@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-ROOT_DIR="/mnt/c/dev/rewrite-mcp"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOCS_DIR="$ROOT_DIR/docs"
 
 echo "== [DocSync] Starting Documentation Synchronization (Reorg v2) =="
@@ -25,7 +25,7 @@ cp "$ROOT_DIR/design/control-plane/README.md" "$DOCS_DIR/rewrite/architecture/co
 # 3. Sync Tool Documentation
 echo "[DocSync] Syncing Tool Documentation..."
 mkdir -p "$DOCS_DIR/rewrite/tools"
-cp "/mnt/c/dev/tools/runtime-harness/README.md" "$DOCS_DIR/rewrite/tools/runtime-harness.md" 2>/dev/null || echo "[DocSync] Warning: Runtime Harness README not found."
+cp "$ROOT_DIR/../tools/runtime-harness/README.md" "$DOCS_DIR/rewrite/tools/runtime-harness.md" 2>/dev/null || echo "[DocSync] Warning: Runtime Harness README not found."
 cp "$ROOT_DIR/tools/prompt-telemetry/README.md" "$DOCS_DIR/rewrite/tools/prompt-telemetry.md" 2>/dev/null || echo "[DocSync] Warning: Prompt Telemetry README not found."
 
 # 4. Sync Governance and Skills
