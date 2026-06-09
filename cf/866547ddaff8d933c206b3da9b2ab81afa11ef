@@ -1,0 +1,20 @@
+scripts/sync-docs.sh
+  s_600e54d12fc578::t_b2e80ff2f9ac40 28
+  s_600e54d12fc578::t_eabf921a7829a4 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "cf866547ddaff8d933c206b3da9b2ab81afa11ef",
+  "prompts": {},
+  "sessions": {
+    "s_600e54d12fc578": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "58ecfb75-dfcb-4521-bfaa-fe456331c68b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
