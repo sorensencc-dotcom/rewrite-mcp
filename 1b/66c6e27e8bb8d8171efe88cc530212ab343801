@@ -1,0 +1,73 @@
+build-system/policies/agent.rego
+  s_87be2574e45b7b::t_104621c927c87e 1-41
+projects/cic/ingestion/package.json
+  s_14faad8c1bd803::t_13fc1b2f5fad93 10
+build-system/README.md
+  s_87be2574e45b7b::t_d94bb003620596 1-265
+build-system/policies/docker.rego
+  s_87be2574e45b7b::t_d28cced7fc5d3a 1-45
+projects/cic/ingestion/src/index.ts
+  s_14faad8c1bd803::t_602447e17d90f5 1-29
+projects/cic/audit/src/index.ts
+  s_14faad8c1bd803::t_59e795996ed4dc 1,3-5,7-14,17-28
+projects/cic/orchestrator/src/index.ts
+  s_14faad8c1bd803::t_0b0eb19e70c229 1-29
+build-system/schemas/routing-map.yaml
+  s_87be2574e45b7b::t_ebc251a77fbe39 1-114
+build-system/docker/labs/Dockerfile.redesign.gpu
+  s_87be2574e45b7b::t_8245550cf505bd 1-32
+build-system/docker/cic/Dockerfile.ingestion
+  s_87be2574e45b7b::t_5c57b3c931ebad 1-33
+projects/cic/ingestion/Dockerfile
+  s_14faad8c1bd803::t_50313d53921f5d 1-2,4-15,17-18,20,22-24,26,30-33
+build-system/examples/build-all-agents.sh
+  s_87be2574e45b7b::t_82a8c906c394dc 1-81
+projects/cic/audit/tsconfig.json
+  s_14faad8c1bd803::t_3e052345cefce1 1-19
+projects/cic/orchestrator/Dockerfile
+  s_14faad8c1bd803::t_4fdde4cc3aca03 1-2,4-15,17-18,20,22-24,26,30-33
+projects/cic/audit/Dockerfile
+  s_14faad8c1bd803::t_a7c2da38961a3f 1-2,4-15,17-18,20,22-24,26,30-33
+projects/cic/ingestion/tsconfig.json
+  s_14faad8c1bd803::t_90df45ea697886 1-19
+docs/cic/phase-0-7-unified-build.md
+  s_87be2574e45b7b::t_4593b04c984a1d 1-614
+build-system/schemas/agent-registration.schema.json
+  s_87be2574e45b7b::t_e6ec76dd90ed31 1-118
+build-system/examples/agent-registration-example.json
+  s_87be2574e45b7b::t_a1c8ab271a9aef 1-37
+build-system/schemas/lineage-packet.schema.json
+  s_87be2574e45b7b::t_4c29923f875201 1-94
+projects/cic/audit/package.json
+  s_14faad8c1bd803::t_fde66d59a022a6 13
+projects/cic/orchestrator/tsconfig.json
+  s_14faad8c1bd803::t_ac917f25c68ee5 1-19
+build-system/examples/validate-lineage-packet.sh
+  s_87be2574e45b7b::t_adc58c6f59d396 1-77
+projects/cic/orchestrator/package.json
+  s_14faad8c1bd803::t_2986bb7d032f6f 6-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "1b66c6e27e8bb8d8171efe88cc530212ab343801",
+  "prompts": {},
+  "sessions": {
+    "s_14faad8c1bd803": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2b0f0ef3-8d9c-47fe-9477-cd38ebc8f590",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_87be2574e45b7b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b95cf59e-db20-4f3c-af49-0eb752e7deab",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
