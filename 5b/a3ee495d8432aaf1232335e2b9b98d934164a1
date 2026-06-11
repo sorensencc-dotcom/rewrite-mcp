@@ -1,0 +1,32 @@
+tsconfig.json
+  s_e18d579c113d68::t_26d1b270cafe1f 4,17-18,21-22,25,28
+.github/workflows/cic-dashboard-e2e.yml
+  s_e18d579c113d68::t_97abfa3ddefda3 18
+.github/workflows/operator.yml
+  s_e18d579c113d68::t_b143a7ba74810b 11,13
+package.json
+  s_e18d579c113d68::t_3a796270039ef6 47-51
+  s_e18d579c113d68::t_feeccdb123b63b 53-59
+.github/workflows/memory-sync-pack.yml
+  s_e18d579c113d68::t_ec3b2cb5b9e5bf 20
+.github/workflows/bob-validate.yml
+  s_e18d579c113d68::t_ae2bb2b458afa8 27
+.github/workflows/nightly-bench.yml
+  s_e18d579c113d68::t_b33bdb66c162b1 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "5ba3ee495d8432aaf1232335e2b9b98d934164a1",
+  "prompts": {},
+  "sessions": {
+    "s_e18d579c113d68": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a0f93137-2d0c-43b2-8f93-71bd64a4f83b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
