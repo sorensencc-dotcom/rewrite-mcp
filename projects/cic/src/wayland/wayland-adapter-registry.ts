@@ -98,14 +98,68 @@ export const createDefaultRegistry = (): WaylandAdapterRegistry => {
     },
   });
 
-  // HTTP adapter (stub)
+  // HTTP adapter (real implementation)
   registry.register({
     id: 'http',
     description: 'HTTP client adapter',
     type: 'http',
     async execute(payload, ctx) {
-      ctx.logger.info('http.execute', { url: (payload as any)?.url });
-      return { status: 'ok', data: {} };
+      const req = payload as any;
+      if (!req.url || !req.method) {
+        throw new Error('HTTP adapter requires url and method in payload');
+      }
+
+      ctx.logger.info('http.execute.start', {
+        method: req.method,
+        url: req.url,
+        sessionId: ctx.sessionId,
+      });
+
+      try {
+        const controller = new AbortController();
+        const timeout = req.timeoutMs || 15000;
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+        const response = await fetch(req.url, {
+          method: req.method,
+          headers: req.headers || { 'content-type': 'application/json' },
+          body: req.body ? JSON.stringify(req.body) : undefined,
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        let data: any;
+        try {
+          data = await response.json();
+        } catch (parseErr: any) {
+          throw new Error(`Invalid JSON from ${req.url}: ${parseErr.message}`);
+        }
+        ctx.logger.info('http.execute.success', {
+          method: req.method,
+          url: req.url,
+          status: response.status,
+          sessionId: ctx.sessionId,
+        });
+
+        return {
+          status: 'ok',
+          code: response.status,
+          data,
+        };
+      } catch (err: any) {
+        ctx.logger.error('http.execute.error', {
+          method: req.method,
+          url: req.url,
+          error: err.message,
+          sessionId: ctx.sessionId,
+        });
+        throw err;
+      }
     },
   });
 

@@ -138,9 +138,15 @@ export const createDefaultSecurityPolicy = (): WaylandSecurityPolicy => {
         id: 'http',
         name: 'HTTP Client',
         allowed: true,
-        maxDurationMs: 15000,
-        allowedHosts: ['api.internal', 'localhost', '127.0.0.1'],
-        allowWrite: false,
+        maxDurationMs: 30000,
+        allowedHosts: [
+          'api.internal',
+          'localhost',
+          '127.0.0.1',
+          'localhost:7001',
+          '127.0.0.1:7001',
+        ],
+        allowWrite: true,
         requiresApproval: false,
       },
       {
