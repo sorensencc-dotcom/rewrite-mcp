@@ -6,26 +6,6 @@
 
 ---
 
-## Claude / Copilot Sync Behavior
-
-- **Claude** is the deep systems reasoning engine. It receives:
-  - `Memory Diff Tool`
-  - `Memory Injection Block`
-  - `Rewrite Labs State Tracker`
-  - `docs/cic/CIC_SYSTEM.md`
-- These tools form the Claude memory sync path, ensuring the model is aligned to the latest workspace state before generating proposals.
-- Claude must preserve deterministic document authority behavior and only propose changes when the system contract allows it.
-- **Copilot** is the living document orchestrator. For every documentation update it must follow the workflow:
-  - `FIND` → locate the authoritative source
-  - `READ` → understand current content and versioning rules
-  - `DETERMINE VERSION BUMP` → select the appropriate semantic increment
-  - `GENERATE` → create the updated content or changelog entry
-  - `UPLOAD` → commit the change into the workspace
-  - `ARCHIVE IN PLACE` → preserve prior versions and history in the document repository
-  - `CONFIRM` → verify the update, changelog, and roadmap reflect the change
-
----
-
 ## Step 1 — Determine the current version
 
 Read `docs/CHANGELOG.md`. The current version is the first `## [X.Y.Z]` entry.
