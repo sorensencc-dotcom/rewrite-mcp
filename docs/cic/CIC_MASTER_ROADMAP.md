@@ -1573,7 +1573,127 @@ This is the **semantic substrate** that powers autonomous operation.
 CIC has a unified semantic world model. This completes the **minimum viable stack** for full autonomy: Memory (what happened) → Skill Graph (what we can do) → APR (what we plan) → CRO (what we execute) → CKG (how it all fits together).
 
 Everything after Phase 27 is optimization, specialization, and expansion.
-<!-- ARPS:PHASE_27:END -->
+<!-- ARPS:PHASE_28:END -->
+
+---
+
+<!-- ARPS:PHASE_28A:BEGIN -->
+## Phase 28a — Skill Contribution Pipeline (SCP)
+
+**Status:** DESIGN SPEC (2026-06-11)
+
+**Execution:** Parallel to Phase 28–29, start 2026-06-18  
+**Timeline:** 15 days (MVP + hardening)
+
+### Goal
+
+Establish automated feedback loop for skill improvements: detect local changes to adopted skills, generate upstream PRs, track acceptance, notify contributor. Transforms local improvements into community contributions.
+
+### Why This Phase
+
+Skills adopted into CIC improve constantly:
+- Bug fixes, performance optimizations, test additions, error handling
+- Currently: improvements stay local, upstream creators miss value
+- Goal: automatic pipeline turns local wins into upstream wins
+
+### Architecture Overview
+
+**Five core subsystems:**
+1. **Skills Manifest** — track adopted skills, source repos, versions
+2. **Change Detection** — diff local vs upstream, periodic or on-demand
+3. **Contribution Agent** — generate PR title/description, create GitHub PR
+4. **Status Tracker** — poll GitHub API, track PR acceptance/rejection
+5. **Notification Engine** — Slack/Teams/SMS alerts for submission, merge, close, stale
+
+### Deliverables
+
+#### 28a.1 — SCP Architecture Spec (SCP‑Spec)
+- Skills manifest schema (`~/.claude/skills/manifest.json`)
+- Change detection algorithm
+- Contribution agent design (PR generation, GitHub integration)
+- Status tracking model
+- Notification routing
+- Output: `docs/SKILL-CONTRIBUTION-PIPELINE.md`
+
+#### 28a.2 — Skills Manifest & CLI (SCP‑Manifest)
+- Manifest schema: skill_id, localPath, sourceRepo, modifications, lastSyncCommit
+- CLI commands: `/skill-manifest register`, `/skill-manifest list`, `/skill-manifest check-upstream`
+- Auto-detection of modifications by git diff
+- Output: `~/.claude/skills/manifest.json`, CLI agent
+
+#### 28a.3 — Change Detection Agent (SCP‑Detector)
+- Clone/fetch upstream repos (GitHub MVP)
+- Git diff: upstream HEAD vs local
+- Classify diffs: perf-optimization, bug-fix, feature, test-coverage, error-handling
+- Report: 1-line summary per skill with change count
+- Output: Diff detector agent
+
+#### 28a.4 — Contribution Agent (SCP‑Contributor)
+- Auto-generate PR title + description from diff + metadata
+- Create GitHub branch (`contrib/skill-{name}-{date}`)
+- Commit diff with standardized message format
+- Create GitHub PR via API
+- Store PR metadata locally
+- Output: Contribution creation agent
+
+#### 28a.5 — Status Tracker (SCP‑Tracker)
+- Poll GitHub API daily for PR status (open/merged/closed)
+- Store metadata: PR URL, status, creation date, last checked, author
+- Detect stale PRs (>30 days no activity)
+- Log closure reasons if available
+- Output: `~/.claude/skills/contributions/{skill-id}-{pr-number}.json`, status tracker
+
+#### 28a.6 — Notification Engine (SCP‑Notifier)
+- Slack channel: submitted, merged, closed, stale alerts
+- Teams integration (Phase 2)
+- SMS/iMessage via Twilio (Phase 2)
+- Alert templates with PR URL, change summary, suggested action
+- Output: Notification dispatcher
+
+#### 28a.7 — SCP Integration & Automation (SCP‑Ops)
+- Cron scheduling: daily diff checks, status polling
+- Authentication: GitHub token storage in secrets manager
+- Error handling: repo unavailable, auth failures, network issues
+- Initial skill registration: fewer-permission-prompts, improvement-analysis
+- Output: Operational setup, initial registrations
+
+### Dependencies
+- GitHub API access (OAuth or token)
+- Manifest directory: `~/.claude/skills/`
+- Slack workspace (MVP notification)
+
+### Execution Order
+1. Spec (28a.1) — 1 day [DONE]
+2. Manifest + CLI (28a.2) — 2 days
+3. Detector (28a.3) — 2 days
+4. Contributor (28a.4) — 2 days
+5. Tracker (28a.5) — 1 day
+6. Notifier (28a.6) — 2 days
+7. Integration & Ops (28a.7) — 3 days
+
+**Total: 13 days end-to-end**
+
+### Phase 2 Enhancements (Deferred)
+- [ ] Multi-repo hosts: GitLab, Gitea, Codeberg
+- [ ] Valuation heuristics: flag >200 LOC or major features for licensing negotiation
+- [ ] CLA/license detection: auto-handle contributor agreements
+- [ ] SMS/iMessage: Twilio integration for premium alerts
+- [ ] Quality gates: require tests, coverage %, perf benchmarks before PR
+- [ ] Analytics: acceptance rate per repo, feedback patterns, trending topics
+
+### Success Criteria
+✅ MVP deployed by 2026-07-01
+✅ 2+ skills registered and monitored
+✅ At least 1 successful upstream PR merged from local improvement
+✅ Slack notifications working (submit → status → merge)
+✅ Zero credential leaks (secure token storage)
+✅ Status polling running daily, no manual intervention needed
+
+### Outcome
+CIC contributors' improvements automatically flow upstream. Open source ecosystem benefits from CIC's refinements. Feedback loop strengthens both CIC and upstream projects.
+
+**Reference:** See `docs/SKILL-CONTRIBUTION-PIPELINE.md` for full specification.
+<!-- ARPS:PHASE_28A:END -->
 
 ---
 
