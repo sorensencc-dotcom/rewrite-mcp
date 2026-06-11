@@ -1,6 +1,6 @@
 /**
  * CIC Governance Module — Complete Export
- * Phase 24.1, 24.2, 24.3
+ * Phase 24.1, 24.2, 24.3, 24.4, 24.5
  */
 
 // Phase 24.1 — Governance Model
@@ -19,6 +19,22 @@ export { GovernanceMemoryStore, Snapshot, QueryFilter, QueryResult } from './gov
 // Phase 24.4 — Phase API Contracts
 export { RunContext, PhaseTransition } from './run-context';
 export * from './phase-contracts';
+
+// Phase 24.5 — Build Governance Integration
+export { BuildValidator, BuildValidationResult, ValidationCheck, ValidationStatus } from './build-validator';
+export {
+  BuildApprovalGate,
+  PromotionRequest,
+  PromotionTarget,
+  PromotionVerdict,
+  GateDecision,
+  CouncilPromotionVote,
+} from './build-approval-gate';
+export {
+  BuildGovernanceIntegration,
+  BuildIntegrationConfig,
+  IntegrationResult,
+} from './build-governance-integration';
 
 // Governance engine (composite)
 export class GovernanceEngine {

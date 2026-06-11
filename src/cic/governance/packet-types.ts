@@ -17,7 +17,8 @@ export type PacketType =
   | 'council'
   | 'evolution_step'
   | 'drift'
-  | 'rollback';
+  | 'rollback'
+  | 'build_lineage';
 
 /**
  * All valid CIC phases
@@ -248,6 +249,54 @@ export interface RollbackPacket extends PacketEnvelope {
 }
 
 // ============================================================================
+// BUILD LINEAGE PACKETS (Phase 24.5)
+// ============================================================================
+
+export interface SBOMReference {
+  sbom_id: string;
+  format: 'cyclonedx' | 'spdx';
+  ref_uri: string;
+  component_count?: number;
+}
+
+export interface ProvenanceData {
+  git_sha: string;
+  git_branch?: string;
+  git_remote?: string;
+  timestamp: string;
+  builder: string;
+  builder_version?: string;
+  determinism_hash?: string; // sha256 of build env state
+}
+
+export interface ArtifactSignature {
+  artifact_id: string;
+  artifact_type: 'container' | 'library' | 'binary';
+  registry_uri?: string;
+  digest_sha256: string;
+  size_bytes?: number;
+  push_timestamp?: string;
+}
+
+export interface BuildLineagePacketContent {
+  build_id: string;
+  agent_id: string;
+  phase: 'orchestrate' | 'execution';
+  artifacts: ArtifactSignature[];
+  sbom: SBOMReference;
+  provenance: ProvenanceData;
+  dependencies?: string[]; // Parent artifact IDs (from lineage graph)
+  validation_status?: 'pending' | 'passed' | 'failed';
+  validation_errors?: string[];
+  policy_context?: PolicyContext;
+}
+
+export interface BuildLineagePacket extends PacketEnvelope {
+  packet_type: 'build_lineage';
+  content: BuildLineagePacketContent;
+}
+
+// ============================================================================
 // UNION TYPE FOR ALL PACKETS
 // ============================================================================
 
@@ -261,7 +310,8 @@ export type GovernancePacket =
   | CouncilPacket
   | EvolutionStepPacket
   | DriftPacket
-  | RollbackPacket;
+  | RollbackPacket
+  | BuildLineagePacket;
 
 // ============================================================================
 // TYPE GUARDS
@@ -305,6 +355,10 @@ export function isDriftPacket(packet: GovernancePacket): packet is DriftPacket {
 
 export function isRollbackPacket(packet: GovernancePacket): packet is RollbackPacket {
   return packet.packet_type === 'rollback';
+}
+
+export function isBuildLineagePacket(packet: GovernancePacket): packet is BuildLineagePacket {
+  return packet.packet_type === 'build_lineage';
 }
 
 // ============================================================================
@@ -437,6 +491,25 @@ export class PacketBuilder {
       run_id,
       agent_id,
       phase: options?.phase || 'audit',
+      timestamp: new Date().toISOString(),
+      parent_packet_ids: options?.parent_packet_ids,
+      policy_context: options?.policy_context,
+      content,
+    };
+  }
+
+  static buildLineage(
+    run_id: string,
+    agent_id: string,
+    content: BuildLineagePacketContent,
+    options?: { phase?: 'orchestrate' | 'execution'; parent_packet_ids?: string[]; policy_context?: PolicyContext }
+  ): BuildLineagePacket {
+    return {
+      packet_id: generateUUID(),
+      packet_type: 'build_lineage',
+      run_id,
+      agent_id,
+      phase: options?.phase || 'execution',
       timestamp: new Date().toISOString(),
       parent_packet_ids: options?.parent_packet_ids,
       policy_context: options?.policy_context,
