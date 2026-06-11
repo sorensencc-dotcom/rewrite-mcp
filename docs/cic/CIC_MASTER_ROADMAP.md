@@ -3541,10 +3541,10 @@ Phase 56 (Portal)        ← Start when first client engagement confirmed
 
 | ID | Component | Issue | Impact | Priority |
 |---|---|---|---|---|
-| WIL-005 | MCP Server | No rate limiting; unbounded POST requests allow DoS | Potential availability impact | MEDIUM |
-| WIL-006 | Workflows | No exponential backoff; retries immediate | Fast retry storm on transient failures | MEDIUM |
-| WIL-007 | Workflows | Log URLs hardcoded (https://cic-logs/...) but endpoint not defined | 404 links in Slack alerts | MEDIUM |
-| WIL-008 | validate-workflows.js | Regex-based RON parsing; brittle, breaks on format changes | Maintenance debt | MEDIUM |
+| WIL-005 | MCP Server | ✅ FIXED: Per-IP rate limiting (100 req/60s, 429 response) | DoS prevention | MEDIUM |
+| WIL-006 | Workflows | ✅ FIXED: Exponential backoff (1s → 2s → 4s → ... → 30s max) | Retry storm prevention | MEDIUM |
+| WIL-007 | Workflows | ✅ FIXED: Dynamic log URLs (CIC_LOGS_BASE_URL env var) | 404 link prevention | MEDIUM |
+| WIL-008 | validate-workflows.js | ✅ FIXED: Bracket-matching RON parser (not regex) | Robust validation | MEDIUM |
 
 ### Low Issues (Nice-to-Have)
 
@@ -3557,9 +3557,16 @@ Phase 56 (Portal)        ← Start when first client engagement confirmed
 
 ### Fix Timeline
 
-**Before Staging Validation (2026-06-09):** WIL-001, WIL-004 (log scrubbing, env var validation)
-**Before Production Release (2026-06-22):** WIL-001 through WIL-007
-**V1.1 Enhancement:** WIL-008 through WIL-012
+**✅ COMPLETED (2026-06-10):** WIL-001 through WIL-008
+- WIL-001: Stack traces scrubbed in production logs
+- WIL-004: Env var validation at startup
+- WIL-006: Exponential backoff for retries (1s → 2s → 4s → ... → 30s max)
+- WIL-007: Dynamic log URLs (CIC_LOGS_BASE_URL env var)
+- WIL-005: Rate limiting (100 req/60s per IP, returns 429)
+- WIL-008: Robust RON parsing (bracket matching instead of regex)
+
+**Before Production Release (2026-06-22):** ✅ All critical + medium issues done
+**V1.1 Enhancement:** WIL-009 through WIL-012
 
 ### Workarounds for Staging
 
