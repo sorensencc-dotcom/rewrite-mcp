@@ -35,7 +35,7 @@ export async function runPlaybookGenerator(ast = {}) {
     const relativePath = path.relative(ROOT_DIR, targetPath).replace(/\\/g, '/');
 
     const rendered = await renderTemplate(TEMPLATE_FILE, {
-      version: `pb-${new Date().toISOString().slice(0, 10)}`,
+      version: 'pb-1.0.0',
       stages,
       rules
     });

@@ -31,7 +31,6 @@ export async function runTestGenerator(ast = {}) {
         name: mod,
         moduleDir: 'bob/generated/modules',
         testPath: relativePath,
-        date: new Date().toISOString().slice(0, 10),
         version: '1.0.0'
       });
 

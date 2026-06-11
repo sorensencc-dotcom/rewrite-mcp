@@ -57,7 +57,6 @@ export async function runModuleGenerator(ast = {}) {
       const rendered = await renderTemplate(TEMPLATE_FILE, {
         name: mod.name,
         path: relativePath,
-        date: new Date().toISOString().slice(0, 10),
         version: '1.0.0'
       });
 

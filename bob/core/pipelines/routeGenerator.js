@@ -32,7 +32,6 @@ export async function runRouteGenerator(ast = {}) {
       const rendered = await renderTemplate(TEMPLATE_FILE, {
         handlerName: route.handlerName,
         path: relativePath,
-        date: new Date().toISOString().slice(0, 10),
         version: '1.0.0'
       });
 
