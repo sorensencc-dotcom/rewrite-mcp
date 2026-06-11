@@ -2,13 +2,21 @@
 
 echo "🔍 Checking for BOB drift before pushing..."
 
-# Only run BOB build if BOB-relevant files changed in this push
-CHANGED=$(git diff --name-only HEAD @{push} 2>/dev/null | grep -cE '(docs/.*\.md|projects/.*\.md|bob/templates/|bob/core/)' || true)
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# Resolve diff base: upstream push ref, fall back to origin/main, then HEAD~1
+PUSH_BASE=$(git rev-parse "@{push}" 2>/dev/null \
+  || git rev-parse "origin/main" 2>/dev/null \
+  || git rev-parse "HEAD~1" 2>/dev/null \
+  || git rev-parse "HEAD")
+
+CHANGED=$(git diff --name-only HEAD "$PUSH_BASE" 2>/dev/null \
+  | grep -cE '(docs/.*\.md|projects/.*\.md|bob/templates/|bob/core/)' || echo "0")
 
 if [ "$CHANGED" -gt "0" ]; then
-  cd bob || exit 1
+  cd "$REPO_ROOT/bob" || exit 1
   node bin/bob.js build
-  cd ..
+  cd "$REPO_ROOT" || exit 1
 
   if ! git diff --quiet; then
     echo "------------------------------------------------------------"

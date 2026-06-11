@@ -14,7 +14,8 @@ export async function renderTemplate(templatePath, data = {}) {
   try {
     let content = await fs.readFile(templatePath, 'utf8');
     for (const [key, val] of Object.entries(data)) {
-      const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g');
+      const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\{\\{\\s*${escapedKey}\\s*\\}\\}`, 'g');
       content = content.replace(regex, typeof val === 'object' ? JSON.stringify(val, null, 2) : val);
     }
     return content;
@@ -45,8 +46,8 @@ export function mergeCustomBlocks(oldContent = '', newContent = '') {
   while ((match = jsRegex.exec(oldContent)) !== null) {
     const blockName = match[1];
     const blockBody = match[2];
-    
-    // Find matching block in the newly generated scaffold and substitute body
+
+    // blockName is constrained by regex [A-Z_0-9]+ so no unescaped regex injection risk here
     const targetRegex = new RegExp(`(// BEGIN CUSTOM ${blockName}[\\r\\n]+)([\\s\\S]*?)(// END CUSTOM ${blockName})`, 'g');
     merged = merged.replace(targetRegex, `$1${blockBody}$3`);
   }
@@ -79,7 +80,7 @@ export async function writeFileSafely(filePath, newContent) {
     try {
       existingContent = await fs.readFile(filePath, 'utf8');
     } catch (err) {
-      // File does not exist yet; normal write
+      if (err.code !== 'ENOENT') throw err;
     }
 
     const mergedContent = mergeCustomBlocks(existingContent, newContent);

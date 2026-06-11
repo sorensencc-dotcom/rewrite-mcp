@@ -29,7 +29,7 @@ export async function runTestGenerator(ast = {}) {
 
       const rendered = await renderTemplate(TEMPLATE_FILE, {
         name: mod,
-        moduleDir: 'bob/generated/modules',
+        moduleDir: 'modules',
         testPath: relativePath,
         version: '1.0.0'
       });

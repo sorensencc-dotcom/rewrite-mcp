@@ -2,8 +2,16 @@ name: BOB Validation
 
 on:
   pull_request:
+    paths:
+      - 'bob/**'
+      - 'docs/**/*.md'
+      - 'projects/**/*.md'
   push:
     branches: [ main ]
+    paths:
+      - 'bob/**'
+      - 'docs/**/*.md'
+      - 'projects/**/*.md'
 
 jobs:
   bob-validate:

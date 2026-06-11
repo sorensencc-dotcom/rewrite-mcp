@@ -85,6 +85,8 @@ benchmarks/routing/.agent-prefs.json
 # -------------------------
 # BOB BUILD ARTIFACTS & LOGS
 # -------------------------
+# Partial gitignore is intentional: bob/generated/*.js/*.json are TRACKED to preserve
+# custom blocks and enable drift checks. Only runtime docs + history are excluded.
 bob/generated/docs/docs-index.md
 history/history.jsonl
 
