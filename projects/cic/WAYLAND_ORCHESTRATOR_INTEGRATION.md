@@ -59,6 +59,17 @@ Reasoning Logic + Ingest Service
 - Max duration: 30s
 - Write permission enabled
 
+## Code Quality & Security Hardening (2026-06-11)
+
+**Applied fixes:**
+
+- ✅ HTTP adapter: Timeout cleanup guaranteed via try/finally (prevents timeout leak on network errors)
+- ✅ Security policy: Path boundary checking fixed (`/work` no longer matches `/workspace`)
+- ✅ Security policy: HTTP method check optimized (Set.has() instead of includes(), O(1) lookup)
+- ✅ Security policy: Empty allowedCommands handled explicitly (deny-all semantics documented)
+
+**Commit:** `52fa5f3` in rewrite-mcp — no behavioral changes, improves robustness & security.
+
 ## Usage
 
 ### 1. Start Services
