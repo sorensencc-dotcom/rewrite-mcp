@@ -143,7 +143,7 @@ export class WaylandOrchestratorEndpoint {
       this.handleReasoning(req, res);
     });
 
-    app.get('/reason/health', (req: Request, res: Response) => {
+    app.get('/reason/health', (_req: Request, res: Response) => {
       res.status(200).json({
         status: 'ok',
         service: 'orchestrator-wayland-endpoint',

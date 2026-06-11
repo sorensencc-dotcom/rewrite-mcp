@@ -1,7 +1,7 @@
 # Master Roadmap — CIC / Rewrite Labs
-# File: docs/roadmaps/master-roadmap.md | Version: 2.6.0 | Date: 2026-06-09
+# File: docs/roadmaps/master-roadmap.md | Version: 2.7.0 | Date: 2026-06-11
 # Status: ACTIVE
-# Last Updated: 2026-06-09 (Phase 4.4 complete, Phases 5–6 roadmap added)
+# Last Updated: 2026-06-11 (Wayland W1–W7 phases added, W1 complete, W2–W3 in progress)
 
 ---
 
@@ -132,3 +132,102 @@
 - Documentary pitch package generator
 
 **Dependencies:** Phase 4 (corpus persistence)
+
+---
+
+## Wayland Integration Phases (W1–W7) — Autonomous Orchestration
+
+### Status: W1 Complete, W2–W3 In Progress, W4–W6 Ready, W7 Pending W1
+
+**Overview:** Implement Phase 23–27 autonomy stack via Wayland CLI + ForgeFlow workflows. Replaces manual PS1 chaining with declarative pipelines, autonomous assistants, and real-time observability.
+
+### W1 — Install & Scaffold ✓ COMPLETE
+**Delivered:** 2026-06-11
+
+- Installed wayland-core v0.10.0 via npm
+- Created `.wayland/config.toml` (Opus 4.8 model, Anthropic provider, metrics :9091)
+- Ported improvement-analysis.md skill to `.wayland/skills/`
+- Added improvement-analysis.js implementation
+- Updated `.claude/settings.json` with read-only tool allowlist (6 tools, 314+ high-frequency calls)
+- Updated W4-W7-STATUS.md status document
+
+**Ref:** Commit e83c084 "Wayland Phase W1: Install & Scaffold complete"
+
+### W2 — Skill Port ✓ COMPLETE
+**Delivered:** 2026-06-11
+
+- improvement-analysis.md skill ported (Markdown + YAML compatible)
+- improvement-analysis.js implementation created in scripts/
+- Skill ready for execution: `npx @ferroxlabs/wayland-core run --skill improvement-analysis`
+
+**Pending:** ANTHROPIC_API_KEY environment variable
+
+### W3 — ForgeFlow Pipelines ⏳ OPEN
+**Timeline:** 2026-06-12 through 2026-06-14
+**Effort:** 2–3 days
+
+Four workflows to create in `.wayland/workflows/`:
+
+1. **cic-daily-ingest.ron** — Ingest pipeline (bulk-ingest-batches → classify → organize → Slack notify)
+2. **cic-archive-query.ron** — Archive research (query-archives → reconcile → Slack notify)
+3. **cic-weekly-ops.ron** — Operations (follow-ops → curate → report → Slack notify)
+4. **cic-improvement-analysis.ron** — Monthly analysis (skill invoke → save report → Slack notify)
+
+**Ref:** `.wayland/workflows/` directory (to be created)
+
+### W4 — Slack Channel Setup ✓ COMPLETE
+**Delivered:** 2026-06-09
+
+- 4 apps configured: Herald, Sentinel, Automaton, Pilot
+- 4 channels live: #cic-pipeline, #cic-alerts, #w7-assistants, #wayland-orchestration
+- Webhooks tested and responding
+
+**Ref:** W4-W7-STATUS.md
+
+### W5 — Prometheus + Grafana Metrics ✓ COMPLETE
+**Delivered:** 2026-06-09
+
+- Prometheus running (localhost:9090), alert rules defined
+- Grafana running (localhost:3000, admin:admin)
+- CIC System Overview dashboard auto-provisioned
+- Awaiting Wayland metrics on :9091 (will appear when W1-W3 run)
+
+**Ref:** W4-W7-STATUS.md
+
+### W6 — MCP Server (Real Data) ✓ COMPLETE
+**Delivered:** 2026-06-09
+
+- cic-mcp-server.js running (:7010)
+- 6 tools responding: query_inventory, search_entity_graph, get_archive_results, get_gaps_report, get_system_health
+- 663 inventory records, 10 archive results live
+
+**Ref:** scripts/cic-mcp-server.js, W4-W7-STATUS.md
+
+### W7 — Autonomous Assistants ⏳ READY (Pending W3)
+**Timeline:** 2026-06-15 through 2026-06-22
+**Effort:** 2–3 days
+
+Four assistants in `.wayland/assistants.ron`:
+
+1. **CIC-Ingest** (Daily 03:00 UTC) → cic-daily-ingest workflow
+2. **CIC-Research** (Mon 04:00 UTC) → cic-archive-query workflow
+3. **CIC-Report** (Fri 18:00 UTC) → cic-weekly-ops workflow
+4. **CIC-Monitor** (1st/mo 06:00 UTC) → improvement-analysis workflow
+
+All assistants wired to Slack, MCP tools, and Prometheus metrics export.
+
+**Blocker:** W3 workflows must be created first
+
+**Ref:** W4-W7-STATUS.md, `.wayland/assistants.ron`
+
+---
+
+**Next Actions:**
+
+1. Set ANTHROPIC_API_KEY environment variable
+2. Create W3 workflows (cic-daily-ingest.ron, cic-archive-query.ron, cic-weekly-ops.ron, cic-improvement-analysis.ron)
+3. Test skill execution: `npx @ferroxlabs/wayland-core run --skill improvement-analysis`
+4. Load and test assistants with `wayland config load-assistants`
+5. Verify Wayland metrics flow to Prometheus → Grafana
+
+**Dependencies:** Phase 1 (ingestion pipeline) — provides scripts for W3 workflows to call
