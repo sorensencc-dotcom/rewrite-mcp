@@ -57,8 +57,8 @@ export function mergeCustomBlocks(oldContent = '', newContent = '') {
   while ((match = commentRegex.exec(oldContent)) !== null) {
     const blockName = match[1];
     const blockBody = match[2];
-    
-    const targetRegex = new RegExp(`(/\\* BEGIN CUSTOM ${blockName} \\*/[\\r\\n]+)([\\s\\S]*?)(/\\* END CUSTOM ${blockName} \\*/)`, 'g');
+
+    const targetRegex = new RegExp(`(\\/\\* BEGIN CUSTOM ${blockName} \\*\\/[\\r\\n]+)([\\s\\S]*?)(\\/\\* END CUSTOM ${blockName} \\*\\/)`, 'g');
     merged = merged.replace(targetRegex, `$1${blockBody}$3`);
   }
 

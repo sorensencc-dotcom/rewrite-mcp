@@ -4,14 +4,14 @@ on:
   pull_request:
     paths:
       - 'bob/**'
-      - 'docs/**/*.md'
-      - 'projects/**/*.md'
+      - 'docs/cic/**'
+      - 'projects/cic/**'
   push:
     branches: [ main ]
     paths:
       - 'bob/**'
-      - 'docs/**/*.md'
-      - 'projects/**/*.md'
+      - 'docs/cic/**'
+      - 'projects/cic/**'
 
 jobs:
   bob-validate:

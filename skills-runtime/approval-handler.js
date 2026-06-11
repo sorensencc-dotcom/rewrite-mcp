@@ -261,9 +261,6 @@ class ApprovalHandler {
   getSummary() {
     const preApprovedCount = this.manifest.preApproved.length;
     const pendingCount = this.manifest.pending.length;
-    const autoPromotion =
-      this.manifest.tracking.autoPromoted /
-      Math.max(1, this.manifest.tracking.totalRequests);
 
     return {
       config: this.manifest.config,

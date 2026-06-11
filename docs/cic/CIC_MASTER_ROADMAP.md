@@ -1689,6 +1689,19 @@ Skills adopted into CIC improve constantly:
 ✅ Zero credential leaks (secure token storage)
 ✅ Status polling running daily, no manual intervention needed
 
+### Implementation Questions (To Clarify)
+
+**Docker Containerization (28a.8 — TBD):**
+- Container purpose: SCP runtime (manifest polling + PR creation) vs. dev environment for agent code vs. CI/CD for skill testing?
+- Execution model: long-running daemon + cron scheduling vs. one-shot container invoked daily?
+- Persistence: where to mount manifest + contributions metadata (volume, local dir, git repo)?
+- Integration: how does container connect to GitHub API, Slack webhooks, .env secrets?
+
+**Scope Clarification:**
+- MVP deployment: standalone service or integrated into CIC infrastructure?
+- Monitoring: container logs → Grafana/Loki or separate log aggregation?
+- Failover: what if container crashes? Restart policy? Alert routing?
+
 ### Outcome
 CIC contributors' improvements automatically flow upstream. Open source ecosystem benefits from CIC's refinements. Feedback loop strengthens both CIC and upstream projects.
 
