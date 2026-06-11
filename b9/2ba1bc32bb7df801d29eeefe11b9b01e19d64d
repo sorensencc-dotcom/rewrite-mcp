@@ -1,0 +1,50 @@
+projects/cic/tests/cic-governance-build-integration.test.ts
+  s_a1c7ef936594bc::t_da8c8836896c54 12-24
+projects/cic/src/wayland/workflow-integration.ts
+  s_ce718f5fe4feae::t_62f4b570d104d4 1-72,83-87,93-95,98-114
+  s_ce718f5fe4feae::t_fcbc66d57f1238 96-97
+  s_ce718f5fe4feae::t_a9ff159b4feae4 73-82,88-92
+projects/cic/src/wayland/workflow.ts
+  s_ce718f5fe4feae::t_6a3e0dd7dadb1a 94-96
+  s_ce718f5fe4feae::t_8f4bae01eb3bf5 1-93,97-160
+projects/cic/src/wayland/workflow.test.ts
+  s_ce718f5fe4feae::t_36074472ef03d7 1-197
+projects/cic/src/wayland/wayland-adapter-registry.ts
+  s_ce718f5fe4feae::t_cf30c8513b1e7d 101,107-135,142-162
+  s_ce718f5fe4feae::t_c0b606c5ffbdd1 136-141
+projects/cic/src/orchestrator/wayland-endpoint.ts
+  s_ce718f5fe4feae::t_065d35e2c28309 141,143,153-154
+  s_ce718f5fe4feae::t_06ea72b7300747 1-111,114-140,142,144-152,155-156
+  s_ce718f5fe4feae::t_9bef5db4269b56 112-113
+projects/cic/src/wayland/wayland-security-policy.ts
+  s_ce718f5fe4feae::t_7558149e4b0fa5 141-149
+projects/cic/WAYLAND_ORCHESTRATOR_INTEGRATION.md
+  s_ce718f5fe4feae::t_556d75ea969c75 1-215
+projects/cic/src/orchestrator/index.ts
+  s_ce718f5fe4feae::t_341a85af132665 1-37,39-81
+  s_ce718f5fe4feae::t_b0c16bc2caa563 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b92ba1bc32bb7df801d29eeefe11b9b01e19d64d",
+  "prompts": {},
+  "sessions": {
+    "s_a1c7ef936594bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7641c3b-e53d-45cb-be67-998ad8af5a4e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ce718f5fe4feae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b1842fa3-64b8-48c1-a196-9ea19917a829",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
