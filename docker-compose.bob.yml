@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  bob-validate:
+    build:
+      context: .
+      dockerfile: bob/Dockerfile.bob
+    environment:
+      NODE_ENV: test
+      CI: 'true'
+    container_name: bob-validate-container

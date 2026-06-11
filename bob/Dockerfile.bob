@@ -1,0 +1,30 @@
+# BOB Builder Docker Validation
+# Isolated Node.js environment for reproducible BOB build + test cycle
+# Phase 0.9 TheFoundry pattern: sealed deterministic build
+
+FROM node:20-alpine
+
+LABEL maintainer="CIC Team"
+LABEL phase="bob-validate"
+
+WORKDIR /app
+
+RUN apk add --no-cache git
+
+# Copy root package files (needed for monorepo context)
+COPY package.json package-lock.json ./
+
+# Copy BOB directory with all sources
+COPY bob/ ./bob/
+
+# Install BOB dependencies
+RUN cd bob && npm ci
+
+# Run BOB build — generates all artifacts deterministically
+RUN cd bob && node bin/bob.js build
+
+# Run test suite against generated artifacts
+RUN cd bob && npx vitest run tests/bob.test.js
+
+# Signal completion
+RUN echo "✅ BOB Docker validation passed"
