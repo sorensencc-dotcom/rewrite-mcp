@@ -1,0 +1,53 @@
+.husky/pre-push
+  s_97ce94f9d78464::t_f9c743def48ee6 3,5-6,8-22,25
+bob/templates/config.tpl
+  s_97ce94f9d78464::t_de2f5b0ecc08c6 1
+projects/cic/src/orchestrator/wayland-endpoint.ts
+  s_ce718f5fe4feae::t_2dcf0d0d13ad67 146
+bob/generated/config/appConfig.js
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 1
+projects/cic/src/orchestrator/index.ts
+  s_ce718f5fe4feae::t_a0aad169843e4f 28
+bob/generated/modules/ExecutionEngine.js
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 1
+bob/generated/playbooks/playbook.current.json
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 2
+bob/generated/routes/handleGetPlaybookHistory.js
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 1
+bob/generated/tests/ExecutionEngine.test.js
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 1
+bob/templates/module.tpl
+  s_97ce94f9d78464::t_b8cef67af9467f 1
+bob/templates/route.tpl
+  s_97ce94f9d78464::t_7ec2c1333cad18 1
+bob/templates/test.tpl
+  s_97ce94f9d78464::t_82964947bd7f36 1
+bob/generated/routes/handleGetPlaybookCurrent.js
+  s_97ce94f9d78464::t_c1d0fb16c4a01a 1
+bob/core/pipelines/playbookGenerator.js
+  s_97ce94f9d78464::t_aad2b38288e247 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b339f62fc9978fa174b61c5a18abc1cf7b986ccd",
+  "prompts": {},
+  "sessions": {
+    "s_97ce94f9d78464": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ffa13bf-df59-4719-ab19-8efc7382678e",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ce718f5fe4feae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b1842fa3-64b8-48c1-a196-9ea19917a829",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
