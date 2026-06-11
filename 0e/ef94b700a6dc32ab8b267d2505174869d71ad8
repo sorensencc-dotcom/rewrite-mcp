@@ -1,0 +1,24 @@
+PHASE_4.4_COMPLETION_SUMMARY.md
+  s_c953cc752536e7::t_a7070ec04058ee 1-344
+docs/phase-4-4-repomix-bridge-design.md
+  s_c953cc752536e7::t_f51b5099861028 3-6
+docs/rewrite-labs-repomix-harvester-integration.md
+  s_c953cc752536e7::t_59b8a01dc0ddef 511-571
+  s_c953cc752536e7::t_b569c30d3d2eb6 4-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "0eef94b700a6dc32ab8b267d2505174869d71ad8",
+  "prompts": {},
+  "sessions": {
+    "s_c953cc752536e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a632fec-45d2-4f79-bbe3-65b0f9d285f2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
