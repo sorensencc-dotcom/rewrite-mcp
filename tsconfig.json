@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "ESNext",
     "lib": ["ES2020"],
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -14,14 +14,17 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "isolatedModules": true
   },
   "ts-node": {
+    "esm": true,
+    "experimentalEsm": true,
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "ESNext"
     }
   },
-  "include": ["projects/**/*.ts", "src/**/*.ts"],
+  "include": ["projects/**/*.ts", "src/**/*.ts", "benchmarks/**/*.ts", "tools/**/*.ts", "tests/**/*.ts", "packages/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
