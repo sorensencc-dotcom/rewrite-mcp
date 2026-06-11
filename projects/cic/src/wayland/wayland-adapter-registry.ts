@@ -120,37 +120,39 @@ export const createDefaultRegistry = (): WaylandAdapterRegistry => {
         const timeout = req.timeoutMs || 15000;
         const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-        const response = await fetch(req.url, {
-          method: req.method,
-          headers: req.headers || { 'content-type': 'application/json' },
-          body: req.body ? JSON.stringify(req.body) : undefined,
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        let data: any;
         try {
-          data = await response.json();
-        } catch (parseErr: any) {
-          throw new Error(`Invalid JSON from ${req.url}: ${parseErr.message}`);
-        }
-        ctx.logger.info('http.execute.success', {
-          method: req.method,
-          url: req.url,
-          status: response.status,
-          sessionId: ctx.sessionId,
-        });
+          const response = await fetch(req.url, {
+            method: req.method,
+            headers: req.headers || { 'content-type': 'application/json' },
+            body: req.body ? JSON.stringify(req.body) : undefined,
+            signal: controller.signal,
+          });
 
-        return {
-          status: 'ok',
-          code: response.status,
-          data,
-        };
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          let data: any;
+          try {
+            data = await response.json();
+          } catch (parseErr: any) {
+            throw new Error(`Invalid JSON from ${req.url}: ${parseErr.message}`);
+          }
+          ctx.logger.info('http.execute.success', {
+            method: req.method,
+            url: req.url,
+            status: response.status,
+            sessionId: ctx.sessionId,
+          });
+
+          return {
+            status: 'ok',
+            code: response.status,
+            data,
+          };
+        } finally {
+          clearTimeout(timeoutId);
+        }
       } catch (err: any) {
         ctx.logger.error('http.execute.error', {
           method: req.method,

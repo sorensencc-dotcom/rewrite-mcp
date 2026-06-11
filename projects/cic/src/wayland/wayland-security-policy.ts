@@ -40,17 +40,23 @@ export class WaylandSecurityPolicy {
     const rule = this.rules.get(id);
     if (!rule || !rule.allowed) return false;
 
-    // Check allowed commands
-    if (rule.allowedCommands) {
+    // Check allowed commands (empty list = deny all)
+    if (rule.allowedCommands && rule.allowedCommands.length > 0) {
       const cmdName = command.split(/\s+/)[0];
       if (!rule.allowedCommands.includes(cmdName)) {
         return false;
       }
+    } else if (rule.allowedCommands !== undefined) {
+      // allowedCommands explicitly set to empty = deny all commands
+      return false;
     }
 
-    // Check working directory
+    // Check working directory (prevent /work matching /workspace)
     if (rule.allowedPaths) {
-      if (!rule.allowedPaths.some(p => workingDir.startsWith(p))) {
+      const isAllowed = rule.allowedPaths.some(p =>
+        workingDir === p || workingDir.startsWith(p + '/')
+      );
+      if (!isAllowed) {
         return false;
       }
     }
@@ -71,9 +77,12 @@ export class WaylandSecurityPolicy {
       return false;
     }
 
-    // Check path restrictions
+    // Check path restrictions (prevent /work matching /workspace)
     if (rule.allowedPaths) {
-      if (!rule.allowedPaths.some(p => path.startsWith(p))) {
+      const isAllowed = rule.allowedPaths.some(p =>
+        path === p || path.startsWith(p + '/')
+      );
+      if (!isAllowed) {
         return false;
       }
     }
@@ -93,7 +102,8 @@ export class WaylandSecurityPolicy {
     }
 
     // Check write permission for non-GET methods
-    const isWrite = ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method);
+    const writeMethods = new Set(['POST', 'PUT', 'DELETE', 'PATCH']);
+    const isWrite = writeMethods.has(method);
     if (isWrite && !rule.allowWrite) {
       return false;
     }
