@@ -1,0 +1,26 @@
+projects/cic/src/wayland/wayland-adapter-registry.ts
+  s_ce718f5fe4feae::t_7fd5e4fcd5ba04 153-154
+  s_ce718f5fe4feae::t_d089dfe17b3844 131-133,135-146,148-152
+  s_ce718f5fe4feae::t_473bba3974058c 124-130,134,147
+projects/cic/src/wayland/wayland-security-policy.ts
+  s_ce718f5fe4feae::t_a6d31b18f2f27a 105-106
+  s_ce718f5fe4feae::t_23ab6e931a5d17 43-44,49-51
+  s_ce718f5fe4feae::t_463d9e476dd7bf 54,56-59
+  s_ce718f5fe4feae::t_efdd845a2fbd2d 80,82-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "52fa5f3f0393ac565ee37b5f978a571770105f90",
+  "prompts": {},
+  "sessions": {
+    "s_ce718f5fe4feae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b1842fa3-64b8-48c1-a196-9ea19917a829",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
