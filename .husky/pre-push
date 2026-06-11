@@ -1,21 +1,26 @@
 
 
-echo "🔍 Checking for drift before pushing to remote..."
+echo "🔍 Checking for BOB drift before pushing..."
 
-# Run BOB build to ensure everything is up to date
-cd bob || exit 1
-node bin/bob.js build
-cd ..
+# Only run BOB build if BOB-relevant files changed in this push
+CHANGED=$(git diff --name-only HEAD @{push} 2>/dev/null | grep -cE '(docs/.*\.md|projects/.*\.md|bob/templates/|bob/core/)' || true)
 
-# Block push if any uncommitted changes are detected
-if ! git diff --quiet; then
-  echo "--------------------------------------------------------"
-  echo "❌ DRIFT DETECTED: Push blocked."
-  echo "BOB regenerated files that are not committed."
-  echo "Please run 'git commit -am \"BOB auto-update\"' to include them."
-  echo "--------------------------------------------------------"
-  exit 1
+if [ "$CHANGED" -gt "0" ]; then
+  cd bob || exit 1
+  node bin/bob.js build
+  cd ..
+
+  if ! git diff --quiet; then
+    echo "------------------------------------------------------------"
+    echo "❌ DRIFT DETECTED: Push blocked."
+    echo "BOB regenerated files that are not committed."
+    echo "Fix: cd bob && node bin/bob.js build && cd .. && git add bob/generated/ && git commit -m '[claude] chore: BOB sync'"
+    echo "------------------------------------------------------------"
+    exit 1
+  fi
+else
+  echo "⏭  No BOB-relevant changes — skipping bob build."
 fi
 
-echo "✅ Pre-push verification passed. Push allowed."
+echo "✅ Pre-push verification passed."
 exit 0

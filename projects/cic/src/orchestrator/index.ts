@@ -25,7 +25,7 @@ const app = express();
 app.use(express.json());
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).json({
     status: 'ok',
     service: 'orchestrator',

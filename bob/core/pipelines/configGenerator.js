@@ -31,7 +31,6 @@ export async function runConfigGenerator(ast = {}) {
       const rendered = await renderTemplate(TEMPLATE_FILE, {
         appName: conf.appName,
         path: relativePath,
-        date: new Date().toISOString().slice(0, 10),
         version: '1.0.0'
       });
 
