@@ -1,0 +1,33 @@
+src/cic/governance/build-governance-integration.ts
+  s_a1c7ef936594bc::t_eca8f6a0b0e48d 1-308
+src/cic/governance/build-approval-gate.ts
+  s_a1c7ef936594bc::t_4835acd9806c52 1-98,100-303
+  s_a1c7ef936594bc::t_7c104917d33301 99
+src/cic/governance/packet-types.ts
+  s_a1c7ef936594bc::t_2185960cc77585 313-314
+  s_a1c7ef936594bc::t_3c4729836e315f 20-21
+  s_a1c7ef936594bc::t_ef34b31c1d1c48 252-298
+  s_a1c7ef936594bc::t_c54d5d903d1965 500-518
+  s_a1c7ef936594bc::t_b5761924cd5503 360-363
+src/cic/governance/index.ts
+  s_a1c7ef936594bc::t_92cf78c120fc5e 3,23-32
+  s_a1c7ef936594bc::t_5301858e7b5d4f 33-37
+src/cic/governance/build-validator.ts
+  s_a1c7ef936594bc::t_bed7ec7be143f3 1-379
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "8f42b3a12ff4579f32a47e0a4d970c66865fa4d7",
+  "prompts": {},
+  "sessions": {
+    "s_a1c7ef936594bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7641c3b-e53d-45cb-be67-998ad8af5a4e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
