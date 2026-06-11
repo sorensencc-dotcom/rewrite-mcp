@@ -1,0 +1,53 @@
+docs/cic/antigravity_doctrine.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-26
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_23364b39b23e42::t_8ddedef9815e86 1692-1704
+docs/rewrite/skills/CLAUDE_INTEGRATION.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-15,20-24,26,31-35,37,45-78,83-86,89-97,102-108,110-114,119-124,126-199
+docs/cic/PHASE_C_REAL_AGENTS.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-140,152-161,168-207
+.github/workflows/bob-validate.yml
+  s_97ce94f9d78464::t_81012662a23002 7-8,13-14
+bob/core/pipelines/generatorHelper.js
+  s_97ce94f9d78464::t_aa57eea8236f15 60-61
+docs/cic/FEEDBACK_LOOP_GUIDE.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-18,36-42,60-62,72-74,91-93,103-107,133,152-156,179,195,215-219,241-251,263-281,292,303-307,317,327,341,354-358,371,394-402,414-418,431-435,447-451,463-471,477,483-485,493-495,502-526
+docs/cic/rewrite_labs_cic_fusion_layer.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-3,10-14,16-20,26-31,33-40,44-47,53-65,67-91
+docs/cic/meta_evolution_logic_loop.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-18,20-71,84-88,105,125,137-165,167-213,215-233
+docs/cic/AGENT_REGISTRATION.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-9,46-83,97-98,109-110,120-121,131-132,148-163,184,190-194,205,214,219,228-232,243,255-277,284,319-361
+docs/cic/amb_strategic_planning.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-34,36,38-69,74-196
+docs/cic/knowledge_distillation_engine.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-3,12-17,19-23,25-31,37-41,43-48,54-68,70-82
+docs/rewrite/skills/session-wrap.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-26,28-70
+docs/cic/PHASE_E_WEEK1_INTEGRATION.md
+  s_97ce94f9d78464::t_5c86b2a7efc314 1-29,37,44-50,52-54,61,68-72,75-79,81-83,88,92-95,100-102,107,113-115,120-122,124-127,129-139,147-151,153-159,161-175,177-204,206-208,214,224-278
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "756c9ae3d4b3641dd96b07e55abdb843284f4c9a",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_97ce94f9d78464": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ffa13bf-df59-4719-ab19-8efc7382678e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
