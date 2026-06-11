@@ -1,6 +1,6 @@
-# TheFoundry — Deterministic Build Environment
+# TheFoundry — Deterministic Node.js Build Environment (Phase 0.9)
 
-TheFoundry is a sealed, reproducible Docker-based build system for all Node.js subsystems in CIC and Rewrite Labs.
+Sealed, reproducible Docker-based build system for all Node.js subsystems in CIC and Rewrite Labs.
 
 ## Quick Start
 
