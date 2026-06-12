@@ -1,0 +1,19 @@
+.github/workflows/operator.yml
+  s_a1c7ef936594bc::t_0eac8ff322ec62 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b76aeaa734d7faf28e74f9f36124bec3f173dfe1",
+  "prompts": {},
+  "sessions": {
+    "s_a1c7ef936594bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7641c3b-e53d-45cb-be67-998ad8af5a4e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
