@@ -142,5 +142,4 @@ markdown_extensions:
 extra_css:
   - css/charlie-theme.css
 
-extra_javascript:
-  - ../apps/operator-ui/js/global-nav.js
+extra_javascript: []
