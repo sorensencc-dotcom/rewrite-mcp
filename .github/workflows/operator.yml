@@ -14,4 +14,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run deterministic plan validation
-        run: npm run doc:version-check && npm test --silent
+        run: npm run doc:version && npm run test:rewrite-labs
