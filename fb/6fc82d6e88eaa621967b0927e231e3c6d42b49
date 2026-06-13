@@ -1,0 +1,58 @@
+packages/ir-toolkit/src/schemas/index.ts
+  s_f8a3dd47e7d37f::t_12d43650e48c7e 22-31
+  s_f8a3dd47e7d37f::t_cb2a7bd9d55130 32-40
+packages/ir-toolkit/src/pricing-engine/index.ts
+  s_f8a3dd47e7d37f::t_4e28ecf256be40 1
+packages/ir-toolkit/package.json
+  s_f8a3dd47e7d37f::t_abcd53431b06eb 21-28
+packages/ir-toolkit/src/preview-generator/index.ts
+  s_f8a3dd47e7d37f::t_805aeb6d2d6d57 1
+packages/ir-toolkit/src/preview-generator/generator.test.ts
+  s_f8a3dd47e7d37f::t_1b5b68a2ee7eac 327,343-344
+  s_f8a3dd47e7d37f::t_78ba3f85ee9bb7 368
+  s_f8a3dd47e7d37f::t_699d42d340c9d3 271,281
+  s_f8a3dd47e7d37f::t_c3fa569d52f32d 1-270,272-280,282-326,328-342,345-367,369-446
+packages/ir-toolkit/src/preview-generator/generator.ts
+  s_f8a3dd47e7d37f::t_7427b788e59d61 1-381
+packages/ir-toolkit/src/pricing-engine/generator.ts
+  s_f8a3dd47e7d37f::t_3841e0b9ed8db9 1-89,91-165,177-178,180-182,184-186,188-190,192-194,196-354
+  s_f8a3dd47e7d37f::t_47ed27f3568de5 166-176,179,183,187,191,195
+  s_f8a3dd47e7d37f::t_a8729a2ee70578 90
+packages/ir-toolkit/src/schemas/preview.types.ts
+  s_f8a3dd47e7d37f::t_5691b69b2298d6 1-74
+packages/ir-toolkit/src/index.ts
+  s_f8a3dd47e7d37f::t_c9442f0f76919c 10-12
+  s_f8a3dd47e7d37f::t_104a0a0613fa49 7-9
+packages/ir-toolkit/README.md
+  s_f8a3dd47e7d37f::t_f457a4c6eba28e 149-236
+  s_f8a3dd47e7d37f::t_972ec45ec6b075 340,344,346,349,351,357
+  s_f8a3dd47e7d37f::t_ab1dd9105469a0 60-148,237
+  s_f8a3dd47e7d37f::t_747234462ab5dd 3,9
+  s_f8a3dd47e7d37f::t_b335c80d202c9a 8
+  s_f8a3dd47e7d37f::t_c96a2e9903a20e 341
+  s_f8a3dd47e7d37f::t_b0b878ce1fb961 342-343,345,355-356
+packages/ir-toolkit/src/schemas/pricing.types.ts
+  s_f8a3dd47e7d37f::t_a08b7d806e1581 1-73
+packages/ir-toolkit/src/pricing-engine/generator.test.ts
+  s_f8a3dd47e7d37f::t_88408b71fc7b79 247-248
+  s_f8a3dd47e7d37f::t_6a8def2a25b5d0 1-190,193-246,249-520,522-524,539,541-603
+  s_f8a3dd47e7d37f::t_44259558142ebe 191-192
+  s_f8a3dd47e7d37f::t_0a9d3950b57515 521
+  s_f8a3dd47e7d37f::t_48cbaf6176d57a 525-538,540
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "fb6fc82d6e88eaa621967b0927e231e3c6d42b49",
+  "prompts": {},
+  "sessions": {
+    "s_f8a3dd47e7d37f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "019d4ac4-98c1-4d63-8787-8e3ddd53c796",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
