@@ -1,8 +1,12 @@
 ---
 title: CIC Master Roadmap
-version: 1.0.0
-date: 2026-06-03
+version: 1.0.1
+date: 2026-06-13
 ---
+
+> **Superseded** — This file is archived for ARPS continuity and historical reference.
+> Cross-platform authority is now `docs/roadmap/MASTER_ROADMAP_v3.0.md`.
+> Do not update this file — make roadmap changes in the v3.x set.
 
 # CIC Master Roadmap
 
@@ -179,8 +183,14 @@ Deliverables: Distribution agreements, marketing materials, release plan
 3. CI pipeline runs all tests inside TheFoundry (Week 3)
 4. Developer onboarding doc + training (Week 4)
 
-**Status:** ✅ LOCKED — Ready for immediate parallel execution  
-**Outcome:** All Node builds run sealed, reproducible, CI-ready; zero host friction; foundation for deterministic governance.
+**Status:** 🔄 IN PROGRESS (M1 complete: core images built & validated)  
+**Progress:** 
+- ✅ M1 (Week 1 Jun 8–14): Core node-build + node-runtime images built, reproducibility tested, docker-compose configured  
+- ⏳ M2 (Week 2 Jun 15–21): CI integration + Phase 24 adoption  
+- ⏳ M3 (Week 3 Jun 22–28): Deployment & scaling  
+- ⏳ M4 (Week 4 Jun 29–Jul 5): Documentation & knowledge transfer  
+
+**Outcome:** Node builds sealed, reproducible, CI-ready. Foundation for deterministic governance on track.
 
 **Reference:** See `/docs/cic/phase-0-9-thefoundry.md` for full specification.
 
@@ -1710,6 +1720,102 @@ CIC contributors' improvements automatically flow upstream. Open source ecosyste
 
 ---
 
+<!-- ARPS:PHASE_28C:BEGIN -->
+## Phase 28c — Rewrite Labs Vertical Template Expansion (VTE)
+
+**Status:** QUEUED (2026-06-15 kickoff)
+
+**Execution:** Parallel to Phase 29, start 2026-06-15  
+**Timeline:** 2 weeks (harvest → profile → manifest → outreach)
+
+### Goal
+
+Expand Rewrite Labs template coverage from 4 verticals (plumber, restaurant, roofing, auto repair) to 9 verticals by extracting design primitives from seed sites and generating vertical-specific templates, manifests, component schemas, and outreach sequences.
+
+### Why This Phase
+
+Rewrite Labs' outreach reply rate scales with vertical-specific templates:
+- Current: 4 verticals → generic outreach ("We redesigned a site like yours")
+- Goal: 9 verticals → targeted outreach ("We modernized a dental practice website")
+- Expected: 2–3× reply rate lift from vertical-specific examples
+- Expands addressable market from 40% to 80% of SMB web presence
+
+### Architecture Overview
+
+**Four core subsystems:**
+1. **Vertical Profile Extractor** — Analyze existing 4 sites, extract color/typography/component clusters
+2. **Harvester Style Analysis** — Run Harvester on 12 seed sites (4 existing + 8 new), extract design primitives
+3. **Manifest & Schema Generator** — Convert profiles + primitives into template manifests, skeletons, component schemas
+4. **Outreach Sequence Generator** — Produce vertical-specific 3–5 email sequences + AEO metadata packs
+
+### New Verticals (5)
+- Dental
+- Legal
+- Fitness
+- Landscaping
+- Salon/Spa
+
+### Deliverables
+
+#### 28c.1 — Vertical Profile Specification (VTE‑Profiles)
+- Canonical profiles for 9 verticals: color palettes, typography scale, hero archetypes, component inventory
+- CTA patterns, layout grids, mobile breakpoints per vertical
+- Output: `docs/rewrite-labs/vertical-profiles/{vertical}-profile.json` (9 files)
+
+#### 28c.2 — Template Manifests & Skeletons (VTE‑Manifests)
+- Template manifests (JSON): versioned, dependency-tracked, AEO-aware
+- HTML/CSS skeletons: homepage, service page, contact/booking, mobile-first shell (4 universal + per-vertical variants)
+- Output: `docs/rewrite-labs/template-expansion-pack/manifests/` + `skeletons/` (14 files)
+
+#### 28c.3 — Component Schema Library (VTE‑Schemas)
+- Universal component schemas: header, footer, hero, CTA, grid, gallery, form, testimonials, pricing table, etc.
+- Vertical-specific components: dental (insurance badges, before/after), legal (case results, practice grid), fitness (class schedule, membership tiers), landscaping (project gallery, seasonal offers), salon (service menu, luxury CTAs)
+- Validation schemas + data binding patterns
+- Output: `docs/rewrite-labs/template-expansion-pack/schemas/` (6 files)
+
+#### 28c.4 — Outreach Sequences (VTE‑Outreach)
+- 3–5 email sequences per vertical (dental, legal, fitness, landscaping, salon)
+- High-conversion subject lines, CTA-first design, preview mockups in copy
+- A/B testing guidance + CTR benchmarks
+- Output: `docs/rewrite-labs/template-expansion-pack/outreach/` (5 files)
+
+#### 28c.5 — AEO Metadata Packs (VTE‑AEO)
+- Entity graphs, LocalBusiness schema, Service schema, FAQ schema, Breadcrumb schema per vertical
+- JSON-LD structured data + integration checklist
+- Output: `docs/rewrite-labs/template-expansion-pack/aeo/` (5 files)
+
+### Dependencies
+- Phase 0.7 (Rewrite Labs pipeline) — APIs for discovery, extractor, redesign
+- Harvester tool chain — seed site ingestion + style analysis
+- Component inventory — extracted from 4 existing verticals
+
+### Execution Order
+1. Vertical profiles (28c.1) — 2 days
+2. Harvester runs on 12 sites (28c.1 continued) — 3 days
+3. Template manifests + skeletons (28c.2) — 3 days
+4. Component schemas (28c.3) — 2 days
+5. Outreach sequences (28c.4) — 2 days
+6. AEO metadata packs (28c.5) — 2 days
+
+**Total: 14 days end-to-end**
+
+### Success Criteria
+✅ 9 vertical profiles locked with canonical color/typography/component clusters
+✅ 5 new template packs (manifests + skeletons) deployed to Redesign Engine
+✅ 6 component schema files with validation + data binding
+✅ 25 high-conversion outreach emails (5 sequences × 5 verticals)
+✅ 5 AEO metadata packs integrated into Rewrite Labs SEO pipeline
+✅ 2–3× reply rate lift on vertical-specific outreach (measured in Phase 30 conversion tracking)
+
+### Outcome
+Rewrite Labs template library expands from 4 to 9 verticals. Outreach copy becomes vertical-specific, targeting dental practices, law firms, fitness studios, landscaping companies, and salons/spas. Foundation for Phase 30 (Rewrite Labs ↔ CIC Fusion Layer) conversion optimization.
+
+**Reference:** See `docs/rewrite-labs/template-expansion-pack/` for full specifications.
+
+<!-- ARPS:PHASE_28C:END -->
+
+---
+
 <!-- ARPS:PHASE_29:BEGIN -->
 ## Phase 29 — Knowledge Distillation Engine (KDE)
 
@@ -2374,8 +2480,9 @@ PHASE 24 (SGD) — ⏳ QUEUED (depends on 23)
 PHASE 25 (APR) — ⏳ QUEUED (depends on 23, 24)
 PHASE 26 (CRO) — ⏳ QUEUED (depends on 25)
 PHASE 27 (CKG) — ⏳ QUEUED (depends on 23, 24, 25, 26)
-PHASE 28 (KDE) — queued
-PHASE 29 (RLF) — queued
+PHASE 28 (Skills & Templates) — ⏳ QUEUED (28a SCP, 28c VTE)
+PHASE 29 (KDE) — queued
+PHASE 30 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
 PHASE 31 (SRE) — ✔ (complete)
 PHASE 32 (MAPE) — ✔ (complete)
@@ -2966,8 +3073,9 @@ PHASE 24 (SGD) — ⏳ QUEUED (depends on 23)
 PHASE 25 (APR) — ⏳ QUEUED (depends on 23, 24)
 PHASE 26 (CRO) — ⏳ QUEUED (depends on 25)
 PHASE 27 (CKG) — ⏳ QUEUED (depends on 23, 24, 25, 26)
-PHASE 28 (KDE) — queued
-PHASE 29 (RLF) — queued
+PHASE 28 (Skills & Templates) — ⏳ QUEUED (28a SCP, 28c VTE)
+PHASE 29 (KDE) — queued
+PHASE 30 (RLF) — queued
 PHASE 30 (MEE) — ✔ (complete)
 PHASE 31 (SRE) — ✔ (complete)
 PHASE 32 (MAPE) — ✔ (complete)
@@ -3707,3 +3815,121 @@ Phase 56 (Portal)        ← Start when first client engagement confirmed
 - Set SLACK_WEBHOOK_* before startup (WIL-004)
 - Validate on deploy: `node scripts/validate-workflows.js`
 - Rate-limit at reverse proxy layer (WIL-005)
+
+---
+
+# **PHASES 31–50 — AUTONOMOUS EVOLUTION ROADMAP**
+
+## **PHASE 31 — META‑LEARNING ENGINE**
+**Objective:** Enable Rewrite Labs + CIC to learn from every redesign, outreach attempt, and user interaction, producing a self‑improving system that refines templates, components, outreach, and heuristics automatically.
+
+### Scope
+1. **Template Performance Learning:** Track performing templates, auto-adjust ranking.
+2. **Outreach Learning:** Learn high-reply sequences, auto-optimize CTAs/subject lines.
+3. **AEO Learning:** Track schema validation and search visibility.
+4. **Component-Level Learning:** Detect high-engagement vs failing components.
+5. **CIC Ingestion Feedback:** Feed redesign performance back into CIC.
+
+### Deliverables
+- Meta-Learning Data Model
+- Learning Pipelines (Daily/Weekly)
+- Adaptive Ranking Engine
+- Insight Generator
+- Operator Console Integration (v1)
+
+---
+
+## **PHASE 32 — AUTONOMOUS REDESIGN ENGINE**
+**Objective:** Rewrite Labs evolves from a template-driven engine into a fully autonomous redesign system.
+
+### Scope
+1. **Autonomous Template Generation:** Generates new layouts automatically.
+2. **Vertical Discovery Engine:** Detects new verticals from wild ingestion.
+3. **Component Evolution Engine:** Generates and retires variants automatically.
+4. **Layout Evolution Engine:** Evolves archetypes, typography, and spacing scales.
+5. **Autonomous AEO Expansion:** Suggests missing schema, generates new FAQ sets.
+
+### Deliverables
+- Template Generator v1
+- Vertical Discovery Engine v1
+- Component Evolution Engine v1
+- Layout Evolution Engine v1
+- Operator Console v2
+
+---
+
+## **PHASE 33 — AUTONOMOUS FULL‑STACK BUILDER**
+**Objective:** Rewrite Labs generates entire websites end-to-end: front-end, back-end, deployment, hosting, monitoring.
+
+### Scope
+1. **Autonomous Front-End Builder:** Generates HTML/CSS/JS bundles.
+2. **Autonomous Back-End Builder:** Contact endpoints, form handlers, serverless functions.
+3. **Autonomous Deployment Engine:** Deploy, DNS, SSL, CDN.
+4. **Autonomous Monitoring + Healing:** Uptime, latency, auto-repair drift.
+
+### Deliverables
+- Front-End Builder v1
+- Back-End Builder v1
+- Deployment Engine v1
+- Monitoring Engine v1
+- Auto-Healing Engine v1
+- Operator Console v3
+
+---
+
+## **PHASE 34 — AUTONOMOUS BUSINESS INTELLIGENCE ENGINE**
+- Insight Extraction
+- Opportunity Detection
+- Competitive Intelligence
+- Market Pattern Recognition
+- Vertical Trend Forecasting
+
+## **PHASE 35 — AUTONOMOUS MULTI‑VERTICAL EXPANSION ENGINE**
+- Vertical Discovery v2
+- Vertical Bootstrapping
+- Vertical Manifests v2
+- Component Packs
+- Outreach Packs
+
+## **PHASE 36 — AUTONOMOUS MULTI‑AGENT ORCHESTRATION LAYER**
+- Agent Roles & Coordination
+- Task Routing
+- Conflict Resolution
+- Self‑Balancing Workflows
+
+## **PHASE 37 — AUTONOMOUS CONTENT GENERATION ENGINE**
+- Multi‑Page Content
+- Vertical‑Aware Copywriting
+- SEO & AEO Blocks
+- Content Drift Detection
+
+## **PHASE 38 — AUTONOMOUS MULTI‑CHANNEL OUTREACH ENGINE**
+- Email, SMS, Social, Ads
+- Multi-Channel Attribution
+
+## **PHASE 39 — AUTONOMOUS BUSINESS OPERATIONS ENGINE**
+- Scheduling & Billing
+- CRM & Lead Routing
+- Workflow Automation
+
+## **PHASE 40 — AUTONOMOUS BUSINESS ENGINE (ABE)**
+- Full‑Stack Business Automation
+- Autonomous Decisioning
+- Predictive Optimization
+- Self‑Improving Systems
+
+---
+
+## **PHASE 41–50 SKELETONS**
+
+- **Phase 41:** Meta-Learning Engine v2 (Self-Evolving Models)
+- **Phase 42:** Autonomous Research Mode
+- **Phase 43:** Autonomous Pipeline Governance Engine
+- **Phase 44:** Autonomous Operator Workflows
+- **Phase 45:** Autonomous Phase Execution Engine
+- **Phase 46:** Autonomous Product Evolution Engine
+- **Phase 47:** Autonomous User Experience Engine
+- **Phase 48:** Autonomous Multi-System Coordination Engine
+- **Phase 49:** Autonomous Enterprise Engine
+- **Phase 50:** Autonomous Organization Engine
+
