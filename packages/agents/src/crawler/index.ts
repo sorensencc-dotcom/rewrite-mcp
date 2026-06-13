@@ -146,12 +146,17 @@ export class CrawlerEngine {
           continue;
         }
 
+        const contentType = res.headers.get('content-type') ?? undefined;
+        const rawHtml = contentType?.includes('text/html') ? await res.text() : undefined;
+
         return {
           url,
           status: res.status,
           redirectChain,
           robotsAllowed: true,
           capturedAt,
+          contentType,
+          rawHtml,
         };
       } catch (err: unknown) {
         const errName = (err as { name?: string })?.name ?? '';

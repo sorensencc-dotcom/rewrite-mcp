@@ -11,6 +11,8 @@ export interface CrawlResult {
   robotsAllowed: boolean;
   capturedAt: string;
   errorCode?: CrawlErrorCode;
+  rawHtml?: string;
+  contentType?: string;
 }
 
 export interface QueueEntry {

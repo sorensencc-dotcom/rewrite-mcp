@@ -32,6 +32,29 @@ export interface RouteInfo {
   complexity?: number;
 }
 
+export interface CssRule {
+  selector: string;
+  properties: Record<string, string>;
+  specificity: number;
+}
+
+export interface StyleSheetInfo {
+  rules: CssRule[];
+  fonts: string[];
+  variables: Record<string, string>;
+}
+
+export interface CssMetrics {
+  totalSelectors: number;
+  uniqueClasses: number;
+  uniqueIds: number;
+  colorCount: number;
+  fontFamilies: string[];
+  breakpoints: string[];
+  transitionCount: number;
+  animationCount: number;
+}
+
 export interface IRPacket {
   version: string;
   meta: {
@@ -48,6 +71,8 @@ export interface IRPacket {
     svgs: number;
     total: number;
   };
+  styleSheet?: StyleSheetInfo;
+  cssMetrics?: CssMetrics;
   metrics?: {
     totalComponentCount: number;
     totalRouteCount: number;

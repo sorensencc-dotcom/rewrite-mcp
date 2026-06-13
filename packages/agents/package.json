@@ -7,7 +7,8 @@
   "exports": {
     ".": "./index.mjs",
     "./crawler": "./dist/crawler/index.js",
-    "./extractors": "./src/extractors/index.mjs",
+    "./extractors": "./dist/extractors/index.js",
+    "./orchestrator": "./dist/orchestrator.js",
     "./redesign": "./src/redesign/index.mjs",
     "./outreach": "./src/outreach/index.mjs"
   },
@@ -18,7 +19,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "node --experimental-vm-modules ../ir-toolkit/node_modules/jest/bin/jest.js --config jest.config.js",
+    "test": "cd ../ir-toolkit && node --experimental-vm-modules node_modules/jest/bin/jest.js --config ../agents/jest.config.js --rootDir ../agents",
     "dev": "tsc --watch"
   },
   "keywords": [
@@ -29,5 +30,8 @@
   ],
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "node-html-parser": "^7.1.0"
   }
 }
