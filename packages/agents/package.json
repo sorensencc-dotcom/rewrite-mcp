@@ -1,22 +1,30 @@
 {
   "name": "@cic/agents",
   "version": "1.0.0",
-  "description": "CIC agents — extractors, redesign, outreach",
+  "description": "CIC agents — crawler, extractors, redesign, outreach",
   "type": "module",
   "main": "./index.mjs",
   "exports": {
     ".": "./index.mjs",
+    "./crawler": "./dist/crawler/index.js",
     "./extractors": "./src/extractors/index.mjs",
     "./redesign": "./src/redesign/index.mjs",
     "./outreach": "./src/outreach/index.mjs"
   },
   "files": [
     "src",
+    "dist",
     "index.mjs"
   ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules ../ir-toolkit/node_modules/jest/bin/jest.js --config jest.config.js",
+    "dev": "tsc --watch"
+  },
   "keywords": [
     "cic",
     "agents",
+    "crawler",
     "extractors"
   ],
   "engines": {

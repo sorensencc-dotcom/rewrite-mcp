@@ -1,6 +1,64 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-08 (Phase 26 TorqueQuery Roadmap Locked) | Tool: claude
+Updated: 2026-06-13 (Phase RL-4.6 CrawlerEngine MVP) | Tool: claude
+
+---
+
+## Current Session: Phase RL-4.6 — CrawlerEngine v1 (Complete)
+
+**Status:** ✅ IMPLEMENTATION COMPLETE | 13/13 tests passing
+
+### What Changed
+
+Implemented Phase RL-4.6 CrawlerEngine — the P0 blocker for all Rewrite Labs phases.
+
+**New files:**
+- `packages/agents/tsconfig.json` — TypeScript config (mirrors ir-toolkit)
+- `packages/agents/jest.config.js` — Jest ESM config (uses ir-toolkit's local Jest 29; root has incompatible Jest 30)
+- `packages/agents/src/crawler/types.ts` — CrawlResult, QueueEntry, CrawlOptions interfaces
+- `packages/agents/src/crawler/bloom.ts` — BloomFilter (8M-bit, 7 hash functions; <0.008% FP at 10k entries)
+- `packages/agents/src/crawler/robots.ts` — RobotsCache (per-domain, fetches once per origin)
+- `packages/agents/src/crawler/index.ts` — CrawlerEngine + CrawlQueue
+- `packages/agents/src/crawler/__tests__/crawler.test.ts` — 13 tests covering all 3 spec success gates
+
+**Updated files:**
+- `packages/agents/package.json` — added `./crawler` export, build/test/dev scripts
+
+### Architecture Decisions
+
+1. **No Playwright/Puppeteer in crawler** — Crawler uses native `fetch` for HTTP. Puppeteer is SiteExtractor's domain (RL-4.0). Correct separation of concerns.
+2. **robots.txt blocking** — `RobotsCache` uses per-origin cache; one fetch per domain; allows all on error.
+3. **Bloom filter dedup** — 8M-bit array, zero false negatives confirmed on 1000-URL seed set.
+4. **Dead-letter queue** — Failed crawls (after retries) stored in `engine.deadLetter` array.
+5. **AbortError detection** — Checks `(err as {name?:string}).name` not `instanceof Error` — `DOMException` (what fetch throws on abort) doesn't reliably extend `Error` in all Node versions.
+6. **Jest runner** — Root has Jest 30 + ts-jest 29 (incompatible). Tests run via `packages/ir-toolkit/node_modules/jest` (Jest 29 + ts-jest 29, fully compatible). Document this for whoever adds proper devDependencies to agents package.
+
+### Test Success Gates (from spec)
+
+| Gate | Test | Status |
+|------|------|--------|
+| robots.txt blocked on 10 mock domains | `blocks 10 mock domains with Disallow: /` | ✅ |
+| Zero duplicates in 1000-URL seed set | `reports no false negatives on 1000 unique URLs` | ✅ |
+| Timeout + retry fires on simulated 503 | `retries on 503 and records in dead-letter after retries exhausted` | ✅ |
+
+### Run Tests
+
+```bash
+cd packages/ir-toolkit
+node --experimental-vm-modules node_modules/jest/bin/jest.js ../agents/src/crawler --config ../agents/jest.config.js --no-coverage
+```
+
+### Next Steps (Phase RL-4.0 — Extraction Engine)
+
+Phase RL-4.0 is now unblocked. Deliverables:
+1. Replace `packages/agents/src/extractors/index.mjs` stub with Playwright DOM extractor
+2. Create `packages/ir-toolkit/src/style-matcher/index.ts` — StyleMatchEngine
+3. Patch `packages/ir-toolkit/src/schemas/ir.types.ts` to IRPacket v1.1 (add `spaDetected?`, `screenshotKeys?`, `raw?`)
+4. 10 real SMB site static snapshots as test fixtures
+
+Success gate: ≥8/10 primary colors matched (HSL delta ≤0.05 vs human-labeled ground truth)
+
+---
 
 ---
 
