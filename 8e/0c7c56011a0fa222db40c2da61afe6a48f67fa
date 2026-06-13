@@ -1,0 +1,32 @@
+scripts/build-foundry.ps1
+  s_039b75ee64201a::t_b7a236ab3d8a54 1-8,11-40,43-140
+  s_308ad2cbeaff09::t_ae8f4300789168 41-42
+  s_039b75ee64201a::t_a91b50f7a96004 9-10
+packages/agents/Dockerfile
+  s_308ad2cbeaff09::t_0a4702f5c5b3c7 1-2,7,9,11-12,14-16,18-20,27,30-42,46
+  s_039b75ee64201a::t_ce3065ac748539 3-6,8,10,13,17,21-26,28-29,43-45,47-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "8e0c7c56011a0fa222db40c2da61afe6a48f67fa",
+  "prompts": {},
+  "sessions": {
+    "s_039b75ee64201a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "530b6ee5-5da3-4682-b5fb-3046c4d4619e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
