@@ -19,3 +19,22 @@ export type {
   LeadScoringConfig,
   ScoringInput
 } from './lead-score.types.js';
+
+export type {
+  ComponentImprovement,
+  ComponentPreview,
+  LayoutDiff,
+  DesignTokenDiff,
+  PreviewSnapshot,
+  PreviewGallery,
+  PreviewGeneratorConfig
+} from './preview.types.js';
+
+export type {
+  ComponentCost,
+  CostBreakdown,
+  PricingAssumption,
+  PricingCustomization,
+  PricingQuote,
+  PricingConfig
+} from './pricing.types.js';

@@ -18,6 +18,14 @@
       "types": "./dist/lead-scorer/index.d.ts",
       "import": "./dist/lead-scorer/index.js"
     },
+    "./preview-generator": {
+      "types": "./dist/preview-generator/index.d.ts",
+      "import": "./dist/preview-generator/index.js"
+    },
+    "./pricing-engine": {
+      "types": "./dist/pricing-engine/index.d.ts",
+      "import": "./dist/pricing-engine/index.js"
+    },
     "./validators": {
       "types": "./dist/validators/index.d.ts",
       "import": "./dist/validators/index.js"
