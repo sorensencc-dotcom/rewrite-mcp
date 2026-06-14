@@ -21,7 +21,8 @@ export default {
   moduleFileExtensions: ['ts', 'js', 'json'],
   transform: {
     '^.+\\.ts$': ['ts-jest', {
-      useESM: true
+      useESM: true,
+      tsconfig: { types: ['node', 'jest'] },
     }]
   },
   moduleNameMapper: {

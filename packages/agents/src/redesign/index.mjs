@@ -2,8 +2,12 @@
  * packages/agents/src/redesign/index.mjs
  * @version 1.0.0
  *
- * Redesign agent.
- * TODO: implement
+ * Runtime re-export from compiled TypeScript.
+ * Build: node ../../node_modules/typescript/bin/tsc (from packages/agents/)
  */
 
-export const REDESIGN_VERSION = '1.0.0-stub';
+export {
+  RedesignAgent,
+  RedesignNotConfiguredError,
+  REDESIGN_VERSION,
+} from '../../dist/redesign/redesign-agent.js';
