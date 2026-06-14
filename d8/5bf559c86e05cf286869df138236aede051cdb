@@ -1,0 +1,28 @@
+packages/agents/src/redesign/redesign-agent.ts
+  s_308ad2cbeaff09::t_a0990b95101a03 69,71,74,78-86
+jest.config.js
+  s_308ad2cbeaff09::t_262b6fe99b79ab 20
+packages/agents/jest.config.js
+  s_308ad2cbeaff09::t_ed8dc8e32b36ae 11
+  s_308ad2cbeaff09::t_acefb550ab7099 9-10,12
+packages/agents/tsconfig.test.json
+  s_308ad2cbeaff09::t_0a54212b34eca9 1-8
+packages/agents/src/__tests__/rl-redesign.test.ts
+  s_308ad2cbeaff09::t_5695ad1abe5668 2-25,27-35,37-48,70-71,102,155,198-200,203-208,265
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "d85bf559c86e05cf286869df138236aede051cdb",
+  "prompts": {},
+  "sessions": {
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
