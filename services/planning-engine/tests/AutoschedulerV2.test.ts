@@ -42,10 +42,6 @@ describe("AutoschedulerV2", () => {
       totalWeeksAvailable: number,
       startWeek: number = 1
     ): ScheduleResult {
-      // Validate feasibility
-      const totalHours = phases.reduce((sum, p) => sum + p.estimatedHours, 0);
-      const feasible = totalHours <= totalWeeksAvailable * this.hoursPerWeek * this.maxTeamSize;
-
       // Build dependency graph
       const dependencyGraph = this.buildDependencyGraph(phases);
 
@@ -60,15 +56,21 @@ describe("AutoschedulerV2", () => {
         totalWeeksAvailable
       );
 
+      // Calculate total weeks needed
+      const totalWeeks = this.calculateTotalWeeks(scheduled);
+
+      // Validate feasibility: check if schedule fits within available weeks
+      const feasible = totalWeeks <= totalWeeksAvailable;
+
       // Identify critical path
       const criticalPath = this.identifyCriticalPath(scheduled);
 
       // Calculate resource utilization
-      const resourceUtilization = this.calculateUtilization(scheduled);
+      const resourceUtilization = this.calculateUtilization(scheduled, totalWeeksAvailable);
 
       return {
         schedule: scheduled,
-        totalWeeks: this.calculateTotalWeeks(scheduled),
+        totalWeeks,
         criticalPath,
         resourceUtilization,
         feasible,
@@ -141,11 +143,13 @@ describe("AutoschedulerV2", () => {
 
         const durationWeeks = Math.ceil(
           phase.estimatedHours / this.hoursPerWeek
-        );
-        const assignedResources = Math.min(
-          Math.ceil(phase.estimatedHours / (durationWeeks * this.hoursPerWeek)),
-          this.maxTeamSize
-        );
+        ) || 1;
+        const assignedResources = phase.estimatedHours === 0
+          ? this.minTeamSize
+          : Math.min(
+              Math.ceil(phase.estimatedHours / (durationWeeks * this.hoursPerWeek)),
+              this.maxTeamSize
+            );
 
         const actualEndWeek = maxDepEndWeek + durationWeeks;
 
@@ -206,11 +210,12 @@ describe("AutoschedulerV2", () => {
         : [];
     }
 
-    private calculateUtilization(scheduled: ScheduledPhase[]): number {
+    private calculateUtilization(scheduled: ScheduledPhase[], totalWeeksAvailable: number): number {
       if (scheduled.length === 0) return 0;
 
       const maxWeek = Math.max(...scheduled.map((s) => s.endWeek), 0);
-      const totalCapacity = maxWeek * this.maxTeamSize * this.hoursPerWeek;
+      const capacityWeeks = Math.max(maxWeek, totalWeeksAvailable);
+      const totalCapacity = capacityWeeks * this.maxTeamSize * this.hoursPerWeek;
       const totalUtilized = scheduled.reduce(
         (sum, s) => sum + s.estimatedHours,
         0

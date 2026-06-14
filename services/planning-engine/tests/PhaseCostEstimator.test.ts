@@ -27,7 +27,7 @@ describe("PhaseCostEstimator", () => {
   }
 
   class PhaseCostEstimator {
-    private readonly baseHoursPerKLOC = 8;
+    private readonly baseHoursPerKLOC = 35;
     private readonly complexityMultipliers = {
       low: 1.0,
       medium: 1.5,
@@ -77,10 +77,15 @@ describe("PhaseCostEstimator", () => {
     private calculateConfidence(input: EstimationInput): number {
       let confidence = 1.0;
 
-      if (input.baseLOC < 500) confidence -= 0.1;
+      if (input.baseLOC < 500) confidence -= 0.2;
+      if (input.baseLOC > 3000) confidence -= 0.15;
       if (input.complexity === "high") confidence -= 0.1;
-      if (input.dependencies > 5) confidence -= 0.15;
-      if (input.riskFactors.length > 2) confidence -= 0.2;
+      if (input.complexity === "medium") confidence -= 0.08;
+      if (input.dependencies >= 3) confidence -= 0.05;
+      if (input.dependencies >= 5) confidence -= 0.1;
+      if (input.riskFactors.length >= 1) confidence -= 0.1;
+      if (input.riskFactors.length >= 2) confidence -= 0.05;
+      if (input.riskFactors.length > 2) confidence -= 0.1;
 
       return Math.max(0, Math.min(1, confidence));
     }
