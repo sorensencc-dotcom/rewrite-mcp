@@ -1,73 +1,77 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-13 (RL-4.0 + RL-4.1 Foundry Build) | Tool: claude
+Updated: 2026-06-14 (RL-4.1 RedesignAgent + RL-4.2 WCAG Audit) | Tool: claude
 
 ---
 
-## Current Session: RL-4.0 + RL-4.1 — Extraction Engine + Foundry Build (Complete)
+## Current Session: RL-4.1 RedesignAgent + RL-4.2 WCAG Audit (Complete)
 
-**Status:** ✅ SHIPPED | 56/56 tests passing | `rl-agents:latest` Docker image built (368MB)
+**Status:** ✅ SHIPPED | 230/230 tests passing (agents 78/78 + ir-toolkit 152/152)
 
 ### What Changed
 
-**RL-4.0 — Extraction Engine v1** (commit `bcc7289`):
-- `packages/agents/src/extractors/dom.ts` — `DomExtractor.extract(CrawlResult)` using `node-html-parser` (replaced browser-only `DOMParser`); extracts title, meta, headings, images, links, forms, DOM tree with class/ID capture
-- `packages/agents/src/extractors/style-engine.ts` — `StyleMatchEngine.parseStylesheet()` + `metrics()` with null-root guard (`if (dom.root)`) for test fixtures
-- `packages/agents/src/orchestrator.ts` — `RewriteLabsOrchestrator.orchestrate(url)` — 4-stage pipeline: crawl → DOM extract → style metrics → IR packet; returns `OrchestrationResult` with error field
-- `packages/agents/src/crawler/index.ts` — v1.1 patch: captures `rawHtml` (text/html only) + `contentType` from successful responses
-- IRPacket v1.1 schema: adds `cssMetrics?: StyleMetrics` field
+**RL-4.1 — RedesignAgent 3-pass LLM chain** (commit `70d6789`):
+- `packages/agents/src/redesign/redesign-agent.ts` — NEW: `RedesignAgent` with 3-pass Anthropic chain: Pass 1 (structure analysis) → Pass 2 (CSS token layout) → Pass 3 (variant generation). Accepts optional injected client for DI-based testing. `RedesignNotConfiguredError` throws when `ANTHROPIC_API_KEY` not set. Inline W3C validation + token drift scoring (0–1 float).
+- `packages/agents/src/redesign/index.mjs` — Runtime re-export shim from `dist/`
+- `packages/agents/src/__tests__/rl-redesign.test.ts` — 22 tests (constructor, error, W3C, drift, 6 injected-client LLM tests)
+- `packages/ir-toolkit/src/design-variant-renderer/index.ts` — NEW: standalone `DesignVariantRenderer`; `renderAll()` with `meetsThreshold` gate (default ≤0.15 drift), strict W3C mode adds viewport check
+- `packages/ir-toolkit/src/design-variant-renderer/variant-renderer.test.ts` — 25 tests
+- `packages/ir-toolkit/jest.config.js` — Added `tsconfig: { types: ['node', 'jest'] }` — fixes jest 30 globals for ALL ir-toolkit tests
 
-**RL-4.1 — Browser Extraction Scaffold** (commit `bcc7289`):
-- `packages/agents/src/extractors/playwright-extractor.ts` — `PlaywrightExtractor` (options wired, `extract()` returns null — stub pending real Playwright browser integration)
-- `packages/agents/src/extractors/computed-styles.ts` — `ComputedStylesAnalyzer`: `analyze()`, `categorizeStyles()`, `extractDesignTokens()`, `detectBreakpoints()`
-- `packages/agents/src/extractors/ir-v1-2-extension.ts` — `IRPacketV12Builder.buildExtension()`: counts interactive elements, maps screenshots, calculates performance metrics from NavigationTiming
-- `packages/agents/src/extractors/wcag-validator.ts` — `WcagValidator.audit()`: 7 WCAG checks (images, contrast, keyboard, navigation, readability, predictability, compatibility)
-- `packages/agents/src/extractors/accessibility-auditor.ts` — `AccessibilityAuditor`
+**RL-4.2 — WCAG 2.1 AA Accessibility Audit** (commit `d85bf55`):
+- `packages/agents/src/extractors/wcag-validator.ts` — `WcagValidator.audit()`: 7 WCAG 2.1 criterion checks (1.1.1 alt text, 1.4.3 contrast, 2.1.1 keyboard, 2.4.1/2.4.2 navigation, 3.1.1 readability, 4.1.2 compatibility); contrast ratio via Relative Luminance
+- `packages/agents/src/extractors/accessibility-auditor.ts` — `AccessibilityAuditor.audit()`: wraps WcagValidator, adds semantic HTML scoring, landmark detection, `prioritizedFixes[]`, `recommendations[]`, `overallAccessibilityScore`
+- `packages/agents/src/__tests__/rl-4-2.test.ts` — 18 tests (7 WCAG checks, 8 auditor checks, 3 contrast integration tests)
 
-**Foundry Docker Build** (commit `8e0c7c5`):
-- `packages/agents/Dockerfile` — Fixed 3 issues: (1) builds from monorepo root context (no local lockfile needed), (2) `msttcorefonts` → `ttf-freefont` (Alpine-compatible), (3) HEALTHCHECK uses `import()` not `require()` for ESM; runtime stage installs only 11 prod packages
-- `scripts/build-foundry.ps1` — Updated Docker context to monorepo root; build cmd: `docker build -t rl-agents:latest -f packages/agents/Dockerfile .`
+**Test Infrastructure Fixes** (commit `d85bf55`):
+- Removed `@jest/globals` import from all 5 agents test files — package not installed; use implicit globals
+- `packages/agents/jest.config.js` — Added `tsconfig: { types: ['node', 'jest'] }` to ts-jest transform
+- `packages/agents/tsconfig.test.json` — NEW: extends tsconfig.json, adds jest types + ES2022 target
+- Root `jest.config.js` — Added `ignoreDeprecations: '6.0'` to suppress TS5107
+- `RedesignAgent` constructor accepts optional `client?: Anthropic` for DI — eliminates `jest.unstable_mockModule` (ESM-only, unavailable in ts-jest CJS mode)
 
 ### Test Status
 
 ```
-PASS  src/__tests__/rl-4-0.test.ts   (15 tests — crawler v1.1 + DomExtractor + StyleEngine + orchestrator)
-PASS  src/__tests__/rl-4-1.test.ts   (17 tests — PlaywrightExtractor + ComputedStyles + IRPacketV12Builder)
-PASS  src/__tests__/rl-4-2.test.ts   (11 tests — WCAG + Accessibility)
-PASS  src/crawler/__tests__/crawler.test.ts  (13 tests)
-Total: 56/56 passing
+PASS  src/__tests__/rl-redesign.test.ts  (22 tests — RedesignAgent 3-pass chain, W3C, drift)
+PASS  src/__tests__/rl-4-0.test.ts       (15 tests — crawler v1.1, DomExtractor, StyleEngine, orchestrator)
+PASS  src/__tests__/rl-4-1.test.ts       (17 tests — PlaywrightExtractor, ComputedStyles, IRPacketV12Builder)
+PASS  src/__tests__/rl-4-2.test.ts       (18 tests — WCAG 2.1 AA + AccessibilityAuditor + contrast integration)
+PASS  src/crawler/__tests__/crawler.test.ts  (6 tests)
+agents total: 78/78
+
+ir-toolkit: 152/152 (design-variant-renderer: 25 new + 127 pre-existing)
+
+Grand total: 230/230 passing
 ```
 
 ### Key Decisions
 
-1. **node-html-parser** not `DOMParser` — `DOMParser` is browser-only; `node-html-parser` works in Node.js with same `querySelector` API
-2. **Jest version conflict** — root has Jest 30, incompatible with ts-jest 29. Tests MUST run from `packages/ir-toolkit/` dir: `cd packages/ir-toolkit && node --experimental-vm-modules node_modules/jest/bin/jest.js --config ../agents/jest.config.js --rootDir ../agents`
-3. **`PlaywrightExtractor.extract()` returns null** — intentional stub. Real implementation requires `@playwright/test` + browser binaries. The Docker image has Chromium installed via Alpine's `chromium` package (not the npm Playwright browser), which is the correct approach for containerized use.
-4. **Foundry build from monorepo root** — `packages/agents/` has no local `package-lock.json`; TypeScript is a root devDependency; must build from `rewrite-mcp/` root with `--workspace=packages/agents --include-workspace-root`
+1. **DI client for RedesignAgent** — `constructor(options: { client?: Anthropic })` lets tests inject a mock client object. Avoids `jest.unstable_mockModule` (ESM-only API; ts-jest compiles to CJS regardless of `useESM: true` in preset).
+2. **`@jest/globals` not installed** — Drop the import; rely on implicit jest globals via `types: ['node', 'jest']` in ts-jest tsconfig override (same pattern used to fix ir-toolkit).
+3. **`ts-jest` CJS output even with `useESM: true`** — ts-jest 29 ignores `tsconfig` object overrides for `module` setting when the preset is `ts-jest` (CJS). Switch to `ts-jest/presets/default-esm` OR just avoid top-level await in test files. Chose the latter.
+4. **Token drift score** — 0 = all source token VALUES appear in CSS; 1 = no tokens used. Threshold gate: ≤0.15 in `renderAll()`.
+5. **RL-4.2 implementations already existed** — `wcag-validator.ts` and `accessibility-auditor.ts` were pre-written. Only test infrastructure needed fixing to make them runnable.
 
 ### Run Tests
 
-```bash
-cd packages/ir-toolkit
-node --experimental-vm-modules node_modules/jest/bin/jest.js --config ../agents/jest.config.js --rootDir ../agents --no-coverage
-```
-
-### Run Foundry Build
-
 ```powershell
-cd c:\dev\rewrite-mcp
-docker build -t rl-agents:latest -f packages/agents/Dockerfile .
-# Or via script:
-.\scripts\build-foundry.ps1 -Stage build
+cd c:\dev\rewrite-mcp\packages\agents
+node ..\..\node_modules\jest\bin\jest.js --no-coverage
+# → 78/78 passing
+
+cd c:\dev\rewrite-mcp\packages\ir-toolkit
+node ..\..\node_modules\jest\bin\jest.js --no-coverage
+# → 152/152 passing
 ```
 
-### Next Steps (RL-4.1 Real Playwright Integration)
+### Next: RL-4.3 — Design Token Extractor
 
-`PlaywrightExtractor.extract()` is a stub returning null. Real implementation:
-1. Add `@playwright/test` to `packages/agents/package.json` devDependencies
-2. Wire `chromium` Alpine binary as the browser executable: `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser`
-3. Implement: launch browser → create page → navigate → `page.evaluate()` for computed styles → screenshots → performance metrics → close
-4. Update tests: rl-4-1 currently passes because tests only call `extractor.extract()` and expect `null`. Add integration tests that call with a real/mocked browser session.
+Extract computed CSS custom properties from `PlaywrightDomModel` → typed `DesignToken[]`.
+Deliverables:
+1. `packages/agents/src/extractors/design-token-extractor.ts` — parses `--custom-prop` from computed styles, categorizes (color/spacing/typography/other), deduplicates
+2. `packages/agents/src/__tests__/rl-4-3.test.ts` — unit tests
+3. Wire into `ComputedStylesAnalyzer.extractDesignTokens()` (stub already exists at line ~80 of `computed-styles.ts`)
 
 ---
 
