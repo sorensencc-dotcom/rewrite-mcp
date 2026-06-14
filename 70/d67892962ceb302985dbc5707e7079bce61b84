@@ -1,0 +1,31 @@
+packages/agents/src/redesign/redesign-agent.ts
+  s_308ad2cbeaff09::t_bf49c8ff683958 1-273
+packages/ir-toolkit/src/design-variant-renderer/index.ts
+  s_308ad2cbeaff09::t_e92899df88324d 1-110
+packages/ir-toolkit/src/design-variant-renderer/variant-renderer.test.ts
+  s_308ad2cbeaff09::t_c8764ecc295032 1-249
+packages/ir-toolkit/jest.config.js
+  s_308ad2cbeaff09::t_f0cf42c1524bb6 24-25
+packages/agents/src/redesign/index.mjs
+  s_308ad2cbeaff09::t_c3fea9b548e2d7 5-6,9-13
+packages/agents/src/__tests__/rl-redesign.test.ts
+  s_308ad2cbeaff09::t_661d44e7e55130 1-174,176-270,272-273,275-283
+  s_308ad2cbeaff09::t_cab8f68e32f3e5 271,274
+  s_308ad2cbeaff09::t_92901320d7ea14 175
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "70d67892962ceb302985dbc5707e7079bce61b84",
+  "prompts": {},
+  "sessions": {
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
