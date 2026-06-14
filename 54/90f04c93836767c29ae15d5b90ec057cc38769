@@ -1,0 +1,26 @@
+services/planning-engine/tests/AutoschedulerV2.test.ts
+  s_30a51492d6fc21::t_59679bb7a3cfa9 213,217-218
+  s_30a51492d6fc21::t_1adac95cf210ed 59-63,73
+  s_30a51492d6fc21::t_3fb7420005d5e4 69
+  s_30a51492d6fc21::t_c8f196ec3d5f0c 146-152
+services/planning-engine/tests/PhaseCostEstimator.test.ts
+  s_30a51492d6fc21::t_27c7954be6d25c 30
+  s_30a51492d6fc21::t_a435f9f74d5520 80
+  s_30a51492d6fc21::t_73e16c790f326a 81,83-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "5490f04c93836767c29ae15d5b90ec057cc38769",
+  "prompts": {},
+  "sessions": {
+    "s_30a51492d6fc21": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36baeed1-47f2-48d9-afb4-7c19c9129070",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
