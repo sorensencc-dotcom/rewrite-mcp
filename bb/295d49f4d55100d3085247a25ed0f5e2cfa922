@@ -1,0 +1,28 @@
+packages/agents/src/extractors/playwright-extractor.ts
+  s_308ad2cbeaff09::t_476c309e00cf56 1-2,57-60,62-74,76,91-100,102-107,109-113,115-145,148-149,153-180,183-213,216-226,229-247
+  s_308ad2cbeaff09::t_55ea73d8d7b858 61
+packages/agents/package.json
+  s_308ad2cbeaff09::t_50ff7c50b4ea1e 35-36
+packages/agents/Dockerfile
+  s_308ad2cbeaff09::t_cf0ca5a29cf8cb 40-43
+  s_308ad2cbeaff09::t_b4d47f0f9e9b86 47-48
+packages/agents/src/__tests__/rl-4-1.test.ts
+  s_308ad2cbeaff09::t_8c1466647f96e7 3
+  s_308ad2cbeaff09::t_b892202aabd079 24-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "bb295d49f4d55100d3085247a25ed0f5e2cfa922",
+  "prompts": {},
+  "sessions": {
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
