@@ -1,10 +1,77 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-13 (Phase RL-4.6 CrawlerEngine MVP) | Tool: claude
+Updated: 2026-06-13 (RL-4.0 + RL-4.1 Foundry Build) | Tool: claude
 
 ---
 
-## Current Session: Phase RL-4.6 — CrawlerEngine v1 (Complete)
+## Current Session: RL-4.0 + RL-4.1 — Extraction Engine + Foundry Build (Complete)
+
+**Status:** ✅ SHIPPED | 56/56 tests passing | `rl-agents:latest` Docker image built (368MB)
+
+### What Changed
+
+**RL-4.0 — Extraction Engine v1** (commit `bcc7289`):
+- `packages/agents/src/extractors/dom.ts` — `DomExtractor.extract(CrawlResult)` using `node-html-parser` (replaced browser-only `DOMParser`); extracts title, meta, headings, images, links, forms, DOM tree with class/ID capture
+- `packages/agents/src/extractors/style-engine.ts` — `StyleMatchEngine.parseStylesheet()` + `metrics()` with null-root guard (`if (dom.root)`) for test fixtures
+- `packages/agents/src/orchestrator.ts` — `RewriteLabsOrchestrator.orchestrate(url)` — 4-stage pipeline: crawl → DOM extract → style metrics → IR packet; returns `OrchestrationResult` with error field
+- `packages/agents/src/crawler/index.ts` — v1.1 patch: captures `rawHtml` (text/html only) + `contentType` from successful responses
+- IRPacket v1.1 schema: adds `cssMetrics?: StyleMetrics` field
+
+**RL-4.1 — Browser Extraction Scaffold** (commit `bcc7289`):
+- `packages/agents/src/extractors/playwright-extractor.ts` — `PlaywrightExtractor` (options wired, `extract()` returns null — stub pending real Playwright browser integration)
+- `packages/agents/src/extractors/computed-styles.ts` — `ComputedStylesAnalyzer`: `analyze()`, `categorizeStyles()`, `extractDesignTokens()`, `detectBreakpoints()`
+- `packages/agents/src/extractors/ir-v1-2-extension.ts` — `IRPacketV12Builder.buildExtension()`: counts interactive elements, maps screenshots, calculates performance metrics from NavigationTiming
+- `packages/agents/src/extractors/wcag-validator.ts` — `WcagValidator.audit()`: 7 WCAG checks (images, contrast, keyboard, navigation, readability, predictability, compatibility)
+- `packages/agents/src/extractors/accessibility-auditor.ts` — `AccessibilityAuditor`
+
+**Foundry Docker Build** (commit `8e0c7c5`):
+- `packages/agents/Dockerfile` — Fixed 3 issues: (1) builds from monorepo root context (no local lockfile needed), (2) `msttcorefonts` → `ttf-freefont` (Alpine-compatible), (3) HEALTHCHECK uses `import()` not `require()` for ESM; runtime stage installs only 11 prod packages
+- `scripts/build-foundry.ps1` — Updated Docker context to monorepo root; build cmd: `docker build -t rl-agents:latest -f packages/agents/Dockerfile .`
+
+### Test Status
+
+```
+PASS  src/__tests__/rl-4-0.test.ts   (15 tests — crawler v1.1 + DomExtractor + StyleEngine + orchestrator)
+PASS  src/__tests__/rl-4-1.test.ts   (17 tests — PlaywrightExtractor + ComputedStyles + IRPacketV12Builder)
+PASS  src/__tests__/rl-4-2.test.ts   (11 tests — WCAG + Accessibility)
+PASS  src/crawler/__tests__/crawler.test.ts  (13 tests)
+Total: 56/56 passing
+```
+
+### Key Decisions
+
+1. **node-html-parser** not `DOMParser` — `DOMParser` is browser-only; `node-html-parser` works in Node.js with same `querySelector` API
+2. **Jest version conflict** — root has Jest 30, incompatible with ts-jest 29. Tests MUST run from `packages/ir-toolkit/` dir: `cd packages/ir-toolkit && node --experimental-vm-modules node_modules/jest/bin/jest.js --config ../agents/jest.config.js --rootDir ../agents`
+3. **`PlaywrightExtractor.extract()` returns null** — intentional stub. Real implementation requires `@playwright/test` + browser binaries. The Docker image has Chromium installed via Alpine's `chromium` package (not the npm Playwright browser), which is the correct approach for containerized use.
+4. **Foundry build from monorepo root** — `packages/agents/` has no local `package-lock.json`; TypeScript is a root devDependency; must build from `rewrite-mcp/` root with `--workspace=packages/agents --include-workspace-root`
+
+### Run Tests
+
+```bash
+cd packages/ir-toolkit
+node --experimental-vm-modules node_modules/jest/bin/jest.js --config ../agents/jest.config.js --rootDir ../agents --no-coverage
+```
+
+### Run Foundry Build
+
+```powershell
+cd c:\dev\rewrite-mcp
+docker build -t rl-agents:latest -f packages/agents/Dockerfile .
+# Or via script:
+.\scripts\build-foundry.ps1 -Stage build
+```
+
+### Next Steps (RL-4.1 Real Playwright Integration)
+
+`PlaywrightExtractor.extract()` is a stub returning null. Real implementation:
+1. Add `@playwright/test` to `packages/agents/package.json` devDependencies
+2. Wire `chromium` Alpine binary as the browser executable: `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser`
+3. Implement: launch browser → create page → navigate → `page.evaluate()` for computed styles → screenshots → performance metrics → close
+4. Update tests: rl-4-1 currently passes because tests only call `extractor.extract()` and expect `null`. Add integration tests that call with a real/mocked browser session.
+
+---
+
+## Previous Session: Phase RL-4.6 — CrawlerEngine v1 (Complete)
 
 **Status:** ✅ IMPLEMENTATION COMPLETE | 13/13 tests passing
 
