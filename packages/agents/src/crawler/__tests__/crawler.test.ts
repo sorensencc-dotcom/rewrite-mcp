@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { BloomFilter } from '../bloom.js';
 import { CrawlerEngine, CrawlQueue } from '../index.js';
 import { RobotsCache } from '../robots.js';

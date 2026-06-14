@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect } from '@jest/globals';
 import { PlaywrightExtractor, PlaywrightNotConfiguredError } from '../extractors/playwright-extractor.js';
 import { ComputedStylesAnalyzer } from '../extractors/computed-styles.js';
 import { IRPacketV12Builder } from '../extractors/ir-v1-2-extension.js';

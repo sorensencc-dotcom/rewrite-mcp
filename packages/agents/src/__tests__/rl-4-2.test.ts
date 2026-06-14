@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect } from '@jest/globals';
 import { WcagValidator } from '../extractors/wcag-validator.js';
 import { AccessibilityAuditor } from '../extractors/accessibility-auditor.js';
 import type { DomModel } from '../extractors/dom.js';

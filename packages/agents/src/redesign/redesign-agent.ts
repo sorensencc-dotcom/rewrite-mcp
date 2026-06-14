@@ -66,21 +66,24 @@ type AnthropicMessage = {
 export class RedesignAgent {
   private readonly model: string;
   private readonly maxTokens: number;
+  private readonly injectedClient?: Anthropic;
 
-  constructor(options: { model?: string; maxTokens?: number } = {}) {
+  constructor(options: { model?: string; maxTokens?: number; client?: Anthropic } = {}) {
     this.model = options.model ?? 'claude-haiku-4-5-20251001';
     this.maxTokens = options.maxTokens ?? 4096;
+    this.injectedClient = options.client;
   }
 
   async redesign(input: RedesignInput): Promise<RedesignOutput> {
-    const apiKey = process.env['ANTHROPIC_API_KEY'];
-    if (!apiKey) {
-      throw new RedesignNotConfiguredError(
-        'ANTHROPIC_API_KEY not set — required for 3-pass LLM redesign chain'
-      );
-    }
-
-    const client = new Anthropic({ apiKey });
+    const client = this.injectedClient ?? (() => {
+      const apiKey = process.env['ANTHROPIC_API_KEY'];
+      if (!apiKey) {
+        throw new RedesignNotConfiguredError(
+          'ANTHROPIC_API_KEY not set — required for 3-pass LLM redesign chain'
+        );
+      }
+      return new Anthropic({ apiKey });
+    })();
     const startTime = Date.now();
     const variantCount = input.variantCount ?? 3;
 

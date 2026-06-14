@@ -17,6 +17,7 @@ export default {
         module: 'ESNext',
         moduleResolution: 'node',
         target: 'ES2020',
+        ignoreDeprecations: '6.0',
       },
     }],
   },

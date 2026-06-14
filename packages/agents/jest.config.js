@@ -6,7 +6,10 @@ export default {
   testTimeout: 30000,
   moduleFileExtensions: ['ts', 'js', 'json'],
   transform: {
-    '^.+\\.ts$': ['ts-jest', { useESM: true }],
+    '^.+\\.ts$': ['ts-jest', {
+      useESM: true,
+      tsconfig: { types: ['node', 'jest'] },
+    }],
   },
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {

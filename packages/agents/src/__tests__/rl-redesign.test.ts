@@ -1,18 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import { RedesignAgent, RedesignNotConfiguredError, REDESIGN_VERSION } from '../redesign/redesign-agent.js';
+import type Anthropic from '@anthropic-ai/sdk';
 
-// Must be set before dynamic import resolves the module
-const mockMessagesCreate = jest.fn();
+type MockClient = {
+  messages: { create: jest.Mock };
+};
 
-jest.unstable_mockModule('@anthropic-ai/sdk', () => ({
-  default: jest.fn().mockImplementation(() => ({
-    messages: { create: mockMessagesCreate },
-  })),
-}));
+const makeClient = (mockCreate: jest.Mock): Anthropic =>
+  ({ messages: { create: mockCreate } } as unknown as Anthropic);
 
-const { RedesignAgent, RedesignNotConfiguredError, REDESIGN_VERSION } = await import(
-  '../redesign/redesign-agent.js'
-);
+const validHtml = (name: string) =>
+  `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${name}</title></head><body><h1>${name}</h1></body></html>`;
+
+const mockPass1 = () => ({
+  content: [{
+    type: 'text',
+    text: JSON.stringify({
+      layoutType: 'single-column', colorScheme: 'light',
+      typographyHierarchy: 'standard', interactionDensity: 'medium',
+      modernizationTargets: ['typography', 'spacing'],
+      redesignBrief: 'Clean modern redesign with improved hierarchy.',
+    }),
+  }],
+});
+
+const mockPass2 = () => ({
+  content: [{
+    type: 'text',
+    text: JSON.stringify({
+      customProps: ':root { --color-primary: #007bff; --font-base: "Inter, sans-serif"; }',
+      baseCSS: '*, *::before, *::after { box-sizing: border-box; } body { margin: 0; }',
+    }),
+  }],
+});
+
+const mockPass3 = () => ({
+  content: [{
+    type: 'text',
+    text: JSON.stringify({
+      variants: [
+        { name: 'Minimal', html: validHtml('Minimal'), css: 'body { color: #007bff; }' },
+        { name: 'Bold', html: validHtml('Bold'), css: 'body { font-weight: bold; color: #007bff; }' },
+        { name: 'Editorial', html: validHtml('Editorial'), css: 'body { font-size: 18px; color: #007bff; }' },
+      ],
+    }),
+  }],
+});
 
 describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
 
@@ -34,12 +67,8 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
       delete process.env['ANTHROPIC_API_KEY'];
       try {
         const agent = new RedesignAgent();
-        await expect(
-          agent.redesign({ url: 'https://example.com' })
-        ).rejects.toThrow(RedesignNotConfiguredError);
-        await expect(
-          agent.redesign({ url: 'https://example.com' })
-        ).rejects.toThrow('ANTHROPIC_API_KEY');
+        await expect(agent.redesign({ url: 'https://example.com' })).rejects.toThrow(RedesignNotConfiguredError);
+        await expect(agent.redesign({ url: 'https://example.com' })).rejects.toThrow('ANTHROPIC_API_KEY');
       } finally {
         if (saved !== undefined) process.env['ANTHROPIC_API_KEY'] = saved;
       }
@@ -70,7 +99,7 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
   });
 
   describe('W3C validation (structural)', () => {
-    let agent: InstanceType<typeof RedesignAgent>;
+    let agent: RedesignAgent;
 
     beforeEach(() => {
       agent = new RedesignAgent();
@@ -123,7 +152,7 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
   });
 
   describe('Token drift calculation', () => {
-    let agent: InstanceType<typeof RedesignAgent>;
+    let agent: RedesignAgent;
 
     beforeEach(() => {
       agent = new RedesignAgent();
@@ -166,58 +195,20 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
     });
   });
 
-  describe('redesign() — mocked LLM', () => {
-    const validHtml = (name: string) =>
-      `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${name}</title></head><body><h1>${name}</h1></body></html>`;
+  describe('redesign() — injected client', () => {
+    let mockCreate: jest.Mock;
+    let agent: RedesignAgent;
 
     beforeEach(() => {
-      process.env['ANTHROPIC_API_KEY'] = 'test-key';
-      mockMessagesCreate.mockClear();
-      mockMessagesCreate
-        .mockResolvedValueOnce({
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify({
-                layoutType: 'single-column',
-                colorScheme: 'light',
-                typographyHierarchy: 'standard',
-                interactionDensity: 'medium',
-                modernizationTargets: ['typography', 'spacing'],
-                redesignBrief: 'Clean modern redesign with improved hierarchy.',
-              }),
-            },
-          ],
-        })
-        .mockResolvedValueOnce({
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify({
-                customProps: ':root { --color-primary: #007bff; --font-base: "Inter, sans-serif"; }',
-                baseCSS: '*, *::before, *::after { box-sizing: border-box; } body { margin: 0; }',
-              }),
-            },
-          ],
-        })
-        .mockResolvedValueOnce({
-          content: [
-            {
-              type: 'text',
-              text: JSON.stringify({
-                variants: [
-                  { name: 'Minimal', html: validHtml('Minimal'), css: 'body { color: #007bff; }' },
-                  { name: 'Bold', html: validHtml('Bold'), css: 'body { font-weight: bold; color: #007bff; }' },
-                  { name: 'Editorial', html: validHtml('Editorial'), css: 'body { font-size: 18px; color: #007bff; }' },
-                ],
-              }),
-            },
-          ],
-        });
+      mockCreate = jest.fn();
+      mockCreate
+        .mockResolvedValueOnce(mockPass1())
+        .mockResolvedValueOnce(mockPass2())
+        .mockResolvedValueOnce(mockPass3());
+      agent = new RedesignAgent({ client: makeClient(mockCreate) });
     });
 
     it('completes all 3 passes and returns variants', async () => {
-      const agent = new RedesignAgent();
       const result = await agent.redesign({
         url: 'https://example.com',
         title: 'Example Site',
@@ -230,7 +221,6 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
     });
 
     it('variants have required shape', async () => {
-      const agent = new RedesignAgent();
       const result = await agent.redesign({ url: 'https://example.com' });
 
       for (const v of result.variants) {
@@ -246,7 +236,6 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
     });
 
     it('W3C-valid HTML produces w3cValid=true', async () => {
-      const agent = new RedesignAgent();
       const result = await agent.redesign({
         url: 'https://example.com',
         designTokens: { 'color-primary': '#007bff' },
@@ -256,28 +245,24 @@ describe('RL-4.1: RedesignAgent — 3-Pass LLM Chain', () => {
     });
 
     it('token drift reflects token usage in CSS', async () => {
-      const agent = new RedesignAgent();
       const result = await agent.redesign({
         url: 'https://example.com',
         designTokens: { 'color-primary': '#007bff' },
       });
 
-      // CSS contains #007bff → token used → drift should be 0
       for (const v of result.variants) {
         expect(v.tokenDriftScore).toBe(0);
       }
     });
 
     it('generationTimeMs is non-negative', async () => {
-      const agent = new RedesignAgent();
       const result = await agent.redesign({ url: 'https://example.com' });
       expect(result.generationTimeMs).toBeGreaterThanOrEqual(0);
     });
 
     it('LLM called exactly 3 times (one per pass)', async () => {
-      const agent = new RedesignAgent();
       await agent.redesign({ url: 'https://example.com' });
-      expect(mockMessagesCreate).toHaveBeenCalledTimes(3);
+      expect(mockCreate).toHaveBeenCalledTimes(3);
     });
   });
 });

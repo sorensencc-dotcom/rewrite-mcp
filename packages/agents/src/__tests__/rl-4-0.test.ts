@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, jest } from '@jest/globals';
 import { CrawlerEngine } from '../crawler/index.js';
 import { DomExtractor } from '../extractors/dom.js';
 import { StyleMatchEngine } from '../extractors/style-engine.js';
