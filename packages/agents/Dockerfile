@@ -37,10 +37,14 @@ RUN apk add --no-cache \
 COPY --from=builder /build/packages/agents/dist ./dist
 COPY --from=builder /build/packages/agents/package.json ./package.json
 
-# Install production runtime deps only (node-html-parser)
-RUN npm install --omit=dev --ignore-scripts
+# Install production runtime deps (node-html-parser + playwright-core)
+# PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: skip managed browser download; we use system chromium
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+RUN npm install --omit=dev
 
 RUN mkdir -p /data
+
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node --input-type=module -e "import('./dist/crawler/index.js').then(() => process.exit(0)).catch(() => process.exit(1))"

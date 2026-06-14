@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from '@jest/globals';
-import { PlaywrightExtractor } from '../extractors/playwright-extractor.js';
+import { PlaywrightExtractor, PlaywrightNotConfiguredError } from '../extractors/playwright-extractor.js';
 import { ComputedStylesAnalyzer } from '../extractors/computed-styles.js';
 import { IRPacketV12Builder } from '../extractors/ir-v1-2-extension.js';
 
@@ -21,10 +21,20 @@ describe('RL-4.1: Playwright Browser Engine + Computed Styles', () => {
       expect(extractor).toBeTruthy();
     });
 
-    it('stub extract returns null (not yet implemented)', async () => {
-      const extractor = new PlaywrightExtractor();
-      const result = await extractor.extract('https://example.com');
-      expect(result).toBeNull();
+    it('throws PlaywrightNotConfiguredError when PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH not set', async () => {
+      const saved = process.env['PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH'];
+      delete process.env['PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH'];
+      try {
+        const extractor = new PlaywrightExtractor();
+        await expect(extractor.extract('https://example.com')).rejects.toThrow(
+          PlaywrightNotConfiguredError
+        );
+        await expect(extractor.extract('https://example.com')).rejects.toThrow(
+          'PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH'
+        );
+      } finally {
+        if (saved !== undefined) process.env['PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH'] = saved;
+      }
     });
   });
 

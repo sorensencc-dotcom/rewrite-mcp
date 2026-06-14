@@ -1,3 +1,5 @@
+import type { Browser, Page } from 'playwright-core';
+
 export interface PlaywrightOptions {
   headless?: boolean;
   timeout?: number;
@@ -52,15 +54,26 @@ export interface PlaywrightDomModel {
   extractedAt: string;
 }
 
-/**
- * Playwright-based DOM extractor for browser-rendered content.
- * Captures computed styles, screenshots, and interactive elements.
- *
- * Note: Requires Playwright installation and browser binary.
- * Stub implementation for type safety; real implementation uses @playwright/test.
- */
+export class PlaywrightNotConfiguredError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'PlaywrightNotConfiguredError';
+    Object.setPrototypeOf(this, PlaywrightNotConfiguredError.prototype);
+  }
+}
+
+const CSS_PROPS = [
+  'color', 'background-color', 'border-color',
+  'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing',
+  'display', 'position', 'flex-direction', 'grid-template-columns',
+  'margin', 'padding', 'gap',
+  'width', 'height', 'max-width',
+  'border-radius', 'box-shadow', 'opacity',
+  'z-index', 'overflow', 'text-align', 'text-decoration',
+] as const;
+
 export class PlaywrightExtractor {
-  private readonly options: PlaywrightOptions;
+  private readonly options: Required<PlaywrightOptions>;
 
   constructor(options: PlaywrightOptions = {}) {
     this.options = {
@@ -74,80 +87,163 @@ export class PlaywrightExtractor {
     };
   }
 
-  /**
-   * Extract DOM from URL using Playwright.
-   * Returns computed styles, interactive elements, screenshots.
-   *
-   * Stub: returns null. Real implementation opens browser, navigates, captures.
-   */
   async extract(url: string): Promise<PlaywrightDomModel | null> {
+    const executablePath = process.env['PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH'];
+    if (!executablePath) {
+      throw new PlaywrightNotConfiguredError(
+        'PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH not set — set to chromium binary path (e.g. /usr/bin/chromium-browser)'
+      );
+    }
+
+    const { chromium } = await import('playwright-core');
+    let browser: Browser | null = null;
+
     try {
+      browser = await chromium.launch({
+        executablePath,
+        headless: this.options.headless,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+      });
+
       const startTime = Date.now();
+      const context = await browser.newContext({
+        viewport: this.options.viewport,
+        userAgent: this.options.userAgent,
+      });
+      const page = await context.newPage();
 
-      // Stub: real implementation would:
-      // 1. Launch browser
-      // 2. Create page with viewport
-      // 3. Navigate to URL with timeout
-      // 4. Wait for network idle / custom condition
-      // 5. Extract computed styles via page.evaluate()
-      // 6. Find interactive elements (buttons, inputs, links, etc.)
-      // 7. Take screenshots (full page, viewport)
-      // 8. Extract performance metrics
-      // 9. Close browser
+      await page.goto(url, {
+        timeout: this.options.timeout,
+        waitUntil: this.options.waitForNavigation ? 'networkidle' : 'load',
+      });
 
-      // For now, return null to indicate not yet implemented
-      return null;
-    } catch (err: unknown) {
-      if (this.options.screenshotOnError) {
-        // Stub: capture error screenshot
+      const title = await page.title();
+      const viewport = page.viewportSize() ?? this.options.viewport;
+
+      const [computedStyles, interactiveElements, screenshots, performanceMetrics] =
+        await Promise.all([
+          this.extractComputedStyles(page),
+          this.extractInteractiveElements(page),
+          this.takeScreenshots(page),
+          this.extractPerformanceMetrics(page),
+        ]);
+
+      return {
+        url,
+        title,
+        viewport,
+        computedStyles,
+        interactiveElements,
+        screenshots,
+        performanceMetrics,
+        jsExecutionTime: Date.now() - startTime,
+        extractedAt: new Date().toISOString(),
+      };
+    } catch (err) {
+      if (err instanceof PlaywrightNotConfiguredError) throw err;
+      if (this.options.screenshotOnError && browser) {
+        // TODO: capture error screenshot before close
       }
       return null;
+    } finally {
+      await browser?.close();
     }
   }
 
-  /**
-   * Extract computed styles for all elements on page.
-   * Stub: returns empty array.
-   */
-  async extractComputedStyles(page: any): Promise<ComputedStyle[]> {
-    // Stub: would evaluate this on page:
-    // Array.from(document.querySelectorAll('*')).map(el => ({
-    //   selector: getUniqueSelectorFor(el),
-    //   computed: window.getComputedStyle(el),
-    //   box: el.getBoundingClientRect()
-    // }))
-    return [];
+  async extractComputedStyles(page: Page): Promise<ComputedStyle[]> {
+    return page.evaluate((props: readonly string[]) => {
+      function getSelector(el: Element): string {
+        if (el.id) return `#${el.id}`;
+        const cls = (el as HTMLElement).className;
+        if (cls && typeof cls === 'string' && cls.trim()) {
+          return `${el.tagName.toLowerCase()}.${cls.trim().split(/\s+/)[0]}`;
+        }
+        return el.tagName.toLowerCase();
+      }
+
+      return Array.from(document.querySelectorAll('*'))
+        .slice(0, 300)
+        .map((el) => {
+          const computed = window.getComputedStyle(el);
+          const box = el.getBoundingClientRect();
+          const styles: Record<string, string> = {};
+          for (const prop of props) {
+            const val = computed.getPropertyValue(prop);
+            if (val) styles[prop] = val;
+          }
+          return {
+            selector: getSelector(el),
+            computed: styles,
+            box: { width: box.width, height: box.height, top: box.top, left: box.left },
+          };
+        });
+    }, [...CSS_PROPS]);
   }
 
-  /**
-   * Find interactive elements (buttons, inputs, links, clickable divs).
-   * Stub: returns empty array.
-   */
-  async extractInteractiveElements(page: any): Promise<InteractiveElement[]> {
-    // Stub: would find and evaluate:
-    // - <button>, <input>, <select>, <textarea>
-    // - <a>, <label>
-    // - [role="button"], [onclick], cursor:pointer divs
-    // For each: visibility, disabled state, accessible name
-    return [];
+  async extractInteractiveElements(page: Page): Promise<InteractiveElement[]> {
+    return page.evaluate(() => {
+      function getSelector(el: Element): string {
+        if (el.id) return `#${el.id}`;
+        const cls = (el as HTMLElement).className;
+        if (cls && typeof cls === 'string' && cls.trim()) {
+          return `${el.tagName.toLowerCase()}.${cls.trim().split(/\s+/)[0]}`;
+        }
+        return el.tagName.toLowerCase();
+      }
+
+      const SELECTORS = 'button, input, select, textarea, a[href], [role="button"], [onclick]';
+      return Array.from(document.querySelectorAll(SELECTORS))
+        .slice(0, 100)
+        .map((el) => {
+          const htmlEl = el as HTMLInputElement;
+          const style = window.getComputedStyle(el);
+          return {
+            tag: el.tagName.toLowerCase(),
+            type: htmlEl.type || undefined,
+            selector: getSelector(el),
+            text: el.textContent?.trim().slice(0, 100) || undefined,
+            ariaLabel: el.getAttribute('aria-label') || undefined,
+            isVisible:
+              style.display !== 'none' &&
+              style.visibility !== 'hidden' &&
+              style.opacity !== '0',
+            isDisabled: htmlEl.disabled ?? false,
+          };
+        });
+    });
   }
 
-  /**
-   * Take screenshots (full page + viewport).
-   * Stub: returns empty array.
-   */
-  async takeScreenshots(page: any): Promise<ScreenshotMetadata[]> {
-    // Stub: would call page.screenshot({ fullPage: true }) and page.screenshot()
-    // Encode as data URLs for inline storage
-    return [];
+  async takeScreenshots(page: Page): Promise<ScreenshotMetadata[]> {
+    const viewport = page.viewportSize() ?? this.options.viewport;
+    const buf = await page.screenshot({ fullPage: false });
+    return [
+      {
+        width: viewport.width,
+        height: viewport.height,
+        dataUrl: `data:image/png;base64,${buf.toString('base64')}`,
+        capturedAt: new Date().toISOString(),
+      },
+    ];
   }
 
-  /**
-   * Extract Web Vitals and performance metrics.
-   * Stub: returns undefined.
-   */
-  async extractPerformanceMetrics(page: any): Promise<any | undefined> {
-    // Stub: would use page.metrics() and PerformanceObserver API
-    return undefined;
+  async extractPerformanceMetrics(
+    page: Page
+  ): Promise<PlaywrightDomModel['performanceMetrics'] | undefined> {
+    try {
+      return await page.evaluate(() => {
+        const nav = performance.getEntriesByType(
+          'navigation'
+        )[0] as PerformanceNavigationTiming;
+        const fcp = performance.getEntriesByName('first-contentful-paint')[0];
+        return {
+          navigationStart: nav?.startTime ?? 0,
+          loadEventEnd: nav?.loadEventEnd ?? 0,
+          domContentLoadedEventEnd: nav?.domContentLoadedEventEnd ?? 0,
+          firstContentfulPaint: fcp?.startTime ?? 0,
+        };
+      });
+    } catch {
+      return undefined;
+    }
   }
 }
