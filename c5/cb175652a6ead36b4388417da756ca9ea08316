@@ -1,0 +1,19 @@
+tools/mcp/idea-inbox-server.js
+  s_a8c27da584e99f::t_382c758df019b2 8,13-49,63,298,321,331,668
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.8",
+  "base_commit_sha": "c5cb175652a6ead36b4388417da756ca9ea08316",
+  "prompts": {},
+  "sessions": {
+    "s_a8c27da584e99f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13d75ce0-4d2c-49ac-a90e-a17cd922de8f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
