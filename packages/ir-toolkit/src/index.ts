@@ -12,3 +12,7 @@ export * from './pricing-engine/index.js';
 
 // Validators
 export * from './validators/index.js';
+
+// DOM Patch Engine
+export * from './dom-patch/index.js';
+

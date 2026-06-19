@@ -1,0 +1,22 @@
+# Phase 2: Planning Console (UI dashboard + controls + governance integration)
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+RUN npm install
+
+# Copy source
+COPY tsconfig.json ./
+COPY src/planning-console/ ./src/planning-console/
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=15s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+
+# Start (simplified: just echo in dev, would be a real server in prod)
+CMD ["npm", "run", "start:planning-console"]

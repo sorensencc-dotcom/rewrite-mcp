@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CIC, Context, HealthStatus, Metrics } from '../lib/cicClient'
+import { CIC } from '../lib/cicClient'
 
 export const useHealth = () =>
   useQuery({
@@ -39,5 +39,5 @@ export const useFlowExecution = (executionId: string) =>
       return res.data.execution
     },
     enabled: !!executionId,
-    refetchInterval: (data) => data?.status === 'running' ? 2000 : false
+    refetchInterval: (query) => (query.state.data as any)?.status === 'running' ? 2000 : false
   })

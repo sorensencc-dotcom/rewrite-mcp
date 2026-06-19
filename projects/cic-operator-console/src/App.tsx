@@ -7,6 +7,7 @@ import ContextInspector from './pages/ContextInspector'
 import CRGHealth from './pages/CRGHealth'
 import Metrics from './pages/Metrics'
 import Settings from './pages/Settings'
+import ChatEditor from './pages/ChatEditor'
 import './App.css'
 
 const queryClient = new QueryClient()
@@ -20,6 +21,7 @@ function App() {
             <h1 className="text-2xl font-bold text-cic-accent mb-8">CIC</h1>
             <ul className="space-y-2">
               <li><Link to="/" className="block p-2 rounded hover:bg-cic-muted transition">Dashboard</Link></li>
+              <li><Link to="/chat-editor" className="block p-2 rounded hover:bg-cic-muted transition text-amber-500 font-bold">Chat Editor (RL-4.3)</Link></li>
               <li><Link to="/flows" className="block p-2 rounded hover:bg-cic-muted transition">Flow Explorer</Link></li>
               <li><Link to="/agents" className="block p-2 rounded hover:bg-cic-muted transition">Agent Performance</Link></li>
               <li><Link to="/context" className="block p-2 rounded hover:bg-cic-muted transition">Context Inspector</Link></li>
@@ -32,6 +34,7 @@ function App() {
           <main className="flex-1 overflow-auto">
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/chat-editor" element={<ChatEditor />} />
               <Route path="/flows" element={<FlowExplorer />} />
               <Route path="/agents" element={<AgentPerformance />} />
               <Route path="/context" element={<ContextInspector />} />

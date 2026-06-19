@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  # Rewrite Labs extractors (crawler + DOM + styles + accessibility)
+  rl-agents:
+    build:
+      context: .
+      dockerfile: packages/agents/Dockerfile
+    container_name: rl-agents
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: info
+    networks:
+      - rewrite-labs
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('ok')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Postgres for extraction results
+  postgres:
+    image: postgres:16-alpine
+    container_name: rl-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: rl_user
+      POSTGRES_PASSWORD: rl_password
+      POSTGRES_DB: rewrite_labs
+    volumes:
+      - rl_postgres_data:/var/lib/postgresql/data
+    networks:
+      - rewrite-labs
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rl_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis for caching (robots.txt, crawl dedup)
+  redis:
+    image: redis:7-alpine
+    container_name: rl-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - rl_redis_data:/data
+    networks:
+      - rewrite-labs
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Qdrant for vector storage (for future semantic search)
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rl-qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - rl_qdrant_data:/qdrant/storage
+    networks:
+      - rewrite-labs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Grafana for metrics (extraction logs, crawl stats)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: rl-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - rl_grafana_data:/var/lib/grafana
+    networks:
+      - rewrite-labs
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  rl_postgres_data:
+  rl_redis_data:
+  rl_qdrant_data:
+  rl_grafana_data:
+
+networks:
+  rewrite-labs:
+    driver: bridge
