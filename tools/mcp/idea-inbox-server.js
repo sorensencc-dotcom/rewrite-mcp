@@ -5,14 +5,48 @@ import path from "path";
 import readline from "readline";
 import { randomUUID } from "crypto";
 import { fileURLToPath } from "url";
-import Anthropic from "@anthropic-ai/sdk";
+import http from "http";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+// Local LLM via Ollama (runs on localhost:11434)
+const LOCAL_MODEL = process.env.LOCAL_MODEL || "llama3.1:8b";
+
+async function callLocalLLM(systemPrompt, userMessage) {
+  return new Promise((resolve, reject) => {
+    const prompt = `${systemPrompt}\n\nUser: ${userMessage}`;
+    const data = JSON.stringify({
+      model: LOCAL_MODEL,
+      prompt: prompt,
+      stream: false,
+      temperature: 0.3,
+    });
+
+    const req = http.request(
+      { hostname: "localhost", port: 11434, path: "/api/generate", method: "POST", headers: { "Content-Type": "application/json" } },
+      (res) => {
+        let body = "";
+        res.on("data", (chunk) => (body += chunk));
+        res.on("end", () => {
+          try {
+            const parsed = JSON.parse(body);
+            if (parsed.error) {
+              reject(new Error(`Ollama error: ${parsed.error}`));
+            } else {
+              resolve(parsed.response || "");
+            }
+          } catch (e) {
+            reject(new Error(`Failed to parse LLM response: ${e.message}`));
+          }
+        });
+      }
+    );
+    req.on("error", reject);
+    req.write(data);
+    req.end();
+  });
+}
 
 const DATA_DIR = path.resolve(__dirname, "../../data/idea-inbox");
 const INBOX_FILE = path.join(DATA_DIR, "inbox.json");
@@ -26,7 +60,7 @@ const DEFAULT_CONFIG = {
   dedup_similarity: 0.8,
   batch_size: 50,
   max_pris_per_day: 100,
-  model: "claude-opus-4-8",
+  model: "llama3.1:8b",
   reviewer_sla_hours: 72,
   stale_pri_days: 30,
 };
@@ -261,7 +295,7 @@ const handlers = {
 
     const config = readFile(CONFIG_FILE, DEFAULT_CONFIG);
 
-    // Call Claude API for IHA processing
+    // Call local LLM for IHA processing
     const systemPrompt = `You are the Idea Harvester Agent (IHA). Analyze the provided idea and return a JSON object with:
 - classification: one of Feature, Bug, Initiative, Spike, Process
 - scores: object with novelty (0-40), strategic_alignment (0-30), feasibility (0-15), source_priority (0-15)
@@ -284,19 +318,7 @@ ${inboxItem.raw_content}`;
 
     let ihaResult;
     try {
-      const response = await client.messages.create({
-        model: config.model || "claude-opus-4-8",
-        max_tokens: 1500,
-        system: systemPrompt,
-        messages: [
-          {
-            role: "user",
-            content: userMessage,
-          },
-        ],
-      });
-
-      const text = response.content[0].type === "text" ? response.content[0].text : "";
+      const text = await callLocalLLM(systemPrompt, userMessage);
 
       // Extract JSON from response
       const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -306,7 +328,7 @@ ${inboxItem.raw_content}`;
 
       ihaResult = JSON.parse(jsonMatch[0]);
     } catch (error) {
-      throw new Error(`IHA API call failed: ${error.message}`);
+      throw new Error(`IHA local LLM call failed: ${error.message}`);
     }
 
     // Decision logic
@@ -643,7 +665,7 @@ const tools = {
   "idea:harvest": {
     name: "idea:harvest",
     description:
-      "Run IHA on one item: enrich → classify → score → draft PRI or reject. Calls Claude API",
+      "Run IHA on one item: enrich → classify → score → draft PRI or reject. Calls local Ollama LLM",
     inputSchema: {
       type: "object",
       properties: {
