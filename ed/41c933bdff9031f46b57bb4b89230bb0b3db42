@@ -1,0 +1,47 @@
+projects/cic-operator-console/src/panels/agents/components/PanelHeader.tsx
+  s_f354bab285f282::t_17c7c5763a5203 1-106
+projects/cic-operator-console/src/panels/AlertsPanel.tsx
+  s_cadc1056cf8591::t_19927070790bc7 1-116
+projects/cic-operator-console/src/panels/AgentsPanel.tsx
+  s_cadc1056cf8591::t_d4fa6b3e71264f 1-149
+HANDOFF.md
+  s_cadc1056cf8591::t_7bda184be08edc 7-61
+projects/cic-operator-console/src/panels/agents/AgentsPanel.tsx
+  s_f354bab285f282::t_d0eb71a6965e2a 1-107
+projects/cic-operator-console/src/panels/index.ts
+  s_cadc1056cf8591::t_26a8e763700e43 2,4-15,18,22-26
+projects/cic-operator-console/src/panels/agents/hooks/useAgent.ts
+  s_f354bab285f282::t_78bc32f6570612 1-59
+projects/cic-operator-console/src/panels/agents/hooks/useAgentList.ts
+  s_f354bab285f282::t_e9410637f085a5 1-52
+projects/cic-operator-console/src/panels/agents/components/PanelBody.tsx
+  s_f354bab285f282::t_429b2416dd7c93 1-78
+projects/cic-operator-console/src/panels/WorkspacePanel.tsx
+  s_cadc1056cf8591::t_9a022da6ea583c 1-156
+projects/cic-operator-console/src/panels/agents/types.ts
+  s_f354bab285f282::t_f1ed78043ca2c6 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "ed41c933bdff9031f46b57bb4b89230bb0b3db42",
+  "prompts": {},
+  "sessions": {
+    "s_cadc1056cf8591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1bb9ca0-c671-4f8d-ae69-244d5f101c47",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f354bab285f282": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3102c79a-d8e1-4a69-b60f-164c89700b9f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
