@@ -1,10 +1,64 @@
 # HANDOFF.md — rewrite-mcp Monorepo
 
-Updated: 2026-06-14 (RL-4.1 RedesignAgent + RL-4.2 WCAG Audit) | Tool: claude
+Updated: 2026-06-20 (Console v3 Dashboard Layout) | Tool: claude
 
 ---
 
-## Current Session: Console v3 Tier 1 UI Lock + Design System Enforcement (Complete)
+## Current Session: Console v3 Mock API Server + Layout Validation (Complete)
+
+**Status:** ✅ SHIPPED | Mock backend ready, all endpoints mocked, layout validation kit included
+
+### What Changed
+
+**Goal:** Create deterministic mock API server to enable layout testing without real backend. Provide comprehensive validation checklist.
+
+**Delivered:**
+
+1. **Mock API Server ([mock-api-server.js](rewrite-mcp/projects/cic-operator-console/mock-api-server.js))**
+   - ✅ Express server listening on localhost:8080
+   - ✅ All endpoints mocked: /cic/health, /cic/pipelines, /cic/alerts, /cic/workspace, /cic/actions
+   - ✅ All agent endpoints: /agents, /agents/:id, /agents/:id/invoke|pause|restart|snapshot
+   - ✅ Deterministic but variable test data (health cycles, pipeline progress drift, alert injection)
+   - ✅ 20-point cost timelines, 3-entry activity logs, heartbeat variance (80–150ms)
+
+2. **Documentation (Layout Validation Kit)**
+   - ✅ [QUICKSTART.md](rewrite-mcp/projects/cic-operator-console/QUICKSTART.md) — 2-minute setup + troubleshooting
+   - ✅ [MOCK-API.md](rewrite-mcp/projects/cic-operator-console/MOCK-API.md) — Endpoint reference, test data patterns, env vars
+   - ✅ [LAYOUT-VALIDATION-CHECKLIST.md](rewrite-mcp/projects/cic-operator-console/LAYOUT-VALIDATION-CHECKLIST.md) — 40+ visual/functional checks
+
+3. **Package.json Updates**
+   - ✅ npm scripts: `npm run mock`, `npm run dev:with-mock`
+   - ✅ Dev dependency notes for express + cors
+
+### Commits
+
+- `621ba84` — feat(console-v3): Mock API server + layout validation kit
+
+### Tests / Verification
+
+- ✅ Mock server: all 11 endpoints responding
+- ✅ Data generation: realistic (health 99%, uptime, service count, pipeline progress)
+- ✅ Polling intervals: health 10s, pipelines 5s, alerts 3s, agents 5s
+- ✅ Agent detail: metadata, heartbeat, cost timeline, execution log, approvals, skill usage
+- ✅ Error handling: graceful failures when endpoints unavailable
+- ⏳ Layout validation: pending browser test + checklist completion
+
+### Next Steps
+
+1. **Run mock server** — `node mock-api-server.js` (or `npm run mock`)
+2. **Start Vite dev** — `npm run dev`
+3. **Open dashboard** — [localhost:5173/console-v3](http://localhost:5173/console-v3)
+4. **Validate layout** — Use LAYOUT-VALIDATION-CHECKLIST.md (40+ checks)
+5. **Connect real data** — Wire TorqueQuery feed (agents/alerts/workspace)
+6. **Add WebSocket streaming** — Replace polling with real-time heartbeats
+
+### Zone Governance
+
+All work in `rewrite-mcp/projects/cic-operator-console/` follows CLAUDE.md commitment attribution.
+
+---
+
+## Previous Session (2026-06-20): Console v3 Tier 1 UI Lock + Design System Enforcement (Complete)
 
 **Status:** ✅ SHIPPED | 3 panels token-compliant, enforcement active, Tier 2 queued
 
