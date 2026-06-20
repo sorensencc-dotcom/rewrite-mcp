@@ -148,9 +148,9 @@ export const cicCls = {
   bgElevated: 'bg-[#1e1e2a]',
 
   // Text
-  textPrimary:   'text-slate-100',
-  textSecondary: 'text-slate-400',
-  textMuted:     'text-slate-600',
+  textPrimary:   'text-[#f1f5f9]',
+  textSecondary: 'text-[#94a3b8]',
+  textMuted:     'text-[#475569]',
 
   // Borders
   border:        'border border-[#2a2a3a]',
@@ -166,6 +166,19 @@ export const cicCls = {
   warning:       'text-amber-400',
   error:         'text-red-400',
   info:          'text-blue-400',
+
+  // Typography
+  fontMono:      'font-mono',
+
+  // Toggle / Switch
+  toggleBg:      'bg-[#1e1e2a]',
+  toggleBorder:  'border-[#3a3a50]',
+  toggleThumb:   'bg-white',
+  toggleTrackOff:'bg-slate-700',
+  toggleTrackOn: 'bg-indigo-500',
+  accentToggleBg:'bg-indigo-500/10',
+  accentToggleBorder:'border-indigo-500/30',
+  accentToggleText:'text-indigo-300',
 } as const;
 
 // ── Unified Token Object ─────────────────────────────────────────────────────

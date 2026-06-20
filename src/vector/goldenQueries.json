@@ -1,0 +1,12 @@
+[
+  {
+    "id": "q1",
+    "query": "SELECT * FROM memory",
+    "tags": ["baseline", "retrieval"]
+  },
+  {
+    "id": "q2",
+    "query": "SELECT COUNT(*) FROM events",
+    "tags": ["baseline", "count"]
+  }
+]

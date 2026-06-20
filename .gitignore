@@ -81,6 +81,8 @@ cache/
 benchmarks/costs/costLog.json
 benchmarks/costs/reports/
 benchmarks/routing/.agent-prefs.json
+# Generated benchmark output — never track as source; these are point-in-time artifacts
+benchmarks/out/
 
 # -------------------------
 # BOB BUILD ARTIFACTS & LOGS

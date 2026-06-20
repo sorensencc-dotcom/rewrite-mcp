@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RewriteLabs Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h1 { font-size: 24px; margin-bottom: 8px; }
+        .meta { color: #666; font-size: 13px; margin-bottom: 15px; }
+        .btn-update { background: #0066cc; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .btn-update:hover { background: #0052a3; }
+        .save-feedback { display: none; color: #28a745; font-weight: 600; margin-left: 10px; font-size: 14px; }
+        .action { background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px; border-left: 4px solid #dc3545; }
+        .action.red { border-left-color: #dc3545; }
+        .action.yellow { border-left-color: #ffc107; }
+        .action.blue { border-left-color: #0066cc; }
+        .title { font-weight: 600; font-size: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .priority-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; color: white; }
+        .priority-badge.red { background: #dc3545; }
+        .priority-badge.yellow { background: #ffc107; color: #333; }
+        .priority-badge.blue { background: #0066cc; }
+        .ready-badge { background: #28a745; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: white; }
+        .context { color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
+        .questions { background: #fffbea; border-left: 3px solid #ffc107; padding: 10px; margin-bottom: 12px; border-radius: 4px; font-size: 12px; }
+        .questions strong { display: block; margin-bottom: 6px; color: #333; }
+        .questions ul { margin-left: 18px; line-height: 1.6; }
+        .field { margin-bottom: 12px; }
+        .label { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 5px; display: block; }
+        input[type="text"], input[type="checkbox"], select, textarea { padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 13px; }
+        textarea { width: 100%; min-height: 70px; resize: vertical; }
+        select { width: 100%; }
+        .checkbox-field { display: flex; align-items: center; gap: 8px; background: #f0f8ff; padding: 10px; border-radius: 4px; border: 1px solid #0066cc; }
+        .checkbox-field input { margin: 0; }
+        .checkbox-field label { margin: 0; font-weight: 600; color: #0066cc; cursor: pointer; }
+        .section-header { font-size: 18px; font-weight: 700; margin-top: 24px; margin-bottom: 12px; padding-top: 12px; border-top: 2px solid #eee; }
+        .section-header.red { color: #dc3545; }
+        .section-header.yellow { color: #ffc107; }
+        .section-header.blue { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 RewriteLabs Weekly Actions Tracker</h1>
+            <div class="meta">Week of June 19, 2026 | Click "Update" to save your changes</div>
+            <button class="btn-update" onclick="saveAll()">💾 Update</button>
+            <span class="save-feedback" id="feedback">✓ All changes saved!</span>
+        </header>
+        <div id="items"></div>
+    </div>
+
+    <script>
+        const items = [
+            { id: 1, priority: 'red', title: 'CRITICAL: Evaluate Framer 3.0 Threat', context: 'Framer launched June 16 with screenshot-to-layout, CMS wiring, and AI workflows in canvas.', questions: ['How significantly does Framer\'s canvas differentiate from our zero-touch outreach?', 'Should we adjust pitch to emphasize automated SMB discovery?'] },
+            { id: 2, priority: 'red', title: 'CRITICAL: Monitor Claude Fable 5 Restoration', context: 'Fable 5 (80.3% SWE-Bench Pro) suspended June 12. Expected to restore post June 22.', questions: ['Do we have testing dataset ready for June 22+ benchmarking?', 'Which redesign task as primary benchmark?'] },
+            { id: 3, priority: 'red', title: 'HIGH: Integrate CloakBrowser as Stealth Scraping Layer', context: 'CloakBrowser passes 30/30 bot detection tests as drop-in Playwright replacement.', questions: ['Blocker for current sweeper or can wait until YELLOW?', 'Need fingerprint patching beyond CloakBrowser defaults?'] },
+            { id: 4, priority: 'yellow', title: 'MONITOR: Wix as Outreach Opportunity', context: 'Wix cut 20%, missed Q1. Churn signal elevated. Target Wix-hosted SMBs aggressively.', questions: ['Wix-to-Duda migration pitches or generic redesign offers?', 'How identify Wix-signature sites in pipeline?'] },
+            { id: 5, priority: 'yellow', title: 'EVALUATE: Skyvern for Form-Fill Automation', context: 'Skyvern 21.9k stars supports GPT-5.4/5.5 + multi-step workflows.', questions: ['Skyvern better fit than current form-fill approach?', 'How does AGPL-3.0 license impact commercial use?'] },
+            { id: 6, priority: 'yellow', title: 'MONITOR: GPT-5.4 Routing for Cost Reduction', context: 'GPT-5.4 $2.50/$15, mini $0.75/$4.50, nano $0.20/$1.25. Evaluate tiered routing.', questions: ['Which tasks safe to downgrade to nano/mini?', 'Current per-site cost baseline and target?'] },
+            { id: 7, priority: 'yellow', title: 'ASSESS: Lovable Enterprise Signal', context: 'Lovable EU data residency for Scale ($200/mo) signals upmarket push.', questions: ['How much SMB vs. enterprise overlap acceptable in positioning?'] },
+            { id: 8, priority: 'blue', title: 'UPDATE: Pitch Deck TAM Slide', context: 'Correct vibe coding TAM: $4.7B (2026), not $8.5B.', questions: [] },
+            { id: 9, priority: 'blue', title: 'EXPLORE: Lightpanda for High-Volume Scanning', context: 'Lightpanda 31.2k stars, purpose-built for AI with Playwright compat.', questions: ['Run POC in parallel with CloakBrowser evaluation?', 'Performance metrics vs. Puppeteer?'] },
+            { id: 10, priority: 'blue', title: 'INTEGRATE: screenshot-to-code into Harvester Pipeline', context: 'screenshot-to-code 72.9k stars, defaults to Gemini 3.1 Pro + GPT-5.5/5.2.', questions: ['Fork or use hosted API?', 'How integrate with harvester→filler workflow?'] },
+            { id: 11, priority: 'blue', title: 'EXPLORE: Framer External Agents as Delivery Channel', context: 'Framer 3.0 connects Claude Code, Cursor, Codex, Gemini CLI to canvas.', questions: ['Framer alternative or complement to Duda?', 'Addressable market for Framer-native delivery?'] }
+        ];
+
+        function load(itemId, field, defaultValue = '') {
+            return localStorage.getItem(`tracker_${itemId}_${field}`) || defaultValue;
+        }
+
+        function saveAll() {
+            items.forEach(item => {
+                const statusEl = document.getElementById(`status-${item.id}`);
+                const notesEl = document.getElementById(`notes-${item.id}`);
+                const decisionEl = document.getElementById(`decision-${item.id}`);
+                const readyEl = document.getElementById(`ready-${item.id}`);
+
+                if (statusEl) localStorage.setItem(`tracker_${item.id}_status`, statusEl.value);
+                if (notesEl) localStorage.setItem(`tracker_${item.id}_notes`, notesEl.value);
+                if (decisionEl) localStorage.setItem(`tracker_${item.id}_decision`, decisionEl.value);
+                if (readyEl) localStorage.setItem(`tracker_${item.id}_ready`, readyEl.checked ? 'yes' : 'no');
+            });
+
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = 'inline-block';
+            setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+        }
+
+        function renderItems() {
+            let html = '';
+            let currentPriority = '';
+
+            items.forEach(item => {
+                if (item.priority !== currentPriority) {
+                    currentPriority = item.priority;
+                    const headers = { red: '🔴 RED — Immediate (This Sprint)', yellow: '🟡 YELLOW — Short-Term (Next 2 Weeks)', blue: '🔵 BLUE — Strategic (Next 30 Days)' };
+                    html += `<div class="section-header ${item.priority}">${headers[item.priority]}</div>`;
+                }
+
+                const status = load(item.id, 'status', 'not-started');
+                const notes = load(item.id, 'notes', '');
+                const decision = load(item.id, 'decision', '');
+                const ready = load(item.id, 'ready', '') === 'yes';
+
+                html += `
+                    <div class="action ${item.priority}">
+                        <div class="title">
+                            <div>${item.title} ${ready && item.questions.length > 0 ? '<span class="ready-badge">✓ Ready to Execute</span>' : ''}</div>
+                            <span class="priority-badge ${item.priority}">${item.priority.toUpperCase()}</span>
+                        </div>
+                        <div class="context">${item.context}</div>
+
+                        ${item.questions.length > 0 ? `<div class="questions"><strong>❓ Questions:</strong><ul>${item.questions.map(q => `<li>${q}</li>`).join('')}</ul></div>` : ''}
+
+                        <div class="field">
+                            <label class="label">Status:</label>
+                            <select id="status-${item.id}">
+                                <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not Started</option>
+                                <option value="in-progress" ${status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="blocked" ${status === 'blocked' ? 'selected' : ''}>Blocked</option>
+                                <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Progress Notes:</label>
+                            <textarea id="notes-${item.id}">${notes}</textarea>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">📋 Decision / Answer to Questions:</label>
+                            <textarea id="decision-${item.id}">${decision}</textarea>
+                        </div>
+
+                        ${item.questions.length > 0 ? `
+                            <div class="checkbox-field">
+                                <input type="checkbox" id="ready-${item.id}" ${ready ? 'checked' : ''}>
+                                <label for="ready-${item.id}">✓ Decision answers all questions above • Ready to Execute</label>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            document.getElementById('items').innerHTML = html;
+        }
+
+        renderItems();
+    </script>
+</body>
+</html>

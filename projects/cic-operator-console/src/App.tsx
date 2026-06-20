@@ -8,6 +8,7 @@ import CRGHealth from './pages/CRGHealth'
 import Metrics from './pages/Metrics'
 import Settings from './pages/Settings'
 import ChatEditor from './pages/ChatEditor'
+import ConsoleV3 from './pages/ConsoleV3'
 import './App.css'
 
 const queryClient = new QueryClient()
@@ -28,6 +29,7 @@ function App() {
               <li><Link to="/crg" className="block p-2 rounded hover:bg-cic-muted transition">CRG Health</Link></li>
               <li><Link to="/metrics" className="block p-2 rounded hover:bg-cic-muted transition">Metrics</Link></li>
               <li><Link to="/settings" className="block p-2 rounded hover:bg-cic-muted transition">Settings</Link></li>
+              <li><Link to="/console-v3" className="block p-2 rounded hover:bg-cic-muted transition text-indigo-400 font-bold">Console v3</Link></li>
             </ul>
           </nav>
 
@@ -41,6 +43,7 @@ function App() {
               <Route path="/crg" element={<CRGHealth />} />
               <Route path="/metrics" element={<Metrics />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/console-v3" element={<ConsoleV3 />} />
             </Routes>
           </main>
         </div>

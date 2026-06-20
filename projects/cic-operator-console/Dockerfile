@@ -1,15 +1,22 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
-LABEL component="cic-operator-console"
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM node:20-alpine
 
 WORKDIR /app
 
 RUN npm install -g serve
 
-COPY . .
+COPY --from=build /app/dist ./dist
 
 EXPOSE 5173
 
-ENV VITE_CIC_API_URL=http://cic-service:8080
-
-CMD ["serve", "-s", "public", "-l", "5173"]
+CMD ["serve", "-s", "dist", "-l", "5173"]

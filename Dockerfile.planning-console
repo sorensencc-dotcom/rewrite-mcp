@@ -1,22 +1,30 @@
-# Phase 2: Planning Console (UI dashboard + controls + governance integration)
+# Phase 5a: Planning Console v3 (Operator Control Center)
 FROM node:20-alpine
 
 WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
 
 # Copy package files
 COPY package*.json ./
 RUN npm install
 
-# Copy source
+# Copy TypeScript config
 COPY tsconfig.json ./
+
+# Copy planning-console source
 COPY src/planning-console/ ./src/planning-console/
+
+# Copy operator-console UI assets
+COPY apps/operator-console/ ./apps/operator-console/
 
 # Expose port
 EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 --start-period=15s \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+  CMD curl -f http://localhost:3000/health || exit 1
 
-# Start (simplified: just echo in dev, would be a real server in prod)
-CMD ["npm", "run", "start:planning-console"]
+# Start: Use ts-node with transpileOnly
+CMD ["npx", "ts-node", "--transpile-only", "src/planning-console/server.ts"]
