@@ -1,0 +1,67 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": { "jsx": true },
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "settings": {
+    "react": { "version": "detect" }
+  },
+  "rules": {
+    "no-console": "warn",
+
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "JSXAttribute[name.name='style']",
+        "message": "[CIC] Inline style= props are forbidden. Use CIC design tokens via className (Tailwind) or import from cic-primitives."
+      }
+    ],
+
+    "no-restricted-properties": [
+      "error",
+      {
+        "object": "React",
+        "property": "createElement",
+        "message": "[CIC] Use JSX syntax with CIC primitives instead of React.createElement."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "JSXAttribute[name.name='style']",
+            "message": "[CIC] Inline style= props are forbidden. Use CIC design tokens via className or CIC primitives."
+          },
+          {
+            "selector": "Literal[value=/^#[0-9a-fA-F]{3,8}$/]",
+            "message": "[CIC] Hardcoded hex color detected. Use CIC token (e.g. cic.color.surface, cic.color.accent) from src/tokens/cic-tokens.ts."
+          },
+          {
+            "selector": "Literal[value=/^rgb\\(/]",
+            "message": "[CIC] Hardcoded rgb() color detected. Use CIC token from src/tokens/cic-tokens.ts."
+          },
+          {
+            "selector": "Literal[value=/^rgba\\(/]",
+            "message": "[CIC] Hardcoded rgba() color detected. Use CIC token from src/tokens/cic-tokens.ts."
+          }
+        ]
+      }
+    }
+  ]
+}

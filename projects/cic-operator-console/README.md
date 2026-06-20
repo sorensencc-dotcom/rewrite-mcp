@@ -78,15 +78,55 @@ Client (Axios)
 └── CIC API → http://localhost:8080
 ```
 
-## Styling
+## Design System — CIC Gold (v1.0.0)
+
+**All UI must import from CIC primitives. No exceptions.**
+
+This console enforces the CIC Gold Design System at build time and runtime.
+
+### Rules
+
+1. **All components** must import from `src/components/cic-primitives/`
+2. **No inline `style=` props** — use `className` with Tailwind + CIC token classes
+3. **No hardcoded colors** — use `cic.color.*` tokens from `src/tokens/cic-tokens.ts`
+4. **No raw spacing values** — use CIC spacing scale (multiples of 4px)
+5. **No `@font-face` overrides** — CIC manages fonts globally
+
+### Component Library
+
+```ts
+import {
+  CICPanel, CICCard, CICGrid, CICDivider,  // Layout
+  CICStat, CICMetric, CICBadge,             // Data display
+  CICAlert, CICHealthPulse,                  // Status
+  CICButton,                                 // Interactive
+  CICTimeline, CICLogStream,                 // Streams
+} from '@/components/cic-primitives';
+```
+
+### Design Tokens
+
+```ts
+import { cic, cicColor, cicSpacing } from '@/tokens/cic-tokens';
+
+// Reference tokens by name, never by raw value:
+cic.color.accent       // '#6366f1'
+cic.color.bgPanel      // '#17171f'
+cic.spacing['4']       // '16px'
+```
+
+### Enforcement
+
+- **Pre-build**: `npm run prebuild` runs `scripts/validate-design-compliance.js`. Build fails on violations.
+- **Lint**: `npm run lint` enforces no-inline-style and no-hardcoded-color ESLint rules.
+- **Runtime**: `PanelValidator` (services/cic-governance) checks panels at mount; logs violations to governance vault; blocks non-compliant panels.
+
+### Styling
 
 - **Framework**: Tailwind CSS
-- **Theme**: Dark mode (CIC brand)
-- **Colors**:
-  - Primary: `#00ff88` (cic-accent)
-  - Background: `#0a0a0a` (cic-dark)
-  - Borders: `#1a1a1a` (cic-border)
-- **Font**: JetBrains Mono (monospace)
+- **Theme**: CIC Gold dark mode
+- **Colors**: All from `src/tokens/cic-tokens.ts` — never raw hex
+- **Font**: JetBrains Mono (mono) / Inter (sans) — CIC managed
 
 ## Dependencies
 

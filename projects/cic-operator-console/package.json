@@ -5,9 +5,12 @@
   "description": "CIC Operator Console - production monitoring and observability",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node ../../../scripts/validate-design-compliance.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:design": "node ../../../scripts/validate-design-compliance.js",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
