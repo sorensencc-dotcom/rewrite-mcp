@@ -1,0 +1,31 @@
+projects/cic-operator-console/src/components/cic-primitives/CICLogStream.tsx
+  s_cadc1056cf8591::t_fb31b6de0adabe 1-79
+projects/cic-operator-console/src/components/cic-primitives/CICTimeline.tsx
+  s_cadc1056cf8591::t_3870ca5d1a3ed5 1-76
+projects/cic-operator-console/src/components/cic-primitives/CICDivider.tsx
+  s_cadc1056cf8591::t_f2ee6c16538e7d 1-34
+projects/cic-operator-console/src/components/cic-primitives/CICAlert.tsx
+  s_cadc1056cf8591::t_f43aef9d1fae26 1-51
+projects/cic-operator-console/.eslintrc.json
+  s_cadc1056cf8591::t_2dfdf3003e318d 1-67
+projects/cic-operator-console/src/components/cic-primitives/CICMetric.tsx
+  s_cadc1056cf8591::t_c0c270bf158f28 1-65
+projects/cic-operator-console/src/components/cic-primitives/CICStat.tsx
+  s_cadc1056cf8591::t_a7a05982a53739 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "a21ccf9718ed7495f388ffc11a18da41d6f51dab",
+  "prompts": {},
+  "sessions": {
+    "s_cadc1056cf8591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1bb9ca0-c671-4f8d-ae69-244d5f101c47",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
