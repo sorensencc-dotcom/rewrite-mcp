@@ -1,0 +1,30 @@
+HANDOFF.md
+  s_79407ba934b57c::t_1fab339c88b236 45
+  s_cadc1056cf8591::t_9bb398704bb803 3,7,9-11,27-29,31-33,40-42,49-55
+  s_cadc1056cf8591::t_bed70783ce1680 56
+  s_79407ba934b57c::t_2e92b8d9f65b1f 8,12-26,30,34-39,43-44,46-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "d9c25427b06e6bea64514a17e0bcd1dd99c1f6e9",
+  "prompts": {},
+  "sessions": {
+    "s_79407ba934b57c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca4ef35a-3852-4f69-9e4d-1a8a98e99fcb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cadc1056cf8591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1bb9ca0-c671-4f8d-ae69-244d5f101c47",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
