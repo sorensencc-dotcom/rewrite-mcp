@@ -1,0 +1,55 @@
+projects/cic-operator-console/src/panels/agents/components/AgentApprovalHistory.tsx
+  s_f354bab285f282::t_8ffc4aa58dc3a8 1-55
+projects/cic-operator-console/src/views/index.ts
+  s_cadc1056cf8591::t_14e70f91d7fba3 1
+projects/cic-operator-console/src/panels/agents/components/AgentCostTimeline.tsx
+  s_f354bab285f282::t_591e1682f383f3 1-73
+projects/cic-operator-console/src/panels/agents/WIRING.md
+  s_f354bab285f282::t_f87aa6bfc9fe12 1-248
+projects/cic-operator-console/src/panels/index.ts
+  s_f354bab285f282::t_274d909b26e0e5 24
+projects/cic-operator-console/src/panels/agents/README.md
+  s_f354bab285f282::t_91ddb6e9286376 1-172
+projects/cic-operator-console/src/pages/ConsoleV3.tsx
+  s_cadc1056cf8591::t_0a6a73a52fe0a1 45
+  s_cadc1056cf8591::t_84021319250343 1-10,13,15-21,23-24,27-43,46-51,57-64
+projects/cic-operator-console/src/panels/agents/components/AgentDetailView.tsx
+  s_f354bab285f282::t_84ee9025267761 1-74
+projects/cic-operator-console/src/panels/agents/components/AgentSkillUsage.tsx
+  s_f354bab285f282::t_3146ee49f471eb 1-85
+projects/cic-operator-console/src/panels/agents/components/AgentList.tsx
+  s_f354bab285f282::t_905495fd6a6eda 1-73
+projects/cic-operator-console/src/panels/agents/components/AgentExecutionLog.tsx
+  s_f354bab285f282::t_6b47cb09b54b24 1-67
+projects/cic-operator-console/src/views/DashboardView.tsx
+  s_cadc1056cf8591::t_d5dfd272b3b934 45
+  s_cadc1056cf8591::t_afb35b46685caa 1-44,46-79
+projects/cic-operator-console/src/panels/agents/components/AgentMetadata.tsx
+  s_f354bab285f282::t_634405c6a0a612 1-35
+projects/cic-operator-console/src/panels/agents/components/AgentHeartbeat.tsx
+  s_f354bab285f282::t_010fab41a856bb 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "e119a7fa4aa4b4e5e0863443d2a60a8669a2f7b6",
+  "prompts": {},
+  "sessions": {
+    "s_cadc1056cf8591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1bb9ca0-c671-4f8d-ae69-244d5f101c47",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f354bab285f282": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3102c79a-d8e1-4a69-b60f-164c89700b9f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
