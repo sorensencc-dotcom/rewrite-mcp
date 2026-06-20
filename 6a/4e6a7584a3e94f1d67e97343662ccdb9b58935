@@ -1,0 +1,96 @@
+projects/cic-operator-console/src/panels/PipelinesPanel.tsx
+  s_cadc1056cf8591::t_00589ba1d82f2c 95-96
+  s_cadc1056cf8591::t_d092e6e9168c63 104-117
+  s_cadc1056cf8591::t_69a2858f985c38 8
+  s_cadc1056cf8591::t_4a4c4cec3fd5f2 81-87
+  s_cadc1056cf8591::t_f4977c38fa50cd 1
+  s_cadc1056cf8591::t_ebc665f3c7f521 119
+Dockerfile.planning-console
+  s_8027c50dacea60::t_e8aa1c85bb385d 1,6-8,13,15-16,19-21,27
+  s_391e1617069b03::t_62f0580cc0c290 29-30
+projects/cic-operator-console/src/pages/ConsoleV3.tsx
+  s_cadc1056cf8591::t_dbcb08a099d6fe 1-27
+projects/cic-operator-console/src/panels/HealthPanel.tsx
+  s_cadc1056cf8591::t_24cc97d696b08c 99
+  s_cadc1056cf8591::t_b84e3d61527e6f 96
+  s_cadc1056cf8591::t_aa4d372d4c8634 8
+  s_cadc1056cf8591::t_0714e497b42225 1
+  s_cadc1056cf8591::t_c73cd1473dbb30 2-7,9-95,97-98,100-128
+projects/cic-operator-console/src/panels/index.ts
+  s_cadc1056cf8591::t_7f8be6f2fd7849 1-10
+src/vector/goldenQueries.json
+  s_391e1617069b03::t_395f956de25903 1-12
+src/planning-console/PHASE-5a-IMPLEMENTATION.md
+  s_8027c50dacea60::t_b52aceb5b02658 1-357
+projects/cic-operator-console/src/tokens/cic-tokens.ts
+  s_cadc1056cf8591::t_2eeafc7537838e 172-176,179-181
+  s_cadc1056cf8591::t_837b4de76f07d9 151-153
+  s_cadc1056cf8591::t_eed6ba09f72029 177-178
+  s_cadc1056cf8591::t_53ca86e4674b54 169-171
+src/planning-console/PlanningConsoleUI.tsx
+  s_8027c50dacea60::t_c2546643d2bcca 1-671
+src/planning-console/index.ts
+  s_8027c50dacea60::t_50cd1d88c8a70e 1-397
+projects/cic-operator-console/src/panels/ControlsPanel.tsx
+  s_cadc1056cf8591::t_29b0471980330b 1
+  s_cadc1056cf8591::t_63efceafe61770 64
+  s_cadc1056cf8591::t_68ea37a979cb9d 48
+  s_cadc1056cf8591::t_fcf7f403d3d4f1 2-7,9-47,49-52,54-55,58-63,65-70,72-171,173-178
+  s_cadc1056cf8591::t_6513ec6c5ff39e 172
+  s_cadc1056cf8591::t_2a7342c9b16b62 53,56-57,71
+  s_cadc1056cf8591::t_a37e706403f92c 8
+projects/cic-operator-console/Dockerfile
+  s_391e1617069b03::t_b272903e67bbc9 6
+  s_0da38efff9f510::t_d6e6bf28799a36 1-5,7-10,12
+src/planning-console/server.ts
+  s_391e1617069b03::t_59dcdae733f546 401
+  s_391e1617069b03::t_4293ad15fabb3d 306,310
+  s_391e1617069b03::t_d7103b7730f503 371,374
+  s_391e1617069b03::t_ce0376df33c0de 39
+  s_391e1617069b03::t_07ab36d71239c4 26-33
+  s_391e1617069b03::t_a94e05001c2d7e 336,340
+  s_391e1617069b03::t_aa27883e02f220 352,356
+  s_8027c50dacea60::t_94ff071397e493 1-25,34-38,40-305,307-309,311-320,322-323,325-335,337-339,341-351,353-355,357-370,372-373,375-385,387-389,391-400,402-436
+  s_391e1617069b03::t_55774d659f7009 321,324
+  s_391e1617069b03::t_88f1d4a16ed5ea 386,390
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "6a4e6a7584a3e94f1d67e97343662ccdb9b58935",
+  "prompts": {},
+  "sessions": {
+    "s_0da38efff9f510": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85262260-289b-443d-8d3b-e5d3adc18ce1",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_391e1617069b03": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "69dc0899-534b-4b80-965d-246b2149b953",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_8027c50dacea60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "32fa220a-cc10-418f-a933-6d03cceeb196",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_cadc1056cf8591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1bb9ca0-c671-4f8d-ae69-244d5f101c47",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
