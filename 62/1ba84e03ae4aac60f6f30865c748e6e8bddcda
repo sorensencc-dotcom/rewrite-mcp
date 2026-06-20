@@ -1,0 +1,25 @@
+projects/cic-operator-console/QUICKSTART.md
+  s_79407ba934b57c::t_157a1a818a561f 1-77
+projects/cic-operator-console/MOCK-API.md
+  s_79407ba934b57c::t_e99a48881a8a14 1-116
+projects/cic-operator-console/LAYOUT-VALIDATION-CHECKLIST.md
+  s_79407ba934b57c::t_379071a3950b73 1-163
+projects/cic-operator-console/mock-api-server.js
+  s_79407ba934b57c::t_5f5d7be41361e0 1-395
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "621ba84e03ae4aac60f6f30865c748e6e8bddcda",
+  "prompts": {},
+  "sessions": {
+    "s_79407ba934b57c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca4ef35a-3852-4f69-9e4d-1a8a98e99fcb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
