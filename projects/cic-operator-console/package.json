@@ -5,6 +5,8 @@
   "description": "CIC Operator Console - production monitoring and observability",
   "scripts": {
     "dev": "vite",
+    "mock": "node mock-api-server.js",
+    "dev:with-mock": "concurrently \"npm run mock\" \"npm run dev\"",
     "prebuild": "node ../../../scripts/validate-design-compliance.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -19,6 +21,10 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "recharts": "^2.10.0"
+  },
+  "devDependencies-mock": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
