@@ -21,6 +21,6 @@ export { PipelinesPanel } from './PipelinesPanel';
 export { ControlsPanel }  from './ControlsPanel';
 
 // Tier 2
-export { AgentsPanel }   from './AgentsPanel';
+export { AgentsPanel }   from './agents/AgentsPanel';
 export { AlertsPanel }   from './AlertsPanel';
 export { WorkspacePanel } from './WorkspacePanel';
