@@ -1,0 +1,23 @@
+projects/cic-operator-console/validate-api.js
+  s_79407ba934b57c::t_ebce7ecb3c8a0c 1-174
+projects/cic-operator-console/mock-api-server.js
+  s_79407ba934b57c::t_2a58fafdbf038a 422
+  s_79407ba934b57c::t_5053819a697ae9 366,384-405
+  s_79407ba934b57c::t_f8735f36935d41 367-383
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "165b90c32bcede815f7a17d64ff9d394cac3326e",
+  "prompts": {},
+  "sessions": {
+    "s_79407ba934b57c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca4ef35a-3852-4f69-9e4d-1a8a98e99fcb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
