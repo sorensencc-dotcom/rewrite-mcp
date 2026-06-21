@@ -16,7 +16,7 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="flex h-screen bg-cic-dark text-white font-mono">
           <nav className="w-64 bg-black border-r border-cic-border p-6 overflow-y-auto">
             <h1 className="text-2xl font-bold text-cic-accent mb-8">CIC</h1>

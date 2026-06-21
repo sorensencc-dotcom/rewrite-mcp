@@ -364,6 +364,46 @@ app.post('/agents/:agentId/snapshot', (req, res) => {
 });
 
 /**
+ * Metrics endpoint (for legacy Metrics page)
+ */
+app.get('/cic/metrics', (req, res) => {
+  res.json({
+    timestamp: new Date().toISOString(),
+    cpuPercent: 45 + Math.random() * 30,
+    memoryPercent: 62 + Math.random() * 20,
+    diskPercent: 58,
+    networkIn: Math.floor(1000 + Math.random() * 500),
+    networkOut: Math.floor(800 + Math.random() * 400),
+    requestsPerSecond: Math.floor(120 + Math.random() * 80),
+    errorRate: 0.02 + Math.random() * 0.05,
+    avgLatencyMs: 85 + Math.random() * 40,
+  });
+});
+
+/**
+ * Flow execution endpoint (for legacy FlowExplorer page)
+ */
+app.post('/cic/flows', (req, res) => {
+  res.json({
+    execution_id: 'flow-' + Math.random().toString(36).substr(2, 9),
+    status: 'started',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+/**
+ * Flow execution detail endpoint
+ */
+app.get('/cic/flows/:executionId', (req, res) => {
+  res.json({
+    execution_id: req.params.executionId,
+    status: 'running',
+    progress: Math.floor(Math.random() * 100),
+    timestamp: new Date().toISOString(),
+  });
+});
+
+/**
  * Health check for the mock server itself
  */
 app.get('/health', (req, res) => {
@@ -379,6 +419,7 @@ app.listen(PORT, () => {
   console.log(`   GET  /cic/pipelines`);
   console.log(`   GET  /cic/alerts`);
   console.log(`   GET  /cic/workspace`);
+  console.log(`   GET  /cic/metrics`);
   console.log(`   POST /cic/actions`);
   console.log(`   GET  /agents`);
   console.log(`   GET  /agents/:id`);
