@@ -332,6 +332,44 @@ html, body {
 
 .badge.warn::before { color: var(--yellow); }
 
+/* ── Form Inputs (Phase 2) ─────────────────────────────────────────────── */
+
+input, textarea, select {
+  padding: var(--cic-input-padding);
+  border-radius: var(--cic-input-radius);
+  border: 1px solid var(--cic-input-border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--space-sm);
+  transition: border-color 0.15s;
+}
+
+input:hover, textarea:hover, select:hover {
+  border-color: var(--cic-input-border-hover);
+}
+
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: var(--cic-input-focus-ring);
+  outline-offset: 2px;
+}
+
+input:disabled, textarea:disabled, select:disabled {
+  background: var(--cic-bg-disabled);
+  border-color: var(--cic-border-disabled);
+  cursor: not-allowed;
+}
+
+textarea {
+  resize: vertical;
+  font-family: var(--font-mono);
+  min-height: 100px;
+}
+
+select {
+  cursor: pointer;
+}
+
 /* ── Buttons ───────────────────────────────────────────────────────────── */
 
 button, .btn {
@@ -640,22 +678,43 @@ tbody tr:hover td { background: var(--surface); color: var(--text); }
   margin-bottom: var(--space-sm);
 }
 
-.pipeline-form textarea {
+.pipeline-form input,
+.pipeline-form textarea,
+.pipeline-form select {
+  padding: var(--cic-input-padding);
+  border-radius: var(--cic-input-radius);
+  border: 1px solid var(--cic-input-border);
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
   color: var(--text);
   font-family: var(--font-mono);
   font-size: var(--space-sm);
-  padding: var(--space-sm);
-  resize: vertical;
-  min-height: var(--layout-node_size);
   transition: border-color 0.15s;
 }
 
-.pipeline-form textarea:focus {
-  outline: none;
-  border-color: var(--gold-dim);
+.pipeline-form textarea {
+  resize: vertical;
+  min-height: var(--layout-node_size);
+}
+
+.pipeline-form input:hover,
+.pipeline-form textarea:hover,
+.pipeline-form select:hover {
+  border-color: var(--cic-input-border-hover);
+}
+
+.pipeline-form input:focus-visible,
+.pipeline-form textarea:focus-visible,
+.pipeline-form select:focus-visible {
+  outline: var(--cic-input-focus-ring);
+  outline-offset: 2px;
+}
+
+.pipeline-form input:disabled,
+.pipeline-form textarea:disabled,
+.pipeline-form select:disabled {
+  background: var(--cic-bg-disabled);
+  border-color: var(--cic-border-disabled);
+  cursor: not-allowed;
 }
 
 .pipeline-form select {
@@ -701,12 +760,15 @@ tbody tr:hover td { background: var(--surface); color: var(--text); }
   font-size: var(--space-sm);
 }
 
-/* ── Scrollbars ────────────────────────────────────────────────────────── */
+/* ── Scrollbars (Phase 2) ──────────────────────────────────────────────── */
 
-::-webkit-scrollbar { width: var(--space-xs); height: var(--space-xs); }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--border); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--cic-scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--cic-scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cic-scrollbar-thumb-hover); }
+
+/* Firefox scrollbar */
+* { scrollbar-color: var(--cic-scrollbar-thumb) var(--cic-scrollbar-track); scrollbar-width: thin; }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
 

@@ -325,6 +325,58 @@ body::before {
   letter-spacing: 0.05em;
 }
 
+/* ── PHASE 2 TYPE SCALE (CIC v2.0 Tokens) ─────────────────────────── */
+.t-h4-cic {
+  font-size: var(--cic-type-h4);
+  line-height: var(--cic-leading-head);
+  font-weight: 700;
+  color: var(--color-fg-primary);
+}
+
+.t-h5-cic {
+  font-size: var(--cic-type-h5);
+  line-height: var(--cic-leading-head);
+  font-weight: 700;
+  color: var(--color-fg-primary);
+}
+
+.t-body-m-cic {
+  font-size: var(--cic-type-body-m);
+  line-height: var(--cic-leading-body);
+  font-weight: 400;
+  color: var(--color-fg-body);
+}
+
+.t-body-s-cic {
+  font-size: var(--cic-type-body-s);
+  line-height: var(--cic-leading-body);
+  font-weight: 400;
+  color: var(--color-fg-body);
+}
+
+.t-label-cic {
+  font-size: var(--cic-type-label);
+  line-height: var(--cic-leading-label);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-fg-accent);
+}
+
+.t-caption-cic {
+  font-size: var(--cic-type-caption);
+  line-height: var(--cic-leading-body);
+  font-weight: 400;
+  color: var(--color-fg-muted);
+}
+
+.t-mono-cic {
+  font-family: var(--font-mono);
+  font-size: var(--cic-type-body-m);
+  line-height: var(--cic-leading-mono);
+  color: var(--color-fg-body);
+}
+
 /* ── SECTION LABEL PATTERN ─────────────────────────────────── */
 .section-label {
   font-family: var(--font-ui);
