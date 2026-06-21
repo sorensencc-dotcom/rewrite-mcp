@@ -770,6 +770,95 @@ tbody tr:hover td { background: var(--surface); color: var(--text); }
 /* Firefox scrollbar */
 * { scrollbar-color: var(--cic-scrollbar-thumb) var(--cic-scrollbar-track); scrollbar-width: thin; }
 
+/* ── Table Component (Phase 3) ─────────────────────────────────────────── */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--cic-table-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+table thead {
+  background: var(--cic-table-header-bg);
+  color: var(--cic-table-header-fg);
+  font-weight: 600;
+}
+
+table th {
+  padding: var(--cic-table-cell-padding);
+  text-align: left;
+  border-bottom: 1px solid var(--cic-table-border);
+  font-size: var(--space-sm);
+}
+
+table td {
+  padding: var(--cic-table-cell-padding);
+  border-bottom: 1px solid var(--cic-table-border);
+  font-size: var(--space-sm);
+}
+
+table tbody tr:hover {
+  background: var(--cic-table-row-hover-bg);
+  transition: background-color 0.15s;
+}
+
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Panel Enhancement (Phase 3) ───────────────────────────────────────── */
+
+.cic-panel-enhanced {
+  background: var(--cic-panel-bg);
+  padding: var(--cic-panel-padding);
+  border-radius: var(--cic-panel-border-radius);
+  box-shadow: var(--cic-panel-elevation);
+  transition: all 0.2s ease;
+}
+
+/* ── Code Block (Phase 3) ──────────────────────────────────────────────── */
+
+code, pre {
+  font-family: var(--cic-code-font);
+}
+
+pre {
+  background: var(--cic-code-bg);
+  color: var(--cic-code-fg);
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: var(--space-sm);
+  line-height: 1.6;
+}
+
+code {
+  background: var(--cic-code-bg);
+  color: var(--cic-code-fg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+/* ── Icon Spacing (Phase 3) ───────────────────────────────────────────── */
+
+.icon-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cic-icon-gap);
+  font-size: var(--cic-icon-size);
+}
+
+.icon { width: var(--cic-icon-size); height: var(--cic-icon-size); }
+
 /* ── Responsive ────────────────────────────────────────────────────────── */
 
 @media (max-width: 900px) {

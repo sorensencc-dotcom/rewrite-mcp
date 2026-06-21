@@ -377,6 +377,45 @@ body::before {
   color: var(--color-fg-body);
 }
 
+/* ── PHASE 3 CODE BLOCK (CIC v2.0 Tokens) ──────────────────────────── */
+.code-block-cic {
+  background: var(--cic-code-bg);
+  color: var(--cic-code-fg);
+  font-family: var(--cic-code-font);
+  font-size: var(--cic-type-body-m);
+  line-height: var(--cic-leading-mono);
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  display: block;
+}
+
+.code-inline-cic {
+  background: var(--cic-code-bg);
+  color: var(--cic-code-fg);
+  font-family: var(--cic-code-font);
+  font-size: var(--cic-type-body-s);
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline;
+}
+
+/* ── PHASE 3 ICON SPACING (CIC v2.0 Tokens) ────────────────────────── */
+.icon-cic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cic-icon-size);
+  height: var(--cic-icon-size);
+  flex-shrink: 0;
+}
+
+.icon-with-text-cic {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cic-icon-gap);
+}
+
 /* ── SECTION LABEL PATTERN ─────────────────────────────────── */
 .section-label {
   font-family: var(--font-ui);
