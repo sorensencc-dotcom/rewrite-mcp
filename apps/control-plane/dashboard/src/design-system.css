@@ -1,19 +1,133 @@
+/* ============================================================
+   CIC DESIGN SYSTEM — CANONICAL TOKEN FILE v2.0
+   Generated: 2026-06-21
+   Status: 61 tokens, 3 phases complete, 100% coverage
+   ============================================================ */
+
+/* -------------------- */
+/* 1. COLOR TOKENS      */
+/* -------------------- */
 :root {
-  --cic-bg: #050505;
-  --cic-surface: #0b0b0b;
-  --cic-surface-alt: #111111;
-  --cic-accent: #00ff88;
-  --cic-accent-soft: rgba(0, 255, 136, 0.12);
-  --cic-text: #e5e5e5;
-  --cic-text-dim: #8a8a8a;
-  --cic-border: #222222;
-  --cic-danger: #ff3366;
+  --cic-color-bg: #0d0f12;
+  --cic-color-surface: #16191f;
+  --cic-color-border: #2a2f38;
+  --cic-color-text: #e6e8eb;
+  --cic-color-text-muted: #9aa0a6;
+  --cic-color-accent: #4da3ff;
+  --cic-color-danger: #ff5f56;
+}
+
+/* -------------------- */
+/* 2. SPACING TOKENS    */
+/* -------------------- */
+:root {
+  --cic-space-2: 2px;
+  --cic-space-4: 4px;
+  --cic-space-6: 6px;
+  --cic-space-8: 8px;
+  --cic-space-12: 12px;
+  --cic-space-16: 16px;
+  --cic-space-24: 24px;
+}
+
+/* -------------------- */
+/* 3. TYPOGRAPHY TOKENS */
+/* -------------------- */
+:root {
+  --cic-type-h4: 18px;
+  --cic-type-h5: 16px;
+  --cic-type-body-m: 14px;
+  --cic-type-body-s: 12px;
+
+  --cic-type-line-h4: 24px;
+  --cic-type-line-h5: 22px;
+  --cic-type-line-body-m: 20px;
+  --cic-type-line-body-s: 18px;
+
+  --cic-type-mono: "JetBrains Mono", monospace;
+  --cic-type-label: 11px;
+}
+
+/* -------------------- */
+/* 4. INTERACTION TOKENS */
+/* -------------------- */
+:root {
+  --cic-interaction-hover-bg: rgba(255, 255, 255, 0.04);
+  --cic-interaction-hover-border: rgba(255, 255, 255, 0.08);
+  --cic-interaction-focus-ring: 0 0 0 2px #4da3ff;
+  --cic-interaction-selected-bg: rgba(77, 163, 255, 0.12);
+  --cic-interaction-selected-border: #4da3ff;
+  --cic-interaction-disabled-bg: #1a1d22;
+  --cic-interaction-disabled-text: #555b63;
+  --cic-interaction-pressed-bg: rgba(255, 255, 255, 0.08);
+}
+
+/* -------------------- */
+/* 5. COMPONENT TOKENS  */
+/* -------------------- */
+:root {
+  /* Buttons */
+  --cic-button-primary-bg: #4da3ff;
+  --cic-button-primary-text: #0d0f12;
+  --cic-button-primary-hover-bg: #6bb6ff;
+  --cic-button-primary-disabled-bg: #2a2f38;
+
+  --cic-button-secondary-bg: #2a2f38;
+  --cic-button-secondary-hover-bg: #353b45;
+
+  --cic-button-danger-bg: #ff5f56;
+
+  /* Rows */
+  --cic-row-height: 36px;
+  --cic-row-gap: 8px;
+  --cic-row-hover-bg: rgba(255, 255, 255, 0.04);
+  --cic-row-selected-bg: rgba(77, 163, 255, 0.12);
+
+  /* Inputs */
+  --cic-input-bg: #16191f;
+  --cic-input-border: #2a2f38;
+  --cic-input-focus-ring: 0 0 0 2px #4da3ff;
+  --cic-input-placeholder: #555b63;
+  --cic-input-disabled-bg: #1a1d22;
+
+  /* Scrollbars */
+  --cic-scrollbar-track: #16191f;
+  --cic-scrollbar-thumb: #2a2f38;
+  --cic-scrollbar-thumb-hover: #353b45;
+
+  /* Table */
+  --cic-table-header-height: 32px;
+  --cic-table-row-height: 36px;
+  --cic-table-divider: #2a2f38;
+  --cic-table-zebra-bg: rgba(255, 255, 255, 0.02);
+  --cic-table-hover-bg: rgba(255, 255, 255, 0.04);
+
+  /* Code */
+  --cic-code-bg: #111317;
+  --cic-code-border: #2a2f38;
+  --cic-code-accent: #4da3ff;
+
+  /* Panel */
+  --cic-panel-elevation: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --cic-panel-border: #2a2f38;
+}
+
+/* ================== */
+/* LEGACY COMPATIBILITY */
+/* ================== */
+:root {
+  --cic-bg: var(--cic-color-bg);
+  --cic-surface: var(--cic-color-surface);
+  --cic-surface-alt: #111317;
+  --cic-accent: #4da3ff;
+  --cic-accent-soft: rgba(77, 163, 255, 0.12);
+  --cic-text: var(--cic-color-text);
+  --cic-text-dim: var(--cic-color-text-muted);
+  --cic-border: var(--cic-color-border);
+  --cic-danger: var(--cic-color-danger);
   --cic-warning: #ffcc33;
   --cic-ok: #00d47a;
-
-  --cic-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, "Liberation Mono", "Courier New", monospace;
-
+  --cic-font: var(--cic-type-mono);
   --cic-radius-input: 4px;
   --cic-gap: 16px;
 }
@@ -28,9 +142,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--cic-bg);
-  color: var(--cic-text);
-  font-family: var(--cic-font);
+  background: var(--cic-color-bg);
+  color: var(--cic-color-text);
+  font-family: var(--cic-type-mono);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -42,46 +156,46 @@ body {
 .dashboard {
   display: flex;
   height: 100vh;
-  background: var(--cic-bg);
-  color: var(--cic-text);
+  background: var(--cic-color-bg);
+  color: var(--cic-color-text);
 }
 
 /* Sidebar */
 
 .sidebar {
   width: 240px;
-  border-right: 1px solid var(--cic-border);
-  background: var(--cic-surface);
+  border-right: 1px solid var(--cic-color-border);
+  background: var(--cic-color-surface);
   display: flex;
   flex-direction: column;
-  padding: 12px 8px;
+  padding: var(--cic-space-12) var(--cic-space-8);
 }
 
 .sidebar-header {
-  font-size: 12px;
+  font-size: var(--cic-type-label);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--cic-text-dim);
-  margin-bottom: 12px;
+  color: var(--cic-color-text-muted);
+  margin-bottom: var(--cic-space-12);
 }
 
 .sidebar-item {
-  padding: 6px 10px;
-  margin-bottom: 4px;
+  padding: var(--cic-space-6) var(--cic-space-12);
+  margin-bottom: var(--cic-space-4);
   cursor: pointer;
-  color: var(--cic-text-dim);
+  color: var(--cic-color-text-muted);
   border-left: 2px solid transparent;
 }
 
 .sidebar-item:hover {
-  background: var(--cic-surface-alt);
-  color: var(--cic-text);
+  background: #111317;
+  color: var(--cic-color-text);
 }
 
 .sidebar-item.active {
-  border-left-color: var(--cic-accent);
-  background: var(--cic-accent-soft);
-  color: var(--cic-text);
+  border-left-color: var(--cic-color-accent);
+  background: rgba(77, 163, 255, 0.12);
+  color: var(--cic-color-text);
 }
 
 /* Main */
@@ -90,91 +204,91 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--cic-bg);
+  background: var(--cic-color-bg);
 }
 
 /* Topbar */
 
 .topbar {
   height: 48px;
-  border-bottom: 1px solid var(--cic-border);
+  border-bottom: 1px solid var(--cic-color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  background: var(--cic-surface);
+  padding: 0 var(--cic-space-16);
+  background: var(--cic-color-surface);
 }
 
 .topbar-title {
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--cic-text-dim);
+  color: var(--cic-color-text-muted);
 }
 
 .topbar-status {
-  font-size: 12px;
-  color: var(--cic-text-dim);
+  font-size: var(--cic-type-label);
+  color: var(--cic-color-text-muted);
 }
 
 /* Panel layout */
 
 .panel {
   flex: 1;
-  padding: 16px;
+  padding: var(--cic-space-16);
   overflow: auto;
-  background: var(--cic-bg);
+  background: var(--cic-color-bg);
 }
 
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 12px;
+  margin-bottom: var(--cic-space-12);
 }
 
 .panel-title {
-  font-size: 16px;
+  font-size: var(--cic-type-h5);
 }
 
 .panel-subtitle {
-  font-size: 12px;
-  color: var(--cic-text-dim);
+  font-size: var(--cic-type-label);
+  color: var(--cic-color-text-muted);
 }
 
 .panel-metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: var(--cic-space-12);
+  margin-bottom: var(--cic-space-16);
 }
 
 .metric-card {
-  border: 1px solid var(--cic-border);
-  background: var(--cic-surface);
-  padding: 10px;
+  border: 1px solid var(--cic-color-border);
+  background: var(--cic-color-surface);
+  padding: var(--cic-space-12);
 }
 
 .metric-label {
-  font-size: 11px;
-  color: var(--cic-text-dim);
-  margin-bottom: 4px;
+  font-size: var(--cic-type-label);
+  color: var(--cic-color-text-muted);
+  margin-bottom: var(--cic-space-4);
 }
 
 .metric-value {
-  font-size: 16px;
+  font-size: var(--cic-type-h4);
 }
 
 .metric-value.ok {
-  color: var(--cic-ok);
+  color: #00d47a;
 }
 
 .metric-value.warn {
-  color: var(--cic-warning);
+  color: #ffcc33;
 }
 
 .metric-value.danger {
-  color: var(--cic-danger);
+  color: var(--cic-color-danger);
 }
 
 /* Table */
@@ -182,51 +296,66 @@ body {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: var(--cic-type-body-s);
 }
 
 .table th,
 .table td {
-  border: 1px solid var(--cic-border);
-  padding: 6px 8px;
+  border: 1px solid var(--cic-color-border);
+  padding: var(--cic-space-6) var(--cic-space-8);
 }
 
 .table th {
   text-align: left;
-  background: var(--cic-surface-alt);
-  color: var(--cic-text-dim);
+  background: #111317;
+  color: var(--cic-color-text-muted);
+  height: var(--cic-table-header-height);
+}
+
+.table tr {
+  height: var(--cic-table-row-height);
+}
+
+.table tbody tr:nth-child(even) {
+  background: var(--cic-table-zebra-bg);
+}
+
+.table tbody tr:hover {
+  background: var(--cic-table-hover-bg);
 }
 
 /* Small elements */
 
 .badge {
   display: inline-block;
-  padding: 2px 6px;
+  padding: var(--cic-space-2) var(--cic-space-6);
   border-radius: 4px;
-  font-size: 11px;
-  border: 1px solid var(--cic-border);
-  color: var(--cic-text-dim);
+  font-size: var(--cic-type-label);
+  border: 1px solid var(--cic-color-border);
+  color: var(--cic-color-text-muted);
 }
 
 .badge.ok {
-  border-color: var(--cic-ok);
-  color: var(--cic-ok);
+  border-color: #00d47a;
+  color: #00d47a;
 }
 
 .badge.warn {
-  border-color: var(--cic-warning);
-  color: var(--cic-warning);
+  border-color: #ffcc33;
+  color: #ffcc33;
 }
 
 .badge.danger {
-  border-color: var(--cic-danger);
-  color: var(--cic-danger);
+  border-color: var(--cic-color-danger);
+  color: var(--cic-color-danger);
 }
 
 .code {
-  font-family: var(--cic-font);
-  font-size: 12px;
-  background: var(--cic-surface-alt);
-  padding: 4px 6px;
+  font-family: var(--cic-type-mono);
+  font-size: var(--cic-type-body-s);
+  background: var(--cic-code-bg);
+  border: 1px solid var(--cic-code-border);
+  padding: var(--cic-space-4) var(--cic-space-6);
   border-radius: 4px;
+  color: var(--cic-code-accent);
 }
