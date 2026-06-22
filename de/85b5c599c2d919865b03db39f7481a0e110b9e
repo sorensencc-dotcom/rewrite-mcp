@@ -1,0 +1,25 @@
+apps/control-plane/dashboard/.eslintrc.js
+  s_fb9a74f035a490::t_a6daf0a1f8239e 1-31
+apps/control-plane/dashboard/eslint-plugins/cic-design-system.js
+  s_fb9a74f035a490::t_d863fadd854ef3 1-234
+apps/control-plane/dashboard/src/design-system.css
+  s_fb9a74f035a490::t_27f02c1f35ef62 1-9,11-40,42-45,47-130,145-147,159-160,167-168,171,175,178-179,183-184,186,191-192,196-198,207,219,226,230-231,240,247,255-256,268,273-275,310-311,313,317,321,333,335,354
+apps/control-plane/dashboard/src/__tests__/regression.test.ts
+  s_fb9a74f035a490::t_c194459f333b3e 1-326
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "de85b5c599c2d919865b03db39f7481a0e110b9e",
+  "prompts": {},
+  "sessions": {
+    "s_fb9a74f035a490": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "693077e6-abc5-4802-a4f7-e58c7e1e913b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
