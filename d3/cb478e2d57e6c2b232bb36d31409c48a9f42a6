@@ -1,0 +1,41 @@
+castironforge/cic-ingestion/src/cic/dashboard/analyzerRegistry.ts
+  s_1f5e811ef1f1e7::t_cc368328437d2f 1-68
+castironforge/cic-ingestion/src/cic/lib/timeout.ts
+  s_1f5e811ef1f1e7::t_e52784079480e5 1-46
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/manifest.json
+  s_1f5e811ef1f1e7::t_6a2af8f8e27e36 1-37
+castironforge/cic-ingestion/src/cic/lib/warmPoolHooks.ts
+  s_1f5e811ef1f1e7::t_8bcded490e7613 1-38
+castironforge/cic-ingestion/src/cic/budget/budgetManager.ts
+  s_1f5e811ef1f1e7::t_8e07fa3e8bbcb1 1-43
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/__tests__/imageAnalyzerV2Contract.test.ts
+  s_1f5e811ef1f1e7::t_b8991dc099e6d1 8-11
+  s_1f5e811ef1f1e7::t_d6b388d9821063 1-7,12-187
+castironforge/cic-ingestion/src/cic/lib/retry.ts
+  s_1f5e811ef1f1e7::t_dcb19a0ad49749 1-50
+castironforge/cic-ingestion/src/cic/lib/telemetry.ts
+  s_1f5e811ef1f1e7::t_69ebade5244acd 1-51
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/imageAnalyzerV2Adapter.ts
+  s_1f5e811ef1f1e7::t_a798679beeeec1 189-190,195-198,201,203-216,218-220,222-223,225,228-234,240,251-309,313-396,399-402,404-413
+  s_1f5e811ef1f1e7::t_551c2aad0b924c 117-125,128,130,147-148,172-173,175,177-185
+castironforge/cic-ingestion/config/analyzers.json
+  s_1f5e811ef1f1e7::t_b477f9b933e528 1-43
+castironforge/cic-ingestion/src/cic/lib/error.ts
+  s_1f5e811ef1f1e7::t_98f25e414658e6 1-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "d3cb478e2d57e6c2b232bb36d31409c48a9f42a6",
+  "prompts": {},
+  "sessions": {
+    "s_1f5e811ef1f1e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "68a9beaf-799c-4022-95e8-6cbb480193bf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
