@@ -1,0 +1,162 @@
+castironforge/cic-ingestion/src/cic/types/fileRecord.ts
+  s_1f5e811ef1f1e7::t_f7866d16823681 1-13
+projects/cic-operator-console/src/components/cic-primitives/CICTabs.tsx
+  s_79407ba934b57c::t_bc674766b33bcd 1-72
+projects/cic-operator-console/src/components/cic-primitives/CICText.tsx
+  s_79407ba934b57c::t_33d9b22657ca95 1-21
+projects/cic-operator-console/src/panels/AlertsPanel.tsx
+  s_4f062793887b82::t_d47001e9464cb6 65-66,68
+  s_4f062793887b82::t_545b1c47db8934 63
+castironforge/cic-ingestion/docs/imageAnalyzerV2/DEPLOYMENT_GUIDE.md
+  s_1f5e811ef1f1e7::t_efbde3f4fd81e0 1-446
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/__tests__/imageAnalyzerV2-integration.test.ts
+  s_1f5e811ef1f1e7::t_4558707245ec09 2-3,6-7,11-12,14-16,18-20,22-25,28-31,34-193,196-201,204-208
+  s_1f5e811ef1f1e7::t_efbde3f4fd81e0 1,10,13,17,21,26-27,32-33,194-195,202-203
+  s_1f5e811ef1f1e7::t_d765aca822fca8 8-9
+projects/cic-operator-console/src/panels/agents/WEBSOCKET_WIRING.md
+  s_f354bab285f282::t_01b30ee087a540 1,3,5,7,9-10,12,14,16,18,20-21,23-25,27-28,30,32-33,35-36,38-39,41,43-44,46-47,49-50,52,54,56,58,60-62,64-65,67-69,71-72,74-76,78-82,84-87,89-95,98-103,105-107,109-110,113-117,119-121,124-137,140,142-152,155-164,167,169-170,172,174-258,260-261,263,265-403,405-408,410-434
+projects/cic-operator-console/src/lib/cicClient.ts
+  s_79407ba934b57c::t_18f6eaa94fba9c 5-7,13-14,48,51-52,55,58-59,62,65-66,69,72-73,76,79-80,91-122
+  s_79407ba934b57c::t_e1a6f177105162 2-4,8-12,15-47,49-50,53-54,56-57,60-61,63-64,67-68,70-71,74-75,77-78,81-90,123-124
+  s_79407ba934b57c::t_578102c47b330d 1
+projects/cic-operator-console/src/panels/agents/hooks/useAgentList.ts
+  s_4f062793887b82::t_d09926c891f34f 20-21,23
+  s_4f062793887b82::t_f90b87c8eff96e 18
+projects/cic-operator-console/src/components/cic-primitives/index.ts
+  s_79407ba934b57c::t_3ad2c8c8db531f 53-54
+  s_79407ba934b57c::t_e9fab093dcfbd9 51-52
+  s_79407ba934b57c::t_497cf3425f503a 30-31
+  s_79407ba934b57c::t_34a531cbac6ce9 32-35
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/__tests__/imageAnalyzerV2Adapter.test.ts
+  s_1f5e811ef1f1e7::t_fbbcda87ef76a4 11-37
+  s_1f5e811ef1f1e7::t_0da73359d9cd73 2-3,6,38-43,45-50,52-55,57,59-91,94-227,230-235,238-244
+  s_1f5e811ef1f1e7::t_efbde3f4fd81e0 1,4-5,10,44,51,56,58,92-93,228-229,236-237
+  s_1f5e811ef1f1e7::t_a4b7fd7428f7f0 9
+  s_1f5e811ef1f1e7::t_107c14d36d63b8 7-8
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/localImageExtractor.ts
+  s_1f5e811ef1f1e7::t_3185332059ca11 5-6
+projects/cic-operator-console/src/pages/ConsoleV3.tsx
+  s_4f062793887b82::t_1d6179180e063c 32
+.gitignore
+  h_5c172e9b435f5a 1
+package.json
+  s_1f5e811ef1f1e7::t_efbde3f4fd81e0 3
+castironforge/cic-ingestion/src/cic/types/analyzer.ts
+  s_1f5e811ef1f1e7::t_27a820df106344 1-35
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/imageAnalyzerV2Adapter.ts
+  s_1f5e811ef1f1e7::t_ad8109230e412e 265
+  s_1f5e811ef1f1e7::t_832ab935b53c42 297
+  s_1f5e811ef1f1e7::t_2768eb9eed7178 66
+  s_1f5e811ef1f1e7::t_55ac7614715641 12-16
+  s_1f5e811ef1f1e7::t_a33efa19349792 214
+  s_1f5e811ef1f1e7::t_9e83b49d14cb4e 6-11
+  s_1f5e811ef1f1e7::t_44157cdbd8049c 27-54,57,68-69,71,74,91-92,109,111,114,136,147,155,161-162,164,169,180,186,192,221,227,241-242,306,310,312,314
+  s_1f5e811ef1f1e7::t_f41c8f48b7efe9 239
+projects/cic/src/adapters/__tests__/mocks/mockFs.ts
+  s_6ef2b6f78787b3::t_ba8ca276c091f1 1-123
+castironforge/cic-ingestion/src/cic/pipeline/extract.ts
+  s_1f5e811ef1f1e7::t_436cbcf68ef455 1-22
+castironforge/cic-ingestion/src/cic/lib/logger.ts
+  s_1f5e811ef1f1e7::t_5818f4fd115092 1-54
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/remoteImageExtractor.ts
+  s_1f5e811ef1f1e7::t_09cf3344d55642 6
+castironforge/cic-ingestion/package.json
+  h_5c172e9b435f5a 1-12
+projects/cic/src/adapters/__tests__/mocks/mockSandbox.ts
+  s_6ef2b6f78787b3::t_50042f4d2b6e76 1-19
+castironforge/cic-ingestion/src/cic/analyzers/warmPool/WarmPoolManager.ts
+  s_1f5e811ef1f1e7::t_944c560977bbb4 1-41
+projects/cic-operator-console/src/panels/agents/BUILD_PLAN.md
+  s_f354bab285f282::t_b932b656181ea1 1-368
+castironforge/cic-ingestion/src/cic/analyzers/index.ts
+  s_1f5e811ef1f1e7::t_b2096c4838c15a 1-13
+projects/cic/src/adapters/__tests__/FileWriteAdapter.concurrency.test.ts
+  s_6ef2b6f78787b3::t_e6013fd5821deb 1-226
+projects/cic-operator-console/src/components/cic-primitives/CICButtonGroup.tsx
+  s_79407ba934b57c::t_52e2aef22adfa7 6,12,20
+  s_79407ba934b57c::t_ed6ec3e90edcb1 1-5,7-11,13-19,21-27
+castironforge/cic-ingestion/src/cic/analyzers/image/v2/imageAnalyzerV2RoutingPolicy.ts
+  s_1f5e811ef1f1e7::t_c43dfb0307f05b 5
+projects/cic-operator-console/src/panels/WorkspacePanel.tsx
+  s_4f062793887b82::t_f4bb05e8219738 66-67,69
+  s_4f062793887b82::t_3b304e621cb4ca 64
+projects/cic-operator-console/src/panels/HealthPanel.tsx
+  s_4f062793887b82::t_29aea28f7aac4f 65
+  s_4f062793887b82::t_09f0ff94d8ca52 67-68,70
+projects/cic-operator-console/src/panels/PipelinesPanel.tsx
+  s_4f062793887b82::t_1d153019a04236 56
+  s_4f062793887b82::t_6a97c8294ba6c6 58-59,61
+castironforge/cic-ingestion/src/cic/registry/AnalyzerRegistry.ts
+  s_1f5e811ef1f1e7::t_883eb6fb8a1eec 1-31
+projects/cic/src/adapters/FileWriteAdapter.ts
+  s_6ef2b6f78787b3::t_bcce1c61ca15bd 1-305
+projects/cic-operator-console/src/panels/ControlsPanel.tsx
+  s_4f062793887b82::t_6ebb498c5aa9fd 22,31-35
+projects/cic-operator-console/vite.config.ts
+  s_79407ba934b57c::t_e716a7c9df4ea1 3
+  s_4f062793887b82::t_84e19400b9744d 7
+  s_bab1ef8a2f92c9::t_0c40ac740431ce 8
+projects/cic/src/adapters/__tests__/FileWriteAdapter.functional.test.ts
+  s_6ef2b6f78787b3::t_bcd86bfd56d011 1-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "8d7c6427525c56bcfc1a4e13e802c98a6593725e",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1f5e811ef1f1e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "68a9beaf-799c-4022-95e8-6cbb480193bf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4f062793887b82": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "571257d8-49f5-465c-b27c-7e3d7b447a93",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_6ef2b6f78787b3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "44d04c66-7391-4cea-84e6-34a9e52c3faa",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_79407ba934b57c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca4ef35a-3852-4f69-9e4d-1a8a98e99fcb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_bab1ef8a2f92c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a5e6d99-18b4-4908-99b3-a03711f98609",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f354bab285f282": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3102c79a-d8e1-4a69-b60f-164c89700b9f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
