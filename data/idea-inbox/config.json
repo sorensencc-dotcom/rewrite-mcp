@@ -1,0 +1,10 @@
+{
+  "harvest_threshold": 50,
+  "escalation_confidence": 0.6,
+  "dedup_similarity": 0.8,
+  "batch_size": 50,
+  "max_pris_per_day": 100,
+  "model": "llama3.1:8b",
+  "reviewer_sla_hours": 72,
+  "stale_pri_days": 30
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"MemoryAPI.d.ts","sourceRoot":"","sources":["../../../src/memory/MemoryAPI.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqB,MAAM,SAAS,CAAC;AACpD,OAAO,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAC5C,OAAO,EAAE,iBAAiB,EAAE,MAAM,qBAAqB,CAAC;AAGxD;;;;;;;;GAQG;AAEH,wBAAgB,uBAAuB,CAAC,KAAK,EAAE,WAAW,EAAE,WAAW,EAAE,iBAAiB,GAAG,MAAM,CAsXlG"}

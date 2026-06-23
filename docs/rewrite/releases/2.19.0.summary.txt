@@ -1,1 +1,0 @@
-CIC [2.19.0] - 2026-05-23: MAS observability, new features.

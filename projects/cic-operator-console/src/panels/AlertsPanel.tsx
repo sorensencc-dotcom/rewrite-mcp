@@ -60,11 +60,12 @@ export function AlertsPanel({ className = '' }: { className?: string }) {
 
     async function fetchAlerts() {
       try {
-        const res = await fetch('/api/cic/alerts');
+        const res = await fetch('/api/console/alerts');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as Alert[];
+        const envelope = (await res.json()) as { status: string; data?: Alert[]; error?: any };
+        if (envelope.status !== 'ok' || !envelope.data) throw new Error(envelope.error?.message || 'Invalid response');
         if (!cancelled) {
-          setAlerts(json);
+          setAlerts(envelope.data);
           setError(null);
         }
       } catch (err) {

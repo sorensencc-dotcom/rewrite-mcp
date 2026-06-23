@@ -1,0 +1,1 @@
+{"version":3,"file":"RunSummary.d.ts","sourceRoot":"","sources":["../../../../../../../../../projects/cic/ingestion/src/reasoning/arl/aggregator/contracts/RunSummary.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,UAAU;IACzB,KAAK,EAAE,MAAM,CAAC;IACd,SAAS,EAAE,MAAM,CAAC;IAGlB,UAAU,EAAE,MAAM,CAAC;IACnB,kBAAkB,EAAE,MAAM,CAAC;IAC3B,eAAe,EAAE,MAAM,CAAC;IACxB,cAAc,EAAE,MAAM,CAAC;CACxB"}

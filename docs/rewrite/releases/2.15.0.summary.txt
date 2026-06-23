@@ -1,1 +1,0 @@
-CIC [2.15.0] - 2026-05-22: MAS observability, Control Plane upgrades, infra/telemetry, new features.

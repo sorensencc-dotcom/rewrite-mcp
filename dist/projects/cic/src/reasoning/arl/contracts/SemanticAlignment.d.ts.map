@@ -1,0 +1,1 @@
+{"version":3,"file":"SemanticAlignment.d.ts","sourceRoot":"","sources":["../../../../../../../projects/cic/src/reasoning/arl/contracts/SemanticAlignment.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,MAAM,WAAW,iBAAiB;IAChC,kBAAkB,EAAE,MAAM,EAAE,CAAC;IAC7B,oBAAoB,EAAE,MAAM,EAAE,CAAC;IAC/B,mBAAmB,EAAE,MAAM,CAAC;IAC5B,cAAc,EAAE,MAAM,CAAC;IACvB,OAAO,EAAE,MAAM,CAAC;CACjB"}

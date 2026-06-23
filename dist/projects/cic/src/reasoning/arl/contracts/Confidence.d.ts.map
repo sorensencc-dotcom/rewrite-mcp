@@ -1,0 +1,1 @@
+{"version":3,"file":"Confidence.d.ts","sourceRoot":"","sources":["../../../../../../../projects/cic/src/reasoning/arl/contracts/Confidence.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,aAAa;IAC5B,aAAa,EAAE,MAAM,CAAC;IACtB,OAAO,EAAE;QACP,SAAS,EAAE,MAAM,CAAC;QAClB,QAAQ,EAAE,MAAM,CAAC;QACjB,QAAQ,EAAE,MAAM,CAAC;QACjB,MAAM,EAAE,MAAM,CAAC;QACf,SAAS,EAAE,MAAM,CAAC;KACnB,CAAC;CACH"}

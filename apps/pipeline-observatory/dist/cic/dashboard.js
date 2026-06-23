@@ -1,0 +1,1 @@
+/* Simulated asset dashboard.js */

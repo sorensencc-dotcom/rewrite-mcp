@@ -1,0 +1,17 @@
+[
+  {
+    "idea_id": "dbc59f1c-aa18-4f97-ad66-4d8375670dd3",
+    "source": "chat",
+    "source_ref": "",
+    "captured_at": "2026-06-19T19:02:51.687Z",
+    "captured_by": "test",
+    "title": "Performance boost",
+    "raw_content": "Cache auth tokens to reduce latency",
+    "tags": [],
+    "attachments": [],
+    "status": "new",
+    "priority_signal": 6,
+    "harvest_notes": "",
+    "pri_id": null
+  }
+]

@@ -1,0 +1,1 @@
+{"version":3,"file":"static-analysis.d.ts","sourceRoot":"","sources":["../../../../../../projects/cic/src/mee/self-refactor/static-analysis.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,eAAe,EAAE,MAAM,kBAAkB,CAAC;AAEnD,qBAAa,oBAAoB;IAC/B,WAAW,CAAC,QAAQ,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,GAAG,eAAe,EAAE;CAgTjE"}

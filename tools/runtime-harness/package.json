@@ -1,8 +1,0 @@
-{
-  "name": "runtime-harness",
-  "version": "1.0.0",
-  "description": "Stress harness for CIC Control Plane and Intelligence API",
-  "main": "run-stress.js",
-  "type": "module",
-  "dependencies": {}
-}

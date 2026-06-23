@@ -27,7 +27,12 @@ export { CICAlert }       from './CICAlert';
 export { CICHealthPulse } from './CICHealthPulse';
 
 // Interactive
-export { CICButton }   from './CICButton';
+export { CICButton }      from './CICButton';
+export { CICButtonGroup } from './CICButtonGroup';
+export { CICTabs }        from './CICTabs';
+
+// Text
+export { CICText }        from './CICText';
 
 // Streams / History
 export { CICTimeline } from './CICTimeline';
@@ -43,6 +48,9 @@ export type { CICMetricProps }     from './CICMetric';
 export type { CICBadgeProps }      from './CICBadge';
 export type { CICAlertProps }      from './CICAlert';
 export type { CICHealthPulseProps, HealthStatus } from './CICHealthPulse';
-export type { CICButtonProps }     from './CICButton';
+export type { CICButtonProps }        from './CICButton';
+export type { CICButtonGroupProps }    from './CICButtonGroup';
+export type { CICTabsProps, CICTabsListProps, CICTabsTriggerProps, CICTabsContentProps } from './CICTabs';
+export type { CICTextProps } from './CICText';
 export type { CICTimelineProps, CICTimelineEvent } from './CICTimeline';
 export type { CICLogStreamProps, CICLogLine }      from './CICLogStream';

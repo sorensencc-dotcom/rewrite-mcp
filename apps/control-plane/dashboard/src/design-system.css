@@ -10,6 +10,7 @@
 :root {
   --cic-color-bg: #0d0f12;
   --cic-color-surface: #16191f;
+  --cic-color-surface-0: var(--cic-color-surface);
   --cic-color-border: #2a2f38;
   --cic-color-text: #e6e8eb;
   --cic-color-text-muted: #9aa0a6;
@@ -63,7 +64,15 @@
 }
 
 /* -------------------- */
-/* 5. COMPONENT TOKENS  */
+/* 5. MOTION TOKENS     */
+/* -------------------- */
+:root {
+  --cic-motion-duration-medium: 160ms;
+  --cic-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* -------------------- */
+/* 6. COMPONENT TOKENS  */
 /* -------------------- */
 :root {
   /* Buttons */

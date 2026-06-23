@@ -1,7 +1,0 @@
-{
-  "regions": [
-    { "id": "us-east", "label": "US East", "baseUrl": "http://127.0.0.1:4000" },
-    { "id": "eu-west", "label": "EU West", "baseUrl": "http://127.0.0.1:4100" },
-    { "id": "ap-south", "label": "AP South", "baseUrl": "http://127.0.0.1:4200" }
-  ]
-}

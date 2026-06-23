@@ -15,11 +15,12 @@ export function useAgentList(pollIntervalMs: number = 0) {
 
     async function fetch_agents() {
       try {
-        const res = await fetch('/api/agents');
+        const res = await fetch('/api/console/agents');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as AgentSummary[];
+        const envelope = (await res.json()) as { status: string; data?: AgentSummary[]; error?: any };
+        if (envelope.status !== 'ok' || !envelope.data) throw new Error(envelope.error?.message || 'Invalid response');
         if (!cancelled) {
-          setAgents(json);
+          setAgents(envelope.data);
           setError(null);
         }
       } catch (err) {

@@ -61,11 +61,12 @@ export function WorkspacePanel({ className = '' }: { className?: string }) {
 
     async function fetchWorkspace() {
       try {
-        const res = await fetch('/api/cic/workspace');
+        const res = await fetch('/api/console/workspace');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as WorkspaceData;
+        const envelope = (await res.json()) as { status: string; data?: WorkspaceData; error?: any };
+        if (envelope.status !== 'ok' || !envelope.data) throw new Error(envelope.error?.message || 'Invalid response');
         if (!cancelled) {
-          setData(json);
+          setData(envelope.data);
           setError(null);
         }
       } catch (err) {

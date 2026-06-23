@@ -1,0 +1,1 @@
+{"version":3,"file":"index-health.js","sourceRoot":"","sources":["../../../../../projects/cic/src/indexer/index-health.ts"],"names":[],"mappings":";;;AAAA,yDAAkD;AAElD,MAAa,WAAW;IAGtB,YAAY,aAAqB,cAAc;QAC7C,IAAI,CAAC,MAAM,GAAG,IAAI,+BAAY,CAAC,UAAU,CAAC,CAAC;IAC7C,CAAC;IAED,KAAK,CAAC,MAAM;QACV,OAAO,IAAI,CAAC,MAAM,CAAC,SAAS,EAAE,CAAC;IACjC,CAAC;CACF;AAVD,kCAUC"}

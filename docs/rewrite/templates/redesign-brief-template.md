@@ -1,1 +1,0 @@
-# Redesign Brief Template

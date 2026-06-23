@@ -19,7 +19,7 @@ interface ActionResult {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 async function postAction(action: ActionKind, payload?: Record<string, unknown>): Promise<ActionResult> {
-  const res = await fetch('/api/cic/actions', {
+  const res = await fetch('/api/console/actions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action, ...payload }),
@@ -28,7 +28,11 @@ async function postAction(action: ActionKind, payload?: Record<string, unknown>)
     const text = await res.text().catch(() => `HTTP ${res.status}`);
     return { success: false, message: text };
   }
-  return (await res.json()) as ActionResult;
+  const envelope = (await res.json()) as { status: string; data?: any; error?: any };
+  if (envelope.status !== 'ok') {
+    return { success: false, message: envelope.error?.message || 'Action failed' };
+  }
+  return { success: true, message: envelope.data?.message || 'Success' };
 }
 
 // ── Toggle ────────────────────────────────────────────────────────────────────

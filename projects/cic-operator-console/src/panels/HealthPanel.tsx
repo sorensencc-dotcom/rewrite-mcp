@@ -62,11 +62,12 @@ export function HealthPanel({ className = '' }: { className?: string }) {
 
     async function fetchHealth() {
       try {
-        const res = await fetch('/api/cic/health');
+        const res = await fetch('/api/console/health');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as CICHealthData;
+        const envelope = (await res.json()) as { status: string; data?: CICHealthData; error?: any };
+        if (envelope.status !== 'ok' || !envelope.data) throw new Error(envelope.error?.message || 'Invalid response');
         if (!cancelled) {
-          setData(json);
+          setData(envelope.data);
           setError(null);
         }
       } catch (err) {

@@ -53,11 +53,12 @@ export function PipelinesPanel({ className = '' }: { className?: string }) {
 
     async function fetchPipelines() {
       try {
-        const res = await fetch('/api/cic/pipelines');
+        const res = await fetch('/api/console/pipelines');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as Pipeline[];
+        const envelope = (await res.json()) as { status: string; data?: Pipeline[]; error?: any };
+        if (envelope.status !== 'ok' || !envelope.data) throw new Error(envelope.error?.message || 'Invalid response');
         if (!cancelled) {
-          setPipelines(json);
+          setPipelines(envelope.data);
           setError(null);
         }
       } catch (err) {

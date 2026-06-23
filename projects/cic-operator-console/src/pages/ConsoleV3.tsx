@@ -29,7 +29,7 @@ export default function ConsoleV3() {
   useEffect(() => {
     const checkApi = async () => {
       try {
-        const res = await fetch('/api/cic/health', { method: 'GET' });
+        const res = await fetch('/api/console/health', { method: 'GET' });
         if (res.ok) {
           setApiReady(true);
         }
