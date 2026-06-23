@@ -1,0 +1,37 @@
+{
+  "id": "image_analyzer_v2",
+  "version": "2.0.0",
+  "description": "Multi-backend image analysis with local GPU + remote API + hybrid fallback",
+  "mimeTypes": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+  "backends": {
+    "local": {
+      "enabled": true,
+      "models": ["llava-1.5", "minicpm-v"],
+      "timeoutMs": 15000,
+      "gpuBudgetMB": 4096
+    },
+    "remote": {
+      "enabled": true,
+      "provider": "gemini",
+      "timeoutMs": 20000,
+      "maxTokensPerCall": 2048
+    },
+    "hybrid": {
+      "enabled": true,
+      "strategy": "local-first-with-remote-fallback"
+    }
+  },
+  "warmPool": {
+    "enabled": true,
+    "poolSize": 2,
+    "ttlMs": 300000
+  },
+  "budget": {
+    "totalTokenBudget": 100000,
+    "costPerToken": 0.00001
+  },
+  "observability": {
+    "telemetry": true,
+    "logging": "structured_json"
+  }
+}

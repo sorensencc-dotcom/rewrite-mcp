@@ -1,0 +1,43 @@
+{
+  "image_analyzer_v2": {
+    "enabled": true,
+    "version": "2.0.0",
+    "local": {
+      "enabled": true,
+      "poolSize": 2,
+      "ttlMs": 300000,
+      "gpuBudgetMB": 4096,
+      "timeoutMs": 15000,
+      "models": ["llava-1.5", "minicpm-v"]
+    },
+    "remote": {
+      "enabled": true,
+      "provider": "gemini",
+      "timeoutMs": 20000,
+      "maxTokensPerCall": 2048,
+      "retries": 2,
+      "backoffMs": 200
+    },
+    "hybrid": {
+      "enabled": true,
+      "strategy": "local-first-with-remote-fallback",
+      "fallbackDelay": 5000
+    },
+    "budget": {
+      "totalTokenBudget": 100000,
+      "costPerToken": 0.00001,
+      "dailyLimitUSD": 100.0
+    },
+    "observability": {
+      "telemetry": true,
+      "logging": "structured_json",
+      "metricsInterval": 60000
+    },
+    "mimeTypes": [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif"
+    ]
+  }
+}

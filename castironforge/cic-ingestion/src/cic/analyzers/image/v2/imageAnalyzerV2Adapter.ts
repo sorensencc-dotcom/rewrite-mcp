@@ -10,6 +10,12 @@ import type { LocalImageExtractor } from './localImageExtractor.js';
 import type { RemoteImageExtractor } from './remoteImageExtractor.js';
 import type { WarmPoolManager } from '../warmPool/WarmPoolManager.js';
 import { createLogger } from '../../lib/logger.js';
+import { CICError } from '../../lib/error.js';
+import { withTimeoutRace } from '../../lib/timeout.js';
+import { retry } from '../../lib/retry.js';
+import { globalTelemetry } from '../../lib/telemetry.js';
+import { signalWarmPoolSuccess, signalWarmPoolDegraded, isOOMError } from '../../lib/warmPoolHooks.js';
+import { globalBudget } from '../../budget/budgetManager.js';
 
 const ANALYZER_ID = 'image_analyzer_v2';
 const ANALYZER_VERSION = '2.0.0';
@@ -108,11 +114,20 @@ async function getBackend(file: FileRecord): Promise<ExtractorBackend> {
   return backendCache;
 }
 
+export interface HealthCheckResult {
+  id: string;
+  version: string;
+  localHealthy: boolean;
+  remoteHealthy: boolean;
+  warmPoolHealthy: boolean;
+  timestamp: string;
+}
+
 /**
  * Health check: Verify at least one backend is available.
- * Throws if both backends are unhealthy.
+ * Returns detailed status contract for CIC dashboard.
  */
-export async function healthCheck(): Promise<void> {
+export async function healthCheck(): Promise<HealthCheckResult> {
   await initWarmPool();
 
   if (!backendCache) {
@@ -129,8 +144,8 @@ export async function healthCheck(): Promise<void> {
         remote: new RIE(),
       };
     } catch (e) {
-      throw new Error(
-        `[${ANALYZER_ID}] Failed to load extractors during healthCheck: ${e instanceof Error ? e.message : String(e)}`
+      throw CICError.Internal(
+        `Failed to load extractors: ${e instanceof Error ? e.message : String(e)}`
       );
     }
   }
@@ -154,108 +169,75 @@ export async function healthCheck(): Promise<void> {
     }
   }
 
+  const warmPoolHealthy = warmPool !== null;
+
   if (!localOk && !remoteOk) {
-    throw new Error(
-      `[${ANALYZER_ID}] healthCheck failed: both local and remote backends unhealthy`
-    );
+    throw CICError.BackendUnavailable('Both local and remote backends unhealthy');
   }
+
+  return {
+    id: ANALYZER_ID,
+    version: ANALYZER_VERSION,
+    localHealthy: localOk,
+    remoteHealthy: remoteOk,
+    warmPoolHealthy,
+    timestamp: new Date().toISOString(),
+  };
 }
 
 /**
- * Main analysis function.
- * Selects backend (local/remote/hybrid), validates MIME type, and extracts image metadata.
- *
- * Returns deterministic AnalyzerResult with backend metadata, latency, and error info.
+ * Main analysis function — Phase 5: CIC-grade production hardening.
+ * Enforces error taxonomy, timeouts, budget, telemetry, warm pool hooks, retry policy.
  */
 export async function analyze(file: FileRecord): Promise<AnalyzerResult> {
-  const backend = await getBackend(file);
-
-  // MIME type validation
-  let mimeSupported = false;
-  if (backend.local) {
-    const supported = await backend.local.supportedMimeTypes();
-    if (supported.includes(file.mimeType)) {
-      mimeSupported = true;
-    }
-  }
-  if (!mimeSupported && backend.remote) {
-    const supported = await backend.remote.supportedMimeTypes();
-    if (supported.includes(file.mimeType)) {
-      mimeSupported = true;
-    }
-  }
-
-  if (!mimeSupported) {
-    throw new Error(
-      `[${ANALYZER_ID}] unsupported MIME type: ${file.mimeType}`
-    );
-  }
-
   const startedAt = Date.now();
 
-  // Backend-specific extraction
-  if (backend.kind === 'local' && backend.local) {
-    try {
-      const result = await backend.local.extractStreaming(file);
-      const latencyMs = Date.now() - startedAt;
-
-      return {
-        analyzerId: ANALYZER_ID,
-        analyzerVersion: ANALYZER_VERSION,
-        fileId: file.id,
-        extractedAt: new Date().toISOString(),
-        backend: 'local',
-        modelName: result.modelName,
-        modelVersion: result.modelVersion,
-        latencyMs,
-        gpuMemoryUsedMB: result.gpuMemoryUsedMB ?? null,
-        tokenUsage: null,
-        confidence: result.confidence,
-        data: normalizeData(result.data),
-        errors: result.errors ?? [],
-      };
-    } catch (e) {
-      // Local failed; rethrow for now (hybrid mode handles fallback)
-      throw e;
+  try {
+    // Input validation
+    if (!file.mimeType) {
+      throw CICError.Validation('Missing MIME type', { fileId: file.id });
     }
-  }
 
-  if (backend.kind === 'remote' && backend.remote) {
-    const result = await backend.remote.extract(file);
-    const latencyMs = Date.now() - startedAt;
+    const backend = await getBackend(file);
 
-    return {
-      analyzerId: ANALYZER_ID,
-      analyzerVersion: ANALYZER_VERSION,
-      fileId: file.id,
-      extractedAt: new Date().toISOString(),
-      backend: 'remote',
-      modelName: result.modelName,
-      modelVersion: result.modelVersion,
-      latencyMs,
-      gpuMemoryUsedMB: null,
-      tokenUsage: result.tokenUsage ?? null,
-      confidence: result.confidence,
-      data: normalizeData(result.data),
-      errors: result.errors ?? [],
-    };
-  }
-
-  // Hybrid: try local first, fallback to remote on error
-  if (backend.kind === 'hybrid') {
-    let localError: Error | null = null;
-
+    // MIME type validation
+    let mimeSupported = false;
     if (backend.local) {
+      const supported = await backend.local.supportedMimeTypes();
+      if (supported.includes(file.mimeType)) {
+        mimeSupported = true;
+      }
+    }
+    if (!mimeSupported && backend.remote) {
+      const supported = await backend.remote.supportedMimeTypes();
+      if (supported.includes(file.mimeType)) {
+        mimeSupported = true;
+      }
+    }
+
+    if (!mimeSupported) {
+      throw CICError.Validation('Unsupported MIME type', { mimeType: file.mimeType });
+    }
+
+    // Backend-specific extraction with timeouts
+    if (backend.kind === 'local' && backend.local) {
       try {
-        const result = await backend.local.extractStreaming(file);
+        const result = await withTimeoutRace(backend.local.extractStreaming(file), 15_000, 'Local extraction timeout');
         const latencyMs = Date.now() - startedAt;
+
+        // Signal warm pool success
+        await signalWarmPoolSuccess(warmPool);
+
+        // Telemetry
+        globalTelemetry.recordLatency(ANALYZER_ID, 'local_extraction', latencyMs);
+        globalTelemetry.recordGauge(ANALYZER_ID, 'gpu_memory', result.gpuMemoryUsedMB ?? 0);
 
         return {
           analyzerId: ANALYZER_ID,
           analyzerVersion: ANALYZER_VERSION,
           fileId: file.id,
           extractedAt: new Date().toISOString(),
-          backend: 'hybrid',
+          backend: 'local',
           modelName: result.modelName,
           modelVersion: result.modelVersion,
           latencyMs,
@@ -266,47 +248,169 @@ export async function analyze(file: FileRecord): Promise<AnalyzerResult> {
           errors: result.errors ?? [],
         };
       } catch (e) {
-        localError = e instanceof Error ? e : new Error(String(e));
+        const error = e instanceof Error ? e : new Error(String(e));
+
+        // Signal OOM to warm pool
+        if (isOOMError(error)) {
+          await signalWarmPoolDegraded(warmPool, error);
+        }
+
+        // Local failed; rethrow for hybrid fallback or fail
+        throw error;
       }
     }
 
-    // Local failed; use remote fallback
-    if (backend.remote) {
-      const result = await backend.remote.extract(file);
-      const latencyMs = Date.now() - startedAt;
+    // Remote with retry policy
+    if (backend.kind === 'remote' && backend.remote) {
+      try {
+        const budget = globalBudget.getContext();
+        const result = await withTimeoutRace(
+          retry(() => backend.remote!.extract(file), { retries: 2, backoffMs: 200 }),
+          20_000,
+          'Remote extraction timeout'
+        );
+        const latencyMs = Date.now() - startedAt;
 
-      const errors = localError
-        ? [
-            `[local fallback] ${localError.message}`,
-            ...(result.errors ?? []),
-          ]
-        : result.errors ?? [];
+        // Budget enforcement
+        if (result.tokenUsage && result.tokenUsage > budget.remainingTokens) {
+          throw CICError.RemoteFailure('Token budget exceeded', {
+            used: result.tokenUsage,
+            remaining: budget.remainingTokens,
+          });
+        }
 
-      return {
-        analyzerId: ANALYZER_ID,
-        analyzerVersion: ANALYZER_VERSION,
-        fileId: file.id,
-        extractedAt: new Date().toISOString(),
-        backend: 'hybrid',
-        modelName: result.modelName,
-        modelVersion: result.modelVersion,
-        latencyMs,
-        gpuMemoryUsedMB: null,
-        tokenUsage: result.tokenUsage ?? null,
-        confidence: result.confidence,
-        data: normalizeData(result.data),
-        errors,
-      };
+        // Consume budget
+        if (result.tokenUsage) {
+          globalBudget.consume(result.tokenUsage);
+        }
+
+        // Telemetry
+        globalTelemetry.recordLatency(ANALYZER_ID, 'remote_extraction', latencyMs);
+        globalTelemetry.record(ANALYZER_ID, 'tokens_consumed', result.tokenUsage ?? 0);
+
+        return {
+          analyzerId: ANALYZER_ID,
+          analyzerVersion: ANALYZER_VERSION,
+          fileId: file.id,
+          extractedAt: new Date().toISOString(),
+          backend: 'remote',
+          modelName: result.modelName,
+          modelVersion: result.modelVersion,
+          latencyMs,
+          gpuMemoryUsedMB: null,
+          tokenUsage: result.tokenUsage ?? null,
+          confidence: result.confidence,
+          data: normalizeData(result.data),
+          errors: result.errors ?? [],
+        };
+      } catch (e) {
+        const error = e instanceof Error ? e : new Error(String(e));
+        globalTelemetry.recordError(ANALYZER_ID, 'remote_extraction', error);
+        throw error;
+      }
     }
 
-    // Both failed
-    throw new Error(
-      `[${ANALYZER_ID}] hybrid mode: local failed and remote unavailable`
-    );
-  }
+    // Hybrid: try local first, fallback to remote
+    if (backend.kind === 'hybrid') {
+      let localError: Error | null = null;
 
-  // Should never reach here
-  throw new Error(`[${ANALYZER_ID}] unknown backend kind: ${backend.kind}`);
+      if (backend.local) {
+        try {
+          const result = await withTimeoutRace(backend.local.extractStreaming(file), 15_000);
+          const latencyMs = Date.now() - startedAt;
+
+          await signalWarmPoolSuccess(warmPool);
+          globalTelemetry.recordLatency(ANALYZER_ID, 'hybrid_local_success', latencyMs);
+
+          return {
+            analyzerId: ANALYZER_ID,
+            analyzerVersion: ANALYZER_VERSION,
+            fileId: file.id,
+            extractedAt: new Date().toISOString(),
+            backend: 'hybrid',
+            modelName: result.modelName,
+            modelVersion: result.modelVersion,
+            latencyMs,
+            gpuMemoryUsedMB: result.gpuMemoryUsedMB ?? null,
+            tokenUsage: null,
+            confidence: result.confidence,
+            data: normalizeData(result.data),
+            errors: result.errors ?? [],
+          };
+        } catch (e) {
+          localError = e instanceof Error ? e : new Error(String(e));
+          if (isOOMError(localError)) {
+            await signalWarmPoolDegraded(warmPool, localError);
+          }
+          globalTelemetry.recordError(ANALYZER_ID, 'hybrid_local_fallback', localError);
+        }
+      }
+
+      // Fallback to remote
+      if (backend.remote) {
+        try {
+          const budget = globalBudget.getContext();
+          const result = await withTimeoutRace(
+            retry(() => backend.remote!.extract(file), { retries: 2, backoffMs: 200 }),
+            20_000
+          );
+          const latencyMs = Date.now() - startedAt;
+
+          if (result.tokenUsage && result.tokenUsage > budget.remainingTokens) {
+            throw CICError.RemoteFailure('Token budget exceeded in fallback');
+          }
+
+          if (result.tokenUsage) {
+            globalBudget.consume(result.tokenUsage);
+          }
+
+          const errors = localError ? [`[local fallback] ${localError.message}`, ...(result.errors ?? [])] : result.errors ?? [];
+
+          globalTelemetry.recordLatency(ANALYZER_ID, 'hybrid_remote_fallback', latencyMs);
+
+          return {
+            analyzerId: ANALYZER_ID,
+            analyzerVersion: ANALYZER_VERSION,
+            fileId: file.id,
+            extractedAt: new Date().toISOString(),
+            backend: 'hybrid',
+            modelName: result.modelName,
+            modelVersion: result.modelVersion,
+            latencyMs,
+            gpuMemoryUsedMB: null,
+            tokenUsage: result.tokenUsage ?? null,
+            confidence: result.confidence,
+            data: normalizeData(result.data),
+            errors,
+          };
+        } catch (e) {
+          const error = e instanceof Error ? e : new Error(String(e));
+          globalTelemetry.recordError(ANALYZER_ID, 'hybrid_remote_fallback', error);
+          throw CICError.RemoteFailure(`Hybrid fallback failed: ${error.message}`);
+        }
+      }
+
+      // Both backends failed
+      throw CICError.BackendUnavailable('Hybrid mode: both local and remote failed', {
+        localError: localError?.message,
+      });
+    }
+
+    throw CICError.Internal(`Unknown backend kind: ${backend.kind}`);
+  } catch (e) {
+    const error = e instanceof Error ? e : new Error(String(e));
+    const latencyMs = Date.now() - startedAt;
+
+    // Log structured error
+    logger.error('analyze_failed', {
+      fileId: file.id,
+      error: error.message,
+      latencyMs,
+      category: error instanceof CICError ? error.category : 'Unknown',
+    });
+
+    throw error;
+  }
 }
 
 /**
