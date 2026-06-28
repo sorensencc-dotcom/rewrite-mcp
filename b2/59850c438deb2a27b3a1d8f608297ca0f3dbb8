@@ -1,0 +1,23 @@
+.github/workflows/bootstrap.yml
+  s_e9508a1ab58572::t_112909f365f264 1-18
+.github/workflows/nightly-validate.yml
+  s_e9508a1ab58572::t_38c763412d64cf 1-27
+setup/validate.sh
+  s_e9508a1ab58572::t_d1757bff6f2611 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "b259850c438deb2a27b3a1d8f608297ca0f3dbb8",
+  "prompts": {},
+  "sessions": {
+    "s_e9508a1ab58572": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff02a811-586c-4a20-a727-6f2ce26060d7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
