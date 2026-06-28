@@ -4,9 +4,9 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   bootstrap:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run validator
         run: |
           if [ -f setup/validate.sh ]; then

@@ -6,7 +6,7 @@ on:
       - 'skills/**'
 jobs:
   deterministic:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     container:
       image: node:22-bookworm
     steps:
