@@ -1,0 +1,19 @@
+.github/workflows/dashboard.yml
+  s_e9508a1ab58572::t_925cda80e1f179 4-6,9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "b0c523ff25dc717148a5fc9a554322c78b3baf9f",
+  "prompts": {},
+  "sessions": {
+    "s_e9508a1ab58572": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff02a811-586c-4a20-a727-6f2ce26060d7",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
