@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+out/
+*.log
+*.tmp
+*.cache
+.DS_Store
+.vscode/
+.idea/

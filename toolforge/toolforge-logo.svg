@@ -1,0 +1,7 @@
+<svg width='340' height='80' viewBox='0 0 340 80' xmlns='http://www.w3.org/2000/svg'>
+  <rect width='340' height='80' fill='#0a0a0a'/>
+  <text x='20' y='52' font-family='Consolas, monospace' font-size='42' fill='#00ff88'>
+    TOOLFORGE
+  </text>
+  <rect x='20' y='60' width='300' height='3' fill='#00ff88'/>
+</svg>

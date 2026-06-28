@@ -1,0 +1,15 @@
+{
+  "basePath": "C:/dev",
+  "repos": [
+    { "name": "rewrite-mcp",           "roadmapDoc": "TheFoundry/out/docs/roadmap/REWRITE_LABS_SUBROADMAP_v3.0.md" },
+    { "name": "cic-os",                "roadmapDoc": "cic-os/roadmap/cic-os-roadmap.md" },
+    { "name": "charlie-deep-research", "roadmapDoc": "charlie-deep-research/docs/roadmap.md" },
+    { "name": "castironforge",         "roadmapDoc": "castironforge/docs/roadmap.md" },
+    { "name": "cic-ingestion",         "roadmapDoc": "cic-ingestion/docs/roadmap.md" },
+    { "name": "castironcharlie",       "roadmapDoc": "castironcharlie/docs/roadmap.md" },
+    { "name": "cic",                   "roadmapDoc": "TheFoundry/out/docs/roadmap/CIC_SUBROADMAP_v3.0.md" }
+  ],
+  "mastRoadmap": "TheFoundry/out/docs/roadmap/MASTER_ROADMAP_v3.0.md",
+  "reportDir": "TheFoundry/reports/roadmap-diffs",
+  "archiveDir": "TheFoundry/reports/roadmap-archive"
+}

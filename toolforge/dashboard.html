@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Toolforge Dashboard</title>
+<style>
+  body { background:#0a0a0a; color:#eee; font-family:Consolas, monospace; padding:20px; }
+  h1 { color:#00ff88; }
+  .tool { margin-bottom:12px; padding:10px; border:1px solid #333; }
+  .category { color:#00ff88; }
+</style>
+</head>
+<body>
+<h1>Toolforge Dashboard</h1>
+<div id="tools"></div>
+
+<script>
+async function loadTools() {
+  const root = "C:/dev/toolforge";
+  const categories = ["mcp-servers","adapters","daemons","sync-tools","scaffolds","prototypes","utilities"];
+
+  const container = document.getElementById("tools");
+
+  for (const cat of categories) {
+    const div = document.createElement("div");
+    div.innerHTML = `<h2 class="category">${cat}</h2>`;
+    container.appendChild(div);
+
+    try {
+      const entries = await window.fs.readdir(`${root}/${cat}`);
+      entries.forEach(e => {
+        if (!e.startsWith("_")) {
+          const t = document.createElement("div");
+          t.className = "tool";
+          t.textContent = e;
+          div.appendChild(t);
+        }
+      });
+    } catch {}
+  }
+}
+
+loadTools();
+</script>
+</body>
+</html>
