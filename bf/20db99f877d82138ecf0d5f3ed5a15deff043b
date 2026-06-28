@@ -1,0 +1,53 @@
+projects/cic-operator-console/docs/OPERATOR_KB.md
+  s_f1e5a6cf541f4d::t_d346273d356827 1-357
+services/torquequery-mcp/VALIDATION.md
+  s_4ecdbff3f939c0::t_e01640dcc36582 1-384
+projects/cic-operator-console/docs/ACCESSIBILITY.md
+  s_f1e5a6cf541f4d::t_2e999cd302cf81 1-523
+services/torquequery-mcp/README.md
+  s_4ecdbff3f939c0::t_5a347239676d20 1-328
+services/INDEX.md
+  s_1c8c72bfe5bcd2::t_617633c5c8781d 1-10
+toolforge/sync-tools/repo-registry.json
+  s_658bf2605d5067::t_3a0b6c7322ed69 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "bf20db99f877d82138ecf0d5f3ed5a15deff043b",
+  "prompts": {},
+  "sessions": {
+    "s_1c8c72bfe5bcd2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07a6560d-e309-4776-99f2-b206f978cc2c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_4ecdbff3f939c0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "acb905f0-5189-4324-b9e8-3bb438755e99",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_658bf2605d5067": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab18ad0c-b44f-4d4b-a24d-5fcf6ffea313",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f1e5a6cf541f4d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1f1dcf3-c5b7-477e-8371-b0d74574b7f9",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
