@@ -1,0 +1,27 @@
+.github/workflows/bob-validate.yml
+  s_e9508a1ab58572::t_b2c47cf6415d36 18
+.github/workflows/bootstrap.yml
+  s_e9508a1ab58572::t_b1442edca09b65 7,9
+.github/workflows/nightly-bench.yml
+  s_e9508a1ab58572::t_bb5cb80afabe1d 10,64,78
+.github/workflows/nightly-validate.yml
+  s_e9508a1ab58572::t_f634f3ab5bd723 10,12,23
+.github/workflows/operator.yml
+  s_e9508a1ab58572::t_aff249111aa84e 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "57631c4b2b6324061628e7bc549bf2a9dc9c509b",
+  "prompts": {},
+  "sessions": {
+    "s_e9508a1ab58572": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff02a811-586c-4a20-a727-6f2ce26060d7",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
