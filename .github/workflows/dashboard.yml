@@ -8,4 +8,5 @@ on:
 
 jobs:
   dashboard-summary:
+    if: false  # DISABLED: workflow issues under investigation
     uses: sorensencc-dotcom/.github/.github/workflows/dashboard-summary.yml@main
