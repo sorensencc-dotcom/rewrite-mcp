@@ -1,0 +1,33 @@
+projects/cic/ingestion/src/dashboard/DOCS_MANAGER_INTEGRATION.md
+  s_df2e6afa516d1b::t_031330f9c71a67 1-159
+.github/workflows/dashboard.yml
+  s_916c7aa6afc922::t_642aa3a29b3994 11
+projects/cic/ingestion/src/dashboard/DocsManagerPanel.css
+  s_df2e6afa516d1b::t_f2ae89c5364315 1-241
+projects/cic/ingestion/src/dashboard/DocsManagerPanel.tsx
+  s_df2e6afa516d1b::t_5708d97e44e875 1-168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "b24c36dc637ff56994aba39e52c75bf9604a8166",
+  "prompts": {},
+  "sessions": {
+    "s_916c7aa6afc922": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b385e798-8381-4888-86c2-8a6602925a7b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_df2e6afa516d1b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4a2e1852-b897-4d5c-bdd0-12ea7d0cb831",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    }
+  }
+}
