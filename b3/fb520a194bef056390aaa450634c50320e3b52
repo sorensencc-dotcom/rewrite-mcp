@@ -1,0 +1,23 @@
+.github/workflows/bootstrap.yml
+  s_c74da4cdd3552b::t_0a0e12d82961c5 12,26
+.github/workflows/nightly-validate.yml
+  s_c74da4cdd3552b::t_3af932876bf572 15,35
+.github/workflows/operator.yml
+  s_c74da4cdd3552b::t_63aaab0a66c394 16,25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "b3fb520a194bef056390aaa450634c50320e3b52",
+  "prompts": {},
+  "sessions": {
+    "s_c74da4cdd3552b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d2fbbf7d-1d34-4479-994f-38749ce93498",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Claude Haiku 4.5 <sorensencc@gmail.com>"
+    }
+  }
+}
