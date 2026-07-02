@@ -1,0 +1,21 @@
+package-lock.json
+  s_e32c75eb6a74f3::t_8681bbb15d4e84 7-11,13-14,81-106,114-468,776-824,866-882,996-1049,1060-1063,1065-1079,1081-1082,1085-1175,1178-1254,1265-1336,1344-1361,1372-1401,1412-1498,1517-1554,1570-1766,2038-2064,2075-2198,2218-2248,2260-2299,2302-2308,2336-2344,2374-2461,2496-2718,2743-2751,2803-2811,2818-2944,3113-3127,3145-3184
+package.json
+  s_e32c75eb6a74f3::t_0b5aaac1e22a44 3-4,6-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "5ac32d3ffd95cc2ee98fe04a3669fa9cfca14fd4",
+  "prompts": {},
+  "sessions": {
+    "s_e32c75eb6a74f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "04bd5bee-9616-4d3f-9434-239082885ed6",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
