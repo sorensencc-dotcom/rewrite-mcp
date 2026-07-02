@@ -1,5 +1,16 @@
 {
   "devDependencies": {
+    "husky": "^9.1.7",
+    "typedoc": "^0.28.19",
     "vitest": "^4.1.9"
+  },
+  "scripts": {
+    "review": "node scripts/code-review.js",
+    "generate-docs": "node scripts/generate-docs.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "dotenv": "^17.4.2",
+    "zod": "^4.4.3"
   }
 }
