@@ -1,0 +1,19 @@
+.github/workflows/docs.yml
+  s_a1c7ef936594bc::t_320cb831fb6aba 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "768b97e87b1fa065ff9746d44d595df9e6557cad",
+  "prompts": {},
+  "sessions": {
+    "s_a1c7ef936594bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7641c3b-e53d-45cb-be67-998ad8af5a4e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

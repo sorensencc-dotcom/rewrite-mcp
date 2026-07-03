@@ -1,0 +1,21 @@
+docs/rewrite/skills/approvals-audit.md
+  s_7eb04519120919::t_8b3948428f58d8 67-102
+docs/rewrite-labs/REWRITE_LABS_ROADMAP.md
+  s_7eb04519120919::t_7880025a9672c6 25,28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "9c8ba6fc9498291c9081823d079ff5c786ae7db5",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

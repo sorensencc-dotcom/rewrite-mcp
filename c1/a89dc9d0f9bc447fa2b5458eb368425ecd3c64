@@ -1,0 +1,30 @@
+SUGGESTION_LOG.md
+  s_ef85f8b92a3bc3::t_60b8b3e230d05a 1-236
+docs/rewrite-labs/REWRITE_LABS_ROADMAP.md
+  s_ef85f8b92a3bc3::t_3ee1fc37aea402 64-118
+ANTIGRAVITY_INTEGRATION.md
+  s_ef85f8b92a3bc3::t_f44edc3121bb75 1-346
+CHANGELOG.md
+  s_ef85f8b92a3bc3::t_ad9c40af2a2209 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "c1a89dc9d0f9bc447fa2b5458eb368425ecd3c64",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

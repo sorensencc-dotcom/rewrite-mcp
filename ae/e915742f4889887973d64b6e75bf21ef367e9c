@@ -1,0 +1,31 @@
+projects/cic-operator-console/tailwind.config.js
+  s_e06868f0ac3104::t_bce5ddba55073d 1-23
+projects/cic-operator-console/src/main.tsx
+  s_e06868f0ac3104::t_08c2b9f27d256b 1-10
+projects/cic-operator-console/tsconfig.json
+  s_e06868f0ac3104::t_299e5af70c3b17 1-34
+projects/cic-operator-console/package.json
+  s_e06868f0ac3104::t_66b03616b0370f 1-30
+projects/cic-operator-console/postcss.config.js
+  s_e06868f0ac3104::t_38c0e09a1acfbc 1-6
+scripts/cleanup-legacy-consoles.ps1
+  s_e06868f0ac3104::t_7f7d9f5e338a33 1-2,4,8-9,11-12,15-16,20-23,28,32,34-38,40-42,46,50-53,55-57,61,64,67,70-76,80,83-84,86-87,89,91-94
+projects/cic-operator-console/vite.config.ts
+  s_e06868f0ac3104::t_dad8a41f59bdeb 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "aee915742f4889887973d64b6e75bf21ef367e9c",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

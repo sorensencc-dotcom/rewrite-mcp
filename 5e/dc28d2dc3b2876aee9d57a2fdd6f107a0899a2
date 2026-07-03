@@ -1,0 +1,19 @@
+whitelist-commands.js
+  s_8337ea0f3217d7::t_307daa8ffdc74d 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "5edc28d2dc3b2876aee9d57a2fdd6f107a0899a2",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

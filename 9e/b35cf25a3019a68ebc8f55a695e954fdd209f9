@@ -1,0 +1,19 @@
+tools/mcp/helm-server.js
+  s_7eb04519120919::t_466e59326836d0 780-782
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "9eb35cf25a3019a68ebc8f55a695e954fdd209f9",
+  "prompts": {},
+  "sessions": {
+    "s_7eb04519120919": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6411f9b6-f0e8-4fbd-8f79-e9d33a75ac44",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

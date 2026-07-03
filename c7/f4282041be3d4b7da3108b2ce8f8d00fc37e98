@@ -1,0 +1,19 @@
+services/planning-engine/src/autoscheduler/AutoschedulerV2.ts
+  s_30a51492d6fc21::t_29b15075161a54 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "c7f4282041be3d4b7da3108b2ce8f8d00fc37e98",
+  "prompts": {},
+  "sessions": {
+    "s_30a51492d6fc21": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36baeed1-47f2-48d9-afb4-7c19c9129070",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+day5-integration-test.cjs
+  s_c953cc752536e7::t_857cff27c6e353 1-159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "e8cc78daa62772d7ea4fa325e21e8c0a99645c7d",
+  "prompts": {},
+  "sessions": {
+    "s_c953cc752536e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a632fec-45d2-4f79-bbe3-65b0f9d285f2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

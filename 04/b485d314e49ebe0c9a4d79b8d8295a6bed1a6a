@@ -1,0 +1,35 @@
+DEPLOYMENT_SUMMARY.md
+  s_e06868f0ac3104::t_0fc192e3b20042 1-263
+benchmarks/sites.json
+  s_109dab5d02dd8c::t_591a1ab917e150 101
+  s_109dab5d02dd8c::t_cad06d344059ff 22
+  s_109dab5d02dd8c::t_27edc91ebe3833 4
+  s_109dab5d02dd8c::t_bd87bd11f48b87 58
+  s_109dab5d02dd8c::t_3706035b565bac 34
+  s_109dab5d02dd8c::t_20aa3ea4df2926 65
+  s_109dab5d02dd8c::t_c759ad9519155c 83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "04b485d314e49ebe0c9a4d79b8d8295a6bed1a6a",
+  "prompts": {},
+  "sessions": {
+    "s_109dab5d02dd8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2f01f33-d8de-4699-aa50-72505eb2239f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

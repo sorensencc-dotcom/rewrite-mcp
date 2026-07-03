@@ -1,0 +1,22 @@
+DEPLOYMENT_SUMMARY.md
+  s_e06868f0ac3104::t_7bdc03cd9c6921 239-255,258-260
+projects/cic/README.md
+  s_e06868f0ac3104::t_183b22980d958d 292-298,300-319,321-326,328-336
+  s_e06868f0ac3104::t_a5f8f23d63b73d 299,320,327
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "390757d0fc1aa5b290e18b341165e3140da2c38a",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

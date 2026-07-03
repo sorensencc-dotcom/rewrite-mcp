@@ -1,0 +1,32 @@
+tools/mcp/helm-server.js
+  s_098041771ceb78::t_028dbf8dc301b2 988-1037
+  s_098041771ceb78::t_bc110fbc72e0f6 1134-1148
+  s_098041771ceb78::t_69b1c58bb4a4bc 558-812
+benchmarks/business/rl-pipeline.json
+  s_098041771ceb78::t_d96231365e7afe 1-43
+benchmarks/finance/credit-score.json
+  s_098041771ceb78::t_637adb79705696 1-12
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_d159ef43ea4d2b 1056,1058-1068,1257-1265,1267-1269
+  s_098041771ceb78::t_edc7486a29870a 1085,1286
+tools/mcp/test-helm-phase-3.js
+  s_098041771ceb78::t_252ddc24385bc7 1-142
+benchmarks/cic/phase-status.json
+  s_098041771ceb78::t_da1549e3fd3ae2 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "bb58bac2ee47a2791e6b5f7011955482afc0567c",
+  "prompts": {},
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

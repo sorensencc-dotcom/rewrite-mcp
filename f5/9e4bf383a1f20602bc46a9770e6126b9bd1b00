@@ -1,0 +1,19 @@
+HANDOFF.md
+  s_308ad2cbeaff09::t_1e3e7a2a649df2 3,7,9,13-31,36-45,50-54,59-65,68,70-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "f59e4bf383a1f20602bc46a9770e6126b9bd1b00",
+  "prompts": {},
+  "sessions": {
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

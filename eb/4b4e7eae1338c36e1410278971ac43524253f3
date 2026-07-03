@@ -1,0 +1,51 @@
+projects/cic/ingestion/src/extractors/reverseImageSearch.js
+  s_d0748bf68b22eb::t_379283ad4ce319 1-123
+projects/cic/src/approval-system/index.ts
+  s_8376f04a7d76bf::t_a5dc007b986d1d 6
+bin/session-wrap.js
+  s_da4a457c4334be::t_9cdce998dfa2d6 1-38
+projects/cic/tests/tier-classifier.test.ts
+  s_8376f04a7d76bf::t_a0da0b6bdc80af 1-333
+projects/cic/src/approval-system/TierClassifier.ts
+  s_8376f04a7d76bf::t_2f94e9a3fa762d 1-154
+projects/cic/ingestion/src/extractors/reverseImageSearch.test.js
+  s_d0748bf68b22eb::t_c7b33a8aebbb33 1-143
+projects/cic/ingestion/playbooks/playbook.current.json
+  s_d0748bf68b22eb::t_2e5b2caf605a9a 2
+projects/cic/ingestion/src/extractors/registry.js
+  s_d0748bf68b22eb::t_a37d32c4b5f495 9-10,13-15
+projects/cic/ingestion/playbooks/playbook.history.jsonl
+  s_d0748bf68b22eb::t_2e5b2caf605a9a 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "eb4b4e7eae1338c36e1410278971ac43524253f3",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d0748bf68b22eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1177d9e9-50d9-45d4-8c25-b9bd57f77bc4",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

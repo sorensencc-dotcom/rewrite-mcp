@@ -1,0 +1,29 @@
+history/history.jsonl
+  s_da4a457c4334be::t_ae3b36c3893fa0 211
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_78dd2ce89a29ad::t_b778b321a07e04 2132,2134,2136-2138,2140-2335
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "6e928b2ccf377bf5fb2ebb3444df04fbb4bcf7f6",
+  "prompts": {},
+  "sessions": {
+    "s_78dd2ce89a29ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9233db7e-c227-4efe-9dc3-ba228b5776d0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

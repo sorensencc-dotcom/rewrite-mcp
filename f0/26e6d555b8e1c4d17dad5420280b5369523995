@@ -1,0 +1,44 @@
+.claude/batch-test-aab.js
+  s_cc99cc2cdc31cd::t_9d0e8043dde747 1-175
+docs/index.md
+  s_cc99cc2cdc31cd::t_ae25bad1eba496 35-42
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_f36b6e1ae36294::t_901d1220555c49 1688-1689,1699-1714
+  s_f36b6e1ae36294::t_62741c12946d4f 1774-1783
+  s_f36b6e1ae36294::t_22e75224f70649 1674-1687,1690-1698,1715-1720,1722
+docs/cic/IDEOGRAM_4_0_SCORING_SHEET.md
+  s_f36b6e1ae36294::t_967164a674b6ec 1-276
+docs/cic/IDEOGRAM_4_0_DECISION_MATRIX.md
+  s_f36b6e1ae36294::t_1286de6ddc0f97 1-149
+.claude/settings.json
+  s_cc99cc2cdc31cd::t_31054fd9dfe02d 3-14,17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f026e6d555b8e1c4d17dad5420280b5369523995",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f36b6e1ae36294": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2ff7043c-1c21-4644-9f42-75f993360537",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+skills-runtime/loader.js
+  s_8337ea0f3217d7::t_56d57c64848b4a 38-39
+  s_8337ea0f3217d7::t_dbea05abc703fb 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "7d4b3f4dfb8285c5a6dbe022c7814001d7aac8b5",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

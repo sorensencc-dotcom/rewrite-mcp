@@ -1,0 +1,39 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_d94e5bf7b3cd2d::t_f7c8d1b96afced 1723-1818
+  s_308ad2cbeaff09::t_faa28dde2f4553 7-10,3818-3934
+  s_d94e5bf7b3cd2d::t_08016fd28906fc 2483-2485,3076-3078
+  s_1eb7a864162c3d::t_51fb391b7cc28e 186-193
+  s_d94e5bf7b3cd2d::t_c0e4c44555c10a 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b1e26d006f28a95c3d57530def11034c7b6c90d0",
+  "prompts": {},
+  "sessions": {
+    "s_1eb7a864162c3d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af9b13d6-bfea-4543-9aa6-409d0298c2a8",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d94e5bf7b3cd2d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "890da49b-cba7-494d-9800-b729a5070d04",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

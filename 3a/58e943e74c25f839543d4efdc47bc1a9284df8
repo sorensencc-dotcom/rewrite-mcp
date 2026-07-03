@@ -1,0 +1,27 @@
+skills-runtime/permission-manager.js
+  s_098041771ceb78::t_708680bd15d0fe 168-170,177-179
+  s_098041771ceb78::t_ffaea60cde51db 34-45
+skills-runtime/test-permission-manager.js
+  s_098041771ceb78::t_63fc0ac1f9641a 1-307
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "3a58e943e74c25f839543d4efdc47bc1a9284df8",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

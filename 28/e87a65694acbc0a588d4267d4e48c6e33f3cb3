@@ -1,0 +1,28 @@
+.claude/PERMISSIONS_SETUP.md
+  s_098041771ceb78::t_e62841d2e782e9 3-5
+.claude/QUICK_START.md
+  s_098041771ceb78::t_2eec55b7344568 4-5
+skills-runtime/permission-config.json
+  s_098041771ceb78::t_3f38b66789817c 141-145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "28e87a65694acbc0a588d4267d4e48c6e33f3cb3",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

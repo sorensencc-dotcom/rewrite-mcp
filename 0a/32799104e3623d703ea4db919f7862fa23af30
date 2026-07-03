@@ -1,0 +1,203 @@
+projects/cic/wil/src/runtime/adapters/WaylandShellAdapter.ts
+  s_23364b39b23e42::t_7064543d351fb1 1-59
+projects/cic/.dockerignore
+  s_23364b39b23e42::t_e19fb9d690ee0a 1-12
+projects/cic/cic_foreman.agent.yaml
+  s_23364b39b23e42::t_679a000ca61260 1-181
+thefoundry/projects/phase-28-wil/tsconfig.json
+  s_23364b39b23e42::t_7ee2489ff0948a 1-19
+projects/cic/wil/src/tests/foreman_integration.test.ts
+  s_23364b39b23e42::t_023303a68aef44 1-35
+projects/cic/wil/src/runtime/adapters/index.ts
+  s_23364b39b23e42::t_8731815e1cc770 1-33
+thefoundry/projects/app-main/src/index.ts
+  s_23364b39b23e42::t_af0dda98576525 1,5-12,15
+  s_23364b39b23e42::t_89ced64b7cae96 2-4,13-14,16-17
+day4-telemetry-demo.cjs
+  s_c953cc752536e7::t_376652e29ef71b 1-203
+docs/cic/phase-24-4-phase-api-contracts.md
+  s_76f06cd99c5cd7::t_e75dd0fc0a5284 1-433
+projects/cic/wil/package.json
+  s_23364b39b23e42::t_361ce0bab5b2e8 8
+  s_23364b39b23e42::t_33b2c125dce1d6 1-7,9-20
+projects/cic/wil/src/runtime/adapters/WaylandFileAdapter.ts
+  s_23364b39b23e42::t_f8a0ae70d8a213 1-93
+src/cic/governance/index.ts
+  s_76f06cd99c5cd7::t_76c5ab4bb11067 19-22
+thefoundry/projects/phase-28-wil/src/runtime/adapters/WaylandFileAdapter.ts
+  s_23364b39b23e42::t_82d60357909653 1-140
+Dockerfile.phase4.4
+  s_c953cc752536e7::t_f36dca96638e65 1-13,18-35
+  s_c953cc752536e7::t_14496667c8c836 14-17
+thefoundry/projects/app-main/src/index.js
+  s_23364b39b23e42::t_1e37926a7ba321 1-17
+thefoundry/ci/github-actions.yml
+  s_23364b39b23e42::t_05b21ab85f6c76 1-35
+thefoundry/projects/phase-28-wil/src/runtime/adapters/WaylandFileAdapter.js
+  s_23364b39b23e42::t_5c8fb6fd39a9d2 1-132
+projects/cic/wil/src/tests/wil_security_policy.test.ts
+  s_23364b39b23e42::t_a9b97387aa088a 1-169
+projects/cic/wil/config/wil_security.json
+  s_23364b39b23e42::t_0cf44c4be2ff8e 1-60
+projects/cic/wil/src/runtime/adapters/WaylandModelAdapter.ts
+  s_23364b39b23e42::t_da68868b742b0a 1-46
+projects/cic/wil/src/cro/CRO.ts
+  s_23364b39b23e42::t_84de4dfde097ff 1-54
+projects/cic/wil/src/tests/wil_manifest_validator.test.ts
+  s_23364b39b23e42::t_2b3b48804815aa 1-217
+projects/cic/wil/src/runtime/adapters/WaylandHttpAdapter.ts
+  s_23364b39b23e42::t_f006c17b3ad61e 1-71
+projects/cic/wil/.gitignore
+  s_23364b39b23e42::t_e176a1b651afbf 1-12
+thefoundry/.gitignore
+  s_23364b39b23e42::t_ff7fe4894a656b 1-29
+thefoundry/images/node-build/Dockerfile
+  s_23364b39b23e42::t_804290b4ecff1e 1-6,8,10-24,26-27,30-33
+  s_23364b39b23e42::t_f358946297f15a 7,9,25,28-29
+thefoundry/projects/app-main/package.json
+  s_23364b39b23e42::t_d876567d18b045 1-6,8-14,16
+  s_23364b39b23e42::t_d83c02b1ecc1c6 7
+  s_23364b39b23e42::t_940f8bafa57148 15
+projects/cic/wil/src/tests/mocks.ts
+  s_23364b39b23e42::t_ed0c8b5b0f82f5 1-56
+thefoundry/projects/phase-28-wil/.gitignore
+  s_23364b39b23e42::t_4b169b573817f0 1-12
+projects/cic/wil/src/runtime/foreman.ts
+  s_23364b39b23e42::t_d0bb07e71e6d4c 5-86
+thefoundry/images/node-build/entrypoint.sh
+  s_23364b39b23e42::t_0dca9c2f43e5ec 1-50
+thefoundry/projects/app-main/tsconfig.json
+  s_23364b39b23e42::t_4f1ae54aba1f71 1-19
+projects/cic/wil/src/ckg/CKG.ts
+  s_23364b39b23e42::t_c68b1e61faea29 1-15
+projects/cic/wil/src/memory/MemoryStore.ts
+  s_23364b39b23e42::t_0b44b2763933fa 92-93,99,114-137
+  s_23364b39b23e42::t_f3b3ead476abda 1-3,18,169-170,173-174
+  s_23364b39b23e42::t_5e6ee3c62d28e6 4-17,19-91,94-98,100-113,138-168,171-172
+thefoundry/projects/phase-28-wil/src/runtime/adapters/WaylandShellAdapter.ts
+  s_23364b39b23e42::t_29d0ac8e8e8a9a 1-130
+tests/cic/phase-contracts.test.ts
+  s_76f06cd99c5cd7::t_1c83914fa91589 1-354,357-363,366-436
+  s_76f06cd99c5cd7::t_314188d3c3b5cf 355-356,364-365
+thefoundry/projects/phase-28-wil/src/session/WaylandSessionMapper.ts
+  s_23364b39b23e42::t_b6fe1beb20e2b0 1-151
+projects/cic/tests/cro/governance-gating.test.ts
+  s_23364b39b23e42::t_eb0fe9bff8c21a 1-224
+docker-compose.phase4.4.yml
+  s_c953cc752536e7::t_0906fd0ea420a3 1-28,30-36,38-47
+thefoundry/.dockerignore
+  s_23364b39b23e42::t_2ae80e2cfbef04 1-14
+projects/cic/wil/tsconfig.json
+  s_23364b39b23e42::t_ebc4225f1ce8ee 1-19
+projects/cic/wil/src/apr/APR.ts
+  s_23364b39b23e42::t_aaf532b26e9cb4 1-31
+projects/cic/wil/src/security/SecurityPolicy.ts
+  s_23364b39b23e42::t_2bfd69f7bc94c3 29-49,53,55-58
+  s_23364b39b23e42::t_5c831f8862fe3b 64-114
+  s_23364b39b23e42::t_405beff5fee46e 403-404,407,410,417-418,421,424
+  s_23364b39b23e42::t_49130c89302ed2 268-303,306-351,364-393
+  s_23364b39b23e42::t_1bbb656526cfe9 218
+  s_23364b39b23e42::t_e522b6dfe1d7da 1-28,50-52,54,59-63,115-217,219-231,233-267,304-305,352-363,394-402,405-406,408-409,411-416,419-420,422-423,425-471
+  s_23364b39b23e42::t_e47e7de30fdb34 232
+projects/cic/tests/apr/apr-cro-integration.test.ts
+  s_23364b39b23e42::t_884f28aa4da0e6 1-183
+projects/cic/wil/src/tests/trace_example.test.ts
+  s_23364b39b23e42::t_a2b9d8bbefa67c 1-190
+projects/cic/tests/cro/wayland-integration.test.ts
+  s_23364b39b23e42::t_305a123c6bdffd 1-6,13-186,188-217
+  s_23364b39b23e42::t_3c29f5c47caacb 7-12
+  s_23364b39b23e42::t_9aad578ffd77a8 187
+projects/cic/wil/src/tests/manifest.test.ts
+  s_23364b39b23e42::t_d60b9474bd11a9 1-298
+projects/cic/wil/src/runtime/session/WaylandSessionMapper.ts
+  s_76f06cd99c5cd7::t_834a7939c43da1 1-30
+docs/cic/phase-0-9-milestones.md
+  s_23364b39b23e42::t_7ef3eea873c016 1-286
+thefoundry/projects/phase-28-wil/src/tests/adapters.test.js
+  s_23364b39b23e42::t_1f55ad83fda037 1-22,24-50
+  s_23364b39b23e42::t_aaf0da95b0a41a 23
+thefoundry/projects/phase-28-wil/src/runtime/adapters/WaylandShellAdapter.js
+  s_23364b39b23e42::t_5b07368b846bb4 1-115
+projects/cic/wil/src/tests/wil_wayland_session_e2e.test.ts
+  s_23364b39b23e42::t_1fadd2b42b3ec9 126,135,144,153
+  s_23364b39b23e42::t_5a66d4922e8c80 33-37
+  s_23364b39b23e42::t_ddc5b4622954e5 1-32,38-64,66-125,127-134,136-143,145-152,154-164
+  s_23364b39b23e42::t_327992f698331b 65
+thefoundry/projects/phase-28-wil/src/session/WaylandSessionMapper.js
+  s_23364b39b23e42::t_061cd64dc6a974 1-133
+projects/cic/wil/src/tests/security_policy.test.ts
+  s_23364b39b23e42::t_ee8d304f16e96c 1-149,151-152,155,157-158,161-162,170-187
+  s_23364b39b23e42::t_bff25acf73c2a3 150,153-154,156,159-160,163-169
+projects/cic/wil/src/manifest/WaylandManifest.ts
+  s_23364b39b23e42::t_6854be4a83c531 1-42,44-52,58-214,237-268,288-340
+  s_23364b39b23e42::t_8c61c7b3c6881a 43,53-57
+  s_23364b39b23e42::t_cc107df70645e6 269-287
+  s_23364b39b23e42::t_602116f7596a90 215-236
+thefoundry/projects/phase-28-wil/package.json
+  s_23364b39b23e42::t_7ad4df2e7e3c3f 1-4,6,9,11-16
+  s_23364b39b23e42::t_26b8dad4d451b3 5,7,10
+  s_23364b39b23e42::t_f55b84baa27597 8
+thefoundry/README.md
+  s_23364b39b23e42::t_c484bb1ac68a4a 1-48
+projects/cic/wil/Dockerfile
+  s_23364b39b23e42::t_17ab6efc57a28f 6,21-22
+  s_23364b39b23e42::t_3719bd1ee72275 7
+  s_23364b39b23e42::t_38ef84d0756b6b 16
+  s_23364b39b23e42::t_19ec2d1af6de0d 1,3-5,8-12,17-20,23-24
+  s_23364b39b23e42::t_f0ea16640d337b 2,13-15
+docs/phase-4-4-repomix-bridge-design.md
+  s_f180bb4926eb72::t_0df51430fc8746 1-369
+docs/cic/phase-0-9-thefoundry.md
+  s_23364b39b23e42::t_ea9ff5bce3c18d 3-6,9-10,12,14,16,18,22,24-29,31-34,37-38,40-47,49-53,55,58-71,73,76-95,100,102,104-105,144,156-161,165,167,187,199-204,207,209,249-281,286,288,297,306,308-313,315,317-322,324,326-331,333,335,338-342,346,348-350,352-356,358-360,362-369,373,375-381,383,385,387-391,393-396,398-401,405,407-416,420,422-425,429,433,438-439
+  s_23364b39b23e42::t_0a5db0219e3c48 1-2,7-8,11,13,15,17,19-21,23,30,35-36,39,48,54,56-57,72,74-75,96-99,101,103,106-143,145-155,162-164,166,168-186,188-198,205-206,208,210-248,282-285,287,289-296,298-305,307,314,316,323,325,332,334,336-337,343-345,347,351,357,361,370-372,374,382,384,386,392,397,402-404,406,417-419,421,426-428,430-432,434-437
+projects/cic/tests/foreman/manifest-loading.test.ts
+  s_23364b39b23e42::t_6cae16d048bc68 1-117
+src/cic/governance/run-context.ts
+  s_76f06cd99c5cd7::t_d43f8440fe3e44 1-233
+thefoundry/projects/phase-28-wil/src/tests/adapters.test.ts
+  s_23364b39b23e42::t_cc18988b3c4a24 1-63
+src/cic/governance/phase-contracts.ts
+  s_76f06cd99c5cd7::t_524eb268b566bd 396,400-402,406
+  s_76f06cd99c5cd7::t_3c5dd110691d08 1-190,192-199,201-203,205-395,397-399,403-405,407-516
+  s_76f06cd99c5cd7::t_14cbbee438890d 191,200,204
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "0a32799104e3623d703ea4db919f7862fa23af30",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_76f06cd99c5cd7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "efa3372d-efa2-4893-a598-3a947fb99e89",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_c953cc752536e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a632fec-45d2-4f79-bbe3-65b0f9d285f2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f180bb4926eb72": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "97db7b51-5717-4c34-b846-0d838354490e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

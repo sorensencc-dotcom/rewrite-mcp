@@ -1,0 +1,28 @@
+projects/cic/src/approval-system/index.ts
+  s_8376f04a7d76bf::t_1b815da76011f2 1-13
+projects/cic/src/approval-system/ApprovalManifest.ts
+  s_8376f04a7d76bf::t_2267a88364daed 1-249,251-273,275-286,288-300,302-330,332-357,359,361,363-450
+  s_8376f04a7d76bf::t_83e3464d2ef798 358,360,362
+  s_8376f04a7d76bf::t_e4a665b3a1ac6a 250,274,287,301
+  s_8376f04a7d76bf::t_06baeb94a8abba 331
+projects/cic/tests/approval-manifest.test.ts
+  s_8376f04a7d76bf::t_e4b984ca90e96c 1-407
+projects/cic/src/approval-system/types.ts
+  s_8376f04a7d76bf::t_ccf378eb044fdc 1-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "7f05864a6303d8501e8c35511fb206e476980287",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

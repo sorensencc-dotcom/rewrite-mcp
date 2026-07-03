@@ -1,0 +1,27 @@
+projects/cic/archive/production-deployment-config.md
+  s_9907fc29218a5e::t_057f01c52c397a 1-397
+projects/cic/APPROVAL_AUDIT_2026-06-06.md
+  s_9907fc29218a5e::t_ed33065e3373f7 1-130
+projects/cic/WHITELIST_MANIFEST_2026-06-06.md
+  s_9907fc29218a5e::t_eb4e4c62f8f9db 1-184
+projects/cic/archive/phase-7-19-20-stress-plan.md
+  s_9907fc29218a5e::t_f3fa2edbe37923 1-239
+projects/cic/archive/phase-7-7-confidence-tuning.md
+  s_9907fc29218a5e::t_e2675e33dd9020 1-186
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f1b5886235899f4bda9b300843afb309dedc9287",
+  "prompts": {},
+  "sessions": {
+    "s_9907fc29218a5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f043a510-6910-4123-a078-4f25c9540d74",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+history/history.jsonl
+  s_f180bb4926eb72::t_dd5b9e08f1b9cb 239
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "392559d672f5cbce4c86cce7beac00fda49153a5",
+  "prompts": {},
+  "sessions": {
+    "s_f180bb4926eb72": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "97db7b51-5717-4c34-b846-0d838354490e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+projects/cic/ingestion/tests/reasoning/arl/engine/ThresholdModel.test.ts
+  s_098041771ceb78::t_70869ff608742c 2-271
+  s_098041771ceb78::t_389505afdf8604 1
+projects/cic/ingestion/src/reasoning/arl/engine/VerdictSynthesizer.ts
+  s_098041771ceb78::t_4e04be8f181e07 2-3,6,10-11,15-20,24-26,29-57,59
+projects/cic/ingestion/src/reasoning/arl/engine/GovernanceSignalGenerator.ts
+  s_098041771ceb78::t_837e5ab8e16b0e 1-134
+projects/cic/ingestion/tests/reasoning/arl/engine/GovernanceSignalGenerator.test.ts
+  s_098041771ceb78::t_31f8d18dce5be2 1
+  s_098041771ceb78::t_34cfd73dc083d0 187,193
+  s_098041771ceb78::t_f80468e380d567 242
+  s_098041771ceb78::t_04e734db071211 2-186,188-192,194-241,243-285
+docs/cic/PHASE_7_12_THRESHOLD_MODEL.md
+  s_098041771ceb78::t_dbf753a8e36b4c 1-275
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d397a9c5f35f12add90ad00a93a985358b515ec2",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

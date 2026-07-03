@@ -1,0 +1,31 @@
+skills-runtime/permission-config.json
+  s_cc99cc2cdc31cd::t_10ab25e413da24 81-125
+skills-runtime/permission-manager.js
+  s_cc99cc2cdc31cd::t_20dcfed767ed24 120-121,124-146
+  s_cc99cc2cdc31cd::t_784920a059b9b2 190,193-203
+.claude/autonomous-approval-integration.js
+  s_cc99cc2cdc31cd::t_3f25059879b813 1-103
+.claude/AAB_ACTIVATION.md
+  s_cc99cc2cdc31cd::t_fa775ad9154402 1-232
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "558b91d66b0c6fe5c05e3ae885232981e21cbbf7",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

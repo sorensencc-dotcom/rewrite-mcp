@@ -1,0 +1,45 @@
+skills/session-wrap/README.md
+  s_da4a457c4334be::t_ff9228859a7999 1-184
+skills/manifest.json
+  s_da4a457c4334be::t_d4440480826938 122
+  s_da4a457c4334be::t_798b492e8e4a9a 121
+skills/session-wrap/index.test.js
+  s_da4a457c4334be::t_fbacd09f0c8d11 1-66
+projects/cic/tests/tool-layer.test.ts
+  s_8376f04a7d76bf::t_17fc51dcc068ab 78,83,86,94,101-113
+  s_8376f04a7d76bf::t_dff6e1a9ff5e64 142,147-148
+  s_8376f04a7d76bf::t_13dcd53fb63974 47,50
+  s_8376f04a7d76bf::t_b82c21fb1e2b6b 1-46,48-49,51-77,79-82,84-85,87-93,95-100,114-141,143-146,149-225
+skills/session-wrap/index.js
+  s_da4a457c4334be::t_b4c02fd56243a7 8-9,130
+  s_da4a457c4334be::t_7544d57d522ad9 2,5-7,10-129
+  s_da4a457c4334be::t_d459b2da0591bb 1,3-4
+skills/session-wrap.md
+  s_da4a457c4334be::t_74804d40945a4c 1-70
+skills/session-wrap/schema.json
+  s_da4a457c4334be::t_6a36bb27a92a14 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "58b172dd89b9d9fae53058901d54dc2787c1bb4e",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

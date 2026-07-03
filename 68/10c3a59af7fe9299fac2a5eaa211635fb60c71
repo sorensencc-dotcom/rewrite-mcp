@@ -1,0 +1,21 @@
+projects/cic/ingestion/Dockerfile
+  s_14faad8c1bd803::t_e9320e15a638c2 1,3,8,11,15
+projects/cic/orchestrator/Dockerfile
+  s_14faad8c1bd803::t_a038822f27997f 1,3,8,11,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "6810c3a59af7fe9299fac2a5eaa211635fb60c71",
+  "prompts": {},
+  "sessions": {
+    "s_14faad8c1bd803": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2b0f0ef3-8d9c-47fe-9477-cd38ebc8f590",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

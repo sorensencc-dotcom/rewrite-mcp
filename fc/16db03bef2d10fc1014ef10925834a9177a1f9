@@ -1,0 +1,32 @@
+projects/cic/orchestrator/Dockerfile
+  s_14faad8c1bd803::t_50d01ac82f7490 12
+  s_14faad8c1bd803::t_0753e842d088e5 1-11
+projects/cic/audit/package.json
+  s_14faad8c1bd803::t_b4b21fe1282f0a 1-20
+projects/cic/audit/Dockerfile
+  s_14faad8c1bd803::t_0fc964edd072a4 1-11
+  s_14faad8c1bd803::t_5c11e37a579189 12
+projects/cic/audit/src/index.ts
+  s_14faad8c1bd803::t_5bd533e04c1271 1-12
+projects/cic/ingestion/Dockerfile
+  s_14faad8c1bd803::t_093c397d72d27b 12
+  s_14faad8c1bd803::t_9e403b34848e47 1-11
+projects/cic-operator-console/Dockerfile
+  s_14faad8c1bd803::t_0f586478368c10 3-4,9,13-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "fc16db03bef2d10fc1014ef10925834a9177a1f9",
+  "prompts": {},
+  "sessions": {
+    "s_14faad8c1bd803": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2b0f0ef3-8d9c-47fe-9477-cd38ebc8f590",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

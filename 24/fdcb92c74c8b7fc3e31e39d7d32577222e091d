@@ -1,0 +1,42 @@
+CONSOLE_CONSOLIDATION_PLAN.md
+  s_e06868f0ac3104::t_e5b67a653bbc39 1-272
+scripts/cleanup-legacy-consoles.ps1
+  s_e06868f0ac3104::t_b72a9f357a3f9f 1-79,81-83,91-94,100-109,111-143,146,148-156,158-166,170-183,185-192,194-220,222-227,230-237,241-248,250-251,253-259,264-265,270-271
+  s_e06868f0ac3104::t_075373532a4d8f 84-90
+  s_e06868f0ac3104::t_470269d9480e7f 239-240
+  s_e06868f0ac3104::t_20258b83961b47 96,98
+  s_e06868f0ac3104::t_b295fea5908c4e 80,95,97,99,110,144-145,147,157,167-169,184,193,221,228-229,238,249,252,260-263,266-269
+benchmarks/AUTONOMOUS_WORKFLOW.md
+  s_109dab5d02dd8c::t_e6ed28287299e1 1-182
+Makefile
+  s_109dab5d02dd8c::t_753bc252ffdb33 13-16
+  s_109dab5d02dd8c::t_5b1027b01d05bb 84-87
+  s_109dab5d02dd8c::t_18a28fd25f9ccb 1
+scripts/bench-autonomous.ps1
+  s_109dab5d02dd8c::t_2112c71eea79bb 1-22,27-41,43-44,46-47,49,52-61,63-64,66-67,69,72-81,84-87,89-90,92-93,95-96,98-110,112-124,126-127,129-143,154-156
+  s_109dab5d02dd8c::t_d80b939f9c37ff 23-26,42,45,48,50-51,62,65,68,70-71,82-83,88,91,94,97,111,125,128,144-153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "24fdcb92c74c8b7fc3e31e39d7d32577222e091d",
+  "prompts": {},
+  "sessions": {
+    "s_109dab5d02dd8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2f01f33-d8de-4699-aa50-72505eb2239f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

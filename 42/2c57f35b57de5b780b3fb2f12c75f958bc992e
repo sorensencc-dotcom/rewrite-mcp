@@ -1,0 +1,19 @@
+docker-compose.bob.yml
+  s_97ce94f9d78464::t_f461dc03b0a0d2 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "422c57f35b57de5b780b3fb2f12c75f958bc992e",
+  "prompts": {},
+  "sessions": {
+    "s_97ce94f9d78464": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1ffa13bf-df59-4719-ab19-8efc7382678e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

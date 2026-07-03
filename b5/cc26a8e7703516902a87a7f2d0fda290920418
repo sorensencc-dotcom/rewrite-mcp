@@ -1,0 +1,40 @@
+packages/agents/package.json
+  s_308ad2cbeaff09::t_ae78310503d4de 21
+  s_308ad2cbeaff09::t_02c3765f030603 4,9,16,19-20,22-23,27
+packages/agents/jest.config.js
+  s_308ad2cbeaff09::t_bfeb6f6c8a6d51 1-15
+packages/agents/src/crawler/robots.ts
+  s_308ad2cbeaff09::t_26d1621bdfb244 1-60
+packages/agents/src/crawler/index.ts
+  s_308ad2cbeaff09::t_8a1bb9a6808030 1-156,159-179
+  s_308ad2cbeaff09::t_5da10f3aa837b7 157-158
+packages/agents/src/crawler/types.ts
+  s_308ad2cbeaff09::t_91346c7d0f4452 1-32
+packages/agents/src/crawler/bloom.ts
+  s_308ad2cbeaff09::t_19ecb13a2cf314 1-39
+packages/agents/tsconfig.json
+  s_308ad2cbeaff09::t_91da85fa6aba37 1-18
+packages/agents/src/crawler/__tests__/crawler.test.ts
+  s_308ad2cbeaff09::t_a95c1fc589ac30 7-16
+  s_308ad2cbeaff09::t_b28ac84a619c00 3-6,19-39,41-42,45-58,60-63,65-79,81-92,94-95,98-99,102-103,107-108,110-120,124-128,132-138,142-151,155-160,164-165,170-206
+  s_308ad2cbeaff09::t_145270fdbd9590 1,17-18,40,43-44,59,64,80,93,96-97,100-101,104-106,109,121-123,129-131,139-141,152-154,161-163,166-169
+  s_308ad2cbeaff09::t_ac2c6f82a5f583 2
+HANDOFF.md
+  s_308ad2cbeaff09::t_51e257967d44b2 3-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b5cc26a8e7703516902a87a7f2d0fda290920418",
+  "prompts": {},
+  "sessions": {
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

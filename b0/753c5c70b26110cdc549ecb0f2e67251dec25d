@@ -1,0 +1,38 @@
+.claude/verify-permissions.js
+  s_098041771ceb78::t_6fdf5b358cb8da 1-270
+projects/cic/context-service/ContextServer.ts
+  s_fedd75f531f5b1::t_540f023909031f 10-13
+  s_fedd75f531f5b1::t_76ed0a5184ea89 35-36,39
+projects/cic/src/agents/RealAgentClients.ts
+  s_fedd75f531f5b1::t_dcbba2a6cd0e8f 1-5,7-825
+  s_fedd75f531f5b1::t_3717e0e6a4ab14 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "b0753c5c70b26110cdc549ecb0f2e67251dec25d",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_fedd75f531f5b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "11eaf307-e4d9-437e-b2c0-ab78a156a117",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

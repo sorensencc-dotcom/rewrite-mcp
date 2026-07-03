@@ -1,0 +1,63 @@
+packages/ir-toolkit/src/validators/index.ts
+  s_f8a3dd47e7d37f::t_b527b02499a754 1-7
+packages/ir-toolkit/tsconfig.json
+  s_f8a3dd47e7d37f::t_e87f91d7ab41ff 1-18
+packages/ir-toolkit/src/__tests__/integration.test.ts
+  s_f8a3dd47e7d37f::t_fae6928dbb1b88 1-114
+packages/ir-toolkit/src/lead-scorer/index.ts
+  s_f8a3dd47e7d37f::t_f5040b6eea90fe 1
+packages/ir-toolkit/jest.config.js
+  s_f8a3dd47e7d37f::t_0f8895bc3c764c 1-30
+packages/ir-toolkit/README.md
+  s_f8a3dd47e7d37f::t_692833ccf064f8 1-177
+packages/ir-toolkit/src/schemas/lead-score.types.ts
+  s_f8a3dd47e7d37f::t_ab2c3253dd4531 1-57
+packages/ir-toolkit/src/lead-scorer/score.ts
+  s_f8a3dd47e7d37f::t_42571615c21812 1-294
+packages/ir-toolkit/src/schemas/ir.types.ts
+  s_f8a3dd47e7d37f::t_d29a048851e3d1 1-109
+packages/ir-toolkit/src/index.ts
+  s_f8a3dd47e7d37f::t_ed1e8b892030e7 1-8
+packages/ir-toolkit/src/validators/validate-lead-score.ts
+  s_f8a3dd47e7d37f::t_36cc453c65563d 1-136
+packages/ir-toolkit/src/schemas/index.ts
+  s_f8a3dd47e7d37f::t_36dd59d3fb3fab 1-21
+packages/ir-toolkit/src/lead-scorer/score.test.ts
+  s_f8a3dd47e7d37f::t_b08e7cfc78ab08 1-20,22-43,46-49,51-58,60-112,115-125,128-187,189-196,198-199,201-208,210-211,213-220,222-223,225-232,234-353
+  s_f8a3dd47e7d37f::t_1c77ce60193c2f 21
+  s_f8a3dd47e7d37f::t_ccb3b28695a4e5 44-45
+  s_f8a3dd47e7d37f::t_95eb99c4008e1c 50,59
+  s_f8a3dd47e7d37f::t_029cbfbd123855 113-114
+  s_f8a3dd47e7d37f::t_644a78cfb8c325 188,197,200,209,212,221,224,233
+  s_f8a3dd47e7d37f::t_61a492afcb00ce 126-127
+packages/ir-toolkit/package.json
+  s_f8a3dd47e7d37f::t_9a5e16bbec64dd 1-56
+mkdocs.yml
+  s_a1c7ef936594bc::t_3bfe212d990007 145
+packages/ir-toolkit/src/validators/validate-lead-score.test.ts
+  s_f8a3dd47e7d37f::t_a87f3d95975839 1-314
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "aaabba2ca58b809c81e66c4655c4aec8fc44f469",
+  "prompts": {},
+  "sessions": {
+    "s_a1c7ef936594bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b7641c3b-e53d-45cb-be67-998ad8af5a4e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_f8a3dd47e7d37f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "019d4ac4-98c1-4d63-8787-8e3ddd53c796",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    }
+  }
+}

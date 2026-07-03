@@ -1,0 +1,79 @@
+packages/agents/src/extractors/playwright-extractor.ts
+  s_039b75ee64201a::t_66d5953d136707 1-153
+packages/agents/src/__tests__/rl-4-1.test.ts
+  s_308ad2cbeaff09::t_93fb82275f10d7 32-33
+  s_308ad2cbeaff09::t_9b1a931692872b 84-87
+  s_039b75ee64201a::t_9d8dd1b893dee3 1,7-31,34-83,88-239
+  s_308ad2cbeaff09::t_90cfabcf6ff9c7 2-6
+packages/agents/src/__tests__/rl-4-0.test.ts
+  s_308ad2cbeaff09::t_bf0dbc893c0d7c 9-11
+  s_308ad2cbeaff09::t_43489366acd14e 2
+  s_039b75ee64201a::t_f4f4f1aaded5e8 3-8,12-44,47-67,70-256,259-281,283-295,298-315
+  s_308ad2cbeaff09::t_4e05fa83583ab6 46,69,258,297
+  s_308ad2cbeaff09::t_0cbbba7d6696b7 45,68,257,296
+  s_308ad2cbeaff09::t_766cd46d8789da 282
+  s_039b75ee64201a::t_a16513c99638de 1
+packages/agents/src/extractors/wcag-validator.ts
+  s_039b75ee64201a::t_fd731b2c048997 1-363
+packages/agents/src/extractors/style-engine.ts
+  s_308ad2cbeaff09::t_5c6aa7c992a8f7 58-59
+  s_039b75ee64201a::t_5896710e51a7cc 1-57,60,64-174
+  s_039b75ee64201a::t_3878cc93ee3946 61-63
+packages/agents/src/extractors/index.ts
+  s_039b75ee64201a::t_9c423cab600fa3 15-20
+  s_039b75ee64201a::t_b31aa2a2d5862c 1-5
+  s_039b75ee64201a::t_a81199b81943ab 6-14
+packages/agents/src/extractors/computed-styles.ts
+  s_039b75ee64201a::t_42d6cd3391e4d1 1-190
+packages/agents/tsconfig.json
+  s_039b75ee64201a::t_8e9c31bce41bac 5,15-16
+  s_039b75ee64201a::t_b915d74f2997ce 14
+packages/ir-toolkit/src/schemas/ir.types.ts
+  s_039b75ee64201a::t_b1689d710c7ee7 35-57,74-75
+packages/agents/package.json
+  s_308ad2cbeaff09::t_9c9a049cf64d4b 22
+  s_308ad2cbeaff09::t_9a10e06dc527ea 33-35
+  s_039b75ee64201a::t_feaff7743aa81e 10-11
+packages/agents/src/extractors/ir-v1-2-extension.ts
+  s_039b75ee64201a::t_c751148628105b 1-107
+packages/agents/src/orchestrator.ts
+  s_039b75ee64201a::t_c771f7b6e3225b 1-3,24-116
+  s_039b75ee64201a::t_517540d167b910 4-23
+packages/agents/src/crawler/index.ts
+  s_039b75ee64201a::t_59170a1aca3ab8 149-151,158-159
+packages/agents/src/crawler/types.ts
+  s_039b75ee64201a::t_710566bb9d52ed 14-15
+packages/agents/src/extractors/dom.ts
+  s_308ad2cbeaff09::t_490dba136f9f28 56,62-64,71,82,84,87,89,91-93,96-98,103,106-110,116-120,123-126,129-132,135-141
+  s_039b75ee64201a::t_78d3d11edb75e8 2-55,57-61,68-70,72-81,83,85-86,88,90,94-95,99-102,104-105,111-115,121-122,127-128,133-134,142-143
+  s_039b75ee64201a::t_45b8e8f3a337ed 65-67
+  s_308ad2cbeaff09::t_8cb54117a4fd93 1
+packages/agents/src/__tests__/rl-4-2.test.ts
+  s_039b75ee64201a::t_3a0654043a56e5 1-298
+packages/agents/src/extractors/accessibility-auditor.ts
+  s_039b75ee64201a::t_eb4b8fc2ff3071 1-192
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "755f99f4aaeb4e467bfc058400b4b87629effe5c",
+  "prompts": {},
+  "sessions": {
+    "s_039b75ee64201a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "530b6ee5-5da3-4682-b5fb-3046c4d4619e",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_308ad2cbeaff09": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b8bed8b8-23d2-4df4-830c-58123d770460",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+skills-runtime/decision-engine.js
+  s_ef85f8b92a3bc3::t_077b672cde6223 1-109
+skills-runtime/recovery-manager.js
+  s_ef85f8b92a3bc3::t_dc31038d621b22 1-136
+skills-runtime/orchestrator.test.js
+  s_ef85f8b92a3bc3::t_c409dbdf37c3f3 1-517
+skills-runtime/scheduler.js
+  s_ef85f8b92a3bc3::t_3e7bfd49deeabe 1-156
+skills-runtime/trigger-engine.js
+  s_ef85f8b92a3bc3::t_22285099d6eaeb 1-162
+skills-runtime/orchestrator.js
+  s_ef85f8b92a3bc3::t_40efc3a39c8e4e 1-187
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "2e3395dfd9984d9f2155de576b7e7cbd6b446641",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

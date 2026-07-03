@@ -1,0 +1,19 @@
+skills-runtime/predictive-approvals.js
+  s_8337ea0f3217d7::t_b14853568ce761 1-335
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "8b9903450b897587a72122cacf91a6cd9ba3d0af",
+  "prompts": {},
+  "sessions": {
+    "s_8337ea0f3217d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a5151e-5834-4da0-b1da-289d78df7d64",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

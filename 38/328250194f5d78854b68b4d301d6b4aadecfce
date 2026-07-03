@@ -1,0 +1,30 @@
+projects/cic/ingestion/src/reasoning/arl/memory/engine/MemoryConsistencyValidator.ts
+  s_098041771ceb78::t_46221e5b9559d8 187,189-197
+  s_098041771ceb78::t_425fccee4fcc7e 229-230,241-262
+  s_098041771ceb78::t_803acc9336ca15 349-352
+  s_098041771ceb78::t_42c4aed3db2a49 271,275-288
+  s_098041771ceb78::t_1d9c839c80283e 183-184
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_bbc1be86440e32 180-187,189-190
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "38328250194f5d78854b68b4d301d6b4aadecfce",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

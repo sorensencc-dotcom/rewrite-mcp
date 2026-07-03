@@ -1,0 +1,77 @@
+projects/cic-operator-console/kubernetes.yaml
+  s_e06868f0ac3104::t_920ff233ac02ed 1-60
+tools/clients/ideaSchemas.ts
+  s_098041771ceb78::t_3728607445f2a4 1-63
+tools/helm-service.ts
+  s_098041771ceb78::t_bbd75a35766bf8 1-69
+projects/cic-operator-console/src/pages/AgentPerformance.tsx
+  s_e06868f0ac3104::t_f6ba29342db27a 1-51
+projects/cic-operator-console/Dockerfile
+  s_e06868f0ac3104::t_4dc170682d9543 1-22
+projects/cic-operator-console/src/App.tsx
+  s_e06868f0ac3104::t_7bac451b314ab8 1-49
+projects/cic-operator-console/src/pages/ContextInspector.tsx
+  s_e06868f0ac3104::t_394be2ab86c426 1-67
+projects/cic-operator-console/src/index.css
+  s_e06868f0ac3104::t_a756ace9ee8894 1-10
+projects/cic-operator-console/tsconfig.node.json
+  s_e06868f0ac3104::t_a9944986f550c3 1-10
+projects/cic-operator-console/src/hooks/useCIC.ts
+  s_e06868f0ac3104::t_6e9a648c70531d 1-43
+projects/cic-operator-console/README.md
+  s_e06868f0ac3104::t_1919438074bfca 1-135
+projects/cic-operator-console/index.html
+  s_e06868f0ac3104::t_052764f090bd04 1-13
+benchmarks/cic/phase-status.json
+  s_098041771ceb78::t_649d1b53d59732 3,12-14,17,20-22,24
+tools/mcp/helm-server.js
+  s_098041771ceb78::t_7339c2e1f30a40 1199-1223
+  s_098041771ceb78::t_65a622e6ef5e6c 813-973
+  s_098041771ceb78::t_65cb28b5878fbf 1335-1340
+projects/cic-operator-console/src/pages/Settings.tsx
+  s_e06868f0ac3104::t_5078c7a0b71368 1-59
+projects/cic-operator-console/src/pages/Metrics.tsx
+  s_e06868f0ac3104::t_6c579ab9a77650 1-49
+projects/cic-operator-console/src/pages/CRGHealth.tsx
+  s_e06868f0ac3104::t_3d65fca9e6c588 1-32
+projects/cic-operator-console/src/pages/Dashboard.tsx
+  s_e06868f0ac3104::t_f04f87c91a660e 1-50
+projects/cic-operator-console/src/App.css
+  s_e06868f0ac3104::t_ead6e19b0888cc 1-19
+projects/cic-operator-console/src/pages/FlowExplorer.tsx
+  s_e06868f0ac3104::t_df681875249c01 1-84
+tools/mcp/test-helm-intelligence-fabric.js
+  s_098041771ceb78::t_50c52180e24e13 1-134
+projects/cic-operator-console/.env.example
+  s_e06868f0ac3104::t_474493040738f5 1
+tools/clients/ideaClientValidated.ts
+  s_098041771ceb78::t_62d1d8c39f1b67 1-84
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_2771326412f9e2 1070-1092,1294-1316
+projects/cic-operator-console/.gitignore
+  s_e06868f0ac3104::t_da346de0dba5fe 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d38ee53662c27c13e82b8d571d71a29d798c3c4e",
+  "prompts": {},
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

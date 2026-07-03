@@ -1,0 +1,28 @@
+projects/cic/src/wil/artifact-manager.ts
+  s_da4a457c4334be::t_0ce758f8e4e213 1-209
+projects/cic/tests/wil/artifact-manager.test.ts
+  s_da4a457c4334be::t_0b59c09a14e84f 1-180
+projects/cic/src/wil/foreman.ts
+  s_da4a457c4334be::t_0f74570cef3425 324,326,338,344-409
+  s_da4a457c4334be::t_0c251b30061052 41
+  s_da4a457c4334be::t_2fdc5e7425da36 17
+  s_da4a457c4334be::t_349246cefd7d8d 227-232
+projects/cic/tests/wil/foreman.test.ts
+  s_da4a457c4334be::t_8558f153f76b68 209-266
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d48fbb1c30b82415615f8bc26180484389707d3c",
+  "prompts": {},
+  "sessions": {
+    "s_da4a457c4334be": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2c02e6-04c9-4e89-a90d-34ab94a9e83f",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

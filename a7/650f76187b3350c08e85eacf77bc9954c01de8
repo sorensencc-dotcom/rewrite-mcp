@@ -1,0 +1,110 @@
+skills/cost-optimizer/index.js
+  s_ef85f8b92a3bc3::t_bcb0c540f9077a 1,8-41,45-57
+  s_ef85f8b92a3bc3::t_a3f4157cfe8b83 2-7
+  s_ef85f8b92a3bc3::t_534913a1ac753b 42-44
+skills/context-memory-manager/schema.json
+  s_ef85f8b92a3bc3::t_95e4405eded8ab 1-33
+skills/security-scanner/index.js
+  s_ef85f8b92a3bc3::t_525498a35eb058 53-56
+  s_ef85f8b92a3bc3::t_b3edc11c6fd080 2-7
+  s_ef85f8b92a3bc3::t_e05a18a5048af6 1,8-52
+skills/security-scanner/schema.json
+  s_ef85f8b92a3bc3::t_a52cb4c9af1f2e 1-10
+skills/context-memory-manager/index.test.js
+  s_ef85f8b92a3bc3::t_dc0d30d793b11c 1-89
+skills/audit-logger/schema.json
+  s_ef85f8b92a3bc3::t_fc6781ac704385 1-12
+skills/performance-profiler/README.md
+  s_ef85f8b92a3bc3::t_1a477b60a9f164 1-27
+skills/audit-logger/index.test.js
+  s_ef85f8b92a3bc3::t_faade87d2169d3 5-25
+  s_ef85f8b92a3bc3::t_362bebdb97e90d 1-4,26
+APPROVAL_FRICTION_ANALYSIS.md
+  s_098041771ceb78::t_abb0363fd90db4 1-180
+skills/audit-logger/index.js
+  s_ef85f8b92a3bc3::t_54b35eaffd2289 1-3,47-107
+  s_ef85f8b92a3bc3::t_842490d22f7c45 4-46
+skills/index.test.js
+  s_ef85f8b92a3bc3::t_7db8f889fec5f5 1-625
+skills/multi-endpoint-orchestrator/index.test.js
+  s_ef85f8b92a3bc3::t_d7ce56e9ab4c96 1-54
+skills/cost-optimizer/schema.json
+  s_ef85f8b92a3bc3::t_ebada27415beee 1-11
+skills/performance-profiler/index.js
+  s_ef85f8b92a3bc3::t_7dfc7ae8a7594f 1,12-61,67-74
+  s_ef85f8b92a3bc3::t_5e685a1d5dffa6 2-11
+  s_ef85f8b92a3bc3::t_080d2fea2306d7 62-66
+skills/context-memory-manager/index.js
+  s_ef85f8b92a3bc3::t_aedb5ad8551800 4-15
+  s_ef85f8b92a3bc3::t_500b10887499cc 37-39
+  s_ef85f8b92a3bc3::t_2f3248f5fc49a3 1-3,16-36,40-121
+skills/multi-endpoint-orchestrator/README.md
+  s_ef85f8b92a3bc3::t_3d8b7e9a161f43 1-35
+skills/performance-profiler/index.test.js
+  s_ef85f8b92a3bc3::t_107adf7b9511ba 1-18
+skills-runtime/permission-config.json
+  s_098041771ceb78::t_66dc7a2c1d7b89 1-90
+skills/dependency-analyzer/schema.json
+  s_ef85f8b92a3bc3::t_3cdfa8122a0c28 1-10
+skills/dependency-analyzer/README.md
+  s_ef85f8b92a3bc3::t_f49ff0b5a7265e 1-23
+skills/cost-optimizer/README.md
+  s_ef85f8b92a3bc3::t_7a70466e82c2ba 1-25
+skills/context-memory-manager/README.md
+  s_ef85f8b92a3bc3::t_9360e2df0170e2 1-30
+skills/audit-logger/README.md
+  s_ef85f8b92a3bc3::t_952394bb62127a 1-29
+skills/multi-endpoint-orchestrator/schema.json
+  s_ef85f8b92a3bc3::t_eaa33914c1ab7b 1-35
+skills/dependency-analyzer/index.js
+  s_ef85f8b92a3bc3::t_5fb8f279f700ea 60-62
+  s_ef85f8b92a3bc3::t_7c0f703e9363b3 1,12-59,63-64
+  s_ef85f8b92a3bc3::t_c9e08a3ed3b448 2-11
+skills/dependency-analyzer/index.test.js
+  s_ef85f8b92a3bc3::t_a27e3d288e93fc 1-20
+skills/security-scanner/index.test.js
+  s_ef85f8b92a3bc3::t_ed05d4a84c84bb 1-18
+skills-runtime/permission-manager.js
+  s_098041771ceb78::t_e40a41d7890b53 1-395
+skills/performance-profiler/schema.json
+  s_ef85f8b92a3bc3::t_80050e85c09ba8 1-11
+skills/cost-optimizer/index.test.js
+  s_ef85f8b92a3bc3::t_6d6b1e483241be 1-19
+skills/security-scanner/README.md
+  s_ef85f8b92a3bc3::t_b5ce04d3818fb9 1-25
+skills/multi-endpoint-orchestrator/index.js
+  s_ef85f8b92a3bc3::t_c16cb08ee599a5 115-124
+  s_ef85f8b92a3bc3::t_a3521e68fbd714 2-9
+  s_ef85f8b92a3bc3::t_0c88f8d5063310 1,10-114,125-130
+tools/policy-agent/package.json
+  s_ef85f8b92a3bc3::t_563052ca4207fa 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "a7650f76187b3350c08e85eacf77bc9954c01de8",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

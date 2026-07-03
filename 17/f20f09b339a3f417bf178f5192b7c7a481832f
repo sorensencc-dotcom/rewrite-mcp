@@ -1,0 +1,29 @@
+build-system/docker/labs/Dockerfile.outreach
+  s_87be2574e45b7b::t_e97bec33e44fe3 1-35
+build-system/docker/labs/Dockerfile.extractor
+  s_87be2574e45b7b::t_91e0f86e9804c0 1-35
+build-system/docker/cic/Dockerfile.evolution
+  s_87be2574e45b7b::t_4e3a3e45ac8111 1-33
+build-system/docker/inference/Dockerfile.nemotron-nano-30b
+  s_87be2574e45b7b::t_c646a6506053a8 1-38
+build-system/README.md
+  s_87be2574e45b7b::t_b187f8fa0fadaa 9-10,22-23,26,32-36
+build-system/docker/labs/Dockerfile.discovery
+  s_87be2574e45b7b::t_0078585ef2339f 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "17f20f09b339a3f417bf178f5192b7c7a481832f",
+  "prompts": {},
+  "sessions": {
+    "s_87be2574e45b7b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b95cf59e-db20-4f3c-af49-0eb752e7deab",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

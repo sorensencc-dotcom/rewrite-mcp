@@ -1,0 +1,29 @@
+history/history.jsonl
+  s_a5732a92a4d604::t_220098bf5076ca 176-177
+projects/cic/src/tool-layer/ModelTool.ts
+  s_8376f04a7d76bf::t_05969e368ec686 1-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f7c2fa6462e9fb1101bb9945693b9831a7894e33",
+  "prompts": {},
+  "sessions": {
+    "s_8376f04a7d76bf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d7c1c91-9a36-4caf-81e9-ae836444a34b",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a5732a92a4d604": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70c2ba25-27a8-4049-880c-0fbb3c107492",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

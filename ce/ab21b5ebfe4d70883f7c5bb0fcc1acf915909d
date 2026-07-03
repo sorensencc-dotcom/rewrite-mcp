@@ -1,0 +1,89 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_447479cb166a8d::t_1195ec0aaddf3b 516
+docs/cic/PHASE_23_DAYS_1_5_SUMMARY.md
+  s_30b026720f62b3::t_c38b02f07584aa 1-446
+projects/cic/src/agents/roadmapping/arps-memory-pipeline.ts
+  s_30b026720f62b3::t_49617b0174b1a6 14,27-29,34,37-38,43,56-60,66,70-72,82,86,88-102,105-107,132,155
+  s_30b026720f62b3::t_be647f08ae276d 1-13,17-26,30-33,39-42,44-55,61-65,67-69,73-81,83-85,87,103-104,108-131,133-154,156-241
+  s_30b026720f62b3::t_150eb51f683517 35-36
+  s_30b026720f62b3::t_655249566b71d2 15-16
+docs/cic/PHASE_23_KICKOFF_PLAN.md
+  s_30b026720f62b3::t_67ff68f2842d60 1-390
+src/memory/MemorySynthesizer.ts
+  s_30b026720f62b3::t_de11a51386d737 1-454
+src/memory/index.ts
+  s_30b026720f62b3::t_c1074d3eed19ec 1-4,11-17
+  s_30b026720f62b3::t_347be210e7bebc 5-10,18-22
+src/memory/MemoryAPI.ts
+  s_30b026720f62b3::t_9db893eaa09512 1-390
+docs/cic/PHASE_23_IMPLEMENTATION_COMPLETE.md
+  s_447479cb166a8d::t_346e0aa91dd610 1-399
+docs/cic/PHASE_23_PROGRESS.md
+  s_30b026720f62b3::t_a6424d8bf0f43e 2-3,9,11
+  s_30b026720f62b3::t_ab8ec7674e296a 233-274
+  s_30b026720f62b3::t_4de9001140d552 1,4-8,10,12-143,275-338
+  s_30b026720f62b3::t_72ec79bffde00d 144-232
+docs/cic/MEMORY_INTEGRATION_GUIDE.md
+  s_30b026720f62b3::t_b9d5fd335afd41 1-520
+src/memory/memory-substrate.ts
+  s_447479cb166a8d::t_eea70553583029 1-313
+.claude/settings.json
+  s_78dd2ce89a29ad::t_0d4a985fcb9e6c 9-43,47-50
+  s_30b026720f62b3::t_844de11ff616e0 44-46
+src/memory/MemoryHarvester.ts
+  s_30b026720f62b3::t_c29af1961fad8f 1-217
+docs/cic/PHASE_23_DAYS_8_9_PIPELINE_INTEGRATION.md
+  s_78dd2ce89a29ad::t_dc72496d0ccbba 1-329
+src/memory/MemoryStore.ts
+  s_30b026720f62b3::t_066201fc900389 1-405
+src/memory/memory-synthesizer.ts
+  s_447479cb166a8d::t_1f6674231cf783 1-486
+src/memory/__tests__/memory.test.ts
+  s_30b026720f62b3::t_996e21a128aa8e 503-721
+  s_30b026720f62b3::t_d2465f92ce1706 1-5,7-502,722-814
+  s_30b026720f62b3::t_8255b41d7b8c76 6
+src/memory/memory-harvester.ts
+  s_447479cb166a8d::t_6b4ab88e4c55e9 1-316
+projects/cic/tests/agents/arps-memory.integration.test.ts
+  s_30b026720f62b3::t_5bef509a3ce554 7,26,100,110-112,114-117,120,123-128,131,134,140,154,160,167,170,177,185,194,201,207,213,228,233,236,247,255-257
+  s_30b026720f62b3::t_41b8b1d5681969 12
+  s_30b026720f62b3::t_e623b4897d84c0 1-6,8-11,13-25,27-99,101-109,113,118-119,121-122,129-130,132-133,135-139,141-153,155-159,161-166,168-169,171-176,178-184,186-193,195-200,202-206,208-212,214-227,229-232,234-235,237-246,248-254,258-260
+docs/cic/mla-spec.md
+  s_30b026720f62b3::t_7fc6b5fc84c554 1-857
+docs/cic/PHASE_23_DAYS_6_7_ARPS_INTEGRATION.md
+  s_30b026720f62b3::t_c62946f5042a09 1-280
+src/memory/memory-integration.ts
+  s_447479cb166a8d::t_eb8776ae7e68c7 1-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "ceab21b5ebfe4d70883f7c5bb0fcc1acf915909d",
+  "prompts": {},
+  "sessions": {
+    "s_30b026720f62b3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c3ddb2ca-b59a-4ddd-a7cd-f4a7ec4fb814",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_447479cb166a8d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80a4074f-aa58-4ca1-a930-4beeb6f0691c",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_78dd2ce89a29ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9233db7e-c227-4efe-9dc3-ba228b5776d0",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

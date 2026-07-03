@@ -1,0 +1,22 @@
+projects/cic/src/ruflo-orchestration/FlowOrchestrator.ts
+  s_52000cc5a7d028::t_855a8cee2cff8d 374,389-426
+projects/cic/tests/array-parameter-fix.test.ts
+  s_52000cc5a7d028::t_87362457ad0217 6
+  s_52000cc5a7d028::t_e2d3ecb4bc29cf 1-5,7-178
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "1340930bc8f48044f05a40b430b4e773159e7c80",
+  "prompts": {},
+  "sessions": {
+    "s_52000cc5a7d028": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bdef8050-39a2-4df2-8823-18a541b646a3",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

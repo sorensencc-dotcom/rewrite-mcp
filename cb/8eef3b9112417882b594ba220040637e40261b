@@ -1,0 +1,31 @@
+thefoundry/projects/phase-28-3-apr-integration/Dockerfile
+  s_23364b39b23e42::t_a79d77a91cfbc9 6,8,11,14,18,22-24,30-31
+thefoundry/projects/phase-28-4-governance/Dockerfile
+  s_23364b39b23e42::t_f78c5f75abfaea 6,8,11,14,18,22-23,29-30
+thefoundry/projects/phase-25-memory-consolidation/Dockerfile
+  s_23364b39b23e42::t_e74b106b8ba849 6,8,11,14,18,22-24,30-31
+thefoundry/projects/phase-28-1-cro-integration/Dockerfile
+  s_23364b39b23e42::t_c8e9cf051a27b9 3,6,8,11,14,18,22-23,29-30
+thefoundry/projects/phase-26-torquequery/Dockerfile
+  s_23364b39b23e42::t_366d09e46781f5 6,8,11,14,18,22-24,30-31
+thefoundry/projects/phase-28-wil/Dockerfile
+  s_23364b39b23e42::t_0735d31bffb8fa 1-2,5-7,10,13-17,22-24
+thefoundry/projects/phase-28-2-manifest-loading/Dockerfile
+  s_23364b39b23e42::t_8b2abd90ffd83d 6,8,11,14,18,22-25,31-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "cb8eef3b9112417882b594ba220040637e40261b",
+  "prompts": {},
+  "sessions": {
+    "s_23364b39b23e42": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "634d2733-de5b-486e-a577-4a51780bbf56",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

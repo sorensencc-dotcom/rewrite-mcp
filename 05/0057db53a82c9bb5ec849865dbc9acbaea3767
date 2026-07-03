@@ -1,0 +1,21 @@
+CIC_DEPLOYMENT_CHECKLIST.md
+  s_e06868f0ac3104::t_e140c851bf9ccb 1-297
+CIC_QUICK_START.md
+  s_e06868f0ac3104::t_143aefa60b84ad 1-180
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "050057db53a82c9bb5ec849865dbc9acbaea3767",
+  "prompts": {},
+  "sessions": {
+    "s_e06868f0ac3104": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "21054583-e9f7-4a6f-9ee6-96b462759164",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

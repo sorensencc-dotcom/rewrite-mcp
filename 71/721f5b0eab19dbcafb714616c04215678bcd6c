@@ -1,0 +1,30 @@
+docs/cic/CIC_MASTER_ROADMAP.md
+  s_098041771ceb78::t_122662bd08ac57 150-154,156-157
+projects/cic/ingestion/src/reasoning/arl/diagnostics/ArlSelfDiagnostics.ts
+  s_098041771ceb78::t_fbde3edaf5b808 1-515
+projects/cic/ingestion/tests/reasoning/arl/diagnostics/ArlSelfDiagnostics.test.ts
+  s_098041771ceb78::t_190e5523f7bf29 1-322
+docs/cic/PHASE_7_14_SELF_DIAGNOSTICS.md
+  s_098041771ceb78::t_80ec8a88184fbe 1-337
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "71721f5b0eab19dbcafb714616c04215678bcd6c",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_098041771ceb78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de5328ec-1d8f-4151-8365-e3397df5904a",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.gitignore
+  s_08e16cffa75c17::t_153365973f46e6 86-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "d078f8fdab69a67eeaa07f1f70b3cd40a42c4970",
+  "prompts": {},
+  "sessions": {
+    "s_08e16cffa75c17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "35913245-5f3e-4f4b-85fc-8f81bd28b768",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}

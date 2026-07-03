@@ -1,0 +1,109 @@
+apps/operator-console/dashboard.js
+  s_ef85f8b92a3bc3::t_d89298283674b9 1-184
+projects/cic/ingestion/src/reasoning/arl/engine/ModelIntrospectionEngine.ts
+  s_cc99cc2cdc31cd::t_843f912f1f8778 1-122
+PHASE_44.3_EVALUATION.md
+  s_ef85f8b92a3bc3::t_8ef6bc835510fe 1-209
+projects/cic/ingestion/src/reasoning/arl/engine/ARLv2SpecEngine.ts
+  s_cc99cc2cdc31cd::t_cb600dd0570b2d 1-3,6,8,10-124
+  s_cc99cc2cdc31cd::t_72ad6677f57b26 4-5,7,9
+apps/skill-gateway/package.json
+  s_ef85f8b92a3bc3::t_8202c0d4b4ebda 1-20
+AUTONOMOUS_EXECUTION_RULES.md
+  s_cc99cc2cdc31cd::t_eb2817471c03b3 1-117
+PHASE_44.3_COMPLETION.md
+  s_ef85f8b92a3bc3::t_4be4bf798532d7 1-353
+projects/cic/ingestion/src/reasoning/arl/contracts/index.ts
+  s_cc99cc2cdc31cd::t_f6c6e349f453ac 54-57
+  s_cc99cc2cdc31cd::t_36c0c4c70a473e 58-60
+projects/cic/ingestion/src/reasoning/arl/contracts/StabilityPlane.ts
+  s_cc99cc2cdc31cd::t_c8b1671677bf07 1-44
+projects/cic/ingestion/src/reasoning/arl/engine/ARLv2ImplementationEngine.ts
+  s_cc99cc2cdc31cd::t_1b2bcee141189a 1-115
+projects/cic/ingestion/src/reasoning/arl/engine/StabilityPlaneEngine.ts
+  s_cc99cc2cdc31cd::t_a68b8890812b90 1-106
+projects/cic/ingestion/src/reasoning/arl/tests/fixtures/IntrospectionFixtures.ts
+  s_cc99cc2cdc31cd::t_099dd980fa9b0e 1-25
+skills-runtime/unified-status.js
+  s_ef85f8b92a3bc3::t_8b344b99f4b1c9 1-163
+CROSS_PLATFORM_AVAILABILITY.md
+  s_ef85f8b92a3bc3::t_437acc8439e58e 1-392
+projects/cic/ingestion/src/reasoning/arl/contracts/ARLv2Implementation.ts
+  s_cc99cc2cdc31cd::t_3a2cdff7099e56 1-36
+apps/skill-gateway/index.test.js
+  s_ef85f8b92a3bc3::t_c59e0e4fd9ecc7 1-127
+projects/cic/ingestion/src/reasoning/arl/engine/RuntimeOptimizationEngine.ts
+  s_cc99cc2cdc31cd::t_e8e6d823540f67 1-57
+apps/skill-gateway/index.js
+  s_ef85f8b92a3bc3::t_dbd1f7f0a67b05 1-348
+projects/cic/ingestion/src/reasoning/arl/engine/DistributedReasoningEngine.ts
+  s_cc99cc2cdc31cd::t_8c414defc98001 35-36,41
+  s_cc99cc2cdc31cd::t_0c03064f8a2577 1-34,37-40,42-81
+apps/operator-console/index.js
+  s_ef85f8b92a3bc3::t_c92ec286fce336 1-238
+apps/operator-console/index.html
+  s_ef85f8b92a3bc3::t_9c1c7206a9d487 1-137
+projects/cic/ingestion/src/reasoning/arl/tests/ARLv2SpecEngine.test.ts
+  s_cc99cc2cdc31cd::t_57497742901525 1-194
+projects/cic/ingestion/src/reasoning/arl/contracts/AutonomousMode.ts
+  s_cc99cc2cdc31cd::t_3694d5ef3584a5 1-47
+projects/cic/ingestion/src/reasoning/arl/contracts/RuntimeOptimization.ts
+  s_cc99cc2cdc31cd::t_797a866031a09f 1-40
+projects/cic/ingestion/src/reasoning/arl/tests/RuntimeOptimizationEngine.test.ts
+  s_cc99cc2cdc31cd::t_78fe8e3dcdaddf 1-120
+projects/cic/ingestion/src/reasoning/arl/tests/ARLv2ImplementationEngine.test.ts
+  s_cc99cc2cdc31cd::t_8513deb3fa3376 1-56
+projects/cic/ingestion/src/reasoning/arl/contracts/ARLv2Spec.ts
+  s_cc99cc2cdc31cd::t_3fb8bdc76328bd 1-50
+projects/cic/ingestion/src/reasoning/arl/contracts/DistributedReasoning.ts
+  s_cc99cc2cdc31cd::t_8c85201ccc0855 1-34
+PHASE_44.4_AND_45_DEFINITION.md
+  s_ef85f8b92a3bc3::t_6b25452c8ce7f9 1-538
+apps/skill-gateway/DEPLOYMENT_GUIDE.md
+  s_ef85f8b92a3bc3::t_7b557684c09457 1-448
+projects/cic/ingestion/src/reasoning/arl/contracts/IntrospectionTrace.ts
+  s_cc99cc2cdc31cd::t_b52df86e97fcc1 1-34
+skills-runtime/telemetry-extended.js
+  s_ef85f8b92a3bc3::t_ed46acead75ad8 1-186
+projects/cic/ingestion/src/reasoning/arl/engine/AutonomousModeEngine.ts
+  s_cc99cc2cdc31cd::t_da10b4923d326a 1-121
+projects/cic/ingestion/src/reasoning/arl/tests/AutonomousModeEngine.test.ts
+  s_cc99cc2cdc31cd::t_dcf0bdd126d912 35
+  s_cc99cc2cdc31cd::t_f67b07c5860443 1-34,36-85
+projects/cic/ingestion/src/reasoning/arl/tests/DistributedReasoningEngine.test.ts
+  s_cc99cc2cdc31cd::t_1f798ae0c2fa09 1-62
+projects/cic/ingestion/src/reasoning/arl/tests/StabilityPlaneEngine.test.ts
+  s_cc99cc2cdc31cd::t_e253c0286dc8d9 1-150,152-153,158-163,165-187
+  s_cc99cc2cdc31cd::t_502849094ed715 151,154-157,164
+projects/cic/ingestion/src/reasoning/arl/tests/ModelIntrospectionEngine.test.ts
+  s_cc99cc2cdc31cd::t_a30e956f8ac467 1-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "67e8372a10e2f0c51839754a238c3d761ebbd98e",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cc99cc2cdc31cd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a4d51c4-bcc7-4747-a463-d1bcad825ddb",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_ef85f8b92a3bc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95e8abc3-a9d7-4fd8-8502-baaa50d91773",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
