@@ -1,0 +1,27 @@
+.github/workflows/bob-validate.yml
+  s_c74da4cdd3552b::t_d2d938a515bdd2 18,52
+.github/workflows/bootstrap.yml
+  s_c74da4cdd3552b::t_d7caf71a177cf1 7,25
+.github/workflows/nightly-bench.yml
+  s_c74da4cdd3552b::t_2c57039e98a79a 10,64,87
+.github/workflows/nightly-validate.yml
+  s_c74da4cdd3552b::t_f38ee308b6df70 10,34
+.github/workflows/operator.yml
+  s_c74da4cdd3552b::t_b3ee0b4672cc68 9,24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "fc6646c860828d9d60fd021cc2d82bfc64c7e19e",
+  "prompts": {},
+  "sessions": {
+    "s_c74da4cdd3552b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d2fbbf7d-1d34-4479-994f-38749ce93498",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Claude Haiku 4.5 <sorensencc@gmail.com>"
+    }
+  }
+}
