@@ -1,12 +1,17 @@
 #!/bin/sh
 
-# Pre-commit hook: Code Review + Documentation Generation
+# Pre-commit hook: Secret Scan + Code Review + Documentation Generation
 # Blocks on serious issues only
-# Auto-generates documentation and commits it
 
 echo ""
 echo "🔍 Pre-commit checks running..."
 echo ""
+
+# Secret scan (blocks on staged .env files or credential patterns)
+sh "$(git rev-parse --show-toplevel)/scripts/secret-scan-hook.sh"
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 node scripts/code-review.js
 if [ $? -ne 0 ]; then
