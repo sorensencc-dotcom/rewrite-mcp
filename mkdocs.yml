@@ -1,0 +1,45 @@
+site_name: Offline-First AI Routing & Drift Control
+site_description: Technical manual and operator console guide for the MAAL/CIC offline-first routing and feedback loop.
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: cyan
+  features:
+    - navigation.instant
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+
+nav:
+  - Overview: index.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Routing: architecture/routing.md
+      - Drift Engine: architecture/drift.md
+      - Ingestion: architecture/ingestion.md
+  - Gateway:
+      - Adapter Gateway API: gateway/adapterGatewayAPI.md
+      - Provider Adapters: gateway/providers.md
+  - CIC Substrate:
+      - Harvester Integration: cic/harvester.md
+      - Drift Engine: cic/driftEngine.md
+      - Replay Harness: cic/replayHarness.md
+  - Operator Console:
+      - Control Dashboard: dashboard/dashboard.md
+  - Verification:
+      - Routing Tests: tests/routing-tests.md
+      - Feedback Loop Tests: tests/feedback-loop-tests.md
+      - Dashboard Tests: tests/dashboard-tests.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - tables
+  - attr_list
+  - md_in_html

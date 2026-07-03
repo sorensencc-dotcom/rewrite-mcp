@@ -1,0 +1,21 @@
+{
+  "status": "active",
+  "category": "automation",
+  "runtime": "typescript",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "tags": [],
+  "id": "tool-lifecycle-manager",
+  "timeout": 30000,
+  "description": "Manages skill lifecycle: registration, distribution, validation, deprecation",
+  "entrypoint": "src/index.ts",
+  "name": "Tool Lifecycle Manager",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "0.1.0"
+}

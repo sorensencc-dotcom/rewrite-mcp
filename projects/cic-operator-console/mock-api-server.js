@@ -276,37 +276,64 @@ function generateAgentDetail(agentId) {
 // ── Routes ────────────────────────────────────────────────────────────────────
 
 /**
- * Health check endpoint
+ * Legacy CIC routes (for backward compatibility)
  */
 app.get('/cic/health', (req, res) => {
   res.json(generateHealth());
 });
 
-/**
- * Pipelines endpoint
- */
 app.get('/cic/pipelines', (req, res) => {
   res.json(generatePipelines());
 });
 
-/**
- * Alerts endpoint
- */
 app.get('/cic/alerts', (req, res) => {
   res.json(generateAlerts());
 });
 
-/**
- * Workspace endpoint
- */
 app.get('/cic/workspace', (req, res) => {
   res.json(generateWorkspace());
 });
 
-/**
- * CIC actions endpoint (accepts POST)
- */
 app.post('/cic/actions', (req, res) => {
+  const { action, debugMode, autoScale } = req.body;
+  const actionMap = {
+    'start-phase': 'Phase execution started',
+    'pause': 'Pipeline paused',
+    'resume': 'Pipeline resumed',
+    'reset': 'Pipeline reset',
+  };
+
+  res.json({
+    success: true,
+    message: actionMap[action] || 'Action received',
+  });
+});
+
+/**
+ * Console v3 routes (used by ConsoleV3 component via vite proxy)
+ * /api/console/health → rewrite to /console/health on backend
+ */
+app.get('/console/health', (req, res) => {
+  res.json(generateHealth());
+});
+
+app.get('/console/pipelines', (req, res) => {
+  res.json(generatePipelines());
+});
+
+app.get('/console/alerts', (req, res) => {
+  res.json(generateAlerts());
+});
+
+app.get('/console/workspace', (req, res) => {
+  res.json(generateWorkspace());
+});
+
+app.get('/console/agents', (req, res) => {
+  res.json(generateAgents());
+});
+
+app.post('/console/actions', (req, res) => {
   const { action, debugMode, autoScale } = req.body;
   const actionMap = {
     'start-phase': 'Phase execution started',
@@ -414,19 +441,25 @@ app.get('/health', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`\n🎯 Mock API Server running on http://localhost:${PORT}`);
-  console.log(`\n   Endpoints available:`);
+  console.log(`\n   Console v3 Endpoints (via vite /api proxy):`);
+  console.log(`   GET  /console/health`);
+  console.log(`   GET  /console/pipelines`);
+  console.log(`   GET  /console/alerts`);
+  console.log(`   GET  /console/workspace`);
+  console.log(`   GET  /console/agents`);
+  console.log(`   POST /console/actions`);
+  console.log(`   GET  /agents/:id`);
+  console.log(`   POST /agents/:id/invoke`);
+  console.log(`   POST /agents/:id/pause`);
+  console.log(`   POST /agents/:id/restart`);
+  console.log(`   POST /agents/:id/snapshot`);
+  console.log(`\n   Legacy CIC routes (backward compat):`);
   console.log(`   GET  /cic/health`);
   console.log(`   GET  /cic/pipelines`);
   console.log(`   GET  /cic/alerts`);
   console.log(`   GET  /cic/workspace`);
   console.log(`   GET  /cic/metrics`);
   console.log(`   POST /cic/actions`);
-  console.log(`   GET  /agents`);
-  console.log(`   GET  /agents/:id`);
-  console.log(`   POST /agents/:id/invoke`);
-  console.log(`   POST /agents/:id/pause`);
-  console.log(`   POST /agents/:id/restart`);
-  console.log(`   POST /agents/:id/snapshot`);
   console.log(`\n   Frontend proxy: /api → http://localhost:${PORT}\n`);
 });
 

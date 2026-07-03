@@ -7,6 +7,7 @@ import {
   WorkspacePanel,
   ControlsPanel,
 } from '../panels';
+import { useTheme } from '../hooks/useTheme';
 import { cic } from '../tokens/cic-tokens';
 
 /**
@@ -25,6 +26,7 @@ import { cic } from '../tokens/cic-tokens';
  */
 export default function ConsoleV3() {
   const [apiReady, setApiReady] = useState(false);
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const checkApi = async () => {
@@ -43,9 +45,22 @@ export default function ConsoleV3() {
 
   return (
     <div className={`p-6 flex flex-col gap-4 min-h-0 ${cic.cls.bg}`}>
-      {/* Status bar */}
-      <div className={`text-xs ${cic.cls.textMuted}`}>
-        {apiReady ? '✓ Backend ready' : '• Connecting...'}
+      {/* Header: Status + Theme Toggle */}
+      <div className="flex items-center justify-between">
+        <div className={`text-xs ${cic.cls.textMuted}`}>
+          {apiReady ? '✓ Backend ready' : '• Connecting...'}
+        </div>
+        <button
+          type="button"
+          onClick={toggle}
+          className={`px-3 py-1 text-xs rounded transition ${
+            theme === 'dark'
+              ? 'bg-cic-muted text-white hover:bg-cic-border'
+              : 'bg-gray-200 text-black hover:bg-gray-300'
+          }`}
+        >
+          {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+        </button>
       </div>
 
       {/* Tier 1: Health (60%) + Pipelines (40%) */}

@@ -1,1 +1,17 @@
-node_modules
+node_modules/
+dist/
+coverage/
+*.log
+
+# Environment files — never commit real values (see 2026-07-03 key rotation)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Claude agent worktrees
+.claude/worktrees/
+
+# Python
+__pycache__/
+.venv/

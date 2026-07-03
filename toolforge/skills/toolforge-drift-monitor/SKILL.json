@@ -1,0 +1,21 @@
+{
+  "status": "active",
+  "category": "monitoring",
+  "runtime": "typescript",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "tags": [],
+  "id": "toolforge-drift-monitor",
+  "timeout": 30000,
+  "description": "Detects drift between canonical, distributed, manifest, and Cowork systems",
+  "entrypoint": "src/index.ts",
+  "name": "Toolforge Drift Monitor",
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "owner": "soren",
+  "version": "0.1.0"
+}
