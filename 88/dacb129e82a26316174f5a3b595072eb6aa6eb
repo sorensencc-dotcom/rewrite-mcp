@@ -1,0 +1,29 @@
+.husky/pre-commit
+  s_0a97f98aab9ab3::t_12728924d18ee5 3,10-15
+scripts/secret-scan-hook.sh
+  s_e62e9e4eccc8a9::t_b6cf70dde9f828 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "88dacb129e82a26316174f5a3b595072eb6aa6eb",
+  "prompts": {},
+  "sessions": {
+    "s_0a97f98aab9ab3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "326ed19a-b6bc-4fa5-bc92-39ad09aec125",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_e62e9e4eccc8a9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "364e34f8-c169-4845-8a19-418f94d74faa",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
