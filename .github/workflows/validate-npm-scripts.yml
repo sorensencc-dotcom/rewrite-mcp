@@ -1,0 +1,42 @@
+name: Validate NPM Scripts
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'package.json'
+      - '.github/workflows/*.yml'
+      - 'scripts/validate-npm-scripts.js'
+  pull_request:
+    paths:
+      - 'package.json'
+      - '.github/workflows/*.yml'
+      - 'scripts/validate-npm-scripts.js'
+
+jobs:
+  validate-npm-scripts:
+    runs-on: ubuntu-22.04
+    name: Check npm scripts match workflows
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate npm scripts
+        run: npm run validate-npm-scripts
+
+      - name: Report results
+        if: failure()
+        run: |
+          echo "❌ NPM script validation failed"
+          echo "Ensure all 'npm run X' calls in .github/workflows/ exist in package.json"
+          echo "Run locally: npm run validate-npm-scripts"
+          exit 1

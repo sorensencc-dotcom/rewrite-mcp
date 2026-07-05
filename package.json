@@ -43,6 +43,7 @@
     "policy:exceptions": "node tools/policy-agent/evaluate-skill.js exceptions",
     "policy:audit": "node tools/policy-agent/evaluate-skill.js audit",
     "prepare": "husky",
+    "validate-npm-scripts": "node scripts/validate-npm-scripts.js",
     "bench:capture": "node benchmarks/capture/capture.js",
     "bench:metadata": "npx tsx benchmarks/tools/extractMetadata.ts",
     "bench:opus-sonnet": "npx tsx benchmarks/tools/opusSonnetBenchmark.ts",

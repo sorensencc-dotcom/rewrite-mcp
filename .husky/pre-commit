@@ -20,6 +20,11 @@ fi
 
 node scripts/generate-docs.js
 
+node scripts/validate-npm-scripts.js
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
 # Environment issue: If pre-commit times out (slow filesystem/antivirus),
 # bypass with: git commit --no-verify
 # See docs/operations/environment-optimization.md for details.
