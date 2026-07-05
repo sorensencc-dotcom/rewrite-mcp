@@ -1,0 +1,34 @@
+.husky/pre-commit
+  s_73dd6234326c0c::t_b30f44c66a7bb6 16-21
+  s_24531e0f82e936::t_739bdd46523ac9 23-25
+scripts/code-review.js
+  s_73dd6234326c0c::t_089f164fd0a20b 1-206
+scripts/generate-docs.js
+  s_73dd6234326c0c::t_1848f3dc009fb6 1-219
+scripts/shared-utils.js
+  s_73dd6234326c0c::t_a27c916c015fd9 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0264704db3d68e95e2e78806d1a52ecb08f72932",
+  "prompts": {},
+  "sessions": {
+    "s_24531e0f82e936": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c6043ef0-b3d2-41c0-8516-888507c4bdef",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_73dd6234326c0c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ed91774-4707-4f64-8180-e6601008ef76",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
