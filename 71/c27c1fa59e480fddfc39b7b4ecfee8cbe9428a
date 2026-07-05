@@ -1,0 +1,19 @@
+bob/generated/docs/docs-index.md
+  s_79407ba934b57c::t_71386532be0224 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "71c27c1fa59e480fddfc39b7b4ecfee8cbe9428a",
+  "prompts": {},
+  "sessions": {
+    "s_79407ba934b57c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ca4ef35a-3852-4f69-9e4d-1a8a98e99fcb",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
