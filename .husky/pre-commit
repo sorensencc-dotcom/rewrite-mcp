@@ -13,15 +13,16 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# NOTE: Disabled due to CommonJS/ESM module conflicts in package.json (type: "module")
-# This infrastructure issue is unrelated to the package.json restore fix.
-# Pre-commit hook will be restored after ESM migration of scripts/*.js
-# node scripts/code-review.cjs
-# if [ $? -ne 0 ]; then
-#   exit 1
-# fi
+node scripts/code-review.js
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
-# node scripts/generate-docs.cjs
+node scripts/generate-docs.js
+
+# Environment issue: If pre-commit times out (slow filesystem/antivirus),
+# bypass with: git commit --no-verify
+# See docs/operations/environment-optimization.md for details.
 
 echo "✅ Pre-commit checks passed - ready to commit!"
 echo ""
