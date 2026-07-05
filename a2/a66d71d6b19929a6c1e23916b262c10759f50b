@@ -1,0 +1,21 @@
+.husky/pre-commit
+  s_73dd6234326c0c::t_9fe69923852f1a 16-22,24
+package.json
+  s_73dd6234326c0c::t_6d7f1124be1267 2-12,14-79,82-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a2a66d71d6b19929a6c1e23916b262c10759f50b",
+  "prompts": {},
+  "sessions": {
+    "s_73dd6234326c0c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ed91774-4707-4f64-8180-e6601008ef76",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
