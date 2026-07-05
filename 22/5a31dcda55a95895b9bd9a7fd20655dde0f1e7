@@ -1,0 +1,29 @@
+scripts/validate-npm-scripts.js
+  s_73dd6234326c0c::t_e8113d0ec5c93d 11,14-15
+  s_73dd6234326c0c::t_bd4a48bdfcec6e 31-50
+  s_73dd6234326c0c::t_3438fe1f7abb25 1-10,12-13,16-30,51-86
+docs/npm-scripts.md
+  s_73dd6234326c0c::t_159362addf623c 1-156
+.husky/pre-commit
+  s_73dd6234326c0c::t_59d6d4f1e176c6 23-27
+package.json
+  s_73dd6234326c0c::t_cd4ea99326c8c7 46
+.github/workflows/validate-npm-scripts.yml
+  s_73dd6234326c0c::t_4cfdc35dbdd18b 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "225a31dcda55a95895b9bd9a7fd20655dde0f1e7",
+  "prompts": {},
+  "sessions": {
+    "s_73dd6234326c0c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ed91774-4707-4f64-8180-e6601008ef76",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
