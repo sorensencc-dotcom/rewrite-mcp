@@ -23,6 +23,7 @@ export interface DesignVariant {
 
 export interface RedesignInput {
   url: string;
+  namespace?: string; // Mapped client namespace (optional)
   title?: string;
   designTokens?: Record<string, string>;
   computedStylesSummary?: string;
@@ -37,6 +38,24 @@ export interface RedesignOutput {
   passesCompleted: number;
   generationTimeMs: number;
   generatedAt: string;
+  notebooklm_partial_results?: boolean;
+  notebooklm_error_code?: string;
+}
+
+export class TokenDriftHaltError extends Error {
+  constructor(public driftScore: number, public mismatchedTokens: Record<string, { expected: string; found: string }>) {
+    super(`Variant generation halted due to high token drift: ${driftScore.toFixed(4)} (limit: 0.15)`);
+    this.name = 'TokenDriftHaltError';
+    Object.setPrototypeOf(this, TokenDriftHaltError.prototype);
+  }
+}
+
+export class ValidationTimeoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ValidationTimeoutError';
+    Object.setPrototypeOf(this, ValidationTimeoutError.prototype);
+  }
 }
 
 interface StructureAnalysis {
@@ -67,11 +86,13 @@ export class RedesignAgent {
   private readonly model: string;
   private readonly maxTokens: number;
   private readonly injectedClient?: Anthropic;
+  private readonly torqueUrl: string;
 
-  constructor(options: { model?: string; maxTokens?: number; client?: Anthropic } = {}) {
+  constructor(options: { model?: string; maxTokens?: number; client?: Anthropic; torqueUrl?: string } = {}) {
     this.model = options.model ?? 'claude-haiku-4-5-20251001';
     this.maxTokens = options.maxTokens ?? 4096;
     this.injectedClient = options.client;
+    this.torqueUrl = options.torqueUrl ?? 'http://localhost:8000';
   }
 
   async redesign(input: RedesignInput): Promise<RedesignOutput> {
@@ -87,15 +108,114 @@ export class RedesignAgent {
     const startTime = Date.now();
     const variantCount = input.variantCount ?? 3;
 
-    const structure = await this.passStructureAnalysis(client, input);
-    const cssLayout = await this.passCssLayout(client, input, structure);
-    const rawVariants = await this.passVariantGeneration(client, input, structure, cssLayout, variantCount);
+    // 1. Fetch federated context from TorqueQuery if namespace is provided
+    let federatedTokens = { ...input.designTokens };
+    let federatedBrief = '';
+    let notebooklm_partial_results = false;
+    let notebooklm_error_code: string | undefined;
 
-    const sourceTokens = input.designTokens ?? {};
-    const variants: DesignVariant[] = rawVariants.map((v, i) => {
+    if (input.namespace) {
+      try {
+        const fetchFn = typeof fetch === 'function' ? fetch : (await import('node-fetch')).default as any;
+        const response = await fetchFn(`${this.torqueUrl}/search/federated`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: 'brand design guidelines colors fonts stylesheet',
+            namespaces: [input.namespace],
+            limit: 5,
+            options: {
+              rrf_constant: 60,
+              include_notebooklm: true,
+              notebooklm_weight: 1.0
+            }
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json() as { results?: any[]; notebooklm_partial_results?: boolean; notebooklm_error_code?: string };
+          if (data.notebooklm_partial_results) {
+            notebooklm_partial_results = true;
+            notebooklm_error_code = data.notebooklm_error_code;
+          }
+          // Extract text bodies to assemble style guides
+          if (data.results && data.results.length > 0) {
+            const fusedText = data.results.map(r => r.body).join('\n\n');
+            federatedBrief = `Federated NotebookLM Context:\n${fusedText}\n`;
+            
+            // Regex parse key-value tokens from notebook text: --name: value
+            const tokenRegex = /--([a-zA-Z0-9_-]+)\s*:\s*([^;]+)/g;
+            let match;
+            while ((match = tokenRegex.exec(fusedText)) !== null) {
+              const key = match[1].trim();
+              const val = match[2].trim();
+              if (key && val) {
+                federatedTokens[key] = val;
+              }
+            }
+          }
+        } else {
+          // Non-blocking cascade fallback
+          notebooklm_partial_results = true;
+          notebooklm_error_code = 'HTTP_ERROR';
+        }
+      } catch (err) {
+        // Fallback to local
+        notebooklm_partial_results = true;
+        notebooklm_error_code = 'TIMEOUT_OR_NETWORK_ERROR';
+      }
+    }
+
+    // Combine local designTokens with extracted federatedTokens
+    const resolvedTokens = { ...input.designTokens, ...federatedTokens };
+
+    // Inject federated context into inputs for passStructureAnalysis
+    const enrichedInput = {
+      ...input,
+      designTokens: resolvedTokens,
+      computedStylesSummary: input.computedStylesSummary 
+        ? `${input.computedStylesSummary}\n\n${federatedBrief}` 
+        : federatedBrief || undefined
+    };
+
+    const structure = await this.passStructureAnalysis(client, enrichedInput);
+    const cssLayout = await this.passCssLayout(client, enrichedInput, structure);
+    const rawVariants = await this.passVariantGeneration(client, enrichedInput, structure, cssLayout, variantCount);
+
+    const variants: DesignVariant[] = [];
+    for (let i = 0; i < rawVariants.length; i++) {
+      const v = rawVariants[i];
+      const validationStart = Date.now();
+
+      // Enforce the 200ms validation budget gate
       const w3c = this.validateW3C(v.html);
-      const drift = this.calculateTokenDrift(sourceTokens, v.css);
-      return {
+      const drift = this.calculateTokenDrift(resolvedTokens, v.css);
+      
+      const validationDuration = Date.now() - validationStart;
+      if (validationDuration > 200) {
+        // Abort and halt execution on timeout gate violation
+        const timeoutErr = new ValidationTimeoutError(`Validation exceeded latency budget: ${validationDuration}ms (limit: 200ms)`);
+        console.error(`[Token Validation] ${timeoutErr.message}`);
+        // Log diagnostic JSON to tq-error.log would go here.
+        throw timeoutErr;
+      }
+
+      // Check drift limit (0.15)
+      if (drift > 0.15) {
+        const mismatched: Record<string, { expected: string; found: string }> = {};
+        for (const [key, expected] of Object.entries(resolvedTokens)) {
+          const match = new RegExp(`--${key.replace(/\./g, '-')}\\s*:\\s*([^;]+);`).exec(v.css);
+          const found = match ? match[1].trim() : '(missing)';
+          if (found === '(missing)' || this.normalizeColor(found) !== this.normalizeColor(expected)) {
+            mismatched[key] = { expected, found };
+          }
+        }
+        const driftErr = new TokenDriftHaltError(drift, mismatched);
+        console.error(`[Token Validation] ${driftErr.message}`);
+        throw driftErr;
+      }
+
+      variants.push({
         variantId: `variant-${i + 1}`,
         variantName: v.name,
         html: v.html,
@@ -104,16 +224,23 @@ export class RedesignAgent {
         w3cValid: w3c.valid,
         w3cErrors: w3c.errors,
         generatedAt: new Date().toISOString(),
-      };
-    });
+      });
+    }
 
-    return {
+    const output: RedesignOutput = {
       variants,
       sourceUrl: input.url,
       passesCompleted: 3,
       generationTimeMs: Date.now() - startTime,
       generatedAt: new Date().toISOString(),
     };
+
+    if (notebooklm_partial_results) {
+      output.notebooklm_partial_results = true;
+      output.notebooklm_error_code = notebooklm_error_code;
+    }
+
+    return output;
   }
 
   private async passStructureAnalysis(
@@ -262,15 +389,93 @@ export class RedesignAgent {
     return { valid: errors.length === 0, errors };
   }
 
+  normalizeColor(color: string): string {
+    const clean = color.trim().toLowerCase().replace(/\s+/g, '');
+    
+    // Hex shorthand translation: #fff -> #ffffff
+    if (clean.startsWith('#')) {
+      if (clean.length === 4) {
+        return '#' + clean[1] + clean[1] + clean[2] + clean[2] + clean[3] + clean[3];
+      }
+      return clean;
+    }
+
+    // RGB/RGBA translation
+    if (clean.startsWith('rgb')) {
+      const match = /rgba?\((\d+),(\d+),(\d+)(?:,[\d.]+)?\)/.exec(clean);
+      if (match) {
+        const r = parseInt(match[1], 10).toString(16).padStart(2, '0');
+        const g = parseInt(match[2], 10).toString(16).padStart(2, '0');
+        const b = parseInt(match[3], 10).toString(16).padStart(2, '0');
+        return `#${r}${g}${b}`;
+      }
+    }
+
+    // HSL/HSLA translation (simplified translation to preserve consistency)
+    if (clean.startsWith('hsl')) {
+      const match = /hsla?\((\d+),(\d+)%,(\d+)%(?:,[\d.]+)?\)/.exec(clean);
+      if (match) {
+        const h = parseInt(match[1], 10) / 360;
+        const s = parseInt(match[2], 10) / 100;
+        const l = parseInt(match[3], 10) / 100;
+        
+        let r, g, b;
+        if (s === 0) {
+          r = g = b = l;
+        } else {
+          const hue2rgb = (p: number, q: number, t: number) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1/6) return p + (q - p) * 6 * t;
+            if (t < 1/2) return q;
+            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+          };
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          const p = 2 * l - q;
+          r = hue2rgb(p, q, h + 1/3);
+          g = hue2rgb(p, q, h);
+          b = hue2rgb(p, q, h - 1/3);
+        }
+        
+        const rh = Math.round(r * 255).toString(16).padStart(2, '0');
+        const gh = Math.round(g * 255).toString(16).padStart(2, '0');
+        const bh = Math.round(b * 255).toString(16).padStart(2, '0');
+        return `#${rh}${gh}${bh}`;
+      }
+    }
+
+    return clean;
+  }
+
   calculateTokenDrift(sourceTokens: Record<string, string>, generatedCSS: string): number {
     const entries = Object.entries(sourceTokens);
     if (entries.length === 0) return 0;
 
-    let usedCount = 0;
-    for (const [, value] of entries) {
-      if (value && generatedCSS.includes(value)) usedCount++;
+    let penalties = 0;
+    for (const [key, value] of entries) {
+      const safeKey = key.replace(/\./g, '-');
+      // 1. First try matching custom property --key: value;
+      const valPattern = new RegExp(`--${safeKey}\\s*:\\s*([^;]+);`);
+      const match = valPattern.exec(generatedCSS);
+
+      if (match) {
+        const foundVal = match[1].trim();
+        const expectedNormalized = this.normalizeColor(value);
+        const foundNormalized = this.normalizeColor(foundVal);
+        if (expectedNormalized !== foundNormalized) {
+          penalties += 1.0; // Value is mismatched
+        }
+      } else {
+        // 2. Sibling/legacy fallback: check if value appears in generatedCSS as a raw substring (e.g. `color: #007bff`)
+        if (value && generatedCSS.includes(value)) {
+          // Found as raw substring, no penalty
+        } else {
+          penalties += 1.0; // Token is missing entirely
+        }
+      }
     }
 
-    return parseFloat((1 - usedCount / entries.length).toFixed(4));
+    return parseFloat((penalties / entries.length).toFixed(4));
   }
 }
