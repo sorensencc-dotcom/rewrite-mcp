@@ -1,0 +1,39 @@
+projects/cic/src/harvester/extractors/EXTRACTOR.md
+  s_0710a0017e5320::t_efa2d209a7c89d 1-12
+toolforge/skills/work-summarizer/REVIEW.md
+  s_d3640c043b3d74::t_457e8b282f55a4 1-51
+toolforge/skills/operator-image-build/docs/USAGE.md
+  s_24531e0f82e936::t_128fd8b60bc394 1-207
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b8fe58398571a240db8b4a86d7b1b04ab00e751c",
+  "prompts": {},
+  "sessions": {
+    "s_0710a0017e5320": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9242950-293a-40b7-8715-26c8fb6b3114",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_24531e0f82e936": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c6043ef0-b3d2-41c0-8516-888507c4bdef",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_d3640c043b3d74": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6a3bc7a-e5d5-4837-8509-3c2a67fc7c7d",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
