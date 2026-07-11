@@ -1,0 +1,1865 @@
+projects/cic/src/harvester/extractors/ImageAnalyzerV3.integration.md
+  s_3785db752d70c7::t_c34e9b3b429473 1-600
+projects/cic/src/harvester/extractors/imageAnalyzerV3.ts
+  s_3785db752d70c7::t_137d2fd58fa697 229-244,253-258
+  s_3785db752d70c7::t_eea086d2501514 510-533,543-579,587,595,599-732
+  s_3785db752d70c7::t_2bdf5af8ee7eb7 1-228,245-252,259-294,331-341,361,363,386-394,423-437,472-482,496-509,534-542,580-586,588-594,596-598,733-763,796-805,823-848
+  s_3785db752d70c7::t_fdf207df065101 295-330,342-360,362,364-385,395-422,438-471,483-495
+  s_3785db752d70c7::t_8f2aded4852088 764-795,806-822
+projects/cic/src/harvester/extractors/imageAnalyzerV3.test.ts
+  s_3785db752d70c7::t_07efaff06744ff 364
+  s_3785db752d70c7::t_01ff967ba84104 346
+  s_3785db752d70c7::t_1b9c593de27409 442-444,446-460
+  s_3785db752d70c7::t_8723593356c4ef 344,361-362,365-366,375,377-386
+  s_3785db752d70c7::t_448332bf2db2a5 1-343,345,347-360,363,367-374,376,387-441,445,461-580,585-607,609-610,614-732
+  s_3785db752d70c7::t_2c55684b4e64b5 581-584
+  s_3785db752d70c7::t_1b9126bf94d68f 608,611-613
+projects/cic/src/harvester/extractors/ImageAnalyzerV3.quick-ref.md
+  s_3785db752d70c7::t_2df30baf44b517 1-326
+projects/cic/src/harvester/extractors/ImageAnalyzerV3.spec.md
+  s_3785db752d70c7::t_ed6c9c634d5dfb 1-568
+projects/cic/src/harvester/extractors/ImageAnalyzerV3.README.md
+  s_3785db752d70c7::t_5351222cfb7fef 1-460
+projects/cic/src/harvester/extractors/ImageAnalyzerV3.INDEX.md
+  s_3785db752d70c7::t_ae2c464edb3cf3 1-425
+projects/cic/package.json
+  s_a2008b2c85832c::t_e2476f650d2364 24,26,32
+castironforge/README.md
+  s_3785db752d70c7::t_c4f086ec5266dd 1-126
+castironforge/cic-ingestion/CHANGELOG.md
+  s_3785db752d70c7::t_548bf50a774288 1-100
+castironforge/cic-ingestion/docs/README.md
+  s_3785db752d70c7::t_ac9081f1f58005 1-89
+castironforge/cic-ingestion/docs/_coverpage.md
+  s_3785db752d70c7::t_9fc49609a31f92 1-15
+castironforge/cic-ingestion/docs/_sidebar.md
+  s_3785db752d70c7::t_73bfc43beb165a 1-20
+castironforge/cic-ingestion/docs/api.md
+  s_3785db752d70c7::t_169f848ce3ad74 1-300
+castironforge/cic-ingestion/docs/classification-rules.md
+  s_3785db752d70c7::t_825a808d95aab8 1-14
+castironforge/cic-ingestion/docs/configuration.md
+  s_3785db752d70c7::t_eb5c9c05fcae3e 1-162
+castironforge/cic-ingestion/docs/daily-research-agents.md
+  s_3785db752d70c7::t_e15044631d87cc 1-37
+castironforge/cic-ingestion/docs/database.md
+  s_3785db752d70c7::t_3a0eb5ab014ff1 1-165
+castironforge/cic-ingestion/docs/gemini-integration.md
+  s_3785db752d70c7::t_cd43fe0b2ee638 1-27
+castironforge/cic-ingestion/docs/lineage-spec.md
+  s_3785db752d70c7::t_2a1ba4f69c81ac 1-34
+castironforge/cic-ingestion/docs/mover-idempotency.md
+  s_3785db752d70c7::t_e5f5cfad32e8f9 1-18
+castironforge/cic-ingestion/docs/operator-runbooks/mover-runbook.md
+  s_3785db752d70c7::t_c0a17295643da9 1-59
+castironforge/cic-ingestion/docs/pipeline.md
+  s_3785db752d70c7::t_02fa48dafc02de 1-168
+castironforge/cic-ingestion/docs/post-ingestion-mover.md
+  s_3785db752d70c7::t_8702e38bfb68f2 1-19
+castironforge/cic-ingestion/docs/scheduling.md
+  s_3785db752d70c7::t_f0668ffa13091f 1-150
+castironforge/cic-ingestion/docs/sidecar-enrichment-engine.md
+  s_3785db752d70c7::t_a4f98ab5035b63 1-36
+castironforge/cic-ingestion/docs/updated-pipeline.md
+  s_3785db752d70c7::t_aa6c55c54b4d55 1-18
+castironforge/docs/CHANGELOG.md
+  s_3785db752d70c7::t_b6c635bde98d23 1-93
+castironforge/docs/CIC_Master_Roadmap.md
+  s_3785db752d70c7::t_3dcf786590525b 1-418
+castironforge/docs/CIC_SYSTEM.md
+  s_3785db752d70c7::t_9468d54c128ae4 1-230
+"castironforge/docs/Daily Logs/CIC-Business-Development-Log_2026_04_21.md"
+  s_3785db752d70c7::t_1ff82b63d97264 1-36
+"castironforge/docs/Daily Logs/CIC-Business-Development-Log_2026_04_26.md"
+  s_3785db752d70c7::t_88669146d40007 1-24
+"castironforge/docs/Daily Logs/digests/cic-news-digest_2026-04-23_v1.md"
+  s_3785db752d70c7::t_6ebaff341b1c31 1-45
+"castironforge/docs/Daily Logs/digests/cic-news-digest_2026-04-24_v1.md"
+  s_3785db752d70c7::t_0bac012611a63f 1-43
+"castironforge/docs/Daily Logs/digests/cic-news-digest_2026-04-24_v2.md"
+  s_3785db752d70c7::t_caeab55e8df166 1-94
+"castironforge/docs/Daily Logs/digests/cic-news-digest_2026-04-24_v3.md"
+  s_3785db752d70c7::t_f97a009cb777a8 1-38
+"castironforge/docs/Daily Logs/digests/cic-news-digest_2026-04-25_v1.md"
+  s_3785db752d70c7::t_b571c92f3e580c 1-43
+"castironforge/docs/Daily Logs/webresearch/2024_01_01.md"
+  s_3785db752d70c7::t_4cbffa95e31e48 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_02.md"
+  s_3785db752d70c7::t_e4150235a17343 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_03.md"
+  s_3785db752d70c7::t_f03cda5a7f6058 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_04.md"
+  s_3785db752d70c7::t_32419c3e970cb1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_05.md"
+  s_3785db752d70c7::t_8c9975ea3ae38c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_06.md"
+  s_3785db752d70c7::t_170db439d1cd80 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_07.md"
+  s_3785db752d70c7::t_08ba27218bac2b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_08.md"
+  s_3785db752d70c7::t_81e6e38fc8d9f5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_09.md"
+  s_3785db752d70c7::t_e352056889303f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_10.md"
+  s_3785db752d70c7::t_b220981023eb39 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_11.md"
+  s_3785db752d70c7::t_a1295ab51a961a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_12.md"
+  s_3785db752d70c7::t_8b230365b48c4d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_13.md"
+  s_3785db752d70c7::t_c7a1def3736491 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_14.md"
+  s_3785db752d70c7::t_061b8dab4cdf50 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_15.md"
+  s_3785db752d70c7::t_458baa8a3e5a34 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_16.md"
+  s_3785db752d70c7::t_2a10925f136999 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_17.md"
+  s_3785db752d70c7::t_2705a5946e0ac6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_18.md"
+  s_3785db752d70c7::t_aaae935033502d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_19.md"
+  s_3785db752d70c7::t_480f0c3e25536b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_20.md"
+  s_3785db752d70c7::t_7d0153a53c931e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_21.md"
+  s_3785db752d70c7::t_cf3909c534bd8d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_22.md"
+  s_3785db752d70c7::t_82c98422268ad7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_23.md"
+  s_3785db752d70c7::t_c464b5ac88aea0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_24.md"
+  s_3785db752d70c7::t_9bc2524f4740c9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_25.md"
+  s_3785db752d70c7::t_48c352b9db3cb8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_26.md"
+  s_3785db752d70c7::t_19f934c8bbbf39 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_27.md"
+  s_3785db752d70c7::t_7605c5d4bebec1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_28.md"
+  s_3785db752d70c7::t_c4af16b44a814c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_29.md"
+  s_3785db752d70c7::t_fc920dc7bfc531 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_30.md"
+  s_3785db752d70c7::t_9b3b2ae14f9292 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_01_31.md"
+  s_3785db752d70c7::t_116299486dab5f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_01.md"
+  s_3785db752d70c7::t_2b6a686b118072 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_02.md"
+  s_3785db752d70c7::t_c2ab7da56324bd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_03.md"
+  s_3785db752d70c7::t_f8ce5f5bc19f28 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_04.md"
+  s_3785db752d70c7::t_293e4b14552f83 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_05.md"
+  s_3785db752d70c7::t_e449ee2d118d21 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_06.md"
+  s_3785db752d70c7::t_f954181e3db478 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_07.md"
+  s_3785db752d70c7::t_0b20f6ce284b0d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_08.md"
+  s_3785db752d70c7::t_afec9290841320 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_09.md"
+  s_3785db752d70c7::t_91f000598e51ed 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_10.md"
+  s_3785db752d70c7::t_08fe7a835143d3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_11.md"
+  s_3785db752d70c7::t_fd87610d46211d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_12.md"
+  s_3785db752d70c7::t_702bc0ee3ea5a7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_13.md"
+  s_3785db752d70c7::t_af723e621eb96a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_14.md"
+  s_3785db752d70c7::t_1e6e0c22963525 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_15.md"
+  s_3785db752d70c7::t_307dce5c4b2592 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_16.md"
+  s_3785db752d70c7::t_1bf435fe16db46 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_17.md"
+  s_3785db752d70c7::t_fd7b7da3ecbe75 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_18.md"
+  s_3785db752d70c7::t_1d8457313c7c1b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_19.md"
+  s_3785db752d70c7::t_42704bffadb8e3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_20.md"
+  s_3785db752d70c7::t_956b8e1207ebec 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_21.md"
+  s_3785db752d70c7::t_8e4b2e552490e6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_22.md"
+  s_3785db752d70c7::t_b260dfbf0acc0f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_23.md"
+  s_3785db752d70c7::t_78a280e877c0ab 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_24.md"
+  s_3785db752d70c7::t_aa310507971bcf 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_25.md"
+  s_3785db752d70c7::t_88b6d64d03bb2f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_26.md"
+  s_3785db752d70c7::t_8f89b6cdf1624a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_27.md"
+  s_3785db752d70c7::t_63a3e475f8191a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_28.md"
+  s_3785db752d70c7::t_d37c709e1abaae 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_02_29.md"
+  s_3785db752d70c7::t_f16c2e55d94ef6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_01.md"
+  s_3785db752d70c7::t_a1853dc47b4b0c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_02.md"
+  s_3785db752d70c7::t_7b0125beae271b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_03.md"
+  s_3785db752d70c7::t_42a2854c658e9c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_04.md"
+  s_3785db752d70c7::t_35f0de4d149d3c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_05.md"
+  s_3785db752d70c7::t_5c2ba1d4f989f4 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_06.md"
+  s_3785db752d70c7::t_1d2102f59d4a90 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_07.md"
+  s_3785db752d70c7::t_68f664c94b0a3f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_08.md"
+  s_3785db752d70c7::t_ae327a2e0db087 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_09.md"
+  s_3785db752d70c7::t_29a446b068d0bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_10.md"
+  s_3785db752d70c7::t_a757a43197692f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_11.md"
+  s_3785db752d70c7::t_fddaaf225fdd66 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_12.md"
+  s_3785db752d70c7::t_b7ea92b4eec209 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_13.md"
+  s_3785db752d70c7::t_266ec2ba9d7b8e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_14.md"
+  s_3785db752d70c7::t_96b7a46a256e18 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_15.md"
+  s_3785db752d70c7::t_31a329e7c60f06 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_16.md"
+  s_3785db752d70c7::t_f14d096fded767 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_17.md"
+  s_3785db752d70c7::t_3f42b5c1900bab 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_18.md"
+  s_3785db752d70c7::t_83ad9a4276aee1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_19.md"
+  s_3785db752d70c7::t_1da803994d68a8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_20.md"
+  s_3785db752d70c7::t_2552b37143b9f0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_21.md"
+  s_3785db752d70c7::t_b42076cca21e9f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_22.md"
+  s_3785db752d70c7::t_4a4b4425a3aaec 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_23.md"
+  s_3785db752d70c7::t_813cc3459bc399 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_24.md"
+  s_3785db752d70c7::t_1180b91d80c4cd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_25.md"
+  s_3785db752d70c7::t_11933216aeddfd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_26.md"
+  s_3785db752d70c7::t_3b0d3ba894442f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_27.md"
+  s_3785db752d70c7::t_a07b04c0a1ed7b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_28.md"
+  s_3785db752d70c7::t_f87fba4ec158a8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_29.md"
+  s_3785db752d70c7::t_56f638d14a1955 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_30.md"
+  s_3785db752d70c7::t_cce59643550589 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_03_31.md"
+  s_3785db752d70c7::t_8d5ca264100e29 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_01.md"
+  s_3785db752d70c7::t_c46493848f5652 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_02.md"
+  s_3785db752d70c7::t_dceef2306f1997 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_03.md"
+  s_3785db752d70c7::t_36f02a49365386 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_04.md"
+  s_3785db752d70c7::t_f5ce0b0177b7f3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_05.md"
+  s_3785db752d70c7::t_e6b81ab7a1aff2 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_06.md"
+  s_3785db752d70c7::t_ed67794c8a7494 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_07.md"
+  s_3785db752d70c7::t_d81fb8de18bb7a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_08.md"
+  s_3785db752d70c7::t_3ac22a4f02d7cf 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_09.md"
+  s_3785db752d70c7::t_4427a487d42142 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_10.md"
+  s_3785db752d70c7::t_7f244dc9f26a63 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_11.md"
+  s_3785db752d70c7::t_edcc5f27f66679 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_12.md"
+  s_3785db752d70c7::t_879bfb9201ef0f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_13.md"
+  s_3785db752d70c7::t_d071b65e3d69a1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_14.md"
+  s_3785db752d70c7::t_b34c22add9e7c5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_15.md"
+  s_3785db752d70c7::t_9effbfae082423 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_16.md"
+  s_3785db752d70c7::t_ef7b157f3bffa6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_17.md"
+  s_3785db752d70c7::t_d949b7efe8efdc 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_18.md"
+  s_3785db752d70c7::t_c60339e9f2dcd8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_19.md"
+  s_3785db752d70c7::t_d13c84ac9e52a2 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_20.md"
+  s_3785db752d70c7::t_abe1bdf5d4e885 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_21.md"
+  s_3785db752d70c7::t_ac99110eb409d6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_22.md"
+  s_3785db752d70c7::t_faeb24a869e5c7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_23.md"
+  s_3785db752d70c7::t_21aa87fa37857f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_24.md"
+  s_3785db752d70c7::t_d2cd008607b1a6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_25.md"
+  s_3785db752d70c7::t_98b0baa04b19f8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_26.md"
+  s_3785db752d70c7::t_43d11adaf4ec92 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_27.md"
+  s_3785db752d70c7::t_56c02c0ab4eb39 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_28.md"
+  s_3785db752d70c7::t_e8133cd89b163d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_29.md"
+  s_3785db752d70c7::t_817970e9ae68ea 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_04_30.md"
+  s_3785db752d70c7::t_64c79b2c4c3e8a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_01.md"
+  s_3785db752d70c7::t_1aed610788c080 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_02.md"
+  s_3785db752d70c7::t_047880e23d3a73 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_03.md"
+  s_3785db752d70c7::t_3768712a6e18b9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_04.md"
+  s_3785db752d70c7::t_807bfb613bd92f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_05.md"
+  s_3785db752d70c7::t_278e9675d2111d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_06.md"
+  s_3785db752d70c7::t_ba4ae9c0c1bcfb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_07.md"
+  s_3785db752d70c7::t_e150938486475d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_08.md"
+  s_3785db752d70c7::t_c28ebc3e1d5622 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_09.md"
+  s_3785db752d70c7::t_e55ae59d2816c2 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_10.md"
+  s_3785db752d70c7::t_04ce13d6cc88ec 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_11.md"
+  s_3785db752d70c7::t_8f19323353e325 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_12.md"
+  s_3785db752d70c7::t_fdad427cd06812 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_13.md"
+  s_3785db752d70c7::t_20381f0d811d47 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_14.md"
+  s_3785db752d70c7::t_7ece0a6a355df8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_15.md"
+  s_3785db752d70c7::t_95f20e3e93bd2a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_16.md"
+  s_3785db752d70c7::t_fb1d24dea72165 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_17.md"
+  s_3785db752d70c7::t_02087e12274e34 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_18.md"
+  s_3785db752d70c7::t_0c05688d0c961f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_19.md"
+  s_3785db752d70c7::t_088650022867d5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_20.md"
+  s_3785db752d70c7::t_788e67c6dd1b2a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_21.md"
+  s_3785db752d70c7::t_418aae3ee5a3cd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_22.md"
+  s_3785db752d70c7::t_d7acc92903387f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_23.md"
+  s_3785db752d70c7::t_5e092ef48c40bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_24.md"
+  s_3785db752d70c7::t_d8d2d0869147a1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_25.md"
+  s_3785db752d70c7::t_735d4c4a243dbf 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_26.md"
+  s_3785db752d70c7::t_88455606e603c3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_27.md"
+  s_3785db752d70c7::t_e25cc5f62a1e70 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_28.md"
+  s_3785db752d70c7::t_a78e56eaf80e9f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_29.md"
+  s_3785db752d70c7::t_c6284ffcbfe09f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_30.md"
+  s_3785db752d70c7::t_dd01a3995effe3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_05_31.md"
+  s_3785db752d70c7::t_003ed5e296fa5d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_01.md"
+  s_3785db752d70c7::t_67985261d4a03c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_02.md"
+  s_3785db752d70c7::t_6099d3f9507e95 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_03.md"
+  s_3785db752d70c7::t_5adbf881b34418 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_04.md"
+  s_3785db752d70c7::t_91663a5d7533d5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_05.md"
+  s_3785db752d70c7::t_56ef06442bffff 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_06.md"
+  s_3785db752d70c7::t_75f864fc571226 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_07.md"
+  s_3785db752d70c7::t_a16606ff844f95 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_08.md"
+  s_3785db752d70c7::t_c6d9ce2bd36705 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_09.md"
+  s_3785db752d70c7::t_291cdaeee05ea0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_10.md"
+  s_3785db752d70c7::t_dd4e1250baddbb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_11.md"
+  s_3785db752d70c7::t_be21c30bfd19a5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_12.md"
+  s_3785db752d70c7::t_beca38ffea71b6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_13.md"
+  s_3785db752d70c7::t_c4558bac17e678 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_14.md"
+  s_3785db752d70c7::t_92cb2cc2dd46c1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_15.md"
+  s_3785db752d70c7::t_290afdf87a41bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_16.md"
+  s_3785db752d70c7::t_785feba83a8de1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_17.md"
+  s_3785db752d70c7::t_1d8e63dff45dd4 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_18.md"
+  s_3785db752d70c7::t_a2dd24b405c2dd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_19.md"
+  s_3785db752d70c7::t_34b623fc4f4a2d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_20.md"
+  s_3785db752d70c7::t_b2c40ddcbf26a7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_21.md"
+  s_3785db752d70c7::t_b9a51b07d68fb4 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_22.md"
+  s_3785db752d70c7::t_b3a75eb8e9a981 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_23.md"
+  s_3785db752d70c7::t_b81c78a9ed68dd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_24.md"
+  s_3785db752d70c7::t_2ceacf05bd19fe 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_25.md"
+  s_3785db752d70c7::t_d01ac392896205 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_26.md"
+  s_3785db752d70c7::t_e4d60757af114a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_27.md"
+  s_3785db752d70c7::t_96a600076d3ddc 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_28.md"
+  s_3785db752d70c7::t_fa04009bea56a7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_29.md"
+  s_3785db752d70c7::t_bc26f7f32fb652 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_06_30.md"
+  s_3785db752d70c7::t_02413b73040ea0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_01.md"
+  s_3785db752d70c7::t_e15ee1e062581a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_02.md"
+  s_3785db752d70c7::t_df18ffe6089cb5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_03.md"
+  s_3785db752d70c7::t_4cb257c67c71b4 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_04.md"
+  s_3785db752d70c7::t_dbd0d127e1240d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_05.md"
+  s_3785db752d70c7::t_a2aeb9caebdc53 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_06.md"
+  s_3785db752d70c7::t_595b8785c89f42 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_07.md"
+  s_3785db752d70c7::t_cc3e0192fbda07 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_08.md"
+  s_3785db752d70c7::t_838d2d4d76a759 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_09.md"
+  s_3785db752d70c7::t_c0e018c0443302 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_10.md"
+  s_3785db752d70c7::t_38e2a2d601ed5f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_11.md"
+  s_3785db752d70c7::t_69a6f677ffecb3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_12.md"
+  s_3785db752d70c7::t_530660c237f469 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_13.md"
+  s_3785db752d70c7::t_cad6269d5a22fe 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_14.md"
+  s_3785db752d70c7::t_f8cafab47b49a9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_15.md"
+  s_3785db752d70c7::t_ea68e6ae796084 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_16.md"
+  s_3785db752d70c7::t_2a692c514b4e69 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_17.md"
+  s_3785db752d70c7::t_64e0d9571b6392 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_18.md"
+  s_3785db752d70c7::t_673793c2db695b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_19.md"
+  s_3785db752d70c7::t_ec23e122bc77f9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_20.md"
+  s_3785db752d70c7::t_d823ecbe57085c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_21.md"
+  s_3785db752d70c7::t_186e8a7964b2e0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_22.md"
+  s_3785db752d70c7::t_281d4f755cc687 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_23.md"
+  s_3785db752d70c7::t_b50261813d12d3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_24.md"
+  s_3785db752d70c7::t_4e9c4e87100667 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_25.md"
+  s_3785db752d70c7::t_7ebef896a3399c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_26.md"
+  s_3785db752d70c7::t_2536ffd9243424 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_27.md"
+  s_3785db752d70c7::t_621e155271ea57 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_28.md"
+  s_3785db752d70c7::t_465d4f86686901 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_29.md"
+  s_3785db752d70c7::t_4e76c44b5d33aa 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_30.md"
+  s_3785db752d70c7::t_1e15621929104b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_07_31.md"
+  s_3785db752d70c7::t_05222ded46468c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_01.md"
+  s_3785db752d70c7::t_b50ab7080d5b08 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_02.md"
+  s_3785db752d70c7::t_28997814e55772 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_03.md"
+  s_3785db752d70c7::t_9538081741e82d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_04.md"
+  s_3785db752d70c7::t_ca622129bd374f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_05.md"
+  s_3785db752d70c7::t_9f3eb00b923875 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_06.md"
+  s_3785db752d70c7::t_ce1e5b13358ae7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_07.md"
+  s_3785db752d70c7::t_b508f0e351107b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_08.md"
+  s_3785db752d70c7::t_8b81798bc4797c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_09.md"
+  s_3785db752d70c7::t_c1103df46d2d66 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_10.md"
+  s_3785db752d70c7::t_c55380904a12a6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_11.md"
+  s_3785db752d70c7::t_acddbb20b7697c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_12.md"
+  s_3785db752d70c7::t_5e005f492a266e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_13.md"
+  s_3785db752d70c7::t_7155d261c4b164 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_14.md"
+  s_3785db752d70c7::t_92cfa66e07ae90 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_15.md"
+  s_3785db752d70c7::t_0b39580803fb29 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_16.md"
+  s_3785db752d70c7::t_197f8dc61ac7e9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_17.md"
+  s_3785db752d70c7::t_a1ef7e205cfafe 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_18.md"
+  s_3785db752d70c7::t_5600cbc16eccf6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_19.md"
+  s_3785db752d70c7::t_16f3122904dd59 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_20.md"
+  s_3785db752d70c7::t_b6757cb5ec8552 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_21.md"
+  s_3785db752d70c7::t_cb5db88116b308 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_22.md"
+  s_3785db752d70c7::t_beac9235fd3db6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_23.md"
+  s_3785db752d70c7::t_0cd27a36908191 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_24.md"
+  s_3785db752d70c7::t_78043dc44d5d2a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_25.md"
+  s_3785db752d70c7::t_07f2112fede8d3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_26.md"
+  s_3785db752d70c7::t_ffab401b1c5f49 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_27.md"
+  s_3785db752d70c7::t_3e7e14b465cd30 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_28.md"
+  s_3785db752d70c7::t_4d07f0edaec951 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_29.md"
+  s_3785db752d70c7::t_9bd19dfdcb90e5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_30.md"
+  s_3785db752d70c7::t_9ce99835e4bf0f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_08_31.md"
+  s_3785db752d70c7::t_b6f97072eea77b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_01.md"
+  s_3785db752d70c7::t_f58e07f51125e3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_02.md"
+  s_3785db752d70c7::t_4105dbec0e78ce 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_03.md"
+  s_3785db752d70c7::t_4639476e865973 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_04.md"
+  s_3785db752d70c7::t_33fe51388a0119 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_05.md"
+  s_3785db752d70c7::t_ccbd7817bdfb59 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_06.md"
+  s_3785db752d70c7::t_710bcb8ce78acd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_07.md"
+  s_3785db752d70c7::t_4ebd7e73b05bb6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_08.md"
+  s_3785db752d70c7::t_6b033b12b71970 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_09.md"
+  s_3785db752d70c7::t_6a29eb3d9c7e03 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_10.md"
+  s_3785db752d70c7::t_66f1a54d4e53c8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_11.md"
+  s_3785db752d70c7::t_768f2390e58cae 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_12.md"
+  s_3785db752d70c7::t_09d222fbbf43df 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_13.md"
+  s_3785db752d70c7::t_7279dc2c470478 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_14.md"
+  s_3785db752d70c7::t_632d4fd260bf57 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_15.md"
+  s_3785db752d70c7::t_109c9b4a82fa25 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_16.md"
+  s_3785db752d70c7::t_f1387dc391aff8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_17.md"
+  s_3785db752d70c7::t_1b48eff3ea6b28 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_18.md"
+  s_3785db752d70c7::t_151dbbf7585acc 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_19.md"
+  s_3785db752d70c7::t_a09140c0eee466 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_20.md"
+  s_3785db752d70c7::t_9dccb781878055 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_21.md"
+  s_3785db752d70c7::t_1f6d8c86516b14 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_22.md"
+  s_3785db752d70c7::t_f7572961186c21 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_23.md"
+  s_3785db752d70c7::t_3655590c291e74 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_24.md"
+  s_3785db752d70c7::t_f84fa17053e846 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_25.md"
+  s_3785db752d70c7::t_e2712fbda430be 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_26.md"
+  s_3785db752d70c7::t_25868def06f8ca 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_27.md"
+  s_3785db752d70c7::t_06e5a64f674fd0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_28.md"
+  s_3785db752d70c7::t_3c7a432cb276bd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_29.md"
+  s_3785db752d70c7::t_dc451815e9bde9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_09_30.md"
+  s_3785db752d70c7::t_32a261e6ea6073 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_01.md"
+  s_3785db752d70c7::t_c09535c495ba85 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_02.md"
+  s_3785db752d70c7::t_040b6ee183f6ad 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_03.md"
+  s_3785db752d70c7::t_9cd63b671e3a84 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_04.md"
+  s_3785db752d70c7::t_5dd8e04596b4ca 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_05.md"
+  s_3785db752d70c7::t_d719d87f29256d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_06.md"
+  s_3785db752d70c7::t_ca9d82889bb753 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_07.md"
+  s_3785db752d70c7::t_107608c057195b 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_08.md"
+  s_3785db752d70c7::t_4218a74bf857a3 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_09.md"
+  s_3785db752d70c7::t_e184f3087c8fd9 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_10.md"
+  s_3785db752d70c7::t_8b0f0bfbd15371 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_11.md"
+  s_3785db752d70c7::t_28e6f9fccbe4c7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_12.md"
+  s_3785db752d70c7::t_518bf87f1a8277 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_13.md"
+  s_3785db752d70c7::t_458e38cf07641e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_14.md"
+  s_3785db752d70c7::t_70f6542759392d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_15.md"
+  s_3785db752d70c7::t_41ce2d63d32e35 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_16.md"
+  s_3785db752d70c7::t_7e5dd76b18020e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_17.md"
+  s_3785db752d70c7::t_a3eda26d6c4e6e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_18.md"
+  s_3785db752d70c7::t_2b647805936a4f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_19.md"
+  s_3785db752d70c7::t_b8a5ebcb4792be 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_20.md"
+  s_3785db752d70c7::t_7396d48a153f07 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_21.md"
+  s_3785db752d70c7::t_0c123d85cc21d0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_22.md"
+  s_3785db752d70c7::t_7024e3fb68cb26 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_23.md"
+  s_3785db752d70c7::t_94bcea06c57eea 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_24.md"
+  s_3785db752d70c7::t_5ab1fbd64a24f1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_25.md"
+  s_3785db752d70c7::t_12e1839c30da3e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_26.md"
+  s_3785db752d70c7::t_90b8adab557b03 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_27.md"
+  s_3785db752d70c7::t_a6548e4f366c4c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_28.md"
+  s_3785db752d70c7::t_ce619d9967002d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_29.md"
+  s_3785db752d70c7::t_65185a5e4994a6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_30.md"
+  s_3785db752d70c7::t_e56b1a79a67dca 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_10_31.md"
+  s_3785db752d70c7::t_4c86a961905502 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_01.md"
+  s_3785db752d70c7::t_f4547cbad2a981 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_02.md"
+  s_3785db752d70c7::t_0dd2203abe5c47 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_03.md"
+  s_3785db752d70c7::t_0d7ee458466e19 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_04.md"
+  s_3785db752d70c7::t_a4d4e2f062e063 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_05.md"
+  s_3785db752d70c7::t_4faf25223b86d0 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_06.md"
+  s_3785db752d70c7::t_8b7b967b43140c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_07.md"
+  s_3785db752d70c7::t_a5485dc4ac5347 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_08.md"
+  s_3785db752d70c7::t_236dbe760669ec 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_09.md"
+  s_3785db752d70c7::t_e8da09204fd4d2 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_10.md"
+  s_3785db752d70c7::t_47626438533946 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_11.md"
+  s_3785db752d70c7::t_d0cb6190577786 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_12.md"
+  s_3785db752d70c7::t_db24fa3df13a1e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_13.md"
+  s_3785db752d70c7::t_55980014ddc612 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_14.md"
+  s_3785db752d70c7::t_22db7e11d74c7c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_15.md"
+  s_3785db752d70c7::t_4a567027f0c549 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_16.md"
+  s_3785db752d70c7::t_0eff4c494a3e1e 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_17.md"
+  s_3785db752d70c7::t_66401f6412a0fa 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_18.md"
+  s_3785db752d70c7::t_d0af7ec3afd6dc 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_19.md"
+  s_3785db752d70c7::t_ba77c6bb3199bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_20.md"
+  s_3785db752d70c7::t_66860890527db5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_21.md"
+  s_3785db752d70c7::t_3b896b311b0ea8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_22.md"
+  s_3785db752d70c7::t_c9b6f8532c2945 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_23.md"
+  s_3785db752d70c7::t_db5f4755bf539a 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_24.md"
+  s_3785db752d70c7::t_bbd14a4f60872f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_25.md"
+  s_3785db752d70c7::t_733b81c865bc39 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_26.md"
+  s_3785db752d70c7::t_9f7d1b1fe99e68 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_27.md"
+  s_3785db752d70c7::t_4942bcf792768d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_28.md"
+  s_3785db752d70c7::t_ae983e1b4e36cc 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_29.md"
+  s_3785db752d70c7::t_093b473432f568 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_11_30.md"
+  s_3785db752d70c7::t_f02131b252986d 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_01.md"
+  s_3785db752d70c7::t_b6674efc8194ed 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_02.md"
+  s_3785db752d70c7::t_92d5010bd591ba 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_03.md"
+  s_3785db752d70c7::t_555147bfbbe8fa 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_04.md"
+  s_3785db752d70c7::t_1660da13b360ac 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_05.md"
+  s_3785db752d70c7::t_63e5f2469dac04 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_06.md"
+  s_3785db752d70c7::t_9019cbb6f2d173 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_07.md"
+  s_3785db752d70c7::t_63f27a183e1575 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_08.md"
+  s_3785db752d70c7::t_52c068a4328af6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_09.md"
+  s_3785db752d70c7::t_95a97fa335d1da 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_10.md"
+  s_3785db752d70c7::t_dae4f62642cdd6 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_11.md"
+  s_3785db752d70c7::t_c36cdefb786fb1 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_12.md"
+  s_3785db752d70c7::t_528c81cbc0f237 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_13.md"
+  s_3785db752d70c7::t_d1626088307966 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_14.md"
+  s_3785db752d70c7::t_4646ff8306d5c4 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_15.md"
+  s_3785db752d70c7::t_d9c80dc66ac230 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_16.md"
+  s_3785db752d70c7::t_d4bec02cdbb2bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_17.md"
+  s_3785db752d70c7::t_3b8f3567b940d7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_18.md"
+  s_3785db752d70c7::t_6638ac19a50b7f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_19.md"
+  s_3785db752d70c7::t_21b2aa2202aab5 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_20.md"
+  s_3785db752d70c7::t_8fd79a44f9f93f 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_21.md"
+  s_3785db752d70c7::t_112002a1a11671 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_22.md"
+  s_3785db752d70c7::t_e0961cee7675e8 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_23.md"
+  s_3785db752d70c7::t_6e6f851ca9119c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_24.md"
+  s_3785db752d70c7::t_27e1b4dcd10c27 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_25.md"
+  s_3785db752d70c7::t_0e4a34d212bbcf 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_26.md"
+  s_3785db752d70c7::t_e073f9c718acac 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_27.md"
+  s_3785db752d70c7::t_3a3787b95baae7 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_28.md"
+  s_3785db752d70c7::t_6199c26936679c 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_29.md"
+  s_3785db752d70c7::t_24cbd960bcf0bd 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_30.md"
+  s_3785db752d70c7::t_8f0948489693a2 1-22
+"castironforge/docs/Daily Logs/webresearch/2024_12_31.md"
+  s_3785db752d70c7::t_b4956f4f6a7b14 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_01.md"
+  s_3785db752d70c7::t_43a001a538be28 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_02.md"
+  s_3785db752d70c7::t_b075073edac420 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_03.md"
+  s_3785db752d70c7::t_1d6b6b0eecc00e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_04.md"
+  s_3785db752d70c7::t_7b1fef4d2b2e9d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_05.md"
+  s_3785db752d70c7::t_b6f0edc96f72b2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_06.md"
+  s_3785db752d70c7::t_143901a8ad0c0f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_07.md"
+  s_3785db752d70c7::t_43d078c0f33c50 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_08.md"
+  s_3785db752d70c7::t_25388599183aad 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_09.md"
+  s_3785db752d70c7::t_8e8f47b82856ab 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_10.md"
+  s_3785db752d70c7::t_53589b868a9cea 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_11.md"
+  s_3785db752d70c7::t_21f1fb8fdd5b34 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_12.md"
+  s_3785db752d70c7::t_7eb610076cac60 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_13.md"
+  s_3785db752d70c7::t_51bb5a5dfb4570 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_14.md"
+  s_3785db752d70c7::t_0ada356a8a6a32 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_15.md"
+  s_3785db752d70c7::t_1f0c945815a728 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_16.md"
+  s_3785db752d70c7::t_6c22e35f0a2ca1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_17.md"
+  s_3785db752d70c7::t_51998a7967fa8c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_18.md"
+  s_3785db752d70c7::t_542811d370f97e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_19.md"
+  s_3785db752d70c7::t_821f091a15b92e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_20.md"
+  s_3785db752d70c7::t_807a3f5658b4a3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_21.md"
+  s_3785db752d70c7::t_f894abab6d4dba 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_22.md"
+  s_3785db752d70c7::t_8296b6a428f1f5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_23.md"
+  s_3785db752d70c7::t_9ce8f47e06f2ab 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_24.md"
+  s_3785db752d70c7::t_e4d5a15d3c7162 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_25.md"
+  s_3785db752d70c7::t_6752fb4c728c8a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_26.md"
+  s_3785db752d70c7::t_4645c8f53e924a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_27.md"
+  s_3785db752d70c7::t_843e35725b02c4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_28.md"
+  s_3785db752d70c7::t_e33979a821b3fb 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_29.md"
+  s_3785db752d70c7::t_00c7f5f5f4f732 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_30.md"
+  s_3785db752d70c7::t_92833ce591b9f3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_01_31.md"
+  s_3785db752d70c7::t_27ca6491def1ba 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_01.md"
+  s_3785db752d70c7::t_a3bdca9a91dac4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_02.md"
+  s_3785db752d70c7::t_608afe750b3e87 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_03.md"
+  s_3785db752d70c7::t_f26141b8a6fd34 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_04.md"
+  s_3785db752d70c7::t_f067cb8c916bbd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_05.md"
+  s_3785db752d70c7::t_a0e4907a736310 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_06.md"
+  s_3785db752d70c7::t_0ce781939ef913 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_07.md"
+  s_3785db752d70c7::t_04f6dc6cd2753f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_08.md"
+  s_3785db752d70c7::t_71473549b5f30e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_09.md"
+  s_3785db752d70c7::t_1371f0478e97da 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_10.md"
+  s_3785db752d70c7::t_5ce25478372b31 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_11.md"
+  s_3785db752d70c7::t_4a49f47b36a734 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_12.md"
+  s_3785db752d70c7::t_9bb7cd7f6bd788 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_13.md"
+  s_3785db752d70c7::t_f877007d3d613b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_14.md"
+  s_3785db752d70c7::t_471e43afa886d5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_15.md"
+  s_3785db752d70c7::t_36e5b8c9b2ae76 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_16.md"
+  s_3785db752d70c7::t_c65dca5da4f533 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_17.md"
+  s_3785db752d70c7::t_25e704b2dac13d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_18.md"
+  s_3785db752d70c7::t_252e843c852f84 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_19.md"
+  s_3785db752d70c7::t_3a5e8af463a1c9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_20.md"
+  s_3785db752d70c7::t_f13ab90b08b883 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_21.md"
+  s_3785db752d70c7::t_243c2e882914cc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_22.md"
+  s_3785db752d70c7::t_9884c818068754 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_23.md"
+  s_3785db752d70c7::t_cf3200b542094d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_24.md"
+  s_3785db752d70c7::t_75759297dca642 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_25.md"
+  s_3785db752d70c7::t_ed37e2cc2d147e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_26.md"
+  s_3785db752d70c7::t_084b461f3d4197 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_27.md"
+  s_3785db752d70c7::t_687b68dd1778e7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_02_28.md"
+  s_3785db752d70c7::t_05c0c086d0a261 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_01.md"
+  s_3785db752d70c7::t_7075f237fffc22 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_02.md"
+  s_3785db752d70c7::t_f53925bfd3b2c3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_03.md"
+  s_3785db752d70c7::t_4018cecea4f7ec 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_04.md"
+  s_3785db752d70c7::t_dd00c6a774f8ab 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_05.md"
+  s_3785db752d70c7::t_082fbf25d8e588 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_06.md"
+  s_3785db752d70c7::t_6424e7e84b44f9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_07.md"
+  s_3785db752d70c7::t_c7e1aa4271a95e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_08.md"
+  s_3785db752d70c7::t_eca06ecf3db654 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_09.md"
+  s_3785db752d70c7::t_3e3dd4b8b4a89e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_10.md"
+  s_3785db752d70c7::t_4b848e60e67c28 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_11.md"
+  s_3785db752d70c7::t_474955946f260f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_12.md"
+  s_3785db752d70c7::t_6020da8f8dd3db 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_13.md"
+  s_3785db752d70c7::t_73c64351d276c9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_14.md"
+  s_3785db752d70c7::t_a0eeb27c383978 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_15.md"
+  s_3785db752d70c7::t_f297f7db386639 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_16.md"
+  s_3785db752d70c7::t_f0815e2570d0b1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_17.md"
+  s_3785db752d70c7::t_6c7f25f46d887c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_18.md"
+  s_3785db752d70c7::t_7a43a1e59c4038 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_19.md"
+  s_3785db752d70c7::t_67d6cff68e21f3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_20.md"
+  s_3785db752d70c7::t_7c8ebbd872cb2b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_21.md"
+  s_3785db752d70c7::t_bc94c4ca70520a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_22.md"
+  s_3785db752d70c7::t_0e7d70e5dfda8c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_23.md"
+  s_3785db752d70c7::t_bc27f02ebcd5a8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_24.md"
+  s_3785db752d70c7::t_6fe7a1ec5475b5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_25.md"
+  s_3785db752d70c7::t_ea56fe3d8b1483 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_26.md"
+  s_3785db752d70c7::t_f527f402da98e4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_27.md"
+  s_3785db752d70c7::t_e4bdeb95fc8cba 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_28.md"
+  s_3785db752d70c7::t_3c46f3a70566b4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_29.md"
+  s_3785db752d70c7::t_fcb6a8449fe7cd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_30.md"
+  s_3785db752d70c7::t_5d158e2b884219 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_03_31.md"
+  s_3785db752d70c7::t_2a70366a08e96a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_01.md"
+  s_3785db752d70c7::t_6adab687318656 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_02.md"
+  s_3785db752d70c7::t_9f5d83efd1883c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_03.md"
+  s_3785db752d70c7::t_dd0fc2ef9c9c31 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_04.md"
+  s_3785db752d70c7::t_cf54cc34f2ffb5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_05.md"
+  s_3785db752d70c7::t_2e12254d751f57 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_06.md"
+  s_3785db752d70c7::t_f0f5f16760ee35 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_07.md"
+  s_3785db752d70c7::t_0e3f78e32a0372 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_08.md"
+  s_3785db752d70c7::t_8afe818db8cf0c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_09.md"
+  s_3785db752d70c7::t_36a97b3eff871d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_10.md"
+  s_3785db752d70c7::t_1afa76033110e4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_11.md"
+  s_3785db752d70c7::t_c0998011348e11 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_12.md"
+  s_3785db752d70c7::t_4228bbccdeead3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_13.md"
+  s_3785db752d70c7::t_e53da4e3dfbcfd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_14.md"
+  s_3785db752d70c7::t_eee982d9a35753 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_15.md"
+  s_3785db752d70c7::t_51946e3f168bf3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_16.md"
+  s_3785db752d70c7::t_03568eeeb23047 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_17.md"
+  s_3785db752d70c7::t_8a339c49a6729d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_18.md"
+  s_3785db752d70c7::t_a77762ec0e808e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_19.md"
+  s_3785db752d70c7::t_257227ed77aae6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_20.md"
+  s_3785db752d70c7::t_33e652a1551436 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_21.md"
+  s_3785db752d70c7::t_f70bd87ab844e1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_22.md"
+  s_3785db752d70c7::t_4696e894c19015 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_23.md"
+  s_3785db752d70c7::t_f4f888fcd9cd6b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_24.md"
+  s_3785db752d70c7::t_c15ba41bfc806f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_25.md"
+  s_3785db752d70c7::t_2e6e7739d9196e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_26.md"
+  s_3785db752d70c7::t_a0a4fde3f22004 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_27.md"
+  s_3785db752d70c7::t_6dd08d77574a23 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_28.md"
+  s_3785db752d70c7::t_74424464c82678 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_29.md"
+  s_3785db752d70c7::t_94c2384d6382a2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_04_30.md"
+  s_3785db752d70c7::t_afe0e4d95bf2b6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_01.md"
+  s_3785db752d70c7::t_c026899d69ac13 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_02.md"
+  s_3785db752d70c7::t_17e467fa991d38 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_03.md"
+  s_3785db752d70c7::t_ebadbbd76c71b0 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_04.md"
+  s_3785db752d70c7::t_7e14cd145901a6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_05.md"
+  s_3785db752d70c7::t_668b3c7e10e2d2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_06.md"
+  s_3785db752d70c7::t_07f77fd16b49b3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_07.md"
+  s_3785db752d70c7::t_c12ae755751f05 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_08.md"
+  s_3785db752d70c7::t_b55da5cb268b5b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_09.md"
+  s_3785db752d70c7::t_b578d977e090d9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_10.md"
+  s_3785db752d70c7::t_e4f42b0a48bb0c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_11.md"
+  s_3785db752d70c7::t_a8c0a3ebe3b0b8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_12.md"
+  s_3785db752d70c7::t_d89f5e8f7c458d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_13.md"
+  s_3785db752d70c7::t_515e664e1afa54 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_14.md"
+  s_3785db752d70c7::t_4b9af7b7973c73 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_15.md"
+  s_3785db752d70c7::t_623b8277e7f033 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_16.md"
+  s_3785db752d70c7::t_418e8e0fe6bde0 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_17.md"
+  s_3785db752d70c7::t_2b32320f2bc6cf 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_18.md"
+  s_3785db752d70c7::t_9c14f79a379623 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_19.md"
+  s_3785db752d70c7::t_cc22a695cc7afa 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_20.md"
+  s_3785db752d70c7::t_f08fca3a96acef 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_21.md"
+  s_3785db752d70c7::t_b7feaaaab9ea18 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_22.md"
+  s_3785db752d70c7::t_b2cd7404b7a921 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_23.md"
+  s_3785db752d70c7::t_17e7835c4f04c9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_24.md"
+  s_3785db752d70c7::t_44001c40bb86f2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_25.md"
+  s_3785db752d70c7::t_8d78a619e0ed23 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_26.md"
+  s_3785db752d70c7::t_6fb5c903916d4b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_27.md"
+  s_3785db752d70c7::t_2c864f27881307 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_28.md"
+  s_3785db752d70c7::t_663e25d916baa5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_29.md"
+  s_3785db752d70c7::t_c990054802fadc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_30.md"
+  s_3785db752d70c7::t_02786d191acb0e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_05_31.md"
+  s_3785db752d70c7::t_99d8f219045e62 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_01.md"
+  s_3785db752d70c7::t_c5279ceae047d3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_02.md"
+  s_3785db752d70c7::t_6aea77f3ba348f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_03.md"
+  s_3785db752d70c7::t_5ecb1125040dff 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_04.md"
+  s_3785db752d70c7::t_afdedb8139b852 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_05.md"
+  s_3785db752d70c7::t_1b6a727b65d386 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_06.md"
+  s_3785db752d70c7::t_9966186ce4f368 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_07.md"
+  s_3785db752d70c7::t_50c536c9074bca 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_08.md"
+  s_3785db752d70c7::t_511e7a5e073e37 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_09.md"
+  s_3785db752d70c7::t_1f6a9383b38540 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_10.md"
+  s_3785db752d70c7::t_d567e58b867501 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_11.md"
+  s_3785db752d70c7::t_288368cbf1f064 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_12.md"
+  s_3785db752d70c7::t_ec4269242becee 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_13.md"
+  s_3785db752d70c7::t_c08faf82e2446b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_14.md"
+  s_3785db752d70c7::t_373513f9751ca6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_15.md"
+  s_3785db752d70c7::t_5a5b5b046285fc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_16.md"
+  s_3785db752d70c7::t_0b2832154e104b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_17.md"
+  s_3785db752d70c7::t_f3e43f5186951c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_18.md"
+  s_3785db752d70c7::t_a8971bd74ab039 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_19.md"
+  s_3785db752d70c7::t_e8ede628e371c7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_20.md"
+  s_3785db752d70c7::t_c8cfc533bb1e09 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_21.md"
+  s_3785db752d70c7::t_93185479db1a3f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_22.md"
+  s_3785db752d70c7::t_39d5e6a1c7e7d4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_23.md"
+  s_3785db752d70c7::t_8b2992ce30f230 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_24.md"
+  s_3785db752d70c7::t_0cfb672c4fa0d2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_25.md"
+  s_3785db752d70c7::t_8f13cd8d30fd5a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_26.md"
+  s_3785db752d70c7::t_c95ab991453213 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_27.md"
+  s_3785db752d70c7::t_e2a751763ae288 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_28.md"
+  s_3785db752d70c7::t_7d1f83ca6640ae 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_29.md"
+  s_3785db752d70c7::t_9839d739509917 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_06_30.md"
+  s_3785db752d70c7::t_f35a3d03307813 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_01.md"
+  s_3785db752d70c7::t_7b7d94bbc4f0df 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_02.md"
+  s_3785db752d70c7::t_1c307cc5b28480 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_03.md"
+  s_3785db752d70c7::t_76320726627899 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_04.md"
+  s_3785db752d70c7::t_11c144e24c0852 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_05.md"
+  s_3785db752d70c7::t_19c78c00352071 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_06.md"
+  s_3785db752d70c7::t_2789365687ed71 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_07.md"
+  s_3785db752d70c7::t_11b033bf9a4db4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_08.md"
+  s_3785db752d70c7::t_43c568946a4484 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_09.md"
+  s_3785db752d70c7::t_2cef5cc8a76506 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_10.md"
+  s_3785db752d70c7::t_7dc933101e6444 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_11.md"
+  s_3785db752d70c7::t_c365c2c7abd8ad 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_12.md"
+  s_3785db752d70c7::t_e8a0bb85000957 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_13.md"
+  s_3785db752d70c7::t_cee37efca875f3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_14.md"
+  s_3785db752d70c7::t_4c182683f6feae 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_15.md"
+  s_3785db752d70c7::t_f0791210065a41 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_16.md"
+  s_3785db752d70c7::t_c10033062ceaea 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_17.md"
+  s_3785db752d70c7::t_b9f691884a7ba2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_18.md"
+  s_3785db752d70c7::t_03a55d2b98dc14 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_19.md"
+  s_3785db752d70c7::t_f5bdd945a5d968 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_20.md"
+  s_3785db752d70c7::t_f01bca08363592 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_21.md"
+  s_3785db752d70c7::t_8802789d1eb656 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_22.md"
+  s_3785db752d70c7::t_e13d7c0ca47596 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_23.md"
+  s_3785db752d70c7::t_c251035572b1a7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_24.md"
+  s_3785db752d70c7::t_c986deb4a11851 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_25.md"
+  s_3785db752d70c7::t_1c6e44e8d7bec3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_26.md"
+  s_3785db752d70c7::t_40e26443be8c18 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_27.md"
+  s_3785db752d70c7::t_964c533b580e86 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_28.md"
+  s_3785db752d70c7::t_622e3c5fe222e8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_29.md"
+  s_3785db752d70c7::t_eb4730bd6f0065 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_30.md"
+  s_3785db752d70c7::t_b0a569555e75ab 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_07_31.md"
+  s_3785db752d70c7::t_0c39596fa70e37 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_01.md"
+  s_3785db752d70c7::t_e76cda0a4bb8c9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_02.md"
+  s_3785db752d70c7::t_f345667af4ec78 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_03.md"
+  s_3785db752d70c7::t_c735eee9da6185 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_04.md"
+  s_3785db752d70c7::t_4f008a21a068d7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_05.md"
+  s_3785db752d70c7::t_12aaa7824def08 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_06.md"
+  s_3785db752d70c7::t_32d5d90b8b66a5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_07.md"
+  s_3785db752d70c7::t_be94c8527c268f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_08.md"
+  s_3785db752d70c7::t_39788bea38c8ee 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_09.md"
+  s_3785db752d70c7::t_711b8aaa90d11b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_10.md"
+  s_3785db752d70c7::t_98b4283512ead3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_11.md"
+  s_3785db752d70c7::t_986352b2aadf3f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_12.md"
+  s_3785db752d70c7::t_705f12c233673b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_13.md"
+  s_3785db752d70c7::t_3528a5b5520fcd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_14.md"
+  s_3785db752d70c7::t_bd9d8c69c1c3f2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_15.md"
+  s_3785db752d70c7::t_97e473575aa3bc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_16.md"
+  s_3785db752d70c7::t_6404a35fb9054a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_17.md"
+  s_3785db752d70c7::t_c1696d67496683 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_18.md"
+  s_3785db752d70c7::t_c6382789dcfa8b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_19.md"
+  s_3785db752d70c7::t_a538214fd433ba 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_20.md"
+  s_3785db752d70c7::t_baf2da34917776 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_21.md"
+  s_3785db752d70c7::t_0bbabe4aea1aa1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_22.md"
+  s_3785db752d70c7::t_01ebfc37d22db6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_23.md"
+  s_3785db752d70c7::t_4e928c1358350c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_24.md"
+  s_3785db752d70c7::t_7dcfa4ccf378bd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_25.md"
+  s_3785db752d70c7::t_0ceb617381ef11 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_26.md"
+  s_3785db752d70c7::t_f06cfd5ca8128a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_27.md"
+  s_3785db752d70c7::t_e9dc7295a947dc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_28.md"
+  s_3785db752d70c7::t_6706c606ea8dea 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_29.md"
+  s_3785db752d70c7::t_f1297311b2cbe2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_30.md"
+  s_3785db752d70c7::t_a94df5685a015b 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_08_31.md"
+  s_3785db752d70c7::t_6a4c1a9cbd7078 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_01.md"
+  s_3785db752d70c7::t_a664a99bbc8c78 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_02.md"
+  s_3785db752d70c7::t_a6fd22f25e2bda 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_03.md"
+  s_3785db752d70c7::t_59f05394ea7b47 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_04.md"
+  s_3785db752d70c7::t_3033ea804ee029 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_05.md"
+  s_3785db752d70c7::t_fd6932328e3795 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_06.md"
+  s_3785db752d70c7::t_b565863c307701 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_07.md"
+  s_3785db752d70c7::t_ca636eaee33d52 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_08.md"
+  s_3785db752d70c7::t_4fbfbcde00ea8f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_09.md"
+  s_3785db752d70c7::t_8c7695edcbc3aa 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_10.md"
+  s_3785db752d70c7::t_c3679fbbea5dfc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_11.md"
+  s_3785db752d70c7::t_4f0bfff5d301b4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_12.md"
+  s_3785db752d70c7::t_796a25faef79c4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_13.md"
+  s_3785db752d70c7::t_a97357ac7d5641 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_14.md"
+  s_3785db752d70c7::t_99abbe3b2df8b2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_15.md"
+  s_3785db752d70c7::t_a9bbca25023e90 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_16.md"
+  s_3785db752d70c7::t_eb3d4b75822906 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_17.md"
+  s_3785db752d70c7::t_f393dcf19c9486 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_18.md"
+  s_3785db752d70c7::t_7ca208387a283a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_19.md"
+  s_3785db752d70c7::t_5932afce99663f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_20.md"
+  s_3785db752d70c7::t_e5bddb6a918eac 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_21.md"
+  s_3785db752d70c7::t_3adb7cf5585b52 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_22.md"
+  s_3785db752d70c7::t_075e2aacd1a763 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_23.md"
+  s_3785db752d70c7::t_df88ea7a510366 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_24.md"
+  s_3785db752d70c7::t_45e4dfe6199dce 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_25.md"
+  s_3785db752d70c7::t_77f79ef4778d33 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_26.md"
+  s_3785db752d70c7::t_ebbdf34d132035 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_27.md"
+  s_3785db752d70c7::t_bfffdba0fdd6ee 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_28.md"
+  s_3785db752d70c7::t_f04cb50481aea8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_29.md"
+  s_3785db752d70c7::t_65848c158c5108 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_09_30.md"
+  s_3785db752d70c7::t_1a9ea1c5d48fac 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_01.md"
+  s_3785db752d70c7::t_cea8d44ed36a6f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_02.md"
+  s_3785db752d70c7::t_5801b258e7c217 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_03.md"
+  s_3785db752d70c7::t_6f32a54f0dae45 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_04.md"
+  s_3785db752d70c7::t_b11156d6d13028 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_05.md"
+  s_3785db752d70c7::t_19cd476975ab05 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_06.md"
+  s_3785db752d70c7::t_19a1f533384271 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_07.md"
+  s_3785db752d70c7::t_0bf1e522906c86 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_08.md"
+  s_3785db752d70c7::t_28f731985102f1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_09.md"
+  s_3785db752d70c7::t_d9a16c6771d371 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_10.md"
+  s_3785db752d70c7::t_4ddcb7574c05be 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_11.md"
+  s_3785db752d70c7::t_3c07b2a7627f0f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_12.md"
+  s_3785db752d70c7::t_4a257b959c5f05 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_13.md"
+  s_3785db752d70c7::t_2e1a1382b4d8cd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_14.md"
+  s_3785db752d70c7::t_bf71d47f5a05fe 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_15.md"
+  s_3785db752d70c7::t_dd2838bb1af91c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_16.md"
+  s_3785db752d70c7::t_4cabe427ed01c1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_17.md"
+  s_3785db752d70c7::t_42c902f8e34421 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_18.md"
+  s_3785db752d70c7::t_dcd165e68ebb12 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_19.md"
+  s_3785db752d70c7::t_50065dc20421a4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_20.md"
+  s_3785db752d70c7::t_48ff0a4585ff3a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_21.md"
+  s_3785db752d70c7::t_d80bf322a327fc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_22.md"
+  s_3785db752d70c7::t_23156beb8ab3bf 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_23.md"
+  s_3785db752d70c7::t_cbd40a733fa5f1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_24.md"
+  s_3785db752d70c7::t_a9503dc8c11af0 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_25.md"
+  s_3785db752d70c7::t_3dbcd7cfc05bc7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_26.md"
+  s_3785db752d70c7::t_3a8f02cc670043 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_27.md"
+  s_3785db752d70c7::t_afdfb9625603e6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_28.md"
+  s_3785db752d70c7::t_fd8c1b5f00e4ff 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_29.md"
+  s_3785db752d70c7::t_0a7bc70ff1e851 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_30.md"
+  s_3785db752d70c7::t_6da7ad347d0461 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_10_31.md"
+  s_3785db752d70c7::t_12c37f900569e6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_01.md"
+  s_3785db752d70c7::t_26630494bbcb54 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_02.md"
+  s_3785db752d70c7::t_6866fef0f75a76 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_03.md"
+  s_3785db752d70c7::t_ec50b67dd9a16c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_04.md"
+  s_3785db752d70c7::t_e9a709cebd4508 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_05.md"
+  s_3785db752d70c7::t_b2a8bd9d737cb1 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_06.md"
+  s_3785db752d70c7::t_3ee33e5ab79454 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_07.md"
+  s_3785db752d70c7::t_e84e6fc4a85471 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_08.md"
+  s_3785db752d70c7::t_f062e8b4b4856c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_09.md"
+  s_3785db752d70c7::t_c0534994f753c4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_10.md"
+  s_3785db752d70c7::t_5e471de6fca01e 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_11.md"
+  s_3785db752d70c7::t_6f2225f0515069 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_12.md"
+  s_3785db752d70c7::t_84f4a15af71768 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_13.md"
+  s_3785db752d70c7::t_6ce48b2755442f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_14.md"
+  s_3785db752d70c7::t_b7e30d579f03fd 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_15.md"
+  s_3785db752d70c7::t_d919d27854dc6c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_16.md"
+  s_3785db752d70c7::t_24910c3ced5b35 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_17.md"
+  s_3785db752d70c7::t_ac10705f7db0d9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_18.md"
+  s_3785db752d70c7::t_9a3f40aebcf77a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_19.md"
+  s_3785db752d70c7::t_2edb0493e5d3d8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_20.md"
+  s_3785db752d70c7::t_195ef62c7a75b7 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_21.md"
+  s_3785db752d70c7::t_88b3e6b6dfeb5d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_22.md"
+  s_3785db752d70c7::t_b337a40c5dc37f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_23.md"
+  s_3785db752d70c7::t_c23f0a44dd0bd0 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_24.md"
+  s_3785db752d70c7::t_6403088ff43ff6 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_25.md"
+  s_3785db752d70c7::t_5164b3c918bddc 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_26.md"
+  s_3785db752d70c7::t_b543a54e613636 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_27.md"
+  s_3785db752d70c7::t_ae1172e9a33c93 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_28.md"
+  s_3785db752d70c7::t_010693c229e5e4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_29.md"
+  s_3785db752d70c7::t_8a0d602bee3759 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_11_30.md"
+  s_3785db752d70c7::t_6c51b4b6e6d9b9 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_01.md"
+  s_3785db752d70c7::t_82f2a5c32e011d 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_02.md"
+  s_3785db752d70c7::t_2db55651c3d53f 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_03.md"
+  s_3785db752d70c7::t_c86ad3466a00ea 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_04.md"
+  s_3785db752d70c7::t_1bbed648fd2356 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_05.md"
+  s_3785db752d70c7::t_036c86f2fbee26 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_06.md"
+  s_3785db752d70c7::t_5b1949d0f7eaf8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_07.md"
+  s_3785db752d70c7::t_5f2c11fb18f119 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_08.md"
+  s_3785db752d70c7::t_69f5cc8a647e7a 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_09.md"
+  s_3785db752d70c7::t_7240d3759a0b56 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_10.md"
+  s_3785db752d70c7::t_3d504d3b273708 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_11.md"
+  s_3785db752d70c7::t_e1797703429c32 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_12.md"
+  s_3785db752d70c7::t_59bb93cba9c07c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_13.md"
+  s_3785db752d70c7::t_6046306d3ce258 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_14.md"
+  s_3785db752d70c7::t_ec57d6a49ea317 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_15.md"
+  s_3785db752d70c7::t_ecf996f8df87d8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_16.md"
+  s_3785db752d70c7::t_e31a8e751ed3eb 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_17.md"
+  s_3785db752d70c7::t_97116025aef505 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_18.md"
+  s_3785db752d70c7::t_c034d1628a46c5 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_19.md"
+  s_3785db752d70c7::t_be4b6abb9b7cfa 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_20.md"
+  s_3785db752d70c7::t_1e0d9302405717 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_21.md"
+  s_3785db752d70c7::t_91c2ea3e075e81 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_22.md"
+  s_3785db752d70c7::t_62fbfb15d332b4 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_23.md"
+  s_3785db752d70c7::t_c891eed3cdbceb 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_24.md"
+  s_3785db752d70c7::t_f76e3d3a4667f3 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_25.md"
+  s_3785db752d70c7::t_579253c6cd59a2 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_26.md"
+  s_3785db752d70c7::t_b0e7c90560336c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_27.md"
+  s_3785db752d70c7::t_18e3eda78b3d83 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_28.md"
+  s_3785db752d70c7::t_619c2db7dcb74c 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_29.md"
+  s_3785db752d70c7::t_3ea69ff2ab49ac 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_30.md"
+  s_3785db752d70c7::t_31e558851650d8 1-22
+"castironforge/docs/Daily Logs/webresearch/2025_12_31.md"
+  s_3785db752d70c7::t_c1e99802a83657 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_01.md"
+  s_3785db752d70c7::t_3644d901c10a13 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_02.md"
+  s_3785db752d70c7::t_235e15a5fbe83c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_03.md"
+  s_3785db752d70c7::t_988b33ec676f7c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_04.md"
+  s_3785db752d70c7::t_ce8b7c2c537f07 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_05.md"
+  s_3785db752d70c7::t_69776daea3de32 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_06.md"
+  s_3785db752d70c7::t_22b23795dc4165 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_07.md"
+  s_3785db752d70c7::t_0b0aaf956f52ff 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_08.md"
+  s_3785db752d70c7::t_f09c7a78db0dbd 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_09.md"
+  s_3785db752d70c7::t_0cbf4bbdf9e8db 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_10.md"
+  s_3785db752d70c7::t_c9148b2b21f754 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_11.md"
+  s_3785db752d70c7::t_c212bb2df489ca 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_12.md"
+  s_3785db752d70c7::t_55a5504823032d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_13.md"
+  s_3785db752d70c7::t_772e8ac51aad0b 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_14.md"
+  s_3785db752d70c7::t_0c66fa487e6005 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_15.md"
+  s_3785db752d70c7::t_154c22c788e5fe 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_16.md"
+  s_3785db752d70c7::t_9f1130e93d5dad 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_17.md"
+  s_3785db752d70c7::t_a1dbee11601a4a 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_18.md"
+  s_3785db752d70c7::t_f7221ee42314fb 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_19.md"
+  s_3785db752d70c7::t_ded727272eda33 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_20.md"
+  s_3785db752d70c7::t_8ac9b5fc34b6bb 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_21.md"
+  s_3785db752d70c7::t_c3795e0e5fd0cb 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_22.md"
+  s_3785db752d70c7::t_9f65b4e197eff2 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_23.md"
+  s_3785db752d70c7::t_c0667eef24af78 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_24.md"
+  s_3785db752d70c7::t_cb139ad92327b5 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_25.md"
+  s_3785db752d70c7::t_6b3b9419ea3836 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_26.md"
+  s_3785db752d70c7::t_250a3e02b448dd 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_27.md"
+  s_3785db752d70c7::t_8d6b83eb18d50d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_28.md"
+  s_3785db752d70c7::t_dce50b22b5894f 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_29.md"
+  s_3785db752d70c7::t_bb11610704c74f 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_30.md"
+  s_3785db752d70c7::t_d20df6ce6a55e5 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_01_31.md"
+  s_3785db752d70c7::t_f99cd6d2442513 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_01.md"
+  s_3785db752d70c7::t_b15a2bc2595a1b 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_02.md"
+  s_3785db752d70c7::t_aec3cd16cbbc2e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_03.md"
+  s_3785db752d70c7::t_90e24ef7535ca8 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_04.md"
+  s_3785db752d70c7::t_1f0238eed1817e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_05.md"
+  s_3785db752d70c7::t_ee2aff410a7a43 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_06.md"
+  s_3785db752d70c7::t_e6168d8ba8af93 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_07.md"
+  s_3785db752d70c7::t_00c0b6867c6926 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_08.md"
+  s_3785db752d70c7::t_2287de95af002e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_09.md"
+  s_3785db752d70c7::t_fe0e1a6531e219 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_10.md"
+  s_3785db752d70c7::t_498628e75fab0d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_11.md"
+  s_3785db752d70c7::t_5cfa757e3790e2 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_12.md"
+  s_3785db752d70c7::t_0b25891c722f9e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_13.md"
+  s_3785db752d70c7::t_ddf9a1d9f58c32 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_14.md"
+  s_3785db752d70c7::t_d982d39db2b342 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_15.md"
+  s_3785db752d70c7::t_0828c09c89be33 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_16.md"
+  s_3785db752d70c7::t_d50164fb062f6e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_17.md"
+  s_3785db752d70c7::t_917056ad256658 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_18.md"
+  s_3785db752d70c7::t_f5c058fb7799f2 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_19.md"
+  s_3785db752d70c7::t_41e5eab4861b54 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_20.md"
+  s_3785db752d70c7::t_9866a0527858d9 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_21.md"
+  s_3785db752d70c7::t_2bbdfb4e396ab5 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_22.md"
+  s_3785db752d70c7::t_f901bb0dedf907 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_23.md"
+  s_3785db752d70c7::t_404ea6928de90b 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_24.md"
+  s_3785db752d70c7::t_c21b2f2e4e843d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_25.md"
+  s_3785db752d70c7::t_77288dcda56185 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_26.md"
+  s_3785db752d70c7::t_7b797ce0ad5f7a 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_27.md"
+  s_3785db752d70c7::t_c36cca2f280844 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_02_28.md"
+  s_3785db752d70c7::t_7f00a19d684bc4 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_01.md"
+  s_3785db752d70c7::t_d3bb9104141fb2 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_02.md"
+  s_3785db752d70c7::t_1509fe3fc0f4fa 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_03.md"
+  s_3785db752d70c7::t_1f6b731c3c8c2f 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_04.md"
+  s_3785db752d70c7::t_790ae9de10ca19 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_05.md"
+  s_3785db752d70c7::t_9ead0d22cefd34 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_06.md"
+  s_3785db752d70c7::t_f9e36498cc0f1b 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_07.md"
+  s_3785db752d70c7::t_e0a1930ff00dd0 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_08.md"
+  s_3785db752d70c7::t_546b8d9dd8bc5d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_09.md"
+  s_3785db752d70c7::t_5da79d274e987c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_10.md"
+  s_3785db752d70c7::t_7d5ab612aa0f80 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_11.md"
+  s_3785db752d70c7::t_feff43e9ac246c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_12.md"
+  s_3785db752d70c7::t_8b66d1e8cd10e9 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_13.md"
+  s_3785db752d70c7::t_87005c26d67226 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_14.md"
+  s_3785db752d70c7::t_7dcf9bed2daa28 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_15.md"
+  s_3785db752d70c7::t_7ba40d4079bba8 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_16.md"
+  s_3785db752d70c7::t_dda426926df722 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_17.md"
+  s_3785db752d70c7::t_35f40d03e6328c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_18.md"
+  s_3785db752d70c7::t_b90f561f0d75e8 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_19.md"
+  s_3785db752d70c7::t_86ad274e194df1 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_20.md"
+  s_3785db752d70c7::t_95890ad37bd8ac 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_21.md"
+  s_3785db752d70c7::t_5bd52e5a1c0892 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_22.md"
+  s_3785db752d70c7::t_4eabd14ed007a7 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_23.md"
+  s_3785db752d70c7::t_f168077fb40d08 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_24.md"
+  s_3785db752d70c7::t_6e09dfdf5c903f 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_25.md"
+  s_3785db752d70c7::t_bab7c6bd2ef772 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_26.md"
+  s_3785db752d70c7::t_53bd3011b88110 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_27.md"
+  s_3785db752d70c7::t_2017fad742226f 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_28.md"
+  s_3785db752d70c7::t_6e0500925d7684 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_29.md"
+  s_3785db752d70c7::t_9e64443683a381 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_30.md"
+  s_3785db752d70c7::t_160c211a96e556 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_03_31.md"
+  s_3785db752d70c7::t_de30d230c4a761 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_01.md"
+  s_3785db752d70c7::t_0ebdd17f5209e4 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_02.md"
+  s_3785db752d70c7::t_234f6d5b2246a9 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_03.md"
+  s_3785db752d70c7::t_dfa4307f1cd1c0 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_04.md"
+  s_3785db752d70c7::t_1add1cec45ec03 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_05.md"
+  s_3785db752d70c7::t_6914fa813f3817 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_06.md"
+  s_3785db752d70c7::t_eadb7eb435db55 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_07.md"
+  s_3785db752d70c7::t_0e04592375492e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_08.md"
+  s_3785db752d70c7::t_4665c51421ab7c 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_09.md"
+  s_3785db752d70c7::t_131fee89a3a351 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_10.md"
+  s_3785db752d70c7::t_c4eaa3dfd03dcd 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_11.md"
+  s_3785db752d70c7::t_90f7149e3749c5 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_12.md"
+  s_3785db752d70c7::t_36422fb01a2dc7 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_13.md"
+  s_3785db752d70c7::t_167b99c97fb3f4 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_14.md"
+  s_3785db752d70c7::t_f2b93a699b9a5e 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_15.md"
+  s_3785db752d70c7::t_85c46239f8ad94 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_16.md"
+  s_3785db752d70c7::t_bfa674c64edb91 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_17.md"
+  s_3785db752d70c7::t_2281870ae00b63 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_18.md"
+  s_3785db752d70c7::t_e15561bccf9cb8 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_19.md"
+  s_3785db752d70c7::t_8358358f443bad 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_20.md"
+  s_3785db752d70c7::t_9614887ed63aff 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_21.md"
+  s_3785db752d70c7::t_0651f89b5c5f7d 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_22.md"
+  s_3785db752d70c7::t_150b73bc62d8a2 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_23.md"
+  s_3785db752d70c7::t_48df3cdb85ae86 1-22
+"castironforge/docs/Daily Logs/webresearch/2026_04_24.md"
+  s_3785db752d70c7::t_8639fa16fbf9e2 1-22
+"castironforge/docs/Daily Logs/webresearch/cast-iron-charlie-research_2026_04_24.md"
+  s_3785db752d70c7::t_fe58398e5dca2a 1-76
+castironforge/docs/REWRITE_LABS_SYSTEM.md
+  s_3785db752d70c7::t_96a93deeca3304 1-182
+castironforge/docs/System_Versioning_Standard.md
+  s_3785db752d70c7::t_271058bff71fe6 1-140
+services/INDEX.md
+  s_3785db752d70c7::t_e31923b604f7ac 10
+toolforge/skills/agent-drift-detector/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_c14a0bf3db4d8c 1-8
+toolforge/skills/agent-drift-detector/README.md
+  s_3785db752d70c7::t_cfcec21068f7e7 1-3
+toolforge/skills/agent-drift-detector/SKILL.md
+  s_3785db752d70c7::t_8d390ff74f3580 1-24
+toolforge/skills/agent-drift-detector/docs/USAGE.md
+  s_3785db752d70c7::t_7f6e09db5d5810 1-17
+toolforge/skills/ashfall/SKILL.md
+  s_3785db752d70c7::t_2c9124cd09ce8b 1-9,52-53
+toolforge/skills/cic-roadmap-updater/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_786e513e22246b 1-8
+toolforge/skills/cic-roadmap-updater/README.md
+  s_3785db752d70c7::t_9fb0e2fde86f1c 1-3
+toolforge/skills/cic-roadmap-updater/SKILL.md
+  s_3785db752d70c7::t_9b723f1f0b3439 1-24
+toolforge/skills/cic-roadmap-updater/docs/USAGE.md
+  s_3785db752d70c7::t_182cb8423eb7b6 1-16
+toolforge/skills/cic-section-summarizer/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_c58d6ca9ec89e8 1-7
+toolforge/skills/cic-section-summarizer/README.md
+  s_3785db752d70c7::t_a7da4dd836107e 1-3
+toolforge/skills/cic-section-summarizer/SKILL.md
+  s_3785db752d70c7::t_313e771a161a4d 1-24
+toolforge/skills/cic-section-summarizer/docs/USAGE.md
+  s_3785db752d70c7::t_5f73c7bec71ff9 1-16
+toolforge/skills/context-manager/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_7ed53f5681dd6c 1-7
+toolforge/skills/context-manager/README.md
+  s_3785db752d70c7::t_8722e590cd82b2 1-3
+toolforge/skills/context-manager/SKILL.md
+  s_3785db752d70c7::t_71353cbaf80dab 1-24
+toolforge/skills/context-manager/docs/USAGE.md
+  s_3785db752d70c7::t_e092e41731f767 1-13
+toolforge/skills/permission-governor/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_39c42a9f190808 1-9
+toolforge/skills/permission-governor/README.md
+  s_3785db752d70c7::t_43eae5ca2ef5aa 1-3
+toolforge/skills/permission-governor/SKILL.md
+  s_3785db752d70c7::t_9e25e71fa68f94 1-24
+toolforge/skills/permission-governor/docs/USAGE.md
+  s_3785db752d70c7::t_104ef00d43734f 1-14
+toolforge/skills/plan-extractor-integration/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_133cc3f40d658a 1-8
+toolforge/skills/plan-extractor-integration/README.md
+  s_3785db752d70c7::t_63cd691c2788e9 1-3
+toolforge/skills/plan-extractor-integration/SKILL.md
+  s_3785db752d70c7::t_e74bf9fd1a83c0 1-24
+toolforge/skills/plan-extractor-integration/docs/USAGE.md
+  s_3785db752d70c7::t_bb0507748c6fef 1-19
+toolforge/skills/rewrite-labs-orchestrator/INTEGRATION_DIAGRAM.md
+  s_3785db752d70c7::t_868f31a74a82c2 1-7
+toolforge/skills/rewrite-labs-orchestrator/README.md
+  s_3785db752d70c7::t_2d40db16d699aa 1-3
+toolforge/skills/rewrite-labs-orchestrator/SKILL.md
+  s_3785db752d70c7::t_0679db861b9cf1 1-24
+toolforge/skills/rewrite-labs-orchestrator/docs/USAGE.md
+  s_3785db752d70c7::t_beca487accd012 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "d42148db8e00afed99d487befcfdce6274feb556",
+  "prompts": {},
+  "sessions": {
+    "s_3785db752d70c7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7ec8f98d-1828-480a-b4f0-8ad14557d2b2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    },
+    "s_a2008b2c85832c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-abd0227e105779e9f",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
