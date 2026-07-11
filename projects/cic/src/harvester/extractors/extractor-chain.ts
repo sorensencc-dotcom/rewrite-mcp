@@ -3,6 +3,8 @@ import { multiStageOrchestrator, StageType } from "../../pms/v2/multi-stage.js";
 import { metricsCollector } from "../../reasoning/metrics-collector.js";
 import { specRegistry } from "../../cic/control-plane/spec-registry.js";
 import { getTelemetrySink } from "../../cic/control-plane/telemetry-sink.js";
+import { ImageAnalyzerV3 } from "./imageAnalyzerV3.js";
+import { ReverseImageSearchExtractor } from "./reverseImageSearchExtractor.js";
 
 export class ExtractorChain {
   private chain: IExtractor[] = [];
@@ -46,6 +48,8 @@ export class ExtractorChain {
         else if (name === "RelationshipExtractor") skillLabel = "extract_entity_relationships";
         else if (name === "TopicExtractor") skillLabel = "extract_thematic_topics";
         else if (name === "ImageAnalyzer") skillLabel = "extract_image_analysis";
+        else if (name === "ImageAnalyzerV3") skillLabel = "extract_image_analysis_v3";
+        else if (name === "ReverseImageSearchExtractor") skillLabel = "reverse_image_search";
         else if (name === "RISMetadataExtractor") skillLabel = "extract_ris_metadata";
         return skillLabel;
       }).filter(s => !instincts.avoid.includes(s));
@@ -72,7 +76,10 @@ export class ExtractorChain {
       source_format: sourceFormat
     };
     const results: any[] = [];
-    const latencies: any = {};
+    const latencies: any = {
+      image_analysis_v3: 0,
+      reverse_image_search: 0
+    };
     const chainStart = Date.now();
     const skillsUsed: string[] = [];
 
@@ -90,6 +97,14 @@ export class ExtractorChain {
         else if (name === "RelationshipExtractor") skillLabel = "extract_entity_relationships";
         else if (name === "TopicExtractor") skillLabel = "extract_thematic_topics";
         else if (name === "ImageAnalyzer") skillLabel = "extract_image_analysis";
+        else if (name === "ImageAnalyzerV3") {
+          skillLabel = "extract_image_analysis_v3";
+          skillVersion = "2.0.0";
+        }
+        else if (name === "ReverseImageSearchExtractor") {
+          skillLabel = "reverse_image_search";
+          skillVersion = "1.0.0";
+        }
         else if (name === "RISMetadataExtractor") {
           skillLabel = "extract_ris_metadata";
           skillVersion = "1.2.0";
@@ -102,27 +117,55 @@ export class ExtractorChain {
           continue;
         }
 
+        // Image-only gating logic
+        const imageAnalysisDocTypes = ["image", "visual_document", "photograph"];
+        const imageSourceFormats = ["png", "jpg", "jpeg", "gif", "webp", "tiff", "bmp"];
+
+        if ((name === "ImageAnalyzerV3" || name === "ReverseImageSearchExtractor") &&
+            !imageAnalysisDocTypes.includes(docType) &&
+            !imageSourceFormats.includes(sourceFormat)) {
+          console.log(`[ExtractorChain] [Image Gate] Skipping ${name} for non-image document (docType: '${docType}', sourceFormat: '${sourceFormat}')`);
+          continue;
+        }
+
         const startedAt = new Date();
         const inputSizeBytes = Buffer.byteLength(JSON.stringify(context));
         let outcome: "success" | "partial" | "failure" = "success";
         let errorType: string | undefined;
         let errorMessageSnippet: string | undefined;
         let outputSizeBytes: number | null = null;
+        let output: any = null;
 
         try {
           const tStart = Date.now();
-          const output = await extractor.extract(context);
+          output = await extractor.extract(context);
           const duration = Date.now() - tStart;
 
           if (name === "SemanticExtractor") latencies.semantic = duration;
           else if (name === "RelationshipExtractor") latencies.relationship = duration;
           else if (name === "TopicExtractor") latencies.topic = duration;
           else if (name === "ReasoningExtractor") latencies.reasoning = duration;
+          else if (name === "ImageAnalyzerV3") latencies.image_analysis_v3 = duration;
+          else if (name === "ReverseImageSearchExtractor") latencies.reverse_image_search = duration;
 
           results.push(output);
           skillsUsed.push(skillLabel);
           outputSizeBytes = Buffer.byteLength(JSON.stringify(output));
-          
+
+          // Context threading for ImageAnalyzerV3
+          if (name === "ImageAnalyzerV3" && output.metadata) {
+            context.imageMetadata = output.metadata;
+            context.image_analysis_state = context.image_analysis_state || {};
+            context.image_analysis_state.v3_analysis = output;
+          }
+
+          // Context threading for ReverseImageSearchExtractor
+          if (name === "ReverseImageSearchExtractor" && output.matches) {
+            context.reverseSearchResults = output.matches;
+            context.image_analysis_state = context.image_analysis_state || {};
+            context.image_analysis_state.reverse_search = output;
+          }
+
           // Thread context down the chain to achieve multi-pass contextual enrichment
           context = {
             ...context,
@@ -169,6 +212,22 @@ export class ExtractorChain {
             rulesEnforced: activeRules,
             hooksFired: activeHooks
           });
+
+          // Telemetry capture for reverse search outcomes
+          if (name === "ReverseImageSearchExtractor" && outcome === "success" && output) {
+            const telemetrySink = getTelemetrySink() as any;
+            if (typeof telemetrySink.recordReverseImageSearchOutcome === "function") {
+              void telemetrySink.recordReverseImageSearchOutcome({
+                runId,
+                tenantId,
+                region,
+                resultsCount: output.resultsCount || 0,
+                topMatchConfidence: output.topMatchConfidence || 0,
+                cacheHit: output.cacheHit || false,
+                validationMethod: output.telemetry?.validationMethod || "none"
+              });
+            }
+          }
         }
       }
 
