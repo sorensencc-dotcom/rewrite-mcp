@@ -1,0 +1,45 @@
+projects/cic/src/harvester/extractors/extractor-chain.integration.test.ts
+  s_3785db752d70c7::t_c7508f03549461 189,192,197-200,205-206,208-209
+  s_3785db752d70c7::t_79c6d6e8e5d4c1 419,422,434-450
+  s_3785db752d70c7::t_71a4f6251a11c3 136
+  s_3785db752d70c7::t_0eb3fa2ae6944a 230,233-235,237-241
+  s_3785db752d70c7::t_066d835c165d7a 1-135,137-180,186-188,190-191,193-196,201-204,207,210-212,214-215,217,219-226,228,242-244,246-247,251,253-258,266-268,270-271,273-281,283-306,313-315,317-318,320-324,326-333,335-336,340-342,344-345,347-367,369-370,415,451-452
+  s_3785db752d70c7::t_e405ca46643ff8 245,248-250,252,259-265,269,272,282,307-312,316,319,325,334,337-339,343,346,391-414,416-418,420-421,423-433
+  s_3785db752d70c7::t_70363182358dc7 368,371-390
+  s_3785db752d70c7::t_0956c57f7af3de 213,216,218,227,229,231-232,236
+  s_3785db752d70c7::t_f1e3583748ce2b 181-185
+projects/cic/src/harvester/extractors/reverseImageSearchExtractor.test.ts
+  s_3785db752d70c7::t_70bedc4dac9b7e 1-814
+projects/cic/src/harvester/extractors/reverseImageSearchExtractor.ts
+  s_3785db752d70c7::t_f127dbb693b890 1-806
+services/INDEX.md
+  s_3785db752d70c7::t_a37d3f73624259 10
+projects/cic/src/harvester/extractors/extractor-chain.ts
+  s_3785db752d70c7::t_5ec163e729d394 51-52
+  s_3785db752d70c7::t_f46ddc67131a79 6-7
+  s_a0c834bf23d9bd::t_ef72a06340f1d4 79-82,100-107,120-130,137,141,148-149,154-168,215-230
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "d5960dff4e4a9603ed250d35b32c8ea1decc26a4",
+  "prompts": {},
+  "sessions": {
+    "s_3785db752d70c7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7ec8f98d-1828-480a-b4f0-8ad14557d2b2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": null
+    },
+    "s_a0c834bf23d9bd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-aba84ef5489a9fc72",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
