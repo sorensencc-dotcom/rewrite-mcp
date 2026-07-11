@@ -1,0 +1,23 @@
+projects/cic/src/harvester/extractors/reverseImageSearchExtractor.ts
+  s_3785db752d70c7::t_f127dbb693b890 1-806
+projects/cic/src/harvester/extractors/reverseImageSearchExtractor.test.ts
+  s_3785db752d70c7::t_70bedc4dac9b7e 1-814
+services/INDEX.md
+  s_3785db752d70c7::t_a37d3f73624259 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9067fc3f8a9230ecf4beba4945b086b17f2ae20d",
+  "prompts": {},
+  "sessions": {
+    "s_3785db752d70c7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7ec8f98d-1828-480a-b4f0-8ad14557d2b2",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
