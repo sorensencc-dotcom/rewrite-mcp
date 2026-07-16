@@ -1,0 +1,19 @@
+bob/core/pipelines/docsSync.js
+  s_0dcbf3d517c0f9::t_9a5d47430c5f0b 25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4dbcb7d0e4a2c34838a88dc75172958c2a6c097d",
+  "prompts": {},
+  "sessions": {
+    "s_0dcbf3d517c0f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94e5400c-ecb6-4961-9927-b33cf2b5f59a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
