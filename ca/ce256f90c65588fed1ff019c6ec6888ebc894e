@@ -1,0 +1,19 @@
+projects/cic-operator-console/package.json
+  s_0dcbf3d517c0f9::t_444936bd5b5711 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "cace256f90c65588fed1ff019c6ec6888ebc894e",
+  "prompts": {},
+  "sessions": {
+    "s_0dcbf3d517c0f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "94e5400c-ecb6-4961-9927-b33cf2b5f59a",
+        "model": "unknown"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
