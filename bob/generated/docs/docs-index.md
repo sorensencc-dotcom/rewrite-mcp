@@ -1,7 +1,5 @@
 # BOB Generated Documents Index
 
-Generated at: 2026-07-16T02:30:43.068Z
-
 - [versioning.md](docs/versioning.md)
 - [SKILL_SESSION_WRAP.md](docs/SKILL_SESSION_WRAP.md)
 - [rewrite-labs-repomix-harvester-integration.md](docs/rewrite-labs-repomix-harvester-integration.md)

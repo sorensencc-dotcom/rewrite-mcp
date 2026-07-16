@@ -22,7 +22,7 @@ export async function runDocsSync(ast = {}) {
     await fs.mkdir(OUTPUT_DIR, { recursive: true });
 
     const docIndex = Object.keys(ast).map(file => `- [${path.basename(file)}](${file})`).join('\n');
-    const indexContent = `# BOB Generated Documents Index\n\nGenerated at: ${new Date().toISOString()}\n\n${docIndex}\n`;
+    const indexContent = `# BOB Generated Documents Index\n\n${docIndex}\n`;
 
     const targetPath = path.join(OUTPUT_DIR, 'docs-index.md');
     await fs.writeFile(targetPath, indexContent, 'utf8');
