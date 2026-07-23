@@ -2,6 +2,8 @@ node_modules/
 dist/
 coverage/
 *.log
+.performance-report.json
+.validation-report.json
 
 # Environment files — never commit real values (see 2026-07-03 key rotation)
 .env
