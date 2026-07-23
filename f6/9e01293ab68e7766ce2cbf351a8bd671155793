@@ -1,0 +1,19 @@
+package.json
+  s_5f8d40bf855cf6::t_75bdf7346eff55 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "f69e01293ab68e7766ce2cbf351a8bd671155793",
+  "prompts": {},
+  "sessions": {
+    "s_5f8d40bf855cf6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f1121a-602b-4b4c-a8fe-b6db21242ea3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
