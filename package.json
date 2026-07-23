@@ -14,6 +14,7 @@
     "sync-docs": "bash scripts/sync-docs.sh",
     "load-tokens": "node apps/operator-ui/scripts/loadTokens.js",
     "validate-design": "node apps/operator-ui/scripts/validateDesign.js",
+    "pre-flight": "npm run validate-design && npm run policy:check",
     "cic-ui:repair": "bash tools/cic-ui/repair-ui-layer.sh",
     "cic-ui:validate": "node tools/cic-ui/integrity-validator.js",
     "cic-ui:smoke": "node tools/cic-ui/smoke-tests.js",
