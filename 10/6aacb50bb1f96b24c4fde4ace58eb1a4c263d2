@@ -1,0 +1,30 @@
+.github/workflows/nightly-bench.yml
+  s_9b04e33689e249::t_51989ed98d9ad5 20,46-48,51-54,69
+  s_9b04e33689e249::t_51759f8f2f64fe 15,18,73,76
+.github/workflows/bob-validate.yml
+  s_9b04e33689e249::t_a3eb4dfc09221f 22,25,27
+.github/workflows/bootstrap.yml
+  s_9b04e33689e249::t_447d3804a52612 9
+.github/workflows/nightly-validate.yml
+  s_9b04e33689e249::t_c890fa260ded55 12,23
+.github/workflows/operator.yml
+  s_9b04e33689e249::t_5363cd7f0ce6a9 13
+.github/workflows/validate-npm-scripts.yml
+  s_9b04e33689e249::t_90e29ae59d8af1 23,26,28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "106aacb50bb1f96b24c4fde4ace58eb1a4c263d2",
+  "prompts": {},
+  "sessions": {
+    "s_9b04e33689e249": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc2cc-b74c-7c20-b39b-9af6e9ee68b9",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
