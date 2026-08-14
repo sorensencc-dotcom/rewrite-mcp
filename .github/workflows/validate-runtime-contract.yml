@@ -1,0 +1,53 @@
+name: Validate CIC AI Runtime Contract
+
+on:
+  pull_request:
+    paths:
+      - 'projects/cic/docs/**'
+      - 'src/**'
+      - 'tests/**'
+      - 'modules/wiki/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'projects/cic/docs/**'
+      - 'src/**'
+      - 'tests/**'
+      - 'modules/wiki/**'
+
+jobs:
+  validate-runtime-contract:
+    name: Validate Contract and Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Ensure contract file exists and has Version
+        run: |
+          CONTRACT="projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md"
+          if [ ! -f "$CONTRACT" ]; then
+            echo "ERROR: $CONTRACT not found"
+            exit 1
+          fi
+          if ! grep -E -q "Version:.*[0-9]+\.[0-9]+\.[0-9]+" "$CONTRACT"; then
+            echo "ERROR: $CONTRACT missing parsable Version: X.Y.Z header"
+            exit 1
+          fi
+          echo "Contract file present and version header found"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test --silent
+
+      - name: Contract loader smoke test
+        run: |
+          node -e "const p='projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md'; const fs=require('fs'); const md=fs.readFileSync(p,'utf8'); if(!/Version:\s*[0-9]+\.[0-9]+\.[0-9]+/.test(md)){console.error('Contract version parse failed'); process.exit(2);} console.log('Contract loader smoke OK');"
