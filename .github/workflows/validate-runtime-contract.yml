@@ -16,6 +16,10 @@ on:
       - 'tests/**'
       - 'modules/wiki/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-runtime-contract:
     name: Validate Contract and Run Tests
@@ -28,6 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Ensure contract file exists and has Version
         run: |

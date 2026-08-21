@@ -5,6 +5,10 @@ on:
     - cron: "0 7 * * *"   # 3 AM EDT (07:00 UTC)
   workflow_dispatch:
 
+concurrency:
+  group: nightly-bench
+  cancel-in-progress: true
+
 jobs:
   nightly-benchmarks:
     runs-on: ubuntu-22.04
@@ -18,6 +22,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "24"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
