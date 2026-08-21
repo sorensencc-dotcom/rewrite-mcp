@@ -50,4 +50,4 @@ jobs:
 
       - name: Contract loader smoke test
         run: |
-          node -e "const p='projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md'; const fs=require('fs'); const md=fs.readFileSync(p,'utf8'); if(!/Version:\s*[0-9]+\.[0-9]+\.[0-9]+/.test(md)){console.error('Contract version parse failed'); process.exit(2);} console.log('Contract loader smoke OK');"
+          node -e "const p='projects/cic/docs/CIC_AI_RUNTIME_CONTRACT.md'; const fs=require('fs'); const md=fs.readFileSync(p,'utf8'); if(!/\*{0,2}Version:\*{0,2}\s*[0-9]+\.[0-9]+\.[0-9]+/.test(md)){console.error('Contract version parse failed'); process.exit(2);} console.log('Contract loader smoke OK');"

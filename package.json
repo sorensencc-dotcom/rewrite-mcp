@@ -11,6 +11,7 @@
   ],
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
+    "test": "npm run test:rewrite-labs",
     "sync-docs": "bash scripts/sync-docs.sh",
     "load-tokens": "node apps/operator-ui/scripts/loadTokens.js",
     "validate-design": "node apps/operator-ui/scripts/validateDesign.js",
