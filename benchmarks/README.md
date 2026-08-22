@@ -1,5 +1,7 @@
 # Rewrite Labs Benchmark Suite
 
+> **Note (August 2026)**: Automated nightly cloud CI execution is disabled. Run benchmarks locally on-demand (e.g. via local models/Ollama or manual CLI runs) when testing rewrite engine changes.
+
 This directory contains the canonical 20-site benchmark corpus used for:
 
 - Claude Opus vs Sonnet A/B testing

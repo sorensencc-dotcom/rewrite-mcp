@@ -1,8 +1,10 @@
 name: Nightly Rewrite Labs Benchmarks
 
+# Note: Automated nightly scheduled execution is paused (disabled).
+# Benchmarks can be triggered manually via workflow_dispatch or run locally.
 on:
-  schedule:
-    - cron: "0 7 * * *"   # 3 AM EDT (07:00 UTC)
+  # schedule:
+  #   - cron: "0 7 * * *"   # 3 AM EDT (07:00 UTC) - PAUSED: Run locally or on-demand
   workflow_dispatch:
 
 concurrency:
