@@ -14,6 +14,7 @@ theme:
 
 nav:
   - Overview: index.md
+  - Glossary: glossary.md
   - Architecture:
       - Overview: architecture/overview.md
       - Routing: architecture/routing.md
