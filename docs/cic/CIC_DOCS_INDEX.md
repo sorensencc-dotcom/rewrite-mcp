@@ -6,8 +6,9 @@
 > **Last Audit:** 2026-05-22
 
 > **Scope note:** "CIC" here means Cast Iron Charlie (the documentary production system —
-> see `CIC_MASTER_SPEC.md`). This is unrelated to `CIC-GOVERNANCE/` at the repo root of the
-> `dev` workspace, which governs an unrelated ingestion/lineage substrate. See
+> see `CIC_MASTER_SPEC.md`). This is a distinct, separately versioned system from
+> `CIC-GOVERNANCE/`, which lives at the repo root of the `sorensencc-dotcom/toolforge`
+> repository and governs an ingestion/lineage substrate. See
 > [glossary](../glossary.md) if you landed here looking for gate/amendment status.
 
 ---

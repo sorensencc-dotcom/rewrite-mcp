@@ -4,8 +4,10 @@ version: 1.1.0
 date: 2026-05-20
 ---
 
-> **Note:** "CIC" here is Cast Iron Charlie (this documentary-production spec), unrelated to
-> `CIC-GOVERNANCE`'s ingestion/gate substrate. See [glossary](../glossary.md).
+> **Note:** "CIC" here is Cast Iron Charlie (this documentary-production spec) — a distinct,
+> separately versioned system from `CIC-GOVERNANCE`'s ingestion/gate substrate, which lives in
+> the `sorensencc-dotcom/toolforge` repository (not this one). See
+> [glossary](../glossary.md).
 
 # CIC Master Spec
 
