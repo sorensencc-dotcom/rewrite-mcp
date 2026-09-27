@@ -4,6 +4,9 @@ version: 1.1.0
 date: 2026-05-20
 ---
 
+> **Note:** "CIC" here is Cast Iron Charlie (this documentary-production spec), unrelated to
+> `CIC-GOVERNANCE`'s ingestion/gate substrate. See [glossary](../glossary.md).
+
 # CIC Master Spec
 
 Cast Iron Charlie — Technical and Project Architecture Reference
