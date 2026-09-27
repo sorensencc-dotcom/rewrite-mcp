@@ -1,6 +1,6 @@
 # Glossary
 
-## CIC (two unrelated meanings — read carefully)
+## CIC (two distinct meanings — read carefully)
 
 This repo uses "CIC" for two different systems, distinguished by scope and versioned
 independently. The comparison below covers what's documented, specified, and operated
