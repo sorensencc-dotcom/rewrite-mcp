@@ -1,0 +1,96 @@
+---
+description: Brand-routed design enforcement — read CIC or Rewrite Labs SoT by context; never invent tokens; never blend brands; refuse freelancing.
+globs:
+  - "**/*.{tsx,jsx,vue,svelte,html}"
+  - "**/*.{css,scss,module.css}"
+  - "**/components/**"
+  - "**/ui/**"
+  - "**/operator-ui/**"
+  - "**/design/control-plane/**"
+  - "**/diagrams/**"
+  - "**/master_sheets/**"
+  - "**/generate_diagrams.py"
+  - "**/generate_master_sheet.py"
+  - "**/cic_design_system.md"
+  - "**/CIC_DESIGN_SYSTEM_ENFORCEMENT.md"
+alwaysApply: false
+---
+
+# Design system rules — brand router (Cursor)
+
+You implement UI for Chris’s existing brands only. **`DESIGN.md` is a router, not a token bible.** Read the correct SoT for the brand in context. Never invent a third system.
+
+## Detect brand from path / task context
+
+| Context signals | Brand | Required SoT (read before styling) |
+|-----------------|-------|-------------------------------------|
+| `charlie-deep-research`, `cic_design_system`, `docs/CIC_DESIGN_SYSTEM_ENFORCEMENT`, `diagrams/`, `master_sheets/`, `generate_diagrams.py`, `generate_master_sheet.py`, treatment / Charlie wiki / forge preview | **CIC** | Repo: `cic_design_system.md` then `docs/CIC_DESIGN_SYSTEM_ENFORCEMENT.md`. Canonical: https://github.com/sorensencc-dotcom/charlie-deep-research/blob/main/cic_design_system.md |
+| `rewrite-mcp`, `design/control-plane/`, `operator-ui/`, `control-room`, `services/control-plane/` | **Rewrite Labs** | `design/control-plane/tokens.json` → `layout.md` → `wireframes.txt` → `README.md` (https://github.com/sorensencc-dotcom/rewrite-mcp) |
+
+If signals conflict or brand is unclear: **stop and ask**. Do not guess. Do not average the two palettes.
+
+`CIC_DESIGN_SYSTEM_ENFORCEMENT.md` applies to **Charlie publishing surfaces only** — not RewriteLabs product UI.
+
+## Sources of truth (order)
+
+1. Brand SoT files above (tokens / aesthetic rules / layout / wireframes).
+2. Project-root **`DESIGN.md`** (router + gap protocol only).
+3. Figma library for that brand (via Figma MCP when available).
+4. Canonical component / generator paths in the owning repo — not arbitrary grep hit-count.
+
+If sources conflict, **stop and reconcile**. Do not silently invent a third variant.
+
+## Never invent / never blend
+
+- **Do not invent** colors, fonts, radii, shadows, gradients, or atoms outside the active SoT.
+- **Do not blend** CIC forge (`#1A1410` / brass `#B8922A` / ember `#C4501A`, no radius/shadow/gradient) with Rewrite Labs control-plane (`#0a0a0a` / accent `#00ff88`, radius allowed).
+- **Canonical wins over hit count.** Many weakly documented files ≠ license for a new API.
+- Screenshots are layout reference **after** SoT mapping — not permission to create primitives.
+- Do not treat this `.mdc` or `DESIGN.md` as a place to paste competing full token tables.
+
+### CIC reminder (verify in SoT)
+
+- Fonts: Playfair Display, Barlow Condensed, Libre Baskerville
+- No drop shadows, gradients, or rounded corners on forge surfaces
+- Wiki diagrams: **parchment / paper field** mode per `cic_design_system.md` (not dark-on-dark)
+
+### Rewrite Labs reminder (verify in SoT)
+
+- Tokens live in `design/control-plane/tokens.json`; CSS implements them in `operator-ui/`
+- BOB sandwich patch order: OUTER design → MIDDLE operator-ui → CORE API
+- Operator density: monospace for data values; follow `layout.md` shell / panels
+
+## Gap protocol
+
+If needed UI is missing from the active SoT:
+
+1. **Refuse freelancing** a permanent new atom or off-scale token in a feature folder.
+2. Propose an addition to the **correct** SoT (CIC markdown or control-plane `tokens.json` / `layout.md` / `wireframes.txt`).
+3. Closest existing primitive as temporary stand-in only — call the gap out in the summary.
+4. Do not add shadow token tables to `DESIGN.md`.
+
+## Cite names
+
+- Brand + SoT path
+- Token / component / panel names from that SoT
+- Figma node when MCP was used
+
+## Accessibility
+
+- Visible focus; sufficient contrast for the chosen surface (forge vs parchment vs control-plane dark)
+- Labels / accessible names; keyboard paths for tabs and interactive chrome
+- Prefer `layout.md` a11y baseline for Rewrite Labs; CIC enforcement checklist for Charlie artifacts
+- Respect `prefers-reduced-motion`
+
+## Anti-slop checklist (before finishing UI)
+
+- [ ] Brand identified; correct SoT opened
+- [ ] No invented hex / type / radius / effects off that SoT
+- [ ] Brands not mixed
+- [ ] No new component when catalog / wireframes / generators already cover it
+- [ ] Gap proposed against real SoT if missing
+- [ ] a11y: focus, contrast, labels
+
+## When asked to "just make it look nice"
+
+Interpret as: **align to the active brand SoT**, not decorate. Nice means consistent, accessible, and on-token for that brand only.
