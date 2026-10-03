@@ -7,9 +7,12 @@
 import express, { Express, Request, Response } from 'express';
 import path from 'path';
 import fetch from 'node-fetch';
+import { AgentAnalyticsService } from '../analytics/AgentAnalyticsService.js';
 
 const app: Express = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
+const analyticsService = new AgentAnalyticsService();
+analyticsService.initialize().catch((err) => console.error('[analytics] Init error:', err));
 
 // Service URLs from environment
 const SERVICE_URLS = {
@@ -403,6 +406,53 @@ app.get('/api/skills', async (req: Request, res: Response) => {
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch skills', details: String(error) });
+  }
+});
+
+// ============= AGENT ANALYTICS (DUCKDB OLAP) =============
+
+/** GET /api/analytics/tools — Tool Latency & Failure Distribution */
+app.get('/api/analytics/tools', async (req: Request, res: Response) => {
+  try {
+    const logFile = (req.query.file as string) || path.resolve('data/analytics/raw/events.jsonl');
+    const metrics = await analyticsService.getToolPerformanceMetrics(logFile);
+    res.json({ status: 'ok', data: metrics });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to compute tool analytics', details: String(error) });
+  }
+});
+
+/** GET /api/analytics/tokens — Token Expenditure & Cost */
+app.get('/api/analytics/tokens', async (req: Request, res: Response) => {
+  try {
+    const logFile = (req.query.file as string) || path.resolve('data/analytics/raw/events.jsonl');
+    const metrics = await analyticsService.getTokenExpenditure(logFile);
+    res.json({ status: 'ok', data: metrics });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to compute token analytics', details: String(error) });
+  }
+});
+
+/** GET /api/analytics/errors — Failure Category Clustering */
+app.get('/api/analytics/errors', async (req: Request, res: Response) => {
+  try {
+    const logFile = (req.query.file as string) || path.resolve('data/analytics/raw/events.jsonl');
+    const limit = parseInt((req.query.limit as string) || '10', 10);
+    const metrics = await analyticsService.getErrorDistribution(logFile, limit);
+    res.json({ status: 'ok', data: metrics });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to compute error distribution', details: String(error) });
+  }
+});
+
+/** GET /api/analytics/trajectory/:sessionId — Session Trace Breakdown */
+app.get('/api/analytics/trajectory/:sessionId', async (req: Request, res: Response) => {
+  try {
+    const logFile = (req.query.file as string) || path.resolve('data/analytics/raw/events.jsonl');
+    const trajectory = await analyticsService.getSessionTrajectory(logFile, req.params.sessionId);
+    res.json({ status: 'ok', data: trajectory });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch trajectory', details: String(error) });
   }
 });
 

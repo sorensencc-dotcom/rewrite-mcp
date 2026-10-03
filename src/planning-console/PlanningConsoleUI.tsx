@@ -612,10 +612,137 @@ const ControlsPanel: React.FC = () => {
 };
 
 /**
+ * Agent Analytics Panel Component (DuckDB Vectorized OLAP)
+ */
+const AgentAnalyticsPanel: React.FC = () => {
+  const [tools, setTools] = useState<any[]>([]);
+  const [tokens, setTokens] = useState<any[]>([]);
+  const [errors, setErrors] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const [toolsRes, tokensRes, errorsRes] = await Promise.all([
+          fetch('/api/analytics/tools'),
+          fetch('/api/analytics/tokens'),
+          fetch('/api/analytics/errors'),
+        ]);
+
+        const toolsJson = await toolsRes.json();
+        const tokensJson = await tokensRes.json();
+        const errorsJson = await errorsRes.json();
+
+        setTools(toolsJson.data || []);
+        setTokens(tokensJson.data || []);
+        setErrors(errorsJson.data || []);
+      } catch (err) {
+        console.error('Failed to fetch agent analytics:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnalytics();
+    const interval = setInterval(fetchAnalytics, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return <div className="panel analytics-panel"><p>Loading DuckDB agent analytics...</p></div>;
+  }
+
+  const tokenSummary = tokens[0] || {
+    total_tokens: 0,
+    total_prompt_tokens: 0,
+    total_completion_tokens: 0,
+    estimated_cost_usd: 0,
+  };
+
+  return (
+    <div className="panel analytics-panel">
+      <div className="panel-title">Agent Telemetry & Vectorized Analytics (DuckDB)</div>
+
+      {/* Summary Cards */}
+      <div className="section">
+        <h3>Token Expenditure & Cost Model</h3>
+        <div className="kpi-grid">
+          <div className="kpi-card">
+            <span className="kpi-label">Total Tokens</span>
+            <span className="kpi-value">{tokenSummary.total_tokens.toLocaleString()}</span>
+          </div>
+          <div className="kpi-card">
+            <span className="kpi-label">Prompt Tokens</span>
+            <span className="kpi-value">{tokenSummary.total_prompt_tokens.toLocaleString()}</span>
+          </div>
+          <div className="kpi-card">
+            <span className="kpi-label">Completion Tokens</span>
+            <span className="kpi-value">{tokenSummary.total_completion_tokens.toLocaleString()}</span>
+          </div>
+          <div className="kpi-card">
+            <span className="kpi-label">Est. Fleet Cost</span>
+            <span className="kpi-value">${tokenSummary.estimated_cost_usd.toFixed(4)}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tool Performance Table */}
+      <div className="section">
+        <h3>Tool Execution Latency & Error Distribution</h3>
+        {tools.length > 0 ? (
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Tool Name</th>
+                <th>Invocations</th>
+                <th>Errors</th>
+                <th>Error Rate</th>
+                <th>Avg Latency</th>
+                <th>P95 Latency</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tools.map((t: any) => (
+                <tr key={t.tool_name}>
+                  <td><code>{t.tool_name}</code></td>
+                  <td>{t.total_invocations}</td>
+                  <td>{t.total_errors}</td>
+                  <td>{t.error_rate_pct}%</td>
+                  <td>{t.avg_duration_ms} ms</td>
+                  <td><strong>{t.p95_duration_ms} ms</strong></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No tool telemetry logged for current window.</p>
+        )}
+      </div>
+
+      {/* Failure Category Clustering */}
+      {errors.length > 0 && (
+        <div className="section">
+          <h3>Failure Mode Clustering</h3>
+          <div className="cluster-list">
+            {errors.map((e: any, idx: number) => (
+              <div key={idx} className="cluster-item">
+                <span className="badge error">{e.error_type}</span>
+                <span className="cluster-tool">{e.tool_name}</span>
+                <span className="cluster-count">{e.occurrence_count} occurrences</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
  * Main Planning Console Component
  */
 const PlanningConsole: React.FC = () => {
-  const [activePanel, setActivePanel] = useState<'health' | 'pipelines' | 'agents' | 'alerts' | 'controls'>('health');
+  const [activePanel, setActivePanel] = useState<'health' | 'pipelines' | 'agents' | 'alerts' | 'controls' | 'analytics'>('health');
 
   return (
     <div className="planning-console-v3">
@@ -630,6 +757,12 @@ const PlanningConsole: React.FC = () => {
           onClick={() => setActivePanel('health')}
         >
           Health
+        </button>
+        <button
+          className={activePanel === 'analytics' ? 'active' : ''}
+          onClick={() => setActivePanel('analytics')}
+        >
+          Analytics (DuckDB)
         </button>
         <button
           className={activePanel === 'pipelines' ? 'active' : ''}
@@ -659,6 +792,7 @@ const PlanningConsole: React.FC = () => {
 
       <div className="console-content">
         {activePanel === 'health' && <HealthPanel />}
+        {activePanel === 'analytics' && <AgentAnalyticsPanel />}
         {activePanel === 'pipelines' && <PipelinesPanel />}
         {activePanel === 'agents' && <AgentsPanel />}
         {activePanel === 'alerts' && <AlertsPanel />}
