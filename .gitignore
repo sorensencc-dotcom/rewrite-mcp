@@ -17,3 +17,4 @@ coverage/
 # Python
 __pycache__/
 .venv/
+.wiki-sync-receipt.json
