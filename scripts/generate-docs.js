@@ -8,8 +8,12 @@
 
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { getStagedFiles, findServiceRoot } from './shared-utils.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const GREEN = '\x1b[32m';
 const BLUE = '\x1b[34m';
@@ -202,7 +206,15 @@ Generated automatically. Last updated: ${new Date().toISOString()}
 
       // Stage the generated docs
       try {
-        execSync('git add "**/*.md" "docs/" 2>/dev/null', { stdio: 'ignore' });
+        services.forEach(serviceRoot => {
+          const docsDir = path.join(serviceRoot, 'docs');
+          const readmePath = path.join(serviceRoot, 'README.md');
+          if (fs.existsSync(docsDir)) execSync(`git add "${docsDir}" 2>/dev/null`, { stdio: 'ignore' });
+          if (fs.existsSync(readmePath)) execSync(`git add "${readmePath}" 2>/dev/null`, { stdio: 'ignore' });
+        });
+        const servicesDir = path.join(__dirname, '..', 'services');
+        const indexPath = path.join(servicesDir, 'INDEX.md');
+        if (fs.existsSync(indexPath)) execSync(`git add "${indexPath}" 2>/dev/null`, { stdio: 'ignore' });
         console.log(`\n${GREEN}✓ Docs auto-staged${RESET}\n`);
       } catch (e) {
         // Docs already staged or git error, continue

@@ -7,6 +7,14 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import axios, { AxiosInstance } from 'axios';
 import dotenv from 'dotenv';
+import {
+  CostRoutingGateway,
+  classifyPromptComplexity,
+  FRONTIER_PRICING_BASELINE_V1,
+  RoutingTier,
+  TaskType,
+} from './cost-routing-gateway.js';
+import { ModelHardwareStandard } from './model-hardware-standard.js';
 
 dotenv.config();
 
@@ -15,6 +23,8 @@ const SUBSTRATE_URL = process.env.SUBSTRATE_URL || 'http://localhost:3000';
 class TorqueQueryMCPServer {
   private server: Server;
   private client: AxiosInstance;
+  private costRoutingGateway: CostRoutingGateway;
+  private mhs: ModelHardwareStandard;
 
   constructor() {
     this.server = new Server({
@@ -27,6 +37,9 @@ class TorqueQueryMCPServer {
       timeout: 30000,
       headers: { 'Content-Type': 'application/json' }
     });
+
+    this.costRoutingGateway = new CostRoutingGateway();
+    this.mhs = new ModelHardwareStandard();
 
     this.setupTools();
     this.setupErrorHandlers();
@@ -251,6 +264,69 @@ class TorqueQueryMCPServer {
           type: 'object',
           properties: {}
         }
+      },
+      {
+        name: 'route_model_request',
+        description: 'Dynamic cost-routing gateway for multi-model inference (Ollama local, FreeLLMAPI zero-cost, Muscle Cloud, Frontier Cloud)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            prompt: {
+              type: 'string',
+              description: 'The query, prompt, or task specification to route'
+            },
+            force_tier: {
+              type: 'string',
+              enum: ['tier_0_local', 'tier_0_5_freellmapi', 'tier_1_muscle', 'tier_2_frontier'],
+              description: 'Optional manual routing override'
+            },
+            task_type: {
+              type: 'string',
+              enum: ['deterministic', 'extraction', 'summarization', 'code_generation', 'reasoning_synthesis', 'formal_proof'],
+              description: 'Optional task category hint'
+            },
+            budget_cap_usd: {
+              type: 'number',
+              description: 'Optional maximum cost ceiling in USD'
+            }
+          },
+          required: ['prompt']
+        }
+      },
+      {
+        name: 'get_cost_routing_metrics',
+        description: 'Retrieve real-time cost-routing telemetry, tier distribution, circuit breaker trips, and estimated savings vs locked Frontier baseline',
+        inputSchema: {
+          type: 'object',
+          properties: {}
+        }
+      },
+      {
+        name: 'get_hardware_profile',
+        description: 'Probe host system hardware (RAM, CPU, GPU, VRAM) and return Model Hardware Standard (MHS) tier classification',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            force_fresh: {
+              type: 'boolean',
+              description: 'Force fresh hardware scan bypassing cache'
+            }
+          }
+        }
+      },
+      {
+        name: 'evaluate_model_hardware_fit',
+        description: 'Evaluate if a specified LLM can fit and run efficiently on local host hardware or requires cloud tier routing',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            model_name: {
+              type: 'string',
+              description: 'Model name or identifier (e.g., "llama3.1:8b", "qwen2.5:32b", "mistral-large")'
+            }
+          },
+          required: ['model_name']
+        }
       }
     ];
 
@@ -302,9 +378,59 @@ class TorqueQueryMCPServer {
         return this.deleteChunk(args);
       case 'get_stats':
         return this.getStats(args);
+      case 'route_model_request':
+        return this.routeModelRequest(args);
+      case 'get_cost_routing_metrics':
+        return this.getCostRoutingMetrics();
+      case 'get_hardware_profile':
+        return this.getHardwareProfile(args);
+      case 'evaluate_model_hardware_fit':
+        return this.evaluateModelHardwareFit(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }
+  }
+
+  private async getHardwareProfile(args: any) {
+    const forceFresh = Boolean(args?.force_fresh);
+    return this.mhs.getHardwareProfile(forceFresh);
+  }
+
+  private async evaluateModelHardwareFit(args: any) {
+    if (!args || typeof args.model_name !== 'string' || !args.model_name.trim()) {
+      throw new Error('Invalid arguments: "model_name" non-empty string is required');
+    }
+    return this.mhs.evaluateModelFit(args.model_name.trim());
+  }
+
+  private async routeModelRequest(args: any) {
+    if (!args || typeof args.prompt !== 'string' || !args.prompt.trim()) {
+      throw new Error('Invalid arguments: "prompt" non-empty string is required');
+    }
+    const prompt = args.prompt.trim();
+    const forceTier = args.force_tier as RoutingTier | undefined;
+    const taskType = args.task_type as TaskType | undefined;
+    const budgetCapUsd = typeof args.budget_cap_usd === 'number' ? args.budget_cap_usd : undefined;
+
+    const assessment = classifyPromptComplexity(prompt, { forceTier, taskType });
+    const result = await this.costRoutingGateway.executeRoutedPrompt(prompt, {
+      forceTier,
+      taskType,
+      budgetCapUsd,
+    });
+
+    return {
+      assessment,
+      result,
+      frontierPricingBaseline: FRONTIER_PRICING_BASELINE_V1,
+    };
+  }
+
+  private async getCostRoutingMetrics() {
+    return {
+      metrics: this.costRoutingGateway.getMetrics(),
+      frontierPricingBaseline: FRONTIER_PRICING_BASELINE_V1,
+    };
   }
 
   private async storeChunk(args: any) {

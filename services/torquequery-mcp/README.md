@@ -21,9 +21,11 @@ npm run dev
 
 ## Main Exports
 
+- `src/cost-routing-gateway.test.ts`
+- `src/cost-routing-gateway.ts`
 - `src/index.ts`
 - `src/integration.test.ts`
-- `src/substrate-client.ts`
+- `src/model-hardware-standard.test.ts`
 
 ## Dependencies
 
@@ -42,4 +44,4 @@ npm run dev
 
 ---
 
-Generated automatically. Last updated: 2026-07-03T09:38:09.045Z
+Generated automatically. Last updated: 2026-10-07T19:57:11.268Z

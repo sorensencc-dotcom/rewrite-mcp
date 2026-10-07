@@ -241,7 +241,7 @@ describe('TorqueQuery Substrate Service Integration Tests', () => {
       test('Type should be normalized to uppercase', async () => {
         const chunk = await client.storeChunk({
           namespace: testNamespace,
-          type: 'system',
+          type: 'system' as any,
           provenance: { source: 'test-normalize' }
         });
         expect(chunk.type).toBe('SYSTEM');
@@ -404,7 +404,7 @@ describe('TorqueQuery Substrate Service Integration Tests', () => {
         max_results: 10
       });
       for (let i = 1; i < results.length; i++) {
-        expect(results[i - 1].fused_score).toBeGreaterThanOrEqual(results[i].fused_score);
+        expect(results[i - 1].fused_score!).toBeGreaterThanOrEqual(results[i].fused_score!);
       }
     });
 
