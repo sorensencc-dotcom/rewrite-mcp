@@ -47,8 +47,8 @@ test("root depends on @modelcontextprotocol/server and not the sdk", () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
   assert.equal(deps["@modelcontextprotocol/server"], "2.3.1");
+  assert.equal(deps["@modelcontextprotocol/node"], "2.1.1");
   assert.equal(Object.hasOwn(deps, "@modelcontextprotocol/sdk"), false);
-  assert.equal(Object.hasOwn(deps, "@modelcontextprotocol/node"), false);
   assert.equal(pkg.scripts["mcp:http"], undefined);
 });
 
