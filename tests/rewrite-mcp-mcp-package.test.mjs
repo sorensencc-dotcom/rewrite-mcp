@@ -49,7 +49,7 @@ test("root depends on @modelcontextprotocol/server and not the sdk", () => {
   assert.equal(deps["@modelcontextprotocol/server"], "2.3.1");
   assert.equal(deps["@modelcontextprotocol/node"], "2.1.1");
   assert.equal(Object.hasOwn(deps, "@modelcontextprotocol/sdk"), false);
-  assert.equal(pkg.scripts["mcp:http"], undefined);
+  assert.equal(pkg.scripts["mcp:http"], "node scripts/rewrite-mcp-http-entry.mjs");
 });
 
 test("createMcpHandler answers server/discover without listening", async () => {
