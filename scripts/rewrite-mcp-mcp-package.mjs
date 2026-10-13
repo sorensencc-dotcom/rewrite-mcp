@@ -318,8 +318,8 @@ for (const accept of ["application/json", "text/event-stream", "text/plain"]) {
   })));
   check(
     "handler handshake plus modern meta",
-    body.status === 400 && body.json?.error?.code === -32020,
-    JSON.stringify({ status: body.status, code: body.json?.error?.code }),
+    body.status === 400 && body.json?.error?.code === -32022 && body.json?.error?.data?.requested === HANDSHAKE,
+    JSON.stringify({ status: body.status, code: body.json?.error?.code, requested: body.json?.error?.data?.requested }),
   );
 }
 {
@@ -336,15 +336,15 @@ for (const accept of ["application/json", "text/event-stream", "text/plain"]) {
   })));
   check(
     "handler initialize",
-    body.status === 200 && body.type.includes("text/event-stream") && body.json?.result?.protocolVersion === HANDSHAKE,
-    JSON.stringify({ status: body.status, type: body.type, protocol: body.json?.result?.protocolVersion }),
+    body.status === 400 && body.json?.error?.code === -32022 && body.json?.id === null && body.json?.error?.data?.supported?.includes(MODERN) && body.json?.error?.data?.requested === HANDSHAKE && body.json?.result === undefined,
+    JSON.stringify({ status: body.status, code: body.json?.error?.code, supported: body.json?.error?.data?.supported, requested: body.json?.error?.data?.requested }),
   );
 }
 for (const version of [undefined, MODERN]) {
   const body = await readBody(await mountedFetch(buildRequest({ method: "GET", version })));
   check(
     `handler GET ${version || "none"}`,
-    body.status === 405 && body.type.includes("application/json") && body.json?.error?.code === -32000 && body.json?.error?.message === "Method not allowed." && body.allow === null,
+    body.status === 405 && body.text === "" && body.allow === "POST",
     JSON.stringify({ status: body.status, type: body.type, code: body.json?.error?.code, message: body.json?.error?.message, allow: body.allow }),
   );
 }
@@ -371,8 +371,8 @@ for (const version of [undefined, MODERN]) {
   })));
   check(
     "handler legacy initialize evil origin",
-    body.status === 403 && body.json?.error?.code === -32000,
-    JSON.stringify({ status: body.status, code: body.json?.error?.code, message: body.json?.error?.message }),
+    body.status === 400 && body.json?.error?.code === -32022 && body.json?.error?.data?.supported?.includes(MODERN) && body.json?.error?.data?.requested === HANDSHAKE,
+    JSON.stringify({ status: body.status, code: body.json?.error?.code, requested: body.json?.error?.data?.requested }),
   );
 }
 
