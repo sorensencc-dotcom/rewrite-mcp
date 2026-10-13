@@ -819,19 +819,6 @@ function sendError(id, code, message) {
   );
 }
 
-function handleInitialize(params, id) {
-  sendResponse(id, {
-    protocolVersion: "2024-11-05",
-    capabilities: {
-      tools: {},
-    },
-    serverInfo: {
-      name: "idea-inbox-server",
-      version: "1.0.0",
-    },
-  });
-}
-
 async function handleToolCall(name, args, id) {
   try {
     const handler = handlers[name];
@@ -861,9 +848,7 @@ async function main() {
     try {
       const msg = JSON.parse(line);
 
-      if (msg.method === "initialize") {
-        handleInitialize(msg.params, msg.id);
-      } else if (msg.method === "tools/list") {
+      if (msg.method === "tools/list") {
         sendResponse(msg.id, { tools: Object.values(tools) });
       } else if (msg.method === "tools/call") {
         const { name, arguments: args } = msg.params;
@@ -872,6 +857,8 @@ async function main() {
         sendResponse(msg.id, { resources: [] });
       } else if (msg.method === "prompts/list") {
         sendResponse(msg.id, { prompts: [] });
+      } else {
+        sendError(msg.id, -32601, `Unknown method: ${msg.method}`);
       }
     } catch (error) {
       console.error(`Error processing message: ${error.message}`);
