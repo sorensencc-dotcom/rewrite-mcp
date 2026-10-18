@@ -1,0 +1,19 @@
+{
+  "name": "evaluate-muse-wonder-active-focus",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Evaluation engine and Active Focus loop guardrails for Meta Muse Wonder",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "node --test tests/evaluation-engine.test.mjs"
+  },
+  "keywords": [
+    "toolforge",
+    "muse-wonder",
+    "loop-guard",
+    "active-focus",
+    "benchmark"
+  ],
+  "author": "Rewrite Labs",
+  "license": "MIT"
+}
