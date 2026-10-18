@@ -1,0 +1,107 @@
+{
+  "id": "evaluate-muse-wonder-active-focus",
+  "name": "Evaluate Muse Wonder Active Focus",
+  "version": "1.0.0",
+  "description": "Evaluation engine, benchmark runner, and Active Focus loop guardrails for Meta Muse Wonder API workflows",
+  "category": "evaluation",
+  "runtime": "node",
+  "entrypoint": "src/index.mjs",
+  "status": "active",
+  "owner": "soren",
+  "tags": [
+    "evaluation",
+    "benchmarking",
+    "loop-guard",
+    "active-focus",
+    "muse-wonder",
+    "llm-latency"
+  ],
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "dependencies": {
+    "external": [],
+    "internal": []
+  },
+  "metadata": {
+    "targetModel": "meta-muse-wonder",
+    "cardId": "act-03-evaluate-muse-wonder-active-focus",
+    "githubIssue": 6,
+    "deploymentVerdict": "DROP_DO_NOT_DEPLOY"
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "workload": {
+        "type": "string",
+        "enum": [
+          "customer_support_multi_turn",
+          "constrained_scheduling",
+          "ecommerce_order_fulfillment",
+          "unconstrained_wander_adversarial",
+          "all"
+        ],
+        "default": "all",
+        "description": "Target workflow workload scenario to benchmark"
+      },
+      "useGuard": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether to engage ActiveFocusLoopGuard middleware during scenario execution"
+      },
+      "guardConfig": {
+        "type": "object",
+        "properties": {
+          "maxCycleRepetitions": { "type": "integer", "default": 2 },
+          "maxConsecutiveRetries": { "type": "integer", "default": 3 },
+          "maxTurns": { "type": "integer", "default": 30 },
+          "warningTurnThreshold": { "type": "integer", "default": 20 }
+        }
+      }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "timestamp": { "type": "string" },
+      "scenarioCount": { "type": "integer" },
+      "scenarios": { "type": "array" },
+      "privacyAudit": {
+        "type": "object",
+        "properties": {
+          "contributorModeBypassed": { "type": "boolean" },
+          "zeroRetentionConfirmed": { "type": "boolean" },
+          "compliant": { "type": "boolean" },
+          "notes": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "aggregateCost": {
+        "type": "object",
+        "properties": {
+          "museWonder": { "type": "number" },
+          "sonnet55": { "type": "number" },
+          "gpt61Sol": { "type": "number" },
+          "haiku55": { "type": "number" }
+        }
+      },
+      "avgLatency": {
+        "type": "object",
+        "properties": {
+          "avgTtftMs": { "type": "number" },
+          "avgTps": { "type": "number" },
+          "totalDurationMs": { "type": "number" }
+        }
+      },
+      "recommendation": {
+        "type": "object",
+        "properties": {
+          "verdict": { "type": "string" },
+          "unconstrainedWorkflowsAllowed": { "type": "boolean" },
+          "restrictedEnvironments": { "type": "array", "items": { "type": "string" } },
+          "rationale": { "type": "string" }
+        }
+      }
+    }
+  }
+}
