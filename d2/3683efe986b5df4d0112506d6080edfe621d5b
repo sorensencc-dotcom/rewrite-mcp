@@ -1,0 +1,38 @@
+toolforge/skills/evaluate-muse-wonder-active-focus/DEPLOYMENT_RECOMMENDATION.md
+  h_5c172e9b435f5a 1-35
+toolforge/skills/evaluate-muse-wonder-active-focus/EVALUATION_REPORT.md
+  h_5c172e9b435f5a 1-66
+toolforge/skills/evaluate-muse-wonder-active-focus/INTEGRATION_DIAGRAM.md
+  h_5c172e9b435f5a 1-37
+toolforge/skills/evaluate-muse-wonder-active-focus/LOOP_GUARDRAILS_SPEC.md
+  h_5c172e9b435f5a 1-74
+toolforge/skills/evaluate-muse-wonder-active-focus/README.md
+  h_5c172e9b435f5a 1-46
+toolforge/skills/evaluate-muse-wonder-active-focus/SKILL.md
+  h_5c172e9b435f5a 1-55
+toolforge/skills/evaluate-muse-wonder-active-focus/package.json
+  h_5c172e9b435f5a 1-19
+toolforge/skills/evaluate-muse-wonder-active-focus/skill.json
+  h_5c172e9b435f5a 1-107
+toolforge/skills/evaluate-muse-wonder-active-focus/src/evaluation-engine.mjs
+  h_5c172e9b435f5a 1-308
+toolforge/skills/evaluate-muse-wonder-active-focus/src/index.mjs
+  h_5c172e9b435f5a 1-49
+toolforge/skills/evaluate-muse-wonder-active-focus/src/loop-guard.mjs
+  h_5c172e9b435f5a 1-189
+toolforge/skills/evaluate-muse-wonder-active-focus/src/types.mjs
+  h_5c172e9b435f5a 1-154
+toolforge/skills/evaluate-muse-wonder-active-focus/tests/evaluation-engine.test.mjs
+  h_5c172e9b435f5a 1-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d23683efe986b5df4d0112506d6080edfe621d5b",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
