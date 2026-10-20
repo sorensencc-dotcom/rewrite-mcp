@@ -1267,19 +1267,6 @@ function sendError(id, code, message) {
 // MCP MESSAGE HANDLERS
 // ============================================================
 
-function handleInitialize(params, id) {
-  sendResponse(id, {
-    protocolVersion: "2024-11-05",
-    capabilities: {
-      tools: {},
-    },
-    serverInfo: {
-      name: "helm-cost-intelligence",
-      version: "1.0.0",
-    },
-  });
-}
-
 function handleToolCall(toolName, input, id) {
   try {
     // Check permission first
@@ -1387,9 +1374,7 @@ rl.on("line", (line) => {
       return;
     }
 
-    if (msg.method === "initialize") {
-      handleInitialize(msg.params || {}, msg.id);
-    } else if (msg.method === "tools/list") {
+    if (msg.method === "tools/list") {
       sendResponse(msg.id, {
         tools: Object.values(tools),
       });

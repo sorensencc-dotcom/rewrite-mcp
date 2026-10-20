@@ -1,0 +1,17 @@
+name: rewrite-mcp-mcp-package
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  rewrite-mcp-mcp-package:
+    runs-on: ubuntu-22.04
+    container:
+      image: node:22-bookworm
+    steps:
+      - uses: actions/checkout@v7
+      - run: npm ci
+      - run: node --test --test-timeout=20000 tests/rewrite-mcp-mcp-package.test.mjs

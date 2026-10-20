@@ -12,6 +12,7 @@
   "description": "Rewrite Labs Monorepo — Antigravity 2.0 Hardened",
   "scripts": {
     "test": "npm run test:rewrite-labs",
+    "mcp:http": "node scripts/rewrite-mcp-http-entry.mjs",
     "sync-docs": "bash scripts/sync-docs.sh",
     "load-tokens": "node apps/operator-ui/scripts/loadTokens.js",
     "validate-design": "node apps/operator-ui/scripts/validateDesign.js",
@@ -83,7 +84,8 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
-    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@modelcontextprotocol/node": "2.1.1",
+    "@modelcontextprotocol/server": "2.3.1",
     "cheerio": "^1.2.0",
     "dotenv": "^16.3.1",
     "esbuild": "^0.28.0",
