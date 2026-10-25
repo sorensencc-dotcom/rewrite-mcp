@@ -13,7 +13,7 @@
  *   node fetch-contentdm-transcripts.mjs --help
  */
 
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { finished } from 'node:stream/promises';
@@ -22,7 +22,7 @@ import { createWriteStream } from 'node:fs';
 const DEFAULT_BASE_URL = 'https://cdm15847.contentdm.oclc.org';
 const DEFAULT_OUT_DIR = resolve('C:/dev/evidence/gap-32');
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
   const opts = {
     baseUrl: DEFAULT_BASE_URL,
     collection: '',
@@ -36,10 +36,10 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === '--help' || arg === '-h') opts.help = true;
     else if (arg === '--dry-run') opts.dryRun = true;
-    else if (arg === '--base-url') opts.baseUrl = argv[++i];
-    else if (arg === '--collection') opts.collection = argv[++i];
-    else if (arg === '--item-id') opts.itemId = argv[++i];
-    else if (arg === '--output-dir') opts.outputDir = resolve(argv[++i]);
+    else if (arg === '--base-url' && i + 1 < argv.length) opts.baseUrl = argv[++i];
+    else if (arg === '--collection' && i + 1 < argv.length) opts.collection = argv[++i];
+    else if (arg === '--item-id' && i + 1 < argv.length) opts.itemId = argv[++i];
+    else if (arg === '--output-dir' && i + 1 < argv.length) opts.outputDir = resolve(argv[++i]);
   }
   return opts;
 }
@@ -104,8 +104,21 @@ export async function downloadPdfStream(url, outFilePath) {
     throw new Error(`Failed to download binary transcript (${res.status} ${res.statusText}) from ${url}`);
   }
 
+  const contentType = res.headers.get('content-type') || '';
+  if (contentType.includes('text/html')) {
+    throw new Error(`ContentDM returned HTML error page instead of PDF transcript (content-type: ${contentType})`);
+  }
+
   const fileStream = createWriteStream(outFilePath);
-  await finished(Readable.fromWeb(res.body).pipe(fileStream));
+  try {
+    await finished(Readable.fromWeb(res.body).pipe(fileStream));
+  } catch (err) {
+    try { fileStream.destroy(); } catch {}
+    if (existsSync(outFilePath)) {
+      try { unlinkSync(outFilePath); } catch {}
+    }
+    throw err;
+  }
 }
 
 async function main() {
