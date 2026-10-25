@@ -1,0 +1,21 @@
+scripts/fetch-contentdm-transcripts.mjs
+  s_6855f0d0a26af3::t_3366303c55018c 16,25,39-42,107-111,113-121
+tests/fetch-contentdm-transcripts.test.mjs
+  s_6855f0d0a26af3::t_c0285c4eaf3e7a 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c6f9184ce32d93fa7b117b3eec4a404cd0f2ed83",
+  "prompts": {},
+  "sessions": {
+    "s_6855f0d0a26af3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17368-d1b4-70d2-90cc-f09481c22c66",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
