@@ -1,0 +1,21 @@
+tests/dispatch-briefing.test.mjs
+  s_fdcc68bed6c74d::t_e73ce5c418a47d 1-96
+scripts/dispatch-briefing.mjs
+  s_fdcc68bed6c74d::t_e674c96876f581 1-115
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f065efc16228d0921ca13df14c2d38d77f80196a",
+  "prompts": {},
+  "sessions": {
+    "s_fdcc68bed6c74d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b66a7128-f522-4f7d-ab71-967c6d0c69b9",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
