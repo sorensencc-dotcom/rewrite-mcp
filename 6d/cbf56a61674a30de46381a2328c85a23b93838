@@ -1,0 +1,20 @@
+benchmarks/costs/models.ts
+  h_5c172e9b435f5a 1-76
+benchmarks/routing/neon-eve-benchmark.ts
+  h_5c172e9b435f5a 1-131
+benchmarks/routing/policy.ts
+  h_5c172e9b435f5a 1-84
+services/INDEX.md
+  h_5c172e9b435f5a 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6dcbf56a61674a30de46381a2328c85a23b93838",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
