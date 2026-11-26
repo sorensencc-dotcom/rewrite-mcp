@@ -1,0 +1,21 @@
+tests/trm-act-03-enterprise-ai-transformation-metrics.test.mjs
+  s_fdd7386f588501::t_be04be164515ce 59-80
+tools/outcome-transformation-metrics.mjs
+  s_fdd7386f588501::t_0c9fe228a8cc88 32-37,76-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b9608cce11a6366119a60d8d57bba36928a6775b",
+  "prompts": {},
+  "sessions": {
+    "s_fdd7386f588501": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a21531-a5e7-7e32-b7fa-e48033f2414e",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
