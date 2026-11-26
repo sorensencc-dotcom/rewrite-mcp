@@ -29,11 +29,12 @@ export function validateOutcomeMetricsPayload(payload = {}) {
     VANITY_METRIC_KEYS.has(k.toLowerCase())
   );
 
-  const hasOutcomeMetrics =
-    typeof payload.completedWorkflows === 'number' &&
-    typeof payload.totalInitiatedWorkflows === 'number' &&
-    typeof payload.baselineConversions === 'number' &&
-    typeof payload.postRedesignConversions === 'number';
+  const hasOutcomeMetrics = [
+    payload.completedWorkflows,
+    payload.totalInitiatedWorkflows,
+    payload.baselineConversions,
+    payload.postRedesignConversions
+  ].every(value => Number.isFinite(value) && value >= 0);
 
   if (flaggedVanityKeys.length > 0 && !hasOutcomeMetrics) {
     return {
@@ -72,7 +73,21 @@ export function computeOutcomeTransformationScore({
   revenueDeltaUsd = 0,
   workflowsRedesignedRatio = 0
 } = {}) {
-  if (totalInitiatedWorkflows <= 0 || baselineConversions < 0 || postRedesignConversions < 0) {
+  const outcomeInputs = [
+    baselineConversions,
+    postRedesignConversions,
+    completedWorkflows,
+    totalInitiatedWorkflows,
+    revenueDeltaUsd,
+    workflowsRedesignedRatio
+  ];
+  if (
+    outcomeInputs.some(value => !Number.isFinite(value)) ||
+    totalInitiatedWorkflows <= 0 ||
+    baselineConversions < 0 ||
+    postRedesignConversions < 0 ||
+    completedWorkflows < 0
+  ) {
     throw new Error('INVALID_OUTCOME_INPUTS: Workflow and conversion counts must be non-negative with totalInitiatedWorkflows > 0.');
   }
 
