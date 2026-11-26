@@ -56,3 +56,25 @@ test('act-03: computes conversion delta, workflow completion rate, and transform
   assert.equal(stagnant.conversionDelta, -0.05);
   assert.equal(stagnant.tier, 'STAGNANT');
 });
+
+test('act-03: rejects incomplete or non-finite outcome inputs', () => {
+  assert.throws(
+    () => computeOutcomeTransformationScore({
+      baselineConversions: 100,
+      postRedesignConversions: 110,
+      completedWorkflows: -1,
+      totalInitiatedWorkflows: 100
+    }),
+    /INVALID_OUTCOME_INPUTS/
+  );
+
+  assert.throws(
+    () => computeOutcomeTransformationScore({
+      baselineConversions: Number.NaN,
+      postRedesignConversions: 110,
+      completedWorkflows: 80,
+      totalInitiatedWorkflows: 100
+    }),
+    /INVALID_OUTCOME_INPUTS/
+  );
+});
